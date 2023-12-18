@@ -1,11 +1,13 @@
 package me.txmc.core.tablist;
 
 import lombok.RequiredArgsConstructor;
+import me.txmc.core.Localization;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
 import me.txmc.core.tablist.listeners.PlayerJoinListener;
 import me.txmc.core.tablist.util.Utils;
 import me.txmc.core.tablist.worker.TabWorker;
+import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -46,8 +48,8 @@ public class TabSection implements Section {
     }
 
     public void setTab(Player player) {
-        //What the FUCK did they deprecate these methods for
-        player.setPlayerListHeader(Utils.parsePlaceHolders(String.join("\n", config.getStringList("Header")), player, startTime));
-        player.setPlayerListFooter(Utils.parsePlaceHolders(String.join("\n", config.getStringList("Footer")), player, startTime));
+        Localization loc = Localization.getLocalization(player.locale().getLanguage());
+        player.sendPlayerListHeader(Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, startTime));
+        player.sendPlayerListFooter(Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Footer")), player, startTime));
     }
 }
