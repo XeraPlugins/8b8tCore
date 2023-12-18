@@ -19,7 +19,7 @@ public class UnIgnoreCommand implements CommandExecutor {
     private final ChatSection manager;
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 1) {
                 ChatInfo info = manager.getInfo(player);

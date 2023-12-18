@@ -3,10 +3,9 @@ package me.txmc.core.util;
 import lombok.Cleanup;
 import me.txmc.core.Localization;
 import me.txmc.core.Main;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.ChatColor;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
