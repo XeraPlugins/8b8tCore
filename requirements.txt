@@ -3,9 +3,9 @@ u = unimplemented
 
 c   AntiIllegal
 u   Homes
-u   ChatCo
+c   ChatCo
 u   ExploitFixer
 u   TPA
-u   Commands (/vote, /nc)
+u   Commands (/vote, /nc, /speed (fly speed), /world)
 c   Tablist
 u   Votiifer support

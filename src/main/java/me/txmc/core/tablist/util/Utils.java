@@ -1,6 +1,7 @@
 package me.txmc.core.tablist.util;
 
 import me.txmc.core.util.GlobalUtils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
@@ -12,13 +13,13 @@ import org.bukkit.ChatColor;
  */
 public class Utils {
 
-    public static String parsePlaceHolders(String input, Player player, long startTime) {
+    public static Component parsePlaceHolders(String input, Player player, long startTime) {
         double tps = 20; //Stopgap until folia adds an api for getting region TPS
         String strTps = (tps >= 20) ? String.format("%s*20.0", ChatColor.GREEN) : String.format("%s%.2f", Utils.getTPSColor(tps), tps);
         String uptime = Utils.getFormattedInterval(System.currentTimeMillis() - startTime);
         String online = String.valueOf(Bukkit.getOnlinePlayers().size());
         String ping = String.valueOf(player.getPing());
-        return GlobalUtils.translateChars(input.replace("%tps%", strTps).replace("%players%", online)).replace("%ping%", ping).replace("%uptime%", uptime);
+        return GlobalUtils.translateChars(input.replace("%tps%", strTps).replace("%players%", online).replace("%ping%", ping).replace("%uptime%", uptime));
     }
     public static String getFormattedInterval(long ms) {
         long seconds = ms / 1000L % 60L;

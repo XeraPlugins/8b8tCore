@@ -13,20 +13,30 @@ AntiIllegal:
     - 'DIRT_PATH'
     - 'FARMLAND'
     - 'REINFORCED_DEEPSLATE'
-TabList:
-  Header:
-    - ''
-    - '&18builders&98tools'
-    - ''
-    - '&68b8t Now runs on folia and features will return'
-    - ''
-  
-  Footer:
-    - ''
-    - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: %uptime%'
-    - ''
-    - '&7Contact: contact@8b8t.me'
-    - '&7Discussion: https://discord.8b8t.me'
-    - '&7Website: https://www.8b8t.me'
-    - '&7These are the only official 8b8t websites and contacts'
-    - ''
+ChatControl:
+  PreventLinks: true #Uses a list of all TLDs
+  #How long before a player can chat again (In seconds)
+  Cooldown: 3
+  #Blocked words
+  Blocked: []
+  CommandWhitelist:
+    - "/ignore"
+    - "/unignore"
+    - "/togglechat"
+    - "/toggledeathmsg"
+    - "/msg"
+    - "/message"
+    - "/whisper"
+    - "/tell"
+    - "/w"
+    - "/reply"
+    - "/r"
+    - "/home"
+    - "/sethome"
+    - "/delhome"
+    - "/help"
+    - "/plugins"
+    - "/pl"
+    - "/kill"
+    - "/stats"
+    - "/discord"

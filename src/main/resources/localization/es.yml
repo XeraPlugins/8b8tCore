@@ -1,0 +1,88 @@
+#Basic messages
+ignore_successful: "&3El jugador &r&a%s&r &3ha sido ignorado exitosamente"
+already_ignoring: "&cTu ya estas ignorando a este jugador."
+ignore_command_syntax: "&cPorfavor para ignorar a un jugador incluye: &r&a/ignore <Jugador>"
+unignore_successful: "&3El jugador&r&a %s&r &3fue designorado exitosamente."
+unignore_not_ignoring: "&cNo estas ignorando a &r&a%s"
+unignore_command_syntax: "&cPara designorar a un jugador incluya &r&a/unignore <Jugador>"
+whisper_from: "&d%s te ha susurrado: %s"
+whisper_to: "&dLe has susurrado a %s: %s"
+whisper_ignoring: "&c%s te esta ignorando"
+whisper_you_are_ignoring: "&cNo puedes mandarle un mensaje a alguien que has ignorado."
+msg_could_not_find_player: "&cNo se logró encontrar a %s."
+msg_command_syntax: "&cPorfavor, incluye a quien quieres mandarle el mensaje: /msg <jugador> <mensaje>"
+reply_player_offline: "&c%s no esta en linea"
+reply_no_target: "&cNo le has mandado a nadie un mensaje, por ahora."
+reply_command_syntax: "&cPorfavor, para responder un mensaje, hazlo asi: /r <mensaje>"
+togglechat_chat_enabled: "&aEl chat se a habilitado!"
+togglechat_chat_disabled: "&cEl chat se a deshabilitado!"
+chat_toggle_translate_enabled: "&aActivado Traducción automática"
+chat_toggle_translate_disabled: "&cTraducción automática desactivada"
+cmdwhitelist_cmd_not_allowed: "&cEl comando&r&a %s&r&c esta prohibido"
+chat_cooldown: "&3Porfavor espere por lo minimo&r&a %d&r&3 segundos entre mandar mensajes"
+delhome_no_homes: "&3Tu no tienes ningun home"
+delhome_specify_home: "&3Porfavor, incluye el nombre del home que desees eliminar. Homes Actuales: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3La home&r&a %s&r&3 no se ha encontrado."
+delhome_success: "&3La home&r&a %s&r&3 ha sido eliminada."
+delhome_fail: "&3No se pudo eliminar la home&r&a %s&r"
+home_no_homes: "&3No se encontraron homes"
+home_specify_home: "&3Porfavor incluye el nombre de tu home! Homes actuales: (&r&a%s&r&3)&r"
+home_too_close: "&3Debes estar a &r&a %d&r&3 bloques alejado del spawn para poder usar /home"
+home_success: "&3Teletransportando a la home&r&a %s&r&3..."
+home_not_found: "&3La home&r&a %s&r&3 no se ha encontrado"
+sethome_include_name: "&3Porfavor, incluya un nombre a su home"
+sethome_home_already_exists: "&3Un home con ese nombre ya existe."
+sethome_max_reached: "&3La cantidad de home ya ha sido alcanzada!"
+sethome_success: "&3La home&r&a %s &r&3se ha establecido con exito."
+kick_restarting: "&3El server se esta reiniciando"
+elytra_too_fast: "&3Estas yendo muy rapido con las elitras"
+elytras_disabled: "&3Las Elitras han sido desabilitadas por cantidades inmensas de lag. Deben estar de vuelta en breve"
+bookban_inventory_clear: "&cTu inventario ha sido limpiado para prevenir que seas bookbaneado"
+bookban_removed_item: "&cSe removió &r&3%s(s) &r&cde tu inventario para prevenir de que seas bookbaneado"
+kick_lever_ratelimit: "&cEstas interactuando bastante rapido!"
+kick_pps_limit: "&cEstas mandando paquetes muy rapido!"
+kick_failed_to_inject: "&cNo se pudo inyectar"
+join_message: "&7%s se unió al servidor"
+player_join_first_time: "&7%s unió por primera vez"
+leave_message: "&7%s se salió del servidor"
+kick_message: "&7%s fue pateado para \"%s\""
+could_not_translate_message: "Error al traducir el mensaje debido a %s"
+message_auto_translated: "Este mensaje se ha traducido automáticamente.\n\nTexto original: %s"
+welcome_message: "Bienvenido a 8b8t"
+vote_announcement: "&a%s&r&3 Acabo de votar por 8b8t en&r&a %s"
+vote_thanks: "&3Gracias por votar. Has recibido una casa extra&r&a 2&r&3"
+#Complex messages
+HelpMessage:
+  - "&6-----------------------------------------------------"
+  - "&3/ignore Ignora a un jugador"
+  - "&3/unignore designora a un jugador"
+  - "&3/togglechat Activa o desactiva el chat"
+  - "&3/toggledeathmsg Activa o desactiva los mensajes de muerte"
+  - "&3/whisper Enviarle un mensaje a un jugador al privado. Tambien puedes usar: /message, /msg, /tell, /w"
+  - "&3/reply Responderle a un jugador que te envió un mensaje privado Tambien puedes usar /r"
+  - "&3/home Teletransportarte a las homes que has establecido"
+  - "&3/sethome Establecer una home"
+  - "&3/delhome Eliminar una home"
+  - "&3/help Mostrar este menu"
+  - "&3/plugins Mostrar todos los plugins del servidor"
+  - "&3/kill Suicidarte"
+  - "&3/stats Muestra cuanto pesa el mundo y cuantos jugadores se han unido"
+  - "&3/discord Muestra un link para unirte al discord de 8b8t"
+  - "&6-----------------------------------------------------"
+TabList:
+  Header:
+    - ''
+    - '&18constructores&98herramientas'
+    - ''
+    - '&68b8t ahora funciona en folia y las características volverán'
+    - ''
+
+  Footer:
+    - ''
+    - '&7tps:&r %tps% &7ping: &r%ping% &7jugadores: &f%players% &7tiempo en línea: %uptime%'
+    - ''
+    - '&7Contacto: contact@8b8t.me'
+    - '&7Discusión: https://discord.8b8t.me'
+    - '&7Sitio web: https://www.8b8t.me'
+    - '&7Estos son los únicos sitios web y contactos oficiales de 8b8t.'
+    - ''

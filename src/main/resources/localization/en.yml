@@ -1,0 +1,89 @@
+#Basic messages
+ignore_successful: "&3Successfully ignored player&r&a %s&r"
+already_ignoring: "&cYou are already ignoring that player"
+ignore_command_syntax: "&cPlease include a player /ignore <playerName>"
+unignore_successful: "&3Successfully unignored player&r&a %s&r"
+unignore_not_ignoring: "&cYou arent ignoring %s"
+unignore_command_syntax: "&cPlease include a player /unignore <playerName>"
+whisper_from: "&d%s Whispers: %s"
+whisper_to: "&dTo %s: %s"
+whisper_ignoring: "&c%s is ignoring you"
+whisper_you_are_ignoring: "&cYou cannot message a player that you have ignored"
+msg_could_not_find_player: "&cCould not find player %s"
+msg_command_syntax: "&cPlease include a target and a message /msg <target> <message>"
+reply_player_offline: "&cThe player %s is offline"
+reply_no_target: "&cYou have not messaged anyone yet"
+reply_command_syntax: "&cPlease include a message /r <message>"
+togglechat_chat_enabled: "&aEnabled chat"
+togglechat_chat_disabled: "&cDisabled chat"
+chat_toggle_translate_enabled: "&aEnabled AutoTranslate"
+chat_toggle_translate_disabled: "&cDisabled AutoTranslate"
+cmdwhitelist_cmd_not_allowed: "&cThe command&r&a %s&r&c is not allowed"
+chat_cooldown: "&3Please wait at least&r&a %d&r&3 seconds between chat messages"
+delhome_no_homes: "&3You do not have any homes"
+delhome_specify_home: "&3Please include the name of a home to delete. Current homes: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3Home&r&a %s&r&3 was not found"
+delhome_success: "&3Home&r&a %s&r&3 has been deleted"
+delhome_fail: "&3Could not delete&r&a %s&r"
+home_no_homes: "&3No homes found"
+home_specify_home: "&3Please include a home! Current homes: (&r&a%s&r&3)&r"
+home_too_close: "&3You must be&r&a %d&r&3 blocks from spawn in order to use /home"
+home_success: "&3Teleporting to home&r&a %s&r&3..."
+home_not_found: "&3Home&r&a %s&r&3 was not found"
+sethome_include_name: "&3Please include a name for your new home"
+sethome_home_already_exists: "&3A home by that name already exists."
+sethome_max_reached: "&3Max number of homes reached!"
+sethome_success: "&3Home&r&a %s &r&3Set"
+kick_restarting: "&3The server is restarting"
+elytra_too_fast: "&3You are going too fast with your elytra"
+elytras_disabled: "&3Elytras are currently disabled due to server lag. They should be back shortly"
+bookban_inventory_clear: "&cYour inventory has been cleared to prevent you from being book banned"
+bookban_removed_item: "&cRemoved all&r&3 %s(s) &r&cfrom your inventory to prevent you from being bookbanned"
+kick_lever_ratelimit: "&cYou are interacting too fast"
+kick_pps_limit: "&cYou are sending packets too fast!"
+kick_failed_to_inject: "&cFailed to inject"
+join_message: "&7%s joined"
+player_join_first_time: "&7%s joined for the first time"
+leave_message: "&7%s left"
+kick_message: "&7%s was kicked for \"%s\""
+could_not_translate_message: "Failed to translate message due to %s"
+message_auto_translated: "This message has been translated automatically.\n\nOriginal Text: %s"
+welcome_message: "&3Welcome to 8b8t"
+vote_announcement: "&a%s&r&3 Just voted for 8b8t at&r&a %s"
+vote_thanks: "&3Thank you for voting. You have received an extra&r&a 2&r&3 homes"
+#Complex messages
+HelpMessage:
+  - "&6-----------------------------------------------------"
+  - "&3/ignore Ignore a player in chat"
+  - "&3/unignore Unignore a player in chat"
+  - "&3/togglechat Turn chat on or off"
+  - "&3/toggletranslate Turn automatic translation on or off"
+  - "&3/toggledeathmsg Turn death messages on or off"
+  - "&3/whisper Privately message a player. You can also use /message, /msg, /tell, /w"
+  - "&3/reply Reply to the last person that messaged you. You can also use /r"
+  - "&3/home Teleport to a home that you have set"
+  - "&3/sethome Set a home"
+  - "&3/delhome Delete a home"
+  - "&3/help Snow this menu"
+  - "&3/plugins Show all the plugins on the server"
+  - "&3/kill Kills you"
+  - "&3/stats Show world size and how many players have joined"
+  - "&3/discord Shows a link to join the 8b8t discord"
+  - "&6-----------------------------------------------------"
+TabList:
+  Header:
+    - ''
+    - '&18builders&98tools'
+    - ''
+    - '&68b8t Now runs on folia and features will return'
+    - ''
+
+  Footer:
+    - ''
+    - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: %uptime%'
+    - ''
+    - '&7Contact: contact@8b8t.me'
+    - '&7Discussion: https://discord.8b8t.me'
+    - '&7Website: https://www.8b8t.me'
+    - '&7These are the only official 8b8t websites and contacts'
+    - ''
