@@ -1,0 +1,7 @@
+name: 8b8tCore
+main: me.txmc.core.Main
+version: 1.0-SNAPSHIT
+author: 254n_m
+description: All the bullshit for 8b8t
+api-version: 1.20
+folia-supported: true

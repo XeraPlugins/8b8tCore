@@ -1,0 +1,62 @@
+package me.txmc.core;
+
+import lombok.Getter;
+import me.txmc.core.antiillegal.AntiIllegalMain;
+import me.txmc.core.tablist.TabSection;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandMap;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+public class Main extends JavaPlugin {
+    private List<Section> sections;
+    @Getter private static Main instance;
+    @Getter private ScheduledExecutorService executorService;
+    @Override
+    public void onEnable() {
+        sections = new ArrayList<>();
+        instance = this;
+        executorService = Executors.newScheduledThreadPool(4);
+        saveDefaultConfig();
+        getLogger().addHandler(new LoggerHandler());
+
+        register(new AntiIllegalMain(this));
+        register(new TabSection(this));
+
+        sections.forEach(Section::enable);
+    }
+
+    @Override
+    public void onDisable() {
+        HandlerList.unregisterAll(this);
+        sections.forEach(Section::disable);
+        sections.clear();
+    }
+
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
+        sections.forEach(s -> {
+            ConfigurationSection section = getConfig().getConfigurationSection(s.getName());
+            if (section != null) s.reloadConfig();
+        });
+    }
+
+    private void register(Section section) {
+        if (sections.contains(section)) throw new IllegalArgumentException("Section has already been registered " + section.getName());
+        sections.add(section);
+    }
+    public void register(Listener... listeners) {
+        for (Listener listener : listeners) getServer().getPluginManager().registerEvents(listener, this);
+    }
+    public ConfigurationSection getSectionConfig(Section section) {
+        return getConfig().getConfigurationSection(section.getName());
+    }
+}

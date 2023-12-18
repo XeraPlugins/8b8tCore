@@ -1,0 +1,32 @@
+AntiIllegal:
+  MaxItemNameLength: 51
+  IllegalItems:
+    - 'BEDROCK'
+    - 'BARRIER'
+    - 'END_PORTAL_FRAME'
+    - 'SPAWNER'
+    - 'STRUCTURE_BLOCK'
+    - 'STRUCTURE_VOID'
+    - '*SPAWN_EGG*'
+    - '*COMMAND_BLOCK*'
+    - 'KNOWLEDGE_BOOK'
+    - 'DIRT_PATH'
+    - 'FARMLAND'
+    - 'REINFORCED_DEEPSLATE'
+TabList:
+  Header:
+    - ''
+    - '&18builders&98tools'
+    - ''
+    - '&68b8t Now runs on folia and features will return'
+    - ''
+  
+  Footer:
+    - ''
+    - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: %uptime%'
+    - ''
+    - '&7Contact: contact@8b8t.me'
+    - '&7Discussion: https://discord.8b8t.me'
+    - '&7Website: https://www.8b8t.me'
+    - '&7These are the only official 8b8t websites and contacts'
+    - ''

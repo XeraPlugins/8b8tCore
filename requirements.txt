@@ -1,0 +1,11 @@
+c = complete
+u = unimplemented
+
+c   AntiIllegal
+u   Homes
+u   ChatCo
+u   ExploitFixer
+u   TPA
+u   Commands (/vote, /nc)
+c   Tablist
+u   Votiifer support
