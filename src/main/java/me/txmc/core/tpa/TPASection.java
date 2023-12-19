@@ -6,12 +6,13 @@ import me.txmc.core.Section;
 import me.txmc.core.tpa.commands.TPAAcceptCommand;
 import me.txmc.core.tpa.commands.TPACommand;
 import me.txmc.core.tpa.commands.TPADenyCommand;
-import me.txmc.core.util.GlobalUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+
+import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 /**
  * @author 254n_m
@@ -41,7 +42,7 @@ public class TPASection implements Section {
 
     @Override
     public void reloadConfig() {
-
+        config = plugin.getSectionConfig(this);
     }
 
     @Override
@@ -51,13 +52,13 @@ public class TPASection implements Section {
 
     public void registerRequest(Player from, Player to) {
         if (findTpRequester(to) != null) {
-            GlobalUtils.sendPrefixedLocalizedMessage(from, "tpa_pending_request", to.getName());
+            sendPrefixedLocalizedMessage(from, "tpa_pending_request", to.getName());
             return;
         }
         requestMap.put(to, from);
         plugin.getExecutorService().schedule(() -> {
-            GlobalUtils.sendPrefixedLocalizedMessage(to, "tpa_request_timeout");
-            GlobalUtils.sendPrefixedLocalizedMessage(from, "tpa_request_timeout");
+            sendPrefixedLocalizedMessage(to, "tpa_request_timeout");
+            sendPrefixedLocalizedMessage(from, "tpa_request_timeout");
             requestMap.remove(to);
         }, config.getInt("RequestTimeout"), TimeUnit.MINUTES);
     }
