@@ -6,6 +6,6 @@ u   Homes
 c   ChatCo
 u   ExploitFixer
 u   TPA
-u   Commands (/vote, /nc, /speed (fly speed), /world)
+u   Commands (/vote, /nc, /speed (fly speed), /world, /back)
 c   Tablist
 u   Votiifer support

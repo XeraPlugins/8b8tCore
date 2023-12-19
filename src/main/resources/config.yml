@@ -16,9 +16,52 @@ AntiIllegal:
 ChatControl:
   PreventLinks: true #Uses a list of all TLDs
   #How long before a player can chat again (In seconds)
-  Cooldown: 3
+  Cooldown: 5
   #Blocked words
-  Blocked: []
+  Blocked:
+    - 'Anar Anarchy'
+    - '5b5t'
+    - 'Deja de buscar un servidor y gastar dinero comprando kits y mejor unete al mejor servidor con Kits y Sorteos 100% Grati'
+    - 'snowanarchy'
+    - 'demonmc'
+    - 'snowan'
+    - 'Anar'
+    - 'AnarAnarchy'
+    - '.org'
+    - 'EndPortal'
+    - 'endportal'
+    - 'NetherPortal'
+    - 'netherportal'
+    - '89.35.49.34:19175'
+    - 'SurvivalCraft'
+    - 'Joooin'
+    - '.at'
+    - 'Join 89,35,49,34:19175 Semi-Anarchy Bedrock'
+    - 'Semi-Anarchy'
+    - 'Join'
+    - 'Entra'
+    - '89,35'
+    - 'JOIN'
+    - 'fuck 8b8t'
+    - 'mc.latinomc.tk'
+    - 'AnarchyLatam.ploudos.me'
+    - 'anarchyvn.net'
+    - '9aJSETCQTr'
+    - 'Nar6nCnS8T'
+    - 'gg/9aJSETCQTr'
+    - 'gg/Nar6nCnS8T'
+    - 'lunecraft'
+    - '3b3t.shock.gg'
+    - 'snowаnarchy,оrg'
+    - 'ＳｎｏｗＡｎａｒｃｈｙ,ｏｒｇ ｈａ ａｂｉｅｒｔｏ ｓｕｓ ｐｕｅｒｔａｓ ａ ｊｕｇａｄｏｒｅｓ ｅｓｐａñｏｌｅｓ ｙ ｉｎｇｌｅｓｅｓ， ｅｎｔｒａ ｙ ｄｉｓｆｒｕｔａ'
+    - 'ＳｎｏｗＡｎａｒｃｈｙ,ｏｒg'
+    - 'chad-sigma-topg'
+    - '3b3t,shock,gg'
+    - '3b3t'
+    - '3B3T'
+    - 'DeathAnarchy.nether-zone.com'
+    - '9b9t'
+    - 'discord'
   CommandWhitelist:
     - "/ignore"
     - "/unignore"
@@ -40,3 +83,5 @@ ChatControl:
     - "/kill"
     - "/stats"
     - "/discord"
+TPA:
+  RequestTimeout: 3 # In minutes

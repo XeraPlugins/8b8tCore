@@ -3,6 +3,7 @@ package me.txmc.core.util;
 import lombok.Cleanup;
 import me.txmc.core.Localization;
 import me.txmc.core.Main;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -51,6 +52,9 @@ public class GlobalUtils {
         String msg = String.format(loc.get(key), args);
         if (prefix) msg = PREFIX.concat(" &r&7>>&r ").concat(msg);
         player.sendMessage(translateChars(msg));
+    }
+    public static void sendPrefixedComponent(CommandSender target, Component component) {
+        target.sendMessage(translateChars(String.format("%s &7>>&r ", PREFIX)).append(component));
     }
     public static void unpackResource(String resourceName, File file) {
         if (file.exists()) return;

@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.chat.ChatSection;
 import me.txmc.core.tablist.TabSection;
+import me.txmc.core.tpa.TPASection;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -34,6 +35,7 @@ public class Main extends JavaPlugin {
         register(new AntiIllegalMain(this));
         register(new TabSection(this));
         register(new ChatSection(this));
+        register(new TPASection(this));
 
         sections.forEach(Section::enable);
     }

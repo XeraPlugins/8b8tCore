@@ -13,3 +13,8 @@ commands:
   ignore:
   togglechat:
   unignore:
+  tpa:
+  tpayes:
+    aliases: [tpaaccept]
+  tpano:
+    aliases: [tpadeny]

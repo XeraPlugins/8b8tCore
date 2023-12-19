@@ -51,6 +51,17 @@ message_auto_translated: "This message has been translated automatically.\n\nOri
 welcome_message: "&3Welcome to 8b8t"
 vote_announcement: "&a%s&r&3 Just voted for 8b8t at&r&a %s"
 vote_thanks: "&3Thank you for voting. You have received an extra&r&a 2&r&3 homes"
+tpa_syntax: "&cPlease include a player to tpa to. /tpa <player>"
+tpa_player_not_online: "&cPlayer %s is not online"
+tpa_no_request_found: "&cNo TPA request found"
+tpa_self_tpa: "&cYou cannot TPA to your self"
+tpa_request_received: "&a%s&r&3 would like to teleport to you&r &a&l[%s] &c&l[%s]"
+tpa_request_sent: "&3Request sent to&r&a %s"
+tpa_teleporting: "&3Teleporting&r&a..."
+tpa_request_timeout: "&cTPA Request timed out"
+tpa_request_denied_from: "&a%s&r&c has denied your request"
+tpa_request_denied_to: "&3Request denied successfully"
+tpa_pending_request: "&a%s&r &chas a pending request"
 #Complex messages
 HelpMessage:
   - "&6-----------------------------------------------------"

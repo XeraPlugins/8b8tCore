@@ -51,6 +51,16 @@ message_auto_translated: "Este mensaje se ha traducido automáticamente.\n\nText
 welcome_message: "Bienvenido a 8b8t"
 vote_announcement: "&a%s&r&3 Acabo de votar por 8b8t en&r&a %s"
 vote_thanks: "&3Gracias por votar. Has recibido una casa extra&r&a 2&r&3"
+tpa_player_not_online: "&cEl jugador %s no está en línea"
+tpa_no_request_found: "&cNo se encontró ninguna solicitud de TPA"
+tpa_self_tpa: "&cNo puedes TPA a ti mismo"
+tpa_request_received: "&a%s&r&3 desea teletransportarse a ti&r &a&l[%s] &c&l[%s]"
+tpa_request_sent: "&3Solicitud enviada a&r&a %s"
+tpa_teleporting: "&3Teletransportando&r&a..."
+tpa_request_timeout: "&cLa solicitud de TPA ha caducado"
+tpa_request_denied_from: "&a%s&r&c ha denegado tu solicitud"
+tpa_request_denied_to: "&3Solicitud denegada con éxito"
+tpa_pending_request: "&a%s&r &ctiene una solicitud pendiente"
 #Complex messages
 HelpMessage:
   - "&6-----------------------------------------------------"
