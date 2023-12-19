@@ -62,6 +62,7 @@ tpa_request_timeout: "&cTPA Request timed out"
 tpa_request_denied_from: "&a%s&r&c has denied your request"
 tpa_request_denied_to: "&3Request denied successfully"
 tpa_pending_request: "&a%s&r &chas a pending request"
+tpa_to_left: "&cTPA cancelled because&r&a %s&r&c left"
 #Complex messages
 HelpMessage:
   - "&6-----------------------------------------------------"

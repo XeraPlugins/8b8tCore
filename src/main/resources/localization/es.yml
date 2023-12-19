@@ -61,6 +61,7 @@ tpa_request_timeout: "&cLa solicitud de TPA ha caducado"
 tpa_request_denied_from: "&a%s&r&c ha denegado tu solicitud"
 tpa_request_denied_to: "&3Solicitud denegada con éxito"
 tpa_pending_request: "&a%s&r &ctiene una solicitud pendiente"
+tpa_to_left: "&cTPA cancelado porque&r&a %s&r&c se ha desconectado"
 #Complex messages
 HelpMessage:
   - "&6-----------------------------------------------------"

@@ -28,6 +28,7 @@ public class TPASection implements Section {
     public void enable() {
         requestMap = new ConcurrentHashMap<>();
         config = plugin.getSectionConfig(this);
+        plugin.register(new LeaveListener(this));
         plugin.getCommand("tpa").setExecutor(new TPACommand(this));
         plugin.getCommand("tpayes").setExecutor(new TPAAcceptCommand(this));
         plugin.getCommand("tpano").setExecutor(new TPADenyCommand(this));
@@ -47,6 +48,7 @@ public class TPASection implements Section {
     public String getName() {
         return "TPA";
     }
+
     public void registerRequest(Player from, Player to) {
         if (findTpRequester(to) != null) {
             GlobalUtils.sendPrefixedLocalizedMessage(from, "tpa_pending_request", to.getName());
@@ -59,9 +61,11 @@ public class TPASection implements Section {
             requestMap.remove(to);
         }, config.getInt("RequestTimeout"), TimeUnit.MINUTES);
     }
+
     public Player findTpRequester(Player to) {
         return requestMap.getOrDefault(to, null);
     }
+
     public void removeRequest(Player to) {
         requestMap.remove(to);
     }

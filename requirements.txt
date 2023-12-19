@@ -5,7 +5,7 @@ c   AntiIllegal
 u   Homes
 c   ChatCo
 u   ExploitFixer
-u   TPA
+c   TPA
 u   Commands (/vote, /nc, /speed (fly speed), /world, /back)
 c   Tablist
 u   Votiifer support
