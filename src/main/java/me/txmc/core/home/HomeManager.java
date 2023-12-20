@@ -56,7 +56,11 @@ public class HomeManager implements Section {
 
     @Override
     public void disable() {
-
+        if (!Bukkit.getOnlinePlayers().isEmpty()) Bukkit.getOnlinePlayers().forEach(p -> {
+            HomeData data = homes.get(p);
+            storage.save(data,p);
+            homes.remove(p);
+        });
     }
 
     @Override

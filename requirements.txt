@@ -2,9 +2,9 @@ c = complete
 u = unimplemented
 
 c   AntiIllegal
-u   Homes
+c   Homes
 c   ChatCo
-u   ExploitFixer
+u   ExploitFixer (AntiRedstone lag, elytra speed limit to start)
 c   TPA
 u   Commands (/vote, /nc, /speed (fly speed), /world, /back)
 c   Tablist
