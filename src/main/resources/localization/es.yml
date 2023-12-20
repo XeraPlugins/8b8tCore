@@ -31,7 +31,7 @@ home_too_close: "&3Debes estar a &r&a %d&r&3 bloques alejado del spawn para pode
 home_success: "&3Teletransportando a la home&r&a %s&r&3..."
 home_not_found: "&3La home&r&a %s&r&3 no se ha encontrado"
 sethome_include_name: "&3Porfavor, incluya un nombre a su home"
-sethome_home_already_exists: "&3Un home con ese nombre ya existe."
+sethome_home_already_exists: "&cYa existe un hogar con el nombre&r&a %s&r&c."
 sethome_max_reached: "&3La cantidad de home ya ha sido alcanzada!"
 sethome_success: "&3La home&r&a %s &r&3se ha establecido con exito."
 kick_restarting: "&3El server se esta reiniciando"

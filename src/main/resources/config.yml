@@ -85,3 +85,8 @@ ChatControl:
     - "/discord"
 TPA:
   RequestTimeout: 3 # In minutes
+Home:
+  #The closest the player can be to 0,0
+  Radius: 500
+  #Max homes a player can have
+  MaxHomes: 3

@@ -1,20 +1,25 @@
 package me.txmc.core;
 
+
 import lombok.Getter;
 import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.chat.ChatSection;
+import me.txmc.core.home.HomeManager;
 import me.txmc.core.tablist.TabSection;
 import me.txmc.core.tpa.TPASection;
 import org.bukkit.configuration.ConfigurationSection;
+
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+
 
 public class Main extends JavaPlugin {
     @Getter
@@ -22,6 +27,7 @@ public class Main extends JavaPlugin {
     private List<Section> sections;
     @Getter
     private ScheduledExecutorService executorService;
+    private int toConvert;
 
     @Override
     public void onEnable() {
@@ -36,6 +42,7 @@ public class Main extends JavaPlugin {
         register(new TabSection(this));
         register(new ChatSection(this));
         register(new TPASection(this));
+        register(new HomeManager(this));
 
         sections.forEach(Section::enable);
     }
@@ -69,6 +76,7 @@ public class Main extends JavaPlugin {
     public ConfigurationSection getSectionConfig(Section section) {
         return getConfig().getConfigurationSection(section.getName());
     }
+
     public File getSectionDataFolder(Section section) {
         File dataFolder = new File(getDataFolder(), section.getName());
         if (!dataFolder.exists()) dataFolder.mkdirs();
