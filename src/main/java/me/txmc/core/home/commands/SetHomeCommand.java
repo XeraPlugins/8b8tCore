@@ -29,9 +29,7 @@ public class SetHomeCommand implements CommandExecutor {
                 sendPrefixedLocalizedMessage(player, "sethome_include_name");
                 return true;
             }
-            Set<PermissionAttachmentInfo> perms = player.getEffectivePermissions();
-            List<Integer> maxL = perms.stream().map(PermissionAttachmentInfo::getPermission).filter(p -> p.startsWith("8b8tcore.home.max.")).map(s -> Integer.parseInt(s.substring(s.lastIndexOf('.') + 1))).toList();
-            int maxHomes = (!maxL.isEmpty()) ? Collections.max(maxL) : main.config().getInt("MaxHomes");
+            int maxHomes = main.getMaxHomes(player);
             HomeData homes = main.homes().get(player);
             if (homes.stream().anyMatch(h -> h.getName().equals(args[0]))) {
                 Home home = homes.stream().filter(h -> h.getName().equals(args[0])).findAny().get();

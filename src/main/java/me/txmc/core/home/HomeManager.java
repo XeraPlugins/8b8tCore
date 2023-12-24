@@ -15,19 +15,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.io.File;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
 @RequiredArgsConstructor
 @Accessors(fluent = true)
 public class HomeManager implements Section {
-    private IStorage<HomeData, Player> storage;
     private final HashMap<Player, HomeData> homes = new HashMap<>();
-    private ConfigurationSection config;
     private final Main plugin;
+    private IStorage<HomeData, Player> storage;
+    private ConfigurationSection config;
 
     @Override
     public void enable() {
@@ -42,6 +46,22 @@ public class HomeManager implements Section {
         plugin.getCommand("delhome").setExecutor(new DelHomeCommand(this));
     }
 
+    @Override
+    public void disable() {
+        homes.forEach((p, d) -> storage.save(d, p));
+        homes.clear();
+    }
+
+    @Override
+    public void reloadConfig() {
+        this.config = plugin.getSectionConfig(this);
+    }
+
+    @Override
+    public String getName() {
+        return "Home";
+    }
+
     public List<String> tabComplete(CommandSender sender, String[] args) {
         if (sender instanceof Player player) {
             HomeData homes = homes().getOrDefault(player, null);
@@ -54,22 +74,9 @@ public class HomeManager implements Section {
         } else return Collections.emptyList();
     }
 
-    @Override
-    public void disable() {
-        if (!Bukkit.getOnlinePlayers().isEmpty()) Bukkit.getOnlinePlayers().forEach(p -> {
-            HomeData data = homes.get(p);
-            storage.save(data,p);
-            homes.remove(p);
-        });
-    }
-
-    @Override
-    public void reloadConfig() {
-        this.config = plugin.getSectionConfig(this);
-    }
-
-    @Override
-    public String getName() {
-        return "Home";
+    public int getMaxHomes(Player player) {
+        Set<PermissionAttachmentInfo> perms = player.getEffectivePermissions();
+        List<Integer> maxL = perms.stream().map(PermissionAttachmentInfo::getPermission).filter(p -> p.startsWith("8b8tcore.home.max.")).map(s -> Integer.parseInt(s.substring(s.lastIndexOf('.') + 1))).toList();
+        return (!maxL.isEmpty()) ? Collections.max(maxL) : config().getInt("MaxHomes");
     }
 }
