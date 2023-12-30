@@ -21,12 +21,10 @@ import java.util.concurrent.TimeUnit;
 public class TabSection implements Section {
     private final Main plugin;
     private ConfigurationSection config;
-    private long startTime;
 
     @Override
     public void enable() {
         config = plugin.getSectionConfig(this);
-        startTime = System.currentTimeMillis();
         plugin.getExecutorService().scheduleAtFixedRate(new TabWorker(this), 0, 1, TimeUnit.SECONDS);
         plugin.register(new PlayerJoinListener(this));
     }
@@ -48,7 +46,7 @@ public class TabSection implements Section {
 
     public void setTab(Player player) {
         Localization loc = Localization.getLocalization(player.locale().getLanguage());
-        player.sendPlayerListHeader(Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, startTime));
-        player.sendPlayerListFooter(Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Footer")), player, startTime));
+        player.sendPlayerListHeader(Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, plugin.getStartTime()));
+        player.sendPlayerListFooter(Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Footer")), player, plugin.getStartTime()));
     }
 }

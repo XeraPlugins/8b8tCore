@@ -23,5 +23,12 @@ commands:
   home:
   sethome:
   delhome:
-  help:
   lef:
+  discord:
+  help:
+  open:
+  say:
+  spawn:
+  speed:
+  uptime:
+  world:

@@ -27,6 +27,7 @@ public class Main extends JavaPlugin {
     @Getter private ScheduledExecutorService executorService;
     private List<Section> sections;
     private List<Reloadable> reloadables;
+    @Getter private long startTime;
 
     @Override
     public void onEnable() {
@@ -34,6 +35,7 @@ public class Main extends JavaPlugin {
         reloadables = new ArrayList<>();
         instance = this;
         executorService = Executors.newScheduledThreadPool(4);
+        startTime = System.currentTimeMillis();
         saveDefaultConfig();
         getLogger().addHandler(new LoggerHandler());
         Localization.loadLocalizations(getDataFolder());

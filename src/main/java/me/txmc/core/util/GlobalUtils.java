@@ -1,6 +1,7 @@
 package me.txmc.core.util;
 
 import lombok.Cleanup;
+import lombok.Getter;
 import me.txmc.core.Localization;
 import me.txmc.core.Main;
 import net.kyori.adventure.text.Component;
@@ -22,7 +23,7 @@ import java.util.logging.Level;
  * This file was created as a part of 8b8tCore
  */
 public class GlobalUtils {
-    private static final String PREFIX = "&7&r&b&38b8t&r&aCore&r&7&r";
+    @Getter private static final String PREFIX = "&7&r&b&38b8t&r&aCore&r&7&r";
 
     public static void log(Level level, String format, Object... args) {
         StackTraceElement element = Thread.currentThread().getStackTrace()[2];
