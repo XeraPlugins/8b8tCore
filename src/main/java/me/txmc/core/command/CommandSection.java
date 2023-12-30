@@ -3,6 +3,7 @@ package me.txmc.core.command;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
+import me.txmc.core.command.commands.BaseCommand;
 import me.txmc.core.command.commands.HelpCommand;
 
 /**
@@ -16,6 +17,7 @@ public class CommandSection implements Section {
     @Override
     public void enable() {
         plugin.getCommand("help").setExecutor(new HelpCommand());
+        plugin.getCommand("lef").setExecutor(new BaseCommand(plugin));
     }
 
     @Override
