@@ -23,10 +23,10 @@ public class BaseCmd extends BaseCommand {
             switch (args[0]) {
                 case "reload":
                     main.getPlugin().reloadConfig();
-                    sendMessage(sender, PREFIX + "&aSuccessfully reloaded configuration file");
+                    sendMessage(sender, "&aSuccessfully reloaded configuration file");
                     break;
                 case "version":
-                    sendMessage(sender, PREFIX + "&6Version &r&c" + main.getPlugin().getPluginMeta().getVersion());
+                    sendMessage(sender, "&3Version &r&c" + main.getPlugin().getPluginMeta().getVersion());
                     break;
                 case "help":
                     sendMessage(sender, "&1---&r " + PREFIX + " &6Help &r&1---");
