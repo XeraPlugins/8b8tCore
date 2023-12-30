@@ -97,6 +97,12 @@ Vote:
     - 'leee.nc'
 Patch:
   ElytraMaxSpeed: 56.9 #Max speed in blocks/second. Default value is the max speed reachable with firework rockets
+  EntityPerChunk:
+    CheckInterval: 1 #In minutes
+    EntitiesPerChunk:
+      - 'wither::20'
+      - 'armor_stand::15'
+      - 'boat::10'
 Commands:
   # to send to the player for /discord
   Discord: '&3Join us on discord at&r&a https://discord.8b8t.me'
