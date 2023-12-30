@@ -5,12 +5,9 @@ package me.txmc.core;
  * @since 2023/12/17 9:11 PM
  * This file was created as a part of 8b8tCore
  */
-public interface Section {
+public interface Section extends Reloadable {
     void enable();
 
     void disable();
-
-    void reloadConfig();
-
     String getName();
 }

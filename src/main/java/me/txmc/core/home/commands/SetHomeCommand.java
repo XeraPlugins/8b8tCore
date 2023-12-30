@@ -40,9 +40,8 @@ public class SetHomeCommand implements CommandExecutor {
                 sendPrefixedLocalizedMessage(player, "sethome_max_reached");
                 return true;
             }
-            Home home = new Home(args[0], player.getLocation());
-            homes.addHome(home);
-            sendPrefixedLocalizedMessage(player, "sethome_success", home.getName());
+            homes.addHome(new Home(args[0], player.getLocation()));
+            sendPrefixedLocalizedMessage(player, "sethome_success", args[0]);
         } else sendMessage(sender, "&3You must be a player to use this command");
         return true;
     }

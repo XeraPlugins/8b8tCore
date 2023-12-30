@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -67,5 +68,8 @@ public class GlobalUtils {
             log(Level.SEVERE, "&cFailed to extract resource from jar due to &r&3 %s&r&c! Please see the stacktrace below for more info", t.getMessage());
             t.printStackTrace();
         }
+    }
+    public static void executeCommand(String command, String... args) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format(command, args));
     }
 }

@@ -90,3 +90,10 @@ Home:
   Radius: 500
   #Max homes a player can have
   MaxHomes: 3
+Vote:
+  MaxHomesByVoting: 10
+  AddHomePermission: '8b8tcore.home.max.%d'
+  Permissions: #List of permissions to give the player
+    - 'leee.nc'
+Patch:
+  ElytraMaxSpeed: 56.9 #Max speed in blocks/second. Default value is the max speed reachable with firework rockets

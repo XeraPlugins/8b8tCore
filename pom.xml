@@ -66,6 +66,10 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>local-repo</id>
+            <url>file://${project.basedir}/local-repo</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -79,6 +83,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vexsoftware</groupId>
+            <artifactId>nuvotifier-universal</artifactId>
+            <version>2.7.3</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

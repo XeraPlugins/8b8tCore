@@ -16,8 +16,6 @@ reply_no_target: "&cNo le has mandado a nadie un mensaje, por ahora."
 reply_command_syntax: "&cPorfavor, para responder un mensaje, hazlo asi: /r <mensaje>"
 togglechat_chat_enabled: "&aEl chat se a habilitado!"
 togglechat_chat_disabled: "&cEl chat se a deshabilitado!"
-chat_toggle_translate_enabled: "&aActivado Traducción automática"
-chat_toggle_translate_disabled: "&cTraducción automática desactivada"
 cmdwhitelist_cmd_not_allowed: "&cEl comando&r&a %s&r&c esta prohibido"
 chat_cooldown: "&3Porfavor espere por lo minimo&r&a %d&r&3 segundos entre mandar mensajes"
 delhome_no_homes: "&3Tu no tienes ningun home"
@@ -49,8 +47,8 @@ kick_message: "&7%s fue pateado para \"%s\""
 could_not_translate_message: "Error al traducir el mensaje debido a %s"
 message_auto_translated: "Este mensaje se ha traducido automáticamente.\n\nTexto original: %s"
 welcome_message: "Bienvenido a 8b8t"
-vote_announcement: "&a%s&r&3 Acabo de votar por 8b8t en&r&a %s"
-vote_thanks: "&3Gracias por votar. Has recibido una casa extra&r&a 2&r&3"
+vote_announcement: "&c%s &6votó por &18b&98t &6y recibió /nc gratis y 2 hogares adicionales"
+vote_thanks: "Gracias por votar por &18b&98t &6se te ha otorgado /nc gratis y 2 hogares adicionales"
 tpa_player_not_online: "&cEl jugador %s no está en línea"
 tpa_no_request_found: "&cNo se encontró ninguna solicitud de TPA"
 tpa_self_tpa: "&cNo puedes TPA a ti mismo"
@@ -64,26 +62,38 @@ tpa_pending_request: "&a%s&r &ctiene una solicitud pendiente"
 tpa_to_left: "&cTPA cancelado porque&r&a %s&r&c se ha desconectado"
 #Complex messages
 HelpMessage:
-  - "&6-----------------------------------------------------"
-  - "&3/ignore Ignora a un jugador"
-  - "&3/unignore designora a un jugador"
-  - "&3/togglechat Activa o desactiva el chat"
-  - "&3/toggledeathmsg Activa o desactiva los mensajes de muerte"
-  - "&3/whisper Enviarle un mensaje a un jugador al privado. Tambien puedes usar: /message, /msg, /tell, /w"
-  - "&3/reply Responderle a un jugador que te envió un mensaje privado Tambien puedes usar /r"
-  - "&3/home Teletransportarte a las homes que has establecido"
-  - "&3/sethome Establecer una home"
-  - "&3/delhome Eliminar una home"
-  - "&3/help Mostrar este menu"
-  - "&3/plugins Mostrar todos los plugins del servidor"
-  - "&3/kill Suicidarte"
-  - "&3/stats Muestra cuanto pesa el mundo y cuantos jugadores se han unido"
-  - "&3/discord Muestra un link para unirte al discord de 8b8t"
-  - "&6-----------------------------------------------------"
+  - '&1--------------------------------------'
+  - '&6Visita &chttps://www.8b8t.me &6para leer las reglas'
+  - '&c/tpa &6para teletransportarte a otro jugador'
+  - '&c/sethome &6para establecer un hogar en tu ubicación'
+  - '&c/delhome &6para eliminar un hogar que has establecido'
+  - '&c/home &6para teletransportarte a un hogar que has establecido'
+  - '&c/skin set &6para establecer tu piel'
+  - '&c/vote &6para votar por 8b8t'
+  - '&c/discord &6obtén una invitación al discord de 8b8t'
+  - '&c/kill &6para eliminar tu personaje'
+  - '&c/ignore &6para ignorar a otros jugadores'
+  - '&c/msg &6para enviar mensajes a otros jugadores'
+  - '&c/changepass &6para cambiar tu contraseña'
+  - '&c/joindate &6ver la fecha de unión tuya y de otros'
+  - '&c/worldstats &6ver el tamaño del mundo'
+  - '&c/pvp &6conéctate al servidor PVP de 8b8t'
+  - '&c/lobby &6conéctate al lobby'
+  - '&c/tps &6para verificar los ticks por segundo del servidor'
+  - '&1-------------Solo para Votantes---------------'
+  - '&c/nc &6para establecer el color del nombre'
+  - '&6Visita &chttps://votefor.8b8t.me &6para votar'
+  - '&1------------Solo para Donadores--------------'
+  - '&c/seen &6ver cuándo un jugador se conectó por última vez'
+  - '&c/echest &6abrir tu cofre de ender'
+  - '&c/nick &6establecer un apodo'
+  #    - '&c/linkdiscord &6vincula tu discord a tu cuenta de 8b8t'
+  - '&6Visita &chttps://donate.8b8t.me &6para donar'
+  - '&1--------------------------------------'
 TabList:
   Header:
     - ''
-    - '&18constructores&98herramientas'
+    - '&18builders&98tools'
     - ''
     - '&68b8t ahora funciona en folia y las características volverán'
     - ''

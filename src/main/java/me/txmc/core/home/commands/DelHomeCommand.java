@@ -22,22 +22,22 @@ public class DelHomeCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (sender instanceof Player player) {
-            HomeData homeData = main.homes().get(player);
-            if (homeData.hasHomes()) {
+            HomeData homes = main.homes().get(player);
+            if (!homes.hasHomes()) {
                 sendPrefixedLocalizedMessage(player, "delhome_no_homes");
                 return true;
             }
             if (args.length < 1) {
-                String names = String.join(", ", homeData.stream().map(Home::getName).toArray(String[]::new));
+                String names = String.join(", ", homes.stream().map(Home::getName).toArray(String[]::new));
                 sendPrefixedLocalizedMessage(player, "delhome_specify_home", names);
                 return true;
             }
-            Home home = homeData.stream().filter(h -> h.getName().equals(args[0])).findFirst().orElse(null);
+            Home home = homes.stream().filter(h -> h.getName().equals(args[0])).findFirst().orElse(null);
             if (home == null) {
                 sendPrefixedLocalizedMessage(player, "delhome_home_not_found", args[0]);
                 return true;
             }
-            homeData.deleteHome(home);
+            homes.deleteHome(home);
             sendPrefixedLocalizedMessage(player, "delhome_success", home.getName());
         } else sendMessage(sender, "&3You must be a player to use this command");
         return true;

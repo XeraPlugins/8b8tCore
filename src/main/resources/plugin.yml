@@ -5,6 +5,8 @@ author: 254n_m
 description: All the bullshit for 8b8t
 api-version: 1.20
 folia-supported: true
+softdepend:
+  - NuVotifier
 commands:
   msg:
     aliases: [message, whisper, tell, w, t]
@@ -21,3 +23,5 @@ commands:
   home:
   sethome:
   delhome:
+  help:
+  lef:

@@ -25,12 +25,12 @@ public class HomeCommand implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (sender instanceof Player player) {
             int radius = main.config().getInt("Radius");
-            HomeData homeData = main.homes().get(player);
-            if (homeData.hasHomes()) {
+            HomeData homes = main.homes().get(player);
+            if (!homes.hasHomes()) {
                 sendPrefixedLocalizedMessage(player, "home_no_homes");
                 return true;
             }
-            String names = String.join(", ", homeData.stream().map(Home::getName).toArray(String[]::new));
+            String names = String.join(", ", homes.stream().map(Home::getName).toArray(String[]::new));
             if (args.length < 1) {
                 sendPrefixedLocalizedMessage(player, "home_specify_home", names);
                 return true;
@@ -39,18 +39,17 @@ public class HomeCommand implements TabExecutor {
                 sendPrefixedLocalizedMessage(player, "home_too_close", radius);
                 return true;
             }
-            boolean teleported = false;
-            for (Home home : homeData.getHomes()) {
-                if (home.getName().equalsIgnoreCase(args[0])) {
-                    vanish(player);
-                    player.teleportAsync(home.getLocation());
-                    unVanish(player);
-                    sendPrefixedLocalizedMessage(player, "home_success", home.getName());
-                    teleported = true;
-                    break;
-                }
+            boolean homeFound = false;
+            for (Home home : homes.getHomes()) {
+                if (!home.getName().equals(args[0])) continue;
+                vanish(player);
+                player.teleportAsync(home.getLocation());
+                unVanish(player);
+                sendPrefixedLocalizedMessage(player, "home_success", home.getName());
+                homeFound = true;
+                break;
             }
-            if (!teleported) sendPrefixedLocalizedMessage(player, "home_not_found", args[0]);
+            if (!homeFound) sendPrefixedLocalizedMessage(player, "home_not_found", args[0]);
         } else sendMessage(sender, "&3You must be a player to use this command");
         return true;
     }

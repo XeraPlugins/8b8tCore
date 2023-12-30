@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import static me.txmc.core.util.GlobalUtils.log;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
+//TODO: Fix nc
 @RequiredArgsConstructor
 public class ChatListener implements Listener {
     private final ChatSection manager;

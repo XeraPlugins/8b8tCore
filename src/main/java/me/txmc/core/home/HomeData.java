@@ -31,6 +31,6 @@ public class HomeData {
      * @return true if there are homes false otherwise
      */
    public boolean hasHomes() {
-        return homes.isEmpty();
+        return !homes.isEmpty();
    }
 }

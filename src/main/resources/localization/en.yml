@@ -16,8 +16,6 @@ reply_no_target: "&cYou have not messaged anyone yet"
 reply_command_syntax: "&cPlease include a message /r <message>"
 togglechat_chat_enabled: "&aEnabled chat"
 togglechat_chat_disabled: "&cDisabled chat"
-chat_toggle_translate_enabled: "&aEnabled AutoTranslate"
-chat_toggle_translate_disabled: "&cDisabled AutoTranslate"
 cmdwhitelist_cmd_not_allowed: "&cThe command&r&a %s&r&c is not allowed"
 chat_cooldown: "&3Please wait at least&r&a %d&r&3 seconds between chat messages"
 delhome_no_homes: "&3You do not have any homes"
@@ -49,8 +47,8 @@ kick_message: "&7%s was kicked for \"%s\""
 could_not_translate_message: "Failed to translate message due to %s"
 message_auto_translated: "This message has been translated automatically.\n\nOriginal Text: %s"
 welcome_message: "&3Welcome to 8b8t"
-vote_announcement: "&a%s&r&3 Just voted for 8b8t at&r&a %s"
-vote_thanks: "&3Thank you for voting. You have received an extra&r&a 2&r&3 homes"
+vote_announcement: "&c%s &6voted for &18b&98t &6and was given free /nc and 2 extra homes"
+vote_thanks: "Thanks for voting for &18b&98t &6you have been given free /nc and 2 extra homes"
 tpa_syntax: "&cPlease include a player to tpa to. /tpa <player>"
 tpa_player_not_online: "&cPlayer %s is not online"
 tpa_no_request_found: "&cNo TPA request found"
@@ -65,23 +63,34 @@ tpa_pending_request: "&a%s&r &chas a pending request"
 tpa_to_left: "&cTPA cancelled because&r&a %s&r&c left"
 #Complex messages
 HelpMessage:
-  - "&6-----------------------------------------------------"
-  - "&3/ignore Ignore a player in chat"
-  - "&3/unignore Unignore a player in chat"
-  - "&3/togglechat Turn chat on or off"
-  - "&3/toggletranslate Turn automatic translation on or off"
-  - "&3/toggledeathmsg Turn death messages on or off"
-  - "&3/whisper Privately message a player. You can also use /message, /msg, /tell, /w"
-  - "&3/reply Reply to the last person that messaged you. You can also use /r"
-  - "&3/home Teleport to a home that you have set"
-  - "&3/sethome Set a home"
-  - "&3/delhome Delete a home"
-  - "&3/help Snow this menu"
-  - "&3/plugins Show all the plugins on the server"
-  - "&3/kill Kills you"
-  - "&3/stats Show world size and how many players have joined"
-  - "&3/discord Shows a link to join the 8b8t discord"
-  - "&6-----------------------------------------------------"
+  - '&1--------------------------------------'
+  - '&6Visit &chttps://www.8b8t.me &6to read the rules'
+  - '&c/tpa &6to teleport to another player'
+  - '&c/sethome &6to set a home at your location'
+  - '&c/delhome &6to delete a home you set'
+  - '&c/home &6to teleport to a home you set'
+  - '&c/skin set &6to set your skin'
+  - '&c/vote &6to vote for 8b8t'
+  - '&c/discord &6get an invite to the 8b8t discord'
+  - '&c/kill &6to kill your self'
+  - '&c/ignore &6to ignore other players'
+  - '&c/msg &6to message other players'
+  - '&c/changepass &6To change your password'
+  - '&c/joindate &6Check yours and others joindate'
+  - '&c/worldstats &6View the world size'
+  - '&c/pvp &6Connect to 8b8t PVP'
+  - '&c/lobby &6Connect to lobby'
+  - '&c/tps &6To check server ticks per second'
+  - '&1-------------Voter Only---------------'
+  - '&c/nc &6To set name colour'
+  - '&6Visit &chttps://votefor.8b8t.me &6to vote'
+  - '&1------------Donator Only--------------'
+  - '&c/seen &6See when a player last joined'
+  - '&c/echest &6Open your ender chest'
+  - '&c/nick &6Set a nickname'
+  #    - '&c/linkdiscord &6link your discord to your 8b8t account'
+  - '&6Visit &chttps://donate.8b8t.me &6to donate'
+  - '&1--------------------------------------'
 TabList:
   Header:
     - ''
