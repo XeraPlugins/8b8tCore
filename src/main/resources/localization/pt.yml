@@ -1,0 +1,111 @@
+# Mensagens básicas
+ignore_successful: "&3Jogador ignorado com sucesso&r&a %s&r"
+already_ignoring: "&cVocê já está ignorando esse jogador"
+ignore_command_syntax: "&cPor favor, inclua um jogador /ignore <nomeJogador>"
+unignore_successful: "&3Jogador designorado com sucesso&r&a %s&r"
+unignore_not_ignoring: "&cVocê não está ignorando %s"
+unignore_command_syntax: "&cPor favor, inclua um jogador /unignore <nomeJogador>"
+whisper_from: "&d%s sussurra: %s"
+whisper_to: "&dPara %s: %s"
+whisper_ignoring: "&c%s está te ignorando"
+whisper_you_are_ignoring: "&cVocê não pode enviar mensagens a um jogador que você ignorou"
+msg_could_not_find_player: "&cNão foi possível encontrar o jogador %s"
+msg_command_syntax: "&cPor favor, inclua um alvo e uma mensagem /msg <alvo> <mensagem>"
+reply_player_offline: "&cO jogador %s está offline"
+reply_no_target: "&cVocê ainda não enviou mensagens para ninguém"
+reply_command_syntax: "&cPor favor, inclua uma mensagem /r <mensagem>"
+togglechat_chat_enabled: "&aChat habilitado"
+togglechat_chat_disabled: "&cChat desabilitado"
+cmdwhitelist_cmd_not_allowed: "&cO comando&r&a %s&r&c não é permitido"
+chat_cooldown: "&3Por favor, espere pelo menos&r&a %d&r&3 segundos entre mensagens no chat"
+delhome_no_homes: "&3Você não tem nenhuma casa"
+delhome_specify_home: "&3Por favor, inclua o nome de uma casa para deletar. Casas atuais: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3A casa&r&a %s&r&3 não foi encontrada"
+delhome_success: "&3Casa&r&a %s&r&3 foi deletada"
+delhome_fail: "&3Não foi possível deletar&r&a %s&r"
+home_no_homes: "&3Nenhuma casa encontrada"
+home_specify_home: "&3Por favor, inclua uma casa! Casas atuais: (&r&a%s&r&3)&r"
+home_too_close: "&3Você precisa estar a&r&a %d&r&3 blocos do spawn para usar /home"
+home_success: "&3Teleportando para casa&r&a %s&r&3..."
+home_not_found: "&3Casa&r&a %s&r&3 não foi encontrada"
+sethome_include_name: "&3Por favor, inclua um nome para sua nova casa"
+sethome_home_already_exists: "&cJá existe uma casa com o nome&r&a %s&r&c."
+sethome_max_reached: "&3Número máximo de casas atingido!"
+sethome_success: "&3Casa&r&a %s &r&3definida"
+kick_restarting: "&3O servidor está reiniciando"
+elytra_too_fast: "&3Você está voando muito rápido com sua elytra"
+elytras_disabled: "&3As elytras estão atualmente desativadas devido ao lag no servidor. Elas devem voltar em breve"
+bookban_inventory_clear: "&cSeu inventário foi limpo para evitar o banimento por livros"
+bookban_removed_item: "&cRemovidos todos os&r&3 %s(s) &r&c do seu inventário para evitar o banimento por livros"
+kick_lever_ratelimit: "&cVocê está interagindo muito rápido"
+kick_pps_limit: "&cVocê está enviando pacotes muito rápido!"
+kick_failed_to_inject: "&cFalha ao injetar"
+join_message: "&7%s entrou"
+player_join_first_time: "&7%s entrou pela primeira vez"
+leave_message: "&7%s saiu"
+kick_message: "&7%s foi expulso por \"%s\""
+could_not_translate_message: "Falha ao traduzir a mensagem devido a %s"
+message_auto_translated: "Esta mensagem foi traduzida automaticamente.\n\nTexto original: %s"
+welcome_message: "&3Bem-vindo ao 8b8t"
+vote_announcement: "&c%s &6votou no &18b&98t &6e recebeu /nc grátis e 2 casas extras"
+vote_thanks: "Obrigado por votar no &18b&98t &6você recebeu /nc grátis e 2 casas extras"
+tpa_syntax: "&cPor favor, inclua um jogador para tpa. /tpa <jogador>"
+tpa_player_not_online: "&cJogador %s não está online"
+tpa_no_request_found: "&cNenhuma solicitação de TPA encontrada"
+tpa_self_tpa: "&cVocê não pode TPA para si mesmo"
+tpa_request_received: "&a%s&r&3 gostaria de se teletransportar para você&r &a/tpayes &3NOME DE USUÁRIO &c/tpano NOME DE USUÁRIO"
+tpa_request_sent: "&3Pedido enviado para&r&a %s"
+tpa_teleporting: "&3Teleportando&r&a..."
+tpa_request_timeout: "&cPedido de TPA expirado"
+tpa_request_denied_from: "&a%s&r&c negou o seu pedido"
+tpa_request_denied_to: "&3Pedido negado com sucesso"
+tpa_pending_request: "&a%s&r &ctem um pedido pendente"
+tpa_to_left: "&cPedido de TPA cancelado porque&r&a %s&r&c saiu"
+# Mensagens complexas
+HelpMessage:
+  - '&1--------------------------------------'
+  - '&6Visite &chttps://www.8b8t.me &6para ler as regras'
+  - '&c/tpa &6para teletransportar para outro jogador'
+  - '&c/tpayes &6para aceitar um pedido de teletransporte'
+  - '&c/tpano &6para negar um pedido de teletransporte'
+  - '&c/sethome &6para definir uma casa em sua localização'
+  - '&c/delhome &6para excluir uma casa que você definiu'
+  - '&c/home &6para teletransportar para uma casa que você definiu'
+  - '&c/skin set &6para definir sua pele'
+  - '&c/vote &6para votar no 8b8t'
+  - '&c/discord &6obtenha um convite para o discord do 8b8t'
+  - '&c/kill &6para se matar'
+  - '&c/ignore &6para ignorar outros jogadores'
+  - '&c/msg &6para enviar mensagens para outros jogadores'
+  - '&c/changepass &6Para alterar sua senha'
+  - '&c/joindate &6Verifique sua data de entrada e a de outros'
+  - '&c/worldstats &6Veja o tamanho do mundo'
+  - '&c/pvp &6Conecte-se ao PVP 8b8t'
+  - '&c/lobby &6Conecte-se ao lobby'
+  - '&c/tps &6Para verificar os ticks por segundo do servidor'
+  - '&1-------------Somente para votantes---------------'
+  - '&c/nc &6Para definir a cor do nome'
+  - '&6Visite &chttps://votefor.8b8t.me &6para votar'
+  - '&1------------Somente para doadores--------------'
+  - '&c/seen &6Veja quando um jogador entrou pela última vez'
+  - '&c/echest &6Abra seu baú do ender'
+  - '&c/nick &6Defina um apelido'
+  - # - '&c/linkdiscord &6vincule seu discord à sua conta 8b8t'
+  - '&6Visite &chttps://donate.8b8t.me &6para doar'
+  - '&1--------------------------------------'
+TabList:
+  Header:
+    - ''
+    - '&18builders&98tools'
+    - ''
+    - '&68b8t agora funciona em folia e as funcionalidades voltarão'
+    - ''
+  Footer:
+    - ''
+    - '&7tps:&r %tps% &7ping: &r%ping% &7jogadores: &f%players% &7tempo de atividade: %uptime%'
+    - ''
+    - '&7Contato: contact@8b8t.me'
+    - '&7Discussão: https://discord.8b8t.me'
+    - '&7Website: https://www.8b8t.me'
+    - '&7Esses são os únicos websites e contatos oficiais do 8b8t'
+    - ''
