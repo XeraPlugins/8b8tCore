@@ -14,6 +14,10 @@
 ## To do
 * Anti lag machine
 * Tile entity per chunk limit
+* Permission based view distance and simulation distance
+* Anti book ban
+* Coordinate Exploit Fix
+* ETC
 
 ## Discord
 <a href="https://discord.gg/EgfXQtUz5e"> Join Discord</a>
