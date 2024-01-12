@@ -45,7 +45,7 @@ public class ChatFileIO implements IStorage<ChatInfo, Player> {
             @Cleanup FileWriter fw = new FileWriter(file, false);
             gson.toJson(obj, fw);
         } catch (Throwable t) {
-            GlobalUtils.log(Level.SEVERE,"Failed to save ChatInfo for&r&a %s&r&c. Please see the stacktrace below for more info", player.getUniqueId());
+            GlobalUtils.log(Level.SEVERE,"Failed to save ChatInfo for&r&a %s. Please see the stacktrace below for more info", player.getUniqueId());
             t.printStackTrace();
         }
     }
@@ -66,7 +66,7 @@ public class ChatFileIO implements IStorage<ChatInfo, Player> {
                 return new ChatInfo(player, cm, ignores, toggleChat, toggleJoinMessages);
             } else return new ChatInfo(player, cm);
         } catch (Throwable t) {
-            GlobalUtils.log(Level.SEVERE, "&cFailed to parse&r&a %s&r&c. This is most likely due to malformed json", player.getUniqueId());
+            GlobalUtils.log(Level.SEVERE, "Failed to parse %s. This is most likely due to malformed json", player.getUniqueId());
             t.printStackTrace();
             return null;
         }
@@ -82,6 +82,6 @@ public class ChatFileIO implements IStorage<ChatInfo, Player> {
     public void delete(Player player) {
         File file = new File(dataDir, player.getUniqueId().toString().concat(".json"));
         file.delete();
-        GlobalUtils.log(Level.INFO,"&3Deleted ChatInfo file for&r&a %s&r", player.getName());
+        GlobalUtils.log(Level.INFO,"Deleted ChatInfo file for %s", player.getName());
     }
 }
