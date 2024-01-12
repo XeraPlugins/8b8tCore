@@ -2,12 +2,11 @@ package me.txmc.core.tpa.commands;
 
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.tpa.TPASection;
-import me.txmc.core.util.GlobalUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
 
 import static me.txmc.core.util.GlobalUtils.sendMessage;
@@ -24,15 +23,28 @@ public class TPADenyCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (sender instanceof Player to) {
-            Player from = main.findTpRequester(to);
-            if (from == null) {
-                sendPrefixedLocalizedMessage(to, "tpa_no_request_found");
-                return true;
-            }
-            main.removeRequest(to);
-            sendPrefixedLocalizedMessage(to, "tpa_request_denied_to");
-            sendPrefixedLocalizedMessage(from, "tpa_request_denied_from", to.getName());
+        if (sender instanceof Player requested) {
+            if (args.length == 0) {
+                Player requester = main.getLastRequest(requested);
+                if (requester == null) {
+                    sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
+                    return true;
+                }
+
+                sendPrefixedLocalizedMessage(requester, "tpa_request_denied_from", requested.getName());
+                sendPrefixedLocalizedMessage(requested, "tpa_request_denied_to", requester.getName());
+                main.removeLastRequest(requested);
+            } else if (args.length == 1) {
+                Player requester = main.getRequest(Bukkit.getPlayer(args[0]), requested);
+                if (requester == null) {
+                    sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
+                    return true;
+                }
+
+                sendPrefixedLocalizedMessage(requester, "tpa_request_denied_from", requested.getName());
+                sendPrefixedLocalizedMessage(requested, "tpa_request_denied_to", requester.getName());
+                main.removeRequest(requested, requester);
+            } else sendPrefixedLocalizedMessage(requested, "tpa_syntax");
         } else sendMessage(sender, "&cYou must be a player");
         return true;
     }

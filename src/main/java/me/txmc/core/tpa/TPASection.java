@@ -9,6 +9,9 @@ import me.txmc.core.tpa.commands.TPADenyCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -22,12 +25,14 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 @RequiredArgsConstructor
 public class TPASection implements Section {
     private final Main plugin;
-    private ConcurrentHashMap<Player, Player> requestMap;
+    private ConcurrentHashMap<Player, Player> lastRequest;
+    private ConcurrentHashMap<Player, List<Player>> requests;
     private ConfigurationSection config;
 
     @Override
     public void enable() {
-        requestMap = new ConcurrentHashMap<>();
+        lastRequest = new ConcurrentHashMap<>();
+        requests = new ConcurrentHashMap<>();
         config = plugin.getSectionConfig(this);
         plugin.register(new LeaveListener(this));
         plugin.getCommand("tpa").setExecutor(new TPACommand(this));
@@ -51,23 +56,54 @@ public class TPASection implements Section {
     }
 
     public void registerRequest(Player from, Player to) {
-        if (findTpRequester(to) != null) {
+
+        if (getLastRequest(to) != null) {
             sendPrefixedLocalizedMessage(from, "tpa_pending_request", to.getName());
             return;
         }
-        requestMap.put(to, from);
+        lastRequest.put(to, from);
+        if (requests.getOrDefault(to, null) == null) {
+            requests.put(to, Collections.singletonList(from));
+        } else {
+            requests.get(to).add(from);
+        }
         plugin.getExecutorService().schedule(() -> {
             sendPrefixedLocalizedMessage(to, "tpa_request_timeout");
             sendPrefixedLocalizedMessage(from, "tpa_request_timeout");
-            requestMap.remove(to);
+            lastRequest.remove(to);
         }, config.getInt("RequestTimeout"), TimeUnit.MINUTES);
     }
 
-    public Player findTpRequester(Player to) {
-        return requestMap.getOrDefault(to, null);
+    public Player getLastRequest(Player requested) {
+        return lastRequest.getOrDefault(requested, null);
     }
 
-    public void removeRequest(Player to) {
-        requestMap.remove(to);
+    public Player getRequest(Player requester, Player requested) {
+        if (requests.getOrDefault(requested, null) == null) return null;
+        if (!requests.get(requested).contains(requester)) return null;
+        return requests.get(requested).get(requests.get(requested).indexOf(requester));
+    }
+
+    public void removeLastRequest(Player requested) {
+        lastRequest.remove(requested);
+        requests.computeIfAbsent(requested, k -> new ArrayList<>());
+
+        if (!requests.get(requested).isEmpty()) {
+            lastRequest.put(requested, getRequests(requested).get(0));
+        }
+    }
+
+    public void removeRequest(Player requester, Player requested) {
+        if (requests.getOrDefault(requested, null) == null) return;
+        if (!requests.get(requested).contains(requester)) return;
+        if (!requests.get(requested).isEmpty() && requests.get(requested).indexOf(requester) == 0) {
+            removeLastRequest(requested);
+        }
+        requests.get(requested).remove(requester);
+    }
+
+    public List<Player> getRequests(Player to) {
+        requests.computeIfAbsent(to, k -> new ArrayList<>());
+        return requests.getOrDefault(to, null);
     }
 }

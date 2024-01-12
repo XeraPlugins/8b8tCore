@@ -2,6 +2,7 @@ package me.txmc.core.tpa.commands;
 
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.tpa.TPASection;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,16 +24,30 @@ public class TPAAcceptCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (sender instanceof Player to) {
-            Player from = main.findTpRequester(to);
-            if (from == null) {
-                sendPrefixedLocalizedMessage(to, "tpa_no_request_found");
-                return true;
-            }
-            from.teleportAsync(to.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
-            sendPrefixedLocalizedMessage(from, "tpa_teleporting");
-            sendPrefixedLocalizedMessage(to, "tpa_teleporting");
-            main.removeRequest(to);
+        if (sender instanceof Player requested) {
+            if (args.length == 0) {
+                Player requester = main.getLastRequest(requested);
+                if (requester == null) {
+                    sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
+                    return true;
+                }
+
+                requester.teleportAsync(requested.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
+                sendPrefixedLocalizedMessage(requested, "tpa_teleporting");
+                main.removeLastRequest(requester);
+            } else if (args.length == 1) {
+                Player requester = main.getRequest(Bukkit.getPlayer(args[0]), requested);
+                if (requester == null) {
+                    sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
+                    return true;
+                }
+
+                requester.teleportAsync(requested.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
+                sendPrefixedLocalizedMessage(requested, "tpa_teleporting");
+                main.removeRequest(requested, requester);
+            } else sendPrefixedLocalizedMessage(requested, "tpa_syntax");
         } else sendMessage(sender, "&cYou must be a player");
         return true;
     }
