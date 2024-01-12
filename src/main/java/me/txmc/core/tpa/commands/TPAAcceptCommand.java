@@ -35,9 +35,9 @@ public class TPAAcceptCommand implements CommandExecutor {
                 requester.teleportAsync(requested.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
                 sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
                 sendPrefixedLocalizedMessage(requested, "tpa_teleporting");
-                main.removeLastRequest(requester);
+                main.removeRequest(requester, requested);
             } else if (args.length == 1) {
-                Player requester = main.getRequest(Bukkit.getPlayer(args[0]), requested);
+                Player requester = main.hasRequested(Bukkit.getPlayer(args[0]), requested) ? Bukkit.getPlayer(args[0]) : null;
                 if (requester == null) {
                     sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
                     return true;
@@ -46,7 +46,7 @@ public class TPAAcceptCommand implements CommandExecutor {
                 requester.teleportAsync(requested.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
                 sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
                 sendPrefixedLocalizedMessage(requested, "tpa_teleporting");
-                main.removeRequest(requested, requester);
+                main.removeRequest(requester, requested);
             } else sendPrefixedLocalizedMessage(requested, "tpa_syntax");
         } else sendMessage(sender, "&cYou must be a player");
         return true;
