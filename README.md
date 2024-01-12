@@ -18,6 +18,7 @@
 * Anti book ban
 * Coordinate Exploit Fix
 * /TPS command with permission to use it
+* add Illegal Potion fix to anti illegal
 * ETC
 
 ## Discord
