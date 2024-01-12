@@ -25,7 +25,7 @@ public class NameCheck implements Check {
         TextComponent name = (TextComponent) meta.displayName();
         if (name.hasStyling()) return true;
         if (hasDecorations(name)) return true;
-        if (name.content().length() > 31) return true;
+        if (name.content().length() > 50) return true;
         return false;
     }
 

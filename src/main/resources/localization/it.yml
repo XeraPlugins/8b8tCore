@@ -1,0 +1,113 @@
+#Messaggi di base
+ignore_successful: "&3Il giocatore&r&a %s&r&3 è stato ignorato correttamente"
+already_ignoring: "&cStai già ignorando quel giocatore"
+ignore_command_syntax: "&cPer favore, includi un giocatore: /ignore <nomeGiocatore>"
+unignore_successful: "&3Correttamente dis-ignorato &r&a %s&r"
+unignore_not_ignoring: "&cNon stai ignorando %s"
+unignore_command_syntax: "&cPer favore, includi un giocatore: /unignore <nomeGiocatore>"
+whisper_from: "&d%s Messaggia: %s"
+whisper_to: "&dA %s: %s"
+whisper_ignoring: "&c%s ti sta ignorando"
+whisper_you_are_ignoring: "&cNon puoi messaggiare un player che stai ignorando"
+msg_could_not_find_player: "&cImpossibile trovare il giocatore %s"
+msg_command_syntax: "&cPer favore, includi un giocatore e un messaggio /msg <giocatore> <messaggio>"
+reply_player_offline: "&cIl giocatore %s è offline"
+reply_no_target: "&cNon hai ancora messaggiato nessuno"
+reply_command_syntax: "&cPer favore, includi un messaggio: /r <messaggio>"
+togglechat_chat_enabled: "&aChat abilitata"
+togglechat_chat_disabled: "&cChat disabilitata"
+cmdwhitelist_cmd_not_allowed: "&cNon ti è permesso utilizzare il comando&r&a %s&r"
+chat_cooldown: "&3Per favore, aspetta almeno&r&a %d&r&3 secondi tra un messaggio e un altro"
+delhome_no_homes: "&3Non hai impostato nessuna home"
+delhome_specify_home: "&3Per favore, includi il nome della home da eliminare. Le tue homes: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3La home&r&a %s&r&3 non è stata trovata"
+delhome_success: "&3La home&r&a %s&r&3 è stata eliminata"
+delhome_fail: "&3Impossibile eliminare&r&a %s&r"
+home_no_homes: "&3Nessuna home trovata"
+home_specify_home: "&3Per favore, specifica una home! Le tue homes: (&r&a%s&r&3)&r"
+home_too_close: "&3Devi essere almeno &r&a %d&r&3 blocchi dallo spawn per fare /home"
+home_success: "&3Teletrasportandoti alla home&r&a %s&r&3..."
+home_not_found: "&3Home&r&a %s&r&3 non è stata trovata"
+sethome_include_name: "&3Per favore, includi un nome per la tua nuova home"
+sethome_home_already_exists: "&cUna home con il nome&r&a %s&r&c esiste già."
+sethome_max_reached: "&3Hai raggiunto il numero massimo di homes"
+sethome_success: "&3Home&r&a %s &r&3Impostata"
+kick_restarting: "&3Il server si sta riavviando"
+elytra_too_fast: "&3Stai andando troppo veloce con il tuo elytra"
+elytras_disabled: "&3Gli elytra sono temporaneamente disabilitati per colpa del lag. Saranno riabilitati presto"
+bookban_inventory_clear: "&cIl tuo inventario è stato svuotato per prevenire il book banning"
+bookban_removed_item: "&cRimossi tutti&r&3 %s(s) &r&cdal tuo inventario per prevenire di essere book bannato"
+kick_lever_ratelimit: "&cStai interagendo troppo velocemenente!"
+kick_pps_limit: "&cStai mandando pacchetti troppo velocemenente!"
+kick_failed_to_inject: "&cIniezione fallita"
+join_message: "&7%s ha joinato"
+player_join_first_time: "&7%s ha joinato il server per la prima volta"
+leave_message: "&7%s ha leftato"
+kick_message: "&7%s è stato kickato per \"%s\""
+could_not_translate_message: "C'è stato un errore durante la traduzione del messagio per colpa di %s"
+message_auto_translated: "Il messaggio è stato tradotto automaticamente.\n\nTesto originale: %s"
+welcome_message: "&3Benvenuto su 8b8t"
+vote_announcement: "&c%s &6ha votato per &18b&98t &6e gli è stato dato gratis /nc e 2 extra homes"
+vote_thanks: "Grazie per aver votato per &18b&98t &6, ti è stato dato gratis /nc e 2 extra homes"
+tpa_syntax: "&cPer favore, includi un giocatore a cui mandare il tpa. /tpa <player>"
+tpa_player_not_online: "&cIl giocatore %s non è online"
+tpa_no_request_found: "&cNon sono state trovare richieste TPA"
+tpa_self_tpa: "&cNon puoi mandare il TPA a te stesso!"
+tpa_request_received: "&a%s&r&3 vorrebbe teletrasportarsi da te&r &a&l[%s] &c&l[%s]"
+tpa_request_sent: "&3Richiesta mandata a&r&a %s"
+tpa_teleporting: "&3Teletrasportando&r&a..."
+tpa_request_timeout: "&cRichiesta TPA scaduta"
+tpa_request_denied_from: "&a%s&r&c ha rifiutato la tua richiesta"
+tpa_request_denied_to: "&3Richiesta rifiutata correttamente"
+tpa_pending_request: "&a%s&r &cha una richiesta in sospeso"
+tpa_to_left: "&cTPA cancellato perchè&r&a %s&r&c ha leftato"
+#Complex messages
+HelpMessage:
+  - '&1--------------------------------------'
+  - '&6Visita &chttps://www.8b8t.me &6per leggere le regole'
+  - '&c/tpa &6per tipparti a un altro player'
+  - '&c/tpayes &6per accettare una richiesta di teletrasporto'
+  - '&c/tpano &6toper rifiutare una richiesta di teletrasporto'
+  - '&c/sethome &6per impostare una home alla tua posizione'
+  - '&c/delhome &6per cancellare una home che hai impostato'
+  - '&c/home &6per teletrasportarti ad una tua home'
+  - '&c/skin set &6per impostare la tua skin'
+  - '&c/vote &6per votare per 8b8t'
+  - '&c/discord &6ricevi un invito al discord di 8b8t'
+  - '&c/kill &6per suicidarti'
+  - '&c/ignore &6per ignorare un altro player'
+  - '&c/msg &6per scrivere in privato ad un altro player'
+  - '&c/changepass &6Per cambiare la tua password'
+  - '&c/joindate &6Per controllare la joindate tua/di altri'
+  - '&c/worldstats &6Vedi la grandezza del mondo'
+  - '&c/pvp &6Connettiti a 8b8t PVP'
+  - '&c/lobby &6Connettiti alla lobby'
+  - '&c/tps &6Per vedere il tick per secondo del server'
+  - '&1------------Solo Votatori-------------'
+  - '&c/nc &6Imposta il colore del tuo nome'
+  - '&6Visit &chttps://votefor.8b8t.me &6per votare'
+  - '&1------------Solo Donatori-------------'
+  - '&c/seen &6Per vedere l'ultima volta che un giocatore ha joinato'
+  - '&c/echest &6Per aprire la tua ender chest'
+  - '&c/nick &6Per impostare un nickname'
+  #    - '&c/linkdiscord &6connetti il tuo discord con il tuo account 8b8t'
+  - '&6Visita &chttps://donate.8b8t.me &6per donare'
+  - '&1--------------------------------------'
+TabList:
+  Header:
+    - ''
+    - '&18builders&98tools'
+    - ''
+    - '&68b8t Now runs on folia and features will return'
+    - '&68b8t Ora utilizza folia, le varie funzionalità ritorneranno presto'
+    - ''
+
+  Footer:
+    - ''
+    - '&7tps:&r %tps% &7ping: &r%ping% &7Giocatori: &f%players% &7tempo di attività: %uptime%'
+    - ''
+    - '&7Contattaci: contact@8b8t.me'
+    - '&7Discuti: https://discord.8b8t.me'
+    - '&7Sito Web: https://www.8b8t.me'
+    - '&7Questi sono gli unici contatti ufficiali di 8b8t'
+    - ''

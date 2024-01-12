@@ -1,0 +1,111 @@
+# 基本信息
+ignore_successful: "&3成功屏蔽玩家&r&a %s&r"
+already_ignoring: "&c你已经在屏蔽这个玩家了"
+ignore_command_syntax: "&c请包括一个玩家 /ignore <玩家名>"
+unignore_successful: "&3成功解除屏蔽玩家&r&a %s&r"
+unignore_not_ignoring: "&c你没有屏蔽 %s"
+unignore_command_syntax: "&c请包括一个玩家 /unignore <玩家名>"
+whisper_from: "&d%s 悄悄地说: %s"
+whisper_to: "&d给 %s 的悄悄话: %s"
+whisper_ignoring: "&c%s 正在屏蔽你"
+whisper_you_are_ignoring: "&c你无法给已屏蔽的玩家发消息"
+msg_could_not_find_player: "&c找不到玩家 %s"
+msg_command_syntax: "&c请包括一个目标和消息 /msg <目标> <消息>"
+reply_player_offline: "&c玩家 %s 不在线"
+reply_no_target: "&c你还没有给任何人发送消息"
+reply_command_syntax: "&c请包括一条消息 /r <消息>"
+togglechat_chat_enabled: "&a已启用聊天"
+togglechat_chat_disabled: "&c已禁用聊天"
+cmdwhitelist_cmd_not_allowed: "&c该命令&r&a %s&r&c 不允许"
+chat_cooldown: "&3请在消息之间等待至少&r&a %d&r&3 秒"
+delhome_no_homes: "&3你没有任何家"
+delhome_specify_home: "&3请包括要删除的家的名称。当前的家: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3未找到家&r&a %s&r&3"
+delhome_success: "&3已删除家&r&a %s&r&3"
+delhome_fail: "&3无法删除&r&a %s&r"
+home_no_homes: "&3没有找到家"
+home_specify_home: "&3请包括一家! 当前的家: (&r&a%s&r&3)&r"
+home_too_close: "&3你必须距离出生点&r&a %d&r&3 方块以使用 /home"
+home_success: "&3传送到家&r&a %s&r&3..."
+home_not_found: "&3未找到家&r&a %s&r&3"
+sethome_include_name: "&3请为你的新家命名"
+sethome_home_already_exists: "&c名为&r&a %s&r&c 的家已经存在."
+sethome_max_reached: "&3已达到最大家数!"
+sethome_success: "&3家&r&a %s &r&3设置"
+kick_restarting: "&3服务器正在重新启动"
+elytra_too_fast: "&3你使用鞘翅飞得太快了"
+elytras_disabled: "&3由于服务器延迟，鞘翅目前被禁用。它们应该很快恢复"
+bookban_inventory_clear: "&c为防止被书籍封禁，你的物品栏已清空"
+bookban_removed_item: "&c已移除所有&r&3 %s(们) &r&c以防止被书籍封禁"
+kick_lever_ratelimit: "&c你的交互速度太快了"
+kick_pps_limit: "&c你发送数据包的速度太快了!"
+kick_failed_to_inject: "&c注入失败"
+join_message: "&7%s 加入了"
+player_join_first_time: "&7%s 第一次加入"
+leave_message: "&7%s 离开了"
+kick_message: "&7%s 被踢出，原因: \"%s\""
+could_not_translate_message: "由于 %s，无法翻译消息"
+message_auto_translated: "此消息已被自动翻译。\n\n原文: %s"
+welcome_message: "&3欢迎来到 8b8t"
+vote_announcement: "&c%s &6为 &18b&98t &6投票，并获得免费 /nc 和额外的 2 个家"
+vote_thanks: "感谢为 &18b&98t &6投票，你已获得免费 /nc 和额外的 2 个家"
+tpa_syntax: "&c请包括一个玩家以进行tpa。/tpa <玩家>"
+tpa_player_not_online: "&c玩家 %s 不在线"
+tpa_no_request_found: "&c未找到TPA请求"
+tpa_self_tpa: "&c你不能对自己发起TPA"
+tpa_request_received: "&a%s&r&3想要传送到你这里&r &a/tpayes &3用户名 &c/tpano 用户名"
+tpa_request_sent: "&3传送请求已发送到&r&a %s"
+tpa_teleporting: "&3传送中&r&a..."
+tpa_request_timeout: "&cTPA请求超时"
+tpa_request_denied_from: "&a%s&r&c拒绝了你的请求"
+tpa_request_denied_to: "&3请求已成功拒绝"
+tpa_pending_request: "&a%s&r &c有一个待处理的请求"
+tpa_to_left: "&cTPA已取消，因为&r&a %s&r&c离开了"
+# 复杂信息
+HelpMessage:
+  - '&1--------------------------------------'
+  - '&6访问 &chttps://www.8b8t.me &6阅读规则'
+  - '&c/tpa &6传送到另一玩家'
+  - '&c/tpayes &6接受传送请求'
+  - '&c/tpano &6拒绝传送请求'
+  - '&c/sethome &6在当前位置设置家'
+  - '&c/delhome &6删除你设置的家'
+  - '&c/home &6传送到你设置的家'
+  - '&c/skin set &6设置你的皮肤'
+  - '&c/vote &6为 8b8t 投票'
+  - '&c/discord &6获取 8b8t 的 Discord 邀请'
+  - '&c/kill &6自杀'
+  - '&c/ignore &6忽略其他玩家'
+  - '&c/msg &6给其他玩家发送消息'
+  - '&c/changepass &6更改密码'
+  - '&c/joindate &6查看你和其他玩家的加入日期'
+  - '&c/worldstats &6查看世界大小'
+  - '&c/pvp &6连接到 8b8t PVP'
+  - '&c/lobby &6连接到大厅'
+  - '&c/tps &6检查服务器每秒的ticks'
+  - '&1-------------仅限投票者---------------'
+  - '&c/nc &6设置名称颜色'
+  - '&6访问 &chttps://votefor.8b8t.me &6投票'
+  - '&1------------仅限捐赠者--------------'
+  - '&c/seen &6查看玩家上次加入的时间'
+  - '&c/echest &6打开你的末影箱'
+  - '&c/nick &6设置一个昵称'
+  #    - '&c/linkdiscord &6将你的 Discord 链接到你的 8b8t 账户'
+  - '&6访问 &chttps://donate.8b8t.me &6捐赠'
+  - '&1--------------------------------------'
+TabList:
+  Header:
+    - ''
+    - '&18builders&98tools'
+    - ''
+    - '&68b8t 现在在 folia 上运行，并将恢复功能'
+    - ''
+  Footer:
+    - ''
+    - '&7tps:&r %tps% &7ping: &r%ping% &7玩家: &f%players% &7在线时间: %uptime%'
+    - ''
+    - '&7联系: contact@8b8t.me'
+    - '&7讨论: https://discord.8b8t.me'
+    - '&7网站: https://www.8b8t.me'
+    - '&7这些是 8b8t 的唯一官方网站和联系方式'
+    - ''
