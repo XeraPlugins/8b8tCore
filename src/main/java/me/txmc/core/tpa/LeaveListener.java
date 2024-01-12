@@ -19,14 +19,18 @@ public class LeaveListener implements Listener {
     private final TPASection main;
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
-        if (main.findTpRequester(event.getPlayer()) == null) return;
-        Player from = main.findTpRequester(event.getPlayer());
-        sendPrefixedLocalizedMessage(from, "tpa_to_left", event.getPlayer().getName());
+        if (main.getRequests(event.getPlayer()) == null) return;
+        if (main.getRequests(event.getPlayer()).isEmpty()) return;
+        for (Player player : main.getRequests(event.getPlayer())) {
+            sendPrefixedLocalizedMessage(player, "tpa_to_left", event.getPlayer().getName());
+        }
     }
     @EventHandler
     public void onKick(PlayerKickEvent event) {
-        if (main.findTpRequester(event.getPlayer()) == null) return;
-        Player from = main.findTpRequester(event.getPlayer());
-        sendPrefixedLocalizedMessage(from, "tpa_to_left", event.getPlayer().getName());
+        if (main.getRequests(event.getPlayer()) == null) return;
+        if (main.getRequests(event.getPlayer()).isEmpty()) return;
+        for (Player player : main.getRequests(event.getPlayer())) {
+            sendPrefixedLocalizedMessage(player, "tpa_to_left", event.getPlayer().getName());
+        }
     }
 }

@@ -25,13 +25,11 @@ import static me.txmc.core.util.GlobalUtils.*;
 @RequiredArgsConstructor
 public class TPACommand implements CommandExecutor {
     private final TPASection main;
-    private static final TextComponent acceptButton = Component.text("ACCEPT").clickEvent(ClickEvent.runCommand("/tpayes"));
-    private static final TextComponent denyButton = Component.text("DENY").clickEvent(ClickEvent.runCommand("/tpano"));
-    private static final TextReplacementConfig acceptReplace = TextReplacementConfig.builder().match("accept").replacement(acceptButton).build();
-    private static final TextReplacementConfig denyReplace = TextReplacementConfig.builder().match("deny").replacement(denyButton).build();
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player from) {
+
             if (args.length == 1) {
                 Player to = Bukkit.getPlayer(args[0]);
                 if (to == null) {
@@ -42,6 +40,11 @@ public class TPACommand implements CommandExecutor {
                     sendPrefixedLocalizedMessage(from, "tpa_self_tpa");
                     return true;
                 }
+
+                TextComponent acceptButton = Component.text("ACCEPT").clickEvent(ClickEvent.runCommand("/tpayes " + from.getName()));
+                TextComponent denyButton = Component.text("DENY").clickEvent(ClickEvent.runCommand("/tpano " + from.getName()));
+                TextReplacementConfig acceptReplace = TextReplacementConfig.builder().match("accept").replacement(acceptButton).build();
+                TextReplacementConfig denyReplace = TextReplacementConfig.builder().match("deny").replacement(denyButton).build();
 
                 Localization loc = Localization.getLocalization(to.locale().getLanguage());
                 String str = String.format(loc.get("tpa_request_received"), from.getName(), "accept", "deny");
