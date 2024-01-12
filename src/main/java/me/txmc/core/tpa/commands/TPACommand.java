@@ -49,9 +49,14 @@ public class TPACommand implements CommandExecutor {
                 Localization loc = Localization.getLocalization(to.locale().getLanguage());
                 String str = String.format(loc.get("tpa_request_received"), from.getName(), "accept", "deny");
                 TextComponent component = (TextComponent) GlobalUtils.translateChars(str).replaceText(acceptReplace).replaceText(denyReplace);
-                sendPrefixedComponent(to, component);
-                sendPrefixedLocalizedMessage(from, "tpa_request_sent", to.getName());
-                main.registerRequest(from, to);
+                if (main.hasRequested(from, to)) {
+                    sendPrefixedLocalizedMessage(from, "tpa_already_sent", to.getName());
+                    return true;
+                } else {
+                    sendPrefixedComponent(to, component);
+                    sendPrefixedLocalizedMessage(from, "tpa_request_sent", to.getName());
+                    main.registerRequest(from, to);
+                }
             } else sendPrefixedLocalizedMessage(from, "tpa_syntax");
         } else sendMessage(sender, "&cYou must be a player");
         return true;
