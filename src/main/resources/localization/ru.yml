@@ -52,7 +52,6 @@ tpa_syntax: "&cПожалуйста, укажите игрока для отпр
 tpa_player_not_online: "&cИгрок %s не в сети"
 tpa_no_request_found: "&cЗапрос на телепортацию не найден"
 tpa_self_tpa: "&cВы не можете отправить запрос на телепортацию к себе"
-tpa_request_received: "&a%s&r&3 хочет телепортироваться к вам&r &a/tpayes &3ИМЯ ПОЛЬЗОВАТЕЛЯ &c/tpano ИМЯ ПОЛЬЗОВАТЕЛЯ"
 tpa_already_sent: "&cУ вас уже есть отложенный запрос"
 tpa_request_received: "&a%s&r&3 хочет телепортироваться к вам&r &a/tpayes &3ИМЯ ПОЛЬЗОВАТЕЛЯ &c/tpano &3ИМЯ ПОЛЬЗОВАТЕЛЯ"
 tpa_request_sent: "&3Запрос отправлен игроку&r&a %s"
