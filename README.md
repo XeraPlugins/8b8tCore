@@ -17,6 +17,7 @@
 * Permission based view distance and simulation distance
 * Anti book ban
 * Coordinate Exploit Fix
+* /TPS command with permission to use it
 * ETC
 
 ## Discord
