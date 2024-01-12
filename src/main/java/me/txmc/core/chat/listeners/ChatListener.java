@@ -3,14 +3,16 @@ package me.txmc.core.chat.listeners;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.chat.ChatInfo;
 import me.txmc.core.chat.ChatSection;
+import me.txmc.core.util.GlobalUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -20,7 +22,6 @@ import java.util.logging.Level;
 import static me.txmc.core.util.GlobalUtils.log;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
-//TODO: Fix nc
 @RequiredArgsConstructor
 public class ChatListener implements Listener {
     private final ChatSection manager;
@@ -42,8 +43,8 @@ public class ChatListener implements Listener {
         ci.setChatLock(true);
         service.schedule(() -> ci.setChatLock(false), cooldown, TimeUnit.SECONDS);
         String ogMessage = event.getMessage();
-        String playerName = LegacyComponentSerializer.legacy('&').serialize(sender.displayName()) + ChatColor.RESET;
-        String message = format(ogMessage, playerName);
+        String playerName = LegacyComponentSerializer.legacyAmpersand().serialize(sender.displayName());
+        TextComponent message = format(ogMessage, playerName);
         if (blockedCheck(ogMessage)) {
             sender.sendMessage(message);
             log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message that has banned words", sender.getName());
@@ -54,12 +55,12 @@ public class ChatListener implements Listener {
             log(Level.INFO, "&3Prevented player&r&a %s&r&3 from sending a link / server ip", sender.getName());
             return;
         }
-        Bukkit.getLogger().info(message);
+        Bukkit.getLogger().info(message.content());
         for (Player recipient : Bukkit.getOnlinePlayers()) {
             ChatInfo info = manager.getInfo(recipient);
             if (info == null) continue;
             if (info.isIgnoring(sender.getUniqueId()) || info.isToggledChat()) continue;
-            recipient.sendPlainMessage(message);
+            recipient.sendMessage(message);
         }
     }
 
@@ -89,7 +90,9 @@ public class ChatListener implements Listener {
         return false;
     }
 
-    private String format(String message, String playerName) {
-        return (message.startsWith(">")) ? String.format("<%s>%s %s", playerName, ChatColor.GREEN, message) : String.format("<%s> %s", playerName, message);
+    private TextComponent format(String message, String playerName) {
+        TextComponent name = GlobalUtils.translateChars(String.format("<%s&r> ", playerName));
+        TextComponent msg = (message.startsWith(">")) ? Component.text(message).color(TextColor.color(0, 255, 0)) : Component.text(message);
+        return name.append(msg);
     }
 }
