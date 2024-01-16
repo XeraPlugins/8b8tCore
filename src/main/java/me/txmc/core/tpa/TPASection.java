@@ -9,10 +9,10 @@ import me.txmc.core.tpa.commands.TPADenyCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
@@ -25,14 +25,12 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 @RequiredArgsConstructor
 public class TPASection implements Section {
     private final Main plugin;
-    private ConcurrentHashMap<Player, Player> lastRequest;
-    private ConcurrentHashMap<Player, List<Player>> requests;
+    private static final HashMap<Player, Player> lastRequest = new HashMap<>();
+    private static final HashMap<Player, List<Player>> requests = new HashMap<>();
     private ConfigurationSection config;
 
     @Override
     public void enable() {
-        lastRequest = new ConcurrentHashMap<>();
-        requests = new ConcurrentHashMap<>();
         config = plugin.getSectionConfig(this);
         plugin.register(new LeaveListener(this));
         plugin.getCommand("tpa").setExecutor(new TPACommand(this));
@@ -55,55 +53,44 @@ public class TPASection implements Section {
         return "TPA";
     }
 
-    public void registerRequest(Player from, Player to) {
-
-        if (getLastRequest(to) != null) {
-            sendPrefixedLocalizedMessage(from, "tpa_pending_request", to.getName());
-            return;
-        }
-        lastRequest.put(to, from);
-        if (requests.getOrDefault(to, null) == null) {
-            requests.put(to, Collections.singletonList(from));
+    public void registerRequest(Player requester, Player requested) {
+        lastRequest.put(requested, requester);
+        if (requests.get(requested) == null) {
+            requests.put(requested, new ArrayList<>());
+            requests.get(requested).add(requester);
         } else {
-            requests.get(to).add(from);
+            requests.get(requested).add(requester);
         }
+
         plugin.getExecutorService().schedule(() -> {
-            sendPrefixedLocalizedMessage(to, "tpa_request_timeout");
-            sendPrefixedLocalizedMessage(from, "tpa_request_timeout");
-            lastRequest.remove(to);
+            sendPrefixedLocalizedMessage(requested, "tpa_request_timeout");
+            sendPrefixedLocalizedMessage(requester, "tpa_request_timeout");
+            lastRequest.remove(requested);
+            requests.get(requested).remove(requester);
+            if (!requests.get(requested).isEmpty()) lastRequest.put(requested, requests.get(requested).get(0));
         }, config.getInt("RequestTimeout"), TimeUnit.MINUTES);
     }
 
     public Player getLastRequest(Player requested) {
-        return lastRequest.getOrDefault(requested, null);
+        return lastRequest.get(requested);
     }
 
-    public Player getRequest(Player requester, Player requested) {
-        if (requests.getOrDefault(requested, null) == null) return null;
-        if (!requests.get(requested).contains(requester)) return null;
-        return requests.get(requested).get(requests.get(requested).indexOf(requester));
-    }
-
-    public void removeLastRequest(Player requested) {
-        lastRequest.remove(requested);
-        requests.computeIfAbsent(requested, k -> new ArrayList<>());
-
-        if (!requests.get(requested).isEmpty()) {
-            lastRequest.put(requested, getRequests(requested).get(0));
-        }
+    public boolean hasRequested(Player requester, Player requested) {
+        if (requests.get(requested) == null) return false;
+        if (!requests.get(requested).contains(requester)) return false;
+        return requests.get(requested).contains(requester);
     }
 
     public void removeRequest(Player requester, Player requested) {
-        if (requests.getOrDefault(requested, null) == null) return;
-        if (!requests.get(requested).contains(requester)) return;
-        if (!requests.get(requested).isEmpty() && requests.get(requested).indexOf(requester) == 0) {
-            removeLastRequest(requested);
-        }
-        requests.get(requested).remove(requester);
+        if (requests.get(requested).indexOf(requester) == 0) {
+            requests.get(requested).remove(0);
+            if (requests.get(requested).size() > 1) lastRequest.put(requested, requests.get(requested).get(1));
+            else lastRequest.remove(requested);
+        } else requests.get(requested).remove(requester);;
     }
 
     public List<Player> getRequests(Player to) {
         requests.computeIfAbsent(to, k -> new ArrayList<>());
-        return requests.getOrDefault(to, null);
+        return requests.get(to);
     }
 }

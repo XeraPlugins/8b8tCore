@@ -33,9 +33,9 @@ public class TPADenyCommand implements CommandExecutor {
 
                 sendPrefixedLocalizedMessage(requester, "tpa_request_denied_from", requested.getName());
                 sendPrefixedLocalizedMessage(requested, "tpa_request_denied_to", requester.getName());
-                main.removeLastRequest(requested);
+                main.removeRequest(requester, requested);
             } else if (args.length == 1) {
-                Player requester = main.getRequest(Bukkit.getPlayer(args[0]), requested);
+                Player requester = main.hasRequested(Bukkit.getPlayer(args[0]), requested) ? Bukkit.getPlayer(args[0]) : null;
                 if (requester == null) {
                     sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
                     return true;
@@ -43,7 +43,7 @@ public class TPADenyCommand implements CommandExecutor {
 
                 sendPrefixedLocalizedMessage(requester, "tpa_request_denied_from", requested.getName());
                 sendPrefixedLocalizedMessage(requested, "tpa_request_denied_to", requester.getName());
-                main.removeRequest(requested, requester);
+                main.removeRequest(requester, requested);
             } else sendPrefixedLocalizedMessage(requested, "tpa_syntax");
         } else sendMessage(sender, "&cYou must be a player");
         return true;
