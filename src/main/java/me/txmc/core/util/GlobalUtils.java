@@ -23,7 +23,7 @@ import java.util.logging.Level;
  * This file was created as a part of 8b8tCore
  */
 public class GlobalUtils {
-    @Getter private static final String PREFIX = "&7&r&b&38b8t&r&aCore&r&7&r";
+    @Getter private static final String PREFIX = "&6[&18b&98t&cCore&6]";
 
     public static void log(Level level, String format, Object... args) {
         StackTraceElement element = Thread.currentThread().getStackTrace()[2];
