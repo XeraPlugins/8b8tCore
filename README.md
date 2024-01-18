@@ -17,7 +17,8 @@
 * Anti book ban
 * Coordinate Exploit Fix
 * /TPS command with permission to use it
-* Voting feature that is comptiable with NuVotifer 
+* Voting feature that is comptiable with NuVotifer
+* Auto restart plugin
 * ETC
 
 ## Discord
