@@ -19,6 +19,7 @@
 * /TPS command with permission to use it
 * Voting feature that is comptiable with NuVotifer
 * Auto restart plugin
+* Death messages plugin
 * ETC
 
 ## Discord
