@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 public class PotionCheck implements Check {
     @Override
     public boolean check(ItemStack item) {
+        if  (!(item.getItemMeta() instanceof PotionMeta)) return false;
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         return meta.hasCustomEffects() || meta.hasColor();
     }
