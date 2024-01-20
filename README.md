@@ -5,7 +5,7 @@
 * Help command
 * Elytra speed limiter
 * Anti-illegal 
-* Tablist 
+* Tablist -note tablist is set in localization
 * Change the world your in (ops only)
 * Entity perk chunk limit control per entity type
 * Green text and private messaging like ChatCo. (with better code that isn't from 2012)
