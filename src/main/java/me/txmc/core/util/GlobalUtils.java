@@ -9,8 +9,11 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.io.File;
 import java.io.InputStream;
@@ -72,5 +75,19 @@ public class GlobalUtils {
     }
     public static void executeCommand(String command, String... args) {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format(command, args));
+    }
+    public static void removeElytra(Player player) {
+        ItemStack chestPlate = player.getInventory().getChestplate();
+        if (chestPlate == null) return;
+        if (chestPlate.getType() == Material.AIR) return;
+        if (chestPlate.getType() == Material.ELYTRA) {
+            PlayerInventory inventory = player.getInventory();
+            if (inventory.firstEmpty() == -1) {
+                player.getWorld().dropItemNaturally(player.getLocation(), chestPlate);
+            } else inventory.setItem(inventory.firstEmpty(), chestPlate);
+            ItemStack[] buffer = inventory.getArmorContents();
+            buffer[2] = null;
+            inventory.setArmorContents(buffer);
+        }
     }
 }

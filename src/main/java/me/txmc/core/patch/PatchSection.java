@@ -7,6 +7,7 @@ import me.txmc.core.Main;
 import me.txmc.core.Section;
 import me.txmc.core.patch.epc.EntityCheckTask;
 import me.txmc.core.patch.epc.EntitySpawnListener;
+import me.txmc.core.patch.listeners.FallFlyListener;
 import me.txmc.core.patch.workers.ElytraWorker;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -43,6 +44,7 @@ public class PatchSection implements Section {
         plugin.getExecutorService().scheduleAtFixedRate(new ElytraWorker(this), 0, 1, TimeUnit.SECONDS);
         plugin.getExecutorService().scheduleAtFixedRate(new EntityCheckTask(this), 0, config.getInt("EntityPerChunk.CheckInterval"), TimeUnit.MINUTES);
         plugin.register(new EntitySpawnListener(this));
+        plugin.register(new FallFlyListener(plugin));
     }
 
     @Override
