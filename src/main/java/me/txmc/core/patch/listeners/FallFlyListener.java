@@ -18,6 +18,7 @@ public class FallFlyListener extends ViolationManager implements Listener {
     public FallFlyListener(Main main) {
         super(1, main);
     }
+
     @EventHandler
     public void onGlide(EntityToggleGlideEvent event) {
         if (event.getEntity() instanceof Player player) {
@@ -28,6 +29,5 @@ public class FallFlyListener extends ViolationManager implements Listener {
                 remove(player);
             }
         }
-
     }
 }

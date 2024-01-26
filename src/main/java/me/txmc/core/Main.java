@@ -58,6 +58,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         HandlerList.unregisterAll(this);
+        violationManagers.clear();
         sections.forEach(Section::disable);
         sections.clear();
     }
