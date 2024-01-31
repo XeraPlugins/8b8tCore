@@ -23,5 +23,7 @@
 * Death messages plugin
 * ETC
 
-## Discord
+## Discussion / Support
+<a href="https://matrix.to/#/#xera:matrix.xera.ca">Join Matrix Room</a>
+<br>
 <a href="https://discord.gg/EgfXQtUz5e"> Join Discord</a>
