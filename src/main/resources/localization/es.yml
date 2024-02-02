@@ -49,6 +49,7 @@ message_auto_translated: "Este mensaje se ha traducido automáticamente.\n\nText
 welcome_message: "Bienvenido a 8b8t"
 vote_announcement: "&c%s &6votó por &18b&98t &6y recibió /nc gratis y 2 hogares adicionales"
 vote_thanks: "Gracias por votar por &18b&98t &6se te ha otorgado /nc gratis y 2 hogares adicionales"
+vote_info: "&3Puedes votar por &18b&98t en&r&a https://votefor.8b8t.me"
 tpa_player_not_online: "&cEl jugador %s no está en línea"
 tpa_no_request_found: "&cNo se encontró ninguna solicitud de TPA"
 tpa_self_tpa: "&cNo puedes TPA a ti mismo"

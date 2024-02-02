@@ -74,7 +74,7 @@ public class GlobalUtils {
             t.printStackTrace();
         }
     }
-    public static void executeCommand(String command, String... args) {
+    public static void executeCommand(String command, Object... args) {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format(command, args));
     }
     public static void removeElytra(Player player) {

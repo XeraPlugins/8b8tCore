@@ -49,6 +49,7 @@ message_auto_translated: "Il messaggio è stato tradotto automaticamente.\n\nTes
 welcome_message: "&3Benvenuto su 8b8t"
 vote_announcement: "&c%s &6ha votato per &18b&98t &6e gli è stato dato gratis /nc e 2 extra homes"
 vote_thanks: "Grazie per aver votato per &18b&98t &6, ti è stato dato gratis /nc e 2 extra homes"
+vote_info: "&3Puoi votare per &18b&98t su&r&a https://votefor.8b8t.me"
 tpa_syntax: "&cPer favore, includi un giocatore a cui mandare il tpa. /tpa <player>"
 tpa_player_not_online: "&cIl giocatore %s non è online"
 tpa_no_request_found: "&cNon sono state trovare richieste TPA"

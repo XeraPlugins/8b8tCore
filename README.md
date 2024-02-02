@@ -10,6 +10,7 @@
 * Entity perk chunk limit control per entity type
 * Green text and private messaging like ChatCo. (with better code that isn't from 2012)
 * Language locale
+* Voting feature that is compatible with NuVotifer
 
 ## To do
 * Anti lag machine
@@ -18,7 +19,6 @@
 * Anti book ban
 * Coordinate Exploit Fix
 * /TPS command with permission to use it
-* Voting feature that is comptiable with NuVotifer
 * Auto restart plugin
 * Death messages plugin
 * ETC

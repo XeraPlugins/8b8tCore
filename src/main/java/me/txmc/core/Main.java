@@ -8,6 +8,7 @@ import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
 import me.txmc.core.tablist.TabSection;
 import me.txmc.core.tpa.TPASection;
+import me.txmc.core.vote.VoteSection;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -49,7 +50,7 @@ public class Main extends JavaPlugin {
         register(new HomeManager(this));
         register(new CommandSection(this));
         register(new PatchSection(this));
-//        if (getServer().getPluginManager().getPlugin("NuVotifier") != null) register(new VoteSection(this));
+        if (getServer().getPluginManager().getPlugin("NuVotifier") != null) register(new VoteSection(this));
 
         sections.forEach(Section::enable);
     }
