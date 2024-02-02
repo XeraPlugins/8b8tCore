@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -89,5 +90,9 @@ public class GlobalUtils {
             buffer[2] = null;
             inventory.setArmorContents(buffer);
         }
+    }
+    public static String getStringContent(Component component) {
+        PlainTextComponentSerializer serializer = PlainTextComponentSerializer.plainText();
+        return serializer.serialize(component);
     }
 }

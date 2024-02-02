@@ -1,6 +1,5 @@
 package me.txmc.core;
 
-
 import lombok.Getter;
 import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.chat.ChatSection;
@@ -87,7 +86,8 @@ public class Main extends JavaPlugin {
     }
 
     public void register(ViolationManager manager) {
-        if (violationManagers.contains(manager)) throw new IllegalArgumentException("Attempted to register violation manager twice");
+//        if (violationManagers.contains(manager)) throw new IllegalArgumentException("Attempted to register violation manager twice");
+        if (violationManagers.contains(manager)) return;
         violationManagers.add(manager);
     }
 
