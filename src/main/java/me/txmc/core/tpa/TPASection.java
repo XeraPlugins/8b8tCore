@@ -58,9 +58,7 @@ public class TPASection implements Section {
         if (requests.get(requested) == null) {
             requests.put(requested, new ArrayList<>());
             requests.get(requested).add(requester);
-        } else {
-            requests.get(requested).add(requester);
-        }
+        } else requests.get(requested).add(requester);
 
         plugin.getExecutorService().schedule(() -> {
             sendPrefixedLocalizedMessage(requested, "tpa_request_timeout");
@@ -84,9 +82,10 @@ public class TPASection implements Section {
     public void removeRequest(Player requester, Player requested) {
         if (requests.get(requested).indexOf(requester) == 0) {
             requests.get(requested).remove(0);
-            if (requests.get(requested).size() > 1) lastRequest.put(requested, requests.get(requested).get(1));
-            else lastRequest.remove(requested);
-        } else requests.get(requested).remove(requester);;
+            if (requests.get(requested).size() > 1) {
+                lastRequest.put(requested, requests.get(requested).get(1));
+            } else lastRequest.remove(requested);
+        } else requests.get(requested).remove(requester);
     }
 
     public List<Player> getRequests(Player to) {
