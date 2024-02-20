@@ -8,9 +8,13 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.io.File;
 import java.io.InputStream;
@@ -23,7 +27,7 @@ import java.util.logging.Level;
  * This file was created as a part of 8b8tCore
  */
 public class GlobalUtils {
-    @Getter private static final String PREFIX = "&7&r&b&38b8t&r&aCore&r&7&r";
+    @Getter private static final String PREFIX = "&6[&18b&98t&cCore&6]";
 
     public static void log(Level level, String format, Object... args) {
         StackTraceElement element = Thread.currentThread().getStackTrace()[2];
@@ -70,7 +74,25 @@ public class GlobalUtils {
             t.printStackTrace();
         }
     }
-    public static void executeCommand(String command, String... args) {
+    public static void executeCommand(String command, Object... args) {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format(command, args));
+    }
+    public static void removeElytra(Player player) {
+        ItemStack chestPlate = player.getInventory().getChestplate();
+        if (chestPlate == null) return;
+        if (chestPlate.getType() == Material.AIR) return;
+        if (chestPlate.getType() == Material.ELYTRA) {
+            PlayerInventory inventory = player.getInventory();
+            if (inventory.firstEmpty() == -1) {
+                player.getWorld().dropItemNaturally(player.getLocation(), chestPlate);
+            } else inventory.setItem(inventory.firstEmpty(), chestPlate);
+            ItemStack[] buffer = inventory.getArmorContents();
+            buffer[2] = null;
+            inventory.setArmorContents(buffer);
+        }
+    }
+    public static String getStringContent(Component component) {
+        PlainTextComponentSerializer serializer = PlainTextComponentSerializer.plainText();
+        return serializer.serialize(component);
     }
 }

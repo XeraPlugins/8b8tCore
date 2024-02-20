@@ -37,6 +37,8 @@ public class AntiIllegalMain implements Section {
         add(new AttributeCheck());
         add(new LoreCheck());
         add(new EnchantCheck());
+        add(new PotionCheck());
+        add(new BookCheck());
     }};
     private ConfigurationSection config;
 

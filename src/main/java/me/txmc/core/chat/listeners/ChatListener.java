@@ -55,7 +55,7 @@ public class ChatListener implements Listener {
             log(Level.INFO, "&3Prevented player&r&a %s&r&3 from sending a link / server ip", sender.getName());
             return;
         }
-        Bukkit.getLogger().info(message.content());
+        Bukkit.getLogger().info(GlobalUtils.getStringContent(message));
         for (Player recipient : Bukkit.getOnlinePlayers()) {
             ChatInfo info = manager.getInfo(recipient);
             if (info == null) continue;

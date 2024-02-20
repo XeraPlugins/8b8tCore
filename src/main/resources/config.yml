@@ -83,6 +83,9 @@ ChatControl:
     - "/kill"
     - "/stats"
     - "/discord"
+    - "/tpa"
+    - "/tpayes"
+    - "/tpano"
 TPA:
   RequestTimeout: 3 # In minutes
 Home:
