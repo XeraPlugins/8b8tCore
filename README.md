@@ -25,6 +25,7 @@
 * Auto restart plugin
 * Death messages plugin
 * Add prefix option to the config
+* Basic auto message plugin with configurable interval
 * ETC
 
 ## Discussion / Support
