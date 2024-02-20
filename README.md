@@ -17,7 +17,9 @@
 * Tile entity per chunk limit
 * Permission based view distance and simulation distance
 * Anti book ban
-* Coordinate Exploit Fix
+* Per region TPS in tablist
+* Fix entity limiter
+* Fix bugs related to anti illegal and entity limiter
 * /TPS command with permission to use it
 * Auto restart plugin
 * Death messages plugin
