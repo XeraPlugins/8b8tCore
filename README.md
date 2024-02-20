@@ -13,7 +13,7 @@
 * Voting feature that is compatible with NuVotifer
 
 ## To do
-* Anti lag machine
+* Anti lag machine(based on TPS and MSTP configurable in the config)
 * Tile entity per chunk limit
 * Permission based view distance and simulation distance
 * Anti book ban
@@ -24,6 +24,7 @@
 * /TPS command with permission to use it
 * Auto restart plugin
 * Death messages plugin
+* Add prefix option to the config
 * ETC
 
 ## Discussion / Support
