@@ -39,8 +39,13 @@ public class Localization {
         return localizationMap.get("en");
     }
 
+    public String getPrefix() {
+        return config.getString("prefix", "&6[8b8tCore]");
+    }
+
     public String get(String key) {
-        return config.getString(key, String.format("Unknown key %s", key));
+        return config.getString(key, String.format("Unknown key %s", key))
+                .replace("%prefix%", getPrefix());
     }
     public List<String> getStringList(String key) {
         return config.getStringList(key);

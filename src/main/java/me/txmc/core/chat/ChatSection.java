@@ -11,6 +11,8 @@ import me.txmc.core.chat.io.ChatFileIO;
 import me.txmc.core.chat.listeners.ChatListener;
 import me.txmc.core.chat.listeners.CommandWhitelist;
 import me.txmc.core.chat.listeners.JoinLeaveListener;
+import me.txmc.core.chat.tasks.AnnouncementTask;
+import me.txmc.core.deathmessages.EntityDamageByEntity;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -48,6 +50,7 @@ public class ChatSection implements Section {
         plugin.getCommand("togglechat").setExecutor(new ToggleChatCommand(this));
         plugin.getCommand("unignore").setExecutor(new UnIgnoreCommand(this));
         if (!Bukkit.getOnlinePlayers().isEmpty()) Bukkit.getOnlinePlayers().forEach(this::registerPlayer);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, new AnnouncementTask(), 60L, plugin.getConfig().getInt("AnnouncementInterval"));
 
 
     }

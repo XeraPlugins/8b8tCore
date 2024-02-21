@@ -22,7 +22,12 @@ public class BookCheck implements Check {
     private final CharsetEncoder encoder = StandardCharsets.ISO_8859_1.newEncoder();
     @Override
     public boolean check(ItemStack item) {
-        BookMeta meta = (BookMeta) item.getItemMeta();
+        BookMeta meta;
+        try {
+            meta = (BookMeta) item.getItemMeta();
+        } catch (Exception e) {
+            return false;
+        }
         String[] pages = getPages(meta).orElse(null);
         return pages != null && encoder.canEncode(String.join(" ", pages));
     }

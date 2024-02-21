@@ -21,8 +21,8 @@ public class EntityCheckTask implements Runnable {
         for (Chunk[] chunks : Bukkit.getWorlds().stream().map(World::getLoadedChunks).toList()) {
             for (Chunk chunk : chunks) {
                 if (chunk.getEntities().length == 0) continue;
-                main.entityPerChunk().forEach((e, i) -> {
-                    Entity[] entities = Arrays.stream(chunk.getEntities()).filter(en -> en.getType() == e).toList().toArray(Entity[]::new);
+                main.maxEntityPerChunk().forEach((e, i) -> {
+                    Entity[] entities = Arrays.stream(chunk.getEntities()).filter(en -> en.getType().toString().toLowerCase().equals(e)).toList().toArray(Entity[]::new);
                     int amt = entities.length;
                     if (amt >= i) {
                         log(Level.INFO, "Removed %d entities from chunk %d,%d in world %s", amt-i, chunk.getX(), chunk.getZ(), chunk.getWorld().getName());

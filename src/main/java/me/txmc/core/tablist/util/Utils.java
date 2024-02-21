@@ -1,5 +1,6 @@
 package me.txmc.core.tablist.util;
 
+import me.txmc.core.util.ExactTPS;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -14,7 +15,7 @@ import org.bukkit.ChatColor;
 public class Utils {
 
     public static Component parsePlaceHolders(String input, Player player, long startTime) {
-        double tps = Bukkit.getTPS()[0]; //Stopgap until folia adds an api for getting region TPS
+        double tps = ExactTPS.getTPS(); //Stopgap until folia adds an api for getting region TPS
         String strTps = (tps >= 20) ? String.format("%s*20.0", ChatColor.GREEN) : String.format("%s%.2f", Utils.getTPSColor(tps), tps);
         String uptime = Utils.getFormattedInterval(System.currentTimeMillis() - startTime);
         String online = String.valueOf(Bukkit.getOnlinePlayers().size());
