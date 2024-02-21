@@ -20,7 +20,6 @@
 * Per region TPS in tablist
 * Fix entity limiter
 * Fix bugs related to anti illegal
-* Actually get the voting part of the plugin working by adding votifier thats compatible with https://minecraftservers.org
 * /TPS command with permission to use it
 * Auto restart plugin
 * Death messages plugin
