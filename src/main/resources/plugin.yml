@@ -1,12 +1,12 @@
 name: 8b8tCore
 main: me.txmc.core.Main
-version: 1.0.6
+version: 1.1.0
 author: 254n_m
 description: All the bullshit for 8b8t
 api-version: 1.20
 folia-supported: true
 softdepend:
-  - NuVotifier
+  - VotifierPlus
 commands:
   msg:
     aliases: [message, whisper, tell, w, t]

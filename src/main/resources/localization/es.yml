@@ -74,6 +74,8 @@ HelpMessage:
   - '&1--------------------------------------'
   - '&6Visita &chttps://www.8b8t.me &6para leer las reglas'
   - '&c/tpa &6para teletransportarte a otro jugador'
+  - '&c/tpayes &6para aceptar una solicitud de teletransporte'
+  - '&c/tpano &6todeny una solicitud de teletransporte'
   - '&c/sethome &6para establecer un hogar en tu ubicación'
   - '&c/delhome &6para eliminar un hogar que has establecido'
   - '&c/home &6para teletransportarte a un hogar que has establecido'
