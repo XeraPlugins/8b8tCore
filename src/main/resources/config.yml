@@ -13,6 +13,7 @@ AntiIllegal:
     - 'DIRT_PATH'
     - 'FARMLAND'
     - 'REINFORCED_DEEPSLATE'
+AnnouncementInterval: 90 # In seconds
 ChatControl:
   PreventLinks: true #Uses a list of all TLDs
   #How long before a player can chat again (In seconds)
@@ -102,6 +103,9 @@ ChatControl:
     - '/dupe'
 TPA:
   RequestTimeout: 3 # In minutes
+TPS:
+  Permissions:
+    - 'leee.tps'
 Home:
   #The closest the player can be to 0,0
   Radius: 500
@@ -115,11 +119,75 @@ Vote:
 Patch:
   ElytraMaxSpeed: 56.9 #Max speed in blocks/second. Default value is the max speed reachable with firework rockets
   EntityPerChunk:
-    CheckInterval: 1 #In minutes
+    CheckInterval: 1 #For normal entities (in minutes) (entity::min::max)
+    TotalEntitiesPerChunk: 100
+    TotalTileEntitiesPerChunk: 100
+    DefaultEntitiesPerChunk: 50
     EntitiesPerChunk:
-      - 'wither::20'
-      - 'armor_stand::15'
-      - 'boat::10'
+      - 'wither::20::30'
+      - 'armor_stand::15::25'
+      - 'boat::10::20'
+    DefaultTileEntitiesPerChunk: 50
+    TileEntitiesPerChunk:
+      - 'hopper::10::20'
+      - 'dispenser::10::20'
+      - 'dropper::10::20'
+      - 'furnace::10::20'
+      - 'brewing_stand::10::20'
+      - 'beacon::10::20'
+      - 'enchanting_table::10::20'
+      - 'anvil::10::20'
+      - 'ender_chest::10::20'
+      - 'chest::10::20'
+      - 'shulker_box::10::20'
+      - 'barrel::10::20'
+      - 'lectern::10::20'
+      - 'loom::10::20'
+      - 'cartography_table::10::20'
+      - 'grindstone::10::20'
+      - 'stonecutter::10::20'
+      - 'smoker::10::20'
+      - 'blast_furnace::10::20'
+      - 'campfire::10::20'
+      - 'composter::10::20'
+      - 'bell::10::20'
+      - 'jigsaw::10::20'
+      - 'lantern::10::20'
+      - 'scaffolding::10::20'
+      - 'stonecutter::10::20'
+      - 'cartography_table::10::20'
+      - 'fletching_table::10::20'
+      - 'smithing_table::10::20'
+      - 'loom::10::20'
+      - 'lectern::10::20'
+      - 'grindstone::10::20'
+      - 'smoker::10::20'
+      - 'blast_furnace::10::20'
+      - 'campfire::10::20'
+      - 'composter::10::20'
+      - 'bell::10::20'
+      - 'jigsaw::10::20'
+      - 'lantern::10::20'
+      - 'scaffolding::10::20'
+      - 'stonecutter::10::20'
+      - 'cartography_table::10::20'
+      - 'fletching_table::10::20'
+      - 'smithing_table::10::20'
+      - 'loom::10::20'
+      - 'lectern::10::20'
+      - 'grindstone::10::20'
+      - 'smoker::10::20'
+      - 'blast_furnace::10::20'
+      - 'campfire::10::20'
+      - 'composter::10::20'
+      - 'bell::10::20'
+      - 'jigsaw::10::20'
+      - 'lantern::10::20'
+      - 'scaffolding::10::20'
+      - 'stonecutter::10::20'
+      - 'cartography_table::10::20'
+      - 'fletching_table::10::20'
+MaxRedstoneUpdatesPerTick: 100 #-1 to disable
 Commands:
   # to send to the player for /discord
   Discord: '&3Join us on discord at&r&a https://discord.8b8t.me'

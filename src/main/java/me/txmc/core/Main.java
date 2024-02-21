@@ -8,7 +8,9 @@ import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
 import me.txmc.core.tablist.TabSection;
 import me.txmc.core.tpa.TPASection;
+import me.txmc.core.util.ExactTPS;
 import me.txmc.core.vote.VoteSection;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -37,7 +39,9 @@ public class Main extends JavaPlugin {
         instance = this;
         executorService = Executors.newScheduledThreadPool(4);
         startTime = System.currentTimeMillis();
+        getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+        saveConfig();
         getLogger().addHandler(new LoggerHandler());
         Localization.loadLocalizations(getDataFolder());
 
@@ -53,6 +57,7 @@ public class Main extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("NuVotifier") != null) register(new VoteSection(this));
 
         sections.forEach(Section::enable);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new ExactTPS(), 100L, 1L);
     }
 
     @Override

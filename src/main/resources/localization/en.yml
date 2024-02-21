@@ -1,3 +1,5 @@
+prefix: "&7[&68b8t&7]&r"
+
 #Basic messages
 ignore_successful: "&3Successfully ignored player&r&a %s&r"
 already_ignoring: "&cYou are already ignoring that player"
@@ -63,6 +65,11 @@ tpa_request_denied_from: "&a%s&r&c has denied your request"
 tpa_request_denied_to: "&3Request denied successfully"
 tpa_pending_request: "&a%s&r &chas a pending request"
 tpa_to_left: "&cTPA cancelled because&r&a %s&r&c left"
+announcements:
+  - "&6Visit &chttps://www.8b8t.me &6to read the rules"
+  - "&c/tpa &6to teleport to another player"
+  - "&c/sethome &6to set a home at your location"
+  - "&c/delhome &6to delete a home you set"
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
@@ -112,3 +119,723 @@ TabList:
     - '&7Website: https://www.8b8t.me'
     - '&7These are the only official 8b8t websites and contacts'
     - ''
+
+# Death messages
+Basic-Mode:
+  Solo:
+    Projectile-Arrow:
+      - "%player% was shot by a %killer% using %weapon%"
+    Explosion:
+      - "%player% was blown up by a %killer%"
+    Magic:
+      - "%player% was killed by a %killer% using magic"
+    Weapon:
+      - "%player% was slain by a %killer% using %weapon%"
+    Melee:
+      - "%player% was slain by a %killer%"
+
+Natural-Cause:
+  Bed:
+    - "%player% tried sleeping in the %world_environment% :kappa:"
+  Respawn-Anchor:
+    - "%player% tried using the respawn anchor in the %world_environment%!"
+  Contact:
+    - "%player% was pricked to death"
+  Melee:
+    - "%player% killed themselves"
+  Projectile-Unknown:
+    - "%player% shot themselves"
+  Projectile-Arrow:
+    - "%player% shot themselves with %weapon%"
+  Projectile-Egg:
+    - "%player% egged themselves"
+  Projectile-EnderPearl:
+    - "%player% shot themselves"
+  Projectile-Fireball:
+    - "%player% fireballed themselves"
+  Projectile-FishHook:
+    - "%player% got a fishhook caught in their head"
+  Projectile-Snowball:
+    - "%player% shot themselves with snowball"
+  Projectile-Trident:
+    - "%player% shot themselves with trident"
+  Suffocation:
+    - "%player% was squished to death"
+    - "PERMISSION[deathmessages.premium]%player% was mashed up pretty good."
+  Fall:
+    - "%player% fell from a high place"
+  Climbable:
+    - "%player% tried climbing to greater heights and fell off %climbable%"
+  Fire:
+    - "%player% thought standing in fire was a good idea"
+  Fire-Tick:
+    - "%player% was burnt to a crisp"
+  Melting:
+    - "%player% melted away"
+  Lava:
+    - "%player% thought lava was a hot tub"
+  Drowning:
+    - "%player% thought they could swim forever"
+  Explosion:
+    - "%player% blew up"
+  TNT:
+    - "%player% was playing with tnt"
+  Firework:
+    - "%player% thought playing with fireworks was a good idea"
+  End-Crystal:
+    - "%player% blew up! They were playing around with an end-crystal!"
+  Void:
+    - "%player% fell into the void"
+  Lightning:
+    - "%player% was struck by /lighting"
+  Suicide:
+    - "%player% killed themselves"
+  Starvation:
+    - "%player% ran out of food, and died"
+  Poison:
+    - "%player% was playing with poison"
+  Magic:
+    - "%player% was playing with magic"
+  Wither:
+    - "%player% withered away"
+  Falling-Block:
+    - "%player% was squished by a %block%"
+  Dragon-Breath:
+    - "%player% died to a lingering dragons breath"
+  Custom:
+    - "%player% died in a unique way"
+  Fly-Into-Wall:
+    - "%player% flew into a wall"
+  Hot-Floor:
+    - "%player% was playing on a magma block too long"
+  Cramming:
+    - "%player% was killed in a heavily populated space"
+  Dryout:
+    - "%player% belonged in the water. Not land"
+  Freeze:
+    - "%player% did not put their snow suit on before they went to play."
+  Unknown:
+    - "%player% died"
+Mobs:
+  elderguardian:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  witherskeleton:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  stray:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  husk:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  zombievillager:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  skeletonhorse:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  zombiehorse:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  armorstand:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  donkey:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  mule:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  evoker:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Magic:
+        - "%player% was killed by a %killer% using da magic"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  vex:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  vindicator:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  illusioner:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  creeper:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Explosion:
+        - "%player% was blown up by a %killer%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  skeleton:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  spider:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  giant:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  zombie:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  slime:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  ghast:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  pigzombie:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  enderman:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  cavespider:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  silverfish:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  blaze:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  magmacube:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  enderdragon:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  wither:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Explosion:
+        - "%player% stood too close to a %killer% while it was spawning"
+      Projectile-Fireball:
+        - "%player% died to a wither skull"
+      Melee:
+        - "%player% was slain by a %killer%"
+  bat:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  witch:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  endermite:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  guardian:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  shulker:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  pig:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  sheep:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  cow:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  chicken:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  squid:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  wolf:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  mushroomcow:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  snowman:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  ocelot:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  irongolem:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  horse:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  rabbit:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  polarbear:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  llama:
+    Solo:
+      Projectile-LlamaSpit:
+        - "%player% was spat on by a %killer%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  parrot:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  villager:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  turtle:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  phantom:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  cod:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  salmon:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  pufferfish:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  tropicalfish:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  drowned:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  dolphin:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  cat:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  panda:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  pillager:
+    Solo:
+      Contact:
+        - "%player% was pushed into a cactus by %killer%"
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  ravager:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  traderllama:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  wanderingtrader:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  fox:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  bee:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was stung by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was stung by a %killer%"
+  hoglin:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  piglin:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  strider:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  zoglin:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  piglinbrute:
+    Solo:
+      Projectile-Arrow:
+        - "%player% was shot by a %killer% somehow using %weapon%"
+      Weapon:
+        - "%player% was slain by a %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by a %killer%"
+  player:
+    Solo:
+      Bed:
+        - "%player% stood too close to %killer%'s bed in the %world_environment%"
+      Respawn-Anchor:
+        - "%player% stood too close to %killer%'s respawn anchor in the %world_environment%"
+      Contact:
+        - "%player% was pushed into a cactus by %killer%"
+      Projectile-Unknown:
+        - "%player% was shot by %killer%"
+      Projectile-Arrow:
+        - "%player% was shot by %killer% somehow using %weapon%"
+      Projectile-Fireball:
+        - "%player% was fireballed by %killer%"
+      Projectile-Snowball:
+        - "%player% was hit in the head with a snowball thrown by %killer%"
+      Weapon:
+        - "%player% was slain by %killer% somehow using %weapon%"
+      Melee:
+        - "%player% was slain by %killer%"
+      Suffocation:
+        - "%player% suffocated in a wall while fighting %killer_display%"
+      Fall:
+        - "%player% was pushed off a high place by %killer%"
+      Lava:
+        - "%player% was pushed into lava by %killer%"
+      Explosion:
+        - "%killer% blew up %player%"
+      TNT:
+        - "%killer% blew up %player% with tnt"
+      Firework:
+        - "%player% stood too close to %killer%'s fireworks"
+      End-Crystal:
+        - "%killer% killed %player% by blowing up an end-crystal!"
+      Void:
+        - "%player% was pushed into the void by %killer%"
+      Wither:
+        - "%player% withered away from %killer%'s magic"
+      Thorns:
+        - "%player% tried playing with %killer%'s armor with thorns"
+  goat:
+    Solo:
+      Melee:
+        - "%player% was knocked by a %killer%"

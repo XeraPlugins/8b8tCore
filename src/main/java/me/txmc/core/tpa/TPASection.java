@@ -61,6 +61,7 @@ public class TPASection implements Section {
         } else requests.get(requested).add(requester);
 
         plugin.getExecutorService().schedule(() -> {
+            if (!requests.get(requested).contains(requester)) return;
             sendPrefixedLocalizedMessage(requested, "tpa_request_timeout");
             sendPrefixedLocalizedMessage(requester, "tpa_request_timeout");
             lastRequest.remove(requested);
