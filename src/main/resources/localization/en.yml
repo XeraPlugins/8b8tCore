@@ -68,6 +68,8 @@ HelpMessage:
   - '&1--------------------------------------'
   - '&6Visit &chttps://www.8b8t.me &6to read the rules'
   - '&c/tpa &6to teleport to another player'
+  - '&c/tpayes &6to accept a teleport request'
+  - '&c/tpano &6todeny a teleport request'
   - '&c/sethome &6to set a home at your location'
   - '&c/delhome &6to delete a home you set'
   - '&c/home &6to teleport to a home you set'

@@ -63,29 +63,43 @@ ChatControl:
     - '9b9t'
     - 'discord'
   CommandWhitelist:
-    - "/ignore"
-    - "/unignore"
-    - "/togglechat"
-    - "/toggledeathmsg"
-    - "/msg"
-    - "/message"
-    - "/whisper"
-    - "/tell"
-    - "/w"
-    - "/reply"
-    - "/r"
-    - "/home"
-    - "/sethome"
-    - "/delhome"
-    - "/help"
-    - "/plugins"
-    - "/pl"
-    - "/kill"
-    - "/stats"
-    - "/discord"
-    - "/tpa"
-    - "/tpayes"
-    - "/tpano"
+    - '/ic'
+    - '/nc'
+    - '/ignore'
+    - '/unignore'
+    - '/togglechat'
+    - '/toggledeathmsg'
+    - '/msg'
+    - '/message'
+    - '/whisper'
+    - '/tell'
+    - '/w'
+    - '/reply'
+    - '/r'
+    - '/home'
+    - '/sethome'
+    - '/delhome'
+    - '/help'
+    - '/nick'
+    - '/plugins'
+    - '/pl'
+    - '/kill'
+    - '/stats'
+    - '/discord'
+    - '/tpa'
+    - '/tpayes'
+    - '/tpano'
+    - '/help'
+    - '/worldstats'
+    - '/stats'
+    - '/discord'
+    - '/joindate'
+    - '/jd'
+    - '/seen'
+    - '/echest'
+    - '/voicechat'
+    - '/vote'
+    - '/dupe'
 TPA:
   RequestTimeout: 3 # In minutes
 Home:
@@ -97,7 +111,7 @@ Vote:
   MaxHomesByVoting: 10
   AddHomePermission: '8b8tcore.home.max.%d'
   Permissions: #List of permissions to give the player
-    - 'leee.nc'
+    - 'Leee.nc'
 Patch:
   ElytraMaxSpeed: 56.9 #Max speed in blocks/second. Default value is the max speed reachable with firework rockets
   EntityPerChunk:
