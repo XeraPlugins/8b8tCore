@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 public class EntityDeath implements Listener {
 
+    /*
     @EventHandler
     synchronized void onEntityDeath(EntityDeathEvent e) {
         if (e.getEntity() instanceof Player p && Bukkit.getOnlinePlayers().contains((Player) e.getEntity())) {
@@ -60,4 +61,5 @@ public class EntityDeath implements Listener {
             }
         }
     }
+     */
 }
