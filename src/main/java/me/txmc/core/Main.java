@@ -54,7 +54,7 @@ public class Main extends JavaPlugin {
         register(new HomeManager(this));
         register(new CommandSection(this));
         register(new PatchSection(this));
-        if (getServer().getPluginManager().getPlugin("NuVotifier") != null) register(new VoteSection(this));
+        if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
 
         sections.forEach(Section::enable);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new ExactTPS(), 100L, 1L);

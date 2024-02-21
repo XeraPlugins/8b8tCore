@@ -1,4 +1,4 @@
-prefix: "&7[&68b8t&7]&r"
+prefix: "&6[&18b&98t&6]&6"
 
 
 ignore_successful: "&3Игрок &r&a %s&r &3добавлен в игнорирование&r"
@@ -66,10 +66,7 @@ tpa_request_denied_to: "&3Запрос успешно отклонен"
 tpa_pending_request: "&a%s&r &cимеет ожидающий запрос"
 tpa_to_left: "&c/tpa отменен, так как&r&a %s&r&c покинул игру"
 announcements:
-  - "&6Visit &chttps://www.8b8t.me &6to read the rules"
-  - "&c/tpa &6to teleport to another player"
-  - "&c/sethome &6to set a home at your location"
-  - "&c/delhome &6to delete a home you set"
+  - "&6Посетите &chttps://votefor.8b8t.me &6и проголосуйте, чтобы получить бесплатный /nc и 5 дополнительных домов."
 HelpMessage:
   - '&1--------------------------------------'
   - '&6Посетите &chttps://www.8b8t.me &6чтобы прочитать правила'

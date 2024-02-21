@@ -1,4 +1,4 @@
-prefix: "&7[&68b8t&7]&r"
+prefix: "&6[&18b&98t&6]&6"
 
 # 基本信息
 ignore_successful: "&3成功屏蔽玩家&r&a %s&r"
@@ -66,10 +66,7 @@ tpa_request_denied_to: "&3请求已成功拒绝"
 tpa_pending_request: "&a%s&r &c有一个待处理的请求"
 tpa_to_left: "&cTPA已取消，因为&r&a %s&r&c离开了"
 announcements:
-  - "&6Visit &chttps://www.8b8t.me &6to read the rules"
-  - "&c/tpa &6to teleport to another player"
-  - "&c/sethome &6to set a home at your location"
-  - "&c/delhome &6to delete a home you set"
+  - "&6访问 &chttps://votefor.8b8t.me &6并投票即可获得免费 /nc 和 5 个额外住宅"
 # 复杂信息
 HelpMessage:
   - '&1--------------------------------------'

@@ -1,4 +1,4 @@
-prefix: "&7[&68b8t&7]&r"
+prefix: "&6[&18b&98t&6]&6"
 
 #Messaggi di base
 ignore_successful: "&3Il giocatore&r&a %s&r&3 è stato ignorato correttamente"
@@ -66,10 +66,7 @@ tpa_request_denied_to: "&3Richiesta rifiutata correttamente"
 tpa_pending_request: "&a%s&r &cha una richiesta in sospeso"
 tpa_to_left: "&cTPA cancellato perchè&r&a %s&r&c ha leftato"
 announcements:
-  - "&6Visit &chttps://www.8b8t.me &6to read the rules"
-  - "&c/tpa &6to teleport to another player"
-  - "&c/sethome &6to set a home at your location"
-  - "&c/delhome &6to delete a home you set"
+  - "&6Visita &chttps://votefor.8b8t.me &6e vota per ricevere /nc gratuito e 5 case extra"
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
