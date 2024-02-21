@@ -24,11 +24,6 @@ public class PlayerManager {
 
     private final String name;
 
-    @Setter
-    private boolean messagesEnabled;
-
-    private boolean isBlacklisted;
-
     private EntityDamageEvent.DamageCause damageCause;
 
     @Getter
@@ -75,18 +70,6 @@ public class PlayerManager {
 
     public String getName() {
         return Objects.<String>requireNonNull(this.name);
-    }
-
-    public boolean getMessagesEnabled() {
-        return this.messagesEnabled;
-    }
-
-    public boolean isBlacklisted() {
-        return this.isBlacklisted;
-    }
-
-    public void setBlacklisted(boolean b) {
-        this.isBlacklisted = b;
     }
 
     public void setLastDamageCause(EntityDamageEvent.DamageCause dc) {

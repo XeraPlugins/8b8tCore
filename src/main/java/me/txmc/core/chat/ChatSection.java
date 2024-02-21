@@ -12,7 +12,6 @@ import me.txmc.core.chat.listeners.ChatListener;
 import me.txmc.core.chat.listeners.CommandWhitelist;
 import me.txmc.core.chat.listeners.JoinLeaveListener;
 import me.txmc.core.chat.tasks.AnnouncementTask;
-import me.txmc.core.deathmessages.EntityDamageByEntity;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;

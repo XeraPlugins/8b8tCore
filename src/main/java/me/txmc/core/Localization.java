@@ -48,6 +48,8 @@ public class Localization {
                 .replace("%prefix%", getPrefix());
     }
     public List<String> getStringList(String key) {
-        return config.getStringList(key);
+        return config.getStringList(key).stream()
+                .map(s -> s.replace("%prefix%", getPrefix()))
+                .toList();
     }
 }
