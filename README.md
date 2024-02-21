@@ -10,17 +10,21 @@
 * Entity perk chunk limit control per entity type
 * Green text and private messaging like ChatCo. (with better code that isn't from 2012)
 * Language locale
-* Voting feature that is compatible with NuVotifer
+* Voting feature that is compatible with VotiferPlus https://www.spigotmc.org/resources/votifierplus.74040/
 
 ## To do
-* Anti lag machine
+* Anti lag machine(based on TPS and MSTP configurable in the config)
 * Tile entity per chunk limit
 * Permission based view distance and simulation distance
 * Anti book ban
-* Coordinate Exploit Fix
+* Per region TPS in tablist
+* Fix entity limiter
+* Fix bugs related to anti illegal
 * /TPS command with permission to use it
 * Auto restart plugin
 * Death messages plugin
+* Add prefix option to the config
+* Basic auto message plugin with configurable interval
 * ETC
 
 ## Discussion / Support
