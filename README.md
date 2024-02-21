@@ -10,7 +10,7 @@
 * Entity perk chunk limit control per entity type
 * Green text and private messaging like ChatCo. (with better code that isn't from 2012)
 * Language locale
-* Voting feature that is compatible with NuVotifer
+* Voting feature that is compatible with VotiferPlus https://www.spigotmc.org/resources/votifierplus.74040/
 
 ## To do
 * Anti lag machine(based on TPS and MSTP configurable in the config)
