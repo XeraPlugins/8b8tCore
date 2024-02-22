@@ -20,6 +20,7 @@ import org.bukkit.event.vehicle.VehicleCreateEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static me.txmc.core.patch.PatchSection.*;
 
@@ -30,6 +31,7 @@ public class TileEntityListener implements Listener {
     private static int tilelimit = -1;
     private static long checkInterval = 0;
     private static final FileConfiguration config = Main.getInstance().getConfig();
+    private static final Main plugin = Main.getInstance();
 
     public TileEntityListener() {
         moblimit = config.getInt("Patch.EntityPerChunk.TotalEntitiesPerChunk");
@@ -41,7 +43,7 @@ public class TileEntityListener implements Listener {
     static int i = 0;
 
     private static void runTask() {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
+        plugin.getExecutorService().scheduleAtFixedRate(() -> {
             i++;
 
             if (i % checkInterval == 0) {
@@ -67,7 +69,7 @@ public class TileEntityListener implements Listener {
 
             tilecache.tick();
             entcache.tick();
-        }, 1L, 1L);
+        }, 50L, 50L, TimeUnit.MILLISECONDS);
     }
 
     private static int getMobCount(Chunk chk, EntityType type) {

@@ -17,7 +17,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Cancellable;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -31,24 +31,27 @@ import java.util.logging.Level;
 @Accessors(fluent = true)
 public class AntiIllegalMain implements Section {
     private final Main plugin;
-    private final List<Check> checks = new ArrayList<>() {{
-        add(new OverStackCheck());
-        add(new DurabilityCheck());
-        add(new AttributeCheck());
-        add(new LoreCheck());
-        add(new EnchantCheck());
-        add(new PotionCheck());
-        add(new BookCheck());
-    }};
+    private final List<Check> checks = Arrays.asList(
+            new OverStackCheck(),
+            new DurabilityCheck(),
+            new AttributeCheck(),
+            new LoreCheck(),
+            new EnchantCheck(),
+            new PotionCheck(),
+            new BookCheck()
+    );
+
     private ConfigurationSection config;
 
     @Override
     public void enable() {
+        GlobalUtils.info("Enabling AntiIllegal");
         config = plugin.getSectionConfig(this);
-        checks.add(new IllegalItemCheck(config));
+        checks.add(new IllegalItemCheck());
         checks.add(new NameCheck(config));
 
         plugin.register(new PlayerListeners(this), new MiscListeners(this), new InventoryListeners(this), new AttackListener());
+        GlobalUtils.info("AntiIllegal has been enabled!");
     }
 
     @Override

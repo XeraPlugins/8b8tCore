@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static me.txmc.core.util.GlobalUtils.info;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 /**
@@ -31,11 +32,13 @@ public class TPASection implements Section {
 
     @Override
     public void enable() {
+        info("Enabling TPASection");
         config = plugin.getSectionConfig(this);
         plugin.register(new LeaveListener(this));
         plugin.getCommand("tpa").setExecutor(new TPACommand(this));
         plugin.getCommand("tpayes").setExecutor(new TPAAcceptCommand(this));
         plugin.getCommand("tpano").setExecutor(new TPADenyCommand(this));
+        info("TPASection has been enabled!");
     }
 
     @Override

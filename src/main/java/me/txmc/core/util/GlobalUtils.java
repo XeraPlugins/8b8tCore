@@ -29,6 +29,11 @@ import java.util.logging.Level;
 public class GlobalUtils {
     @Getter private static final String PREFIX = "&6[&18b&98t&cCore&6]";
 
+
+    public static void info(String format) {
+        log(Level.INFO, format);
+    }
+
     public static void log(Level level, String format, Object... args) {
         StackTraceElement element = Thread.currentThread().getStackTrace()[2];
         String message = String.format(format, args);

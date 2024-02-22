@@ -11,6 +11,7 @@ import me.txmc.core.home.commands.HomeCommand;
 import me.txmc.core.home.commands.SetHomeCommand;
 import me.txmc.core.home.io.HomeJsonStorage;
 import me.txmc.core.home.listeners.JoinListener;
+import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -35,6 +36,7 @@ public class HomeManager implements Section {
 
     @Override
     public void enable() {
+        GlobalUtils.info("Enabling HomeManager");
         File homesFolder = new File(plugin.getSectionDataFolder(this), "PlayerHomes");
         if (!homesFolder.exists()) homesFolder.mkdir();
         storage = new HomeJsonStorage(homesFolder);
@@ -44,6 +46,7 @@ public class HomeManager implements Section {
         plugin.getCommand("home").setExecutor(new HomeCommand(this));
         plugin.getCommand("sethome").setExecutor(new SetHomeCommand(this));
         plugin.getCommand("delhome").setExecutor(new DelHomeCommand(this));
+        GlobalUtils.info("HomeManager has been enabled!");
     }
 
     @Override

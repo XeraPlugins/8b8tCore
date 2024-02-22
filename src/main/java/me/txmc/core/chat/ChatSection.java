@@ -21,7 +21,10 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+
+import static me.txmc.core.util.GlobalUtils.info;
 
 @RequiredArgsConstructor
 public class ChatSection implements Section {
@@ -32,6 +35,7 @@ public class ChatSection implements Section {
 
     @Override
     public void enable() {
+        info("Enabling ChatSection");
         File dataFolder = plugin.getSectionDataFolder(this);
         if (!dataFolder.exists()) dataFolder.mkdir();
         File tldFile = new File(dataFolder, "tlds.txt");
@@ -49,9 +53,8 @@ public class ChatSection implements Section {
         plugin.getCommand("togglechat").setExecutor(new ToggleChatCommand(this));
         plugin.getCommand("unignore").setExecutor(new UnIgnoreCommand(this));
         if (!Bukkit.getOnlinePlayers().isEmpty()) Bukkit.getOnlinePlayers().forEach(this::registerPlayer);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, new AnnouncementTask(), 60L, plugin.getConfig().getInt("AnnouncementInterval")* 20L);
-
-
+        plugin.getExecutorService().scheduleAtFixedRate(new AnnouncementTask(), 3, config.getInt("AnnouncementInterval"), TimeUnit.SECONDS);
+        info("ChatSection has been enabled!");
     }
 
     private HashSet<String> parseTLDS(File tldFile) {
