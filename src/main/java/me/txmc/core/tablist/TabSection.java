@@ -46,7 +46,6 @@ public class TabSection implements Section {
     public String getName() {
         return "TabList";
     }
-
     public void setTab(Player player) {
         Localization loc = Localization.getLocalization(player.locale().getLanguage());
         player.sendPlayerListHeader(Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, plugin.getStartTime()));

@@ -66,7 +66,7 @@ tpa_request_denied_to: "&3تم رفض الطلب بنجاح"
 tpa_pending_request: "&a%s&r &cلديه طلب معلق"
 tpa_to_left: "&cتم إلغاء TPA لأن&r&a %s&r&cغادر"
 announcements:
-  - "قم بزيارة chttps://votefor.8b8t.me &6وصوت لتحصل على /nc مجانًا و5 منازل إضافية6&"
+  - "قم بزيارة chttps://votefor.8b8t.me &6وصوت لتحصل على nc/ مجانًا و5 منازل إضافية6&"
 # الرسائل المعقدة
 HelpMessage:
   - '&1--------------------------------------'

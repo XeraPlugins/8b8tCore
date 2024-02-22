@@ -1,5 +1,6 @@
 prefix: "&6[&18b&98t&6]&6"
 
+
 # Mensagens básicas
 ignore_successful: "&3Jogador ignorado com sucesso&r&a %s&r"
 already_ignoring: "&cVocê já está ignorando esse jogador"
@@ -66,7 +67,8 @@ tpa_request_denied_to: "&3Pedido negado com sucesso"
 tpa_pending_request: "&a%s&r &ctem um pedido pendente"
 tpa_to_left: "&cPedido de TPA cancelado porque&r&a %s&r&c saiu"
 announcements:
-  - "&6Visite &chttps://votefor.8b8t.me &6e vote para receber /nc grátis e 5 casas extras"
+  - '&6Visite &chttps://votefor.8b8t.me &6e vote para receber /nc grátis e 5 casas extras'
+  - '&6Donate to help support 8b8t at https://donate.8b8t.me'
 # Mensagens complexas
 HelpMessage:
   - '&1--------------------------------------'
