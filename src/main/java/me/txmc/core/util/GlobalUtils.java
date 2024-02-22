@@ -40,7 +40,7 @@ public class GlobalUtils {
     public static void log(Level level, String format, Object... args) {
         StackTraceElement element = Thread.currentThread().getStackTrace()[2];
         String message = String.format(format, args);
-        message = translateChars(message).content();
+        message = getStringContent(translateChars(message));
         Main.getInstance().getLogger().log(level, String.format("%s%c%s", message, Character.MIN_VALUE, element.getClassName()));
     }
 

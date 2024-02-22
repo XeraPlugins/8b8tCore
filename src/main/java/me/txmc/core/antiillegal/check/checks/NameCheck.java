@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
