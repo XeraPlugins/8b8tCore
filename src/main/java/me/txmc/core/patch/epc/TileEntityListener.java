@@ -47,23 +47,27 @@ public class TileEntityListener implements Listener {
             i++;
 
             if (i % checkInterval == 0) {
-                for (World w : Bukkit.getWorlds()) {
-                    for (Chunk chk : w.getLoadedChunks()) {
-                        Map<EntityType, Integer> counts = new HashMap<>();
-                        for (Entity ent : chk.getEntities()) {
-                            EntityType type = ent.getType();
+                try {
+                    for (World w : Bukkit.getWorlds()) {
+                        for (Chunk chk : w.getLoadedChunks()) {
+                            Map<EntityType, Integer> counts = new HashMap<>();
+                            for (Entity ent : chk.getEntities()) {
+                                EntityType type = ent.getType();
 
-                            int count = counts.getOrDefault(ent.getType(), 0);
-                            int allowed = getMobMaxHard(type);
+                                int count = counts.getOrDefault(ent.getType(), 0);
+                                int allowed = getMobMaxHard(type);
 
-                            if (count < allowed) {
-                                counts.put(type, count + 1);
-                                continue;
+                                if (count < allowed) {
+                                    counts.put(type, count + 1);
+                                    continue;
+                                }
+
+                                ent.remove();
                             }
-
-                            ent.remove();
                         }
                     }
+                } catch (Exception ignored) {
+
                 }
             }
 

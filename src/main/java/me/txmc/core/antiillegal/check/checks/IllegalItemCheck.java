@@ -15,11 +15,12 @@ import java.util.logging.Level;
  * This file was created as a part of 8b8tAntiIllegal
  */
 public class IllegalItemCheck implements Check {
-    private final List<Material> illegals;
+    private static List<Material> illegals;
 
     public IllegalItemCheck() {
         illegals = parseConfig();
     }
+
     @Override
     public boolean check(ItemStack item) {
         return illegals.contains(item.getType()); // O(1) thanks HashSet
@@ -45,12 +46,12 @@ public class IllegalItemCheck implements Check {
                 if (raw.contains("*")) {
                     raw = raw.replace("*", "");
                     for (String materialName : materialNames) {
-                        if (materialName.contains(raw)) output.add(Material.getMaterial(materialName, false));
+                        if (materialName.contains(raw)) output.add(Material.getMaterial(materialName));
                     }
                     continue;
                 }
-                Material material = Material.getMaterial(raw, false);
-                if (material == null) throw  new EnumConstantNotPresentException(Material.class, raw);
+                Material material = Material.getMaterial(raw);
+                if (material == null) throw new EnumConstantNotPresentException(Material.class, raw);
                 output.add(material);
             } catch (EnumConstantNotPresentException | IllegalArgumentException e) {
                 GlobalUtils.log(Level.WARNING, "&3Unknown material&r&a %s&r&3 in blocks section of the config", raw);

@@ -10,11 +10,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class AnnouncementTask implements Runnable {
-    private final Random random;
-
-    public AnnouncementTask() {
-        this.random = new Random();
-    }
+    private final Random random = new Random();
 
     @Override
     public void run() {

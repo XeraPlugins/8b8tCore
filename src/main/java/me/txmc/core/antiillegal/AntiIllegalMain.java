@@ -17,6 +17,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Cancellable;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,7 +32,7 @@ import java.util.logging.Level;
 @Accessors(fluent = true)
 public class AntiIllegalMain implements Section {
     private final Main plugin;
-    private final List<Check> checks = Arrays.asList(
+    private final List<Check> checks = new ArrayList<>(Arrays.asList(
             new OverStackCheck(),
             new DurabilityCheck(),
             new AttributeCheck(),
@@ -39,7 +40,7 @@ public class AntiIllegalMain implements Section {
             new EnchantCheck(),
             new PotionCheck(),
             new BookCheck()
-    );
+    ));
 
     private ConfigurationSection config;
 
@@ -47,7 +48,8 @@ public class AntiIllegalMain implements Section {
     public void enable() {
         GlobalUtils.info("Enabling AntiIllegal");
         config = plugin.getSectionConfig(this);
-        checks.add(new IllegalItemCheck());
+        IllegalItemCheck illegalItemCheck = new IllegalItemCheck();
+        checks.add(illegalItemCheck);
         checks.add(new NameCheck(config));
 
         plugin.register(new PlayerListeners(this), new MiscListeners(this), new InventoryListeners(this), new AttackListener());

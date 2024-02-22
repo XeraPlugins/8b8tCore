@@ -3,6 +3,7 @@ package me.txmc.core;
 import lombok.Getter;
 import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.chat.ChatSection;
+import me.txmc.core.chat.tasks.AnnouncementTask;
 import me.txmc.core.command.CommandSection;
 import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
@@ -67,6 +68,8 @@ public class Main extends JavaPlugin {
             }
         }
         getExecutorService().scheduleAtFixedRate(new ExactTPS(), 3000L, 50L, TimeUnit.MILLISECONDS);
+        int interval = getConfig().getInt("AnnouncementInterval");
+        getExecutorService().scheduleAtFixedRate(new AnnouncementTask(), 10L, interval, TimeUnit.SECONDS);
     }
 
     @Override

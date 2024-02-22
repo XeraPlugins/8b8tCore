@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class RedstoneListener implements Listener {
     private final HashMap<Chunk, Integer> chunkUpdateCount = new HashMap<>();
@@ -72,7 +73,7 @@ public class RedstoneListener implements Listener {
 
     private void runTask() {
         if (maxUpdates == -1) return;
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), () -> {
+        Main.getInstance().getExecutorService().scheduleAtFixedRate(() -> {
             for (Chunk chunk : chunkUpdateCount.keySet()) {
                 if (chunkUpdateCount.get(chunk) > maxUpdates) {
                     Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
@@ -82,6 +83,6 @@ public class RedstoneListener implements Listener {
                 }
                 chunkUpdateCount.put(chunk, 0);
             }
-        }, 0L, 1L); // CHECK UPDATE COUNT EVERY TICK
+        }, 0L, 50L, TimeUnit.MILLISECONDS); // CHECK UPDATE COUNT EVERY TICK
     }
 }
