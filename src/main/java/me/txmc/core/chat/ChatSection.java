@@ -35,7 +35,6 @@ public class ChatSection implements Section {
 
     @Override
     public void enable() {
-        info("Enabling ChatSection");
         File dataFolder = plugin.getSectionDataFolder(this);
         if (!dataFolder.exists()) dataFolder.mkdir();
         File tldFile = new File(dataFolder, "tlds.txt");
@@ -53,7 +52,6 @@ public class ChatSection implements Section {
         plugin.getCommand("togglechat").setExecutor(new ToggleChatCommand(this));
         plugin.getCommand("unignore").setExecutor(new UnIgnoreCommand(this));
         if (!Bukkit.getOnlinePlayers().isEmpty()) Bukkit.getOnlinePlayers().forEach(this::registerPlayer);
-        info("ChatSection has been enabled!");
     }
 
     private HashSet<String> parseTLDS(File tldFile) {

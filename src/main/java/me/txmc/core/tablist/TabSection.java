@@ -25,11 +25,9 @@ public class TabSection implements Section {
 
     @Override
     public void enable() {
-        GlobalUtils.info("Enabling TabSection");
         config = plugin.getSectionConfig(this);
         plugin.getExecutorService().scheduleAtFixedRate(new TabWorker(this), 0, 1, TimeUnit.SECONDS);
         plugin.register(new PlayerJoinListener(this));
-        GlobalUtils.info("TabSection has been enabled!");
     }
 
     @Override

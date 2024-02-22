@@ -10,6 +10,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -107,6 +108,11 @@ public class GlobalUtils {
         entity.getScheduler().run(Main.getInstance(), (st) -> future.complete(getCurrentRegionTps()), () -> {});
         return future;
     }
+    public static CompletableFuture<Double> getRegionTps(Location location) {
+        CompletableFuture<Double> future = new CompletableFuture<>();
+        Bukkit.getRegionScheduler().run(Main.getInstance(),location, (st) -> future.complete(getCurrentRegionTps()));
+        return future;
+    }
 
     public static double getCurrentRegionTps() {
         try {
@@ -123,5 +129,8 @@ public class GlobalUtils {
             t.printStackTrace();
         }
         return -1;
+    }
+    public static String formatLocation(Location location) {
+        return location.getWorld().getName() + " " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
     }
 }

@@ -32,13 +32,11 @@ public class TPASection implements Section {
 
     @Override
     public void enable() {
-        info("Enabling TPASection");
         config = plugin.getSectionConfig(this);
         plugin.register(new LeaveListener(this));
         plugin.getCommand("tpa").setExecutor(new TPACommand(this));
         plugin.getCommand("tpayes").setExecutor(new TPAAcceptCommand(this));
         plugin.getCommand("tpano").setExecutor(new TPADenyCommand(this));
-        info("TPASection has been enabled!");
     }
 
     @Override

@@ -124,6 +124,12 @@ Patch:
     EntitiesPerChunk:
       - 'wither::20'
       - 'boat::10'
+      - 'falling_block::200'
+      - 'dropped_item::100'
+  Redstone:
+    StrictTPS: 13 #The tps to start strictly monitoring redstone at
+    StrictMaxVLS: 70 #How many redstone operations per second can happen in strict mode
+    RegularMaxVLS: 20000 #How many redstone operations per second can happen in regular mode
 Commands:
   # to send to the player for /discord
   Discord: '&3Join us on discord at&r&a https://discord.8b8t.me'

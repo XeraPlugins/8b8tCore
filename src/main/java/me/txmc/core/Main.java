@@ -102,6 +102,7 @@ public class Main extends JavaPlugin {
 //        if (violationManagers.contains(manager)) throw new IllegalArgumentException("Attempted to register violation manager twice");
         if (violationManagers.contains(manager)) return;
         violationManagers.add(manager);
+        if (manager instanceof Listener) register((Listener) manager);
     }
 
     public Reloadable registerReloadable(Reloadable reloadable) {

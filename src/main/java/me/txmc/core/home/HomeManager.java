@@ -36,7 +36,6 @@ public class HomeManager implements Section {
 
     @Override
     public void enable() {
-        GlobalUtils.info("Enabling HomeManager");
         File homesFolder = new File(plugin.getSectionDataFolder(this), "PlayerHomes");
         if (!homesFolder.exists()) homesFolder.mkdir();
         storage = new HomeJsonStorage(homesFolder);
@@ -46,7 +45,6 @@ public class HomeManager implements Section {
         plugin.getCommand("home").setExecutor(new HomeCommand(this));
         plugin.getCommand("sethome").setExecutor(new SetHomeCommand(this));
         plugin.getCommand("delhome").setExecutor(new DelHomeCommand(this));
-        GlobalUtils.info("HomeManager has been enabled!");
     }
 
     @Override

@@ -18,7 +18,6 @@ public class CommandSection implements Section {
 
     @Override
     public void enable() {
-        info("Enabling CommandSection");
         commandHandler = new CommandHandler(this);
         config = plugin.getSectionConfig(this);
         commandHandler.registerCommands();

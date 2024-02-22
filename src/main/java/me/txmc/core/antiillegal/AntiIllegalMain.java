@@ -46,14 +46,12 @@ public class AntiIllegalMain implements Section {
 
     @Override
     public void enable() {
-        GlobalUtils.info("Enabling AntiIllegal");
         config = plugin.getSectionConfig(this);
         IllegalItemCheck illegalItemCheck = new IllegalItemCheck();
         checks.add(illegalItemCheck);
         checks.add(new NameCheck(config));
 
         plugin.register(new PlayerListeners(this), new MiscListeners(this), new InventoryListeners(this), new AttackListener());
-        GlobalUtils.info("AntiIllegal has been enabled!");
     }
 
     @Override

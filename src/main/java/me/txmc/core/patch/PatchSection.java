@@ -10,6 +10,7 @@ import me.txmc.core.patch.epc.EntityCheckTask;
 import me.txmc.core.patch.epc.EntitySpawnListener;
 import me.txmc.core.patch.listeners.EntitySwitchWorldListener;
 import me.txmc.core.patch.listeners.FallFlyListener;
+import me.txmc.core.patch.listeners.Redstone;
 import me.txmc.core.patch.workers.ElytraWorker;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -46,9 +47,10 @@ public class PatchSection implements Section {
         entityPerChunk = parseEntityConf();
         plugin.getExecutorService().scheduleAtFixedRate(new ElytraWorker(this), 0, 1, TimeUnit.SECONDS);
         plugin.getExecutorService().scheduleAtFixedRate(new EntityCheckTask(this), 0, config.getInt("EntityPerChunk.CheckInterval"), TimeUnit.MINUTES);
+        plugin.register(new Redstone(this));
         plugin.register(new EntitySpawnListener(this));
         plugin.register(new FallFlyListener(plugin));
-        plugin.register(new EntitySwitchWorldListener());
+        plugin.register(new EntitySwitchWorldListener(plugin));
     }
 
     @Override
