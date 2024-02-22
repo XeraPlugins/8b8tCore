@@ -11,20 +11,21 @@
 * Green text and private messaging like ChatCo. (with better code that isn't from 2012)
 * Language locale
 * Voting feature that is compatible with VotiferPlus https://www.spigotmc.org/resources/votifierplus.74040/
+* Anti lag machine(based on TPS and MSTP configurable in the config)
+* Per region TPS in tablist
+* Basic auto message plugin with configurable interval
+
+
 
 ## To do
-* Anti lag machine(based on TPS and MSTP configurable in the config)
 * Tile entity per chunk limit
 * Permission based view distance and simulation distance
 * Anti book ban
-* Per region TPS in tablist
-* Fix entity limiter
 * Fix bugs related to anti illegal
-* /TPS command with permission to use it
+* /TPS command with permission to use it (up next)
 * Auto restart plugin
 * Death messages plugin
 * Add prefix option to the config
-* Basic auto message plugin with configurable interval
 * ETC
 
 ## Discussion / Support
