@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import static me.txmc.core.util.GlobalUtils.info;
 import static me.txmc.core.util.GlobalUtils.log;
 
 /**
@@ -41,6 +42,7 @@ public class PatchSection implements Section {
 
     @Override
     public void enable() {
+        info("Enabling PatchSection");
         positions = new HashMap<>();
         config = plugin.getSectionConfig(this);
         maxEntityPerChunk = new HashMap<>();
@@ -57,6 +59,7 @@ public class PatchSection implements Section {
         parseEntityConf();
         parseTileConf();
         instance = this;
+        info("PatchSection has been enabled!");
     }
 
     @Override

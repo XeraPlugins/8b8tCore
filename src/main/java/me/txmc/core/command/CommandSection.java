@@ -6,6 +6,9 @@ import me.txmc.core.Main;
 import me.txmc.core.Section;
 import org.bukkit.configuration.ConfigurationSection;
 
+import static me.txmc.core.util.GlobalUtils.info;
+
+
 @Getter
 @RequiredArgsConstructor
 public class CommandSection implements Section {
@@ -15,6 +18,7 @@ public class CommandSection implements Section {
 
     @Override
     public void enable() {
+        info("Enabling CommandSection");
         commandHandler = new CommandHandler(this);
         config = plugin.getSectionConfig(this);
         commandHandler.registerCommands();

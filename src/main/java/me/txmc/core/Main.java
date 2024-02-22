@@ -3,6 +3,7 @@ package me.txmc.core;
 import lombok.Getter;
 import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.chat.ChatSection;
+import me.txmc.core.chat.tasks.AnnouncementTask;
 import me.txmc.core.command.CommandSection;
 import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
@@ -22,6 +23,9 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+
+import static me.txmc.core.util.GlobalUtils.log;
 
 public class Main extends JavaPlugin {
     @Getter private static Main instance;
@@ -39,9 +43,7 @@ public class Main extends JavaPlugin {
         instance = this;
         executorService = Executors.newScheduledThreadPool(4);
         startTime = System.currentTimeMillis();
-        getConfig().options().copyDefaults(true);
         saveDefaultConfig();
-        saveConfig();
         getLogger().addHandler(new LoggerHandler());
         Localization.loadLocalizations(getDataFolder());
 
@@ -56,8 +58,18 @@ public class Main extends JavaPlugin {
         register(new PatchSection(this));
         if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
 
-        sections.forEach(Section::enable);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new ExactTPS(), 100L, 1L);
+        for (Section section : sections) {
+            log(Level.INFO, "Enabling section '" + section + "'...");
+            try {
+                section.enable();
+            } catch (Exception e) {
+                log(Level.SEVERE, "Failed to enable section '" + section + "'");
+                e.printStackTrace();
+            }
+        }
+        getExecutorService().scheduleAtFixedRate(new ExactTPS(), 3000L, 50L, TimeUnit.MILLISECONDS);
+        int interval = getConfig().getInt("AnnouncementInterval");
+        getExecutorService().scheduleAtFixedRate(new AnnouncementTask(), 10L, interval, TimeUnit.SECONDS);
     }
 
     @Override

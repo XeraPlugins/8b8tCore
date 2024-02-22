@@ -7,6 +7,7 @@ import me.txmc.core.Section;
 import me.txmc.core.tablist.listeners.PlayerJoinListener;
 import me.txmc.core.tablist.util.Utils;
 import me.txmc.core.tablist.worker.TabWorker;
+import me.txmc.core.util.GlobalUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -24,9 +25,11 @@ public class TabSection implements Section {
 
     @Override
     public void enable() {
+        GlobalUtils.info("Enabling TabSection");
         config = plugin.getSectionConfig(this);
         plugin.getExecutorService().scheduleAtFixedRate(new TabWorker(this), 0, 1, TimeUnit.SECONDS);
         plugin.register(new PlayerJoinListener(this));
+        GlobalUtils.info("TabSection has been enabled!");
     }
 
     @Override

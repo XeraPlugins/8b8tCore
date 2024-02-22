@@ -1,7 +1,6 @@
 package me.txmc.core.antiillegal.check.checks;
 
 import lombok.RequiredArgsConstructor;
-import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.antiillegal.check.Check;import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextDecoration;
