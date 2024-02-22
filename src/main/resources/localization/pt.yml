@@ -1,5 +1,6 @@
 prefix: "&6[&18b&98t&6]&6"
 
+
 # Mensagens básicas
 ignore_successful: "&3Jogador ignorado com sucesso&r&a %s&r"
 already_ignoring: "&cVocê já está ignorando esse jogador"
@@ -49,9 +50,9 @@ kick_message: "&7%s foi expulso por \"%s\""
 could_not_translate_message: "Falha ao traduzir a mensagem devido a %s"
 message_auto_translated: "Esta mensagem foi traduzida automaticamente.\n\nTexto original: %s"
 welcome_message: "&3Bem-vindo ao 8b8t"
-vote_announcement: "&c%s &6votou no &18b&98t &6e recebeu /nc grátis e 2 casas extras"
-vote_thanks: "Obrigado por votar no &18b&98t &6você recebeu /nc grátis e 2 casas extras"
-vote_info: "&3Você pode votar em &18b&98t em&r&a https://votefor.8b8t.me"
+vote_announcement: "&c%s &6votou no &18b&98t &6e recebeu /nc grátis e 5 casas extras"
+vote_thanks: "&6Obrigado por votar no &18b&98t &6você recebeu /nc grátis e 5 casas extras"
+vote_info: "&6Você pode votar em &18b&98t &6em &chttps://votefor.8b8t.me"
 tpa_syntax: "&cPor favor, inclua um jogador para tpa. /tpa <jogador>"
 tpa_player_not_online: "&cJogador %s não está online"
 tpa_no_request_found: "&cNenhuma solicitação de TPA encontrada"
@@ -66,7 +67,8 @@ tpa_request_denied_to: "&3Pedido negado com sucesso"
 tpa_pending_request: "&a%s&r &ctem um pedido pendente"
 tpa_to_left: "&cPedido de TPA cancelado porque&r&a %s&r&c saiu"
 announcements:
-  - "&6Visite &chttps://votefor.8b8t.me &6e vote para receber /nc grátis e 5 casas extras"
+  - '&6[&18b&98t&6]&6 Visite &chttps://votefor.8b8t.me &6e vote para receber /nc grátis e 5 casas extras'
+  - '&6[&18b&98t&6]&6 Doe para ajudar a apoiar 8b8t em &chttps://donate.8b8t.me'
 # Mensagens complexas
 HelpMessage:
   - '&1--------------------------------------'

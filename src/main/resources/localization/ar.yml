@@ -1,120 +1,124 @@
 prefix: "&6[&18b&98t&6]&6"
 
-# الرسائل الأساسية
-ignore_successful: "&3تم تجاهل اللاعب بنجاح&r&a %s&r"
-already_ignoring: "&cأنت بالفعل تتجاهل هذا اللاعب %prefix%"
-ignore_command_syntax: "&cالرجاء تضمين اسم لاعب /ignore <اسم_اللاعب> %prefix%"
-unignore_successful: "&3تم إلغاء تجاهل اللاعب بنجاح&r&a %s&r %prefix%"
-unignore_not_ignoring: "&cأنت لا تتجاهل %s %prefix%"
-unignore_command_syntax: "&cالرجاء تضمين اسم لاعب /unignore <اسم_اللاعب> %prefix%"
-whisper_from: "&d%s همس: %s %prefix%"
-whisper_to: "&dلـ %s: %s %prefix%"
-whisper_ignoring: "&c%s  يتجاهلك%prefix%"
-whisper_you_are_ignoring: "&c لا يمكنك مراسلة لاعب قد قمت بتجاهله%prefix%"
-msg_could_not_find_player: "&cتعذر العثور على اللاعب %s %prefix%"
-msg_command_syntax: "&cالرجاء تضمين هدف ورسالة /msg <الهدف> <الرسالة> %prefix%"
-reply_player_offline: "&cاللاعب %s غير متصل %prefix%"
-reply_no_target: "&cلم ترسل أي رسائل بعد %prefix%"
-reply_command_syntax: "&cالرجاء تضمين رسالة /r <الرسالة> %prefix%"
-togglechat_chat_enabled: "&aتم تمكين المحادثة %prefix%"
-togglechat_chat_disabled: "&cتم تعطيل المحادثة %prefix%"
-cmdwhitelist_cmd_not_allowed: "&cالأمر&r&a %s&r&c غير مسموح به %prefix%"
-chat_cooldown: " %prefix% &3الرجاء الانتظار لمدة على الأقل&r&a %d&r&3 ثواني بين رسائل المحادثة"
-delhome_no_homes: "&3ليس لديك أي منازل"
-delhome_specify_home: " %prefix% &3الرجاء تضمين اسم للمنزل الذي تريد حذفه. المنازل الحالية: (&r&a%s&r&3)&r"
-delhome_home_not_found: " %prefix% &3لم يتم العثور على المنزل&r&a %s&r&3"
-delhome_success: "%prefix% &3تم حذف المنزل&r&a %s&r&3 بنجاح"
-delhome_fail: "%prefix% &3تعذر حذف&r&a %s&r"
-home_no_homes: "%prefix% &3لم يتم العثور على منازل"
-home_specify_home: "%prefix% &3الرجاء تضمين منزل! المنازل الحالية: (&r&a%s&r&3)&r"
-home_too_close: "%prefix% &3يجب أن تكون على بعد&r&a %d&r&3 كتلة من نقطة البداية لاستخدام /home"
-home_success: "%prefix% &3الانتقال إلى المنزل&r&a %s&r&3..."
-home_not_found: "%prefix% &3لم يتم العثور على المنزل&r&a %s&r&3"
-sethome_include_name: "%prefix% &3الرجاء تضمين اسم لمنزلك الجديد"
-sethome_home_already_exists: "&cيوجد منزل بالفعل بالاسم&r&a %s&r&c. %prefix%"
-sethome_max_reached: "%prefix% &3تم الوصول إلى الحد الأقصى لعدد المنازل!"
-sethome_success: "%prefix% &3تم تحديد المنزل&r&a %s &r&3"
-kick_restarting: "%prefix% &3الخادم قيد إعادة التشغيل"
-elytra_too_fast: "%prefix% &3أنت تتحرك بسرعة جداً بواسطة الأجنحة"
-elytras_disabled: "%prefix% &3الأجنحة معطلة حالياً بسبب تأخر الخادم. ستعود في وقت قريب"
-bookban_inventory_clear: "%prefix% &cتم تنظيف جميع عناصرك لتجنب الحظر بواسطة الكتب"
-bookban_removed_item: "%prefix% &cتمت إزالة جميع العناصر&r&3 %s(s) &r&c من جيبك لتجنب الحظر بواسطة الكتب"
-kick_lever_ratelimit: "%prefix% &cأنت تتفاعل بسرعة كبيرة"
-kick_pps_limit: "%prefix% &cأنت ترسل حزم البيانات بسرعة كبيرة!"
-kick_failed_to_inject: "%prefix% &cفشل الحقن"
-join_message: "%prefix% &7%s انضم"
-player_join_first_time: "%prefix% &7%s انضم لأول مرة"
-leave_message: "%prefix% &7%s غادر"
-kick_message: "%prefix% &7%s تم طرده لأن \"%s\""
-could_not_translate_message: "فشل ترجمة الرسالة بسبب %%prefix% s"
-message_auto_translated: "تم ترجمة هذه الرسالة تلقائياً.\n\nالنص الأصلي: %s%prefix% "
-welcome_message: " &3مرحبًا بك في 8b8t"
-vote_announcement: "&c%s &6صوت لصالح &18b&98t &6وتم منحه /nc مجانًا ومنزلين إضافيين"
-vote_info: "&3يمكنك التصويت لـ &18b&98t على&r&a https://votefor.8b8t.me"
-vote_thanks: "شكرًا لتصويتك لصالح &18b&98t &6لقد تم منحك /nc مجانًا ومنزلين إضافيين"
-tpa_syntax: "&cالرجاء تضمين لاعب للانتقال إليه. /tpa <لاعب>"
-tpa_player_not_online: "&cاللاعب %s ليس متصلاً"
-tpa_no_request_found: "&cلم يتم العثور على طلب TPA"
-tpa_self_tpa: "&cلا يمكنك TPA لنفسك"
-tpa_already_sent: "&cلديك بالفعل طلب معلق"
-tpa_request_received: "&a%s&r&3يرغب في الانتقال إليك&r&a &a/tpayes &3USERNAME &c/tpano &3USERNAME"
-tpa_request_sent: "&3تم إرسال الطلب إلى&r&a %s"
-tpa_teleporting: "&3جاري الانتقال&r&a..."
-tpa_request_timeout: "&cانتهى طلب TPA"
-tpa_request_denied_from: "&a%s&r&cرفض طلبك"
-tpa_request_denied_to: "&3تم رفض الطلب بنجاح"
-tpa_pending_request: "&a%s&r &cلديه طلب معلق"
-tpa_to_left: "&cتم إلغاء TPA لأن&r&a %s&r&cغادر"
+
+#Basic messages
+ignore_successful: "&3Successfully ignored player&r&a %s&r"
+already_ignoring: "&cYou are already ignoring that player"
+ignore_command_syntax: "&cPlease include a player /ignore <playerName>"
+unignore_successful: "&3Successfully unignored player&r&a %s&r"
+unignore_not_ignoring: "&cYou arent ignoring %s"
+unignore_command_syntax: "&cPlease include a player /unignore <playerName>"
+whisper_from: "&d%s Whispers: %s"
+whisper_to: "&dTo %s: %s"
+whisper_ignoring: "&c%s is ignoring you"
+whisper_you_are_ignoring: "&cYou cannot message a player that you have ignored"
+msg_could_not_find_player: "&cCould not find player %s"
+msg_command_syntax: "&cPlease include a target and a message /msg <target> <message>"
+reply_player_offline: "&cThe player %s is offline"
+reply_no_target: "&cYou have not messaged anyone yet"
+reply_command_syntax: "&cPlease include a message /r <message>"
+togglechat_chat_enabled: "&aEnabled chat"
+togglechat_chat_disabled: "&cDisabled chat"
+cmdwhitelist_cmd_not_allowed: "&cThe command&r&a %s&r&c is not allowed"
+chat_cooldown: "&3Please wait at least&r&a %d&r&3 seconds between chat messages"
+delhome_no_homes: "&3You do not have any homes"
+delhome_specify_home: "&3Please include the name of a home to delete. Current homes: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3Home&r&a %s&r&3 was not found"
+delhome_success: "&3Home&r&a %s&r&3 has been deleted"
+delhome_fail: "&3Could not delete&r&a %s&r"
+home_no_homes: "&3No homes found"
+home_specify_home: "&3Please include a home! Current homes: (&r&a%s&r&3)&r"
+home_too_close: "&3You must be&r&a %d&r&3 blocks from spawn in order to use /home"
+home_success: "&3Teleporting to home&r&a %s&r&3..."
+home_not_found: "&3Home&r&a %s&r&3 was not found"
+sethome_include_name: "&3Please include a name for your new home"
+sethome_home_already_exists: "&cA home by the name&r&a %s&r&c already exists."
+sethome_max_reached: "&3Max number of homes reached!"
+sethome_success: "&3Home&r&a %s &r&3Set"
+kick_restarting: "&3The server is restarting"
+elytra_too_fast: "&3You are going too fast with your elytra"
+elytras_disabled: "&3Elytras are currently disabled due to server lag. They should be back shortly"
+bookban_inventory_clear: "&cYour inventory has been cleared to prevent you from being book banned"
+bookban_removed_item: "&cRemoved all&r&3 %s(s) &r&cfrom your inventory to prevent you from being bookbanned"
+kick_lever_ratelimit: "&cYou are interacting too fast"
+kick_pps_limit: "&cYou are sending packets too fast!"
+kick_failed_to_inject: "&cFailed to inject"
+join_message: "&7%s joined"
+player_join_first_time: "&7%s joined for the first time"
+leave_message: "&7%s left"
+kick_message: "&7%s was kicked for \"%s\""
+could_not_translate_message: "Failed to translate message due to %s"
+message_auto_translated: "This message has been translated automatically.\n\nOriginal Text: %s"
+welcome_message: "&3Welcome to 8b8t"
+vote_announcement: "&c%s &6voted for &18b&98t &6and was given free /nc and 5 extra homes"
+vote_thanks: "&6Thanks for voting for &18b&98t &6you have been given free /nc and 5 extra homes"
+vote_info: "&6You can vote for &18b&98t &6at &chttps://votefor.8b8t.me"
+tpa_syntax: "&cPlease include a player to tpa to. /tpa <player>"
+tpa_player_not_online: "&cPlayer %s is not online"
+tpa_no_request_found: "&cNo TPA request found"
+tpa_self_tpa: "&cYou cannot TPA to your self"
+tpa_request_received: "&a%s&r&3 would like to teleport to you&r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
+tpa_request_sent: "&3Request sent to&r&a %s"
+tpa_already_sent: "&cYou already have a pending request"
+tpa_teleporting: "&3Teleporting&r&a..."
+tpa_request_timeout: "&cTPA Request timed out"
+tpa_request_denied_from: "&a%s&r&c has denied your request"
+tpa_request_denied_to: "&3Request denied successfully"
+tpa_pending_request: "&a%s&r &chas a pending request"
+tpa_to_left: "&cTPA cancelled because&r&a %s&r&c left"
 announcements:
-  - "قم بزيارة chttps://votefor.8b8t.me &6وصوت لتحصل على /nc مجانًا و5 منازل إضافية6&"
-# الرسائل المعقدة
+  - '&6[&18b&98t&6]&6 Visit &chttps://votefor.8b8t.me &6and vote to receive free /nc and 5 extra homes'
+  - '&6[&18b&98t&6]&6 Donate to help support 8b8t at &chttps://donate.8b8t.me'
+#Complex messages
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6قم بزيارة &chttps://www.8b8t.me &6لقراءة القوانين'
-  - '&c/tpa &6للانتقال إلى لاعب آخر'
-  - '&c/tpayes &6لقبول طلب الانتقال'
-  - '&c/tpano &6لرفض طلب الانتقال'
-  - '&c/sethome &6لتعيين منزل في موقعك'
-  - '&c/delhome &6لحذف منزل قمت بتعيينه'
-  - '&c/home &6للانتقال إلى منزل قمت بتعيينه'
-  - '&c/skin set &6لتعيين جلدك'
-  - '&c/vote &6للتصويت على 8b8t'
-  - '&c/discord &6للحصول على دعوة إلى Discord الخاص بـ 8b8t'
-  - '&c/kill &6لقتل نفسك'
-  - '&c/ignore &6لتجاهل لاعبين آخرين'
-  - '&c/msg &6لإرسال رسائل إلى لاعبين آخرين'
-  - '&c/changepass &6لتغيير كلمة المرور'
-  - '&c/joindate &6للتحقق من تاريخ انضمامك وتاريخ انضمام الآخرين'
-  - '&c/worldstats &6لعرض حجم العالم'
-  - '&c/pvp &6للانضمام إلى 8b8t PVP'
-  - '&c/lobby &6للانضمام إلى اللوبي'
-  - '&c/tps &6لفحص توقيتات الخادم في الثانية'
-  - '&1-------------للمصوتين فقط---------------'
-  - '&c/nc &6لتعيين لون الاسم'
-  - '&6قم بزيارة &chttps://votefor.8b8t.me &6للتصويت'
-  - '&1------------للمتبرعين فقط--------------'
-  - '&c/seen &6لاستعراض آخر مرة انضم فيها لاعب'
-  - '&c/echest &6لفتح صندوق النهاية الخاص بك'
-  - '&c/nick &6لتحديد اسم مستعار'
-  #    - '&c/linkdiscord &6ربط Discord الخاص بك بحسابك في 8b8t'
-  - '&6قم بزيارة &chttps://donate.8b8t.me &6للتبرع'
+  - '&6Visit &chttps://www.8b8t.me &6to read the rules'
+  - '&c/tpa &6to teleport to another player'
+  - '&c/tpayes &6to accept a teleport request'
+  - '&c/tpano &6todeny a teleport request'
+  - '&c/sethome &6to set a home at your location'
+  - '&c/delhome &6to delete a home you set'
+  - '&c/home &6to teleport to a home you set'
+  - '&c/skin set &6to set your skin'
+  - '&c/vote &6to vote for 8b8t'
+  - '&c/discord &6get an invite to the 8b8t discord'
+  - '&c/kill &6to kill your self'
+  - '&c/ignore &6to ignore other players'
+  - '&c/msg &6to message other players'
+  - '&c/changepass &6To change your password'
+  - '&c/joindate &6Check yours and others joindate'
+  - '&c/worldstats &6View the world size'
+  - '&c/pvp &6Connect to 8b8t PVP'
+  - '&c/lobby &6Connect to lobby'
+  - '&c/tps &6To check server ticks per second'
+  - '&1-------------Voter Only---------------'
+  - '&c/nc &6To set name colour'
+  - '&6Visit &chttps://votefor.8b8t.me &6to vote'
+  - '&1------------Donator Only--------------'
+  - '&c/seen &6See when a player last joined'
+  - '&c/echest &6Open your ender chest'
+  - '&c/nick &6Set a nickname'
+  #    - '&c/linkdiscord &6link your discord to your 8b8t account'
+  - '&6Visit &chttps://donate.8b8t.me &6to donate'
   - '&1--------------------------------------'
 TabList:
   Header:
     - ''
     - '&18builders&98tools'
     - ''
-    - '&68b8t الآن يعمل على folia والميزات ستعود'
+    - '&68b8t Now runs on folia and features will return'
     - ''
+
   Footer:
     - ''
-    - '&7tps:&r %tps% &7ping: &r%ping% &7اللاعبين: &f%players% &7وقت التشغيل: %uptime%'
+    - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: %uptime%'
     - ''
-    - '&7الاتصال: contact@8b8t.me'
-    - '&7النقاش: https://discord.8b8t.me'
-    - '&7الموقع الإلكتروني: https://www.8b8t.me'
-    - '&7هذه هي الوحيدة المواقع الرسمية ووسائل الاتصال لـ 8b8t'
+    - '&7Contact: contact@8b8t.me'
+    - '&7Discussion: https://discord.8b8t.me'
+    - '&7Website: https://www.8b8t.me'
+    - '&7These are the only official 8b8t websites and contacts'
     - ''
+
 # Death messages
 Basic-Mode:
   Solo:

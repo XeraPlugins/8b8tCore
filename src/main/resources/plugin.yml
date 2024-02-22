@@ -33,3 +33,4 @@ commands:
   uptime:
   world:
   vote:
+  tps:

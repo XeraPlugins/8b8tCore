@@ -1,5 +1,6 @@
 prefix: "&6[&18b&98t&6]&6"
 
+
 #Basic messages
 ignore_successful: "&3Successfully ignored player&r&a %s&r"
 already_ignoring: "&cYou are already ignoring that player"
@@ -49,9 +50,9 @@ kick_message: "&7%s was kicked for \"%s\""
 could_not_translate_message: "Failed to translate message due to %s"
 message_auto_translated: "This message has been translated automatically.\n\nOriginal Text: %s"
 welcome_message: "&3Welcome to 8b8t"
-vote_announcement: "&c%s &6voted for &18b&98t &6and was given free /nc and 2 extra homes"
-vote_thanks: "&aThanks for voting for &18b&98t &6you have been given free /nc and 2 extra homes"
-vote_info: "&3You can vote for &18b&98t at&r&a https://votefor.8b8t.me"
+vote_announcement: "&c%s &6voted for &18b&98t &6and was given free /nc and 5 extra homes"
+vote_thanks: "&6Thanks for voting for &18b&98t &6you have been given free /nc and 5 extra homes"
+vote_info: "&6You can vote for &18b&98t &6at &chttps://votefor.8b8t.me"
 tpa_syntax: "&cPlease include a player to tpa to. /tpa <player>"
 tpa_player_not_online: "&cPlayer %s is not online"
 tpa_no_request_found: "&cNo TPA request found"
@@ -66,7 +67,8 @@ tpa_request_denied_to: "&3Request denied successfully"
 tpa_pending_request: "&a%s&r &chas a pending request"
 tpa_to_left: "&cTPA cancelled because&r&a %s&r&c left"
 announcements:
-  - "&6Visit &chttps://votefor.8b8t.me &6and vote to receive free /nc and 5 extra homes"
+  - '&6[&18b&98t&6]&6 Visit &chttps://votefor.8b8t.me &6and vote to receive free /nc and 5 extra homes'
+  - '&6[&18b&98t&6]&6 Donate to help support 8b8t at &chttps://donate.8b8t.me'
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
