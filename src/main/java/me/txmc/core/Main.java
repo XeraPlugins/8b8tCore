@@ -9,9 +9,7 @@ import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
 import me.txmc.core.tablist.TabSection;
 import me.txmc.core.tpa.TPASection;
-import me.txmc.core.util.ExactTPS;
 import me.txmc.core.vote.VoteSection;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -48,6 +46,7 @@ public class Main extends JavaPlugin {
         Localization.loadLocalizations(getDataFolder());
 
         executorService.scheduleAtFixedRate(() -> violationManagers.forEach(ViolationManager::decrementAll), 0, 1, TimeUnit.SECONDS);
+        getExecutorService().scheduleAtFixedRate(new AnnouncementTask(), 10L, getConfig().getInt("AnnouncementInterval"), TimeUnit.SECONDS);
 
         register(new AntiIllegalMain(this));
         register(new TabSection(this));
@@ -59,17 +58,13 @@ public class Main extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
 
         for (Section section : sections) {
-            log(Level.INFO, "Enabling section '" + section + "'...");
             try {
                 section.enable();
             } catch (Exception e) {
-                log(Level.SEVERE, "Failed to enable section '" + section + "'");
+                log(Level.SEVERE, "Failed to enable section %s. Please see stacktrace below for more info", section.getName());
                 e.printStackTrace();
             }
         }
-        getExecutorService().scheduleAtFixedRate(new ExactTPS(), 3000L, 50L, TimeUnit.MILLISECONDS);
-        int interval = getConfig().getInt("AnnouncementInterval");
-        getExecutorService().scheduleAtFixedRate(new AnnouncementTask(), 10L, interval, TimeUnit.SECONDS);
     }
 
     @Override

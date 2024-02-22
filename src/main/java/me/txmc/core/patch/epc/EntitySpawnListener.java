@@ -21,11 +21,10 @@ public class EntitySpawnListener implements Listener {
     @EventHandler
     public void onEntitySpawn(EntityAddToWorldEvent event) {
         Entity entity = event.getEntity();
-        if (entity.getType() == EntityType.PLAYER) return;
         Chunk chunk = entity.getChunk();
-        if (!main.maxEntityPerChunk().containsKey(entity.getType())) return;
+        if (!main.entityPerChunk().containsKey(entity.getType())) return;
         int amt = enumerate(entity.getLocation().getChunk(), entity.getType());
-        int max = main.maxEntityPerChunk().get(entity.getType());
+        int max = main.entityPerChunk().get(entity.getType());
         if (amt >= max) {
             entity.getScheduler().run(main.plugin(), (t) -> entity.remove(), () -> {});
             log(Level.INFO, "Prevented %s from spawning (%d/%d) in chunk %d,%d in world %s", entity.getType().toString().toLowerCase(), amt, max, chunk.getX(), chunk.getZ(), chunk.getWorld().getName());

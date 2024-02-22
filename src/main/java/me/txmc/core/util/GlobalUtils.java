@@ -12,6 +12,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.PlayerInventory;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
 /**
@@ -99,5 +101,27 @@ public class GlobalUtils {
     public static String getStringContent(Component component) {
         PlainTextComponentSerializer serializer = PlainTextComponentSerializer.plainText();
         return serializer.serialize(component);
+    }
+    public static CompletableFuture<Double> getTpsNearEntity(Entity entity) {
+        CompletableFuture<Double> future = new CompletableFuture<>();
+        entity.getScheduler().run(Main.getInstance(), (st) -> future.complete(getCurrentRegionTps()), () -> {});
+        return future;
+    }
+
+    public static double getCurrentRegionTps() {
+        try {
+            Object region = Class.forName("io.papermc.paper.threadedregions.TickRegionScheduler").getDeclaredMethod("getCurrentRegion").invoke(null);
+            if (region != null) {
+                Object tickData = region.getClass().getDeclaredMethod("getData").invoke(region);
+                Object regionShceduleHandle = tickData.getClass().getDeclaredMethod("getRegionSchedulingHandle").invoke(tickData);
+                Object tickReport = regionShceduleHandle.getClass().getMethod("getTickReport15s", long.class).invoke(regionShceduleHandle, System.nanoTime());
+                Object segmentedAvg = tickReport.getClass().getDeclaredMethod("tpsData").invoke(tickReport);
+                Object segAll = segmentedAvg.getClass().getDeclaredMethod("segmentAll").invoke(segmentedAvg);
+                return (double) segAll.getClass().getDeclaredMethod("average").invoke(segAll);
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return -1;
     }
 }
