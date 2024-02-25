@@ -26,6 +26,7 @@ public class EntitySwitchWorldListener implements Listener {
 
     private final HashSet<EntityType> blacklist = new HashSet<>() {{
         add(EntityType.BOAT);
+        add(EntityType.DROPPED_ITEM);
         addAll(Arrays.stream(EntityType.values()).filter(e -> e.name().contains("MINECART")).toList());
     }};
     @EventHandler
