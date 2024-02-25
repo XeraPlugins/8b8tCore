@@ -1,6 +1,5 @@
 package me.txmc.core.patch;
 
-import io.papermc.paper.threadedregions.scheduler.RegionScheduler;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
@@ -12,7 +11,6 @@ import me.txmc.core.patch.listeners.EntitySwitchWorldListener;
 import me.txmc.core.patch.listeners.FallFlyListener;
 import me.txmc.core.patch.listeners.Redstone;
 import me.txmc.core.patch.workers.ElytraWorker;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
