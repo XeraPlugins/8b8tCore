@@ -39,7 +39,8 @@ public class AntiIllegalMain implements Section {
             new LoreCheck(),
             new EnchantCheck(),
             new PotionCheck(),
-            new BookCheck()
+            new BookCheck(),
+            new IllegalItemCheck()
     ));
 
     private ConfigurationSection config;
@@ -47,9 +48,8 @@ public class AntiIllegalMain implements Section {
     @Override
     public void enable() {
         config = plugin.getSectionConfig(this);
-        IllegalItemCheck illegalItemCheck = new IllegalItemCheck();
-        checks.add(illegalItemCheck);
         checks.add(new NameCheck(config));
+        checks.add(new ItemSizeCheck());
 
         plugin.register(new PlayerListeners(this), new MiscListeners(this), new InventoryListeners(this), new AttackListener());
     }
@@ -74,10 +74,13 @@ public class AntiIllegalMain implements Section {
         for (Check check : checks) {
             if (check.shouldCheck(item) && check.check(item)) {
                 if (cancellable != null && !cancellable.isCancelled()) cancellable.setCancelled(true);
-                GlobalUtils.log(Level.INFO, "Item %s failed the %s check and has been fixed.", item, check.getClass().getSimpleName());
+                GlobalUtils.log(Level.INFO, "Item %s failed the %s check and has been fixed.", getItemName(item), check.getClass().getSimpleName());
                 check.fix(item);
                 item.setItemMeta(item.getItemMeta());
             }
         }
+    }
+    private String getItemName(ItemStack itemStack) {
+        return (itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()) ? GlobalUtils.getStringContent(itemStack.getItemMeta().displayName()) : itemStack.getType().name();
     }
 }
