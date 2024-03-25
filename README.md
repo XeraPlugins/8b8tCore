@@ -26,6 +26,7 @@
 * Auto restart plugin
 * Death messages plugin
 * Add prefix option to the config
+* No fall and flight hack patch
 * ETC
 
 ## Discussion / Support
