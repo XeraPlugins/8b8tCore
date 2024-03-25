@@ -15,7 +15,7 @@ import java.util.logging.Level;
  * This file was created as a part of 8b8tAntiIllegal
  */
 public class IllegalItemCheck implements Check {
-    private static List<Material> illegals;
+    private final HashSet<Material> illegals;
 
     public IllegalItemCheck() {
         illegals = parseConfig();
@@ -36,7 +36,7 @@ public class IllegalItemCheck implements Check {
         item.setAmount(0);
     }
 
-    private List<Material> parseConfig() {
+    private HashSet<Material> parseConfig() {
         List<String> materialNames = Arrays.stream(Material.values()).map(Material::name).toList();
         List<String> strList = Main.getInstance().getConfig().getStringList("AntiIllegal.IllegalItems");
         List<Material> output = new ArrayList<>();
@@ -57,6 +57,6 @@ public class IllegalItemCheck implements Check {
                 GlobalUtils.log(Level.WARNING, "&3Unknown material&r&a %s&r&3 in blocks section of the config", raw);
             }
         }
-        return Collections.unmodifiableList(output);
+        return new HashSet<>(output);
     }
 }
