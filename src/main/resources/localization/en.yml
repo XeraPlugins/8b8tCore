@@ -37,6 +37,7 @@ sethome_max_reached: "&3Max number of homes reached!"
 sethome_success: "&3Home&r&a %s &r&3Set"
 kick_restarting: "&3The server is restarting"
 elytra_too_fast: "&3You are going too fast with your elytra"
+elytra_school_zone: "&3You are currently in a school zone. Please travel at a maximum speed of 15 km/h"
 elytras_disabled: "&3Elytras are currently disabled due to server lag. They should be back shortly"
 bookban_inventory_clear: "&cYour inventory has been cleared to prevent you from being book banned"
 bookban_removed_item: "&cRemoved all&r&3 %s(s) &r&cfrom your inventory to prevent you from being bookbanned"
@@ -66,9 +67,6 @@ tpa_request_denied_from: "&a%s&r&c has denied your request"
 tpa_request_denied_to: "&3Request denied successfully"
 tpa_pending_request: "&a%s&r &chas a pending request"
 tpa_to_left: "&cTPA cancelled because&r&a %s&r&c left"
-announcements:
-  - '&6[&18b&98t&6]&6 Visit &chttps://votefor.8b8t.me &6and vote to receive free /nc and 5 extra homes'
-  - '&6[&18b&98t&6]&6 Donate to help support 8b8t at &chttps://donate.8b8t.me'
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
@@ -118,7 +116,9 @@ TabList:
     - '&7Website: https://www.8b8t.me'
     - '&7These are the only official 8b8t websites and contacts'
     - ''
-
+announcements:
+  - '&6[&18b&98t&6]&6 Visit &chttps://votefor.8b8t.me &6and vote to receive free /nc and 5 extra homes'
+  - '&6[&18b&98t&6]&6 Donate to help support 8b8t at &chttps://donate.8b8t.me'
 # Death messages
 Basic-Mode:
   Solo:

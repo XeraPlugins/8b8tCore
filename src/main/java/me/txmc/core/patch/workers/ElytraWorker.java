@@ -35,7 +35,10 @@ public class ElytraWorker implements Runnable {
             }
             double speed = calcSpeed(from, player.getLocation());
             main.positions().replace(player, player.getLocation());
-            if (speed > main.config().getDouble("ElytraMaxSpeed")) {
+            if (speed > main.config().getDouble("TileEntityElytraMaxSpeed") && player.getLocation().getChunk().getTileEntities().length > 5) {
+                removeElytra(player);
+                sendPrefixedLocalizedMessage(player, "elytra_school_zone");
+            } else if (speed > main.config().getDouble("ElytraMaxSpeed")) {
                 removeElytra(player);
                 sendPrefixedLocalizedMessage(player, "elytra_too_fast");
             }
