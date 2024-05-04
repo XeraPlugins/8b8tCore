@@ -19,6 +19,7 @@ public class ItemSizeCheck implements Check {
     private Method writeItemM;
     private Method readableBytesM;
     private Method clearM;
+    private int maxSize = 1597152 / 15; //Protocol max divided by 15 IDK if this will break vanilla items but leeeee needs a patch
 
     public ItemSizeCheck() {
         try {
@@ -34,7 +35,7 @@ public class ItemSizeCheck implements Check {
 
     @Override
     public boolean check(ItemStack item) {
-        return getSize(item) > 1597152; //Protocol limit of 2097152 - 500k
+        return getSize(item) > maxSize;
     }
 
     @Override
