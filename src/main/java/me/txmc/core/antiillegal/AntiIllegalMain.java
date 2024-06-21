@@ -49,7 +49,7 @@ public class AntiIllegalMain implements Section {
     public void enable() {
         config = plugin.getSectionConfig(this);
         checks.add(new NameCheck(config));
-        checks.add(new ItemSizeCheck());
+//        checks.add(new ItemSizeCheck());
 
         plugin.register(new PlayerListeners(this), new MiscListeners(this), new InventoryListeners(this), new AttackListener());
     }
