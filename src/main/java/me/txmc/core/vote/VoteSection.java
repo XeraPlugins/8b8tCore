@@ -65,11 +65,10 @@ public class VoteSection implements Section {
     }
 
     public void rewardPlayer(Player player) {
-        if (!player.hasPermission("Leee.nc")) executeCommand("lp user %s permission set Leee.nc", player.getName());
+        if (!player.hasPermission("Leee.nc")) executeCommand("lp user %s group add voter", player.getName());
         //int maxHomes = ((HomeManager) plugin.getSectionByName("Home")).getMaxHomes(player);
         //if ((maxHomes + 2) >= config.getInt("MaxHomesByVoting")) return;
         sendPrefixedLocalizedMessage(player, "vote_thanks");
-        if (!player.hasPermission("8b8tcore.home.max.10")) executeCommand("lp user %s permission set 8b8tcore.home.max.10", player.getName());
         //executeCommand(config.getString("AddHomePermission"), (maxHomes + 2));
     }
 
