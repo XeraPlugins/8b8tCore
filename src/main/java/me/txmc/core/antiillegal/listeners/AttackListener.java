@@ -27,6 +27,12 @@ public class AttackListener implements Listener {
             ((Player) event.getDamager()).damage(event.getDamage());
         }
     }
+
+    /**
+     * @author Minelord9000
+     * Thanks to Minelord9000 for the
+     * book ban patch
+     */
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
