@@ -20,10 +20,8 @@
 ## To do
 * Tile entity per chunk limit
 * Permission based view distance and simulation distance
-* Anti book ban
 * Fix bugs related to anti illegal
-* /TPS command with permission to use it (up next)
-* Auto restart plugin
+* /tps command with permission to use it
 * Death messages plugin
 * Add prefix option to the config
 * Suggest additional features by joining the discord
