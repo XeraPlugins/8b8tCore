@@ -18,7 +18,6 @@
 
 
 ## To do
-* Tile entity per chunk limit
 * Permission based view distance and simulation distance
 * Fix bugs related to anti illegal
 * /tps command with permission to use it
