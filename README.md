@@ -26,8 +26,7 @@
 * Auto restart plugin
 * Death messages plugin
 * Add prefix option to the config
-* No fall and flight hack patch
-* ETC
+* Suggest additional features by joining the discord
 
 ## Discussion / Support
 <a href="https://matrix.to/#/#xera:matrix.xera.ca">Join Matrix Room</a>
