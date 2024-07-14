@@ -51,6 +51,7 @@ public class ChatSection implements Section {
         plugin.getCommand("reply").setExecutor(new ReplyCommand(this));
         plugin.getCommand("togglechat").setExecutor(new ToggleChatCommand(this));
         plugin.getCommand("unignore").setExecutor(new UnIgnoreCommand(this));
+        plugin.getCommand("ignorelist").setExecutor(new IgnoreListCommand(this));
         if (!Bukkit.getOnlinePlayers().isEmpty()) Bukkit.getOnlinePlayers().forEach(this::registerPlayer);
     }
 

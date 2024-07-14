@@ -4,6 +4,7 @@ import lombok.Data;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -42,6 +43,11 @@ public class ChatInfo {
     public void unignorePlayer(UUID player) {
         ignoring.remove(player);
     }
+
+    public Set<UUID> getIgnoring() {
+        return ignoring;
+    }
+
     public boolean shouldNotSave() {
         return ignoring.isEmpty() && !toggledChat && !joinMessages;
     }
