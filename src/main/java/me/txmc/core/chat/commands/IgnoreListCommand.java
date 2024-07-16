@@ -13,6 +13,14 @@ import java.util.stream.Collectors;
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
+/**
+ * CommandExecutor implementation for the /ignorelist command.
+ * <p>This command allows players to view a list of other players they are currently ignoring.</p>
+ *
+ *
+ * @author Minelord9000 (agarciacorte)
+ * @since 2024/07/13 6:18 PM
+ */
 public class IgnoreListCommand implements CommandExecutor {
     private final ChatSection manager;
 
