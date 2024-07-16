@@ -21,8 +21,11 @@ import org.bukkit.inventory.PlayerInventory;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
+
+import java.util.Random;
 
 /**
  * @author 254n_m
@@ -31,7 +34,6 @@ import java.util.logging.Level;
  */
 public class GlobalUtils {
     @Getter private static final String PREFIX = "&6[&18b&98t&cCore&6]";
-
 
     public static void info(String format) {
         log(Level.INFO, format);
@@ -67,6 +69,39 @@ public class GlobalUtils {
         if (prefix) msg = PREFIX.concat(" &r&7>>&r ").concat(msg);
         player.sendMessage(translateChars(msg));
     }
+
+    public static void sendDeathMessage(String key, String victim, String killer, String weapon) {
+        try {
+            Localization locEnglish = Localization.getLocalization("en");
+            List<TextComponent> deathListMessages = locEnglish.getStringList(key)
+                    .stream().map(GlobalUtils::translateChars).toList();
+
+            if (deathListMessages == null) {
+                return;
+            }
+            int msgIndex = 0;
+            if(deathListMessages.size() > 1){
+                Random random = new Random();
+                msgIndex = random.nextInt(deathListMessages.size());
+            }
+
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                Localization loc = Localization.getLocalization(p.locale().getLanguage());
+                List<TextComponent> deathMessages = loc.getStringList(key)
+                        .stream()
+                        .map(s -> s.replace("%victim%", victim))
+                        .map(s -> s.replace("%killer%", killer))
+                        .map(s -> s.replace("%kill-weapon%", weapon))
+                        .map(GlobalUtils::translateChars).toList();
+
+                TextComponent msg = deathMessages.get(msgIndex);
+                p.sendMessage(msg);
+            }
+        } catch (Throwable ignored){};
+
+    }
+
+
     public static void sendPrefixedComponent(CommandSender target, Component component) {
         target.sendMessage(translateChars(String.format("%s &7>>&r ", PREFIX)).append(component));
     }
