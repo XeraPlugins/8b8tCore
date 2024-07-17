@@ -68,6 +68,7 @@ ChatControl:
     - '/nc'
     - '/ignore'
     - '/unignore'
+    - '/ignorelist'
     - '/togglechat'
     - '/toggledeathmsg'
     - '/msg'

@@ -15,6 +15,7 @@ commands:
   ignore:
   togglechat:
   unignore:
+  ignorelist:
   tpa:
   tpayes:
     aliases: [tpaaccept]

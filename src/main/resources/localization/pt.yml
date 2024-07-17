@@ -8,6 +8,9 @@ ignore_command_syntax: "&cPor favor, inclua um jogador /ignore <nomeJogador>"
 unignore_successful: "&3Jogador designorado com sucesso&r&a %s&r"
 unignore_not_ignoring: "&cVocê não está ignorando %s"
 unignore_command_syntax: "&cPor favor, inclua um jogador /unignore <nomeJogador>"
+ignorelist_successful: "&3Jogadores ignorados: &c%s"
+ignorelist_not_ignoring: "&6Você não está ignorando ninguém"
+ignorelist_failed: "&6Não foi possível recuperar as informações da lista de ignorados."
 whisper_from: "&d%s sussurra: %s"
 whisper_to: "&dPara %s: %s"
 whisper_ignoring: "&c%s está te ignorando"
@@ -118,722 +121,331 @@ TabList:
     - '&7Website: https://www.8b8t.me'
     - '&7Esses são os únicos websites e contatos oficiais do 8b8t'
     - ''
-# Death messages
-Basic-Mode:
-  Solo:
-    Projectile-Arrow:
-      - "%player% was shot by a %killer% using %weapon%"
-    Explosion:
-      - "%player% was blown up by a %killer%"
-    Magic:
-      - "%player% was killed by a %killer% using magic"
-    Weapon:
-      - "%player% was slain by a %killer% using %weapon%"
-    Melee:
-      - "%player% was slain by a %killer%"
 
-Natural-Cause:
-  Bed:
-    - "%player% tried sleeping in the %world_environment% :kappa:"
-  Respawn-Anchor:
-    - "%player% tried using the respawn anchor in the %world_environment%!"
-  Contact:
-    - "%player% was pricked to death"
-  Melee:
-    - "%player% killed themselves"
-  Projectile-Unknown:
-    - "%player% shot themselves"
-  Projectile-Arrow:
-    - "%player% shot themselves with %weapon%"
-  Projectile-Egg:
-    - "%player% egged themselves"
-  Projectile-EnderPearl:
-    - "%player% shot themselves"
-  Projectile-Fireball:
-    - "%player% fireballed themselves"
-  Projectile-FishHook:
-    - "%player% got a fishhook caught in their head"
-  Projectile-Snowball:
-    - "%player% shot themselves with snowball"
-  Projectile-Trident:
-    - "%player% shot themselves with trident"
-  Suffocation:
-    - "%player% was squished to death"
-    - "PERMISSION[deathmessages.premium]%player% was mashed up pretty good."
-  Fall:
-    - "%player% fell from a high place"
-  Climbable:
-    - "%player% tried climbing to greater heights and fell off %climbable%"
-  Fire:
-    - "%player% thought standing in fire was a good idea"
-  Fire-Tick:
-    - "%player% was burnt to a crisp"
-  Melting:
-    - "%player% melted away"
-  Lava:
-    - "%player% thought lava was a hot tub"
-  Drowning:
-    - "%player% thought they could swim forever"
-  Explosion:
-    - "%player% blew up"
-  TNT:
-    - "%player% was playing with tnt"
-  Firework:
-    - "%player% thought playing with fireworks was a good idea"
-  End-Crystal:
-    - "%player% blew up! They were playing around with an end-crystal!"
-  Void:
-    - "%player% fell into the void"
-  Lightning:
-    - "%player% was struck by /lighting"
-  Suicide:
-    - "%player% killed themselves"
-  Starvation:
-    - "%player% ran out of food, and died"
-  Poison:
-    - "%player% was playing with poison"
-  Magic:
-    - "%player% was playing with magic"
-  Wither:
-    - "%player% withered away"
-  Falling-Block:
-    - "%player% was squished by a %block%"
-  Dragon-Breath:
-    - "%player% died to a lingering dragons breath"
-  Custom:
-    - "%player% died in a unique way"
-  Fly-Into-Wall:
-    - "%player% flew into a wall"
-  Hot-Floor:
-    - "%player% was playing on a magma block too long"
-  Cramming:
-    - "%player% was killed in a heavily populated space"
-  Dryout:
-    - "%player% belonged in the water. Not land"
-  Freeze:
-    - "%player% did not put their snow suit on before they went to play."
-  Unknown:
-    - "%player% died"
-Mobs:
-  elderguardian:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  witherskeleton:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  stray:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  husk:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  zombievillager:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  skeletonhorse:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  zombiehorse:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  armorstand:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  donkey:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  mule:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  evoker:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Magic:
-        - "%player% was killed by a %killer% using da magic"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  vex:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  vindicator:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  illusioner:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  creeper:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Explosion:
-        - "%player% was blown up by a %killer%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  skeleton:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  spider:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  giant:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  zombie:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  slime:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  ghast:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  pigzombie:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  enderman:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  cavespider:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  silverfish:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  blaze:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  magmacube:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  enderdragon:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  wither:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Explosion:
-        - "%player% stood too close to a %killer% while it was spawning"
-      Projectile-Fireball:
-        - "%player% died to a wither skull"
-      Melee:
-        - "%player% was slain by a %killer%"
-  bat:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  witch:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  endermite:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  guardian:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  shulker:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  pig:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  sheep:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  cow:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  chicken:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  squid:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  wolf:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  mushroomcow:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  snowman:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  ocelot:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  irongolem:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  horse:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  rabbit:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  polarbear:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  llama:
-    Solo:
-      Projectile-LlamaSpit:
-        - "%player% was spat on by a %killer%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  parrot:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  villager:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  turtle:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  phantom:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  cod:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  salmon:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  pufferfish:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  tropicalfish:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  drowned:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  dolphin:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  cat:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  panda:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  pillager:
-    Solo:
-      Contact:
-        - "%player% was pushed into a cactus by %killer%"
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  ravager:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  traderllama:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  wanderingtrader:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  fox:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  bee:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was stung by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was stung by a %killer%"
-  hoglin:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  piglin:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  strider:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  zoglin:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  piglinbrute:
-    Solo:
-      Projectile-Arrow:
-        - "%player% was shot by a %killer% somehow using %weapon%"
-      Weapon:
-        - "%player% was slain by a %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by a %killer%"
-  player:
-    Solo:
-      Bed:
-        - "%player% stood too close to %killer%'s bed in the %world_environment%"
-      Respawn-Anchor:
-        - "%player% stood too close to %killer%'s respawn anchor in the %world_environment%"
-      Contact:
-        - "%player% was pushed into a cactus by %killer%"
-      Projectile-Unknown:
-        - "%player% was shot by %killer%"
-      Projectile-Arrow:
-        - "%player% was shot by %killer% somehow using %weapon%"
-      Projectile-Fireball:
-        - "%player% was fireballed by %killer%"
-      Projectile-Snowball:
-        - "%player% was hit in the head with a snowball thrown by %killer%"
-      Weapon:
-        - "%player% was slain by %killer% somehow using %weapon%"
-      Melee:
-        - "%player% was slain by %killer%"
-      Suffocation:
-        - "%player% suffocated in a wall while fighting %killer_display%"
-      Fall:
-        - "%player% was pushed off a high place by %killer%"
-      Lava:
-        - "%player% was pushed into lava by %killer%"
-      Explosion:
-        - "%killer% blew up %player%"
-      TNT:
-        - "%killer% blew up %player% with tnt"
-      Firework:
-        - "%player% stood too close to %killer%'s fireworks"
-      End-Crystal:
-        - "%killer% killed %player% by blowing up an end-crystal!"
-      Void:
-        - "%player% was pushed into the void by %killer%"
-      Wither:
-        - "%player% withered away from %killer%'s magic"
-      Thorns:
-        - "%player% tried playing with %killer%'s armor with thorns"
-  goat:
-    Solo:
-      Melee:
-        - "%player% was knocked by a %killer%"
+
+
+# Death messages
+global-pvp-death-messages:
+  - "&c&l%victim%&r&c foi morto por &c&l%killer%&r&c"
+  - "&c&l%victim%&r&c foi abatido por &c&l%killer%&r&c usando &7[&b%kill-weapon%&7]"
+  - "&c&l%victim%&r&c foi eliminado por &c&l%killer%&r&c"
+  - "&c&l%victim%&r&c foi derrotado por &c&l%killer%&r&c empunhando &7[&b%kill-weapon%&7]"
+  - "&c&l%killer%&r&c pulverizou &c&l%victim%&r&c usando &7[&b%kill-weapon%&7]"
+  - "&c&l%victim%&r&c foi destruído por &c&l%killer%&r&c"
+  - "&c&l%victim%&r&c foi rekt por &c&l%killer%&r&c e sua poderosa &7[&b%kill-weapon%&7]"
+  - "&c&l%victim%&r&c foi EZ clapped por &c&l%killer%&r&c usando &7[&b%kill-weapon%&7]"
+
+melee-death-messages:
+  - "&c&l%victim%&r&c foi esbofeteado por &c&l%killer%&r&c"
+  - "&c&l%victim%&r&c foi nocauteado por &c&l%killer%&r&c"
+  - "&c&l%victim%&r&c foi golpeado por &c&l%killer%&r&c"
+
+fall-damage-messages:
+  - "&c&l%victim%&r&c decidiu testar a gravidade e perdeu"
+  - "&c&l%victim%&r&c esqueceu de trazer seu paraquedas"
+  - "&c&l%victim%&r&c achou que poderia voar... não conseguiu"
+
+drowning-messages:
+  - "&c&l%victim%&r&c decidiu dormir com os peixes"
+  - "&c&l%victim%&r&c achou que poderia chegar ao oxigênio a tempo"
+  - "&c&l%victim%&r&c tentou nadar mais rápido que a água"
+
+suffocation-messages:
+  - "&c&l%victim%&r&c não conseguiu respirar dentro de um bloco"
+  - "&c&l%victim%&r&c foi sufocado por um bloco"
+  - "&c&l%victim%&r&c foi derrotado por um bloco"
+
+cramming-messages:
+  - "&c&l%victim%&r&c foi espremido até a morte"
+  - "&cCoitado de &c&l%victim%&r&c, pensou que poderia viver em um espaço 1x1"
+
+thorns-messages:
+  - "&c&l%victim%&r&c foi repelido pela armadura espinhosa de &c&l%killer%&r&c"
+  - "&c&l%victim%&r&c teve o jogo virado por &c&l%killer%&r&c com suas espinhas"
+
+lava-messages:
+  - "&c&l%victim%&r&c queimou em uma poça de lava"
+  - "&c&l%victim%&r&c foi nadar em lava e se queimou"
+
+magma-block-messages:
+  - "&c&l%victim%&r&c foi removido por um bloco de magma quente"
+  - "&c&l%victim%&r&c teve os pés transformados em bacon por um bloco de magma"
+
+elytra-messages:
+  - "&c&l%victim%&r&c voou contra uma parede e morreu...?"
+  - "&c&l%victim%&r&c foi arremessado contra uma parede por sua elytra"
+
+wither-messages:
+  - "&c&l%victim%&r&c contraiu a &9maldição do Wither"
+  - "&c&l%victim%&r&c foi consumido pelo &9Wither &cna quarta dimensão"
+
+suicide-messages:
+  - "&c&l%victim%&r&c se matou"
+  - "&c&l%victim%&r&c teve um colapso mental e morreu"
+
+fire-messages:
+  - "&c&l%victim%&r&c ficou parado na lareira"
+  - "&c&l%victim%&r&c brincou com fogo"
+
+fire-tick-messages:
+  - "&c&l%victim%&r&c esqueceu de parar, deitar e rolar"
+
+starvation-messages:
+  - "&c&l%victim%&r&c esqueceu de comer"
+  - "&c&l%victim%&r&c a mãe disse que temos comida em casa"
+
+cactus-messages:
+  - "&c&l%victim%&r&c foi picado até a morte"
+  - "&c&l%victim%&r&c tentou acupuntura, mas morreu"
+  - "&c&l%victim%&r&c abraçou um cacto até a morte"
+
+potion-messages:
+  - "&c&l%victim%&r&c caiu vítima de uma poção ruim"
+  - "&c&l%victim%&r&c morreu de coronavírus"
+
+void-messages:
+  - "&c&l%victim%&r&c achou que seria divertido fazer uma viagem no vazio"
+  - "&c&l%victim%&r&c fez uma viagem de ida para o vazio"
+  - "&c&l%victim%&r&c foi em uma aventura cósmica... sem uma nave espacial"
+
+lightning-messages:
+  - "&c&l%victim%&r&c foi atingido por uma intervenção divina"
+  - "&c&l%victim%&r&c foi derrubado pelos deuses"
+  - "&c&l%victim%&r&c recebeu um lembrete chocante lá de cima"
+
+falling-block-messages:
+  - "&c&l%victim%&r&c foi esmagado por um bloco caindo"
+  - "&c&l%victim%&r&c tornou-se um com o bloco que caiu"
+  - "&c&l%victim%&r&c encontrou seu fim em um bloco caindo"
+
+freeze-messages:
+  - "&c&l%victim%&r&c não sobreviveu ao vórtice polar"
+  - "&c&l%victim%&r&c esqueceu sua jaqueta de inverno"
+  - "&c&l%victim%&r&c congelou mais rápido do que um cubo de gelo"
+
+firework-messages:
+  - "&c&l%victim%&r&c acendeu o pavio de um foguete muito cedo"
+  - "&c&l%victim%&r&c tentou voar com estilo... e caiu"
+  - "&c&l%victim%&r&c descobriu os perigos da pirotecnia amadora"
+
+slime-messages:
+  - "&c&l%victim%&r&c foi esmagado por uma &2SLIME GIGANTE"
+  - "&c&l%victim%&r&c foi &2transformado em slime &cate a morte enquanto coletava bolas de slime"
+
+zombie-messages:
+  - "&c&l%victim%&r&c foi devorado vivo por um &2Zumbi"
+  - "&c&l%victim%&r&c achou que um &2Zumbi &cera amigável"
+
+pigman-messages:
+  - "&c&l%victim%&r&c irritou os &eZumbis Pigmen &ce foi devorado vivo"
+  - "&c&l%victim%&r&c enfureceu os &eZumbis Pigmen &ce virou bacon"
+
+skeleton-messages:
+  - "&c&l%victim%&r&c foi snipado por um esquelético &fEsqueleto"
+  - "&c&l%victim%&r&c foi baleado por um &fEsqueleto"
+
+magmacube-messages:
+  - "&c&l%victim%&r&c foi esmagado por uma &6MAGMACUBE GIGANTE"
+
+husk-messages:
+  - "&c&l%victim%&r&c foi comido por um morador do deserto, também conhecido como &3Husk"
+
+spider-messages:
+  - "&c&l%victim%&r&c foi enganado por uma esperta &1Aranha"
+  - "&c&l%victim%&r&c virou petisco de &1Aranha"
+
+cavespider-messages:
+  - "&c&l%victim%&r&c foi mordido até a morte por uma &1Aranha da Caverna"
+  - "&c&l%victim%&r&c recebeu um abraço venenoso de uma &1Aranha da Caverna"
+
+witherskeleton-messages:
+  - "&c&l%victim%&r&c foi destruído por um &0Esqueleto Wither &ccom uma espada de pedra"
+  - "&c&l%victim%&r&c foi ensinado por um &0Esqueleto Wither &ccom uma espada de pedra"
+
+witherboss-messages:
+  - "&c&l%victim%&r&c teve sua cabeça explodida pelo &0Wither"
+  - "&c&l%victim%&r&c desafiou o &0Wither &ce perdeu sua cabeça"
+  - "&c&l%victim%&r&c recebeu uma lição mortal do &0Wither"
+
+dragon-messages:
+  - "&c&l%victim%&r&c teve suas entranhas arrancadas pelo &5Dragão do End"
+  - "&c&l%victim%&r&c teve sua cabeça explodida pelo &5Dragão do End"
+  - "&c&l%victim%&r&c encontrou uma tela de respawn, não o portal do End"
+
+dragon-breath-messages:
+  - "&c&l%victim%&r&c tomou um banho no sopro do &5Dragão do End"
+  - "&c&l%victim%&r&c inalou um pouco demais do sopro do &5Dragão do End"
+  - "&c&l%victim%&r&c foi incinerado pelo ataque de sopro do &5Dragão do End"
+
+elderguardian-messages:
+  - "&c&l%victim%&r&c tentou limpar um monumento oceânico, mas o &bGuardião Ancião &cdisse não"
+  - "&c&l%victim%&r&c achou que poderia conquistar um monumento oceânico, mas o &bGuardião Ancião &ctinha outros planos"
+
+tnt-messages:
+  - "&c&l%victim%&r&c teve sua cabeça explodida por &4TNT"
+  - "&c&l%victim%&r&c foi explodido por &4TNT"
+  - "&c&l%victim%&r&c descobriu sobre explosivos do jeito difícil"
+
+end-crystal-messages:
+  - "&c&l%victim%&r&c foi perfurado por um &5Cristal do End"
+  - "&c&l%victim%&r&c foi explodido por um &5Cristal do End"
+
+creeper-messages:
+  - "&c&l%victim%&r&c foi rudeamente apresentado à personalidade explosiva de um &aCreeper"
+  - "&c&l%victim%&r&c encontrou um &aCreeper &ce foi explodido para o alto"
+  - "&c&l%victim%&r&c subestimou o raio de explosão de um &aCreeper"
+  - "&c&l%victim%&r&c tentou desarmar um &aCreeper&c... não funcionou"
+
+ghast-messages:
+  - "&c&l%victim%&r&c foi atingido por uma bola de fogo de um &bGhast"
+
+enderman-messages:
+  - "&c&l%victim%&r&c encarou um &5Enderman &cnos olhos"
+  - "&c&l%victim%&r&c tentou brincar de esconde-esconde com um &5Enderman"
+
+silverfish-messages:
+  - "&c&l%victim%&r&c foi comido por uma &7Traça da Prata"
+
+witch-messages:
+  - "&c&l%victim%&r&c foi enfeitiçado por uma &9Bruxa &clesperta"
+  - "&c&l%victim%&r&c foi transformado em sapo por uma &9Bruxa &cvingativa"
+
+shulker-messages:
+  - "&c&l%victim%&r&c morreu tentando pegar algumas conchas de &dShulker"
+  - "&c&l%victim%&r&c foi atingido por um &dShulker"
+  - "&c&l%victim%&r&c foi destruído por um &dShulker"
+
+guardian-messages:
+  - "&c&l%victim%&r&c foi morto por um &7Guardião"
+  - "&c&l%victim%&r&c foi zapeado por um &7Guardião eletrificante"
+  - "&c&l%victim%&r&c foi superado por um sorrateiro &7Guardião"
+
+golem-messages:
+  - "&c&l%victim%&r&c deixou um &7Golem de Ferro &cirritado"
+  - "&c&l%victim%&r&c provocou a ira de um &7Golem de Ferro"
+  - "&c&l%victim%&r&c recebeu uma lição em diplomacia com um &7Golem de Ferro"
+
+zombievillager-messages:
+  - "&c&l%victim%&r&c virou jantar de um &2Aldeão Zumbi"
+
+endermite-messages:
+  - "&c&l%victim%&r&c encontrou um &5Endermite &ce foi mordiscado até a morte"
+  - "&c&l%victim%&r&c foi enganado por um &5Endermite"
+
+phantom-messages:
+  - "&c&l%victim%&r&c foi sequestrado por um &1Fantasma"
+
+drowned-messages:
+  - "&c&l%victim%&r&c foi nadar tarde da noite e foi devorado por um &2Zumbi Afogado"
+  - "&c&l%victim%&r&c descobriu que os &2Afogados &cnão são apenas nadadores regulares"
+
+pillager-messages:
+  - "&c&l%victim%&r&c foi baleado por um &3Pilhador"
+
+ravager-messages:
+  - "&c&l%victim%&r&c foi atropelado por um &3Ravageiro"
+
+illusioner-messages:
+  - "&c&l%victim%&r&c foi enviado para o mundo das ilusões por um &6Ilusionista"
+  - "&c&l%victim%&r&c foi enganado por um &6Ilusionista"
+  - "&c&l%victim%&r&c foi morto por um &6Ilusionista"
+
+bee-messages:
+  - "&c&l%victim%&r&c foi picado por uma &6Abelha"
+  - "&c&l%victim%&r&c encontrou uma &6abelha &ce descobriu que elas não são apenas produtoras de mel"
+  - "&c&l%victim%&r&c foi picado por uma &6abelha persistente"
+
+wolf-messages:
+  - "&c&l%victim%&r&c foi despedaçado por um &7Lobo"
+  - "&c&l%victim%&r&c provocou um &7Lobo"
+
+llama-messages:
+  - "&c&l%victim%&r&c foi cuspido até a morte por uma &eLhama"
+  - "&c&l%victim%&r&c foi pego no fogo de uma &ellhama"
+  - "&c&l%victim%&r&c levou uma boca cheia de cuspe de &ellhama"
+
+blaze-messages:
+  - "&c&l%victim%&r&c foi carbonizado por um &6Blaze"
+  - "&c&l%victim%&r&c foi assado por um &6Blaze"
+  - "&c&l%victim%&r&c aprendeu da pior maneira que não se brinca com &6Blazes"
+
+stray-messages:
+  - "&c&l%victim%&r&c foi acertado por um &7Esqueleto Vagante"
+
+vex-messages:
+  - "&c&l%victim%&r&c foi comido por um pequeno &bVex &cvoante"
+  - "&c&l%victim%&r&c foi irritado por um &bVex"
+
+vindicator-messages:
+  - "&c&l%victim%&r&c foi caçado por um &4Vindicador"
+  - "&c&l%victim%&r&c subestimou a força de um &4Vindicador"
+  - "&c&l%victim%&r&c ficou preso no caminho de destruição de um &4Vindicador"
+
+evoker-messages:
+  - "&c&l%victim%&r&c foi convocado para a morte por um &4Evocador"
+  - "&c&l%victim%&r&c desafiou a ira de um &4Evocador"
+  - "&c&l%victim%&r&c foi evocado por um &4Evocador"
+
+pufferfish-messages:
+  - "&c&l%victim%&r&c subestimou a toxicidade de um &eBaiacu"
+  - "&c&l%victim%&r&c encontrou um &eBaiacu &ce aprendeu da pior maneira para não tocar"
+
+polar-bear-messages:
+  - "&c&l%victim%&r&c foi dilacerado por um &fUrso Polar&c gelado"
+  - "&c&l%victim%&r&c virou neve pelas garras de um &fUrso Polar"
+
+dolphin-messages:
+  - "&c&l%victim%&r&c provocou um &bGolfinho&c... e perdeu?"
+  - "&c&l%victim%&r&c deu um tapa em um &bGolfinho &ce eles retaliaram"
+
+panda-messages:
+  - "&c&l%victim%&r&c virou o jantar de um &8Panda"
+  - "&c&l%victim%&r&c tentou roubar o bambu de um &8Panda"
+
+piglin-messages:
+  - "&c&l%victim%&r&c encontrou seu criador contra os novos &6Piglins"
+  - "&c&l%victim%&r&c enfrentou os &6Piglins &ce aprendeu uma lição de sobrevivência"
+  - "&c&l%victim%&r&c encontrou os &6Piglins &ce descobriu que eles não negociam"
+
+hoglin-messages:
+  - "&c&l%victim%&r&c foi atacado por um &6Hoglin&c, meio rude, né?"
+  - "&c&l%victim%&r&c não leu as notas da atualização sobre os &6Hoglins"
+
+zoglin-messages:
+  - "&c&l%victim%&r&c comeu o chifre de um &6Zoglin &cpara o jantar"
+  - "&c&l%victim%&r&c foi atropelado por um &6Zoglin"
+
+goat-messages:
+  - "&c&l%victim%&r&c foi chifrado por uma &4Cabra"
+  - "&c&l%victim%&r&c foi empalado pelo chifre de uma &4Cabra"
+
+zombified-piglin-messages:
+  - "&c&l%victim%&r&c trouxe um &6Piglin &cpara o mundo superior e foi morto pelo seu novo, não tão amigável pet"
+  - "&c&l%victim%&r&c morreu para um &6Piglin&c... quer dizer, Zumbi Pigman..."
+
+fox-messages:
+  - "&c&l%victim%&r&c foi &6enganado &cpelo &6Raposa &ce descobriu"
+  - "&c&l%victim%&r&c foi despedaçado por uma &6Raposa"
+
+warden-messages:
+  - "&c&l%victim%&r&c foi morto por um &1Sentinela&c... quer dizer, o que você esperava?"
+  - "&c&l%victim%&r&c subestimou a força do &1Sentinela"
+  - "&c&l%victim%&r&c ficou muito perto do território de um &1Sentinela"
+
+warden-sonic-boom-messages:
+  - "&c&l%victim%&r&c foi atingido pelo boom sônico de um &1Sentinela"
+  - "&c&l%victim%&r&c teve os ouvidos estourados pelo boom sônico de um &1Sentinela"
+
+unknown-messages:
+  - "&c&l%victim%&r&c morreu por causas desconhecidas"
+  - "&c&l%victim%&r&c morreu"
+  - "&c&l%victim%&r&c foi morto"
+
+fireball-messages:
+  - "&c&l%victim%&r&c foi carbonizado por um ataque inesperado de &4bola de fogo"
+  - "&c&l%victim%&r&c foi pego em uma tempestade de &4bolas de fogo"
+  - "&c&l%victim%&r&c foi incinerado por uma barragem de &4bolas de fogo"
+
+arrow-messages:
+  - "&c&l%victim%&r&c foi pego numa chuva de &5setas"
+  - "&c&l%victim%&r&c tentou fugir das &5setas&c... mas não funcionou"
