@@ -29,6 +29,7 @@ import static me.txmc.core.util.GlobalUtils.log;
 
 public class Main extends JavaPlugin {
     @Getter private static Main instance;
+    @Getter public static String prefix;
     @Getter private ScheduledExecutorService executorService;
     private List<Section> sections;
     private List<Reloadable> reloadables;
@@ -43,6 +44,7 @@ public class Main extends JavaPlugin {
         instance = this;
         executorService = Executors.newScheduledThreadPool(4);
         startTime = System.currentTimeMillis();
+        prefix = getConfig().getString("PluginMessagePrefix", "&6[&18b&98t&cCore&6]");
         saveDefaultConfig();
         getLogger().addHandler(new LoggerHandler());
         Localization.loadLocalizations(getDataFolder());

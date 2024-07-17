@@ -33,7 +33,7 @@ import java.util.Random;
  * This file was created as a part of 8b8tCore
  */
 public class GlobalUtils {
-    @Getter private static final String PREFIX = "&6[&18b&98t&cCore&6]";
+    @Getter private static final String PREFIX = Main.prefix;
 
     public static void info(String format) {
         log(Level.INFO, format);
