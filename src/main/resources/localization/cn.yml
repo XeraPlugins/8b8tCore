@@ -70,6 +70,7 @@ tpa_request_denied_from: "&a%s&r&c拒绝了你的请求"
 tpa_request_denied_to: "&3请求已成功拒绝"
 tpa_pending_request: "&a%s&r &c有一个待处理的请求"
 tpa_to_left: "&cTPA已取消，因为&r&a %s&r&c离开了"
+op_not_allowed: "&c您无权成为操作员"
 announcements:
   - '&6[&18b&98t&6]&6 访问 &chttps://votefor.8b8t.me &6并投票即可获得免费 /nc 和 5 个额外住宅'
   - '&6[&18b&98t&6]&6 捐款以帮助支持 8b8t，网址为 &chttps://donate.8b8t.me'

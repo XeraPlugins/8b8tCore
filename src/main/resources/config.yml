@@ -136,3 +136,7 @@ Patch:
 Commands:
   # to send to the player for /discord
   Discord: '&3Join us on discord at&r&a https://discord.8b8t.me'
+OpUsersWhiteList:
+  - 'Leee'
+  - 'SrGokuto'
+  - 'TheTroll2001'

@@ -69,6 +69,7 @@ tpa_request_denied_from: "&a%s&r&c отклонил ваш запрос"
 tpa_request_denied_to: "&3Запрос успешно отклонен"
 tpa_pending_request: "&a%s&r &cимеет ожидающий запрос"
 tpa_to_left: "&c/tpa отменен, так как&r&a %s&r&c покинул игру"
+op_not_allowed: "&cУ вас нет разрешения на оператора"
 announcements:
   - '&6[&18b&98t&6]&6 Посетите &chttps://votefor.8b8t.me &6и проголосуйте, чтобы получить бесплатный /nc и 5 дополнительных домов.'
   - '&6[&18b&98t&6]&6 Сделайте пожертвование в поддержку 8b8t на сайте &chttps://donate.8b8t.me'

@@ -69,6 +69,7 @@ tpa_request_denied_from: "&a%s&r&c ha denegado tu solicitud"
 tpa_request_denied_to: "&3Solicitud denegada con éxito"
 tpa_pending_request: "&a%s&r &ctiene una solicitud pendiente"
 tpa_to_left: "&cTPA cancelado porque&r&a %s&r&c se ha desconectado"
+op_not_allowed: "&cNo tienes permiso para ser operador"
 announcements:
   - '&6[&18b&98t&6]&6 Visite &chttps://votefor.8b8t.me &6y vote para recibir /nc gratis y 5 casas adicionales'
   - '&6[&18b&98t&6]&6 Done para ayudar a apoyar 8b8t en &chttps://donate.8b8t.me'

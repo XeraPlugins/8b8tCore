@@ -3,6 +3,7 @@ package me.txmc.core;
 import lombok.Getter;
 import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.chat.ChatSection;
+import me.txmc.core.chat.listeners.OpWhiteListListener;
 import me.txmc.core.chat.tasks.AnnouncementTask;
 import me.txmc.core.command.CommandSection;
 import me.txmc.core.deathmessages.DeathMessageListener;
@@ -57,6 +58,7 @@ public class Main extends JavaPlugin {
         register(new CommandSection(this));
         register(new PatchSection(this));
         register(new DeathMessageListener());
+        register(new OpWhiteListListener(this));
         if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
 
         for (Section section : sections) {
