@@ -20,9 +20,7 @@
 
 ## To do
 * Permission based view distance and simulation distance
-* Fix bugs related to anti illegal
 * /tps command with permission to use it
-* Add prefix option to the config
 * Suggest additional features by joining the discord
 
 ## Discussion / Support
