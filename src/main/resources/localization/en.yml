@@ -70,6 +70,7 @@ tpa_request_denied_from: "&a%s&r&c has denied your request"
 tpa_request_denied_to: "&3Request denied successfully"
 tpa_pending_request: "&a%s&r &chas a pending request"
 tpa_to_left: "&cTPA cancelled because&r&a %s&r&c left"
+op_not_allowed: "&cYou are not allowed to be op"
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'

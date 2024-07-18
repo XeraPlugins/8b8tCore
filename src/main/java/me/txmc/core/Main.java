@@ -3,6 +3,7 @@ package me.txmc.core;
 import lombok.Getter;
 import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.chat.ChatSection;
+import me.txmc.core.chat.listeners.OpWhiteListListener;
 import me.txmc.core.chat.tasks.AnnouncementTask;
 import me.txmc.core.command.CommandSection;
 import me.txmc.core.deathmessages.DeathMessageListener;
@@ -28,6 +29,7 @@ import static me.txmc.core.util.GlobalUtils.log;
 
 public class Main extends JavaPlugin {
     @Getter private static Main instance;
+    @Getter public static String prefix;
     @Getter private ScheduledExecutorService executorService;
     private List<Section> sections;
     private List<Reloadable> reloadables;
@@ -42,6 +44,7 @@ public class Main extends JavaPlugin {
         instance = this;
         executorService = Executors.newScheduledThreadPool(4);
         startTime = System.currentTimeMillis();
+        prefix = getConfig().getString("PluginMessagePrefix", "&6[&18b&98t&cCore&6]");
         saveDefaultConfig();
         getLogger().addHandler(new LoggerHandler());
         Localization.loadLocalizations(getDataFolder());
@@ -57,6 +60,7 @@ public class Main extends JavaPlugin {
         register(new CommandSection(this));
         register(new PatchSection(this));
         register(new DeathMessageListener());
+        register(new OpWhiteListListener(this));
         if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
 
         for (Section section : sections) {
