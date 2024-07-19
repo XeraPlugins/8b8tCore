@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import static me.txmc.core.util.GlobalUtils.sendDeathMessage;
@@ -41,7 +42,12 @@ public class DeathMessageListener implements Listener {
         Entity killer = victim.getKiller();
         ItemStack weapon = null;
 
+
         if (victim.getLastDamageCause() == null) {
+            return;
+        }
+
+        if (hasTotems(victim)) {
             return;
         }
 
@@ -86,6 +92,10 @@ public class DeathMessageListener implements Listener {
         }
 
         Player victim = (Player) event.getEntity();
+
+        if (hasTotems(victim)) {
+            return;
+        }
 
         if (victim.getHealth() - event.getFinalDamage() > 0) {
             return;
@@ -144,6 +154,19 @@ public class DeathMessageListener implements Listener {
 
     private static ItemStack getKillWeapon(Player killer) {
         return killer.getInventory().getItemInMainHand();
+    }
+
+    private boolean hasTotems(Player player) {
+        PlayerInventory inventory = player.getInventory();
+        boolean hasTotems = false;
+
+        if(inventory.getItemInMainHand().getType() == Material.TOTEM_OF_UNDYING){
+            hasTotems = true;
+        } else if(inventory.getItemInOffHand().getType() == Material.TOTEM_OF_UNDYING){
+            hasTotems = true;
+        }
+
+        return hasTotems;
     }
 
     private String getWeaponName(ItemStack weapon) {

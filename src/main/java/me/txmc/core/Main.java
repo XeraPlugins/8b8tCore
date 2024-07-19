@@ -6,6 +6,8 @@ import me.txmc.core.chat.ChatSection;
 import me.txmc.core.chat.listeners.OpWhiteListListener;
 import me.txmc.core.chat.tasks.AnnouncementTask;
 import me.txmc.core.command.CommandSection;
+import me.txmc.core.customexperience.PlayerSimulationDistance;
+import me.txmc.core.customexperience.PlayerViewDistance;
 import me.txmc.core.deathmessages.DeathMessageListener;
 import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
@@ -60,6 +62,8 @@ public class Main extends JavaPlugin {
         register(new CommandSection(this));
         register(new PatchSection(this));
         register(new DeathMessageListener());
+        register(new PlayerViewDistance(this));
+        register(new PlayerSimulationDistance(this));
         register(new OpWhiteListListener(this));
         if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
 

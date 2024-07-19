@@ -141,3 +141,7 @@ OpUsersWhiteList:
   - 'SrGokuto'
   - 'TheTroll2001'
 PluginMessagePrefix: '&6[&18b&98t&cCore&6]'
+viewdistance:
+  default: 6
+simulationdistance:
+  default: 4

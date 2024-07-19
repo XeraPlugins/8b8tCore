@@ -35,3 +35,40 @@ commands:
   world:
   vote:
   tps:
+permissions:
+  8b8tcore.viewdistance.default:
+    description: Permission for the default view distance
+    default: true
+  8b8tcore.viewdistance.4:
+    description: Permission to set a view distance of 4 chunks
+    default: false
+  8b8tcore.viewdistance.6:
+    description: Permission to set a view distance of 6 chunks
+    default: false
+  8b8tcore.viewdistance.8:
+    description: Permission to set a view distance of 8 chunks
+    default: false
+  8b8tcore.viewdistance.16:
+    description: Permission to set a view distance of 16 chunks
+    default: false
+  8b8tcore.viewdistance.32:
+    description: Permission to set a view distance of 32 chunks
+    default: false
+  8b8tcore.simulationdistance.default:
+    description: Permission for the default simulation distance
+    default: true
+  8b8tcore.simulationdistance.4:
+    description: Permission to set a simulation distance of 4 chunks
+    default: false
+  8b8tcore.simulationdistance.6:
+    description: Permission to set a simulation distance of 6 chunks
+    default: false
+  8b8tcore.simulationdistance.8:
+    description: Permission to set a simulation distance of 8 chunks
+    default: false
+  8b8tcore.simulationdistance.16:
+    description: Permission to set a simulation distance of 16 chunks
+    default: false
+  8b8tcore.simulationdistance.32:
+    description: Permission to set a simulation distance of 32 chunks
+    default: false
