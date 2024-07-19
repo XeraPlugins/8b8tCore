@@ -15,11 +15,12 @@
 * Per region TPS in tablist
 * Basic auto message plugin with configurable interval
 * Death messages plugin
+* Permission based view distance and simulation distance
 
 
 
 ## To do
-* Permission based view distance and simulation distance
+
 * /tps command with permission to use it
 * Suggest additional features by joining the discord
 
