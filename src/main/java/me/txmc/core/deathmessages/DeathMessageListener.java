@@ -42,9 +42,6 @@ public class DeathMessageListener implements Listener {
         Entity killer = victim.getKiller();
         ItemStack weapon = null;
 
-        if (victim.getLastDamageCause() == null) {
-            return;
-        }
 
         if (victim.getLastDamageCause() == null) {
             return;
