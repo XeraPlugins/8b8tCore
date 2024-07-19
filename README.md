@@ -14,6 +14,7 @@
 * Anti lag machine(based on TPS and MSTP configurable in the config)
 * Per region TPS in tablist
 * Basic auto message plugin with configurable interval
+* Death messages plugin
 
 
 
@@ -21,7 +22,6 @@
 * Permission based view distance and simulation distance
 * Fix bugs related to anti illegal
 * /tps command with permission to use it
-* Death messages plugin
 * Add prefix option to the config
 * Suggest additional features by joining the discord
 
