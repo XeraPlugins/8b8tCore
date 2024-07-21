@@ -34,7 +34,7 @@ commands:
   uptime:
   world:
   vote:
-  tps:
+  tpsinfo:
 permissions:
   8b8tcore.viewdistance.default:
     description: Permission for the default view distance
@@ -73,6 +73,6 @@ permissions:
     description: Permission to set a simulation distance of 32 chunks
     default: false
 
-  8b8tcore.tpscommand:
+  8b8tcore.tpsinfo:
     description: Permission to show TPS information
     default: false
