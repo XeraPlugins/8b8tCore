@@ -65,7 +65,10 @@ public class VoteSection implements Section {
     }
 
     public void rewardPlayer(Player player) {
-        if (!player.hasPermission("Leee.nc")) executeCommand("lp user %s group add voter", player.getName());
+        if (!player.hasPermission("8b8tcore.viewdistance.6")) {
+            executeCommand("lp user %s group add voter", player.getName());
+            executeCommand("lp user %s group remove default", player.getName());
+        }
         //int maxHomes = ((HomeManager) plugin.getSectionByName("Home")).getMaxHomes(player);
         //if ((maxHomes + 2) >= config.getInt("MaxHomesByVoting")) return;
         sendPrefixedLocalizedMessage(player, "vote_thanks");
