@@ -28,7 +28,7 @@
 - **Auto Message:** Sends configurable auto messages at set intervals.
 - **Death Messages:** Customizable death messages for players.
 - **Permission-Based View and Simulation Distance:** Adjusts view and simulation distance based on player permissions.
-- **/tpsinfo Command:** Provides TPS and MSPT metrics with permission control.
+- **/tps Command:** Provides TPS and MSPT metrics with permission control.
 - **Custom Prefix:** Customize the prefix of messages according to your server.
 - **Command Whitelist:** Select the commands that are allowed; the rest will be denied.
 - **Op Security:** Whitelist of users who can be operators; if an external person is detected, their permission will be revoked.
