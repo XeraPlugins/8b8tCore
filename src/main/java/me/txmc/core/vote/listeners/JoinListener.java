@@ -21,6 +21,6 @@ public class JoinListener implements Listener {
         main.getToRewardEntry(player).ifPresent(i -> {
             for (int j = 0; j < i; j++) main.rewardPlayer(player);
         });
-        main.markAsRewarded(player.getName());
+        /**main.markAsRewarded(player.getName());*/
     }
 }
