@@ -7,7 +7,7 @@
 * Anti-illegal 
 * Tablist 
 * Change the world your in (ops only)
-* Entity perk chunk limit control per entity type
+* Entity per chunk limit control per entity type
 * Green text and private messaging like ChatCo. (with better code that isn't from 2012)
 * Language locale
 * Voting feature that is compatible with VotiferPlus https://www.spigotmc.org/resources/votifierplus.74040/
