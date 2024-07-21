@@ -1,4 +1,4 @@
-# 8b8tCore
+ # 8b8tCore
 ### Folia Core Plugin for 8b8t and Anarchy Servers
 ## Features
 * Homes / TPA 
@@ -16,12 +16,9 @@
 * Basic auto message plugin with configurable interval
 * Death messages plugin
 * Permission based view distance and simulation distance
-
-
+* /tps command with permission to use it
 
 ## To do
-
-* /tps command with permission to use it
 * Suggest additional features by joining the discord
 
 ## Discussion / Support
