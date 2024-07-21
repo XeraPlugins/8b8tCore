@@ -17,7 +17,7 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 import static me.txmc.core.util.GlobalUtils.translateChars;
 
 /**
- * <p>This class handles the <code>/tps</code> command, which provides TPS (Ticks Per Second)
+ * <p>This class handles the <code>/tpsinfo</code> command, which provides TPS (Ticks Per Second)
  * and MSPT (Milliseconds per Tick) metrics for the server.</p>
  *
  * <p>When executed by a player with the required permissions, the command retrieves
@@ -33,13 +33,13 @@ import static me.txmc.core.util.GlobalUtils.translateChars;
  * @author Minelord9000 (agarciacorte)
  * @since 2024/07/18 3:19 PM
  */
-public class TpsCommand extends BaseCommand {
+public class TpsinfoCommand extends BaseCommand {
     private final Main plugin;
-    public TpsCommand(Main plugin) {
+    public TpsinfoCommand(Main plugin) {
         super(
-                "tps",
-                "/8b8tcore:tps",
-                "8b8tcore.tpscommand",
+                "tpsinfo",
+                "/tpsinfo",
+                "8b8tcore.tpsinfo",
                 "Show TPS information");
         this.plugin = plugin;
     }
@@ -51,7 +51,7 @@ public class TpsCommand extends BaseCommand {
             return;
         }
 
-        if(!sender.hasPermission("8b8tcore.tpscommand") && !sender.isOp()){
+        if(!sender.hasPermission("8b8tcore.tpsinfo") && !sender.isOp()){
             sendPrefixedLocalizedMessage(player,"tps_failed");
             return;
         }

@@ -102,13 +102,12 @@ ChatControl:
     - '/voicechat'
     - '/vote'
     - '/dupe'
-    - '/tps'
-    - '/8b8tcore:tps'
+    - '/tpsinfo'
 TPA:
   RequestTimeout: 3 # In minutes
 TPS:
   Permissions:
-    - '8b8tcore.tpscommand'
+    - '8b8tcore.tpsinfo'
 Home:
   #The closest the player can be to 0,0
   Radius: 500

@@ -32,7 +32,7 @@ public class CommandHandler implements TabExecutor {
         addCommand(new SpeedCommand());
         addCommand(new UptimeCommand(main.getPlugin()));
         addCommand(new WorldSwitcher());
-        addCommand(new TpsCommand(main.getPlugin()));
+        addCommand(new TpsinfoCommand(main.getPlugin()));
     }
 
     private void addCommand(BaseCommand command) {
