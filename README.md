@@ -10,7 +10,7 @@
 * Entity per chunk limit control per entity type
 * Green text and private messaging like ChatCo. (with better code that isn't from 2012)
 * Language locale
-* Voting feature that is compatible with VotiferPlus https://www.spigotmc.org/resources/votifierplus.74040/
+* Voting feature that is compatible with VotifierPlus https://www.spigotmc.org/resources/votifierplus.74040/
 * Anti lag machine(based on TPS and MSTP configurable in the config)
 * Per region TPS in tablist
 * Basic auto message plugin with configurable interval
