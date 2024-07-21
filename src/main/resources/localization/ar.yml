@@ -123,7 +123,13 @@ TabList:
     - '&7Website: https://www.8b8t.me'
     - '&7These are the only official 8b8t websites and contacts'
     - ''
-
+TpsMessage:
+  - '&1------------TPS Information------------'
+  - '&6TPS: &a%s &6MSTP: &a%s'
+  - '&6Lowest Region TPS: &c%s'
+  - '&6Online Players &a%s'
+  - '&1-------------------------------------'
+tps_failed: '&cYou are not allowed to check TPS'
 
 # Death messages
 global-pvp-death-messages:

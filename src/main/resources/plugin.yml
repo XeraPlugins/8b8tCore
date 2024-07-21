@@ -72,3 +72,7 @@ permissions:
   8b8tcore.simulationdistance.32:
     description: Permission to set a simulation distance of 32 chunks
     default: false
+
+  8b8tcore.tpscommand:
+    description: Permission to show TPS information
+    default: false

@@ -122,7 +122,13 @@ TabList:
     - '&7Website: https://www.8b8t.me'
     - '&7Esses são os únicos websites e contatos oficiais do 8b8t'
     - ''
-
+TpsMessage:
+  - '&1------------Informação de TPS------------'
+  - '&6TPS: &a%s &6MSTP: &a%s'
+  - '&6Menor TPS da região: &c%s'
+  - '&6Jogadores online: &a%s'
+  - '&1-------------------------------------'
+tps_failed: '&cVocê não tem permissão para consultar o TPS'
 
 
 # Death messages

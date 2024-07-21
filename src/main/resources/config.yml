@@ -102,11 +102,13 @@ ChatControl:
     - '/voicechat'
     - '/vote'
     - '/dupe'
+    - '/tps'
+    - '/8b8tcore:tps'
 TPA:
   RequestTimeout: 3 # In minutes
 TPS:
   Permissions:
-    - 'leee.tps'
+    - '8b8tcore.tpscommand'
 Home:
   #The closest the player can be to 0,0
   Radius: 500
