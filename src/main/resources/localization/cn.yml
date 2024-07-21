@@ -122,8 +122,13 @@ TabList:
     - '&7网站: https://www.8b8t.me'
     - '&7这些是 8b8t 的唯一官方网站和联系方式'
     - ''
-
-
+TpsMessage:
+  - '&1------------TPS信息------------'
+  - '&6TPS: &a%s &6MSTP: &a%s'
+  - '&6最低区域TPS: &c%s'
+  - '&6在线玩家: &a%s'
+  - '&1-------------------------------------'
+tps_failed: '&c您没有被允许查询TPS'
 
 # Death messages
 global-pvp-death-messages:

@@ -120,6 +120,14 @@ TabList:
     - '&7Website: https://www.8b8t.me'
     - '&7These are the only official 8b8t websites and contacts'
     - ''
+TpsMessage:
+  - '&1------------TPS Information------------'
+  - '&6TPS: &a%s &6MSTP: &a%s'
+  - '&6Lowest Region TPS: &c%s'
+  - '&6Online Players &a%s'
+  - '&1-------------------------------------'
+tps_failed: '&cYou are not allowed to check TPS'
+
 announcements:
   - '&6[&18b&98t&6]&6 Visit &chttps://votefor.8b8t.me &6and vote to receive free /nc and 5 extra homes'
   - '&6[&18b&98t&6]&6 Donate to help support 8b8t at &chttps://donate.8b8t.me'
