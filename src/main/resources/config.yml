@@ -146,3 +146,8 @@ viewdistance:
   default: 6
 simulationdistance:
   default: 4
+FrameDupe:
+  enabled: true
+  dupeCooldown: 200L # Miliseconds
+  limitItemsPerChunk: 18 # Dropped items
+  probabilityPercentage: 100

@@ -1,6 +1,5 @@
 prefix: "&6[&18b&98t&6]&6"
 
-
 #Basic messages
 ignore_successful: "&3El jugador &r&a%s&r &3ha sido ignorado exitosamente"
 already_ignoring: "&cTu ya estas ignorando a este jugador."
@@ -57,6 +56,7 @@ welcome_message: "Bienvenido a 8b8t"
 vote_announcement: "&c%s &6votó por &18b&98t &6y recibió /nc gratis y 5 hogares adicionales"
 vote_thanks: "&6Gracias por votar por &18b&98t &6se te ha otorgado /nc gratis y 5 hogares adicionales"
 vote_info: "&6Puedes votar por &18b&98t &6en &chttps://votefor.8b8t.me"
+tpa_syntax: "&cPor favor incluye un jugador para teletransportarse a el /tpa <player>"
 tpa_player_not_online: "&cEl jugador %s no está en línea"
 tpa_no_request_found: "&cNo se encontró ninguna solicitud de TPA"
 tpa_self_tpa: "&cNo puedes TPA a ti mismo"
@@ -70,9 +70,9 @@ tpa_request_denied_to: "&3Solicitud denegada con éxito"
 tpa_pending_request: "&a%s&r &ctiene una solicitud pendiente"
 tpa_to_left: "&cTPA cancelado porque&r&a %s&r&c se ha desconectado"
 op_not_allowed: "&cNo tienes permiso para ser operador"
-announcements:
-  - '&6[&18b&98t&6]&6 Visite &chttps://votefor.8b8t.me &6y vote para recibir /nc gratis y 5 casas adicionales'
-  - '&6[&18b&98t&6]&6 Done para ayudar a apoyar 8b8t en &chttps://donate.8b8t.me'
+framedupe_cooldown: "&cEstás duplicando demasiado rápido"
+framedupe_items_limit: "&cYa hay muchos items dropeados en este chunk"
+
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
@@ -130,328 +130,332 @@ TpsMessage:
   - '&1-------------------------------------'
 tps_failed: '&cUsted no tiene permitido consultar los TPS'
 
+announcements:
+  - '&6[&18b&98t&6]&6 Visite &chttps://votefor.8b8t.me &6y vota para recibir /nc gratis y 5 homes adicionales'
+  - '&6[&18b&98t&6]&6 Done para apoyar a 8b8t en &chttps://donate.8b8t.me'
+
 # Death messages
 global-pvp-death-messages:
-  - "&c&l%victim%&r&c ha sido asesinado por &c&l%killer%&r&c"
-  - "&c&l%victim%&r&c fue abatido por &c&l%killer%&r&c usando &7[&b%kill-weapon%&7]"
-  - "&c&l%victim%&r&c ha sido eliminado por &c&l%killer%&r&c"
-  - "&c&l%victim%&r&c fue dominado por &c&l%killer%&r&c empuñando &7[&b%kill-weapon%&7]"
-  - "&c&l%killer%&r&c pulverizó a &c&l%victim%&r&c usando &7[&b%kill-weapon%&7]"
-  - "&c&l%victim%&r&c fue destruido por &c&l%killer%&r&c"
-  - "&c&l%victim%&r&c fue derrotado por &c&l%killer%&r&c y su poderoso &7[&b%kill-weapon%&7]"
-  - "&c&l%victim%&r&c fue abatido fácilmente por &c&l%killer%&r&c usando &7[&b%kill-weapon%&7]"
+  - "&3%victim%&r&4 ha sido asesinado por &3%killer%&r&4"
+  - "&3%victim%&r&4 fue abatido por &3%killer%&r&4 usando &6[%kill-weapon%]"
+  - "&3%victim%&r&4 ha sido eliminado por &3%killer%&r&4"
+  - "&3%killer%&r&4 le dió en su madre a &3%victim%&r&4 con la punta de su &6[%kill-weapon%]"
+  - "&3%killer%&r&4 le puso una madriza a &3%victim%&r&4 con &6[%kill-weapon%]"
+  - "&3%victim%&r&4 intentó matar a &3%killer%&r&4 pero le dieron una lección"
+  - "&3%victim%&r&4 fue asesinado por &3%killer%&r&4 y su poderoso &6[%kill-weapon%]"
+  - "&3%victim%&r&4 fue vencido por &3%killer%&r&4 y su &6[%kill-weapon%]"
 
 melee-death-messages:
-  - "&c&l%victim%&r&c fue golpeado por &c&l%killer%&r&c"
-  - "&c&l%victim%&r&c fue noqueado por &c&l%killer%&r&c"
-  - "&c&l%victim%&r&c fue golpeado por &c&l%killer%&r&c"
+  - "&3%victim%&r&4 fue golpeado por &3%killer%&r&4"
+  - "&3%victim%&r&4 fue noqueado por &3%killer%&r&4"
+  - "&3%victim%&r&4 fue golpeado por &3%killer%&r&4"
 
 fall-damage-messages:
-  - "&c&l%victim%&r&c decidió desafiar la gravedad y perdió"
-  - "&c&l%victim%&r&c olvidó traer su paracaídas"
-  - "&c&l%victim%&r&c pensó que podía volar... pero no pudo"
+  - "&3%victim%&r&4 decidió desafiar la gravedad y perdió"
+  - "&3%victim%&r&4 olvidó traer su paracaídas"
+  - "&3%victim%&r&4 pensó que podía volar... pero no pudo"
 
 drowning-messages:
-  - "&c&l%victim%&r&c decidió dormir con los peces"
-  - "&c&l%victim%&r&c pensó que podía llegar al oxígeno a tiempo"
-  - "&c&l%victim%&r&c intentó nadar más rápido que el agua"
+  - "&3%victim%&r&4 decidió dormir con los peces"
+  - "&3%victim%&r&4 pensó que podía llegar al oxígeno a tiempo"
+  - "&3%victim%&r&4 intentó nadar más rápido que el agua"
 
 suffocation-messages:
-  - "&c&l%victim%&r&c no pudo respirar dentro de un bloque"
-  - "&c&l%victim%&r&c fue sofocado dentro de un bloque"
-  - "&c&l%victim%&r&c fue superado por un bloque"
+  - "&3%victim%&r&4 no pudo respirar dentro de un bloque"
+  - "&3%victim%&r&4 fue sofocado dentro de un bloque"
+  - "&3%victim%&r&4 fue superado por un bloque"
 
 cramming-messages:
-  - "&c&l%victim%&r&c fue aplastado hasta la nada"
-  - "&cPobre &c&l%victim%&r&c, pensaron que podían vivir en un espacio de 1x1"
+  - "&3%victim%&r&4 fue aplastado hasta la nada"
+  - "&cPobre &3%victim%&r&4, pensaron que podían vivir en un espacio de 1x1"
 
 thorns-messages:
-  - "&c&l%victim%&r&c fue repelido por la armadura espinosa de &c&l%killer%&r&c"
-  - "&c&l%victim%&r&c recibió el mismo tratamiento de parte de la armadura espinosa de &c&l%killer%&r&c"
+  - "&3%victim%&r&4 fue repelido por la armadura espinosa de &3%killer%&r&4"
+  - "&3%victim%&r&4 recibió el mismo tratamiento de parte de la armadura espinosa de &3%killer%&r&4"
 
 lava-messages:
-  - "&c&l%victim%&r&c se quemó en un pozo de lava"
-  - "&c&l%victim%&r&c se lanzó a nadar en lava y se quemó"
+  - "&3%victim%&r&4 se quemó en un pozo de lava"
+  - "&3%victim%&r&4 se lanzó a nadar en lava y se quemó"
 
 magma-block-messages:
-  - "&c&l%victim%&r&c fue eliminado por un bloque de &6magma caliente"
-  - "&c&l%victim%&r&c sus pies se convirtieron en tocino por un bloque de &6magma"
+  - "&3%victim%&r&4 fue eliminado por un bloque de &6magma caliente"
+  - "&3%victim%&r&4 sus pies se convirtieron en tocino por un bloque de &6magma"
 
 elytra-messages:
-  - "&c&l%victim%&r&c voló contra una pared y murió...?"
-  - "&c&l%victim%&r&c fue estampado contra una pared por su elytra"
+  - "&3%victim%&r&4 voló contra una pared y murió...?"
+  - "&3%victim%&r&4 fue estampado contra una pared por su elytra"
 
 wither-messages:
-  - "&c&l%victim%&r&c contrajo la &9enfermedad del Wither"
-  - "&c&l%victim%&r&c se &9marchitó &chacia la cuarta dimensión"
+  - "&3%victim%&r&4 contrajo la &9enfermedad del Wither"
+  - "&3%victim%&r&4 se &9marchitó &chacia la cuarta dimensión"
 
 suicide-messages:
-  - "&c&l%victim%&r&c se suicidó"
-  - "&c&l%victim%&r&c tuvo un colapso mental y murió"
+  - "&3%victim%&r&4 se suicidó"
+  - "&3%victim%&r&4 tuvo un colapso mental y murió"
 
 fire-messages:
-  - "&c&l%victim%&r&c se paró en la chimenea"
-  - "&c&l%victim%&r&c jugó con fuego"
+  - "&3%victim%&r&4 se paró en la chimenea"
+  - "&3%victim%&r&4 jugó con fuego"
 
 fire-tick-messages:
-  - "&c&l%victim%&r&c olvidó detenerse, tirarse al suelo y rodar"
+  - "&3%victim%&r&4 olvidó detenerse, tirarse al suelo y rodar"
 
 starvation-messages:
-  - "&c&l%victim%&r&c olvidó comer"
-  - "&c&l%victim%&r&c la mamá dijo que tenemos comida en casa"
+  - "&3%victim%&r&4 olvidó comer"
+  - "&3%victim%&r&4 olvidó su desayuno en casa"
 
 cactus-messages:
-  - "&c&l%victim%&r&c fue pinchado hasta la muerte"
-  - "&c&l%victim%&r&c probó la acupuntura, pero murió"
-  - "&c&l%victim%&r&c abrazó un cactus hasta la muerte"
+  - "&3%victim%&r&4 fue pinchado hasta la muerte"
+  - "&3%victim%&r&4 probó la acupuntura, pero murió"
+  - "&3%victim%&r&4 abrazó un cactus hasta la muerte"
 
 potion-messages:
-  - "&c&l%victim%&r&c cayó víctima de una poción defectuosa"
-  - "&c&l%victim%&r&c murió de coronavirus"
+  - "&3%victim%&r&4 cayó víctima de una poción defectuosa"
+  - "&3%victim%&r&4 murió de coronavirus"
 
 void-messages:
-  - "&c&l%victim%&r&c pensó que sería divertido dar un paseo en el vacío"
-  - "&c&l%victim%&r&c tomó un viaje de ida al vacío"
-  - "&c&l%victim%&r&c se embarcó en una aventura cósmica... sin nave espacial"
+  - "&3%victim%&r&4 pensó que sería divertido dar un paseo en el vacío"
+  - "&3%victim%&r&4 tomó un viaje de ida al vacío"
+  - "&3%victim%&r&4 se embarcó en una aventura cósmica... sin nave espacial"
 
 lightning-messages:
-  - "&c&l%victim%&r&c fue fulminado por intervención divina"
-  - "&c&l%victim%&r&c fue derribado por los dioses"
-  - "&c&l%victim%&r&c recibió un recordatorio impactante desde arriba"
+  - "&3%victim%&r&4 fue fulminado por intervención divina"
+  - "&3%victim%&r&4 fue derribado por los dioses"
+  - "&3%victim%&r&4 recibió un recordatorio impactante desde arriba"
 
 falling-block-messages:
-  - "&c&l%victim%&r&c fue aplastado por un bloque que caía"
-  - "&c&l%victim%&r&c se convirtió en uno con el bloque que caía"
-  - "&c&l%victim%&r&c encontró su final en un bloque que caía"
+  - "&3%victim%&r&4 fue aplastado por un bloque que caía"
+  - "&3%victim%&r&4 se convirtió en uno con el bloque que caía"
+  - "&3%victim%&r&4 encontró su final en un bloque que caía"
 
 freeze-messages:
-  - "&c&l%victim%&r&c no sobrevivió al vórtice polar"
-  - "&c&l%victim%&r&c olvidó su chaqueta de invierno"
-  - "&c&l%victim%&r&c se congeló más rápido que un cubo de hielo"
+  - "&3%victim%&r&4 no sobrevivió al vórtice polar"
+  - "&3%victim%&r&4 olvidó su chaqueta de invierno"
+  - "&3%victim%&r&4 se congeló más rápido que un cubo de hielo"
 
 firework-messages:
-  - "&c&l%victim%&r&c encendió la mecha de un fuego artificial demasiado pronto"
-  - "&c&l%victim%&r&c intentó volar con estilo... y se estrelló"
-  - "&c&l%victim%&r&c descubrió los peligros de la pirotecnia amateur"
+  - "&3%victim%&r&4 encendió la mecha de un fuego artificial demasiado pronto"
+  - "&3%victim%&r&4 intentó volar con estilo... y se estrelló"
+  - "&3%victim%&r&4 descubrió los peligros de la pirotecnia amateur"
 
 slime-messages:
-  - "&c&l%victim%&r&c fue aplastado por un &2SLIME GIGANTE"
-  - "&c&l%victim%&r&c fue &2slimeado &chasta la muerte mientras recolectaba bolas de slime"
+  - "&3%victim%&r&4 fue aplastado por un &2SLIME GIGANTE"
+  - "&3%victim%&r&4 fue &2slimeado &chasta la muerte mientras recolectaba bolas de slime"
 
 zombie-messages:
-  - "&c&l%victim%&r&c fue devorado vivo por un &2Zombie"
-  - "&c&l%victim%&r&c pensó que un &2Zombie &cera amigable"
+  - "&3%victim%&r&4 fue devorado vivo por un &2Zombie"
+  - "&3%victim%&r&4 pensó que un &2Zombie &cera amigable"
 
 pigman-messages:
-  - "&c&l%victim%&r&c enfureció a los &ePigmen &cy fue devorado vivo"
-  - "&c&l%victim%&r&c enojó a los &ePigmen &cy se convirtió en su tocino"
+  - "&3%victim%&r&4 enfureció a los &ePigmen &cy fue devorado vivo"
+  - "&3%victim%&r&4 enojó a los &ePigmen &cy se convirtió en su tocino"
 
 skeleton-messages:
-  - "&c&l%victim%&r&c fue cazado por un esquelético &fSkeleton"
-  - "&c&l%victim%&r&c fue disparado por un &fSkeleton"
+  - "&3%victim%&r&4 fue cazado por un esquelético &fSkeleton"
+  - "&3%victim%&r&4 fue disparado por un &fSkeleton"
 
 magmacube-messages:
-  - "&c&l%victim%&r&c fue aplastado por un &6MAGMACUBE GIGANTE"
+  - "&3%victim%&r&4 fue aplastado por un &6MAGMACUBE GIGANTE"
 
 husk-messages:
-  - "&c&l%victim%&r&c fue devorado por un habitante del desierto, un &3Husk"
+  - "&3%victim%&r&4 fue devorado por un habitante del desierto, un &3Husk"
 
 spider-messages:
-  - "&c&l%victim%&r&c fue superado por una astuta &1araña"
-  - "&c&l%victim%&r&c fue devorado por una &1araña"
+  - "&3%victim%&r&4 fue superado por una astuta &1araña"
+  - "&3%victim%&r&4 fue devorado por una &1araña"
 
 cavespider-messages:
-  - "&c&l%victim%&r&c fue mordido hasta la muerte por una &1Araña de cueva"
-  - "&c&l%victim%&r&c recibió un abrazo venenoso de una &1Araña de cueva"
+  - "&3%victim%&r&4 fue mordido hasta la muerte por una &1Araña de cueva"
+  - "&3%victim%&r&4 recibió un abrazo venenoso de una &1Araña de cueva"
 
 witherskeleton-messages:
-  - "&c&l%victim%&r&c fue destruido por un &0Esqueleto Wither &ccon una espada de piedra"
-  - "&c&l%victim%&r&c fue vencido por un &0Esqueleto Wither &ccon una espada de piedra"
+  - "&3%victim%&r&4 fue destruido por un &0Esqueleto Wither &ccon una espada de piedra"
+  - "&3%victim%&r&4 fue vencido por un &0Esqueleto Wither &ccon una espada de piedra"
 
 witherboss-messages:
-  - "&c&l%victim%&r&c perdió la cabeza ante el &0Wither"
-  - "&c&l%victim%&r&c desafió al &0Wither &cy perdió la cabeza"
-  - "&c&l%victim%&r&c recibió una letal lección del &0Wither"
+  - "&3%victim%&r&4 perdió la cabeza ante el &0Wither"
+  - "&3%victim%&r&4 desafió al &0Wither &cy perdió la cabeza"
+  - "&3%victim%&r&4 recibió una letal lección del &0Wither"
 
 dragon-messages:
-  - "&c&l%victim%&r&c tuvo sus entrañas desgarradas por el &5Dragón del End"
-  - "&c&l%victim%&r&c perdió la cabeza ante el &5Dragón del End"
-  - "&c&l%victim%&r&c encontró una pantalla de reaparición, no el portal del End"
+  - "&3%victim%&r&4 tuvo sus entrañas desgarradas por el &5Dragón del End"
+  - "&3%victim%&r&4 perdió la cabeza ante el &5Dragón del End"
+  - "&3%victim%&r&4 encontró una pantalla de reaparición, no el portal del End"
 
 dragon-breath-messages:
-  - "&c&l%victim%&r&c tomó un baño en el aliento del &5Dragón del End"
-  - "&c&l%victim%&r&c inhaló demasiado del aliento del &5Dragón del End"
-  - "&c&l%victim%&r&c fue incinerado por el aliento del &5Dragón del End"
+  - "&3%victim%&r&4 tomó un baño en el aliento del &5Dragón del End"
+  - "&3%victim%&r&4 inhaló demasiado del aliento del &5Dragón del End"
+  - "&3%victim%&r&4 fue incinerado por el aliento del &5Dragón del End"
 
 elderguardian-messages:
-  - "&c&l%victim%&r&c intentó limpiar un monumento oceánico pero el &bGuardián Anciano &cdijo que no"
-  - "&c&l%victim%&r&c pensó que podría conquistar un monumento oceánico, pero el &bGuardián Anciano &ctenía otros planes"
+  - "&3%victim%&r&4 intentó limpiar un monumento oceánico pero el &bGuardián Anciano &cdijo que no"
+  - "&3%victim%&r&4 pensó que podría conquistar un monumento oceánico, pero el &bGuardián Anciano &ctenía otros planes"
 
 tnt-messages:
-  - "&c&l%victim%&r&c perdió la cabeza ante el &4TNT"
-  - "&c&l%victim%&r&c fue volado por el &4TNT"
-  - "&c&l%victim%&r&c descubrió los explosivos de la peor manera"
+  - "&3%victim%&r&4 perdió la cabeza ante el &4TNT"
+  - "&3%victim%&r&4 fue volado por el &4TNT"
+  - "&3%victim%&r&4 descubrió los explosivos de la peor manera"
 
 end-crystal-messages:
-  - "&c&l%victim%&r&c fue partido por un &5Cristal del End"
-  - "&c&l%victim%&r&c fue volado por un &5Cristal del End"
+  - "&3%victim%&r&4 fue partido por un &5Cristal del End"
+  - "&3%victim%&r&4 fue volado por un &5Cristal del End"
 
 creeper-messages:
-  - "&c&l%victim%&r&c fue groseramente presentado a la personalidad explosiva de un &aCreeper"
-  - "&c&l%victim%&r&c encontró a un &aCreeper &cy fue lanzado al cielo"
-  - "&c&l%victim%&r&c subestimó el radio de explosión de un &aCreeper"
-  - "&c&l%victim%&r&c intentó desactivar un &aCreeper&c... no funcionó"
+  - "&3%victim%&r&4 fue groseramente presentado a la personalidad explosiva de un &aCreeper"
+  - "&3%victim%&r&4 encontró a un &aCreeper &cy fue lanzado al cielo"
+  - "&3%victim%&r&4 subestimó el radio de explosión de un &aCreeper"
+  - "&3%victim%&r&4 intentó desactivar un &aCreeper&c... no funcionó"
 
 ghast-messages:
-  - "&c&l%victim%&r&c fue lanzado por una bola de fuego de un &bGhast"
+  - "&3%victim%&r&4 fue lanzado por una bola de fuego de un &bGhast"
 
 enderman-messages:
-  - "&c&l%victim%&r&c miró a los ojos a un &5Enderman"
-  - "&c&l%victim%&r&c intentó jugar al escondite con un &5Enderman"
+  - "&3%victim%&r&4 miró a los ojos a un &5Enderman"
+  - "&3%victim%&r&4 intentó jugar al escondite con un &5Enderman"
 
 silverfish-messages:
-  - "&c&l%victim%&r&c fue comido por un &7Pez de plata"
+  - "&3%victim%&r&4 fue comido por un &7Pez de plata"
 
 witch-messages:
-  - "&c&l%victim%&r&c fue hechizado por una astuta &9Bruja"
-  - "&c&l%victim%&r&c fue convertido en rana por una vengativa &9Bruja"
+  - "&3%victim%&r&4 fue hechizado por una astuta &9Bruja"
+  - "&3%victim%&r&4 fue convertido en rana por una vengativa &9Bruja"
 
 shulker-messages:
-  - "&c&l%victim%&r&c murió tratando de obtener conchas de &dShulker"
-  - "&c&l%victim%&r&c fue disparado por un &dShulker"
-  - "&c&l%victim%&r&c fue arruinado por un &dShulker"
+  - "&3%victim%&r&4 murió tratando de obtener conchas de &dShulker"
+  - "&3%victim%&r&4 fue disparado por un &dShulker"
+  - "&3%victim%&r&4 fue arruinado por un &dShulker"
 
 guardian-messages:
-  - "&c&l%victim%&r&c fue asesinado por un &7Guardián"
-  - "&c&l%victim%&r&c fue zappeado por un electrizante &7Guardián"
-  - "&c&l%victim%&r&c fue superado por un astuto &7Guardián"
+  - "&3%victim%&r&4 fue asesinado por un &7Guardián"
+  - "&3%victim%&r&4 fue zappeado por un electrizante &7Guardián"
+  - "&3%victim%&r&4 fue superado por un astuto &7Guardián"
 
 golem-messages:
-  - "&c&l%victim%&r&c enfureció a un &7Golem de Hierro"
-  - "&c&l%victim%&r&c provocó la ira de un &7Golem de Hierro"
-  - "&c&l%victim%&r&c recibió una lección de diplomacia de un &7Golem de Hierro"
+  - "&3%victim%&r&4 enfureció a un &7Golem de Hierro"
+  - "&3%victim%&r&4 provocó la ira de un &7Golem de Hierro"
+  - "&3%victim%&r&4 recibió una lección de diplomacia de un &7Golem de Hierro"
 
 zombievillager-messages:
-  - "&c&l%victim%&r&c fue la cena de un &2Aldeano Zombi"
+  - "&3%victim%&r&4 fue la cena de un &2Aldeano Zombi"
 
 endermite-messages:
-  - "&c&l%victim%&r&c se encontró con un &5Endermite &cy fue mordisqueado hasta la muerte"
-  - "&c&l%victim%&r&c fue superado por un &5Endermite"
+  - "&3%victim%&r&4 se encontró con un &5Endermite &cy fue mordisqueado hasta la muerte"
+  - "&3%victim%&r&4 fue superado por un &5Endermite"
 
 phantom-messages:
-  - "&c&l%victim%&r&c fue secuestrado por un &1Fantom"
+  - "&3%victim%&r&4 fue secuestrado por un &1Fantom"
 
 drowned-messages:
-  - "&c&l%victim%&r&c fue a nadar tarde en la noche y fue comido por un &2Zombi Ahogado"
-  - "&c&l%victim%&r&c descubrió que los &2Ahogados &cno son solo nadadores regulares"
+  - "&3%victim%&r&4 fue a nadar tarde en la noche y fue comido por un &2Zombi Ahogado"
+  - "&3%victim%&r&4 descubrió que los &2Ahogados &cno son solo nadadores regulares"
 
 pillager-messages:
-  - "&c&l%victim%&r&c fue disparado por un &3Asaltante"
+  - "&3%victim%&r&4 fue disparado por un &3Asaltante"
 
 ravager-messages:
-  - "&c&l%victim%&r&c fue embestido por un &3Devastador"
+  - "&3%victim%&r&4 fue embestido por un &3Devastador"
 
 illusioner-messages:
-  - "&c&l%victim%&r&c fue enviado al mundo de la ilusión por un &6Ilusionista"
-  - "&c&l%victim%&r&c fue engañado por un &6Ilusionista"
-  - "&c&l%victim%&r&c fue asesinado por un &6Ilusionista"
+  - "&3%victim%&r&4 fue enviado al mundo de la ilusión por un &6Ilusionista"
+  - "&3%victim%&r&4 fue engañado por un &6Ilusionista"
+  - "&3%victim%&r&4 fue asesinado por un &6Ilusionista"
 
 bee-messages:
-  - "&c&l%victim%&r&c fue picado por una &6abeja"
-  - "&c&l%victim%&r&c conoció a una &6abeja &cy descubrió que no solo hacen miel"
-  - "&c&l%victim%&r&c fue picado por una persistente &6abeja"
+  - "&3%victim%&r&4 fue picado por una &6abeja"
+  - "&3%victim%&r&4 conoció a una &6abeja &cy descubrió que no solo hacen miel"
+  - "&3%victim%&r&4 fue picado por una persistente &6abeja"
 
 wolf-messages:
-  - "&c&l%victim%&r&c fue despedazado por un &7Lobo"
-  - "&c&l%victim%&r&c provocó a un &7Lobo"
+  - "&3%victim%&r&4 fue despedazado por un &7Lobo"
+  - "&3%victim%&r&4 provocó a un &7Lobo"
 
 llama-messages:
-  - "&c&l%victim%&r&c fue escupido hasta la muerte por una &eLlama"
-  - "&c&l%victim%&r&c quedó atrapado en el fuego de la &eLlama"
-  - "&c&l%victim%&r&c recibió un buen chapuzón de saliva de &eLlama"
+  - "&3%victim%&r&4 fue escupido hasta la muerte por una &eLlama"
+  - "&3%victim%&r&4 quedó atrapado en el fuego de la &eLlama"
+  - "&3%victim%&r&4 recibió un buen chapuzón de saliva de &eLlama"
 
 blaze-messages:
-  - "&c&l%victim%&r&c fue chamuscado por un &6Blaze"
-  - "&c&l%victim%&r&c fue asado por un &6Blaze ardiente"
-  - "&c&l%victim%&r&c aprendió de la manera difícil que no se juega con los &6Blazes"
+  - "&3%victim%&r&4 fue chamuscado por un &6Blaze"
+  - "&3%victim%&r&4 fue asado por un &6Blaze ardiente"
+  - "&3%victim%&r&4 aprendió de la manera difícil que no se juega con los &6Blazes"
 
 stray-messages:
-  - "&c&l%victim%&r&c fue derribado por un &7Esqueleto Errante"
+  - "&3%victim%&r&4 fue derribado por un &7Esqueleto Errante"
 
 vex-messages:
-  - "&c&l%victim%&r&c fue devorado por un diminuto &bVex"
-  - "&c&l%victim%&r&c fue molestado por un &bVex"
+  - "&3%victim%&r&4 fue devorado por un diminuto &bVex"
+  - "&3%victim%&r&4 fue molestado por un &bVex"
 
 vindicator-messages:
-  - "&c&l%victim%&r&c fue cazado por un &4Vindicador"
-  - "&c&l%victim%&r&c subestimó la fuerza de un &4Vindicador"
-  - "&c&l%victim%&r&c quedó atrapado en el camino de destrucción de un &4Vindicador"
+  - "&3%victim%&r&4 fue cazado por un &4Vindicador"
+  - "&3%victim%&r&4 subestimó la fuerza de un &4Vindicador"
+  - "&3%victim%&r&4 quedó atrapado en el camino de destrucción de un &4Vindicador"
 
 evoker-messages:
-  - "&c&l%victim%&r&c fue invocado a la muerte por un &4Evocador"
-  - "&c&l%victim%&r&c probó la ira de un &4Evocador"
-  - "&c&l%victim%&r&c fue evocado por un &4Evocador"
+  - "&3%victim%&r&4 fue invocado a la muerte por un &4Evocador"
+  - "&3%victim%&r&4 probó la ira de un &4Evocador"
+  - "&3%victim%&r&4 fue evocado por un &4Evocador"
 
 pufferfish-messages:
-  - "&c&l%victim%&r&c subestimó la toxicidad de un &ePez Globo"
-  - "&c&l%victim%&r&c conoció a un &ePez Globo &cy aprendió que no debe tocarlo"
+  - "&3%victim%&r&4 subestimó la toxicidad de un &ePez Globo"
+  - "&3%victim%&r&4 conoció a un &ePez Globo &cy aprendió que no debe tocarlo"
 
 polar-bear-messages:
-  - "&c&l%victim%&r&c fue destrozado por un &foso Polar &chelado"
-  - "&c&l%victim%&r&c se convirtió en nieve por culpa de un &foso Polar"
+  - "&3%victim%&r&4 fue destrozado por un &foso Polar &chelado"
+  - "&3%victim%&r&4 se convirtió en nieve por culpa de un &foso Polar"
 
 dolphin-messages:
-  - "&c&l%victim%&r&c provocó a un &bDelfín&c... ¿y perdió?"
-  - "&c&l%victim%&r&c golpeó a un &bDelfín &cy este se defendió"
+  - "&3%victim%&r&4 provocó a un &bDelfín&c... ¿y perdió?"
+  - "&3%victim%&r&4 golpeó a un &bDelfín &cy este se defendió"
 
 panda-messages:
-  - "&c&l%victim%&r&c fue convertido en cena por un &8Panda"
-  - "&c&l%victim%&r&c intentó robar bambú de un &8Panda"
+  - "&3%victim%&r&4 fue convertido en cena por un &8Panda"
+  - "&3%victim%&r&4 intentó robar bambú de un &8Panda"
 
 piglin-messages:
-  - "&c&l%victim%&r&c se encontró con su creador contra los nuevos &6Piglins"
-  - "&c&l%victim%&r&c se enfrentó a los &6Piglins &cy aprendió una lección de supervivencia"
-  - "&c&l%victim%&r&c conoció a los &6Piglins &cy descubrió que no negocian"
+  - "&3%victim%&r&4 se encontró con su creador contra los nuevos &6Piglins"
+  - "&3%victim%&r&4 se enfrentó a los &6Piglins &cy aprendió una lección de supervivencia"
+  - "&3%victim%&r&4 conoció a los &6Piglins &cy descubrió que no negocian"
 
 hoglin-messages:
-  - "&c&l%victim%&r&c fue cargado por un &6Hoglin&c, algo grosero ¿no?"
-  - "&c&l%victim%&r&c no leyó las notas de parche sobre los &6Hoglins"
+  - "&3%victim%&r&4 fue cargado por un &6Hoglin&c, algo grosero ¿no?"
+  - "&3%victim%&r&4 no leyó las notas de parche sobre los &6Hoglins"
 
 zoglin-messages:
-  - "&c&l%victim%&r&c se comió un cuerno de &6Zoglin &cpara cenar"
-  - "&c&l%victim%&r&c fue embestido por un &6Zoglin"
+  - "&3%victim%&r&4 se comió un cuerno de &6Zoglin &cpara cenar"
+  - "&3%victim%&r&4 fue embestido por un &6Zoglin"
 
 goat-messages:
-  - "&c&l%victim%&r&c fue embestido por una &4Cabra"
-  - "&c&l%victim%&r&c fue empalado por el cuerno de una &4Cabra"
+  - "&3%victim%&r&4 fue embestido por una &4Cabra"
+  - "&3%victim%&r&4 fue empalado por el cuerno de una &4Cabra"
 
 zombified-piglin-messages:
-  - "&c&l%victim%&r&c llevó a un &6Piglin &cal Overworld y fue asesinado por su nueva mascota, no tan amigable"
-  - "&c&l%victim%&r&c murió a manos de un &6Piglin&c... quiero decir, Pigman... quiero decir, Zombified Piglin"
+  - "&3%victim%&r&4 llevó a un &6Piglin &cal Overworld y fue asesinado por su nueva mascota, no tan amigable"
+  - "&3%victim%&r&4 murió a manos de un &6Piglin&c... quiero decir, Pigman... quiero decir, Zombified Piglin"
 
 fox-messages:
-  - "&c&l%victim%&r&c se &6lió &ccon un &6Zorro &cy descubrió lo que pasó"
-  - "&c&l%victim%&r&c fue mordido por un &6Zorro"
+  - "&3%victim%&r&4 se &6lió &ccon un &6Zorro &cy descubrió lo que pasó"
+  - "&3%victim%&r&4 fue mordido por un &6Zorro"
 
 warden-messages:
-  - "&c&l%victim%&r&c fue asesinado por un &1Guardián&c... quiero decir, ¿qué esperabas?"
-  - "&c&l%victim%&r&c subestimó la fuerza del &1Guardián"
-  - "&c&l%victim%&r&c se acercó demasiado al territorio de un &1Guardián"
+  - "&3%victim%&r&4 fue asesinado por un &1Guardián&c... quiero decir, ¿qué esperabas?"
+  - "&3%victim%&r&4 subestimó la fuerza del &1Guardián"
+  - "&3%victim%&r&4 se acercó demasiado al territorio de un &1Guardián"
 
 warden-sonic-boom-messages:
-  - "&c&l%victim%&r&c fue golpeado por un boom sónico de un &1Guardián"
-  - "&c&l%victim%&r&c quedó sordo por el boom sónico de un &1Guardián"
+  - "&3%victim%&r&4 fue golpeado por un boom sónico de un &1Guardián"
+  - "&3%victim%&r&4 quedó sordo por el boom sónico de un &1Guardián"
 
 unknown-messages:
-  - "&c&l%victim%&r&c murió por causas desconocidas"
-  - "&c&l%victim%&r&c murió"
-  - "&c&l%victim%&r&c fue asesinado"
+  - "&3%victim%&r&4 murió por causas desconocidas"
+  - "&3%victim%&r&4 murió"
+  - "&3%victim%&r&4 fue asesinado"
 
 fireball-messages:
-  - "&c&l%victim%&r&c fue incinerado por un inesperado ataque de &4bolas de fuego"
-  - "&c&l%victim%&r&c quedó atrapado en una tormenta de &4bolas de fuego"
-  - "&c&l%victim%&r&c fue incinerado por una ráfaga de &4bolas de fuego"
+  - "&3%victim%&r&4 fue incinerado por un inesperado ataque de &4bolas de fuego"
+  - "&3%victim%&r&4 quedó atrapado en una tormenta de &4bolas de fuego"
+  - "&3%victim%&r&4 fue incinerado por una ráfaga de &4bolas de fuego"
 
 arrow-messages:
-  - "&c&l%victim%&r&c fue atrapado en una lluvia de &5flechas"
-  - "&c&l%victim%&r&c intentó huir de las &5flechas&c... pero no funcionó"
+  - "&3%victim%&r&4 fue atrapado en una lluvia de &5flechas"
+  - "&3%victim%&r&4 intentó huir de las &5flechas&c... pero no funcionó"
