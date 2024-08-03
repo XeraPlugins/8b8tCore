@@ -9,6 +9,7 @@ import me.txmc.core.patch.epc.EntityCheckTask;
 import me.txmc.core.patch.epc.EntitySpawnListener;
 import me.txmc.core.patch.listeners.EntitySwitchWorldListener;
 import me.txmc.core.patch.listeners.FallFlyListener;
+import me.txmc.core.patch.listeners.NbtBanPatch;
 import me.txmc.core.patch.listeners.Redstone;
 import me.txmc.core.patch.workers.ElytraWorker;
 import org.bukkit.Location;
@@ -49,6 +50,7 @@ public class PatchSection implements Section {
         plugin.register(new EntitySpawnListener(this));
         plugin.register(new FallFlyListener(plugin));
         plugin.register(new EntitySwitchWorldListener(plugin));
+        plugin.register(new NbtBanPatch());
     }
 
     @Override

@@ -47,6 +47,7 @@ public class AntiIllegalMain implements Section {
 
     @Override
     public void enable() {
+
         config = plugin.getSectionConfig(this);
         checks.add(new NameCheck(config));
 //        checks.add(new ItemSizeCheck());
