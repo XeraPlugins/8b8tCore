@@ -1,6 +1,5 @@
 prefix: "&6[&18b&98t&6]&6"
 
-
 # Mensagens básicas
 ignore_successful: "&3Jogador ignorado com sucesso&r&a %s&r"
 already_ignoring: "&cVocê já está ignorando esse jogador"
@@ -61,9 +60,9 @@ tpa_syntax: "&cPor favor, inclua um jogador para tpa. /tpa <jogador>"
 tpa_player_not_online: "&cJogador %s não está online"
 tpa_no_request_found: "&cNenhuma solicitação de TPA encontrada"
 tpa_self_tpa: "&cVocê não pode TPA para si mesmo"
-tpa_already_sent: "&cJá tem um pedido pendente"
 tpa_request_received: "&a%s&r&3 gostaria de se teletransportar para você&r &a/tpayes &3NOME DE USUÁRIO &c/tpano &3NOME DE USUÁRIO"
 tpa_request_sent: "&3Pedido enviado para&r&a %s"
+tpa_already_sent: "&cJá tem um pedido pendente"
 tpa_teleporting: "&3Teleportando&r&a..."
 tpa_request_timeout: "&cPedido de TPA expirado"
 tpa_request_denied_from: "&a%s&r&c negou o seu pedido"
@@ -74,39 +73,39 @@ op_not_allowed: "&cVocê não tem permissão para ser operador"
 framedupe_cooldown: "&cVocê está duplicando muito rápido"
 framedupe_items_limit: "&cHá muitos itens neste chunk, por isso não estão mais sendo duplicados"
 
-announcements:
-  - '&6[&18b&98t&6]&6 Visite &chttps://votefor.8b8t.me &6e vote para receber /nc grátis e 5 casas extras'
-  - '&6[&18b&98t&6]&6 Doe para ajudar a apoiar 8b8t em &chttps://donate.8b8t.me'
 # Mensagens complexas
 HelpMessage:
   - '&1--------------------------------------'
   - '&6Visite &chttps://www.8b8t.me &6para ler as regras'
-  - '&c/tpa &6para teletransportar para outro jogador'
+  - '&1--------------Comandos----------------'
+  - '&c/tpa &6para teleportar para outro jogador'
   - '&c/tpayes &6para aceitar um pedido de teletransporte'
   - '&c/tpano &6para negar um pedido de teletransporte'
-  - '&c/sethome &6para definir uma casa em sua localização'
+  - '&c/sethome &6para definir uma casa na sua localização'
   - '&c/delhome &6para excluir uma casa que você definiu'
-  - '&c/home &6para teletransportar para uma casa que você definiu'
-  - '&c/skin set &6para definir sua pele'
+  - '&c/home &6para teleportar para uma casa que você definiu'
+  - '&c/skin set &6para definir sua skin'
   - '&c/vote &6para votar no 8b8t'
-  - '&c/discord &6obtenha um convite para o discord do 8b8t'
-  - '&c/kill &6para se matar'
+  - '&c/discord &6para obter um convite para o Discord do 8b8t'
+  - '&c/kill &6para excluir seu personagem'
   - '&c/ignore &6para ignorar outros jogadores'
-  - '&c/msg &6para enviar mensagens para outros jogadores'
-  - '&c/changepass &6Para alterar sua senha'
-  - '&c/joindate &6Verifique sua data de entrada e a de outros'
-  - '&c/worldstats &6Veja o tamanho do mundo'
-  - '&c/pvp &6Conecte-se ao PVP 8b8t'
-  - '&c/lobby &6Conecte-se ao lobby'
-  - '&c/tpsinfo &6Para verificar os ticks por segundo do servidor'
-  - '&1-------------Somente para votantes---------------'
-  - '&c/nc &6Para definir a cor do nome'
+  - '&c/unignore &6para designorar outros jogadores'
+  - '&c/ignorelist &6para mostrar os jogadores que você está ignorando'
+  - '&c/msg &6para enviar mensagens a outros jogadores'
+  - '&c/changepass &6para alterar sua senha'
+  - '&c/joindate &6para ver as datas de entrada suas e de outros'
+  - '&c/worldstats &6para ver o tamanho do mundo'
+  - '&c/pvp &6para se conectar ao servidor PVP do 8b8t'
+  - '&c/lobby &6para se conectar ao lobby'
+  - '&c/tpsinfo &6para verificar os ticks por segundo do servidor'
+  - '&1-------------Somente para Votantes---------------'
+  - '&c/nc &6para definir a cor do nome'
+  - '&c/ic &6para definir a cor do item'
   - '&6Visite &chttps://votefor.8b8t.me &6para votar'
-  - '&1------------Somente para doadores--------------'
-  - '&c/seen &6Veja quando um jogador entrou pela última vez'
-  - '&c/echest &6Abra seu baú do ender'
-  - '&c/nick &6Defina um apelido'
-  - # - '&c/linkdiscord &6vincule seu discord à sua conta 8b8t'
+  - '&1------------Somente para Doadores--------------'
+  - '&c/seen &6para ver quando um jogador estava online pela última vez'
+  - '&c/echest &6para abrir seu ender chest'
+  - '&c/nick &6para definir um apelido'
   - '&6Visite &chttps://donate.8b8t.me &6para doar'
   - '&1--------------------------------------'
 TabList:
@@ -116,6 +115,7 @@ TabList:
     - ''
     - '&68b8t agora funciona em folia e as funcionalidades voltarão'
     - ''
+
   Footer:
     - ''
     - '&7tps:&r %tps% &7ping: &r%ping% &7jogadores: &f%players% &7tempo de atividade: %uptime%'
@@ -133,17 +133,20 @@ TpsMessage:
   - '&1-------------------------------------'
 tps_failed: '&cVocê não tem permissão para consultar o TPS'
 
+announcements:
+  - '&6[&18b&98t&6]&6 Visite &chttps://votefor.8b8t.me &6e vote para receber /nc grátis e 5 casas extras'
+  - '&6[&18b&98t&6]&6 Doe para ajudar a apoiar 8b8t em &chttps://donate.8b8t.me'
 
 # Death messages
 global-pvp-death-messages:
   - "&3%victim%&r&4 foi morto por &3%killer%&r&4"
-  - "&3%victim%&r&4 foi abatido por &3%killer%&r&4 usando &6[%kill-weapon%]"
+  - "&3%victim%&r&4 foi abatido por &3%killer%&r&4 usando &6[%kill-weapon%&6]"
   - "&3%victim%&r&4 foi eliminado por &3%killer%&r&4"
-  - "&3%victim%&r&4 foi derrotado por &3%killer%&r&4 empunhando &6[%kill-weapon%]"
-  - "&3%killer%&r&4 pulverizou &3%victim%&r&4 usando &6[%kill-weapon%]"
+  - "&3%victim%&r&4 foi derrotado por &3%killer%&r&4 empunhando &6[%kill-weapon&6]"
+  - "&3%killer%&r&4 pulverizou &3%victim%&r&4 usando &6[%kill-weapon%&6]"
   - "&3%victim%&r&4 foi destruído por &3%killer%&r&4"
-  - "&3%victim%&r&4 foi rekt por &3%killer%&r&4 e sua poderosa &6[%kill-weapon%]"
-  - "&3%victim%&r&4 foi EZ clapped por &3%killer%&r&4 usando &6[%kill-weapon%]"
+  - "&3%victim%&r&4 foi rekt por &3%killer%&r&4 e sua poderosa &6[%kill-weapon%&6]"
+  - "&3%victim%&r&4 foi EZ clapped por &3%killer%&r&4 usando &6[%kill-weapon%&6]"
 
 melee-death-messages:
   - "&3%victim%&r&4 foi esbofeteado por &3%killer%&r&4"
@@ -167,7 +170,7 @@ suffocation-messages:
 
 cramming-messages:
   - "&3%victim%&r&4 foi espremido até a morte"
-  - "&cCoitado de &3%victim%&r&4, pensou que poderia viver em um espaço 1x1"
+  - "&4Coitado de &3%victim%&r&4, pensou que poderia viver em um espaço 1x1"
 
 thorns-messages:
   - "&3%victim%&r&4 foi repelido pela armadura espinhosa de &3%killer%&r&4"
@@ -187,7 +190,7 @@ elytra-messages:
 
 wither-messages:
   - "&3%victim%&r&4 contraiu a &9maldição do Wither"
-  - "&3%victim%&r&4 foi consumido pelo &9Wither &cna quarta dimensão"
+  - "&3%victim%&r&4 foi consumido pelo &9Wither &4na quarta dimensão"
 
 suicide-messages:
   - "&3%victim%&r&4 se matou"
@@ -240,15 +243,15 @@ firework-messages:
 
 slime-messages:
   - "&3%victim%&r&4 foi esmagado por uma &2SLIME GIGANTE"
-  - "&3%victim%&r&4 foi &2transformado em slime &cate a morte enquanto coletava bolas de slime"
+  - "&3%victim%&r&4 foi &2transformado em slime &4ate a morte enquanto coletava bolas de slime"
 
 zombie-messages:
   - "&3%victim%&r&4 foi devorado vivo por um &2Zumbi"
-  - "&3%victim%&r&4 achou que um &2Zumbi &cera amigável"
+  - "&3%victim%&r&4 achou que um &2Zumbi &4era amigável"
 
 pigman-messages:
-  - "&3%victim%&r&4 irritou os &eZumbis Pigmen &ce foi devorado vivo"
-  - "&3%victim%&r&4 enfureceu os &eZumbis Pigmen &ce virou bacon"
+  - "&3%victim%&r&4 irritou os &eZumbis Pigmen &4e foi devorado vivo"
+  - "&3%victim%&r&4 enfureceu os &eZumbis Pigmen &4e virou bacon"
 
 skeleton-messages:
   - "&3%victim%&r&4 foi snipado por um esquelético &fEsqueleto"
@@ -269,12 +272,12 @@ cavespider-messages:
   - "&3%victim%&r&4 recebeu um abraço venenoso de uma &1Aranha da Caverna"
 
 witherskeleton-messages:
-  - "&3%victim%&r&4 foi destruído por um &0Esqueleto Wither &ccom uma espada de pedra"
-  - "&3%victim%&r&4 foi ensinado por um &0Esqueleto Wither &ccom uma espada de pedra"
+  - "&3%victim%&r&4 foi destruído por um &0Esqueleto Wither &4com uma espada de pedra"
+  - "&3%victim%&r&4 foi ensinado por um &0Esqueleto Wither &4com uma espada de pedra"
 
 witherboss-messages:
   - "&3%victim%&r&4 teve sua cabeça explodida pelo &0Wither"
-  - "&3%victim%&r&4 desafiou o &0Wither &ce perdeu sua cabeça"
+  - "&3%victim%&r&4 desafiou o &0Wither &4e perdeu sua cabeça"
   - "&3%victim%&r&4 recebeu uma lição mortal do &0Wither"
 
 dragon-messages:
@@ -288,8 +291,8 @@ dragon-breath-messages:
   - "&3%victim%&r&4 foi incinerado pelo ataque de sopro do &5Dragão do End"
 
 elderguardian-messages:
-  - "&3%victim%&r&4 tentou limpar um monumento oceânico, mas o &bGuardião Ancião &cdisse não"
-  - "&3%victim%&r&4 achou que poderia conquistar um monumento oceânico, mas o &bGuardião Ancião &ctinha outros planos"
+  - "&3%victim%&r&4 tentou limpar um monumento oceânico, mas o &bGuardião Ancião &4disse não"
+  - "&3%victim%&r&4 achou que poderia conquistar um monumento oceânico, mas o &bGuardião Ancião &4tinha outros planos"
 
 tnt-messages:
   - "&3%victim%&r&4 teve sua cabeça explodida por &4TNT"
@@ -302,23 +305,23 @@ end-crystal-messages:
 
 creeper-messages:
   - "&3%victim%&r&4 foi rudeamente apresentado à personalidade explosiva de um &aCreeper"
-  - "&3%victim%&r&4 encontrou um &aCreeper &ce foi explodido para o alto"
+  - "&3%victim%&r&4 encontrou um &aCreeper &4e foi explodido para o alto"
   - "&3%victim%&r&4 subestimou o raio de explosão de um &aCreeper"
-  - "&3%victim%&r&4 tentou desarmar um &aCreeper&c... não funcionou"
+  - "&3%victim%&r&4 tentou desarmar um &aCreeper&4... não funcionou"
 
 ghast-messages:
   - "&3%victim%&r&4 foi atingido por uma bola de fogo de um &bGhast"
 
 enderman-messages:
-  - "&3%victim%&r&4 encarou um &5Enderman &cnos olhos"
+  - "&3%victim%&r&4 encarou um &5Enderman &4nos olhos"
   - "&3%victim%&r&4 tentou brincar de esconde-esconde com um &5Enderman"
 
 silverfish-messages:
   - "&3%victim%&r&4 foi comido por uma &7Traça da Prata"
 
 witch-messages:
-  - "&3%victim%&r&4 foi enfeitiçado por uma &9Bruxa &clesperta"
-  - "&3%victim%&r&4 foi transformado em sapo por uma &9Bruxa &cvingativa"
+  - "&3%victim%&r&4 foi enfeitiçado por uma &9Bruxa &4lesperta"
+  - "&3%victim%&r&4 foi transformado em sapo por uma &9Bruxa &4vingativa"
 
 shulker-messages:
   - "&3%victim%&r&4 morreu tentando pegar algumas conchas de &dShulker"
@@ -331,7 +334,7 @@ guardian-messages:
   - "&3%victim%&r&4 foi superado por um sorrateiro &7Guardião"
 
 golem-messages:
-  - "&3%victim%&r&4 deixou um &7Golem de Ferro &cirritado"
+  - "&3%victim%&r&4 deixou um &7Golem de Ferro &4irritado"
   - "&3%victim%&r&4 provocou a ira de um &7Golem de Ferro"
   - "&3%victim%&r&4 recebeu uma lição em diplomacia com um &7Golem de Ferro"
 
@@ -339,7 +342,7 @@ zombievillager-messages:
   - "&3%victim%&r&4 virou jantar de um &2Aldeão Zumbi"
 
 endermite-messages:
-  - "&3%victim%&r&4 encontrou um &5Endermite &ce foi mordiscado até a morte"
+  - "&3%victim%&r&4 encontrou um &5Endermite &4e foi mordiscado até a morte"
   - "&3%victim%&r&4 foi enganado por um &5Endermite"
 
 phantom-messages:
@@ -347,7 +350,7 @@ phantom-messages:
 
 drowned-messages:
   - "&3%victim%&r&4 foi nadar tarde da noite e foi devorado por um &2Zumbi Afogado"
-  - "&3%victim%&r&4 descobriu que os &2Afogados &cnão são apenas nadadores regulares"
+  - "&3%victim%&r&4 descobriu que os &2Afogados &4não são apenas nadadores regulares"
 
 pillager-messages:
   - "&3%victim%&r&4 foi baleado por um &3Pilhador"
@@ -362,7 +365,7 @@ illusioner-messages:
 
 bee-messages:
   - "&3%victim%&r&4 foi picado por uma &6Abelha"
-  - "&3%victim%&r&4 encontrou uma &6abelha &ce descobriu que elas não são apenas produtoras de mel"
+  - "&3%victim%&r&4 encontrou uma &6abelha &4e descobriu que elas não são apenas produtoras de mel"
   - "&3%victim%&r&4 foi picado por uma &6abelha persistente"
 
 wolf-messages:
@@ -383,7 +386,7 @@ stray-messages:
   - "&3%victim%&r&4 foi acertado por um &7Esqueleto Vagante"
 
 vex-messages:
-  - "&3%victim%&r&4 foi comido por um pequeno &bVex &cvoante"
+  - "&3%victim%&r&4 foi comido por um pequeno &bVex &4voante"
   - "&3%victim%&r&4 foi irritado por um &bVex"
 
 vindicator-messages:
@@ -398,15 +401,15 @@ evoker-messages:
 
 pufferfish-messages:
   - "&3%victim%&r&4 subestimou a toxicidade de um &eBaiacu"
-  - "&3%victim%&r&4 encontrou um &eBaiacu &ce aprendeu da pior maneira para não tocar"
+  - "&3%victim%&r&4 encontrou um &eBaiacu &4e aprendeu da pior maneira para não tocar"
 
 polar-bear-messages:
-  - "&3%victim%&r&4 foi dilacerado por um &fUrso Polar&c gelado"
+  - "&3%victim%&r&4 foi dilacerado por um &fUrso Polar&4 gelado"
   - "&3%victim%&r&4 virou neve pelas garras de um &fUrso Polar"
 
 dolphin-messages:
-  - "&3%victim%&r&4 provocou um &bGolfinho&c... e perdeu?"
-  - "&3%victim%&r&4 deu um tapa em um &bGolfinho &ce eles retaliaram"
+  - "&3%victim%&r&4 provocou um &bGolfinho&4... e perdeu?"
+  - "&3%victim%&r&4 deu um tapa em um &bGolfinho &4e eles retaliaram"
 
 panda-messages:
   - "&3%victim%&r&4 virou o jantar de um &8Panda"
@@ -414,15 +417,15 @@ panda-messages:
 
 piglin-messages:
   - "&3%victim%&r&4 encontrou seu criador contra os novos &6Piglins"
-  - "&3%victim%&r&4 enfrentou os &6Piglins &ce aprendeu uma lição de sobrevivência"
-  - "&3%victim%&r&4 encontrou os &6Piglins &ce descobriu que eles não negociam"
+  - "&3%victim%&r&4 enfrentou os &6Piglins &4e aprendeu uma lição de sobrevivência"
+  - "&3%victim%&r&4 encontrou os &6Piglins &4e descobriu que eles não negociam"
 
 hoglin-messages:
-  - "&3%victim%&r&4 foi atacado por um &6Hoglin&c, meio rude, né?"
+  - "&3%victim%&r&4 foi atacado por um &6Hoglin&4, meio rude, né?"
   - "&3%victim%&r&4 não leu as notas da atualização sobre os &6Hoglins"
 
 zoglin-messages:
-  - "&3%victim%&r&4 comeu o chifre de um &6Zoglin &cpara o jantar"
+  - "&3%victim%&r&4 comeu o chifre de um &6Zoglin &4para o jantar"
   - "&3%victim%&r&4 foi atropelado por um &6Zoglin"
 
 goat-messages:
@@ -430,15 +433,15 @@ goat-messages:
   - "&3%victim%&r&4 foi empalado pelo chifre de uma &4Cabra"
 
 zombified-piglin-messages:
-  - "&3%victim%&r&4 trouxe um &6Piglin &cpara o mundo superior e foi morto pelo seu novo, não tão amigável pet"
-  - "&3%victim%&r&4 morreu para um &6Piglin&c... quer dizer, Zumbi Pigman..."
+  - "&3%victim%&r&4 trouxe um &6Piglin &4para o mundo superior e foi morto pelo seu novo, não tão amigável pet"
+  - "&3%victim%&r&4 morreu para um &6Piglin&4... quer dizer, Zumbi Pigman..."
 
 fox-messages:
-  - "&3%victim%&r&4 foi &6enganado &cpelo &6Raposa &ce descobriu"
+  - "&3%victim%&r&4 foi &6enganado &4pelo &6Raposa &4e descobriu"
   - "&3%victim%&r&4 foi despedaçado por uma &6Raposa"
 
 warden-messages:
-  - "&3%victim%&r&4 foi morto por um &1Sentinela&c... quer dizer, o que você esperava?"
+  - "&3%victim%&r&4 foi morto por um &1Sentinela&4... quer dizer, o que você esperava?"
   - "&3%victim%&r&4 subestimou a força do &1Sentinela"
   - "&3%victim%&r&4 ficou muito perto do território de um &1Sentinela"
 
@@ -458,4 +461,4 @@ fireball-messages:
 
 arrow-messages:
   - "&3%victim%&r&4 foi pego numa chuva de &5setas"
-  - "&3%victim%&r&4 tentou fugir das &5setas&c... mas não funcionou"
+  - "&3%victim%&r&4 tentou fugir das &5setas&4... mas não funcionou"

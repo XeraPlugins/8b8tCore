@@ -24,8 +24,15 @@ public class Localization {
         localizationMap = new HashMap<>();
         File localeDir = new File(dataFolder, "Localization");
         if (!localeDir.exists()) localeDir.mkdirs();
+        GlobalUtils.unpackResource("localization/ar.yml", new File(localeDir, "ar.yml"));
         GlobalUtils.unpackResource("localization/en.yml", new File(localeDir, "en.yml"));
         GlobalUtils.unpackResource("localization/es.yml", new File(localeDir, "es.yml"));
+        GlobalUtils.unpackResource("localization/fr.yml", new File(localeDir, "fr.yml"));
+        GlobalUtils.unpackResource("localization/hi.yml", new File(localeDir, "hi.yml"));
+        GlobalUtils.unpackResource("localization/it.yml", new File(localeDir, "it.yml"));
+        GlobalUtils.unpackResource("localization/pt.yml", new File(localeDir, "pt.yml"));
+        GlobalUtils.unpackResource("localization/ru.yml", new File(localeDir, "ru.yml"));
+        GlobalUtils.unpackResource("localization/zh.yml", new File(localeDir, "zh.yml"));
         for (File ymlFile : localeDir.listFiles(f -> f.getName().endsWith(".yml"))) {
             Configuration config = YamlConfiguration.loadConfiguration(ymlFile);
             localizationMap.put(ymlFile.getName().replace(".yml", ""), new Localization(config));

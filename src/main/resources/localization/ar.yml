@@ -1,461 +1,466 @@
 prefix: "&6[&18b&98t&6]&6"
 
-
 #Basic messages
-ignore_successful: "&3Successfully ignored player&r&a %s&r"
-already_ignoring: "&cYou are already ignoring that player"
-ignore_command_syntax: "&cPlease include a player /ignore <playerName>"
-unignore_successful: "&3Successfully unignored player&r&a %s&r"
-unignore_not_ignoring: "&cYou arent ignoring %s"
-unignore_command_syntax: "&cPlease include a player /unignore <playerName>"
-ignorelist_successful: "&3Ignored players: &c%s"
-ignorelist_not_ignoring: "&6You are not ignoring anyone"
-ignorelist_failed: "&6Unable to retrieve ignore list information."
-whisper_from: "&d%s Whispers: %s"
-whisper_to: "&dTo %s: %s"
-whisper_ignoring: "&c%s is ignoring you"
-whisper_you_are_ignoring: "&cYou cannot message a player that you have ignored"
-msg_could_not_find_player: "&cCould not find player %s"
-msg_command_syntax: "&cPlease include a target and a message /msg <target> <message>"
-reply_player_offline: "&cThe player %s is offline"
-reply_no_target: "&cYou have not messaged anyone yet"
-reply_command_syntax: "&cPlease include a message /r <message>"
-togglechat_chat_enabled: "&aEnabled chat"
-togglechat_chat_disabled: "&cDisabled chat"
-cmdwhitelist_cmd_not_allowed: "&cThe command&r&a %s&r&c is not allowed"
-chat_cooldown: "&3Please wait at least&r&a %d&r&3 seconds between chat messages"
-delhome_no_homes: "&3You do not have any homes"
-delhome_specify_home: "&3Please include the name of a home to delete. Current homes: (&r&a%s&r&3)&r"
-delhome_home_not_found: "&3Home&r&a %s&r&3 was not found"
-delhome_success: "&3Home&r&a %s&r&3 has been deleted"
-delhome_fail: "&3Could not delete&r&a %s&r"
-home_no_homes: "&3No homes found"
-home_specify_home: "&3Please include a home! Current homes: (&r&a%s&r&3)&r"
-home_too_close: "&3You must be&r&a %d&r&3 blocks from spawn in order to use /home"
-home_success: "&3Teleporting to home&r&a %s&r&3..."
-home_not_found: "&3Home&r&a %s&r&3 was not found"
-sethome_include_name: "&3Please include a name for your new home"
-sethome_home_already_exists: "&cA home by the name&r&a %s&r&c already exists."
-sethome_max_reached: "&3Max number of homes reached!"
-sethome_success: "&3Home&r&a %s &r&3Set"
-kick_restarting: "&3The server is restarting"
-elytra_too_fast: "&3You are going too fast with your elytra"
-elytras_disabled: "&3Elytras are currently disabled due to server lag. They should be back shortly"
-elytra_school_zone: "&3أنت حالياً في منطقة مدرسية. يرجى السفر بسرعة قصوى 15 كم/ساعة"
-bookban_inventory_clear: "&cYour inventory has been cleared to prevent you from being book banned"
-bookban_removed_item: "&cRemoved all&r&3 %s(s) &r&cfrom your inventory to prevent you from being bookbanned"
-kick_lever_ratelimit: "&cYou are interacting too fast"
-kick_pps_limit: "&cYou are sending packets too fast!"
-kick_failed_to_inject: "&cFailed to inject"
-join_message: "&7%s joined"
-player_join_first_time: "&7%s joined for the first time"
-leave_message: "&7%s left"
-kick_message: "&7%s was kicked for \"%s\""
-could_not_translate_message: "Failed to translate message due to %s"
-message_auto_translated: "This message has been translated automatically.\n\nOriginal Text: %s"
-welcome_message: "&3Welcome to 8b8t"
-vote_announcement: "&c%s &6voted for &18b&98t &6and was given free /nc and 5 extra homes"
-vote_thanks: "&6Thanks for voting for &18b&98t &6you have been given free /nc and 5 extra homes"
-vote_info: "&6You can vote for &18b&98t &6at &chttps://votefor.8b8t.me"
-tpa_syntax: "&cPlease include a player to tpa to. /tpa <player>"
-tpa_player_not_online: "&cPlayer %s is not online"
-tpa_no_request_found: "&cNo TPA request found"
-tpa_self_tpa: "&cYou cannot TPA to your self"
-tpa_request_received: "&a%s&r&3 would like to teleport to you&r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
-tpa_request_sent: "&3Request sent to&r&a %s"
-tpa_already_sent: "&cYou already have a pending request"
-tpa_teleporting: "&3Teleporting&r&a..."
-tpa_request_timeout: "&cTPA Request timed out"
-tpa_request_denied_from: "&a%s&r&c has denied your request"
-tpa_request_denied_to: "&3Request denied successfully"
-tpa_pending_request: "&a%s&r &chas a pending request"
-tpa_to_left: "&cTPA cancelled because&r&a %s&r&c left"
-op_not_allowed: "&cYou are not allowed to be op"
-framedupe_cooldown: "&cYou are duplicating too quickly"
-framedupe_items_limit: "&cThere are already too many items dropped in this chunk"
+ignore_successful: "&3تم تجاهل اللاعب بنجاح&r&a %s&r"
+already_ignoring: "&cأنت بالفعل تتجاهل هذا اللاعب"
+ignore_command_syntax: "&cيرجى إدراج اسم اللاعب /ignore <اسم اللاعب>"
+unignore_successful: "&3تم إلغاء تجاهل اللاعب بنجاح&r&a %s&r"
+unignore_not_ignoring: "&cأنت لا تتجاهل %s"
+unignore_command_syntax: "&cيرجى إدراج اسم اللاعب /unignore <اسم اللاعب>"
+ignorelist_successful: "&3اللاعبون المتجاهلون: &c%s"
+ignorelist_not_ignoring: "&6أنت لا تتجاهل أي شخص"
+ignorelist_failed: "&6لم يتمكن من استرداد معلومات قائمة التجاهل."
+whisper_from: "&d%s يهمس: %s"
+whisper_to: "&dإلى %s: %s"
+whisper_ignoring: "&c%s يتجاهلك"
+whisper_you_are_ignoring: "&cلا يمكنك إرسال رسالة إلى لاعب قمت بتجاهله"
+msg_could_not_find_player: "&cتعذر العثور على اللاعب %s"
+msg_command_syntax: "&cيرجى إدراج هدف ورسالة /msg <الهدف> <الرسالة>"
+reply_player_offline: "&cاللاعب %s غير متصل"
+reply_no_target: "&cلم ترسل رسالة إلى أي شخص بعد"
+reply_command_syntax: "&cيرجى إدراج رسالة /r <الرسالة>"
+togglechat_chat_enabled: "&aتم تفعيل الدردشة"
+togglechat_chat_disabled: "&cتم تعطيل الدردشة"
+cmdwhitelist_cmd_not_allowed: "&cالأمر&r&a %s&r&c غير مسموح به"
+chat_cooldown: "&3يرجى الانتظار لمدة لا تقل عن&r&a %d&r&3 ثانية بين رسائل الدردشة"
+delhome_no_homes: "&3لا تملك أي منازل"
+delhome_specify_home: "&3يرجى إدراج اسم المنزل الذي ترغب في حذفه. المنازل الحالية: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3المنزل&r&a %s&r&3 لم يتم العثور عليه"
+delhome_success: "&3تم حذف المنزل&r&a %s&r&3"
+delhome_fail: "&3تعذر حذف&r&a %s&r"
+home_no_homes: "&3لم يتم العثور على منازل"
+home_specify_home: "&3يرجى إدراج منزل! المنازل الحالية: (&r&a%s&r&3)&r"
+home_too_close: "&3يجب أن تكون على بعد&r&a %d&r&3 كتلة من نقطة البداية لاستخدام /home"
+home_success: "&3يتم الانتقال إلى المنزل&r&a %s&r&3..."
+home_not_found: "&3المنزل&r&a %s&r&3 لم يتم العثور عليه"
+sethome_include_name: "&3يرجى إدراج اسم لمنزلك الجديد"
+sethome_home_already_exists: "&cيوجد بالفعل منزل بالاسم&r&a %s&r&c."
+sethome_max_reached: "&3تم الوصول إلى أقصى عدد من المنازل!"
+sethome_success: "&3تم تعيين المنزل&r&a %s &r&3"
+kick_restarting: "&3يتم إعادة تشغيل الخادم"
+elytra_too_fast: "&3تسير بسرعة كبيرة باستخدام الإليترا"
+elytra_school_zone: "&3أنت حاليًا في منطقة مدرسية. يرجى السفر بسرعة أقصاها 15 كم/ساعة"
+elytras_disabled: "&3تم تعطيل الإليترا حاليًا بسبب تأخر الخادم. ستعود قريبًا"
+bookban_inventory_clear: "&cتم مسح حقيبتك لتجنب حظرك بسبب الكتب"
+bookban_removed_item: "&cتم إزالة جميع&r&3 %s(s) &r&cمن حقيبتك لتجنب حظرك بسبب الكتب"
+kick_lever_ratelimit: "&cأنت تتفاعل بسرعة كبيرة"
+kick_pps_limit: "&cأنت ترسل الحزم بسرعة كبيرة!"
+kick_failed_to_inject: "&cفشل في الحقن"
+join_message: "&7%s انضم"
+player_join_first_time: "&7%s انضم للمرة الأولى"
+leave_message: "&7%s غادر"
+kick_message: "&7%s تم طرده بسبب \"%s\""
+could_not_translate_message: "فشل في ترجمة الرسالة بسبب %s"
+message_auto_translated: "تمت ترجمة هذه الرسالة تلقائيًا.\n\nالنص الأصلي: %s"
+welcome_message: "&3مرحبًا بك في 8b8t"
+vote_announcement: "&c%s &6صوت لـ &18b&98t &6وحصل على /nc مجانًا و5 منازل إضافية"
+vote_thanks: "&6شكرًا لتصويتك لـ &18b&98t &6لقد حصلت على /nc مجانًا و5 منازل إضافية"
+vote_info: "&6يمكنك التصويت لـ &18b&98t &6على &chttps://votefor.8b8t.me"
+tpa_syntax: "&cيرجى إدراج لاعب للتوجه إليه. /tpa <اللاعب>"
+tpa_player_not_online: "&cاللاعب %s غير متصل"
+tpa_no_request_found: "&cلم يتم العثور على طلب TPA"
+tpa_self_tpa: "&cلا يمكنك TPA إلى نفسك"
+tpa_request_received: "&a%s&r&3 يرغب في الانتقال إليك&r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
+tpa_request_sent: "&3تم إرسال الطلب إلى&r&a %s"
+tpa_already_sent: "&cلديك بالفعل طلب معلق"
+tpa_teleporting: "&3يتم الانتقال&r&a..."
+tpa_request_timeout: "&cانتهت مهلة طلب TPA"
+tpa_request_denied_from: "&a%s&r&c قد رفض طلبك"
+tpa_request_denied_to: "&3تم رفض الطلب بنجاح"
+tpa_pending_request: "&a%s&r &cلديه طلب معلق"
+tpa_to_left: "&cتم إلغاء TPA لأن&r&a %s&r&c غادر"
+op_not_allowed: "&cأنت غير مسموح لك بأن تكون مشرفًا"
+framedupe_cooldown: "&cأنت تقوم بالتكرار بسرعة كبيرة"
+framedupe_items_limit: "&cيوجد بالفعل الكثير من العناصر المتساقطة في هذه الكتلة"
 
-announcements:
-  - '&6[&18b&98t&6]&6 Visit &chttps://votefor.8b8t.me &6and vote to receive free /nc and 5 extra homes'
-  - '&6[&18b&98t&6]&6 Donate to help support 8b8t at &chttps://donate.8b8t.me'
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6Visit &chttps://www.8b8t.me &6to read the rules'
-  - '&c/tpa &6to teleport to another player'
-  - '&c/tpayes &6to accept a teleport request'
-  - '&c/tpano &6todeny a teleport request'
-  - '&c/sethome &6to set a home at your location'
-  - '&c/delhome &6to delete a home you set'
-  - '&c/home &6to teleport to a home you set'
-  - '&c/skin set &6to set your skin'
-  - '&c/vote &6to vote for 8b8t'
-  - '&c/discord &6get an invite to the 8b8t discord'
-  - '&c/kill &6to kill your self'
-  - '&c/ignore &6to ignore other players'
-  - '&c/msg &6to message other players'
-  - '&c/changepass &6To change your password'
-  - '&c/joindate &6Check yours and others joindate'
-  - '&c/worldstats &6View the world size'
-  - '&c/pvp &6Connect to 8b8t PVP'
-  - '&c/lobby &6Connect to lobby'
-  - '&c/tpsinfo &6To check server ticks per second'
-  - '&1-------------Voter Only---------------'
-  - '&c/nc &6To set name colour'
-  - '&6Visit &chttps://votefor.8b8t.me &6to vote'
-  - '&1------------Donator Only--------------'
-  - '&c/seen &6See when a player last joined'
-  - '&c/echest &6Open your ender chest'
-  - '&c/nick &6Set a nickname'
-  #    - '&c/linkdiscord &6link your discord to your 8b8t account'
-  - '&6Visit &chttps://donate.8b8t.me &6to donate'
+  - '&6زور &chttps://www.8b8t.me &6لقراءة القوانين'
+  - '&1--------------الأوامر----------------'
+  - '&c/tpa &6لنقلك إلى لاعب آخر'
+  - '&c/tpayes &6لقبول طلب النقل'
+  - '&c/tpano &6لرفض طلب النقل'
+  - '&c/sethome &6لتحديد منزل في موقعك'
+  - '&c/delhome &6لحذف منزل قمت بتحديده'
+  - '&c/home &6لنقلك إلى منزل قمت بتحديده'
+  - '&c/skin set &6لتحديد مظهرك'
+  - '&c/vote &6للتصويت لـ 8b8t'
+  - '&c/discord &6احصل على دعوة إلى Discord لـ 8b8t'
+  - '&c/kill &6لحذف شخصيتك'
+  - '&c/ignore &6لتجاهل اللاعبين الآخرين'
+  - '&c/unignore &6لإلغاء تجاهل اللاعبين الآخرين'
+  - '&c/ignorelist &6لعرض اللاعبين الذين تتجاهلهم'
+  - '&c/msg &6لإرسال رسائل إلى لاعبين آخرين'
+  - '&c/changepass &6لتغيير كلمة المرور الخاصة بك'
+  - '&c/joindate &6عرض تاريخ الانضمام لك وللآخرين'
+  - '&c/worldstats &6عرض حجم العالم'
+  - '&c/pvp &6للانتقال إلى خادم PVP لـ 8b8t'
+  - '&c/lobby &6للانتقال إلى الردهة'
+  - '&c/tpsinfo &6للتحقق من عدد التحديثات في الثانية على الخادم'
+  - '&1-------------فقط للمصوتين---------------'
+  - '&c/nc &6لتحديد لون الاسم'
+  - '&c/ic &6لتحديد لون العنصر'
+  - '&6زور &chttps://votefor.8b8t.me &6للتصويت'
+  - '&1------------فقط للمتبرعين--------------'
+  - '&c/seen &6لعرض آخر مرة كان فيها اللاعب متصلاً'
+  - '&c/echest &6لفتح خزنتك الداخلية'
+  - '&c/nick &6لتحديد لقب'
+  - '&6زور &chttps://donate.8b8t.me &6للتبرع'
   - '&1--------------------------------------'
 TabList:
   Header:
     - ''
     - '&18builders&98tools'
     - ''
-    - '&68b8t Now runs on folia and features will return'
+    - '&68b8t الآن يعمل على Folia والميزات ستعود'
     - ''
 
   Footer:
     - ''
-    - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: %uptime%'
+    - '&7TPS:&r %tps% &7الـ Ping: &r%ping% &7اللاعبين: &f%players% &7مدة التشغيل: %uptime%'
     - ''
-    - '&7Contact: contact@8b8t.me'
-    - '&7Discussion: https://discord.8b8t.me'
-    - '&7Website: https://www.8b8t.me'
-    - '&7These are the only official 8b8t websites and contacts'
+    - '&7اتصال: contact@8b8t.me'
+    - '&7نقاش: https://discord.8b8t.me'
+    - '&7الموقع الإلكتروني: https://www.8b8t.me'
+    - '&7هذه هي المواقع والاتصالات الرسمية الوحيدة لـ 8b8t'
     - ''
+
 TpsMessage:
-  - '&1------------TPS Information------------'
+  - '&1------------معلومات TPS------------'
   - '&6TPS: &a%s &6MSTP: &a%s'
-  - '&6Lowest Region TPS: &c%s'
-  - '&6Online Players &a%s'
+  - '&6أدنى TPS في المنطقة: &c%s'
+  - '&6اللاعبون المتصلون &a%s'
   - '&1-------------------------------------'
-tps_failed: '&cYou are not allowed to check TPS'
+
+tps_failed: '&cأنت غير مسموح لك بالتحقق من TPS'
+
+announcements:
+  - '&6[&18b&98t&6]&6 قم بزيارة &chttps://votefor.8b8t.me &6وصوت لتلقي /nc مجانًا و5 منازل إضافية'
+  - '&6[&18b&98t&6]&6 تبرع لدعم 8b8t على &chttps://donate.8b8t.me'
 
 # Death messages
 global-pvp-death-messages:
-  - "&3%victim%&r&4 has been killed by &3%killer%&r&4"
-  - "&3%victim%&r&4 was slain by &3%killer%&r&4 using &6[%kill-weapon%]"
-  - "&3%victim%&r&4 has been put down by &3%killer%&r&4"
-  - "&3%victim%&r&4 was pwned by &3%killer%&r&4 wielding &6[%kill-weapon%]"
-  - "&3%killer%&r&4 pulverized &3%victim%&r&4 using &6[%kill-weapon%]"
-  - "&3%victim%&r&4 was destroyed by &3%killer%&r&4"
-  - "&3%victim%&r&4 was rekt by &3%killer%&r&4 and their mighty &6[%kill-weapon%]"
-  - "&3%victim%&r&4 was EZ clapped by &3%killer%&r&4 using &6[%kill-weapon%]"
+  - "&3%victim%&r&4 تم قتلها بواسطة &3%killer%&r&4"
+  - "&3%victim%&r&4 تم ذبحها بواسطة &3%killer%&r&4 باستخدام &6[%kill-weapon%]"
+  - "&3%victim%&r&4 تم القضاء عليها بواسطة &3%killer%&r&4"
+  - "&3%victim%&r&4 تم هزيمتها بواسطة &3%killer%&r&4 الذي يحمل &6[%kill-weapon%]"
+  - "&3%killer%&r&4 سحق &3%victim%&r&4 باستخدام &6[%kill-weapon%]"
+  - "&3%victim%&r&4 تم تدميرها بواسطة &3%killer%&r&4"
+  - "&3%victim%&r&4 تم تدميرها بواسطة &3%killer%&r&4 وسلاحه القوي &6[%kill-weapon%]"
+  - "&3%victim%&r&4 تم القضاء عليها بسهولة بواسطة &3%killer%&r&4 باستخدام &6[%kill-weapon%]"
 
 melee-death-messages:
-  - "&3%victim%&r&4 was slapped by &3%killer%&r&4"
-  - "&3%victim%&r&4 was KO'd &3%killer%&r&4"
-  - "&3%victim%&r&4 got rocked by &3%killer%&r&4"
+  - "&3%victim%&r&4 تم صفعها بواسطة &3%killer%&r&4"
+  - "&3%victim%&r&4 تم إسقاطها بواسطة &3%killer%&r&4"
+  - "&3%victim%&r&4 تلقت ضربة قوية من &3%killer%&r&4"
 
 fall-damage-messages:
-  - "&3%victim%&r&4 decided to test gravity and lost"
-  - "&3%victim%&r&4 forgot to bring their parachute"
-  - "&3%victim%&r&4 thought they could fly... they couldn't"
+  - "&3%victim%&r&4 قرر اختبار الجاذبية وفشل"
+  - "&3%victim%&r&4 نسي إحضار المظلة"
+  - "&3%victim%&r&4 ظن أنه يمكنه الطيران... لكنه لم يستطع"
 
 drowning-messages:
-  - "&3%victim%&r&4 decided to sleep with the fishes"
-  - "&3%victim%&r&4 thought they could make it to oxygen in time"
-  - "&3%victim%&r&4 tried to outswim the water"
+  - "&3%victim%&r&4 قرر النوم مع الأسماك"
+  - "&3%victim%&r&4 ظن أنه يمكنه الوصول إلى الأوكسجين في الوقت المناسب"
+  - "&3%victim%&r&4 حاول السباحة أسرع من الماء"
 
 suffocation-messages:
-  - "&3%victim%&r&4 couldn't catch their breath while in a block"
-  - "&3%victim%&r&4 couldn't breathe while inside of a block"
-  - "&3%victim%&r&4 was outsmarted by a block"
+  - "&3%victim%&r&4 لم يتمكن من أخذ نفس داخل كتلة"
+  - "&3%victim%&r&4 لم يتمكن من التنفس أثناء وجوده داخل كتلة"
+  - "&3%victim%&r&4 تم التغلب عليه بواسطة كتلة"
 
 cramming-messages:
-  - "&3%victim%&r&4 was squeezed into oblivion"
-  - "&cPoor &3%victim%&r&4, they thought they could live in a 1x1 space"
+  - "&3%victim%&r&4 تم ضغطه إلى اللانهاية"
+  - "&4مسكين &3%victim%&r&4، اعتقد أنه يمكنه العيش في مساحة 1x1"
 
 thorns-messages:
-  - "&3%victim%&r&4 was repelled by &3%killer%&r&4's thorny armor"
-  - "&3%victim%&r&4 got the tables turned on them by &3%killer%&r&4's thorns"
+  - "&3%victim%&r&4 تم دفعه بواسطة درع &3%killer%&r&4 الشوكي"
+  - "&3%victim%&r&4 عكسه &3%killer%&r&4 باستخدام الشوك"
 
 lava-messages:
-  - "&3%victim%&r&4 burned up in a pit of lava"
-  - "&3%victim%&r&4 went for a swim in lava and got burned"
+  - "&3%victim%&r&4 احترق في حفرة من الحمم البركانية"
+  - "&3%victim%&r&4 قرر السباحة في الحمم البركانية وأحترق"
 
 magma-block-messages:
-  - "&3%victim%&r&4 was removed by a hot &6magma block"
-  - "&3%victim%&r&4's feet were made into bacon by a &6magma block"
+  - "&3%victim%&r&4 تم إزالته بواسطة &6كتلة الماجما الساخنة"
+  - "&3%victim%&r&4 تم تحويل قدميه إلى لحم مقدد بواسطة &6كتلة الماجما"
 
 elytra-messages:
-  - "&3%victim%&r&4 flew into a wall and died...?"
-  - "&3%victim%&r&4 got slammed into a wall by his elytra"
+  - "&3%victim%&r&4 اصطدم بجدار ومات...؟"
+  - "&3%victim%&r&4 تم دفعه إلى الجدار بواسطة جناحيه"
 
 wither-messages:
-  - "&3%victim%&r&4 got the &9wither &cdisease"
-  - "&3%victim%&r&4 &9withered &caway to the 4th dimension"
+  - "&3%victim%&r&4 أصيب بمرض &9wither &4"
+  - "&3%victim%&r&4 &9withered &4إلى البعد الرابع"
 
 suicide-messages:
-  - "&3%victim%&r&4 killed themself"
-  - "&3%victim%&r&4 had a mental breakdown and died"
+  - "&3%victim%&r&4 انتحر"
+  - "&3%victim%&r&4 تعرض لأزمة نفسية ومات"
 
 fire-messages:
-  - "&3%victim%&r&4 stood in the fireplace"
-  - "&3%victim%&r&4 played with fire"
+  - "&3%victim%&r&4 وقف في المدفأة"
+  - "&3%victim%&r&4 لعب بالنار"
 
 fire-tick-messages:
-  - "&3%victim%&r&4 forgot to stop, drop, and roll"
+  - "&3%victim%&r&4 نسي أن يتوقف ويقوم بالدحرجة"
 
 starvation-messages:
-  - "&3%victim%&r&4 forgot to eat"
-  - "&3%victim%&r&4's mom said we have food at home"
+  - "&3%victim%&r&4 نسي أن يأكل"
+  - "&3%victim%&r&4 أمه قالت أن لدينا طعام في المنزل"
 
 cactus-messages:
-  - "&3%victim%&r&4 was pricked to death"
-  - "&3%victim%&r&4 tried acupuncture, but died"
-  - "&3%victim%&r&4 hugged a cactus to death"
+  - "&3%victim%&r&4 تم وخزه حتى الموت"
+  - "&3%victim%&r&4 جرب الوخز بالإبر ولكن مات"
+  - "&3%victim%&r&4 عانق صباراً حتى الموت"
 
 potion-messages:
-  - "&3%victim%&r&4 fell victim to a bad potion"
-  - "&3%victim%&r&4 died of coronavirus"
+  - "&3%victim%&r&4 سقط ضحية لعلاج سيء"
+  - "&3%victim%&r&4 مات بسبب فيروس كورونا"
 
 void-messages:
-  - "&3%victim%&r&4 thought it would be fun to take a trip in the void"
-  - "&3%victim%&r&4 took a one-way trip to the void"
-  - "&3%victim%&r&4 went on a cosmic adventure... without a spaceship"
+  - "&3%victim%&r&4 اعتقد أنه سيكون ممتعًا القيام برحلة في الفراغ"
+  - "&3%victim%&r&4 أخذ رحلة ذات اتجاه واحد إلى الفراغ"
+  - "&3%victim%&r&4 ذهب في مغامرة كونية... بدون مركبة فضائية"
 
 lightning-messages:
-  - "&3%victim%&r&4 was zapped by divine intervention"
-  - "&3%victim%&r&4 was struck down by the gods"
-  - "&3%victim%&r&4 got a shocking reminder from above"
+  - "&3%victim%&r&4 صُعق بتدخل إلهي"
+  - "&3%victim%&r&4 تم ضربه من قبل الآلهة"
+  - "&3%victim%&r&4 تلقى تذكيرًا صادمًا من الأعلى"
 
 falling-block-messages:
-  - "&3%victim%&r&4 was crushed by a falling block"
-  - "&3%victim%&r&4 became one with the falling block"
-  - "&3%victim%&r&4 met their match in a falling block"
+  - "&3%victim%&r&4 تم سحقه بواسطة كتلة ساقطة"
+  - "&3%victim%&r&4 أصبح واحدًا مع الكتلة الساقطة"
+  - "&3%victim%&r&4 واجه مصيره مع كتلة ساقطة"
 
 freeze-messages:
-  - "&3%victim%&r&4 didn't survive the polar vortex"
-  - "&3%victim%&r&4 forgot his winter jacket"
-  - "&3%victim%&r&4 froze faster than an ice cube"
+  - "&3%victim%&r&4 لم ينجو من الزوبعة القطبية"
+  - "&3%victim%&r&4 نسى سترته الشتوية"
+  - "&3%victim%&r&4 تجمد أسرع من مكعب ثلج"
 
 firework-messages:
-  - "&3%victim%&r&4 lit the fuse on a firework too soon"
-  - "&3%victim%&r&4 tried to fly with style... and crashed"
-  - "&3%victim%&r&4 discovered the perils of amateur pyrotechnics"
+  - "&3%victim%&r&4 أشعل فتيل الألعاب النارية مبكرًا جدًا"
+  - "&3%victim%&r&4 حاول الطيران بأسلوب... وسقط"
+  - "&3%victim%&r&4 اكتشف مخاطر الألعاب النارية للهواة"
 
 slime-messages:
-  - "&3%victim%&r&4 was crushed by a &2GIANT SLIME"
-  - "&3%victim%&r&4 was &2slimed &cto death while collecting slime balls"
+  - "&3%victim%&r&4 تم سحقه بواسطة &2سلِيم عملاق"
+  - "&3%victim%&r&4 تم &2تلطيخه &4إلى الموت أثناء جمع كرات السلايم"
 
 zombie-messages:
-  - "&3%victim%&r&4 was eaten alive by a &2Zombie"
-  - "&3%victim%&r&4 thought a &2Zombie &cwas friendly"
+  - "&3%victim%&r&4 تم أكله حيًا بواسطة &2زومبي"
+  - "&3%victim%&r&4 اعتقد أن &2الزومبي &4كان ودودًا"
 
 pigman-messages:
-  - "&3%victim%&r&4 aggroed the &ePigmen &cand got eaten alive"
-  - "&3%victim%&r&4 angered the &ePigmen &cand became their bacon"
+  - "&3%victim%&r&4 استفز &eالبيغمن &4وأصبح طعامًا لهم"
+  - "&3%victim%&r&4 أغضب &eالبيغمن &4وأصبح لحم خنزير لهم"
 
 skeleton-messages:
-  - "&3%victim%&r&4 got sniped by a bony &fSkeleton"
-  - "&3%victim%&r&4 got shot by a &fskeleton"
+  - "&3%victim%&r&4 تم قنصه بواسطة هيكل عظمي &f"
+  - "&3%victim%&r&4 تم إطلاق النار عليه بواسطة &fهيكل عظمي"
 
 magmacube-messages:
-  - "&3%victim%&r&4 got crushed by a &6GIANT MAGMA CUBE"
+  - "&3%victim%&r&4 تم سحقه بواسطة &6مكعب الماغما العملاق"
 
 husk-messages:
-  - "&3%victim%&r&4 got eaten by a dessert dweller AKA a &3Husk"
+  - "&3%victim%&r&4 تم أكله بواسطة ساكن الصحراء والمعروف بـ &3هوسك"
 
 spider-messages:
-  - "&3%victim%&r&4 was outsmarted by a crafty &1spider"
-  - "&3%victim%&r&4 was &1spider-snacked"
+  - "&3%victim%&r&4 تم استدراجه بواسطة عنكبوت ماكر &1"
+  - "&3%victim%&r&4 تم &1تناول العنكبوت"
 
 cavespider-messages:
-  - "&3%victim%&r&4 got bitten to death by a &1Cave Spider"
-  - "&3%victim%&r&4 got a venomous hug from a &1Cave Spider"
+  - "&3%victim%&r&4 تم عضه حتى الموت بواسطة &1عنكبوت الكهوف"
+  - "&3%victim%&r&4 تلقى عناقًا سامًا من &1عنكبوت الكهوف"
 
 witherskeleton-messages:
-  - "&3%victim%&r&4 got destroyed by a &0Wither Skeleton &cwith a stone sword"
-  - "&3%victim%&r&4 got schooled by a &0Wither Skeleton &cwith a stone sword"
+  - "&3%victim%&r&4 تم تدميره بواسطة &0هيكل عظمي الوذر &4بسيف حجري"
+  - "&3%victim%&r&4 تم تدريسه درسًا قاسيًا بواسطة &0هيكل عظمي الوذر &4بسيف حجري"
 
 witherboss-messages:
-  - "&3%victim%&r&4 got his head blown off by the &0Wither"
-  - "&3%victim%&r&4 challenged the &0Wither &cand lost their head"
-  - "&3%victim%&r&4 got a deadly lesson from the &0Wither"
+  - "&3%victim%&r&4 انفجرت رأسه بواسطة &0الوذر"
+  - "&3%victim%&r&4 تحدى &0الوذر &4وفقد رأسه"
+  - "&3%victim%&r&4 تلقى درسًا قاتلًا من &0الوذر"
 
 dragon-messages:
-  - "&3%victim%&r&4 got his guts ripped out by the &5Ender Dragon"
-  - "&3%victim%&r&4 got his head blown off by the &5Ender Dragon"
-  - "&3%victim%&r&4 found a respawn screen, not the end portal"
+  - "&3%victim%&r&4 تمزق أمعاؤه بواسطة &5تنين النذر"
+  - "&3%victim%&r&4 انفجرت رأسه بواسطة &5تنين النذر"
+  - "&3%victim%&r&4 وجد شاشة إعادة الظهور، وليس بوابة النهاية"
 
 dragon-breath-messages:
-  - "&3%victim%&r&4 took a bath in the &5Ender Dragon's breath"
-  - "&3%victim%&r&4 inhaled a bit too much of the &5Ender Dragon's breath"
-  - "&3%victim%&r&4 was incinerated by the &5Ender Dragon's breath &cattack"
+  - "&3%victim%&r&4 أخذ حمامًا في أنفاس &5تنين النذر"
+  - "&3%victim%&r&4 استنشقه كمية كبيرة جدًا من أنفاس &5تنين النذر"
+  - "&3%victim%&r&4 تم حرقه بواسطة هجوم أنفاس &5تنين النذر &4"
 
 elderguardian-messages:
-  - "&3%victim%&r&4 tried to clear a ocean monument but the &bElder Guardian &csaid no"
-  - "&3%victim%&r&4 thought they could conquer an ocean monument, but the &bElder Guardian &chad other plans"
+  - "&3%victim%&r&4 حاول إزالة نصب المحيط لكن &bالحارس الأكبر &4قال لا"
+  - "&3%victim%&r&4 اعتقدوا أنهم يمكنهم غزو نصب المحيط، لكن &bالحارس الأكبر &4كان لديه خطط أخرى"
 
 tnt-messages:
-  - "&3%victim%&r&4 got his head blown off by &4TNT"
-  - "&3%victim%&r&4 got blown up by &4TNT"
-  - "&3%victim%&r&4 found out about explosives the hard way"
+  - "&3%victim%&r&4 انفجرت رأسه بواسطة &4TNT"
+  - "&3%victim%&r&4 تم تفجيره بواسطة &4TNT"
+  - "&3%victim%&r&4 اكتشف عن المتفجرات بطريقة قاسية"
 
 end-crystal-messages:
-  - "&3%victim%&r&4 got pieced by an &5End Crystal"
-  - "&3%victim%&r&4 got blown up by an &5End Crystal"
+  - "&3%victim%&r&4 تم تفتيته بواسطة &5كريستال النهاية"
+  - "&3%victim%&r&4 تم تفجيره بواسطة &5كريستال النهاية"
 
 creeper-messages:
-  - "&3%victim%&r&4 was rudely introduced to a &aCreeper's &cexplosive personality"
-  - "&3%victim%&r&4 encountered a &aCreeper &cand got blown sky-high"
-  - "&3%victim%&r&4 underestimated the blast radius of a &aCreeper"
-  - "&3%victim%&r&4 tried to defuse a &aCreeper&c... it didn't work"
+  - "&3%victim%&r&4 تم تقديمه بشكل غير لائق إلى شخصية &aالزاحف &4الانفجارية"
+  - "&3%victim%&r&4 قابل &aالزاحف &4وتفجر عالياً في السماء"
+  - "&3%victim%&r&4 قلل من تقدير نطاق الانفجار للـ &aالزاحف"
+  - "&3%victim%&r&4 حاول تفكيك &aالزاحف&4... لم ينجح"
 
 ghast-messages:
-  - "&3%victim%&r&4 got fireballed by a &bGhast"
+  - "&3%victim%&r&4 تم قذف كرة نارية من قبل &bغاست"
 
 enderman-messages:
-  - "&3%victim%&r&4 looked an &5Enderman &cin the eyes"
-  - "&3%victim%&r&4 tried to play peek-a-boo with an &5Enderman"
+  - "&3%victim%&r&4 نظر إلى &5إنديرمان &4في عينيه"
+  - "&3%victim%&r&4 حاول اللعب بpeek-a-boo مع &5إنديرمان"
 
 silverfish-messages:
-  - "&3%victim%&r&4 got eaten by a &7Silverfish"
+  - "&3%victim%&r&4 تم أكله من قبل &7سمك فضي"
 
 witch-messages:
-  - "&3%victim%&r&4 was bewitched by a sneaky &9Witch"
-  - "&3%victim%&r&4 was turned into a frog by a vengeful &9Witch"
+  - "&3%victim%&r&4 تم سحره بواسطة &9ساحرة خبيثة"
+  - "&3%victim%&r&4 تحول إلى ضفدع بواسطة &9ساحرة انتقامية"
 
 shulker-messages:
-  - "&3%victim%&r&4 died trying to get some &dshulker &chells"
-  - "&3%victim%&r&4 got shot by a &dShulker"
-  - "&3%victim%&r&4 got ruined by a &dShulker"
+  - "&3%victim%&r&4 مات أثناء محاولة الحصول على &dأصداف شولكر &4"
+  - "&3%victim%&r&4 تم إطلاق النار عليه من قبل &dشولكر"
+  - "&3%victim%&r&4 تم تدميره بواسطة &dشولكر"
 
 guardian-messages:
-  - "&3%victim%&r&4 got killed by a &7Guardian"
-  - "&3%victim%&r&4 got zapped by an electrifying &7Guardian"
-  - "&3%victim%&r&4 was outswam by a sneaky &7Guardian"
+  - "&3%victim%&r&4 تم قتله بواسطة &7حارس"
+  - "&3%victim%&r&4 تم صعقه بواسطة &7حارس كهربائي"
+  - "&3%victim%&r&4 تم التفوق عليه في السباحة من قبل &7حارس خبيث"
 
 golem-messages:
-  - "&3%victim%&r&4 made an &7Iron Golem &cmad"
-  - "&3%victim%&r&4 provoked an &7Iron Golem's &cwrath"
-  - "&3%victim%&r&4 got a lesson in &7Iron Golem &cdiplomacy"
+  - "&3%victim%&r&4 أغضب &7جوليم حديدي &4"
+  - "&3%victim%&r&4 أثار غضب &7جوليم حديدي"
+  - "&3%victim%&r&4 حصل على درس في دبلوماسية &7جوليم حديدي"
 
 zombievillager-messages:
-  - "&3%victim%&r&4 was made dinner of by a &2Zombie Villager"
+  - "&3%victim%&r&4 أصبح وجبة عشاء لـ &2قرية زومبي"
 
 endermite-messages:
-  - "&3%victim%&r&4 encountered an &5Endermite &cand got nibbled to death"
-  - "&3%victim%&r&4 was outwitted by an &5Endermite"
+  - "&3%victim%&r&4 قابل &5إنرمايت &4وتعرض للعض حتى الموت"
+  - "&3%victim%&r&4 تم التفوق عليه من قبل &5إنرمايت"
 
 phantom-messages:
-  - "&3%victim%&r&4 was kidnapped by a &1Phantom"
+  - "&3%victim%&r&4 تم اختطافه بواسطة &1فانتوم"
 
 drowned-messages:
-  - "&3%victim%&r&4 went for a late night swim and got eaten by a &2Drowned Zombie"
-  - "&3%victim%&r&4 discovered that &2Drowned &caren't just regular swimmers"
+  - "&3%victim%&r&4 ذهب للسباحة في وقت متأخر من الليل وتم أكله بواسطة &2زومبي غارق"
+  - "&3%victim%&r&4 اكتشف أن &2الغرقى &4ليسوا مجرد سباحين عاديين"
 
 pillager-messages:
-  - "&3%victim%&r&4 got shot by a &3Pillager"
+  - "&3%victim%&r&4 تم إطلاق النار عليه بواسطة &3بيلجر"
 
 ravager-messages:
-  - "&3%victim%&r&4 got rammed by a &3Ravager"
+  - "&3%victim%&r&4 تم دهسه بواسطة &3رافاجر"
 
 illusioner-messages:
-  - "&3%victim%&r&4 was sent to the illusion world by an &6Illusioner"
-  - "&3%victim%&r&4 was tricked by an &6Illusioner"
-  - "&3%victim%&r&4 was killed by an &6Illusioner"
+  - "&3%victim%&r&4 تم إرساله إلى عالم الوهم بواسطة &6إليوشنر"
+  - "&3%victim%&r&4 تم خداعه بواسطة &6إليوشنر"
+  - "&3%victim%&r&4 تم قتله بواسطة &6إليوشنر"
 
 bee-messages:
-  - "&3%victim%&r&4 was stung by a &6BEE"
-  - "&3%victim%&r&4 met a &6bee &cand found out they're not just honey makers"
-  - "&3%victim%&r&4 got stung by a persistent &6bee"
+  - "&3%victim%&r&4 تعرض للدغة من قبل &6نحلة"
+  - "&3%victim%&r&4 قابل &6نحلة &4واكتشف أنها ليست مجرد صانعة عسل"
+  - "&3%victim%&r&4 تعرض للدغة من قبل &6نحلة"
 
 wolf-messages:
-  - "&3%victim%&r&4 was ripped apart by a &7Wolf"
-  - "&3%victim%&r&4 provoked a &7Wolf"
+  - "&3%victim%&r&4 تم تمزيقه بواسطة &7ذئب"
+  - "&3%victim%&r&4 أثار غضب &7ذئب"
 
 llama-messages:
-  - "&3%victim%&r&4 was spit to death by a &eLlama"
-  - "&3%victim%&r&4 got caught in a &ellama's &cspitfire"
-  - "&3%victim%&r&4 got a mouthful of &llama &cspit"
+  - "&3%victim%&r&4 تم قتله بواسطة بصاق &eلاما"
+  - "&3%victim%&r&4 تم الإمساك به في &eلاما &4p"
+  - "&3%victim%&r&4 تعرض لجرعة من بصاق &eلاما"
 
 blaze-messages:
-  - "&3%victim%&r&4 was charred by a &6Blaze"
-  - "&3%victim%&r&4 got roasted by a fiery &6Blaze"
-  - "&3%victim%&r&4 learned the hard way not to play with fire &6Blazes"
+  - "&3%victim%&r&4 تم تحميصه بواسطة &6بليز"
+  - "&3%victim%&r&4 تم شويه بواسطة &6بليز ناري"
+  - "&3%victim%&r&4 تعلم بالطريقة الصعبة ألا يلعب مع النار و &6بليز"
 
 stray-messages:
-  - "&3%victim%&r&4 was domed by a &7Stray"
+  - "&3%victim%&r&4 تم ضربه بواسطة &7ستراي"
 
 vex-messages:
-  - "&3%victim%&r&4 was eaten by a tiny flying &bVex"
-  - "&3%victim%&r&4 got vexed by a &bVex"
+  - "&3%victim%&r&4 تم أكله بواسطة &bفيكس طائر صغير"
+  - "&3%victim%&r&4 تم إزعاجه بواسطة &bفيكس"
 
 vindicator-messages:
-  - "&3%victim%&r&4 was hunted down by a &4Vindicator"
-  - "&3%victim%&r&4 underestimated the strength of a &4Vindicator"
-  - "&3%victim%&r&4 got caught in a &4Vindicator's &cpath of destruction"
+  - "&3%victim%&r&4 تم مطاردته بواسطة &4فينديكتور"
+  - "&3%victim%&r&4 قلل من قوة &4فينديكتور"
+  - "&3%victim%&r&4 تم الإمساك به في &4فينديكتور's &4path of destruction"
 
 evoker-messages:
-  - "&3%victim%&r&4 was summoned to the dead by an &4Evoker"
-  - "&3%victim%&r&4 tried the wrath of an &4Evoker"
-  - "&3%victim%&r&4 was evoked by an &4Evoker"
+  - "&3%victim%&r&4 تم استدعاؤه إلى الموت بواسطة &4إفوكير"
+  - "&3%victim%&r&4 جرب غضب &4إفوكير"
+  - "&3%victim%&r&4 تم استحضاره بواسطة &4إفوكير"
 
 pufferfish-messages:
-  - "&3%victim%&r&4 underestimated the toxicity of a &ePufferfish"
-  - "&3%victim%&r&4 met a &ePufferfish &cand learned the hard way not to touch"
+  - "&3%victim%&r&4 قلل من سمية &eسمكة النفاخ"
+  - "&3%victim%&r&4 قابل &eسمكة النفاخ &4وتعلم بالطريقة الصعبة ألا تلمسها"
 
 polar-bear-messages:
-  - "&3%victim%&r&4 was mauled by an icy-cold &fPolar Bear"
-  - "&3%victim%&r&4 got turned to snow by a &fPolar Bear"
+  - "&3%victim%&r&4 تم تمزيقه بواسطة &fدب قطبي بارد"
+  - "&3%victim%&r&4 تحول إلى ثلج بواسطة &fدب قطبي"
 
 dolphin-messages:
-  - "&3%victim%&r&4 provoked a &bDolphin&c... and lost?"
-  - "&3%victim%&r&4 hit a &bDolphin &cand they retaliated"
+  - "&3%victim%&r&4 أثار غضب &bدلفين&4... وخسر؟"
+  - "&3%victim%&r&4 ضرب &bدلفين &4وردوا عليه"
 
 panda-messages:
-  - "&3%victim%&r&4 was made into a &8Pandas &cdinner"
-  - "&3%victim%&r&4 tried stealing a &8Pandas &cbamboo"
+  - "&3%victim%&r&4 تحول إلى &8عشاء الباندا &4"
+  - "&3%victim%&r&4 حاول سرقة &8بامبو الباندا &4"
 
 piglin-messages:
-  - "&3%victim%&r&4 met his maker against the new &6Piglins"
-  - "&3%victim%&r&4 tangled with &6Piglins &cand got a lesson in survival"
-  - "&3%victim%&r&4 met &6Piglins &cand discovered they don't negotiate"
+  - "&3%victim%&r&4 قابل مصيره ضد &6بيغلين الجدد"
+  - "&3%victim%&r&4 اصطدم بـ &6بيغلين &4وتعلم درساً في البقاء"
+  - "&3%victim%&r&4 قابل &6بيغلين &4واكتشف أنهم لا يتفاوضون"
 
 hoglin-messages:
-  - "&3%victim%&r&4 was charged by a &6Hoglin&c, kind of rude?"
-  - "&3%victim%&r&4 didn't read the patch notes about &6Hoglins"
+  - "&3%victim%&r&4 تعرض للدهس بواسطة &6هوجلين&4، هل كان غير مهذب؟"
+  - "&3%victim%&r&4 لم يقرأ ملاحظات التحديث حول &6هوجلين"
 
 zoglin-messages:
-  - "&3%victim%&r&4 ate a &6Zoglins &chorn for dinner"
-  - "&3%victim%&r&4 was rammed by a &6Zoglin"
+  - "&3%victim%&r&4 تناول &6زوجلين &4قرنًا على العشاء"
+  - "&3%victim%&r&4 تعرض للدهس بواسطة &6زوجلين"
 
 goat-messages:
-  - "&3%victim%&r&4 was headbutted by a &4Goat"
-  - "&3%victim%&r&4 was impaled by a &4Goat &chorn"
+  - "&3%victim%&r&4 تعرض لدفعة رأس بواسطة &4تيس"
+  - "&3%victim%&r&4 تم طعنه بواسطة &4قرن تيس"
 
 zombified-piglin-messages:
-  - "&3%victim%&r&4 took a &6Piglin &cto the overworld and was murdered by their new, not so friendly pet"
-  - "&3%victim%&r&4 died to a &6Piglin&c... I mean, Pigman... I mean, Zombified Piglin"
+  - "&3%victim%&r&4 أخذ &6بيغلين &4إلى العالم الخارجي وتم قتله بواسطة حيوانهم الأليف الجديد غير الودود"
+  - "&3%victim%&r&4 مات على يد &6بيغلين&4... أعني، بيغمان... أعني، بيغلين الزومبي"
 
 fox-messages:
-  - "&3%victim%&r&4 &6foxed &caround and found out"
-  - "&3%victim%&r&4 was chewed up by a &6Fox"
+  - "&3%victim%&r&4 &6خداع &4وانكشف"
+  - "&3%victim%&r&4 تم مضغه بواسطة &6ثعلب"
 
 warden-messages:
-  - "&3%victim%&r&4 was killed by a &1Warden&c... I mean, what did you expect?"
-  - "&3%victim%&r&4 underestimated the &1Warden's &cstrength"
-  - "&3%victim%&r&4 got too close to a &1Warden's &cterritory"
+  - "&3%victim%&r&4 قُتل بواسطة &1الحارس&4... أعني، ماذا كنت تتوقع؟"
+  - "&3%victim%&r&4 قلل من تقدير &1قوة الحارس&4"
+  - "&3%victim%&r&4 اقترب كثيراً من &1منطقة الحارس&4"
 
 warden-sonic-boom-messages:
-  - "&3%victim%&r&4 was sonic boomed by a &1Warden"
-  - "&3%victim%&r&4 got his ears blown out by a &1Warden's sonic boom"
+  - "&3%victim%&r&4 تعرض لصدمة صوتية من &1الحارس"
+  - "&3%victim%&r&4 تم تفجير أذنه بواسطة صدمة صوتية من &1الحارس"
 
 unknown-messages:
-  - "&3%victim%&r&4 died to unknown causes"
-  - "&3%victim%&r&4 died"
-  - "&3%victim%&r&4 was killed"
+  - "&3%victim%&r&4 مات لأسباب غير معروفة"
+  - "&3%victim%&r&4 مات"
+  - "&3%victim%&r&4 قُتل"
 
 fireball-messages:
-  - "&3%victim%&r&4 was roasted by an unexpected &4fireball &cattack"
-  - "&3%victim%&r&4 got caught in a fiery storm of &4fireballs"
-  - "&3%victim%&r&4 was incinerated by a barrage of &4fireballs"
+  - "&3%victim%&r&4 تم تحميصه بواسطة هجوم &4كرة نارية &غير متوقع"
+  - "&3%victim%&r&4 وقع في عاصفة نارية من &4كرات نارية"
+  - "&3%victim%&r&4 تم حرقه بواسطة وابل من &4كرات نارية"
 
 arrow-messages:
-  - "&3%victim%&r&4 was caught in a rain of &5arrows"
-  - "&3%victim%&r&4 tried to outrun &5arrows&c... it didn't work"
+  - "&3%victim%&r&4 وقع في مطر من &5سهام"
+  - "&3%victim%&r&4 حاول الهروب من &5السهام&4... لم ينجح"

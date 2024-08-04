@@ -1,0 +1,464 @@
+prefix: "&6[&18b&98t&6]&6"
+
+#Basic messages
+ignore_successful: "&3सफलतापूर्वक खिलाड़ी को नजरअंदाज किया गया&r&a %s&r"
+already_ignoring: "&cआप पहले ही उस खिलाड़ी को नजरअंदाज कर रहे हैं"
+ignore_command_syntax: "&cकृपया एक खिलाड़ी शामिल करें /ignore <playerName>"
+unignore_successful: "&3सफलतापूर्वक खिलाड़ी को नजरअंदाज हटा दिया गया&r&a %s&r"
+unignore_not_ignoring: "&cआप %s को नजरअंदाज नहीं कर रहे हैं"
+unignore_command_syntax: "&cकृपया एक खिलाड़ी शामिल करें /unignore <playerName>"
+ignorelist_successful: "&3नजरअंदाज किए गए खिलाड़ी: &c%s"
+ignorelist_not_ignoring: "&6आप किसी को भी नजरअंदाज नहीं कर रहे हैं"
+ignorelist_failed: "&6नजरअंदाज सूची की जानकारी प्राप्त करने में असमर्थ।"
+whisper_from: "&d%s ने फुसफुसाया: %s"
+whisper_to: "&d% को: %s"
+whisper_ignoring: "&c%s आपको नजरअंदाज कर रहा है"
+whisper_you_are_ignoring: "&cआप उस खिलाड़ी को संदेश नहीं भेज सकते जिसे आपने नजरअंदाज किया है"
+msg_could_not_find_player: "&cखिलाड़ी %s नहीं मिला"
+msg_command_syntax: "&cकृपया एक लक्ष्य और संदेश शामिल करें /msg <target> <message>"
+reply_player_offline: "&cखिलाड़ी %s ऑफलाइन है"
+reply_no_target: "&cआपने अभी तक किसी को संदेश नहीं भेजा है"
+reply_command_syntax: "&cकृपया एक संदेश शामिल करें /r <message>"
+togglechat_chat_enabled: "&aचैट सक्षम किया गया"
+togglechat_chat_disabled: "&cचैट अक्षम किया गया"
+cmdwhitelist_cmd_not_allowed: "&cआदेश&r&a %s&r&c अनुमति नहीं है"
+chat_cooldown: "&3कृपया चैट संदेशों के बीच कम से कम&r&a %d&r&3 सेकंड प्रतीक्षा करें"
+delhome_no_homes: "&3आपके पास कोई होम नहीं है"
+delhome_specify_home: "&3कृपया हटाने के लिए एक होम का नाम शामिल करें। वर्तमान होम: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3होम&r&a %s&r&3 नहीं मिला"
+delhome_success: "&3होम&r&a %s&r&3 हटा दिया गया"
+delhome_fail: "&3हटाने में असमर्थ&r&a %s&r"
+home_no_homes: "&3कोई होम नहीं मिला"
+home_specify_home: "&3कृपया एक होम शामिल करें! वर्तमान होम: (&r&a%s&r&3)&r"
+home_too_close: "&3आपको /home का उपयोग करने के लिए स्पॉन से&r&a %d&r&3 ब्लॉक दूर होना चाहिए"
+home_success: "&3होम पर टेलीपोर्ट कर रहे हैं&r&a %s&r&3..."
+home_not_found: "&3होम&r&a %s&r&3 नहीं मिला"
+sethome_include_name: "&3कृपया अपने नए होम के लिए एक नाम शामिल करें"
+sethome_home_already_exists: "&cनाम&r&a %s&r&c के साथ पहले से ही एक होम मौजूद है।"
+sethome_max_reached: "&3अधिकतम होम की संख्या पहुंच गई!"
+sethome_success: "&3होम&r&a %s &r&3सेट"
+kick_restarting: "&3सर्वर पुनरारंभ हो रहा है"
+elytra_too_fast: "&3आप अपनी एलीट्रा के साथ बहुत तेज़ चल रहे हैं"
+elytra_school_zone: "&3आप वर्तमान में एक स्कूल जोन में हैं। कृपया अधिकतम गति 15 किमी/घंटा पर यात्रा करें"
+elytras_disabled: "&3सर्वर की लेटेंसी के कारण एलीट्रास वर्तमान में अक्षम हैं। वे जल्द ही वापस आ जाएंगी"
+bookban_inventory_clear: "&cआपके इन्वेंट्री को बुक बैन से रोकने के लिए साफ़ कर दिया गया है"
+bookban_removed_item: "&cबुक बैन से रोकने के लिए आपके इन्वेंट्री से सभी&r&3 %s(s) &r&cहटाए गए हैं"
+kick_lever_ratelimit: "&cआप बहुत तेज़ी से इंटरैक्ट कर रहे हैं"
+kick_pps_limit: "&cआप बहुत तेजी से पैकेट भेज रहे हैं!"
+kick_failed_to_inject: "&cइंजेक्ट करने में विफल"
+join_message: "&7%s ने जॉइन किया"
+player_join_first_time: "&7%s पहली बार जॉइन हुआ"
+leave_message: "&7%s ने छोड़ दिया"
+kick_message: "&7%s को \"%s\" के लिए किक किया गया"
+could_not_translate_message: "संदेश का अनुवाद %s के कारण विफल हुआ"
+message_auto_translated: "इस संदेश का अनुवाद स्वचालित रूप से किया गया है।\n\nमूल पाठ: %s"
+welcome_message: "&38b8t में स्वागत है"
+vote_announcement: "&c%s &6ने &18b&98t &6के लिए वोट दिया और मुफ्त /nc और 5 अतिरिक्त घर प्राप्त किए"
+vote_thanks: "&68b8t के लिए वोट देने के लिए धन्यवाद &6आपको मुफ्त /nc और 5 अतिरिक्त घर दिए गए हैं"
+vote_info: "&6आप &18b&98t &6के लिए वोट कर सकते हैं &chttps://votefor.8b8t.me"
+tpa_syntax: "&cकृपया एक खिलाड़ी शामिल करें जिसे आप tpa करना चाहते हैं। /tpa <player>"
+tpa_player_not_online: "&cखिलाड़ी %s ऑनलाइन नहीं है"
+tpa_no_request_found: "&cकोई TPA अनुरोध नहीं मिला"
+tpa_self_tpa: "&cआप खुद को TPA नहीं कर सकते"
+tpa_request_received: "&a%s&r&3 आपको टेलीपोर्ट करना चाहता है&r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
+tpa_request_sent: "&3अनुरोध&r&a %s को भेजा गया"
+tpa_already_sent: "&cआपके पास पहले से एक लंबित अनुरोध है"
+tpa_teleporting: "&3टेलीपोर्ट कर रहा है&r&a..."
+tpa_request_timeout: "&cTPA अनुरोध टाइमआउट"
+tpa_request_denied_from: "&a%s&r&c ने आपके अनुरोध को अस्वीकार कर दिया"
+tpa_request_denied_to: "&3अनुरोध सफलतापूर्वक अस्वीकार कर दिया गया"
+tpa_pending_request: "&a%s&r &चालू अनुरोध है"
+tpa_to_left: "&cTPA रद्द कर दिया गया क्योंकि&r&a %s&r&c ने छोड़ दिया"
+op_not_allowed: "&cआपको ऑप बनने की अनुमति नहीं है"
+framedupe_cooldown: "&cआप बहुत तेजी से डुप्लिकेट कर रहे हैं"
+framedupe_items_limit: "&cइस चंक में पहले से ही बहुत अधिक आइटम गिराए गए हैं"
+
+#Complex messages
+HelpMessage:
+  - '&1--------------------------------------'
+  - '&6देखें &chttps://www.8b8t.me &6नियम पढ़ने के लिए'
+  - '&1--------------कमांड----------------'
+  - '&c/tpa &6किसी अन्य खिलाड़ी के पास टेलीपोर्ट करने के लिए'
+  - '&c/tpayes &6टेलीपोर्ट अनुरोध को स्वीकार करने के लिए'
+  - '&c/tpano &6टेलीपोर्ट अनुरोध को अस्वीकार करने के लिए'
+  - '&c/sethome &6अपने स्थान पर एक घर सेट करने के लिए'
+  - '&c/delhome &6एक घर को हटाने के लिए जिसे आपने सेट किया है'
+  - '&c/home &6एक घर पर टेलीपोर्ट करने के लिए जिसे आपने सेट किया है'
+  - '&c/skin set &6अपनी त्वचा सेट करने के लिए'
+  - '&c/vote &68b8t के लिए वोट देने के लिए'
+  - '&c/discord &68b8t के डिस्कॉर्ड पर निमंत्रण प्राप्त करने के लिए'
+  - '&c/kill &6अपने चरित्र को हटाने के लिए'
+  - '&c/ignore &6अन्य खिलाड़ियों को नजरअंदाज करने के लिए'
+  - '&c/unignore &6अन्य खिलाड़ियों को अनदेखा करने के लिए'
+  - '&c/ignorelist &6उन खिलाड़ियों को दिखाने के लिए जिनका आप अनदेखा कर रहे हैं'
+  - '&c/msg &6अन्य खिलाड़ियों को संदेश भेजने के लिए'
+  - '&c/changepass &6अपना पासवर्ड बदलने के लिए'
+  - '&c/joindate &6आप और दूसरों के जुड़ने की तारीख देखने के लिए'
+  - '&c/worldstats &6दुनिया के आकार को देखने के लिए'
+  - '&c/pvp &68b8t के PVP सर्वर से जुड़ने के लिए'
+  - '&c/lobby &6लॉबी से जुड़ने के लिए'
+  - '&c/tpsinfo &6सर्वर के प्रति सेकंड की टिक की जांच करने के लिए'
+  - '&1-------------वोटर के लिए ही---------------'
+  - '&c/nc &6अपने नाम का रंग सेट करने के लिए'
+  - '&c/ic &6आइटम के रंग को सेट करने के लिए'
+  - '&6देखें &chttps://votefor.8b8t.me &6वोट देने के लिए'
+  - '&1------------दानकर्ताओं के लिए--------------'
+  - '&c/seen &6देखने के लिए कि कोई खिलाड़ी अंतिम बार कब ऑनलाइन था'
+  - '&c/echest &6अपने एंडर चेस्ट को खोलने के लिए'
+  - '&c/nick &6एक उपनाम सेट करने के लिए'
+  - '&6देखें &chttps://donate.8b8t.me &6दान करने के लिए'
+  - '&1--------------------------------------'
+TabList:
+  Header:
+    - ''
+    - '&18builders&98tools'
+    - ''
+    - '&68b8t अब फोलिया पर चलता है और विशेषताएँ लौटेंगी'
+    - ''
+
+  Footer:
+  - ''
+  - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: %uptime%'
+  - ''
+  - '&7संपर्क: contact@8b8t.me'
+  - '&7चर्चा: https://discord.8b8t.me'
+  - '&7वेबसाइट: https://www.8b8t.me'
+  - '&7ये ही आधिकारिक 8b8t वेबसाइट और संपर्क हैं'
+  - ''
+TpsMessage:
+  - '&1------------TPS जानकारी------------'
+  - '&6TPS: &a%s &6MSTP: &a%s'
+  - '&6निम्नतम क्षेत्र TPS: &c%s'
+  - '&6ऑनलाइन खिलाड़ी &a%s'
+  - '&1-------------------------------------'
+tps_failed: '&cआप TPS की जांच करने के लिए अधिकृत नहीं हैं'
+
+announcements:
+  - '&6[&18b&98t&6]&6 वोट देने के लिए &chttps://votefor.8b8t.me &6पर जाएं और मुफ्त /nc और 5 अतिरिक्त घर प्राप्त करें'
+  - '&6[&18b&98t&6]&6 8b8t का समर्थन करने के लिए दान करें &chttps://donate.8b8t.me'
+
+# Mensajes de Muerte
+global-pvp-death-messages:
+  - "&3%victim%&r&4 को &3%killer%&r&4 ने मार डाला"
+  - "&3%victim%&r&4 को &3%killer%&r&4 ने &6[%kill-weapon%&6] का उपयोग करके मारा"
+  - "&3%victim%&r&4 को &3%killer%&r&4 ने समाप्त कर दिया"
+  - "&3%victim%&r&4 को &3%killer%&r&4 ने &6[%kill-weapon%&6] के साथ हराया"
+  - "&3%killer%&r&4 ने &3%victim%&r&4 को &6[%kill-weapon%&6] का उपयोग करके चूर-चूर कर दिया"
+  - "&3%victim%&r&4 को &3%killer%&r&4 ने तबाह कर दिया"
+  - "&3%victim%&r&4 को &3%killer%&r&4 और उनके शक्तिशाली &6[%kill-weapon%&6] के साथ रेक्ट कर दिया गया"
+  - "&3%victim%&r&4 को &3%killer%&r&4 ने &6[%kill-weapon%&6] का उपयोग करके आसानी से हराया"
+
+melee-death-messages:
+  - "&3%victim%&r&4 को &3%killer%&r&4 ने थप्पड़ मारा"
+  - "&3%victim%&r&4 को &3%killer%&r&4 ने KO कर दिया"
+  - "&3%victim%&r&4 को &3%killer%&r&4 ने झटका दिया"
+
+fall-damage-messages:
+  - "&3%victim%&r&4 ने गुरुत्वाकर्षण को परखने का निर्णय लिया और हार गए"
+  - "&3%victim%&r&4 ने अपने पैरेशूट को लाना भूल गए"
+  - "&3%victim%&r&4 ने सोचा कि वे उड़ सकते हैं... वे नहीं उड़ सके"
+
+drowning-messages:
+  - "&3%victim%&r&4 ने मछलियों के साथ सोने का निर्णय लिया"
+  - "&3%victim%&r&4 ने सोचा कि वे ऑक्सीजन तक समय पर पहुँच सकते हैं"
+  - "&3%victim%&r&4 ने पानी को हराने की कोशिश की"
+
+suffocation-messages:
+  - "&3%victim%&r&4 एक ब्लॉक में रहते हुए अपनी सांस नहीं ले सके"
+  - "&3%victim%&r&4 एक ब्लॉक के अंदर सांस नहीं ले सके"
+  - "&3%victim%&r&4 को एक ब्लॉक द्वारा मात दी गई"
+
+cramming-messages:
+  - "&3%victim%&r&4 को बर्बादी की ओर धकेल दिया गया"
+  - "&4गरीब &3%victim%&r&4, उन्होंने सोचा कि वे 1x1 जगह में रह सकते हैं"
+
+thorns-messages:
+  - "&3%victim%&r&4 को &3%killer%&r&4 की कांटेदार कवच द्वारा दूर किया गया"
+  - "&3%victim%&r&4 को &3%killer%&r&4 के कांटों द्वारा मात दी गई"
+
+lava-messages:
+  - "&3%victim%&r&4 लावा के गड्ढे में जलकर मर गए"
+  - "&3%victim%&r&4 ने लावा में तैरने की कोशिश की और जल गए"
+
+magma-block-messages:
+  - "&3%victim%&r&4 को एक गर्म &6मग्मा ब्लॉक द्वारा हटा दिया गया"
+  - "&3%victim%&r&4 के पैर को एक &6मग्मा ब्लॉक द्वारा बेकन में बदल दिया गया"
+
+elytra-messages:
+  - "&3%victim%&r&4 एक दीवार में उड़ गए और मर गए...?"
+  - "&3%victim%&r&4 को उनकी एलिट्रा द्वारा दीवार में धक्का दे दिया गया"
+
+wither-messages:
+  - "&3%victim%&r&4 को &9विथर &4रोग हो गया"
+  - "&3%victim%&r&4 &9विथर&4 होकर 4थ डाइमेंशन में चले गए"
+
+suicide-messages:
+  - "&3%victim%&r&4 ने आत्महत्या कर ली"
+  - "&3%victim%&r&4 को मानसिक breakdown हुआ और वे मर गए"
+
+fire-messages:
+  - "&3%victim%&r&4 ने चिमनी में खड़े होकर जलाया"
+  - "&3%victim%&r&4 ने आग से खेला"
+
+fire-tick-messages:
+  - "&3%victim%&r&4 ने रोकना, गिरना, और रोल करना भूल गए"
+
+starvation-messages:
+  - "&3%victim%&r&4 खाना खाना भूल गए"
+  - "&3%victim%&r&4 की माँ ने कहा कि घर पर खाना है"
+
+cactus-messages:
+  - "&3%victim%&r&4 को मौत के घाट उतारा गया"
+  - "&3%victim%&r&4 ने एक्यूपंक्चर की कोशिश की, लेकिन मर गए"
+  - "&3%victim%&r&4 ने एक कैक्टस को गले लगाकर मर गए"
+
+potion-messages:
+  - "&3%victim%&r&4 एक खराब potion का शिकार हो गए"
+  - "&3%victim%&r&4 कोरोनावायरस से मर गए"
+
+void-messages:
+  - "&3%victim%&r&4 ने सोचा कि void में यात्रा मजेदार होगी"
+  - "&3%victim%&r&4 ने void के लिए एकतरफा यात्रा की"
+  - "&3%victim%&r&4 ने एक अंतरिक्ष यात्रा की... बिना किसी अंतरिक्ष यान के"
+
+lightning-messages:
+  - "&3%victim%&r&4 को दिव्य हस्तक्षेप द्वारा झटका लगा"
+  - "&3%victim%&r&4 को देवताओं द्वारा गिराया गया"
+  - "&3%victim%&r&4 को ऊपर से एक चौंकाने वाली याददाश्त मिली"
+
+falling-block-messages:
+  - "&3%victim%&r&4 एक गिरते ब्लॉक द्वारा कुचले गए"
+  - "&3%victim%&r&4 गिरते ब्लॉक के साथ एक हो गए"
+  - "&3%victim%&r&4 ने गिरते ब्लॉक के साथ अपनी किस्मत मिली"
+
+freeze-messages:
+  - "&3%victim%&r&4 पोलर वोर्टेक्स से बच नहीं पाए"
+  - "&3%victim%&r&4 अपनी सर्दी की जैकेट भूल गए"
+  - "&3%victim%&r&4 बर्फ के टुकड़े से भी तेजी से जम गए"
+
+firework-messages:
+  - "&3%victim%&r&4 ने एक आतिशबाजी का fuse बहुत जल्दी जलाया"
+  - "&3%victim%&r&4 ने स्टाइल के साथ उड़ने की कोशिश की... और दुर्घटनाग्रस्त हो गए"
+  - "&3%victim%&r&4 ने शौकिया आतिशबाजी के खतरों को खोजा"
+
+slime-messages:
+  - "&3%victim%&r&4 एक &2GIANT SLIME द्वारा कुचले गए"
+  - "&3%victim%&r&4 स्लाइम बॉल इकट्ठा करते समय &2slimed &4से मौत हो गई"
+
+zombie-messages:
+  - "&3%victim%&r&4 एक &2ज़ोंबी द्वारा जीवित खा लिया गया"
+  - "&3%victim%&r&4 ने सोचा कि एक &2ज़ोंबी &4मित्रवत था"
+
+pigman-messages:
+  - "&3%victim%&r&4 ने &ePigmen &4को उकसाया और जीवित खा लिया गया"
+  - "&3%victim%&r&4 ने &ePigmen &4को गुस्सा दिलाया और उनका बेकन बन गया"
+
+skeleton-messages:
+  - "&3%victim%&r&4 एक हड्डियों वाले &fSkeleton द्वारा निशाना बनाया गया"
+  - "&3%victim%&r&4 एक &fskeleton द्वारा गोली मारी गई"
+
+magmacube-messages:
+  - "&3%victim%&r&4 एक &6GIANT MAGMA CUBE द्वारा कुचले गए"
+
+husk-messages:
+  - "&3%victim%&r&4 एक रेगिस्तानी निवासी AKA एक &3Husk द्वारा खा लिया गया"
+
+spider-messages:
+  - "&3%victim%&r&4 एक चालाक &1spider द्वारा बेवकूफ बना दिया गया"
+  - "&3%victim%&r&4 को &1spider द्वारा खा लिया गया"
+
+cavespider-messages:
+  - "&3%victim%&r&4 एक &1Cave Spider द्वारा काटे जाने से मर गए"
+  - "&3%victim%&r&4 को एक &1Cave Spider द्वारा विषैला गले लगाया गया"
+
+witherskeleton-messages:
+  - "&3%victim%&r&4 एक &0Wither Skeleton &4के पत्थर की तलवार से नष्ट हो गए"
+  - "&3%victim%&r&4 को एक &0Wither Skeleton &4के पत्थर की तलवार से सबक मिला"
+
+witherboss-messages:
+  - "&3%victim%&r&4 का सिर &0Wither द्वारा उड़ा दिया गया"
+  - "&3%victim%&r&4 ने &0Wither &4को चुनौती दी और अपना सिर खो दिया"
+  - "&3%victim%&r&4 को &0Wither द्वारा एक जानलेवा सबक मिला"
+
+dragon-messages:
+  - "&3%victim%&r&4 के अंग &5Ender Dragon द्वारा फाड़ दिए गए"
+  - "&3%victim%&r&4 का सिर &5Ender Dragon द्वारा उड़ा दिया गया"
+  - "&3%victim%&r&4 ने अंत पोर्टल के बजाय एक पुनरावलोकन स्क्रीन देखी"
+
+dragon-breath-messages:
+  - "&3%victim%&r&4 &5Ender Dragon की सांस में नहाए"
+  - "&3%victim%&r&4 ने &5Ender Dragon की सांस का थोड़ा ज्यादा सेवन कर लिया"
+  - "&3%victim%&r&4 &5Ender Dragon की सांस &4हमले द्वारा जलाए गए"
+
+elderguardian-messages:
+  - "&3%victim%&r&4 ने एक समुद्री स्मारक को साफ करने की कोशिश की लेकिन &bElder Guardian &4ने मना कर दिया"
+  - "&3%victim%&r&4 ने सोचा कि वे एक समुद्री स्मारक को जीत सकते हैं, लेकिन &bElder Guardian &4के पास अन्य योजनाएं थीं"
+
+tnt-messages:
+  - "&3%victim%&r&4 का सिर &4TNT द्वारा उड़ा दिया गया"
+  - "&3%victim%&r&4 &4TNT द्वारा उड़ा दिया गया"
+  - "&3%victim%&r&4 ने विस्फोटक के बारे में कठिन तरीके से सीखा"
+
+end-crystal-messages:
+  - "&3%victim%&r&4 को एक &5End Crystal द्वारा टुकड़ों में काटा गया"
+  - "&3%victim%&r&4 को एक &5End Crystal द्वारा उड़ा दिया गया"
+
+creeper-messages:
+  - "&3%victim%&r&4 को &aCreeper के &4विस्फोटक स्वभाव से अशिष्ट तरीके से परिचित कराया गया"
+  - "&3%victim%&r&4 ने एक &aCreeper &4से सामना किया और आकाश में उड़ा दिया गया"
+  - "&3%victim%&r&4 ने &aCreeper के विस्फोटक दायरे को कम आंका"
+  - "&3%victim%&r&4 ने एक &aCreeper को नष्ट करने की कोशिश की... यह काम नहीं किया"
+
+ghast-messages:
+  - "&3%victim%&r&4 को एक &bGhast द्वारा आग के गोले से मारा गया"
+
+enderman-messages:
+  - "&3%victim%&r&4 ने &5Enderman को आंखों में देखा"
+  - "&3%victim%&r&4 ने एक &5Enderman के साथ पीक-ए-बू खेला"
+
+silverfish-messages:
+  - "&3%victim%&r&4 को एक &7Silverfish द्वारा खा लिया गया"
+
+witch-messages:
+  - "&3%victim%&r&4 को एक चालाक &9Witch द्वारा जादू किया गया"
+  - "&3%victim%&r&4 को एक प्रतिशोधी &9Witch द्वारा मेंढक में बदल दिया गया"
+
+shulker-messages:
+  - "&3%victim%&r&4 ने कुछ &dshulker &4खोलों को प्राप्त करने की कोशिश में मौत का सामना किया"
+  - "&3%victim%&r&4 को एक &dShulker द्वारा गोली मारी गई"
+  - "&3%victim%&r&4 को एक &dShulker द्वारा बर्बाद कर दिया गया"
+
+guardian-messages:
+  - "&3%victim%&r&4 को एक &7Guardian द्वारा मारा गया"
+  - "&3%victim%&r&4 को एक इलेक्ट्रिक &7Guardian द्वारा झटके लगाए गए"
+  - "&3%victim%&r&4 को एक चालाक &7Guardian द्वारा हराया गया"
+
+golem-messages:
+  - "&3%victim%&r&4 ने एक &7Iron Golem &4को गुस्सा दिलाया"
+  - "&3%victim%&r&4 ने एक &7Iron Golem की &4क्रोध को उत्तेजित किया"
+  - "&3%victim%&r&4 ने &7Iron Golem की &4राजनीति में एक पाठ प्राप्त किया"
+
+zombievillager-messages:
+  - "&3%victim%&r&4 को एक &2Zombie Villager द्वारा रात का खाना बनाया गया"
+
+endermite-messages:
+  - "&3%victim%&r&4 ने एक &5Endermite से सामना किया और उसे काटकर मार डाला गया"
+  - "&3%victim%&r&4 को एक &5Endermite ने मात दी"
+
+phantom-messages:
+  - "&3%victim%&r&4 को एक &1Phantom द्वारा अगवा कर लिया गया"
+
+drowned-messages:
+  - "&3%victim%&r&4 ने देर रात तैरने की कोशिश की और एक &2Drowned Zombie द्वारा खा लिया गया"
+  - "&3%victim%&r&4 ने पाया कि &2Drowned &4सिर्फ साधारण तैराक नहीं होते"
+
+pillager-messages:
+  - "&3%victim%&r&4 को एक &3Pillager द्वारा गोली मारी गई"
+
+ravager-messages:
+  - "&3%victim%&r&4 को एक &3Ravager द्वारा टकरा दिया गया"
+
+illusioner-messages:
+  - "&3%victim%&r&4 को एक &6Illusioner द्वारा भ्रांति की दुनिया में भेज दिया गया"
+  - "&3%victim%&r&4 को एक &6Illusioner द्वारा ठगा गया"
+  - "&3%victim%&r&4 को एक &6Illusioner द्वारा मार डाला गया"
+
+bee-messages:
+  - "&3%victim%&r&4 को एक &6BEE द्वारा डंक मारा गया"
+  - "&3%victim%&r&4 ने एक &6bee से मुलाकात की और पाया कि वे सिर्फ शहद नहीं बनाते"
+  - "&3%victim%&r&4 को एक जिद्दी &6bee द्वारा डंक मारा गया"
+
+wolf-messages:
+  - "&3%victim%&r&4 को एक &7Wolf द्वारा फाड़ दिया गया"
+  - "&3%victim%&r&4 ने एक &7Wolf को उत्तेजित किया"
+
+llama-messages:
+  - "&3%victim%&r&4 को एक &eLlama द्वारा थूककर मार डाला गया"
+  - "&3%victim%&r&4 एक &ellama के &4थूक में फंस गया"
+  - "&3%victim%&r&4 को एक &llama के &4थूक का स्वाद मिला"
+
+blaze-messages:
+  - "&3%victim%&r&4 को एक &6Blaze द्वारा जलाया गया"
+  - "&3%victim%&r&4 को एक आग भरे &6Blaze द्वारा भून दिया गया"
+  - "&3%victim%&r&4 ने आग के साथ खेलना सीख लिया कि &6Blazes के साथ खेलना खतरनाक हो सकता है"
+
+stray-messages:
+  - "&3%victim%&r&4 को एक &7Stray द्वारा हरा दिया गया"
+
+vex-messages:
+  - "&3%victim%&r&4 को एक छोटे से उड़ते हुए &bVex द्वारा खा लिया गया"
+  - "&3%victim%&r&4 को एक &bVex द्वारा परेशान किया गया"
+
+vindicator-messages:
+  - "&3%victim%&r&4 को एक &4Vindicator द्वारा शिकार किया गया"
+  - "&3%victim%&r&4 ने एक &4Vindicator की ताकत को कम करके आंका"
+  - "&3%victim%&r&4 एक &4Vindicator के &4विनाश के पथ में फंस गया"
+
+evoker-messages:
+  - "&3%victim%&r&4 को एक &4Evoker द्वारा मृतकों के पास बुला लिया गया"
+  - "&3%victim%&r&4 ने एक &4Evoker की क्रोध की कोशिश की"
+  - "&3%victim%&r&4 को एक &4Evoker द्वारा आह्वान किया गया"
+
+pufferfish-messages:
+  - "&3%victim%&r&4 ने एक &ePufferfish की विषाक्तता को कम करके आंका"
+  - "&3%victim%&r&4 ने एक &ePufferfish से मुलाकात की और सीखा कि उसे छूना खतरनाक है"
+
+polar-bear-messages:
+  - "&3%victim%&r&4 को एक ठंडे &fPolar Bear द्वारा हमला किया गया"
+  - "&3%victim%&r&4 एक &fPolar Bear द्वारा बर्फ में बदल दिया गया"
+
+dolphin-messages:
+  - "&3%victim%&r&4 ने एक &bDolphin को उत्तेजित किया... और हार गए?"
+  - "&3%victim%&r&4 ने एक &bDolphin को मारा और उसने प्रतिशोध किया"
+
+panda-messages:
+  - "&3%victim%&r&4 को एक &8Panda का भोजन बना दिया गया"
+  - "&3%victim%&r&4 ने एक &8Panda का बांस चुराने की कोशिश की"
+
+piglin-messages:
+  - "&3%victim%&r&4 ने नए &6Piglins के खिलाफ अपने निर्माता से मिलाया"
+  - "&3%victim%&r&4 ने &6Piglins के साथ उलझा और जीवित रहने का पाठ सीखा"
+  - "&3%victim%&r&4 ने &6Piglins से मुलाकात की और पाया कि वे बातचीत नहीं करते"
+
+hoglin-messages:
+  - "&3%victim%&r&4 को एक &6Hoglin द्वारा चार्ज किया गया, थोड़ा असभ्य?"
+  - "&3%victim%&r&4 ने &6Hoglins के बारे में पैच नोट्स नहीं पढ़े"
+
+zoglin-messages:
+  - "&3%victim%&r&4 ने एक &6Zoglin के &4सींग को रात के खाने के लिए खा लिया"
+  - "&3%victim%&r&4 को एक &6Zoglin द्वारा धक्का दिया गया"
+
+goat-messages:
+  - "&3%victim%&r&4 को एक &4Goat द्वारा सिर से मारा गया"
+  - "&3%victim%&r&4 को एक &4Goat के &4सींग द्वारा धारण किया गया"
+
+zombified-piglin-messages:
+  - "&3%victim%&r&4 ने एक &6Piglin को ओवरवर्ल्ड में लाया और उसके नए, ज्यादा मित्रवत पालतू द्वारा हत्या कर दी गई"
+  - "&3%victim%&r&4 को एक &6Piglin द्वारा मारा गया... मेरा मतलब Pigman से है... मेरा मतलब Zombified Piglin से है"
+
+fox-messages:
+  - "&3%victim%&r&4 ने &6foxed &4होकर पता लगा लिया"
+  - "&3%victim%&r&4 को एक &6Fox द्वारा चबाया गया"
+
+warden-messages:
+  - "&3%victim%&r&4 को एक &1Warden द्वारा मारा गया... मेरा मतलब, आप क्या उम्मीद करते थे?"
+  - "&3%victim%&r&4 ने &1Warden की &4ताकत को कम करके आंका"
+  - "&3%victim%&r&4 ने एक &1Warden के &4क्षेत्र के करीब पहुँचकर गलती की"
+
+warden-sonic-boom-messages:
+  - "&3%victim%&r&4 को एक &1Warden द्वारा सॉनिक बूम से मारा गया"
+  - "&3%victim%&r&4 को एक &1Warden के सॉनिक बूम से कान बहरे कर दिए गए"
+
+unknown-messages:
+  - "&3%victim%&r&4 अज्ञात कारणों से मर गया"
+  - "&3%victim%&r&4 मर गया"
+  - "&3%victim%&r&4 को मार दिया गया"
+
+fireball-messages:
+  - "&3%victim%&r&4 एक अप्रत्याशित &4fireball &4हमले से भुना गया"
+  - "&3%victim%&r&4 &4fireballs के एक आग के तूफान में फंस गया"
+  - "&3%victim%&r&4 एक &4fireballs की बौछार द्वारा जलाया गया"
+
+arrow-messages:
+  - "&3%victim%&r&4 &5arrows की बारिश में फंस गया"
+  - "&3%victim%&r&4 ने &5arrows से बचने की कोशिश की... यह काम नहीं आया"

@@ -77,32 +77,35 @@ framedupe_items_limit: "&cThere are already too many items dropped in this chunk
 HelpMessage:
   - '&1--------------------------------------'
   - '&6Visit &chttps://www.8b8t.me &6to read the rules'
+  - '&1--------------Commands----------------'
   - '&c/tpa &6to teleport to another player'
   - '&c/tpayes &6to accept a teleport request'
-  - '&c/tpano &6todeny a teleport request'
+  - '&c/tpano &6to deny a teleport request'
   - '&c/sethome &6to set a home at your location'
-  - '&c/delhome &6to delete a home you set'
-  - '&c/home &6to teleport to a home you set'
+  - '&c/delhome &6to delete a home you have set'
+  - '&c/home &6to teleport to a home you have set'
   - '&c/skin set &6to set your skin'
   - '&c/vote &6to vote for 8b8t'
-  - '&c/discord &6get an invite to the 8b8t discord'
+  - '&c/discord &6to get an invite to the 8b8t Discord'
   - '&c/kill &6to kill your self'
   - '&c/ignore &6to ignore other players'
-  - '&c/msg &6to message other players'
-  - '&c/changepass &6To change your password'
-  - '&c/joindate &6Check yours and others joindate'
-  - '&c/worldstats &6View the world size'
-  - '&c/pvp &6Connect to 8b8t PVP'
-  - '&c/lobby &6Connect to lobby'
-  - '&c/tpsinfo &6To check server ticks per second'
-  - '&1-------------Voter Only---------------'
-  - '&c/nc &6To set name colour'
+  - '&c/unignore &6to unignore other players'
+  - '&c/ignorelist &6to show the players you are ignoring'
+  - '&c/msg &6to send messages to other players'
+  - '&c/changepass &6to change your password'
+  - '&c/joindate &6to see your and others’ join dates'
+  - '&c/worldstats &6to see the world size'
+  - '&c/pvp &6to connect to the 8b8t PVP server'
+  - '&c/lobby &6to connect to the lobby'
+  - '&c/tpsinfo &6to check the server ticks per second'
+  - '&1-------------For Voters Only---------------'
+  - '&c/nc &6to set your name color'
+  - '&c/ic &6to set item color'
   - '&6Visit &chttps://votefor.8b8t.me &6to vote'
-  - '&1------------Donator Only--------------'
-  - '&c/seen &6See when a player last joined'
-  - '&c/echest &6Open your ender chest'
-  - '&c/nick &6Set a nickname'
-  #    - '&c/linkdiscord &6link your discord to your 8b8t account'
+  - '&1------------For Donors Only--------------'
+  - '&c/seen &6to see when a player was last online'
+  - '&c/echest &6to open your ender chest'
+  - '&c/nick &6to set a nickname'
   - '&6Visit &chttps://donate.8b8t.me &6to donate'
   - '&1--------------------------------------'
 TabList:
@@ -137,13 +140,13 @@ announcements:
 # Death messages
 global-pvp-death-messages:
   - "&3%victim%&r&4 has been killed by &3%killer%&r&4"
-  - "&3%victim%&r&4 was slain by &3%killer%&r&4 using &6[%kill-weapon%]"
+  - "&3%victim%&r&4 was slain by &3%killer%&r&4 using &6[%kill-weapon%&6]"
   - "&3%victim%&r&4 has been put down by &3%killer%&r&4"
-  - "&3%victim%&r&4 was pwned by &3%killer%&r&4 wielding &6[%kill-weapon%]"
-  - "&3%killer%&r&4 pulverized &3%victim%&r&4 using &6[%kill-weapon%]"
+  - "&3%victim%&r&4 was pwned by &3%killer%&r&4 wielding &6[%kill-weapon%&6]"
+  - "&3%killer%&r&4 pulverized &3%victim%&r&4 using &6[%kill-weapon%&6]"
   - "&3%victim%&r&4 was destroyed by &3%killer%&r&4"
-  - "&3%victim%&r&4 was rekt by &3%killer%&r&4 and their mighty &6[%kill-weapon%]"
-  - "&3%victim%&r&4 was EZ clapped by &3%killer%&r&4 using &6[%kill-weapon%]"
+  - "&3%victim%&r&4 was rekt by &3%killer%&r&4 and their mighty &6[%kill-weapon%&6]"
+  - "&3%victim%&r&4 was EZ clapped by &3%killer%&r&4 using &6[%kill-weapon%&6]"
 
 melee-death-messages:
   - "&3%victim%&r&4 was slapped by &3%killer%&r&4"
@@ -167,7 +170,7 @@ suffocation-messages:
 
 cramming-messages:
   - "&3%victim%&r&4 was squeezed into oblivion"
-  - "&cPoor &3%victim%&r&4, they thought they could live in a 1x1 space"
+  - "&4Poor &3%victim%&r&4, they thought they could live in a 1x1 space"
 
 thorns-messages:
   - "&3%victim%&r&4 was repelled by &3%killer%&r&4's thorny armor"
@@ -186,8 +189,8 @@ elytra-messages:
   - "&3%victim%&r&4 got slammed into a wall by his elytra"
 
 wither-messages:
-  - "&3%victim%&r&4 got the &9wither &cdisease"
-  - "&3%victim%&r&4 &9withered &caway to the 4th dimension"
+  - "&3%victim%&r&4 got the &9wither &4disease"
+  - "&3%victim%&r&4 &9withered &4away to the 4th dimension"
 
 suicide-messages:
   - "&3%victim%&r&4 killed themself"
@@ -240,15 +243,15 @@ firework-messages:
 
 slime-messages:
   - "&3%victim%&r&4 was crushed by a &2GIANT SLIME"
-  - "&3%victim%&r&4 was &2slimed &cto death while collecting slime balls"
+  - "&3%victim%&r&4 was &2slimed &4to death while collecting slime balls"
 
 zombie-messages:
   - "&3%victim%&r&4 was eaten alive by a &2Zombie"
-  - "&3%victim%&r&4 thought a &2Zombie &cwas friendly"
+  - "&3%victim%&r&4 thought a &2Zombie &4was friendly"
 
 pigman-messages:
-  - "&3%victim%&r&4 aggroed the &ePigmen &cand got eaten alive"
-  - "&3%victim%&r&4 angered the &ePigmen &cand became their bacon"
+  - "&3%victim%&r&4 aggroed the &ePigmen &4and got eaten alive"
+  - "&3%victim%&r&4 angered the &ePigmen &4and became their bacon"
 
 skeleton-messages:
   - "&3%victim%&r&4 got sniped by a bony &fSkeleton"
@@ -269,12 +272,12 @@ cavespider-messages:
   - "&3%victim%&r&4 got a venomous hug from a &1Cave Spider"
 
 witherskeleton-messages:
-  - "&3%victim%&r&4 got destroyed by a &0Wither Skeleton &cwith a stone sword"
-  - "&3%victim%&r&4 got schooled by a &0Wither Skeleton &cwith a stone sword"
+  - "&3%victim%&r&4 got destroyed by a &0Wither Skeleton &4with a stone sword"
+  - "&3%victim%&r&4 got schooled by a &0Wither Skeleton &4with a stone sword"
 
 witherboss-messages:
   - "&3%victim%&r&4 got his head blown off by the &0Wither"
-  - "&3%victim%&r&4 challenged the &0Wither &cand lost their head"
+  - "&3%victim%&r&4 challenged the &0Wither &4and lost their head"
   - "&3%victim%&r&4 got a deadly lesson from the &0Wither"
 
 dragon-messages:
@@ -285,11 +288,11 @@ dragon-messages:
 dragon-breath-messages:
   - "&3%victim%&r&4 took a bath in the &5Ender Dragon's breath"
   - "&3%victim%&r&4 inhaled a bit too much of the &5Ender Dragon's breath"
-  - "&3%victim%&r&4 was incinerated by the &5Ender Dragon's breath &cattack"
+  - "&3%victim%&r&4 was incinerated by the &5Ender Dragon's breath &4attack"
 
 elderguardian-messages:
-  - "&3%victim%&r&4 tried to clear a ocean monument but the &bElder Guardian &csaid no"
-  - "&3%victim%&r&4 thought they could conquer an ocean monument, but the &bElder Guardian &chad other plans"
+  - "&3%victim%&r&4 tried to clear a ocean monument but the &bElder Guardian &4said no"
+  - "&3%victim%&r&4 thought they could conquer an ocean monument, but the &bElder Guardian &4had other plans"
 
 tnt-messages:
   - "&3%victim%&r&4 got his head blown off by &4TNT"
@@ -301,16 +304,16 @@ end-crystal-messages:
   - "&3%victim%&r&4 got blown up by an &5End Crystal"
 
 creeper-messages:
-  - "&3%victim%&r&4 was rudely introduced to a &aCreeper's &cexplosive personality"
-  - "&3%victim%&r&4 encountered a &aCreeper &cand got blown sky-high"
+  - "&3%victim%&r&4 was rudely introduced to a &aCreeper's &4explosive personality"
+  - "&3%victim%&r&4 encountered a &aCreeper &4and got blown sky-high"
   - "&3%victim%&r&4 underestimated the blast radius of a &aCreeper"
-  - "&3%victim%&r&4 tried to defuse a &aCreeper&c... it didn't work"
+  - "&3%victim%&r&4 tried to defuse a &aCreeper&4... it didn't work"
 
 ghast-messages:
   - "&3%victim%&r&4 got fireballed by a &bGhast"
 
 enderman-messages:
-  - "&3%victim%&r&4 looked an &5Enderman &cin the eyes"
+  - "&3%victim%&r&4 looked an &5Enderman &4in the eyes"
   - "&3%victim%&r&4 tried to play peek-a-boo with an &5Enderman"
 
 silverfish-messages:
@@ -321,7 +324,7 @@ witch-messages:
   - "&3%victim%&r&4 was turned into a frog by a vengeful &9Witch"
 
 shulker-messages:
-  - "&3%victim%&r&4 died trying to get some &dshulker &chells"
+  - "&3%victim%&r&4 died trying to get some &dshulker &4hells"
   - "&3%victim%&r&4 got shot by a &dShulker"
   - "&3%victim%&r&4 got ruined by a &dShulker"
 
@@ -331,15 +334,15 @@ guardian-messages:
   - "&3%victim%&r&4 was outswam by a sneaky &7Guardian"
 
 golem-messages:
-  - "&3%victim%&r&4 made an &7Iron Golem &cmad"
-  - "&3%victim%&r&4 provoked an &7Iron Golem's &cwrath"
-  - "&3%victim%&r&4 got a lesson in &7Iron Golem &cdiplomacy"
+  - "&3%victim%&r&4 made an &7Iron Golem &4mad"
+  - "&3%victim%&r&4 provoked an &7Iron Golem's &4wrath"
+  - "&3%victim%&r&4 got a lesson in &7Iron Golem &4diplomacy"
 
 zombievillager-messages:
   - "&3%victim%&r&4 was made dinner of by a &2Zombie Villager"
 
 endermite-messages:
-  - "&3%victim%&r&4 encountered an &5Endermite &cand got nibbled to death"
+  - "&3%victim%&r&4 encountered an &5Endermite &4and got nibbled to death"
   - "&3%victim%&r&4 was outwitted by an &5Endermite"
 
 phantom-messages:
@@ -347,7 +350,7 @@ phantom-messages:
 
 drowned-messages:
   - "&3%victim%&r&4 went for a late night swim and got eaten by a &2Drowned Zombie"
-  - "&3%victim%&r&4 discovered that &2Drowned &caren't just regular swimmers"
+  - "&3%victim%&r&4 discovered that &2Drowned &4aren't just regular swimmers"
 
 pillager-messages:
   - "&3%victim%&r&4 got shot by a &3Pillager"
@@ -362,7 +365,7 @@ illusioner-messages:
 
 bee-messages:
   - "&3%victim%&r&4 was stung by a &6BEE"
-  - "&3%victim%&r&4 met a &6bee &cand found out they're not just honey makers"
+  - "&3%victim%&r&4 met a &6bee &4and found out they're not just honey makers"
   - "&3%victim%&r&4 got stung by a persistent &6bee"
 
 wolf-messages:
@@ -371,8 +374,8 @@ wolf-messages:
 
 llama-messages:
   - "&3%victim%&r&4 was spit to death by a &eLlama"
-  - "&3%victim%&r&4 got caught in a &ellama's &cspitfire"
-  - "&3%victim%&r&4 got a mouthful of &llama &cspit"
+  - "&3%victim%&r&4 got caught in a &ellama's &4spitfire"
+  - "&3%victim%&r&4 got a mouthful of &llama &4spit"
 
 blaze-messages:
   - "&3%victim%&r&4 was charred by a &6Blaze"
@@ -389,7 +392,7 @@ vex-messages:
 vindicator-messages:
   - "&3%victim%&r&4 was hunted down by a &4Vindicator"
   - "&3%victim%&r&4 underestimated the strength of a &4Vindicator"
-  - "&3%victim%&r&4 got caught in a &4Vindicator's &cpath of destruction"
+  - "&3%victim%&r&4 got caught in a &4Vindicator's &4path of destruction"
 
 evoker-messages:
   - "&3%victim%&r&4 was summoned to the dead by an &4Evoker"
@@ -398,49 +401,49 @@ evoker-messages:
 
 pufferfish-messages:
   - "&3%victim%&r&4 underestimated the toxicity of a &ePufferfish"
-  - "&3%victim%&r&4 met a &ePufferfish &cand learned the hard way not to touch"
+  - "&3%victim%&r&4 met a &ePufferfish &4and learned the hard way not to touch"
 
 polar-bear-messages:
   - "&3%victim%&r&4 was mauled by an icy-cold &fPolar Bear"
   - "&3%victim%&r&4 got turned to snow by a &fPolar Bear"
 
 dolphin-messages:
-  - "&3%victim%&r&4 provoked a &bDolphin&c... and lost?"
-  - "&3%victim%&r&4 hit a &bDolphin &cand they retaliated"
+  - "&3%victim%&r&4 provoked a &bDolphin&4... and lost?"
+  - "&3%victim%&r&4 hit a &bDolphin &4and they retaliated"
 
 panda-messages:
-  - "&3%victim%&r&4 was made into a &8Pandas &cdinner"
-  - "&3%victim%&r&4 tried stealing a &8Pandas &cbamboo"
+  - "&3%victim%&r&4 was made into a &8Pandas &4dinner"
+  - "&3%victim%&r&4 tried stealing a &8Pandas &4bamboo"
 
 piglin-messages:
   - "&3%victim%&r&4 met his maker against the new &6Piglins"
-  - "&3%victim%&r&4 tangled with &6Piglins &cand got a lesson in survival"
-  - "&3%victim%&r&4 met &6Piglins &cand discovered they don't negotiate"
+  - "&3%victim%&r&4 tangled with &6Piglins &4and got a lesson in survival"
+  - "&3%victim%&r&4 met &6Piglins &4and discovered they don't negotiate"
 
 hoglin-messages:
-  - "&3%victim%&r&4 was charged by a &6Hoglin&c, kind of rude?"
+  - "&3%victim%&r&4 was charged by a &6Hoglin&4, kind of rude?"
   - "&3%victim%&r&4 didn't read the patch notes about &6Hoglins"
 
 zoglin-messages:
-  - "&3%victim%&r&4 ate a &6Zoglins &chorn for dinner"
+  - "&3%victim%&r&4 ate a &6Zoglins &4horn for dinner"
   - "&3%victim%&r&4 was rammed by a &6Zoglin"
 
 goat-messages:
   - "&3%victim%&r&4 was headbutted by a &4Goat"
-  - "&3%victim%&r&4 was impaled by a &4Goat &chorn"
+  - "&3%victim%&r&4 was impaled by a &4Goat &4horn"
 
 zombified-piglin-messages:
-  - "&3%victim%&r&4 took a &6Piglin &cto the overworld and was murdered by their new, not so friendly pet"
-  - "&3%victim%&r&4 died to a &6Piglin&c... I mean, Pigman... I mean, Zombified Piglin"
+  - "&3%victim%&r&4 took a &6Piglin &4to the overworld and was murdered by their new, not so friendly pet"
+  - "&3%victim%&r&4 died to a &6Piglin&4... I mean, Pigman... I mean, Zombified Piglin"
 
 fox-messages:
-  - "&3%victim%&r&4 &6foxed &caround and found out"
+  - "&3%victim%&r&4 &6foxed &4around and found out"
   - "&3%victim%&r&4 was chewed up by a &6Fox"
 
 warden-messages:
-  - "&3%victim%&r&4 was killed by a &1Warden&c... I mean, what did you expect?"
-  - "&3%victim%&r&4 underestimated the &1Warden's &cstrength"
-  - "&3%victim%&r&4 got too close to a &1Warden's &cterritory"
+  - "&3%victim%&r&4 was killed by a &1Warden&4... I mean, what did you expect?"
+  - "&3%victim%&r&4 underestimated the &1Warden's &4strength"
+  - "&3%victim%&r&4 got too close to a &1Warden's &4territory"
 
 warden-sonic-boom-messages:
   - "&3%victim%&r&4 was sonic boomed by a &1Warden"
@@ -452,10 +455,10 @@ unknown-messages:
   - "&3%victim%&r&4 was killed"
 
 fireball-messages:
-  - "&3%victim%&r&4 was roasted by an unexpected &4fireball &cattack"
+  - "&3%victim%&r&4 was roasted by an unexpected &4fireball &4attack"
   - "&3%victim%&r&4 got caught in a fiery storm of &4fireballs"
   - "&3%victim%&r&4 was incinerated by a barrage of &4fireballs"
 
 arrow-messages:
   - "&3%victim%&r&4 was caught in a rain of &5arrows"
-  - "&3%victim%&r&4 tried to outrun &5arrows&c... it didn't work"
+  - "&3%victim%&r&4 tried to outrun &5arrows&4... it didn't work"

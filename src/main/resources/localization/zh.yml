@@ -1,6 +1,5 @@
 prefix: "&6[&18b&98t&6]&6"
 
-
 # 基本信息
 ignore_successful: "&3成功屏蔽玩家&r&a %s&r"
 already_ignoring: "&c你已经在屏蔽这个玩家了"
@@ -61,10 +60,10 @@ tpa_syntax: "&c请包括一个玩家以进行tpa。/tpa <玩家>"
 tpa_player_not_online: "&c玩家 %s 不在线"
 tpa_no_request_found: "&c未找到TPA请求"
 tpa_self_tpa: "&c你不能对自己发起TPA"
-tpa_already_sent: "&c您已有一个待处理的请求"
 tpa_request_received: "&a%s&r&3想要传送到你这里&r &a/tpayes &3用户名 &c/tpano &3用户名"
 tpa_request_sent: "&3传送请求已发送到&r&a %s"
-tpa_teleporting: "&3传送中&r&a..."
+tpa_already_sent: "&c您已有一个待处理的请求"
+tpa_teleporting: "&3传送中&r&..."
 tpa_request_timeout: "&cTPA请求超时"
 tpa_request_denied_from: "&a%s&r&c拒绝了你的请求"
 tpa_request_denied_to: "&3请求已成功拒绝"
@@ -74,40 +73,40 @@ op_not_allowed: "&c您无权成为操作员"
 framedupe_cooldown: "&c你复制得太快了"
 framedupe_items_limit: "&c这个区块中物品太多，因此不再进行复制"
 
-announcements:
-  - '&6[&18b&98t&6]&6 访问 &chttps://votefor.8b8t.me &6并投票即可获得免费 /nc 和 5 个额外住宅'
-  - '&6[&18b&98t&6]&6 捐款以帮助支持 8b8t，网址为 &chttps://donate.8b8t.me'
 # 复杂信息
 HelpMessage:
   - '&1--------------------------------------'
   - '&6访问 &chttps://www.8b8t.me &6阅读规则'
-  - '&c/tpa &6传送到另一玩家'
+  - '&1--------------命令----------------'
+  - '&c/tpa &6传送到另一个玩家'
   - '&c/tpayes &6接受传送请求'
   - '&c/tpano &6拒绝传送请求'
   - '&c/sethome &6在当前位置设置家'
   - '&c/delhome &6删除你设置的家'
   - '&c/home &6传送到你设置的家'
   - '&c/skin set &6设置你的皮肤'
-  - '&c/vote &6为 8b8t 投票'
-  - '&c/discord &6获取 8b8t 的 Discord 邀请'
-  - '&c/kill &6自杀'
+  - '&c/vote &6为8b8t投票'
+  - '&c/discord &6获取8b8t的Discord邀请'
+  - '&c/kill &6删除你的角色'
   - '&c/ignore &6忽略其他玩家'
-  - '&c/msg &6给其他玩家发送消息'
-  - '&c/changepass &6更改密码'
+  - '&c/unignore &6取消忽略其他玩家'
+  - '&c/ignorelist &6查看你正在忽略的玩家'
+  - '&c/msg &6向其他玩家发送消息'
+  - '&c/changepass &6更改你的密码'
   - '&c/joindate &6查看你和其他玩家的加入日期'
-  - '&c/worldstats &6查看世界大小'
-  - '&c/pvp &6连接到 8b8t PVP'
+  - '&c/worldstats &6查看世界的大小'
+  - '&c/pvp &6连接到8b8t的PVP服务器'
   - '&c/lobby &6连接到大厅'
-  - '&c/tpsinfo &6检查服务器每秒的ticks'
+  - '&c/tpsinfo &6查看服务器的每秒滴答数'
   - '&1-------------仅限投票者---------------'
-  - '&c/nc &6设置名称颜色'
-  - '&6访问 &chttps://votefor.8b8t.me &6投票'
+  - '&c/nc &6设置名字颜色'
+  - '&c/ic &6设置物品颜色'
+  - '&6访问 &chttps://votefor.8b8t.me &6进行投票'
   - '&1------------仅限捐赠者--------------'
-  - '&c/seen &6查看玩家上次加入的时间'
+  - '&c/seen &6查看玩家上次在线时间'
   - '&c/echest &6打开你的末影箱'
   - '&c/nick &6设置一个昵称'
-  #    - '&c/linkdiscord &6将你的 Discord 链接到你的 8b8t 账户'
-  - '&6访问 &chttps://donate.8b8t.me &6捐赠'
+  - '&6访问 &chttps://donate.8b8t.me &6进行捐赠'
   - '&1--------------------------------------'
 TabList:
   Header:
@@ -116,6 +115,7 @@ TabList:
     - ''
     - '&68b8t 现在在 folia 上运行，并将恢复功能'
     - ''
+
   Footer:
     - ''
     - '&7tps:&r %tps% &7ping: &r%ping% &7玩家: &f%players% &7在线时间: %uptime%'
@@ -133,16 +133,20 @@ TpsMessage:
   - '&1-------------------------------------'
 tps_failed: '&c您没有被允许查询TPS'
 
+announcements:
+  - '&6[&18b&98t&6]&6 访问 &chttps://votefor.8b8t.me &6并投票即可获得免费 /nc 和 5 个额外住宅'
+  - '&6[&18b&98t&6]&6 捐款以帮助支持 8b8t，网址为 &chttps://donate.8b8t.me'
+
 # Death messages
 global-pvp-death-messages:
   - "&3%victim%&r&4 被 &3%killer%&r&4 杀死了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%] 杀死了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%&6] 杀死了"
   - "&3%victim%&r&4 被 &3%killer%&r&4 打败了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%] 击败了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%&6] 击败了"
   - "&3%killer%&r&4 用 &6[%kill-weapon%] 击溃了 &3%victim%&r&4"
   - "&3%victim%&r&4 被 &3%killer%&r&4 摧毁了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 和他们强大的 &6[%kill-weapon%] 击败了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%] 轻松击败了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 和他们强大的 &6[%kill-weapon%&6] 击败了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%&6] 轻松击败了"
 
 melee-death-messages:
   - "&3%victim%&r&4 被 &3%killer%&r&4 拍打了"
@@ -238,212 +242,212 @@ firework-messages:
   - "&3%victim%&r&4 发现了业余烟花技术的危险"
 
 slime-messages:
-  - "&3%victim%&r&4 被一个巨大的&2史莱姆&c压死了"
-  - "&3%victim%&r&4 在收集史莱姆球时被&2史莱姆&c杀死了"
+  - "&3%victim%&r&4 被一个巨大的&2史莱姆&4压死了"
+  - "&3%victim%&r&4 在收集史莱姆球时被&2史莱姆&4杀死了"
 
 zombie-messages:
-  - "&3%victim%&r&4 被一只&2僵尸&c活活吃掉了"
-  - "&3%victim%&r&4 以为一只&2僵尸&c是友好的"
+  - "&3%victim%&r&4 被一只&2僵尸&4活活吃掉了"
+  - "&3%victim%&r&4 以为一只&2僵尸&4是友好的"
 
 pigman-messages:
-  - "&3%victim%&r&4 激怒了&e猪灵&c并被活生生吃掉了"
-  - "&3%victim%&r&4 激怒了&e猪灵&c并成为了他们的培根"
+  - "&3%victim%&r&4 激怒了&e猪灵&4并被活生生吃掉了"
+  - "&3%victim%&r&4 激怒了&e猪灵&4并成为了他们的培根"
 
 skeleton-messages:
-  - "&3%victim%&r&4 被一只骨骼射手&f骷髅&c狙击了"
-  - "&3%victim%&r&4 被&f骷髅&c射击了"
+  - "&3%victim%&r&4 被一只骨骼射手&f骷髅&4狙击了"
+  - "&3%victim%&r&4 被&f骷髅&4射击了"
 
 magmacube-messages:
-  - "&3%victim%&r&4 被一个&6巨大岩浆方块&c压扁了"
+  - "&3%victim%&r&4 被一个&6巨大岩浆方块&4压扁了"
 
 husk-messages:
-  - "&3%victim%&r&4 被沙漠居民&3枯萎尸&c吃掉了"
+  - "&3%victim%&r&4 被沙漠居民&3枯萎尸&4吃掉了"
 
 spider-messages:
-  - "&3%victim%&r&4 被一个狡猾的&1蜘蛛&c打败了"
-  - "&3%victim%&r&4 被&1蜘蛛&c一口吃掉了"
+  - "&3%victim%&r&4 被一个狡猾的&1蜘蛛&4打败了"
+  - "&3%victim%&r&4 被&1蜘蛛&4一口吃掉了"
 
 cavespider-messages:
-  - "&3%victim%&r&4 被一个&1洞穴蜘蛛&c咬死了"
-  - "&3%victim%&r&4 被一个&1洞穴蜘蛛&c的毒性拥抱致命伤"
+  - "&3%victim%&r&4 被一个&1洞穴蜘蛛&4咬死了"
+  - "&3%victim%&r&4 被一个&1洞穴蜘蛛&4的毒性拥抱致命伤"
 
 witherskeleton-messages:
-  - "&3%victim%&r&4 被一个带石剑的&0凋零骷髅&c摧毁了"
-  - "&3%victim%&r&4 被一个带石剑的&0凋零骷髅&c教训了一顿"
+  - "&3%victim%&r&4 被一个带石剑的&0凋零骷髅&4摧毁了"
+  - "&3%victim%&r&4 被一个带石剑的&0凋零骷髅&4教训了一顿"
 
 witherboss-messages:
-  - "&3%victim%&r&4 被&0凋零之王&c的头炸掉了"
-  - "&3%victim%&r&4 挑战&0凋零之王&c时失去了头颅"
-  - "&3%victim%&r&4 从&0凋零之王&c那里得到了致命的一课"
+  - "&3%victim%&r&4 被&0凋零之王&4的头炸掉了"
+  - "&3%victim%&r&4 挑战&0凋零之王&4时失去了头颅"
+  - "&3%victim%&r&4 从&0凋零之王&4那里得到了致命的一课"
 
 dragon-messages:
-  - "&3%victim%&r&4 被&5末影龙&c撕开了肚子"
-  - "&3%victim%&r&4 被&5末影龙&c的头部炸掉了"
+  - "&3%victim%&r&4 被&5末影龙&4撕开了肚子"
+  - "&3%victim%&r&4 被&5末影龙&4的头部炸掉了"
   - "&3%victim%&r&4 发现了重生画面，而不是末地传送门"
 
 dragon-breath-messages:
-  - "&3%victim%&r&4 沐浴在&5末影龙&c的龙息中"
-  - "&3%victim%&r&4 吸入了过多的&5末影龙&c的龙息"
-  - "&3%victim%&r&4 被&5末影龙&c的龙息焚化了"
+  - "&3%victim%&r&4 沐浴在&5末影龙&4的龙息中"
+  - "&3%victim%&r&4 吸入了过多的&5末影龙&4的龙息"
+  - "&3%victim%&r&4 被&5末影龙&4的龙息焚化了"
 
 elderguardian-messages:
-  - "&3%victim%&r&4 试图清理海府，但&b远古守卫者&c不答应"
-  - "&3%victim%&r&4 以为能征服海府，但&b远古守卫者&c有其他打算"
+  - "&3%victim%&r&4 试图清理海府，但&b远古守卫者&4不答应"
+  - "&3%victim%&r&4 以为能征服海府，但&b远古守卫者&4有其他打算"
 
 tnt-messages:
-  - "&3%victim%&r&4 被&4TNT&c炸飞了脑袋"
-  - "&3%victim%&r&4 被&4TNT&c炸了个正着"
+  - "&3%victim%&r&4 被&4TNT&4炸飞了脑袋"
+  - "&3%victim%&r&4 被&4TNT&4炸了个正着"
   - "&3%victim%&r&4 以最艰难的方式了解了爆炸物"
 
 end-crystal-messages:
-  - "&3%victim%&r&4 被一个&5末影水晶&c炸飞了"
-  - "&3%victim%&r&4 被一个&5末影水晶&c炸成了碎片"
+  - "&3%victim%&r&4 被一个&5末影水晶&4炸飞了"
+  - "&3%victim%&r&4 被一个&5末影水晶&4炸成了碎片"
 
 creeper-messages:
-  - "&3%victim%&r&4 遇到了一个&a爬行者&c的爆炸个性"
-  - "&3%victim%&r&4 遇到了一个&a爬行者&c并被炸得满天飞"
-  - "&3%victim%&r&4 低估了&a爬行者&c的爆炸半径"
-  - "&3%victim%&r&4 尝试拆除&a爬行者&c... 但没有成功"
+  - "&3%victim%&r&4 遇到了一个&a爬行者&4的爆炸个性"
+  - "&3%victim%&r&4 遇到了一个&a爬行者&4并被炸得满天飞"
+  - "&3%victim%&r&4 低估了&a爬行者&4的爆炸半径"
+  - "&3%victim%&r&4 尝试拆除&a爬行者&4... 但没有成功"
 
 ghast-messages:
-  - "&3%victim%&r&4 被一个&b恶魂&c火球击中了"
+  - "&3%victim%&r&4 被一个&b恶魂&4火球击中了"
 
 enderman-messages:
-  - "&3%victim%&r&4 盯上了一个&5末影人&c的眼睛"
-  - "&3%victim%&r&4 试图跟一个&5末影人&c玩躲猫猫"
+  - "&3%victim%&r&4 盯上了一个&5末影人&4的眼睛"
+  - "&3%victim%&r&4 试图跟一个&5末影人&4玩躲猫猫"
 
 silverfish-messages:
-  - "&3%victim%&r&4 被一个&7蠹虫&c吃掉了"
+  - "&3%victim%&r&4 被一个&7蠹虫&4吃掉了"
 
 witch-messages:
-  - "&3%victim%&r&4 被一个狡猾的&9女巫&c施法迷住了"
-  - "&3%victim%&r&4 被一个复仇心切的&9女巫&c变成了青蛙"
+  - "&3%victim%&r&4 被一个狡猾的&9女巫&4施法迷住了"
+  - "&3%victim%&r&4 被一个复仇心切的&9女巫&4变成了青蛙"
 
 shulker-messages:
-  - "&3%victim%&r&4 为了得到&d虚空贝壳&c而丧命"
-  - "&3%victim%&r&4 被一个&d希尔克&c射中了"
-  - "&3%victim%&r&4 被一个&d希尔克&c击溃了"
+  - "&3%victim%&r&4 为了得到&d虚空贝壳&4而丧命"
+  - "&3%victim%&r&4 被一个&d希尔克&4射中了"
+  - "&3%victim%&r&4 被一个&d希尔克&4击溃了"
 
 guardian-messages:
-  - "&3%victim%&r&4 被一个&7守卫者&c击杀了"
-  - "&3%victim%&r&4 被一个带电的&7守卫者&c电到了"
-  - "&3%victim%&r&4 被一个狡猾的&7守卫者&c游泳击败了"
+  - "&3%victim%&r&4 被一个&7守卫者&4击杀了"
+  - "&3%victim%&r&4 被一个带电的&7守卫者&4电到了"
+  - "&3%victim%&r&4 被一个狡猾的&7守卫者&4游泳击败了"
 
 golem-messages:
-  - "&3%victim%&r&4 激怒了一个&7铁傀儡&c"
-  - "&3%victim%&r&4 激怒了一个&7铁傀儡&c的愤怒"
-  - "&3%victim%&r&4 在&7铁傀儡&c面前得到了一堂&c铁傀儡&c的外交课"
+  - "&3%victim%&r&4 激怒了一个&7铁傀儡&4"
+  - "&3%victim%&r&4 激怒了一个&7铁傀儡&4的愤怒"
+  - "&3%victim%&r&4 在&7铁傀儡&4面前得到了一堂&4铁傀儡&4的外交课"
 
 zombievillager-messages:
-  - "&3%victim%&r&4 被一个&2僵尸村民&c吃掉了"
+  - "&3%victim%&r&4 被一个&2僵尸村民&4吃掉了"
 
 endermite-messages:
-  - "&3%victim%&r&4 遭遇了一个&5末影螨&c并被啃咬致死"
-  - "&3%victim%&r&4 被一个&5末影螨&c智取了"
+  - "&3%victim%&r&4 遭遇了一个&5末影螨&4并被啃咬致死"
+  - "&3%victim%&r&4 被一个&5末影螨&4智取了"
 
 phantom-messages:
-  - "&3%victim%&r&4 被一只&1幻翼&c绑架了"
+  - "&3%victim%&r&4 被一只&1幻翼&4绑架了"
 
 drowned-messages:
-  - "&3%victim%&r&4 晚间游泳时被&2溺尸&c吞噬了"
-  - "&3%victim%&r&4 发现&2溺尸&c不仅仅是普通的游泳者"
+  - "&3%victim%&r&4 晚间游泳时被&2溺尸&4吞噬了"
+  - "&3%victim%&r&4 发现&2溺尸&4不仅仅是普通的游泳者"
 
 pillager-messages:
-  - "&3%victim%&r&4 被一名&3掠夺者&c射中了"
+  - "&3%victim%&r&4 被一名&3掠夺者&4射中了"
 
 ravager-messages:
-  - "&3%victim%&r&4 被一只&3劫掠兽&c撞击了"
+  - "&3%victim%&r&4 被一只&3劫掠兽&4撞击了"
 
 illusioner-messages:
-  - "&3%victim%&r&4 被一名&6幻术师&c送入了幻象世界"
-  - "&3%victim%&r&4 被一名&6幻术师&c欺骗了"
-  - "&3%victim%&r&4 被一名&6幻术师&c击杀了"
+  - "&3%victim%&r&4 被一名&6幻术师&4送入了幻象世界"
+  - "&3%victim%&r&4 被一名&6幻术师&4欺骗了"
+  - "&3%victim%&r&4 被一名&6幻术师&4击杀了"
 
 bee-messages:
-  - "&3%victim%&r&4 被一只&6蜜蜂&c蜇了"
-  - "&3%victim%&r&4 遇到了一只&6蜜蜂&c并发现它们不只是蜜制品制造者"
-  - "&3%victim%&r&4 被一只顽固的&6蜜蜂&c蜇了"
+  - "&3%victim%&r&4 被一只&6蜜蜂&4蜇了"
+  - "&3%victim%&r&4 遇到了一只&6蜜蜂&4并发现它们不只是蜜制品制造者"
+  - "&3%victim%&r&4 被一只顽固的&6蜜蜂&4蜇了"
 
 wolf-messages:
-  - "&3%victim%&r&4 被一只&7狼&c撕裂了"
+  - "&3%victim%&r&4 被一只&7狼&4撕裂了"
   - "&3%victim%&r&4 激怒了一只&7狼"
 
 llama-messages:
-  - "&3%victim%&r&4 被一只&e羊驼&c吐死了"
-  - "&3%victim%&r&4 被一只&e羊驼&c的唾沫火焰困住了"
-  - "&3%victim%&r&4 被一只&e羊驼&c的唾沫吐到了嘴里"
+  - "&3%victim%&r&4 被一只&e羊驼&4吐死了"
+  - "&3%victim%&r&4 被一只&e羊驼&4的唾沫火焰困住了"
+  - "&3%victim%&r&4 被一只&e羊驼&4的唾沫吐到了嘴里"
 
 blaze-messages:
-  - "&3%victim%&r&4 被一只&6烈焰人&c烤焦了"
-  - "&3%victim%&r&4 被一只炽热的&6烈焰人&c烤了"
-  - "&3%victim%&r&4 以最艰难的方式学会了不要与&6烈焰人&c玩火"
+  - "&3%victim%&r&4 被一只&6烈焰人&4烤焦了"
+  - "&3%victim%&r&4 被一只炽热的&6烈焰人&4烤了"
+  - "&3%victim%&r&4 以最艰难的方式学会了不要与&6烈焰人&4玩火"
 
 stray-messages:
-  - "&3%victim%&r&4 被一只&7流亡者&c击中了"
+  - "&3%victim%&r&4 被一只&7流亡者&4击中了"
 
 vex-messages:
-  - "&3%victim%&r&4 被一只小飞行&b恶魂&c吃掉了"
-  - "&3%victim%&r&4 被一只&b恶魂&c激怒了"
+  - "&3%victim%&r&4 被一只小飞行&b恶魂&4吃掉了"
+  - "&3%victim%&r&4 被一只&b恶魂&4激怒了"
 
 vindicator-messages:
-  - "&3%victim%&r&4 被一名&4征服者&c追捕到了"
-  - "&3%victim%&r&4 低估了一名&4征服者&c的力量"
-  - "&3%victim%&r&4 被一名&4征服者&c的破坏路径所困扰"
+  - "&3%victim%&r&4 被一名&4征服者&4追捕到了"
+  - "&3%victim%&r&4 低估了一名&4征服者&4的力量"
+  - "&3%victim%&r&4 被一名&4征服者&4的破坏路径所困扰"
 
 evoker-messages:
-  - "&3%victim%&r&4 被一名&4召唤师&c召唤至死亡之地"
-  - "&3%victim%&r&4 挑战了一名&4召唤师&c的愤怒"
-  - "&3%victim%&r&4 被一名&4召唤师&c召唤了"
+  - "&3%victim%&r&4 被一名&4召唤师&4召唤至死亡之地"
+  - "&3%victim%&r&4 挑战了一名&4召唤师&4的愤怒"
+  - "&3%victim%&r&4 被一名&4召唤师&4召唤了"
 
 pufferfish-messages:
-  - "&3%victim%&r&4 低估了&e河豚&c的毒性"
-  - "&3%victim%&r&4 遇到了一只&e河豚&c并且学会了不能轻易触碰"
+  - "&3%victim%&r&4 低估了&e河豚&4的毒性"
+  - "&3%victim%&r&4 遇到了一只&e河豚&4并且学会了不能轻易触碰"
 
 polar-bear-messages:
-  - "&3%victim%&r&4 被一只冰冷的&f北极熊&c撕咬了"
-  - "&3%victim%&r&4 被一只&f北极熊&c转化为雪"
+  - "&3%victim%&r&4 被一只冰冷的&f北极熊&4撕咬了"
+  - "&3%victim%&r&4 被一只&f北极熊&4转化为雪"
 
 dolphin-messages:
-  - "&3%victim%&r&4 激怒了一只&b海豚&c... 结果很惨?"
-  - "&3%victim%&r&4 打了一只&b海豚&c，它们报复了"
+  - "&3%victim%&r&4 激怒了一只&b海豚&4... 结果很惨?"
+  - "&3%victim%&r&4 打了一只&b海豚&4，它们报复了"
 
 panda-messages:
-  - "&3%victim%&r&4 被&e熊猫&c当做晚餐"
-  - "&3%victim%&r&4 试图偷&e熊猫&c的竹子"
+  - "&3%victim%&r&4 被&e熊猫&4当做晚餐"
+  - "&3%victim%&r&4 试图偷&e熊猫&4的竹子"
 
 piglin-messages:
-  - "&3%victim%&r&4 在面对新的&6猪灵&c时见证了自己的命运"
-  - "&3%victim%&r&4 与&6猪灵&c搏斗并学到了生存的教训"
-  - "&3%victim%&r&4 遇到了&6猪灵&c并且发现他们不会让步"
+  - "&3%victim%&r&4 在面对新的&6猪灵&4时见证了自己的命运"
+  - "&3%victim%&r&4 与&6猪灵&4搏斗并学到了生存的教训"
+  - "&3%victim%&r&4 遇到了&6猪灵&4并且发现他们不会让步"
 
 hoglin-messages:
-  - "&3%victim%&r&4 被一只&6猪兽&c冲撞了，有点粗鲁?"
-  - "&3%victim%&r&4 没有阅读关于&6猪兽&c的补丁说明"
+  - "&3%victim%&r&4 被一只&6猪兽&4冲撞了，有点粗鲁?"
+  - "&3%victim%&r&4 没有阅读关于&6猪兽&4的补丁说明"
 
 zoglin-messages:
-  - "&3%victim%&r&4 把&6僵化猪兽&c的角当晚餐吃了"
-  - "&3%victim%&r&4 被一只&6僵化猪兽&c冲撞了"
+  - "&3%victim%&r&4 把&6僵化猪兽&4的角当晚餐吃了"
+  - "&3%victim%&r&4 被一只&6僵化猪兽&4冲撞了"
 
 goat-messages:
-  - "&3%victim%&r&4 被一只&4山羊&c的角撞到了头部"
-  - "&3%victim%&r&4 被一只&4山羊&c的角刺穿了"
+  - "&3%victim%&r&4 被一只&4山羊&4的角撞到了头部"
+  - "&3%victim%&r&4 被一只&4山羊&4的角刺穿了"
 
 zombified-piglin-messages:
-  - "&3%victim%&r&4 带着一只&6僵化猪灵&c进入了主世界并被它们的新宠物杀害了"
-  - "&3%victim%&r&4 死于一只&6僵化猪灵&c... 我是说，猪人... 不，僵化猪灵"
+  - "&3%victim%&r&4 带着一只&6僵化猪灵&4进入了主世界并被它们的新宠物杀害了"
+  - "&3%victim%&r&4 死于一只&6僵化猪灵&4... 我是说，猪人... 不，僵化猪灵"
 
 fox-messages:
-  - "&3%victim%&r&4 围绕&6狐狸&c转圈并发现了真相"
-  - "&3%victim%&r&4 被一只&6狐狸&c咬伤了"
+  - "&3%victim%&r&4 围绕&6狐狸&4转圈并发现了真相"
+  - "&3%victim%&r&4 被一只&6狐狸&4咬伤了"
 
 warden-messages:
-  - "&3%victim%&r&4 被一只&1守望者&c杀害了... 我是说，你指望什么？"
-  - "&3%victim%&r&4 低估了&1守望者&c的力量"
-  - "&3%victim%&r&4 过于接近一只&1守望者&c的领地"
+  - "&3%victim%&r&4 被一只&1守望者&4杀害了... 我是说，你指望什么？"
+  - "&3%victim%&r&4 低估了&1守望者&4的力量"
+  - "&3%victim%&r&4 过于接近一只&1守望者&4的领地"
 
 warden-sonic-boom-messages:
-  - "&3%victim%&r&4 被一只&1守望者&c的音爆击败了"
-  - "&3%victim%&r&4 被一只&1守望者&c的音爆震得耳朵发痛"
+  - "&3%victim%&r&4 被一只&1守望者&4的音爆击败了"
+  - "&3%victim%&r&4 被一只&1守望者&4的音爆震得耳朵发痛"
 
 unknown-messages:
   - "&3%victim%&r&4 死于未知原因"
@@ -451,10 +455,10 @@ unknown-messages:
   - "&3%victim%&r&4 被杀害"
 
 fireball-messages:
-  - "&3%victim%&r&4 被意外的&4火球&c攻击烤焦了"
-  - "&3%victim%&r&4 被一连串的&4火球&c困扰"
-  - "&3%victim%&r&4 被一连串的&4火球&c焚化了"
+  - "&3%victim%&r&4 被意外的&4火球&4攻击烤焦了"
+  - "&3%victim%&r&4 被一连串的&4火球&4困扰"
+  - "&3%victim%&r&4 被一连串的&4火球&4焚化了"
 
 arrow-messages:
-  - "&3%victim%&r&4 被&5箭雨&c击中了"
-  - "&3%victim%&r&4 试图躲避&5箭雨&c... 但没有成功"
+  - "&3%victim%&r&4 被&5箭雨&4击中了"
+  - "&3%victim%&r&4 试图躲避&5箭雨&4... 但没有成功"
