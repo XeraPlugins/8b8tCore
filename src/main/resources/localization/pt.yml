@@ -98,7 +98,7 @@ HelpMessage:
   - '&c/worldstats &6Veja o tamanho do mundo'
   - '&c/pvp &6Conecte-se ao PVP 8b8t'
   - '&c/lobby &6Conecte-se ao lobby'
-  - '&c/tps &6Para verificar os ticks por segundo do servidor'
+  - '&c/tpsinfo &6Para verificar os ticks por segundo do servidor'
   - '&1-------------Somente para votantes---------------'
   - '&c/nc &6Para definir a cor do nome'
   - '&6Visite &chttps://votefor.8b8t.me &6para votar'

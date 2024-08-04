@@ -98,7 +98,7 @@ HelpMessage:
   - '&c/worldstats &6查看世界大小'
   - '&c/pvp &6连接到 8b8t PVP'
   - '&c/lobby &6连接到大厅'
-  - '&c/tps &6检查服务器每秒的ticks'
+  - '&c/tpsinfo &6检查服务器每秒的ticks'
   - '&1-------------仅限投票者---------------'
   - '&c/nc &6设置名称颜色'
   - '&6访问 &chttps://votefor.8b8t.me &6投票'
