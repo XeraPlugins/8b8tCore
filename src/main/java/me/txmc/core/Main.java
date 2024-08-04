@@ -9,7 +9,6 @@ import me.txmc.core.command.CommandSection;
 import me.txmc.core.customexperience.PlayerSimulationDistance;
 import me.txmc.core.customexperience.PlayerViewDistance;
 import me.txmc.core.deathmessages.DeathMessageListener;
-import me.txmc.core.dupe.DupeSection;
 import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
 import me.txmc.core.tablist.TabSection;
@@ -55,19 +54,17 @@ public class Main extends JavaPlugin {
         executorService.scheduleAtFixedRate(() -> violationManagers.forEach(ViolationManager::decrementAll), 0, 1, TimeUnit.SECONDS);
         getExecutorService().scheduleAtFixedRate(new AnnouncementTask(), 10L, getConfig().getInt("AnnouncementInterval"), TimeUnit.SECONDS);
 
+        register(new AntiIllegalMain(this));
         register(new TabSection(this));
         register(new ChatSection(this));
         register(new TPASection(this));
         register(new HomeManager(this));
         register(new CommandSection(this));
         register(new PatchSection(this));
-        register(new DupeSection(this));
         register(new DeathMessageListener());
         register(new PlayerViewDistance(this));
         register(new PlayerSimulationDistance(this));
         register(new OpWhiteListListener(this));
-
-        if(getConfig().getBoolean("AntiIllegal.Enabled", true)) register(new AntiIllegalMain(this));
         if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
 
         for (Section section : sections) {
