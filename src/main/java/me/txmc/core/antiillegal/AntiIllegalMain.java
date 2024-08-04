@@ -7,10 +7,7 @@ import me.txmc.core.Main;
 import me.txmc.core.Section;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.antiillegal.check.checks.*;
-import me.txmc.core.antiillegal.listeners.AttackListener;
-import me.txmc.core.antiillegal.listeners.InventoryListeners;
-import me.txmc.core.antiillegal.listeners.MiscListeners;
-import me.txmc.core.antiillegal.listeners.PlayerListeners;
+import me.txmc.core.antiillegal.listeners.*;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -52,7 +49,7 @@ public class AntiIllegalMain implements Section {
         checks.add(new NameCheck(config));
 //        checks.add(new ItemSizeCheck());
 
-        plugin.register(new PlayerListeners(this), new MiscListeners(this), new InventoryListeners(this), new AttackListener());
+        plugin.register(new PlayerListeners(this), new MiscListeners(this), new InventoryListeners(this), new AttackListener(), new StackedTotemsListener());
     }
 
     @Override

@@ -1,5 +1,5 @@
 AntiIllegal:
-  Enabled: false
+  Enabled: true
   MaxItemNameLength: 51
   IllegalItems:
     - 'BEDROCK'
