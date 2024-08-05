@@ -50,7 +50,7 @@ public class PatchSection implements Section {
         plugin.register(new EntitySpawnListener(this));
         plugin.register(new FallFlyListener(plugin));
         plugin.register(new EntitySwitchWorldListener(plugin));
-        plugin.register(new NbtBanPatch());
+        plugin.register(new NbtBanPatch(plugin));
     }
 
     @Override
