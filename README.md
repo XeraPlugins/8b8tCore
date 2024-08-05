@@ -41,11 +41,13 @@ This plugin supports the following languages, which are displayed to each player
   <img src="https://flagcdn.com/w40/cn.png" alt="Chinese" style="margin-right: 10px;">
   <img src="https://flagcdn.com/w40/gb.png" alt="English" style="margin-right: 10px;">
   <img src="https://flagcdn.com/w40/es.png" alt="Spanish" style="margin-right: 10px;">
+  <img src="https://flagcdn.com/w40/fr.png" alt="French" style="margin-right: 10px;">
   <img src="https://flagcdn.com/w40/it.png" alt="Italian" style="margin-right: 10px;">
   <img src="https://flagcdn.com/w40/br.png" alt="Portuguese" style="margin-right: 10px;">
-  <img src="https://flagcdn.com/w40/ru.png" alt="Russian">
+  <img src="https://flagcdn.com/w40/ru.png" alt="Russian" style="margin-right: 10px;">
+  <img src="https://flagcdn.com/w40/sa.png" alt="Arabic" style="margin-right: 10px;">
+  <img src="https://flagcdn.com/w40/in.png" alt="Hindi">
 </p>
-
 
 
 ## To Do
