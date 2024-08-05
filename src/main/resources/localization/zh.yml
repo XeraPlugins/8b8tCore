@@ -72,6 +72,7 @@ tpa_to_left: "&cTPA已取消，因为&r&a %s&r&c离开了"
 op_not_allowed: "&c您无权成为操作员"
 framedupe_cooldown: "&c你复制得太快了"
 framedupe_items_limit: "&c这个区块中物品太多，因此不再进行复制"
+nbtPatch_deleted_item: "&c&6%s&r&c由于数据过多，已从您的库存中删除"
 
 # 复杂信息
 HelpMessage:
