@@ -50,6 +50,7 @@ public class AntiIllegalMain implements Section {
 //        checks.add(new ItemSizeCheck());
 
         plugin.register(new PlayerListeners(this), new MiscListeners(this), new InventoryListeners(this), new AttackListener(), new StackedTotemsListener());
+        if(plugin.getConfig().getBoolean("AntiIllegal.EnableIllegalBlocksCleaner", true)) plugin.register(new IllegalBlocksCleaner());
     }
 
     @Override

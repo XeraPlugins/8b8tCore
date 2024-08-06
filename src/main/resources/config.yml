@@ -1,5 +1,6 @@
 AntiIllegal:
   Enabled: true
+  EnableIllegalBlocksCleaner: true
   MaxItemNameLength: 51
   IllegalItems:
     - 'BEDROCK'
