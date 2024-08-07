@@ -1,5 +1,6 @@
 package me.txmc.core.patch.listeners;
 
+import org.bukkit.block.Container;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,59 +48,61 @@ public class NbtBanPatch implements Listener {
 
         // Iterate through the player's inventory
         for (ItemStack item : player.getInventory().getContents()) {
-
+            int itemSize;
             if (item != null) {
-                // Check if the item is a shulker box
-                if (item.getType().toString().endsWith("SHULKER_BOX")) {
-                    // Process the shulker box
-                    processShulkerBox(player, item);
-                } else {
-                    // Calculate the size of the item's metadata
-                    int itemSize = calculateStringSizeInBytes(item.toString());
 
-                    // Check if the item exceeds the size threshold
-                    if (itemSize > MAX_ITEM_SIZE_BYTES) {
-                        // Clear the item
-                        player.getInventory().remove(item);
-                        getLogger().warn("Cleared item in " + player.getName() + "'s inventory with size " + itemSize + " bytes named '" + getItemName(item) + "'");
-                        sendPrefixedLocalizedMessage(player, "nbtPatch_deleted_item", getItemName(item));
-                    }
+                if (item.getType().toString().endsWith("SHULKER_BOX") ||
+                        item.getType().toString().endsWith("CHEST") ||
+                        item.getType().toString().endsWith("TRAPPED_CHEST") ||
+                        item.getType().toString().endsWith("BARREL")) {
+
+                    itemSize = processContainerItem(item);
+                } else {
+
+                    itemSize = calculateStringSizeInBytes(item.toString());
+                }
+                if (itemSize > MAX_ITEM_SIZE_BYTES) {
+                    // Clear the item
+                    player.getInventory().remove(item);
+                    getLogger().warn("Cleared item in " + player.getName() + "'s inventory with size " + itemSize + " bytes named '" + getItemName(item) + "'");
+                    sendPrefixedLocalizedMessage(player, "nbtPatch_deleted_item", getItemName(item));
                 }
             }
         }
     }
 
-    // Process shulker box and its contents
-    private void processShulkerBox(Player player, ItemStack shulkerBoxItem) {
-
-        BlockStateMeta blockStateMeta = (BlockStateMeta) shulkerBoxItem.getItemMeta();
-        if (blockStateMeta != null && blockStateMeta.getBlockState() instanceof ShulkerBox) {
-            ShulkerBox shulkerBox = (ShulkerBox) blockStateMeta.getBlockState();
-            Inventory shulkerInventory = shulkerBox.getInventory();
-
+    // Process box and its contents
+    private int processContainerItem(ItemStack containerItem) {
         int totalSize = 0;
 
-        // Iterate through the shulker box's inventory
-        for (ItemStack item : shulkerInventory.getContents()) {
-            if (item != null) {
-                // Calculate the size of the item's metadata
-                int itemSize = calculateStringSizeInBytes(item.toString());
-                totalSize += itemSize;
+        BlockStateMeta blockStateMeta = (BlockStateMeta) containerItem.getItemMeta();
+        if (blockStateMeta != null && blockStateMeta.getBlockState() instanceof Container) {
+            Container container = (Container) blockStateMeta.getBlockState();
+            Inventory containerInventory = container.getInventory();
+
+            // Iterate through the shulker box's inventory
+            for (ItemStack item : containerInventory.getContents()) {
+                if (item != null) {
+                    if (
+                            item.getType().toString().endsWith("SHULKER_BOX") ||
+                            item.getType().toString().endsWith("CHEST") ||
+                            item.getType().toString().endsWith("TRAPPED_CHEST") ||
+                            item.getType().toString().endsWith("BARREL")
+                    ) {
+                        totalSize += processContainerItem(item);
+                    } else {
+                        // Calculate the size of the item's metadata
+                        totalSize += calculateStringSizeInBytes(item.toString());
+
+                    }
+                }
             }
         }
-
-        // Check if the shulker box exceeds the size threshold
-        if (totalSize > MAX_ITEM_SIZE_BYTES) {
-            // Clear the shulker box from the player's inventory
-            player.getInventory().remove(shulkerBoxItem);
-            getLogger().warn("Cleared shulker box in " + player.getName() + "'s inventory with size " + totalSize + " bytes");
-            sendPrefixedLocalizedMessage(player, "nbtPatch_deleted_item", getItemName(shulkerBoxItem));
-        }
-        }
+        return totalSize;
     }
 
     // Method to calculate the size of the given string in bytes
-    private int calculateStringSizeInBytes(String data)  {
+    private int calculateStringSizeInBytes(String data) {
         byte[] byteArray = data.getBytes(StandardCharsets.UTF_8);
         return byteArray.length;
     }
