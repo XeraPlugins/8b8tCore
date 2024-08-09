@@ -1,4 +1,4 @@
-package me.txmc.core.anticheat;
+package me.txmc.core.patch.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
