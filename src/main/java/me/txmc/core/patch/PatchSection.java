@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
+import me.txmc.core.anticheat.AntiLagChestListener;
 import me.txmc.core.patch.epc.EntityCheckTask;
 import me.txmc.core.patch.epc.EntitySpawnListener;
 import me.txmc.core.patch.listeners.EntitySwitchWorldListener;
@@ -51,6 +52,7 @@ public class PatchSection implements Section {
         plugin.register(new FallFlyListener(plugin));
         plugin.register(new EntitySwitchWorldListener(plugin));
         plugin.register(new NbtBanPatch(plugin));
+        plugin.register(new AntiLagChestListener(plugin));
     }
 
     @Override

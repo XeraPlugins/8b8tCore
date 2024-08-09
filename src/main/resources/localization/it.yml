@@ -73,6 +73,7 @@ op_not_allowed: "&cNon hai il permesso di essere operatore"
 framedupe_cooldown: "&cStai duplicando troppo velocemente"
 framedupe_items_limit: "&cCi sono troppi oggetti in questo chunk, quindi non vengono più duplicati"
 nbtPatch_deleted_item: "&c&6%s&r&c è stato rimosso dal tuo inventario a causa di dati eccessivi"
+chest_cooldown: "&cStai aprendo i bauli troppo rapidamente. Per favore, attendi!"
 
 #Complex messages
 HelpMessage:

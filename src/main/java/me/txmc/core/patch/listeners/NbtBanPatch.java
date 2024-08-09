@@ -72,7 +72,7 @@ public class NbtBanPatch implements Listener {
     }
 
     // Process box and its contents
-    private int processContainerItem(ItemStack containerItem) {
+    public static int processContainerItem(ItemStack containerItem) {
         int totalSize = 0;
 
         BlockStateMeta blockStateMeta = (BlockStateMeta) containerItem.getItemMeta();
@@ -102,12 +102,12 @@ public class NbtBanPatch implements Listener {
     }
 
     // Method to calculate the size of the given string in bytes
-    private int calculateStringSizeInBytes(String data) {
+    public static int calculateStringSizeInBytes(String data) {
         byte[] byteArray = data.getBytes(StandardCharsets.UTF_8);
         return byteArray.length;
     }
 
-    private String getItemName(ItemStack itemStack) {
+    public static String getItemName(ItemStack itemStack) {
         if (itemStack == null) {
             return "";
         }

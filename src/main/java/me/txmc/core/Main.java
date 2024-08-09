@@ -12,7 +12,6 @@ import me.txmc.core.deathmessages.DeathMessageListener;
 import me.txmc.core.dupe.DupeSection;
 import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
-import me.txmc.core.patch.listeners.ChestLagFix;
 import me.txmc.core.tablist.TabSection;
 import me.txmc.core.tpa.TPASection;
 import me.txmc.core.vote.VoteSection;
@@ -20,7 +19,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,7 +66,6 @@ public class Main extends JavaPlugin {
         register(new PlayerViewDistance(this));
         register(new PlayerSimulationDistance(this));
         register(new OpWhiteListListener(this));
-        register(new ChestLagFix(this));
 
         if(getConfig().getBoolean("AntiIllegal.Enabled", true)) register(new AntiIllegalMain(this));
         if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));

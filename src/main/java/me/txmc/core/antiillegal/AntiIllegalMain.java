@@ -73,7 +73,7 @@ public class AntiIllegalMain implements Section {
         for (Check check : checks) {
             if (check.shouldCheck(item) && check.check(item)) {
                 if (cancellable != null && !cancellable.isCancelled()) cancellable.setCancelled(true);
-                GlobalUtils.log(Level.INFO, "Item %s failed the %s check and has been fixed.", getItemName(item), check.getClass().getSimpleName());
+                //GlobalUtils.log(Level.INFO, "Item %s failed the %s check and has been fixed.", getItemName(item), check.getClass().getSimpleName());
                 check.fix(item);
                 item.setItemMeta(item.getItemMeta());
             }

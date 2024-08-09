@@ -73,6 +73,7 @@ op_not_allowed: "&cأنت غير مسموح لك بأن تكون مشرفًا"
 framedupe_cooldown: "&cأنت تقوم بالتكرار بسرعة كبيرة"
 framedupe_items_limit: "&cيوجد بالفعل الكثير من العناصر المتساقطة في هذه الكتلة"
 nbtPatch_deleted_item: "&c&6%s&r&c تم حذفه من مخزونك بسبب البيانات الزائدة"
+chest_cooldown: "&cأنت تفتح الصناديق بسرعة كبيرة. يرجى الانتظار!"
 
 #Complex messages
 HelpMessage:

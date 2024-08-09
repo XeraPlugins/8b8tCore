@@ -73,6 +73,7 @@ op_not_allowed: "&cVous n'êtes pas autorisé à être op"
 framedupe_cooldown: "&cVous dupliquez trop rapidement"
 framedupe_items_limit: "&cIl y a déjà trop d'objets tombés dans ce chunk"
 nbtPatch_deleted_item: "&c&6%s&r&c a été supprimé de votre inventaire en raison de données excessives"
+chest_cooldown: "&cVous ouvrez les coffres trop rapidement. Veuillez patienter!"
 
 # Messages complexes
 HelpMessage:

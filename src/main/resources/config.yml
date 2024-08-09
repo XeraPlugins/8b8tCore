@@ -16,6 +16,10 @@ AntiIllegal:
     - 'FARMLAND'
     - 'REINFORCED_DEEPSLATE'
 AnnouncementInterval: 90 # In seconds
+AntiLagChest:
+  enabled: true
+  openCooldown: 1000L
+  maxItemSizeAllowed: 50000 #size in bytes
 NbtBanItemChecker:
   maxItemSizeAllowed: 50000 #size in bytes
 ChatControl:

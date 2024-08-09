@@ -1,17 +1,13 @@
 package me.txmc.core.chat.tasks;
 
 import me.txmc.core.Localization;
-import me.txmc.core.patch.listeners.ChestLagFix;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.TextComponent;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 public class AnnouncementTask implements Runnable {
 
