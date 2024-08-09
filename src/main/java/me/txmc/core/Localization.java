@@ -30,6 +30,7 @@ public class Localization {
         GlobalUtils.unpackResource("localization/fr.yml", new File(localeDir, "fr.yml"));
         GlobalUtils.unpackResource("localization/hi.yml", new File(localeDir, "hi.yml"));
         GlobalUtils.unpackResource("localization/it.yml", new File(localeDir, "it.yml"));
+        GlobalUtils.unpackResource("localization/jp.yml", new File(localeDir, "jp.yml"));
         GlobalUtils.unpackResource("localization/pt.yml", new File(localeDir, "pt.yml"));
         GlobalUtils.unpackResource("localization/ru.yml", new File(localeDir, "ru.yml"));
         GlobalUtils.unpackResource("localization/zh.yml", new File(localeDir, "zh.yml"));

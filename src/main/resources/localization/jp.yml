@@ -1,0 +1,465 @@
+prefix: "&6[&18b&98t&6]&6"
+
+#Basic messages
+ignore_successful: "&3プレイヤーを無視しました&r&a %s&r"
+already_ignoring: "&cそのプレイヤーはすでに無視しています"
+ignore_command_syntax: "&cプレイヤーを指定してください /ignore <playerName>"
+unignore_successful: "&3プレイヤーの無視を解除しました&r&a %s&r"
+unignore_not_ignoring: "&c%s を無視していません"
+unignore_command_syntax: "&cプレイヤーを指定してください /unignore <playerName>"
+ignorelist_successful: "&3無視しているプレイヤー: &c%s"
+ignorelist_not_ignoring: "&6誰も無視していません"
+ignorelist_failed: "&6無視リストの情報を取得できませんでした"
+whisper_from: "&d%s がささやきました: %s"
+whisper_to: "&d%s へ: %s"
+whisper_ignoring: "&c%s があなたを無視しています"
+whisper_you_are_ignoring: "&c無視しているプレイヤーにメッセージを送信することはできません"
+msg_could_not_find_player: "&cプレイヤー %s が見つかりませんでした"
+msg_command_syntax: "&cターゲットとメッセージを指定してください /msg <target> <message>"
+reply_player_offline: "&cプレイヤー %s はオフラインです"
+reply_no_target: "&cまだ誰にもメッセージを送信していません"
+reply_command_syntax: "&cメッセージを指定してください /r <message>"
+togglechat_chat_enabled: "&aチャットが有効になりました"
+togglechat_chat_disabled: "&cチャットが無効になりました"
+cmdwhitelist_cmd_not_allowed: "&cコマンド&r&a %s&r&c は許可されていません"
+chat_cooldown: "&3チャットメッセージの送信間隔を&r&a %d&r&3 秒待ってください"
+delhome_no_homes: "&3自宅がありません"
+delhome_specify_home: "&3削除する自宅の名前を指定してください。現在の自宅: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3自宅&r&a %s&r&3 が見つかりませんでした"
+delhome_success: "&3自宅&r&a %s&r&3 が削除されました"
+delhome_fail: "&3自宅&r&a %s&r&3 を削除できませんでした"
+home_no_homes: "&3自宅が見つかりません"
+home_specify_home: "&3自宅を指定してください！現在の自宅: (&r&a%s&r&3)&r"
+home_too_close: "&3/home を使用するには、スポーンから&r&a %d&r&3 ブロック以上離れてください"
+home_success: "&3自宅&r&a %s&r&3 にテレポートしています..."
+home_not_found: "&3自宅&r&a %s&r&3 が見つかりませんでした"
+sethome_include_name: "&3新しい自宅の名前を指定してください"
+sethome_home_already_exists: "&c名前&r&a %s&r&c の自宅はすでに存在します"
+sethome_max_reached: "&3自宅の最大数に達しました！"
+sethome_success: "&3自宅&r&a %s &r&3 が設定されました"
+kick_restarting: "&3サーバーが再起動しています"
+elytra_too_fast: "&3エリトラで速すぎます"
+elytra_school_zone: "&3現在、学校ゾーンにいます。最大速度15 km/h で移動してください"
+elytras_disabled: "&3サーバーの遅延によりエリトラが無効になっています。すぐに再び有効になる予定です"
+bookban_inventory_clear: "&c書籍禁止を防ぐためにあなたのインベントリがクリアされました"
+bookban_removed_item: "&c書籍禁止を防ぐために、インベントリからすべての&r&3 %s(s) &r&cが削除されました"
+kick_lever_ratelimit: "&c操作が速すぎます"
+kick_pps_limit: "&cパケットの送信が速すぎます！"
+kick_failed_to_inject: "&cインジェクトに失敗しました"
+join_message: "&7%s が参加しました"
+player_join_first_time: "&7%s が初めて参加しました"
+leave_message: "&7%s が退出しました"
+kick_message: "&7%s が \"%s\" の理由でキックされました"
+could_not_translate_message: "メッセージの翻訳に失敗しました: %s"
+message_auto_translated: "このメッセージは自動的に翻訳されました。\n\n元のテキスト: %s"
+welcome_message: "&38b8tへようこそ"
+vote_announcement: "&c%s &6が &18b&98t &6に投票し、無料の /nc と追加の5つの自宅が与えられました"
+vote_thanks: "&6&18b&98t &6への投票ありがとうございます。無料の /nc と追加の5つの自宅が与えられました"
+vote_info: "&6&18b&98t &6への投票は &chttps://votefor.8b8t.me でできます"
+tpa_syntax: "&cテレポートするプレイヤーを指定してください。 /tpa <player>"
+tpa_player_not_online: "&cプレイヤー %s はオンラインではありません"
+tpa_no_request_found: "&cTPAリクエストが見つかりません"
+tpa_self_tpa: "&c自分自身にTPAすることはできません"
+tpa_request_received: "&a%s&r&3 があなたにテレポートしたいと考えています&r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
+tpa_request_sent: "&3リクエストが&r&a %s に送信されました"
+tpa_already_sent: "&cすでに保留中のリクエストがあります"
+tpa_teleporting: "&3テレポートしています&r&a..."
+tpa_request_timeout: "&cTPAリクエストのタイムアウト"
+tpa_request_denied_from: "&a%s&r&c がリクエストを拒否しました"
+tpa_request_denied_to: "&3リクエストが正常に拒否されました"
+tpa_pending_request: "&a%s&r &chas 保留中のリクエストがあります"
+tpa_to_left: "&cTPAがキャンセルされました&r&a %s&r&c が退出しました"
+op_not_allowed: "&cあなたはopになることが許可されていません"
+framedupe_cooldown: "&c複製が速すぎます"
+framedupe_items_limit: "&cこのチャンクにアイテムが多すぎます"
+nbtPatch_deleted_item: "&c&6%s&r&c がデータが多すぎるためインベントリから削除されました"
+
+#Complex messages
+HelpMessage:
+  - '&1--------------------------------------'
+  - '&6ルールを読むには &chttps://www.8b8t.me &6にアクセスしてください'
+  - '&1--------------コマンド----------------'
+  - '&c/tpa &6他のプレイヤーにテレポートする'
+  - '&c/tpayes &6テレポートリクエストを承認する'
+  - '&c/tpano &6テレポートリクエストを拒否する'
+  - '&c/sethome &6現在地に自宅を設定する'
+  - '&c/delhome &6設定した自宅を削除する'
+  - '&c/home &6設定した自宅にテレポートする'
+  - '&c/skin set &6スキンを設定する'
+  - '&c/vote &68b8tに投票する'
+  - '&c/discord &68b8t Discordへの招待を受け取る'
+  - '&c/kill &6自分を殺す'
+  - '&c/ignore &6他のプレイヤーを無視する'
+  - '&c/unignore &6他のプレイヤーの無視を解除する'
+  - '&c/ignorelist &6無視しているプレイヤーを表示する'
+  - '&c/msg &6他のプレイヤーにメッセージを送信する'
+  - '&c/changepass &6パスワードを変更する'
+  - '&c/joindate &6自分と他のプレイヤーの参加日を見る'
+  - '&c/worldstats &6ワールドサイズを見る'
+  - '&c/pvp &68b8t PVPサーバーに接続する'
+  - '&c/lobby &6ロビーに接続する'
+  - '&c/tpsinfo &6サーバーのティック毎秒を確認する'
+  - '&1-------------投票者専用---------------'
+  - '&c/nc &6名前の色を設定する'
+  - '&c/ic &6アイテムの色を設定する'
+  - '&6投票するには &chttps://votefor.8b8t.me &6にアクセスしてください'
+  - '&1------------寄付者専用--------------'
+  - '&c/seen &6プレイヤーが最後にオンラインだった時を確認する'
+  - '&c/echest &6エンダーチェストを開く'
+  - '&c/nick &6ニックネームを設定する'
+  - '&6寄付するには &chttps://donate.8b8t.me &6にアクセスしてください'
+  - '&1--------------------------------------'
+TabList:
+  Header:
+    - ''
+    - '&18builders&98tools'
+    - ''
+    - '&68b8t.me を楽しんでいますか？寄付は https://donate.8b8t.me でどうぞ'
+    - ''
+
+  Footer:
+    - ''
+    - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: %uptime%'
+    - ''
+    - '&7連絡先: contact@8b8t.me'
+    - '&7ディスカッション: https://discord.8b8t.me'
+    - '&7ウェブサイト: https://www.8b8t.me'
+    - '&7これが公式の8b8tウェブサイトと連絡先です'
+    - ''
+TpsMessage:
+  - '&1------------TPS情報------------'
+  - '&6TPS: &a%s &6MSTP: &a%s'
+  - '&6最低地域TPS: &c%s'
+  - '&6オンラインプレイヤー &a%s'
+  - '&1-------------------------------------'
+tps_failed: '&cTPSを確認する権限がありません'
+
+announcements:
+  - '&6[&18b&98t&6]&6 投票して無料の /nc と5つの追加自宅を受け取るには &chttps://votefor.8b8t.me &6にアクセスしてください'
+  - '&6[&18b&98t&6]&6 8b8tをサポートするために寄付は &chttps://donate.8b8t.me にてお願いします'
+
+# Death messages
+global-pvp-death-messages:
+  - "&3%victim%&r&4 が &3%killer%&r&4 によって殺されました"
+  - "&3%victim%&r&4 が &3%killer%&r&4 によって &6[%kill-weapon%&6]&r&4 で倒されました"
+  - "&3%victim%&r&4 が &3%killer%&r&4 によって撃ち殺されました"
+  - "&3%victim%&r&4 が &3%killer%&r&4 によって &6[%kill-weapon%&6]&r&4 を使って打ち負かされました"
+  - "&3%killer%&r&4 が &3%victim%&r&4 を &6[%kill-weapon%&6]&r&4 で粉砕しました"
+  - "&3%victim%&r&4 が &3%killer%&r&4 によって破壊されました"
+  - "&3%victim%&r&4 が &3%killer%&r&4 の強力な &6[%kill-weapon%&6]&r&4 によって倒されました"
+  - "&3%victim%&r&4 が &3%killer%&r&4 によって &6[%kill-weapon%&6]&r&4 で簡単に倒されました"
+
+melee-death-messages:
+  - "&3%victim%&r&4 が &3%killer%&r&4 によって叩かれました"
+  - "&3%victim%&r&4 が &3%killer%&r&4 によってノックアウトされました"
+  - "&3%victim%&r&4 が &3%killer%&r&4 によって揺さぶられました"
+
+fall-damage-messages:
+  - "&3%victim%&r&4 が重力を試して失敗しました"
+  - "&3%victim%&r&4 がパラシュートを持っていませんでした"
+  - "&3%victim%&r&4 は飛べると思ったけど、飛べませんでした"
+
+drowning-messages:
+  - "&3%victim%&r&4 が魚と一緒に寝ることに決めました"
+  - "&3%victim%&r&4 が酸素に間に合うと思いました"
+  - "&3%victim%&r&4 が水を泳ぎきろうとしました"
+
+suffocation-messages:
+  - "&3%victim%&r&4 がブロック内で息ができませんでした"
+  - "&3%victim%&r&4 がブロック内で呼吸できませんでした"
+  - "&3%victim%&r&4 がブロックに騙されました"
+
+cramming-messages:
+  - "&3%victim%&r&4 が圧縮されて消滅しました"
+  - "&4可哀想な &3%victim%&r&4、1x1の空間に住めると思ったのでしょう"
+
+thorns-messages:
+  - "&3%victim%&r&4 が &3%killer%&r&4 の棘のあるアーマーに弾かれました"
+  - "&3%victim%&r&4 が &3%killer%&r&4 の棘でひっくり返されました"
+
+lava-messages:
+  - "&3%victim%&r&4 が溶岩の穴で燃えました"
+  - "&3%victim%&r&4 が溶岩で泳いで焼かれました"
+
+magma-block-messages:
+  - "&3%victim%&r&4 が熱い &6マグマブロック &r&6 によって消されました"
+  - "&3%victim%&r&4 の足が &6マグマブロック &r&6 によってベーコンになりました"
+
+elytra-messages:
+  - "&3%victim%&r&4 が壁にぶつかって死にました…？"
+  - "&3%victim%&r&4 がエリトラで壁に叩きつけられました"
+
+wither-messages:
+  - "&3%victim%&r&4 が &9ウィザー &4病にかかりました"
+  - "&3%victim%&r&4 が &9ウィザー &4で4次元に飛ばされました"
+
+suicide-messages:
+  - "&3%victim%&r&4 が自殺しました"
+  - "&3%victim%&r&4 が精神的な崩壊を起こして死にました"
+
+fire-messages:
+  - "&3%victim%&r&4 が暖炉に立っていました"
+  - "&3%victim%&r&4 が火遊びをしていました"
+
+fire-tick-messages:
+  - "&3%victim%&r&4 が消火するのを忘れました"
+
+starvation-messages:
+  - "&3%victim%&r&4 が食べるのを忘れました"
+  - "&3%victim%&r&4 のお母さんが「家に食べ物がある」と言いました"
+
+cactus-messages:
+  - "&3%victim%&r&4 がサボテンで刺されて死にました"
+  - "&3%victim%&r&4 が鍼治療を試しましたが、死にました"
+  - "&3%victim%&r&4 がサボテンを抱きしめて死にました"
+
+potion-messages:
+  - "&3%victim%&r&4 が悪いポーションの犠牲になりました"
+  - "&3%victim%&r&4 がコロナウイルスで亡くなりました"
+
+void-messages:
+  - "&3%victim%&r&4 が虚無の旅に出るのが楽しいと思いました"
+  - "&3%victim%&r&4 が虚無への片道旅行をしました"
+  - "&3%victim%&r&4 が宇宙の冒険に出かけました…宇宙船なしで"
+
+lightning-messages:
+  - "&3%victim%&r&4 が神の介入で雷に打たれました"
+  - "&3%victim%&r&4 が神々によって打ち倒されました"
+  - "&3%victim%&r&4 が上からの衝撃的なメッセージを受け取りました"
+
+falling-block-messages:
+  - "&3%victim%&r&4 が落下するブロックに押しつぶされました"
+  - "&3%victim%&r&4 が落下するブロックと一体になりました"
+  - "&3%victim%&r&4 が落下するブロックで運命を迎えました"
+
+freeze-messages:
+  - "&3%victim%&r&4 が極寒の渦に耐えられませんでした"
+  - "&3%victim%&r&4 が冬のジャケットを忘れました"
+  - "&3%victim%&r&4 が氷のように速く凍りました"
+
+firework-messages:
+  - "&3%victim%&r&4 が花火の導火線に早く火をつけました"
+  - "&3%victim%&r&4 がスタイルよく飛ぼうとしました…が墜落しました"
+  - "&3%victim%&r&4 がアマチュアの花火の危険性を発見しました"
+
+slime-messages:
+  - "&3%victim%&r&4 が &2GIANT SLIME に押しつぶされました"
+  - "&3%victim%&r&4 がスライムボールを集めている間に &2スライム&4 に死にました"
+
+zombie-messages:
+  - "&3%victim%&r&4 が &2ゾンビ&4 に生きたまま食べられました"
+  - "&3%victim%&r&4 が &2ゾンビ&4 を友好的だと思いました"
+
+pigman-messages:
+  - "&3%victim%&r&4 が &ePigmen&4 を怒らせて生きたまま食べられました"
+  - "&3%victim%&r&4 が &ePigmen&4 を怒らせてベーコンになりました"
+
+skeleton-messages:
+  - "&3%victim%&r&4 が骨の &fスケルトン&4 に狙撃されました"
+  - "&3%victim%&r&4 が &fスケルトン&4 に射撃されました"
+
+magmacube-messages:
+  - "&3%victim%&r&4 が &6GIANT MAGMA CUBE に押しつぶされました"
+
+husk-messages:
+  - "&3%victim%&r&4 がデザートの住人、つまり &3Husk に食べられました"
+
+spider-messages:
+  - "&3%victim%&r&4 が巧妙な &1スパイダー に出し抜かれました"
+  - "&3%victim%&r&4 が &1スパイダー にスナックされました"
+
+cavespider-messages:
+  - "&3%victim%&r&4 が &1ケイブスパイダー に噛まれて死にました"
+  - "&3%victim%&r&4 が &1ケイブスパイダー に毒のある抱擁を受けました"
+
+witherskeleton-messages:
+  - "&3%victim%&r&4 が石の剣を持った &0ウィザー スケルトン に破壊されました"
+  - "&3%victim%&r&4 が石の剣を持った &0ウィザー スケルトン にやられました"
+
+witherboss-messages:
+  - "&3%victim%&r&4 が &0ウィザー に頭を吹き飛ばされました"
+  - "&3%victim%&r&4 が &0ウィザー に挑戦して頭を失いました"
+  - "&3%victim%&r&4 が &0ウィザー に致命的なレッスンを受けました"
+
+dragon-messages:
+  - "&3%victim%&r&4 が &5エンダードラゴン に内臓を引き裂かれました"
+  - "&3%victim%&r&4 が &5エンダードラゴン に頭を吹き飛ばされました"
+  - "&3%victim%&r&4 がエンドポータルではなくリスポーン画面を見つけました"
+
+dragon-breath-messages:
+  - "&3%victim%&r&4 が &5エンダードラゴン の息で風呂に入った"
+  - "&3%victim%&r&4 が &5エンダードラゴン の息を吸いすぎた"
+  - "&3%victim%&r&4 が &5エンダードラゴン の息の攻撃で焼かれました"
+
+elderguardian-messages:
+  - "&3%victim%&r&4 が海洋モニュメントをクリアしようとしたが、&bエルダーガーディアン がノーと言った"
+  - "&3%victim%&r&4 が海洋モニュメントを征服できると思ったが、&bエルダーガーディアン が他の計画を持っていました"
+
+tnt-messages:
+  - "&3%victim%&r&4 が &4TNT に頭を吹き飛ばされました"
+  - "&3%victim%&r&4 が &4TNT に吹き飛ばされました"
+  - "&3%victim%&r&4 が爆発物の恐ろしさを実感しました"
+
+end-crystal-messages:
+  - "&3%victim%&r&4 が &5エンドクリスタル に破壊されました"
+  - "&3%victim%&r&4 が &5エンドクリスタル に吹き飛ばされました"
+
+creeper-messages:
+  - "&3%victim%&r&4 が &aクリーパー の爆発的な性格に不意に出会いました"
+  - "&3%victim%&r&4 が &aクリーパー に遭遇して空高く吹き飛ばされました"
+  - "&3%victim%&r&4 が &aクリーパー の爆発半径を過小評価しました"
+  - "&3%victim%&r&4 が &aクリーパー を無力化しようとしましたが、うまくいきませんでした"
+
+ghast-messages:
+  - "&3%victim%&r&4 が &bガスト に火球で撃たれました"
+
+enderman-messages:
+  - "&3%victim%&r&4 が &5エンダーマン の目を見ました"
+  - "&3%victim%&r&4 が &5エンダーマン とかくれんぼしようとしました"
+
+silverfish-messages:
+  - "&3%victim%&r&4 が &7シルバーフィッシュ に食べられました"
+
+witch-messages:
+  - "&3%victim%&r&4 が狡猾な &9ウィッチ に呪われました"
+  - "&3%victim%&r&4 が復讐心に燃える &9ウィッチ にカエルにされました"
+
+shulker-messages:
+  - "&3%victim%&r&4 が &dシュルカー のヘルスを取りに行って死にました"
+  - "&3%victim%&r&4 が &dシュルカー に撃たれました"
+  - "&3%victim%&r&4 が &dシュルカー にやられました"
+
+guardian-messages:
+  - "&3%victim%&r&4 が &7ガーディアン に殺されました"
+  - "&3%victim%&r&4 が電気を帯びた &7ガーディアン に感電しました"
+  - "&3%victim%&r&4 が狡猾な &7ガーディアン に泳ぎ負けました"
+
+golem-messages:
+  - "&3%victim%&r&4 が &7アイアンゴーレム を怒らせました"
+  - "&3%victim%&r&4 が &7アイアンゴーレム の怒りを招きました"
+  - "&3%victim%&r&4 が &7アイアンゴーレム の外交について学びました"
+
+zombievillager-messages:
+  - "&3%victim%&r&4 が &2ゾンビ村人 にディナーにされました"
+
+endermite-messages:
+  - "&3%victim%&r&4 が &5エンダーマイト に遭遇し、かじられて死にました"
+  - "&3%victim%&r&4 が &5エンダーマイト に出し抜かれました"
+
+phantom-messages:
+  - "&3%victim%&r&4 が &1ファントム に誘拐されました"
+
+drowned-messages:
+  - "&3%victim%&r&4 が深夜の水泳に出かけ、&2ドロウンド ゾンビ に食べられました"
+  - "&3%victim%&r&4 が &2ドロウンド の泳ぎがただの水泳ではないことを発見しました"
+
+pillager-messages:
+  - "&3%victim%&r&4 が &3ピラジャー に撃たれました"
+
+ravager-messages:
+  - "&3%victim%&r&4 が &3ラヴェジャー に突き飛ばされました"
+
+illusioner-messages:
+  - "&3%victim%&r&4 が &6イリュージョナー によって幻の世界に送られました"
+  - "&3%victim%&r&4 が &6イリュージョナー に騙されました"
+  - "&3%victim%&r&4 が &6イリュージョナー に殺されました"
+
+bee-messages:
+  - "&3%victim%&r&4 が &6ミツバチ に刺されました"
+  - "&3%victim%&r&4 が &6ミツバチ に出会い、蜂がただの蜂蜜製造者ではないことを発見しました"
+  - "&3%victim%&r&4 がしつこい &6ミツバチ に刺されました"
+
+wolf-messages:
+  - "&3%victim%&r&4 が &7オオカミ に引き裂かれました"
+  - "&3%victim%&r&4 が &7オオカミ を挑発しました"
+
+llama-messages:
+  - "&3%victim%&r&4 が &eラマ によって唾をかけられて死にました"
+  - "&3%victim%&r&4 が &eラマ の &4唾火に巻き込まれました"
+  - "&3%victim%&r&4 が &eラマ の &4唾でいっぱいになりました"
+
+blaze-messages:
+  - "&3%victim%&r&4 が &6ブレイズ によって焼かれました"
+  - "&3%victim%&r&4 が炎の &6ブレイズ によってローストされました"
+  - "&3%victim%&r&4 が &6ブレイズ と遊ぶと火傷することを学びました"
+
+stray-messages:
+  - "&3%victim%&r&4 が &7ストレイ にドームされた"
+
+vex-messages:
+  - "&3%victim%&r&4 が小さな飛ぶ &bヴェックス に食べられました"
+  - "&3%victim%&r&4 が &bヴェックス に悩まされました"
+
+vindicator-messages:
+  - "&3%victim%&r&4 が &4ヴィンディケーター に追われました"
+  - "&3%victim%&r&4 が &4ヴィンディケーター の力を過小評価しました"
+  - "&3%victim%&r&4 が &4ヴィンディケーター の破壊の道に巻き込まれました"
+
+evoker-messages:
+  - "&3%victim%&r&4 が &4エヴォーカー によって死者の元に召喚されました"
+  - "&3%victim%&r&4 が &4エヴォーカー の怒りを試しました"
+  - "&3%victim%&r&4 が &4エヴォーカー によって呼び出されました"
+
+pufferfish-messages:
+  - "&3%victim%&r&4 が &eフグ の毒性を過小評価しました"
+  - "&3%victim%&r&4 が &eフグ に出会い、触らない方が良いと学びました"
+
+polar-bear-messages:
+  - "&3%victim%&r&4 が氷のように冷たい &fポーラーベア に襲われました"
+  - "&3%victim%&r&4 が &fポーラーベア によって雪にされました"
+
+dolphin-messages:
+  - "&3%victim%&r&4 が &bイルカ を挑発して...負けました？"
+  - "&3%victim%&r&4 が &bイルカ にぶつかり、反撃されました"
+
+panda-messages:
+  - "&3%victim%&r&4 が &8パンダ の夕食にされました"
+  - "&3%victim%&r&4 が &8パンダ の竹を盗もうとしました"
+
+piglin-messages:
+  - "&3%victim%&r&4 が新しい &6ピグリン に対面しました"
+  - "&3%victim%&r&4 が &6ピグリン と戦い、生存のレッスンを受けました"
+  - "&3%victim%&r&4 が &6ピグリン に会い、交渉しないことを発見しました"
+
+hoglin-messages:
+  - "&3%victim%&r&4 が &6ホグリン に突進されました、少し失礼？"
+  - "&3%victim%&r&4 が &6ホグリン についてのパッチノートを読んでいませんでした"
+
+zoglin-messages:
+  - "&3%victim%&r&4 が &6ゾグリン の角を夕食に食べました"
+  - "&3%victim%&r&4 が &6ゾグリン に突き飛ばされました"
+
+goat-messages:
+  - "&3%victim%&r&4 が &4ヤギ に頭突きされました"
+  - "&3%victim%&r&4 が &4ヤギ の角に突き刺されました"
+
+zombified-piglin-messages:
+  - "&3%victim%&r&4 が &6ピグリン をオーバーワールドに連れて行き、新しい、あまり友好的でないペットに殺されました"
+  - "&3%victim%&r&4 が &6ピグリン に死にました...つまり、ピグマン...つまり、ゾンビ化ピグリン"
+
+fox-messages:
+  - "&3%victim%&r&4 が &6狐 に振り回されて学びました"
+  - "&3%victim%&r&4 が &6狐 に噛まれました"
+
+warden-messages:
+  - "&3%victim%&r&4 が &1ウォーデン に殺されました...期待していたことですが？"
+  - "&3%victim%&r&4 が &1ウォーデン の力を過小評価しました"
+  - "&3%victim%&r&4 が &1ウォーデン の領域に近づきすぎました"
+
+warden-sonic-boom-messages:
+  - "&3%victim%&r&4 が &1ウォーデン によってソニックブームされました"
+  - "&3%victim%&r&4 が &1ウォーデン のソニックブームで耳が吹き飛ばされました"
+
+unknown-messages:
+  - "&3%victim%&r&4 が不明な原因で死亡しました"
+  - "&3%victim%&r&4 が死にました"
+  - "&3%victim%&r&4 が殺されました"
+
+fireball-messages:
+  - "&3%victim%&r&4 が予期しない &4ファイアボール の攻撃で焼かれました"
+  - "&3%victim%&r&4 が炎の嵐の中で &4ファイアボール に巻き込まれました"
+  - "&3%victim%&r&4 が一連の &4ファイアボール で焼かれました"
+
+arrow-messages:
+  - "&3%victim%&r&4 が &5矢 の雨に打たれました"
+  - "&3%victim%&r&4 が &5矢 を避けようとしましたが、うまくいきませんでした"
