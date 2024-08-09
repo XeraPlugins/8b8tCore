@@ -5,6 +5,13 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
+import java.io.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -40,4 +47,11 @@ public class Utils {
             return tps >= 13.0D ? ChatColor.YELLOW : ChatColor.RED;
         }
     }
+    public static void secondPass(HashMap<Player, Integer> hashMap) {
+        for (Map.Entry<Player, Integer> violationEntry : hashMap.entrySet()) {
+            if (violationEntry.getValue() > 0)
+                violationEntry.setValue(violationEntry.getValue() - 1);
+        }
+    }
+
 }

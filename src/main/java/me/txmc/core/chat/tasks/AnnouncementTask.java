@@ -1,6 +1,7 @@
 package me.txmc.core.chat.tasks;
 
 import me.txmc.core.Localization;
+import me.txmc.core.patch.listeners.ChestLagFix;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.TextComponent;
 import net.md_5.bungee.api.ChatColor;
