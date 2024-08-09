@@ -51,8 +51,8 @@ public class ChestLagFix implements Listener {
                     chestHashMap.put(player, 1);
                 }
                 deleteNBTBooks(event.getInventory());
-                if (chestHashMap.get(player) > 8) {
-                    ((Player) event.getPlayer()).kickPlayer("Fuck off");
+                if (chestHashMap.get(player) > 5) {
+                    ((Player) event.getPlayer()).kickPlayer("Chest lag exploit has been patched");
                     chestHashMap.remove(player);
                 }
             }
