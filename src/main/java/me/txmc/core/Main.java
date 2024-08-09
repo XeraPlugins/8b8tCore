@@ -12,6 +12,7 @@ import me.txmc.core.deathmessages.DeathMessageListener;
 import me.txmc.core.dupe.DupeSection;
 import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
+import me.txmc.core.patch.tasks.ChestLagFixTask;
 import me.txmc.core.tablist.TabSection;
 import me.txmc.core.tpa.TPASection;
 import me.txmc.core.vote.VoteSection;
@@ -54,6 +55,7 @@ public class Main extends JavaPlugin {
 
         executorService.scheduleAtFixedRate(() -> violationManagers.forEach(ViolationManager::decrementAll), 0, 1, TimeUnit.SECONDS);
         getExecutorService().scheduleAtFixedRate(new AnnouncementTask(), 10L, getConfig().getInt("AnnouncementInterval"), TimeUnit.SECONDS);
+        getExecutorService().scheduleAtFixedRate(new ChestLagFixTask(), 0, 10, TimeUnit.SECONDS);
 
         register(new TabSection(this));
         register(new ChatSection(this));
