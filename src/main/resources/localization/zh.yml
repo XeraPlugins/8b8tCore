@@ -74,6 +74,7 @@ framedupe_cooldown: "&c你复制得太快了"
 framedupe_items_limit: "&c这个区块中物品太多，因此不再进行复制"
 nbtPatch_deleted_item: "&c&6%s&r&c由于数据过多，已从您的库存中删除"
 chest_cooldown: "&c你打开箱子的速度太快了。请稍等！"
+chestlimiter_deleted_chest: "&c已删除 &c&6%s&r&c 个箱子，因为它们超过了每个区块的最大数量 &c&6%s&r&c 个箱子"
 
 # 复杂信息
 HelpMessage:

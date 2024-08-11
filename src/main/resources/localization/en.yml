@@ -74,6 +74,7 @@ framedupe_cooldown: "&cYou are duplicating too quickly"
 framedupe_items_limit: "&cThere are already too many items dropped in this chunk"
 nbtPatch_deleted_item: "&c&6%s&r&c was removed from your inventory due to excessive data"
 chest_cooldown: "&cYou are opening chests too quickly. Please wait!"
+chestlimiter_deleted_chest: "&c&6%s&r&c chests have been removed because they exceeded the maximum of &c&6%s&r&c chests per chunk"
 
 #Complex messages
 HelpMessage:
