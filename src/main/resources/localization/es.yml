@@ -121,7 +121,7 @@ TabList:
 
   Footer:
     - ''
-    - '&7tps:&r %tps% &7ping: &r%ping% &7jugadores: &f%players% &7tiempo en línea: %uptime%'
+    - '&7tps:&r %tps% &7ping: &r%ping% &7jugadores: &f%players% &7tiempo en línea: &r%uptime%'
     - ''
     - '&7Contacto: contact@8b8t.me'
     - '&7Discusión: https://discord.8b8t.me'

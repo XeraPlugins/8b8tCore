@@ -122,7 +122,7 @@ TabList:
 
   Footer:
     - ''
-    - '&7TPS:&r %tps% &7الـ Ping: &r%ping% &7اللاعبين: &f%players% &7مدة التشغيل: %uptime%'
+    - '&7TPS:&r %tps% &7الـ Ping: &r%ping% &7اللاعبين: &f%players% &7مدة التشغيل: &r%uptime%'
     - ''
     - '&7اتصال: contact@8b8t.me'
     - '&7نقاش: https://discord.8b8t.me'

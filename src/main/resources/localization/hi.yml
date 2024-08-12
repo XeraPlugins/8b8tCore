@@ -121,7 +121,7 @@ TabList:
 
   Footer:
   - ''
-  - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: %uptime%'
+  - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: &r%uptime%'
   - ''
   - '&7संपर्क: contact@8b8t.me'
   - '&7चर्चा: https://discord.8b8t.me'
