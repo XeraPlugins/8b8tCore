@@ -3,12 +3,14 @@ package me.txmc.core.chat.listeners;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.chat.ChatInfo;
 import me.txmc.core.chat.ChatSection;
+import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,7 +29,7 @@ public class ChatListener implements Listener {
     private final ChatSection manager;
     private final HashSet<String> tlds;
     private ScheduledExecutorService service;
-
+    private final PrefixManager prefixManager = new PrefixManager();
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
@@ -44,7 +46,7 @@ public class ChatListener implements Listener {
         service.schedule(() -> ci.setChatLock(false), cooldown, TimeUnit.SECONDS);
         String ogMessage = event.getMessage();
         String playerName = LegacyComponentSerializer.legacyAmpersand().serialize(sender.displayName());
-        TextComponent message = format(ogMessage, playerName);
+        TextComponent message = format(ogMessage, playerName, sender);
         if (blockedCheck(ogMessage)) {
             sender.sendMessage(message);
             log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message that has banned words", sender.getName());
@@ -89,9 +91,12 @@ public class ChatListener implements Listener {
         }
         return false;
     }
+    private TextComponent format(String message, String playerName, Player player) {
+        String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(player));
+        String formatString = "%s <%s&r> ";
+        if (tag.isEmpty()) formatString = "%s<%s&r> ";
 
-    private TextComponent format(String message, String playerName) {
-        TextComponent name = GlobalUtils.translateChars(String.format("<%s&r> ", playerName));
+        TextComponent name = GlobalUtils.translateChars(String.format(formatString, tag, playerName));
         TextComponent msg = (message.startsWith(">")) ? Component.text(message).color(TextColor.color(0, 255, 0)) : Component.text(message);
         return name.append(msg);
     }

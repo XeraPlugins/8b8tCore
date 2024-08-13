@@ -6,6 +6,7 @@ import me.txmc.core.chat.ChatSection;
 import me.txmc.core.chat.listeners.OpWhiteListListener;
 import me.txmc.core.chat.tasks.AnnouncementTask;
 import me.txmc.core.command.CommandSection;
+import me.txmc.core.customexperience.PlayerPrefix;
 import me.txmc.core.customexperience.PlayerSimulationDistance;
 import me.txmc.core.customexperience.PlayerViewDistance;
 import me.txmc.core.deathmessages.DeathMessageListener;
@@ -63,6 +64,7 @@ public class Main extends JavaPlugin {
         register(new PatchSection(this));
         register(new DupeSection(this));
         register(new DeathMessageListener());
+        register(new PlayerPrefix(this));
         register(new PlayerViewDistance(this));
         register(new PlayerSimulationDistance(this));
         register(new OpWhiteListListener(this));
