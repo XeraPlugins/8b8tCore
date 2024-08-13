@@ -137,7 +137,7 @@ TpsMessage:
 tps_failed: '&cYou are not allowed to check TPS'
 
 announcements:
-  - '&6[&18b&98t&6]&6 Visit &chttps://votefor.8b8t.me &6and vote to receive free /nc and 5 extra homes'
+  - '&6[&18b&98t&6]&6 Visit &chttps://votefor.8b8t.me &6and vote to receive free /nc 2 extra render distance and 5 extra homes'
   - '&6[&18b&98t&6]&6 Donate to help support 8b8t at &chttps://donate.8b8t.me'
 
 # Death messages

@@ -137,7 +137,7 @@ TpsMessage:
 tps_failed: '&cTPSを確認する権限がありません'
 
 announcements:
-  - '&6[&18b&98t&6]&6 投票して無料の /nc と5つの追加自宅を受け取るには &chttps://votefor.8b8t.me &6にアクセスしてください'
+  - '&6[&18b&98t&6]&6 &chttps://votefor.8b8t.me &6にアクセスして投票すると、無料の/nc 2つの追加レンダリング距離と5つの追加住宅が受け取れます'
   - '&6[&18b&98t&6]&6 8b8tをサポートするために寄付は &chttps://donate.8b8t.me にてお願いします'
 
 # Death messages
