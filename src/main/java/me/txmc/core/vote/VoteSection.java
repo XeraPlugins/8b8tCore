@@ -65,7 +65,11 @@ public class VoteSection implements Section {
     }
 
     public void rewardPlayer(Player player) {
-        executeCommand("lp user %s group add voter", player.getName());
+        if (!player.hasPermission("Leee.ic")) {
+            executeCommand("lp user %s group add voter", player.getName());
+        } else {
+            executeCommand("lp user %s group remove voter", player.getName());
+        }
         executeCommand("lp user %s group remove default", player.getName());
         //int maxHomes = ((HomeManager) plugin.getSectionByName("Home")).getMaxHomes(player);
         //if ((maxHomes + 2) >= config.getInt("MaxHomesByVoting")) return;

@@ -23,7 +23,7 @@ public class PrefixManager {
 
     private static final Map<String, String> PREFIXES = new HashMap<>();
     static {
-        PREFIXES.put("8b8tcore.prefix.owner", "&7&l[&5&lOWNER&7&l]&r");
+        PREFIXES.put("*", "&7&l[&5&lOWNER&7&l]&r");
         PREFIXES.put("8b8tcore.prefix.dev", "&7&l[&9&lDEVELOPER&7&l]&r");
         PREFIXES.put("8b8tcore.prefix.donator5", "&7&l[&b&lDONATOR 5&7&l]&r");
         PREFIXES.put("8b8tcore.prefix.donator4", "&7&l[&2&lDONATOR 4&7&l]&r");
