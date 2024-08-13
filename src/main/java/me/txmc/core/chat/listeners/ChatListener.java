@@ -93,7 +93,7 @@ public class ChatListener implements Listener {
     }
     private TextComponent format(String message, String playerName, Player player) {
         String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(player));
-        String formatString = "%s <%s&r> ";
+        String formatString = "%s<%s&r> ";
         if (tag.isEmpty()) formatString = "%s<%s&r> ";
 
         TextComponent name = GlobalUtils.translateChars(String.format(formatString, tag, playerName));

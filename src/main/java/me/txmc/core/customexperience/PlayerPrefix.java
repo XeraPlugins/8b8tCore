@@ -41,7 +41,7 @@ public class PlayerPrefix implements Listener {
 
     public void setupTag(Player player, String tag) {
         getLogger().info(player.getDisplayName());
-        player.setPlayerListName(String.format("%s %s",ChatColor.translateAlternateColorCodes('&', tag), player.getDisplayName()));
+        player.setPlayerListName(String.format("%s%s",ChatColor.translateAlternateColorCodes('&', tag), player.getDisplayName()));
     }
 
 }

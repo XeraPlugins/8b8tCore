@@ -1,7 +1,10 @@
 package me.txmc.core.customexperience.util;
 
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,30 +24,39 @@ import java.util.Map;
  */
 public class PrefixManager {
 
+    private static final List<String> PREFIX_HIERARCHY = Arrays.asList(
+            "*",
+            "8b8tcore.prefix.dev",
+            "8b8tcore.prefix.bot",
+            "8b8tcore.prefix.donator5",
+            "8b8tcore.prefix.donator4",
+            "8b8tcore.prefix.donator3",
+            "8b8tcore.prefix.donator2",
+            "8b8tcore.prefix.donator1"
+    );
+
     private static final Map<String, String> PREFIXES = new HashMap<>();
     static {
-        PREFIXES.put("*", "&7&l[&5&lOWNER&7&l]&r");
-        PREFIXES.put("8b8tcore.prefix.dev", "&7&l[&9&lDEVELOPER&7&l]&r");
-        PREFIXES.put("8b8tcore.prefix.donator5", "&7&l[&b&lDONATOR 5&7&l]&r");
-        PREFIXES.put("8b8tcore.prefix.donator4", "&7&l[&2&lDONATOR 4&7&l]&r");
-        PREFIXES.put("8b8tcore.prefix.donator3", "&7&l[&1&lDONATOR 3&7&l]&r");
-        PREFIXES.put("8b8tcore.prefix.donator2", "&7&l[&6&lDONATOR 2&7&l]&r");
-        PREFIXES.put("8b8tcore.prefix.donator1", "&7&l[&8&lDONATOR 1&7&l]&r");
-        PREFIXES.put("8b8tcore.prefix.bot", "&7&l[&a&lBOT &a✔&7&l]&r");
+        PREFIXES.put("*", "&7&l【&5&lOWNER&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.dev", "&7&l【&9&lDEVELOPER&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.bot", "&7&l【&a&lBOT &a✔&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.donator5", "&7&l【&b&lDONATOR 5&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.donator4", "&7&l【&2&lDONATOR 4&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.donator3", "&7&l【&1&lDONATOR 3&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.donator2", "&7&l【&6&lDONATOR 2&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.donator1", "&7&l【&8&lDONATOR 1&7&l】&r");
     }
 
     public String getPrefix(Player player) {
         String highestPrefix = "";
 
-        for (Map.Entry<String, String> entry : PREFIXES.entrySet()) {
-            String permission = entry.getKey();
-            String prefix = entry.getValue();
+        for (String permission : PREFIX_HIERARCHY) {
             if (player.hasPermission(permission)) {
-                highestPrefix = prefix;
+                highestPrefix = PREFIXES.get(permission);
+                break;
             }
         }
 
         return highestPrefix;
     }
-
 }
