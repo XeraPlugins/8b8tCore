@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import me.txmc.core.Localization;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
+import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.tablist.listeners.PlayerJoinListener;
 import me.txmc.core.tablist.util.Utils;
 import me.txmc.core.tablist.worker.TabWorker;
-import me.txmc.core.util.GlobalUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class TabSection implements Section {
     private final Main plugin;
     private ConfigurationSection config;
+    private final PrefixManager prefixManager = new PrefixManager();
 
     @Override
     public void enable() {
@@ -46,6 +48,9 @@ public class TabSection implements Section {
     }
 
     public void setTab(Player player) {
+        String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(player));
+        player.setPlayerListName(String.format("%s%s",ChatColor.translateAlternateColorCodes('&', tag), player.getDisplayName()));
+
         Localization loc = Localization.getLocalization(player.locale().getLanguage());
         Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, plugin.getStartTime()).thenAccept(player::sendPlayerListHeader);
         Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Footer")), player, plugin.getStartTime()).thenAccept(player::sendPlayerListFooter);

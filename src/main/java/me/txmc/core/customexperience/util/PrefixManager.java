@@ -39,7 +39,7 @@ public class PrefixManager {
     static {
         PREFIXES.put("*", "&7&l【&5&lOWNER&7&l】&r");
         PREFIXES.put("8b8tcore.prefix.dev", "&7&l【&9&lDEVELOPER&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.bot", "&7&l【&a&lBOT &a✔&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.bot", "&7&l【&a&lBOT&7&l】&r");
         PREFIXES.put("8b8tcore.prefix.donator5", "&7&l【&b&lDONATOR 5&7&l】&r");
         PREFIXES.put("8b8tcore.prefix.donator4", "&7&l【&2&lDONATOR 4&7&l】&r");
         PREFIXES.put("8b8tcore.prefix.donator3", "&7&l【&1&lDONATOR 3&7&l】&r");
@@ -48,7 +48,7 @@ public class PrefixManager {
     }
 
     public String getPrefix(Player player) {
-        String highestPrefix = "";
+        String highestPrefix = "&7&l【&1&lPLA&9&lYER&7&l】&r";
 
         for (String permission : PREFIX_HIERARCHY) {
             if (player.hasPermission(permission)) {

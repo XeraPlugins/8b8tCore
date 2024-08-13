@@ -47,6 +47,9 @@ public class ChatListener implements Listener {
         String ogMessage = event.getMessage();
         String playerName = LegacyComponentSerializer.legacyAmpersand().serialize(sender.displayName());
         TextComponent message = format(ogMessage, playerName, sender);
+
+        String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(sender));
+        sender.setPlayerListName(String.format("%s%s",ChatColor.translateAlternateColorCodes('&', tag), sender.getDisplayName()));
         if (blockedCheck(ogMessage)) {
             sender.sendMessage(message);
             log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message that has banned words", sender.getName());
