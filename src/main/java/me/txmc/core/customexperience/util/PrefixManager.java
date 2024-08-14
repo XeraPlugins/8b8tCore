@@ -37,14 +37,14 @@ public class PrefixManager {
 
     private static final Map<String, String> PREFIXES = new HashMap<>();
     static {
-        PREFIXES.put("*", "&7&l【&5&lOWNER&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.dev", "&7&l【&9&lDEVELOPER&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.bot", "&7&l【&a&lBOT&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.donator5", "&7&l【&b&lDONATOR 5&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.donator4", "&7&l【&2&lDONATOR 4&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.donator3", "&7&l【&1&lDONATOR 3&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.donator2", "&7&l【&6&lDONATOR 2&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.donator1", "&7&l【&8&lDONATOR 1&7&l】&r");
+        PREFIXES.put("*", "&7&l【&5&lOWNER&a✔&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.dev", "&7&l【&9&lDEV&a✔&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.bot", "&7&l【&a&l/BOT/&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.donator5", "&7&l【&b&lDONOR5&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.donator4", "&7&l【&2&lDONOR4&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.donator3", "&7&l【&1&lDONOR3&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.donator2", "&7&l【&6&lDONOR2&7&l】&r");
+        PREFIXES.put("8b8tcore.prefix.donator1", "&7&l【&8&lDONOR1&7&l】&r");
     }
 
     public String getPrefix(Player player) {
@@ -56,7 +56,6 @@ public class PrefixManager {
                 break;
             }
         }
-
         return highestPrefix;
     }
 }
