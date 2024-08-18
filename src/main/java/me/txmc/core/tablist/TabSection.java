@@ -49,7 +49,7 @@ public class TabSection implements Section {
 
     public void setTab(Player player) {
         String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(player));
-        player.setPlayerListName(String.format("%s%s",ChatColor.translateAlternateColorCodes('&', tag), player.getDisplayName()));
+        player.setPlayerListName(String.format("%s%s", tag, player.getDisplayName()));
 
         Localization loc = Localization.getLocalization(player.locale().getLanguage());
         Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, plugin.getStartTime()).thenAccept(player::sendPlayerListHeader);

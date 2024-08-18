@@ -37,22 +37,22 @@ public class PrefixManager {
 
     private static final Map<String, String> PREFIXES = new HashMap<>();
     static {
-        PREFIXES.put("*", "&7&l【&5&lOWNER&a✔&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.dev", "&7&l【&9&lDEV&a✔&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.bot", "&7&l【&a&l/BOT/&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.donator5", "&7&l【&b&lDONOR5&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.donator4", "&7&l【&2&lDONOR4&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.donator3", "&7&l【&1&lDONOR3&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.donator2", "&7&l【&6&lDONOR2&7&l】&r");
-        PREFIXES.put("8b8tcore.prefix.donator1", "&7&l【&8&lDONOR1&7&l】&r");
+        PREFIXES.put("*", "&7[&5OWNER&a✔&7]&r");
+        PREFIXES.put("8b8tcore.prefix.dev", "&7[&9DEV&a✔&7]&r");
+        PREFIXES.put("8b8tcore.prefix.bot", "&7[&2BOT&7]&r");
+        PREFIXES.put("8b8tcore.prefix.donator5", "&7[&bDONOR5&7]&r");
+        PREFIXES.put("8b8tcore.prefix.donator4", "&7[&2DONOR4&7]&r");
+        PREFIXES.put("8b8tcore.prefix.donator3", "&7[&1DONOR3&7]&r");
+        PREFIXES.put("8b8tcore.prefix.donator2", "&7[&6DONOR2&7]&r");
+        PREFIXES.put("8b8tcore.prefix.donator1", "&7[&8DONOR1&7]&r");
     }
 
     public String getPrefix(Player player) {
-        String highestPrefix = "&7&l【&1&lPLA&9&lYER&7&l】&r";
+        String highestPrefix = "";
 
         for (String permission : PREFIX_HIERARCHY) {
             if (player.hasPermission(permission)) {
-                highestPrefix = PREFIXES.get(permission);
+                highestPrefix = PREFIXES.get(permission) + " ";
                 break;
             }
         }
