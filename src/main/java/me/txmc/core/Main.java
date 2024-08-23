@@ -11,6 +11,7 @@ import me.txmc.core.customexperience.PlayerSimulationDistance;
 import me.txmc.core.customexperience.PlayerViewDistance;
 import me.txmc.core.deathmessages.DeathMessageListener;
 import me.txmc.core.dupe.DupeSection;
+import me.txmc.core.dupe.SalC1Dupe;
 import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
 import me.txmc.core.tablist.TabSection;
@@ -68,6 +69,7 @@ public class Main extends JavaPlugin {
         register(new PlayerViewDistance(this));
         register(new PlayerSimulationDistance(this));
         register(new OpWhiteListListener(this));
+        register(new SalC1Dupe(this));
 
         if(getConfig().getBoolean("AntiIllegal.Enabled", true)) register(new AntiIllegalMain(this));
         if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
