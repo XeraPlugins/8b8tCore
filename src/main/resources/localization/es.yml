@@ -79,7 +79,7 @@ chestlimiter_deleted_chest: "&cSe han eliminado &c&6%s&r&c cofres porque han sup
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6Visita &chttps://www.8b8t.me &6para leer las reglas'
+  - '&6Visita &chttps://www.8b8t.me/terms &6para leer las reglas'
   - '&1--------------Comandos----------------'
   - '&c/tpa &6para teletransportarte a otro jugador'
   - '&c/tpayes &6para aceptar una solicitud de teletransporte'

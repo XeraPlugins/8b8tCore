@@ -79,7 +79,7 @@ chestlimiter_deleted_chest: "&c&6%s&r&c coffres ont été supprimés car ils ont
 # Messages complexes
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6Visite &chttps://www.8b8t.me &6pour lire les règles'
+  - '&6Visite &chttps://www.8b8t.me/terms &6pour lire les règles'
   - '&1--------------Commandes----------------'
   - '&c/tpa &6pour te téléporter vers un autre joueur'
   - '&c/tpayes &6pour accepter une demande de téléportation'

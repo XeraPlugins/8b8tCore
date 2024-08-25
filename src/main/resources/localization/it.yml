@@ -79,7 +79,7 @@ chestlimiter_deleted_chest: "&c&6%s&r&c bauli sono stati rimossi perché hanno s
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6Visita &chttps://www.8b8t.me &6per leggere le regole'
+  - '&6Visita &chttps://www.8b8t.me/terms &6per leggere le regole'
   - '&1--------------Comandi----------------'
   - '&c/tpa &6per teletrasportarti a un altro giocatore'
   - '&c/tpayes &6per accettare una richiesta di teletrasporto'

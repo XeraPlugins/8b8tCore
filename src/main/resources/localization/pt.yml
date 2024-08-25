@@ -79,7 +79,7 @@ chestlimiter_deleted_chest: "&c&6%s&r&c baús foram removidos porque excederam o
 # Mensagens complexas
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6Visite &chttps://www.8b8t.me &6para ler as regras'
+  - '&6Visite &chttps://www.8b8t.me/terms &6para ler as regras'
   - '&1--------------Comandos----------------'
   - '&c/tpa &6para teleportar para outro jogador'
   - '&c/tpayes &6para aceitar um pedido de teletransporte'

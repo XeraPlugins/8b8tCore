@@ -79,7 +79,7 @@ chestlimiter_deleted_chest: "&c&6%s&r&c chests have been removed because they ex
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6Visit &chttps://www.8b8t.me &6to read the rules'
+  - '&6Visit &chttps://www.8b8t.me/terms &6to read the rules'
   - '&1--------------Commands----------------'
   - '&c/tpa &6to teleport to another player'
   - '&c/tpayes &6to accept a teleport request'
