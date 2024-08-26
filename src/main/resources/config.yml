@@ -160,3 +160,9 @@ FrameDupe:
   dupeCooldown: 200L # Miliseconds
   limitItemsPerChunk: 18 # Dropped items
   probabilityPercentage: 100
+ZombieDupe:
+  enabled: true
+  dupeCooldown: 200L # Miliseconds
+  limitItemsPerChunk: 18 # Dropped items
+  probabilityPercentage: 100
+  rottenFleshDropPercentage: 50

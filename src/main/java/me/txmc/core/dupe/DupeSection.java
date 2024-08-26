@@ -7,6 +7,7 @@ import me.txmc.core.Main;
 import me.txmc.core.Section;
 import me.txmc.core.dupe.framedupe.FrameDupe;
 
+import me.txmc.core.dupe.zombiedupe.ZombieDupe;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -29,6 +30,7 @@ public class DupeSection implements Section {
     public void enable() {
         config = plugin.getSectionConfig(this);
         plugin.register(new FrameDupe(plugin));
+        plugin.register(new ZombieDupe(plugin));
     }
 
     @Override
