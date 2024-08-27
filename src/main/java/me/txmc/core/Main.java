@@ -15,6 +15,7 @@ import me.txmc.core.dupe.SalC1Dupe;
 import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
 import me.txmc.core.tablist.TabSection;
+import me.txmc.core.util.MapCreationLogger;
 import me.txmc.core.tpa.TPASection;
 import me.txmc.core.vote.VoteSection;
 import org.bukkit.configuration.ConfigurationSection;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 
 import static me.txmc.core.util.GlobalUtils.log;
@@ -90,6 +92,10 @@ public class Main extends JavaPlugin {
         violationManagers.clear();
         sections.forEach(Section::disable);
         sections.clear();
+
+        for (Handler handler : MapCreationLogger.getLogger().getHandlers()) {
+            handler.close();
+        }
     }
 
     @Override

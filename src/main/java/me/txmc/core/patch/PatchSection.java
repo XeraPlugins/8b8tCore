@@ -52,6 +52,7 @@ public class PatchSection implements Section {
         plugin.register(new AntiLagChestListener(plugin));
         plugin.register(new SuffocationListener());
         plugin.register(new ChestLimiter(plugin));
+        plugin.register(new MapCreationListener());
     }
 
     @Override
