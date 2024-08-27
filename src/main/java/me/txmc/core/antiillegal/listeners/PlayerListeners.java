@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.logging.Level;
 
@@ -38,6 +39,9 @@ public class PlayerListeners implements Listener {
         }
         for (ItemStack item : event.getPlayer().getEnderChest()) {
             main.checkFixItem(item, null);
+        }
+        for (PotionEffect effect : event.getPlayer().getActivePotionEffects()) {
+            event.getPlayer().removePotionEffect(effect.getType());
         }
         main.checkFixItem(inventory.getItemInOffHand(), null);
     }
