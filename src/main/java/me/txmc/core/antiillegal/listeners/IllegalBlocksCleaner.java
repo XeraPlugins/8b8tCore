@@ -51,7 +51,8 @@ public class IllegalBlocksCleaner implements Listener {
                             block.getType() == Material.BEDROCK ||
                             block.getType() == Material.END_PORTAL_FRAME ||
                             block.getType() == Material.REINFORCED_DEEPSLATE ||
-                            block.getType() == Material.BARRIER
+                            block.getType() == Material.BARRIER ||
+                            block.getType() == Material.LIGHT
                     ) {
                         block.setType(Material.AIR);
                     }
