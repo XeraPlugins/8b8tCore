@@ -75,6 +75,9 @@ framedupe_items_limit: "&cइस चंक में पहले से ही 
 nbtPatch_deleted_item: "&c&6%s&r&c को अत्यधिक डेटा के कारण आपके इन्वेंट्री से हटा दिया गया"
 chest_cooldown: "&cआप बहुत तेजी से चेस्ट खोल रहे हैं। कृपया प्रतीक्षा करें!"
 chestlimiter_deleted_chest: "&c&6%s&r&c चेस्ट हटा दिए गए हैं क्योंकि उन्होंने प्रति चंक की अधिकतम सीमा &c&6%s&r&c चेस्ट को पार कर लिया है"
+repair_success: "&3आइटम को सफलतापूर्वक ठीक किया गया!"
+repair_no_item: "&cआपके हाथ में मरम्मत के लिए एक आइटम होना चाहिए।"
+repair_not_repairable: "&cयह आइटम मरम्मत योग्य नहीं है।"
 
 #Complex messages
 HelpMessage:

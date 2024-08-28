@@ -57,9 +57,6 @@ public class ChestLimiter implements Listener {
                 for (int z = 0; z < 16; z++) {
                     for (int y = yLowerLimit; y < yUpperLimit; y++) {
                         Block block = chunk.getBlock(x, y, z);
-                        if (block.getType() == Material.LIGHT){
-                            block.setType(Material.AIR);
-                        }
                         if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST || block.getType() == Material.BARREL) {
                             chestCount++;
                         }

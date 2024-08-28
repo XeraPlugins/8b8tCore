@@ -75,6 +75,9 @@ framedupe_items_limit: "&cيوجد بالفعل الكثير من العناصر
 nbtPatch_deleted_item: "&c&6%s&r&c تم حذفه من مخزونك بسبب البيانات الزائدة"
 chest_cooldown: "&cأنت تفتح الصناديق بسرعة كبيرة. يرجى الانتظار!"
 chestlimiter_deleted_chest: "&cتمت إزالة &c&6%s&r&c صندوقًا لأنه تجاوز الحد الأقصى البالغ &c&6%s&r&c صناديق لكل كتلة"
+repair_success: "&3تم إصلاح العنصر بنجاح!"
+repair_no_item: "&cيجب أن يكون لديك عنصر لإصلاحه في اليد."
+repair_not_repairable: "&cلا يمكن إصلاح هذا العنصر."
 
 #Complex messages
 HelpMessage:

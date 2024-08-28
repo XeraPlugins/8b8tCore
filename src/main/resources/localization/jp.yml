@@ -75,6 +75,9 @@ framedupe_items_limit: "&cこのチャンクにアイテムが多すぎます"
 nbtPatch_deleted_item: "&c&6%s&r&c がデータが多すぎるためインベントリから削除されました"
 chest_cooldown: "&cチェストを開ける速度が速すぎます。しばらくお待ちください！"
 chestlimiter_deleted_chest: "&c&6%s&r&c チェストが削除されました。これは、チャンクごとの最大数 &c&6%s&r&c チェストを超えたためです"
+repair_success: "&3アイテムが正常に修理されました！"
+repair_no_item: "&c修理するアイテムを手に持っている必要があります。"
+repair_not_repairable: "&cこのアイテムは修理できません。"
 
 #Complex messages
 HelpMessage:

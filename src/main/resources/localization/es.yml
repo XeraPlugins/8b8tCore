@@ -75,6 +75,9 @@ framedupe_items_limit: "&cYa hay muchos items dropeados en este chunk"
 nbtPatch_deleted_item: "&c&6%s&r&c se eliminó de tu inventario por exceso de datos"
 chest_cooldown: "&cEstás abriendo cofres demasiado rápido. ¡Por favor, espera!"
 chestlimiter_deleted_chest: "&cSe han eliminado &c&6%s&r&c cofres porque han superado el máximo de &c&6%s&r&c cofres por chunk"
+repair_success: "&3Se reparó el item exitosamente!"
+repair_no_item: "&cDebes de tener un item para reparar en la mano."
+repair_not_repairable: "&cEste item no es reparable."
 
 #Complex messages
 HelpMessage:

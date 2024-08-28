@@ -75,6 +75,9 @@ framedupe_items_limit: "&c这个区块中物品太多，因此不再进行复制
 nbtPatch_deleted_item: "&c&6%s&r&c由于数据过多，已从您的库存中删除"
 chest_cooldown: "&c你打开箱子的速度太快了。请稍等！"
 chestlimiter_deleted_chest: "&c已删除 &c&6%s&r&c 个箱子，因为它们超过了每个区块的最大数量 &c&6%s&r&c 个箱子"
+repair_success: "&3物品已成功修理！"
+repair_no_item: "&c你必须手上有一个物品来修理。"
+repair_not_repairable: "&c此物品无法修理。"
 
 # 复杂信息
 HelpMessage:

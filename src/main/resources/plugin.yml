@@ -35,6 +35,7 @@ commands:
   world:
   vote:
   tpsinfo:
+  repair:
 permissions:
   8b8tcore.viewdistance.default:
     description: Permission for the default view distance

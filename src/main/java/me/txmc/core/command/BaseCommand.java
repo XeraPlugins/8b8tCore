@@ -16,7 +16,7 @@ public abstract class BaseCommand {
     protected final String PREFIX = GlobalUtils.getPREFIX();
     private final String name;
     private final String usage;
-    private final String permission;
+    private final String[] permissions;
     private final String description;
     private final String[] subCommands;
 
@@ -27,16 +27,27 @@ public abstract class BaseCommand {
     public BaseCommand(String name, String usage, String permission, String description) {
         this(name, usage, permission, description, null);
     }
+    public BaseCommand(String name, String usage, String[] permission, String description) {
+        this(name, usage, permission, description, null);
+    }
 
     public BaseCommand(String name, String usage, String permission, String description, String[] subCommands) {
         this.name = name;
         this.usage = usage;
-        this.permission = permission;
+        this.permissions = new String[]{permission};
+        this.description = description;
+        this.subCommands = subCommands;
+    }
+
+    public BaseCommand(String name, String usage, String[] permissions, String description, String[] subCommands) {
+        this.name = name;
+        this.usage = usage;
+        this.permissions = permissions;
         this.description = description;
         this.subCommands = subCommands;
     }
     public void sendNoPermission(CommandSender sender) {
-        sendMessage(sender, "&cYou are lacking the permission&r&a %s", getPermission());
+        sendMessage(sender, "&cYou are lacking the permission&r&a %s", getPermissions());
     }
 
     public void sendErrorMessage(CommandSender sender, String message) {

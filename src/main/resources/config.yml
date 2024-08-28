@@ -111,6 +111,7 @@ ChatControl:
     - '/vote'
     - '/dupe'
     - '/tpsinfo'
+    - '/repair'
 TPA:
   RequestTimeout: 3 # In minutes
 TPS:

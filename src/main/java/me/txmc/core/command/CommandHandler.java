@@ -33,6 +33,7 @@ public class CommandHandler implements TabExecutor {
         addCommand(new UptimeCommand(main.getPlugin()));
         addCommand(new WorldSwitcher());
         addCommand(new TpsinfoCommand(main.getPlugin()));
+        addCommand(new RepairCommand(main.getPlugin()));
     }
 
     private void addCommand(BaseCommand command) {
@@ -46,9 +47,21 @@ public class CommandHandler implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         for (BaseCommand command : commands) {
             if (!command.getName().equalsIgnoreCase(cmd.getName())) continue;
-            if (sender.hasPermission(command.getPermission())) {
+
+            boolean hasPermission = false;
+            for (String permission : command.getPermissions()) {
+                if (sender.hasPermission(permission)) {
+                    hasPermission = true;
+                    break;
+                }
+            }
+
+            if (hasPermission) {
                 command.execute(sender, args);
-            } else command.sendNoPermission(sender);
+            } else {
+                command.sendNoPermission(sender);
+            }
+
             break;
         }
         return true;
