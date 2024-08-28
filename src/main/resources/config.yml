@@ -1,6 +1,6 @@
 AntiIllegal:
   Enabled: true
-  EnableIllegalBlocksCleaner: true
+  EnableIllegalBlocksCleaner: false
   MaxItemNameLength: 51
   IllegalItems:
     - 'BEDROCK'
@@ -157,7 +157,7 @@ viewdistance:
 simulationdistance:
   default: 4
 FrameDupe:
-  enabled: true
+  enabled: false
   dupeCooldown: 200L # Miliseconds
   limitItemsPerChunk: 18 # Dropped items
   probabilityPercentage: 100
