@@ -75,9 +75,9 @@ framedupe_items_limit: "&cThere are already too many items dropped in this chunk
 nbtPatch_deleted_item: "&c&6%s&r&c was removed from your inventory due to excessive data"
 chest_cooldown: "&cYou are opening chests too quickly. Please wait!"
 chestlimiter_deleted_chest: "&c&6%s&r&c chests have been removed because they exceeded the maximum of &c&6%s&r&c chests per chunk"
-repair_success: "&3Se reparó el item exitosamente!"
-repair_no_item: "&cDebes de tener un item para reparar en la mano."
-repair_not_repairable: "&cEste item no es reparable."
+repair_success: "&3The item was successfully repaired!"
+repair_no_item: "&cYou must have an item to repair in hand."
+repair_not_repairable: "&cThis item is not repairable."
 
 #Complex messages
 HelpMessage:
