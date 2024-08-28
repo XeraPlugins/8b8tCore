@@ -5,6 +5,7 @@ import me.txmc.core.antiillegal.AntiIllegalMain;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -36,7 +37,19 @@ public class InventoryListeners implements Listener {
         main.checkFixItem(event.getItem(), event);
     }
 
+    @EventHandler
     private void inventoryEvent(InventoryEvent event) {
         for (ItemStack itemStack : event.getInventory()) main.checkFixItem(itemStack, null);
     }
+
+    @EventHandler
+    private void inventoryClickEvent(InventoryClickEvent event) {
+        for (ItemStack itemStack : event.getInventory()) main.checkFixItem(itemStack, event);
+    }
+
+    @EventHandler
+    private void playerItemConsumeEvent(PlayerItemConsumeEvent event) {
+        for (ItemStack itemStack : event.getPlayer().getInventory()) main.checkFixItem(itemStack, event);
+    }
+
 }
