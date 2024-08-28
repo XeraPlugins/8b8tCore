@@ -11,6 +11,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import static me.txmc.core.util.GlobalUtils.sendDeathMessage;
 
 /**
@@ -32,13 +36,29 @@ import static me.txmc.core.util.GlobalUtils.sendDeathMessage;
  */
 public class DeathMessageListener implements Listener {
 
+    private final Map<UUID, Long> lastDeathTimes = new HashMap<>();
+    private static final long DEATH_COOLDOWN = 30000;
+
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent e) {
         e.deathMessage(null);
     }
+
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player victim = event.getEntity();
+        UUID victimId = victim.getUniqueId();
+
+        long currentTime = System.currentTimeMillis();
+        long lastDeathTime = lastDeathTimes.getOrDefault(victimId, 0L);
+
+        if (currentTime - lastDeathTime < DEATH_COOLDOWN) {
+            event.setDeathMessage(null);
+            return;
+        }
+
+        lastDeathTimes.put(victimId, currentTime);
+
         Entity killer = victim.getKiller();
         ItemStack weapon = null;
 
@@ -52,12 +72,11 @@ public class DeathMessageListener implements Listener {
 
         DeathCause deathCause = DeathCause.from(victim.getLastDamageCause().getCause());
 
-        if(deathCause == DeathCause.UNKNOWN || deathCause == DeathCause.ENTITY_ATTACK){
+        if (deathCause == DeathCause.UNKNOWN || deathCause == DeathCause.ENTITY_ATTACK) {
             return;
         }
 
-        if(deathCause == DeathCause.ENTITY_EXPLOSION) {
-
+        if (deathCause == DeathCause.ENTITY_EXPLOSION) {
             if (Bukkit.getOnlinePlayers().contains(killer)) {
                 Player killerPlayer = (Player) killer;
                 weapon = getKillWeapon(killerPlayer);
@@ -68,29 +87,35 @@ public class DeathMessageListener implements Listener {
                 String killerName = (killer == null) ? "Leee" : killer.getName();
                 String weaponName = (weapon.getType() == Material.AIR) ? "their hand" : getWeaponName(weapon);
 
-                if(killerName.equals(victim.getName())){
+                if (killerName.equals(victim.getName())) {
                     causePath = DeathCause.from(DeathCause.END_CRYSTAL).getPath();
                 }
                 sendDeathMessage(causePath, victim.getName(), killerName, weaponName);
 
             }
-        } else if(killer == null){
-
+        } else if (killer == null) {
             String causePath = deathCause.getPath();
             sendDeathMessage(causePath, victim.getName(), "", "");
         }
-
     }
 
-
-
     @EventHandler
-    public void onPlayerDeath(EntityDamageByEntityEvent event) {
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player)) {
             return;
         }
 
         Player victim = (Player) event.getEntity();
+        UUID victimId = victim.getUniqueId();
+
+        long currentTime = System.currentTimeMillis();
+        long lastDeathTime = lastDeathTimes.getOrDefault(victimId, 0L);
+
+
+        if (currentTime - lastDeathTime < DEATH_COOLDOWN) {
+
+            return;
+        }
 
         if (hasTotems(victim)) {
             return;
@@ -117,10 +142,8 @@ public class DeathMessageListener implements Listener {
             deathCause = DeathCause.WITHER_BOSS;
         }
 
-
-        if((deathCause == DeathCause.PLAYER || deathCause == DeathCause.PROJECTILE || deathCause == DeathCause.ENTITY_EXPLOSION) && killer !=null){
-
-            if(Bukkit.getOnlinePlayers().contains(killer)){
+        if ((deathCause == DeathCause.PLAYER || deathCause == DeathCause.PROJECTILE || deathCause == DeathCause.ENTITY_EXPLOSION) && killer != null) {
+            if (Bukkit.getOnlinePlayers().contains(killer)) {
                 Player killerPlayer = (Player) killer;
                 weapon = getKillWeapon(killerPlayer);
 
@@ -143,12 +166,12 @@ public class DeathMessageListener implements Listener {
         if (deathCause == DeathCause.END_CRYSTAL) {
             return;
         }
-        if(deathCause == DeathCause.UNKNOWN){
+        if (deathCause == DeathCause.UNKNOWN) {
             return;
         }
 
+        lastDeathTimes.put(victimId, currentTime);
         sendDeathMessage(causePath, victim.getName(), killerName, weaponName);
-
     }
 
     private static ItemStack getKillWeapon(Player killer) {
@@ -157,15 +180,8 @@ public class DeathMessageListener implements Listener {
 
     private boolean hasTotems(Player player) {
         PlayerInventory inventory = player.getInventory();
-        boolean hasTotems = false;
-
-        if(inventory.getItemInMainHand().getType() == Material.TOTEM_OF_UNDYING){
-            hasTotems = true;
-        } else if(inventory.getItemInOffHand().getType() == Material.TOTEM_OF_UNDYING){
-            hasTotems = true;
-        }
-
-        return hasTotems;
+        return inventory.getItemInMainHand().getType() == Material.TOTEM_OF_UNDYING ||
+                inventory.getItemInOffHand().getType() == Material.TOTEM_OF_UNDYING;
     }
 
     private String getWeaponName(ItemStack weapon) {
@@ -176,7 +192,7 @@ public class DeathMessageListener implements Listener {
         ItemMeta meta = weapon.getItemMeta();
 
         if (meta != null && meta.hasDisplayName()) {
-            return String.valueOf(weapon.getItemMeta().getDisplayName());
+            return meta.getDisplayName();
         } else {
             return weapon.getType().toString().replace("_", " ").toLowerCase();
         }
