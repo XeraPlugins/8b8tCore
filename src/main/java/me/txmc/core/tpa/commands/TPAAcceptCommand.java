@@ -3,6 +3,8 @@ package me.txmc.core.tpa.commands;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.tpa.TPASection;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
 
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
@@ -28,10 +32,42 @@ public class TPAAcceptCommand implements CommandExecutor {
         if (sender instanceof Player requested) {
             if (args.length == 0) {
                 Player requester = main.getLastRequest(requested);
-                acceptTPA(requested, requester);
+
+                if (requester == null) {
+                    sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
+                    return true;
+                }
+
+                int maxDistanceFromSpawn = getMaxDistanceFromSpawn(requester);
+                if(requested.getWorld().getEnvironment() == World.Environment.NETHER){
+                    maxDistanceFromSpawn = getMaxDistanceFromSpawn(requester) / 8;
+                }
+
+                if(!isWithinRestrictedArea(requested, maxDistanceFromSpawn)){
+                    acceptTPA(requested, requester);
+                } else {
+                    sendPrefixedLocalizedMessage(requested, "tpa_requested_too_close", requester.getName());
+                    main.removeRequest(requester, requested);
+                }
+
             } else if (args.length == 1) {
                 Player requester = main.hasRequested(Bukkit.getPlayer(args[0]), requested) ? Bukkit.getPlayer(args[0]) : null;
-                acceptTPA(requested, requester);
+                if (requester == null) {
+                    sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
+                    return true;
+                }
+                int maxDistanceFromSpawn = getMaxDistanceFromSpawn(requester);
+                if(requested.getWorld().getEnvironment() == World.Environment.NETHER){
+                    maxDistanceFromSpawn = getMaxDistanceFromSpawn(requester) / 8;
+                }
+
+                if(!isWithinRestrictedArea(requested, maxDistanceFromSpawn)){
+                    acceptTPA(requested, requester);
+                } else {
+                    sendPrefixedLocalizedMessage(requested, "tpa_requested_too_close", requester.getName());
+                    main.removeRequest(requester, requested);
+                }
+
             } else sendPrefixedLocalizedMessage(requested, "tpa_syntax");
         } else sendMessage(sender, "&cYou must be a player");
         return true;
@@ -47,5 +83,32 @@ public class TPAAcceptCommand implements CommandExecutor {
         sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
         sendPrefixedLocalizedMessage(requested, "tpa_teleporting");
         main.removeRequest(requester, requested);
+    }
+
+    private int getMaxDistanceFromSpawn(Player player) {
+        Map<String, Integer> distanceMap = Map.of(
+                "home.spawn.donator5", 2000,
+                "home.spawn.donator4", 4000,
+                "home.spawn.donator3", 6000,
+                "home.spawn.donator2", 8000,
+                "home.spawn.donator1", 10000,
+                "home.spawn.voter", 15000
+        );
+
+        int maxDistance = 20000;
+
+        for (Map.Entry<String, Integer> entry : distanceMap.entrySet()) {
+            if (player.hasPermission(entry.getKey())) {
+                maxDistance = Math.min(maxDistance, entry.getValue());
+            }
+        }
+
+        return maxDistance;
+    }
+
+    private boolean isWithinRestrictedArea(Player player, int range) {
+        if (player.isOp()) return false;
+        Location loc = player.getLocation();
+        return loc.getBlockX() < range && loc.getBlockX() > -range && loc.getBlockZ() < range && loc.getBlockZ() > -range;
     }
 }

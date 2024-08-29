@@ -6,6 +6,7 @@ import me.txmc.core.home.HomeData;
 import me.txmc.core.home.HomeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
@@ -24,7 +26,6 @@ public class HomeCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (sender instanceof Player player) {
-            int radius = main.config().getInt("Radius");
             HomeData homes = main.homes().get(player);
             if (!homes.hasHomes()) {
                 sendPrefixedLocalizedMessage(player, "home_no_homes");
@@ -35,10 +36,16 @@ public class HomeCommand implements TabExecutor {
                 sendPrefixedLocalizedMessage(player, "home_specify_home", names);
                 return true;
             }
-            if (isSpawn(player, radius)) {
-                sendPrefixedLocalizedMessage(player, "home_too_close", radius);
+
+            int maxDistanceFromSpawn = getMaxDistanceFromSpawn(player);
+            if(player.getWorld().getEnvironment() == World.Environment.NETHER){
+                maxDistanceFromSpawn = getMaxDistanceFromSpawn(player) / 8;
+            }
+            if (isWithinRestrictedArea(player, maxDistanceFromSpawn)) {
+                sendPrefixedLocalizedMessage(player, "home_too_close", maxDistanceFromSpawn);
                 return true;
             }
+
             boolean homeFound = false;
             for (Home home : homes.getHomes()) {
                 if (!home.getName().equals(args[0])) continue;
@@ -50,11 +57,34 @@ public class HomeCommand implements TabExecutor {
                 break;
             }
             if (!homeFound) sendPrefixedLocalizedMessage(player, "home_not_found", args[0]);
-        } else sendMessage(sender, "&3You must be a player to use this command");
+        } else {
+            sendMessage(sender, "&3You must be a player to use this command");
+        }
         return true;
     }
 
-    private boolean isSpawn(Player player, int range) {
+    private int getMaxDistanceFromSpawn(Player player) {
+        Map<String, Integer> distanceMap = Map.of(
+                "home.spawn.donator5", 2000,
+                "home.spawn.donator4", 4000,
+                "home.spawn.donator3", 6000,
+                "home.spawn.donator2", 8000,
+                "home.spawn.donator1", 10000,
+                "home.spawn.voter", 15000
+        );
+
+        int maxDistance = 20000;
+
+        for (Map.Entry<String, Integer> entry : distanceMap.entrySet()) {
+            if (player.hasPermission(entry.getKey())) {
+                maxDistance = Math.min(maxDistance, entry.getValue());
+            }
+        }
+
+        return maxDistance;
+    }
+
+    private boolean isWithinRestrictedArea(Player player, int range) {
         if (player.isOp()) return false;
         Location loc = player.getLocation();
         return loc.getBlockX() < range && loc.getBlockX() > -range && loc.getBlockZ() < range && loc.getBlockZ() > -range;
