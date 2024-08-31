@@ -29,7 +29,7 @@ public class BookCheck implements Check {
             return false;
         }
         String[] pages = getPages(meta).orElse(null);
-        return pages != null && encoder.canEncode(String.join(" ", pages));
+        return !(pages != null && encoder.canEncode(String.join(" ", pages)));
     }
 
     @Override

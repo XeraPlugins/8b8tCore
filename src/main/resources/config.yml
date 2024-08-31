@@ -134,7 +134,7 @@ Patch:
   ChestLimitPerChunk: 192
   EntityPerChunk:
     CheckInterval: 1 #In minutes
-    DefaultMax: 15 # -1 for unlimited default max
+    DefaultMax: 32 # -1 for unlimited default max
     EntitiesPerChunk:
       - 'wither::20'
       - 'boat::10'

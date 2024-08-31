@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
+import me.txmc.core.dupe.command.DupeCommand;
 import me.txmc.core.dupe.framedupe.FrameDupe;
 
 import me.txmc.core.dupe.zombiedupe.ZombieDupe;
+import me.txmc.core.home.commands.HomeCommand;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +25,6 @@ import org.bukkit.inventory.ItemStack;
 @Accessors(fluent = true)
 public class DupeSection implements Section {
     private final Main plugin;
-
     private ConfigurationSection config;
 
     @Override
@@ -31,6 +32,8 @@ public class DupeSection implements Section {
         config = plugin.getSectionConfig(this);
         plugin.register(new FrameDupe(plugin));
         plugin.register(new ZombieDupe(plugin));
+
+        plugin.getCommand("dupe").setExecutor(new DupeCommand(this));
     }
 
     @Override
