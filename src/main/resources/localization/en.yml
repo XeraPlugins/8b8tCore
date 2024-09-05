@@ -83,6 +83,7 @@ chestlimiter_deleted_chest: "&c&6%s&r&c chests have been removed because they ex
 repair_success: "&3The item was successfully repaired!"
 repair_no_item: "&cYou must have an item to repair in hand."
 repair_not_repairable: "&cThis item is not repairable."
+repair_all_success: "&3All items in your inventory were successfully repaired!"
 
 #Complex messages
 HelpMessage:

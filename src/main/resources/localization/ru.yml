@@ -83,6 +83,7 @@ chestlimiter_deleted_chest: "&c&6%s&r&c сундуков было удалено
 repair_success: "&3Предмет успешно отремонтирован!"
 repair_no_item: "&cВы должны иметь предмет для ремонта в руке."
 repair_not_repairable: "&cЭтот предмет не подлежит ремонту."
+repair_all_success: "&3Все предметы в вашем инвентаре были успешно отремонтированы!"
 
 #Complex messages
 HelpMessage:

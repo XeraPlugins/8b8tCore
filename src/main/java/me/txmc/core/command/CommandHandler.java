@@ -33,7 +33,7 @@ public class CommandHandler implements TabExecutor {
         addCommand(new UptimeCommand(main.getPlugin()));
         addCommand(new WorldSwitcher());
         addCommand(new TpsinfoCommand(main.getPlugin()));
-        addCommand(new RepairCommand(main.getPlugin()));
+        addCommand(new RepairCommand());
     }
 
     private void addCommand(BaseCommand command) {

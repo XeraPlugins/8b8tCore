@@ -2,6 +2,7 @@ package me.txmc.core.dupe.command;
 
 import lombok.AllArgsConstructor;
 import me.txmc.core.dupe.DupeSection;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
@@ -36,41 +40,74 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 @AllArgsConstructor
 public class DupeCommand implements CommandExecutor {
     private final DupeSection main;
+    private final Map<UUID, Long> lastDupeTimes = new HashMap<>();
     private static final String PERMISSION = "8b8tcore.command.dupe";
+    private static final String FULLPERMISSION = "8b8tcore.command.fulldupe";
+    private static final long DUPE_COOLDOWN = 10000;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        if (sender instanceof Player player) {
-            if (player.hasPermission(PERMISSION) || player.isOp()) {
-                int copies = 1;
 
+        if (sender instanceof Player player) {
+
+            UUID playerId = player.getUniqueId();
+
+            long currentTime = System.currentTimeMillis();
+            long lastDupeTime = lastDupeTimes.getOrDefault(playerId, 0L);
+
+            if (player.hasPermission(FULLPERMISSION) || player.isOp()) {
+
+                if (currentTime - lastDupeTime < DUPE_COOLDOWN) {
+                    sendPrefixedLocalizedMessage(player, "framedupe_cooldown");
+                    return true;
+                }
+
+                int copies = 1;
                 if (args.length > 0) {
                     try {
                         copies = Integer.parseInt(args[0]);
 
-                        if (copies < 1 || copies > 9) {
+                        if (copies < 1 || copies > 54) {
                             copies = 1;
                         }
-                    } catch (NumberFormatException e) {
-                        return true;
-                    }
+                    } catch (NumberFormatException ignore) {}
                 }
-
                 ItemStack itemInHand = player.getInventory().getItemInMainHand();
-
                 Block block = player.getLocation().getBlock();
 
                 if (itemInHand != null && !itemInHand.getType().isAir()) {
                     for (int i = 0; i < copies; i++) {
-                        if (getItemCountInChunk(block) >= 19) {
+                        if (getItemCountInChunk(block) >= 60) {
                             sendPrefixedLocalizedMessage(player, "framedupe_items_limit");
                             return true;
                         }
                         ItemStack duplicatedItem = itemInHand.clone();
                         player.getWorld().dropItemNaturally(player.getLocation(), duplicatedItem);
                     }
-
                     sendPrefixedLocalizedMessage(player, "dupe_success");
+                    lastDupeTimes.put(playerId, currentTime);
+                } else {
+                    sendPrefixedLocalizedMessage(player, "dupe_failed");
+                }
+            } else if (player.hasPermission(PERMISSION)) {
+
+                if (currentTime - lastDupeTime < DUPE_COOLDOWN) {
+                    sendPrefixedLocalizedMessage(player, "framedupe_cooldown");
+                    return true;
+                }
+
+                ItemStack itemInHand = player.getInventory().getItemInMainHand();
+                Block block = player.getLocation().getBlock();
+
+                if (itemInHand != null && !itemInHand.getType().isAir()) {
+                    if (getItemCountInChunk(block) >= 9) {
+                        sendPrefixedLocalizedMessage(player, "framedupe_items_limit");
+                        return true;
+                    }
+                    ItemStack duplicatedItem = itemInHand.clone();
+                    player.getWorld().dropItemNaturally(player.getLocation(), duplicatedItem);
+                    sendPrefixedLocalizedMessage(player, "dupe_success");
+                    lastDupeTimes.put(playerId, currentTime);
                 } else {
                     sendPrefixedLocalizedMessage(player, "dupe_failed");
                 }

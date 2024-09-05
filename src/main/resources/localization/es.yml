@@ -83,6 +83,7 @@ chestlimiter_deleted_chest: "&cSe han eliminado &c&6%s&r&c cofres porque han sup
 repair_success: "&3Se reparó el item exitosamente!"
 repair_no_item: "&cDebes de tener un item para reparar en la mano."
 repair_not_repairable: "&cEste item no es reparable."
+repair_all_success: "&3Los items de tu inventario fueron reparados exitosamente!"
 
 #Complex messages
 HelpMessage:

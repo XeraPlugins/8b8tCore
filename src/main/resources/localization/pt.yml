@@ -83,6 +83,7 @@ chestlimiter_deleted_chest: "&c&6%s&r&c baús foram removidos porque excederam o
 repair_success: "&3O item foi reparado com sucesso!"
 repair_no_item: "&cVocê deve ter um item para reparar na mão."
 repair_not_repairable: "&cEste item não pode ser reparado."
+repair_all_success: "&3Todos os itens do seu inventário foram reparados com sucesso!"
 
 # Mensagens complexas
 HelpMessage:

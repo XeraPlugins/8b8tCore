@@ -83,6 +83,7 @@ chestlimiter_deleted_chest: "&c已删除 &c&6%s&r&c 个箱子，因为它们超�
 repair_success: "&3物品已成功修理！"
 repair_no_item: "&c你必须手上有一个物品来修理。"
 repair_not_repairable: "&c此物品无法修理。"
+repair_all_success: "&3你库存中的所有物品已成功修复！"
 
 # 复杂信息
 HelpMessage:

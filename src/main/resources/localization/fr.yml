@@ -83,6 +83,7 @@ chestlimiter_deleted_chest: "&c&6%s&r&c coffres ont été supprimés car ils ont
 repair_success: "&3L'objet a été réparé avec succès!"
 repair_no_item: "&cVous devez avoir un objet à réparer en main."
 repair_not_repairable: "&cCet objet n'est pas réparable."
+repair_all_success: "&3Tous les objets de votre inventaire ont été réparés avec succès !"
 
 # Messages complexes
 HelpMessage:
