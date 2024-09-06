@@ -44,11 +44,6 @@ public class RepairCommand extends BaseTabCommand {
             return;
         }
 
-        if (args.length == 0) {
-            sendPrefixedLocalizedMessage(player, "repair_no_argument");
-            return;
-        }
-
         String argument = args[0];
 
         if (argument.equalsIgnoreCase("all")) {
