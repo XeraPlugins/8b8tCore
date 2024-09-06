@@ -1,9 +1,9 @@
 package me.txmc.core.antiillegal.check.checks;
 
 import me.txmc.core.antiillegal.check.Check;
-import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
@@ -20,6 +20,7 @@ import java.util.Optional;
  */
 public class BookCheck implements Check {
     private final CharsetEncoder encoder = StandardCharsets.ISO_8859_1.newEncoder();
+
     @Override
     public boolean check(ItemStack item) {
         BookMeta meta;
@@ -28,7 +29,7 @@ public class BookCheck implements Check {
         } catch (Exception e) {
             return false;
         }
-        String[] pages = getPages(meta).orElse(null);
+        String[] pages = getPages(meta).orElse(new String[0]);
         return !(pages != null && encoder.canEncode(String.join(" ", pages)));
     }
 
@@ -41,20 +42,35 @@ public class BookCheck implements Check {
     public void fix(ItemStack item) {
         BookMeta meta = (BookMeta) item.getItemMeta();
         List<Component> cleanPages = new ArrayList<>();
-        String[] currPages = getPages(meta).orElseThrow(() -> new IllegalArgumentException("Book without pages passed to BookCheck#fix"));
+
+        String[] currPages = getPages(meta).orElse(new String[0]);
+
         for (String page : currPages) {
-            StringBuilder builder =  new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             for (char c : page.toCharArray()) {
-                if (encoder.canEncode(c)) builder.append(c);
+                if (encoder.canEncode(c)) {
+                    builder.append(c);
+                }
             }
             TextComponent cleanComponent = Component.text(builder.toString());
             cleanPages.add(cleanComponent);
         }
+
         meta.pages(cleanPages);
         item.setItemMeta(meta);
     }
 
     private Optional<String[]> getPages(BookMeta meta) {
-        return meta.hasPages() ? Optional.of(meta.pages().stream().map(GlobalUtils::getStringContent).toArray(String[]::new)) : Optional.empty();
+        if (!meta.hasPages()) {
+            return Optional.empty();
+        }
+
+        PlainTextComponentSerializer serializer = PlainTextComponentSerializer.plainText();
+
+        return Optional.of(
+                meta.pages().stream()
+                        .map(serializer::serialize)
+                        .toArray(String[]::new)
+        );
     }
 }
