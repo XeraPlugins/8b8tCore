@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 /**
  * Handles player suffocation damage based on the block they are suffocating in.
@@ -36,7 +37,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
  * @author Minelord9000 (agarciacorte)
  * @since 2024/08/18 17:04 PM
  */
-public class SuffocationListener implements Listener {
+public class PvpPatchListeners implements Listener {
 
     @EventHandler
     public void onPlayerSuffocation(EntityDamageEvent event) {
@@ -49,10 +50,41 @@ public class SuffocationListener implements Listener {
                 Block block = player.getLocation().getBlock();
                 Material blockType = block.getType();
 
-                if (blockType == Material.OBSIDIAN || blockType == Material.BEDROCK || blockType == Material.NETHERITE_BLOCK || blockType == Material.BARRIER  || blockType == Material.END_PORTAL_FRAME) {
+                if (blockType == Material.OBSIDIAN
+                        || blockType == Material.BEDROCK
+                        || blockType == Material.NETHERITE_BLOCK
+                        || blockType == Material.BARRIER
+                        || blockType == Material.END_PORTAL_FRAME
+                        || blockType == Material.ANVIL
+                        || blockType == Material.CHIPPED_ANVIL
+                        || blockType == Material.DAMAGED_ANVIL
+                        || blockType == Material.REINFORCED_DEEPSLATE
+                ) {
                     event.setDamage(7.0);
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+
+        Player player = event.getPlayer();
+        Block block = player.getLocation().getBlock();
+        Material blockType = block.getType();
+
+        if (blockType == Material.OBSIDIAN
+                || blockType == Material.BEDROCK
+                || blockType == Material.NETHERITE_BLOCK
+                || blockType == Material.BARRIER
+                || blockType == Material.END_PORTAL_FRAME
+                || blockType == Material.ANVIL
+                || blockType == Material.CHIPPED_ANVIL
+                || blockType == Material.DAMAGED_ANVIL
+                || blockType == Material.REINFORCED_DEEPSLATE
+        ) {
+            player.damage(7.0);
+        }
+
     }
 }
