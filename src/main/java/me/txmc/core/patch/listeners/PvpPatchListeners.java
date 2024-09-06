@@ -1,5 +1,6 @@
 package me.txmc.core.patch.listeners;
 
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -8,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.util.Vector;
 
 /**
  * Handles player suffocation damage based on the block they are suffocating in.
@@ -84,6 +86,10 @@ public class PvpPatchListeners implements Listener {
                 || blockType == Material.REINFORCED_DEEPSLATE
         ) {
             player.damage(7.0);
+
+            Location currentLocation = player.getLocation();
+            Location newLocation = currentLocation.clone().add(new Vector(0, 1, 0));
+            player.teleportAsync(newLocation);
         }
 
     }
