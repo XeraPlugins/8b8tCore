@@ -44,10 +44,12 @@ public class RepairCommand extends BaseTabCommand {
             return;
         }
 
-        String argument = args[0];
+        if (args.length > 0) {
+            String argument = args[0];
+            if (argument.equalsIgnoreCase("all")) {
+                repairAllItems(player);
+            }
 
-        if (argument.equalsIgnoreCase("all")) {
-            repairAllItems(player);
         } else {
             ItemStack itemInHand = player.getInventory().getItemInMainHand();
 
