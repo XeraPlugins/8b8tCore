@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.Material;
 
 import java.nio.charset.StandardCharsets;
 
@@ -46,15 +47,17 @@ public class NbtBanPatch implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        // Iterate through the player's inventory
         for (ItemStack item : player.getInventory().getContents()) {
             int itemSize;
             if (item != null) {
 
-                if (item.getType().toString().endsWith("SHULKER_BOX") ||
-                        item.getType().toString().endsWith("CHEST") ||
-                        item.getType().toString().endsWith("TRAPPED_CHEST") ||
-                        item.getType().toString().endsWith("BARREL")) {
+                if (item.getType() == Material.SHULKER_BOX ||
+                        item.getType() == Material.CHEST ||
+                        item.getType() == Material.TRAPPED_CHEST ||
+                        item.getType() == Material.BARREL ||
+                        item.getType() == Material.DISPENSER ||
+                        item.getType() == Material.DROPPER ||
+                        item.getType() == Material.HOPPER) {
 
                     itemSize = processContainerItem(item);
                 } else {
@@ -62,7 +65,6 @@ public class NbtBanPatch implements Listener {
                     itemSize = calculateStringSizeInBytes(item.toString());
                 }
                 if (itemSize > MAX_ITEM_SIZE_BYTES) {
-                    // Clear the item
                     player.getInventory().remove(item);
                     getLogger().warn("Cleared item in " + player.getName() + "'s inventory with size " + itemSize + " bytes named '" + getItemName(item) + "'");
                     sendPrefixedLocalizedMessage(player, "nbtPatch_deleted_item", getItemName(item));
@@ -71,7 +73,6 @@ public class NbtBanPatch implements Listener {
         }
     }
 
-    // Process box and its contents
     public static int processContainerItem(ItemStack containerItem) {
         int totalSize = 0;
 
@@ -80,7 +81,6 @@ public class NbtBanPatch implements Listener {
             Container container = (Container) blockStateMeta.getBlockState();
             Inventory containerInventory = container.getInventory();
 
-            // Iterate through the shulker box's inventory
             for (ItemStack item : containerInventory.getContents()) {
                 if (item != null) {
                     if (
@@ -91,7 +91,6 @@ public class NbtBanPatch implements Listener {
                     ) {
                         totalSize += processContainerItem(item);
                     } else {
-                        // Calculate the size of the item's metadata
                         totalSize += calculateStringSizeInBytes(item.toString());
 
                     }
@@ -101,7 +100,6 @@ public class NbtBanPatch implements Listener {
         return totalSize;
     }
 
-    // Method to calculate the size of the given string in bytes
     public static int calculateStringSizeInBytes(String data) {
         byte[] byteArray = data.getBytes(StandardCharsets.UTF_8);
         return byteArray.length;

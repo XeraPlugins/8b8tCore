@@ -65,7 +65,15 @@ public class ChatListener implements Listener {
             ChatInfo info = manager.getInfo(recipient);
             if (info == null) continue;
             if (info.isIgnoring(sender.getUniqueId()) || info.isToggledChat()) continue;
-            recipient.sendMessage(message);
+
+            String lowerMessage = ogMessage.toLowerCase();
+
+            if (lowerMessage.contains(recipient.getName().toLowerCase()) || lowerMessage.contains("here")) {
+                TextComponent highlightedMessage = formatHighlightPlayerName(ogMessage, playerName, sender, recipient.getName());
+                recipient.sendMessage(highlightedMessage);
+            } else {
+                recipient.sendMessage(message);
+            }
         }
     }
 
@@ -101,6 +109,24 @@ public class ChatListener implements Listener {
 
         TextComponent name = GlobalUtils.translateChars(String.format(formatString, tag, playerName));
         TextComponent msg = (message.startsWith(">")) ? Component.text(message).color(TextColor.color(0, 255, 0)) : Component.text(message);
+        return name.append(msg);
+    }
+
+    private TextComponent formatHighlightPlayerName(String message, String playerName, Player player, String mentionedPlayerName) {
+        String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(player));
+        String formatString = "%s<%s&r> ";
+        if (tag.isEmpty()) formatString = "%s<%s&r> ";
+
+        TextComponent name = GlobalUtils.translateChars(String.format(formatString, tag, playerName));
+
+        String highlightedMessage = message
+                .replaceAll("(?i)" + mentionedPlayerName, ChatColor.GOLD + mentionedPlayerName + ChatColor.RESET)
+                .replaceAll("(?i)here", ChatColor.GOLD + "here" + ChatColor.RESET);
+
+        TextComponent msg = (highlightedMessage.startsWith(">"))
+                ? Component.text(highlightedMessage).color(TextColor.color(0, 255, 0))
+                : Component.text(highlightedMessage);
+
         return name.append(msg);
     }
 }

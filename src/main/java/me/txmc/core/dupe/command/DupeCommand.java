@@ -43,7 +43,8 @@ public class DupeCommand implements CommandExecutor {
     private final Map<UUID, Long> lastDupeTimes = new HashMap<>();
     private static final String PERMISSION = "8b8tcore.command.dupe";
     private static final String FULLPERMISSION = "8b8tcore.command.fulldupe";
-    private static final long DUPE_COOLDOWN = 10000;
+    private static final long DUPE_COOLDOWN = 30000;
+    private static final long FULLDUPE_COOLDOWN = 5000;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
@@ -57,7 +58,7 @@ public class DupeCommand implements CommandExecutor {
 
             if (player.hasPermission(FULLPERMISSION) || player.isOp()) {
 
-                if (currentTime - lastDupeTime < DUPE_COOLDOWN) {
+                if (currentTime - lastDupeTime < FULLDUPE_COOLDOWN) {
                     sendPrefixedLocalizedMessage(player, "framedupe_cooldown");
                     return true;
                 }
