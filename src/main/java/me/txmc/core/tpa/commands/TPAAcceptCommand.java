@@ -74,7 +74,7 @@ public class TPAAcceptCommand implements CommandExecutor {
             main.removeRequest(requester, requested);
             return;
         }
-
+        main.plugin.lastLocations.put(requester, requester.getLocation());
         requester.teleportAsync(requested.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
         sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
         sendPrefixedLocalizedMessage(requested, "tpa_teleporting");
@@ -88,6 +88,7 @@ public class TPAAcceptCommand implements CommandExecutor {
             return;
         }
 
+        main.plugin.lastLocations.put(requested, requested.getLocation());
         requested.teleportAsync(requester.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
         sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
         sendPrefixedLocalizedMessage(requested, "tpa_teleporting");

@@ -23,5 +23,6 @@ public class JoinListener implements Listener {
         Player player = event.getPlayer();
         main.storage().save(main.homes().get(player), player);
         main.homes().remove(player);
+        main.plugin().lastLocations.remove(player);
     }
 }

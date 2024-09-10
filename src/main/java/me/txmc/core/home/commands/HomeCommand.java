@@ -50,6 +50,7 @@ public class HomeCommand implements TabExecutor {
             for (Home home : homes.getHomes()) {
                 if (!home.getName().equals(args[0])) continue;
                 vanish(player);
+                main.plugin.lastLocations.put(player, player.getLocation());
                 player.teleportAsync(home.getLocation());
                 unVanish(player);
                 sendPrefixedLocalizedMessage(player, "home_success", home.getName());

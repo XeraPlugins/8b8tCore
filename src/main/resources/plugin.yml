@@ -26,6 +26,7 @@ commands:
   home:
   sethome:
   delhome:
+  back:
   lef:
   discord:
   help:

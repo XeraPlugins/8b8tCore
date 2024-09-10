@@ -23,7 +23,7 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
  */
 @RequiredArgsConstructor
 public class TPASection implements Section {
-    private final Main plugin;
+    public final Main plugin;
     private static final HashMap<Player, Player> lastRequest = new HashMap<>();
     private static final HashMap<Player, List<Player>> requests = new HashMap<>();
     private ConfigurationSection config;

@@ -18,7 +18,9 @@ import me.txmc.core.tablist.TabSection;
 import me.txmc.core.util.MapCreationLogger;
 import me.txmc.core.tpa.TPASection;
 import me.txmc.core.vote.VoteSection;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,7 +28,9 @@ import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +47,7 @@ public class Main extends JavaPlugin {
     private List<Reloadable> reloadables;
     private List<ViolationManager> violationManagers;
     @Getter private long startTime;
+    public final Map<Player, Location> lastLocations = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -158,5 +163,9 @@ public class Main extends JavaPlugin {
 
     public Section getSectionByName(String name) {
         return sections.stream().filter(s -> s.getName().equals(name)).findFirst().orElse(null);
+    }
+
+    public Location getLastLocation(Player player) {
+        return lastLocations.get(player);
     }
 }

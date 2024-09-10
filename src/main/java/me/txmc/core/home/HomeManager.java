@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import me.txmc.core.IStorage;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
+import me.txmc.core.home.commands.BackCommand;
 import me.txmc.core.home.commands.DelHomeCommand;
 import me.txmc.core.home.commands.HomeCommand;
 import me.txmc.core.home.commands.SetHomeCommand;
@@ -19,10 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -30,7 +28,7 @@ import java.util.stream.Collectors;
 @Accessors(fluent = true)
 public class HomeManager implements Section {
     private final HashMap<Player, HomeData> homes = new HashMap<>();
-    private final Main plugin;
+    public final Main plugin;
     private IStorage<HomeData, Player> storage;
     private ConfigurationSection config;
 
@@ -45,6 +43,7 @@ public class HomeManager implements Section {
         plugin.getCommand("home").setExecutor(new HomeCommand(this));
         plugin.getCommand("sethome").setExecutor(new SetHomeCommand(this));
         plugin.getCommand("delhome").setExecutor(new DelHomeCommand(this));
+        plugin.getCommand("back").setExecutor(new BackCommand(this));
     }
 
     @Override

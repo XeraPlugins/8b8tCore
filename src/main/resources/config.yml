@@ -89,6 +89,7 @@ ChatControl:
     - '/home'
     - '/sethome'
     - '/delhome'
+    - '/back'
     - '/help'
     - '/nick'
     - '/plugins'
