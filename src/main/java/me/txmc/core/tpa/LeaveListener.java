@@ -1,6 +1,7 @@
 package me.txmc.core.tpa;
 
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,20 +18,40 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 @RequiredArgsConstructor
 public class LeaveListener implements Listener {
     private final TPASection main;
+
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        if (main.getRequests(player) == null || main.getRequests(player).isEmpty()) return;
-        for (Player requester : main.getRequests(player)) {
-            sendPrefixedLocalizedMessage(requester, "tpa_to_left", player.getName());
-        }
+        handlePlayerLeave(event.getPlayer());
     }
+
     @EventHandler
     public void onKick(PlayerKickEvent event) {
-        Player player = event.getPlayer();
-        if (main.getRequests(player) == null || main.getRequests(player).isEmpty()) return;
-        for (Player requester : main.getRequests(player)) {
-            sendPrefixedLocalizedMessage(requester, "tpa_to_left", player.getName());
+        handlePlayerLeave(event.getPlayer());
+    }
+
+    private void handlePlayerLeave(Player player) {
+
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+
+            if (main.hasRequested(onlinePlayer, player)) {
+                sendPrefixedLocalizedMessage(onlinePlayer, "tpa_to_left", player.getName());
+                main.removeRequest(onlinePlayer, player);
+            }
+
+            if (main.hasRequested(player, onlinePlayer)) {
+                sendPrefixedLocalizedMessage(onlinePlayer, "tpa_to_left", player.getName());
+                main.removeRequest(player, onlinePlayer);
+            }
+
+            if (main.hasHereRequested(onlinePlayer, player)) {
+                sendPrefixedLocalizedMessage(onlinePlayer, "tpa_to_left", player.getName());
+                main.removeHereRequest(onlinePlayer, player);
+            }
+
+            if (main.hasHereRequested(player, onlinePlayer)) {
+                sendPrefixedLocalizedMessage(onlinePlayer, "tpa_to_left", player.getName());
+                main.removeHereRequest(player, onlinePlayer);
+            }
         }
     }
 }

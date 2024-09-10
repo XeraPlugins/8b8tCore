@@ -17,10 +17,12 @@ commands:
   unignore:
   ignorelist:
   tpa:
+  tpahere:
   tpayes:
     aliases: [tpaaccept]
   tpano:
     aliases: [tpadeny]
+  tpacancel:
   home:
   sethome:
   delhome:

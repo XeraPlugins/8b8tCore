@@ -3,9 +3,7 @@ package me.txmc.core.tpa;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
-import me.txmc.core.tpa.commands.TPAAcceptCommand;
-import me.txmc.core.tpa.commands.TPACommand;
-import me.txmc.core.tpa.commands.TPADenyCommand;
+import me.txmc.core.tpa.commands.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -29,14 +27,17 @@ public class TPASection implements Section {
     private static final HashMap<Player, Player> lastRequest = new HashMap<>();
     private static final HashMap<Player, List<Player>> requests = new HashMap<>();
     private ConfigurationSection config;
+    private static final HashMap<Player, List<Player>> hereRequests = new HashMap<>();
 
     @Override
     public void enable() {
         config = plugin.getSectionConfig(this);
         plugin.register(new LeaveListener(this));
         plugin.getCommand("tpa").setExecutor(new TPACommand(this));
+        plugin.getCommand("tpahere").setExecutor(new TPAHereCommand(this));
         plugin.getCommand("tpayes").setExecutor(new TPAAcceptCommand(this));
         plugin.getCommand("tpano").setExecutor(new TPADenyCommand(this));
+        plugin.getCommand("tpacancel").setExecutor(new TPACancelCommand(this));
     }
 
     @Override
@@ -54,6 +55,38 @@ public class TPASection implements Section {
         return "TPA";
     }
 
+    public void registerHereRequest(Player requester, Player requested) {
+        lastRequest.put(requested, requester);
+        if (hereRequests.get(requested) == null) {
+            hereRequests.put(requested, new ArrayList<>());
+            hereRequests.get(requested).add(requester);
+        } else hereRequests.get(requested).add(requester);
+
+        plugin.getExecutorService().schedule(() -> {
+            if (!hereRequests.get(requested).contains(requester)) return;
+            sendPrefixedLocalizedMessage(requested, "tpa_request_timeout_to", requester.getName());
+            sendPrefixedLocalizedMessage(requester, "tpa_request_timeout_from", requested.getName());
+            lastRequest.remove(requested);
+            hereRequests.get(requested).remove(requester);
+            if (!hereRequests.get(requested).isEmpty()) lastRequest.put(requested, hereRequests.get(requested).get(0));
+        }, config.getInt("RequestTimeout"), TimeUnit.MINUTES);
+    }
+
+    public boolean hasHereRequested(Player requester, Player requested) {
+        if (hereRequests.get(requested) == null) return false;
+        return hereRequests.get(requested).contains(requester);
+    }
+
+    public void removeHereRequest(Player requester, Player requested) {
+        if (hereRequests.get(requested) == null) return;
+        if (hereRequests.get(requested).indexOf(requester) == 0) {
+            hereRequests.get(requested).remove(0);
+            if (hereRequests.get(requested).size() > 1) {
+                lastRequest.put(requested, hereRequests.get(requested).get(1));
+            } else lastRequest.remove(requested);
+        } else hereRequests.get(requested).remove(requester);
+    }
+
     public void registerRequest(Player requester, Player requested) {
         lastRequest.put(requested, requester);
         if (requests.get(requested) == null) {
@@ -63,8 +96,8 @@ public class TPASection implements Section {
 
         plugin.getExecutorService().schedule(() -> {
             if (!requests.get(requested).contains(requester)) return;
-            sendPrefixedLocalizedMessage(requested, "tpa_request_timeout");
-            sendPrefixedLocalizedMessage(requester, "tpa_request_timeout");
+            sendPrefixedLocalizedMessage(requested, "tpa_request_timeout_to", requester.getName());
+            sendPrefixedLocalizedMessage(requester, "tpa_request_timeout_from", requested.getName());
             lastRequest.remove(requested);
             requests.get(requested).remove(requester);
             if (!requests.get(requested).isEmpty()) lastRequest.put(requested, requests.get(requested).get(0));
@@ -82,8 +115,9 @@ public class TPASection implements Section {
     }
 
     public void removeRequest(Player requester, Player requested) {
+        if (requests.get(requested) == null) return;
         if (requests.get(requested).indexOf(requester) == 0) {
-            requests.get(requested).remove(0);
+                requests.get(requested).remove(0);
             if (requests.get(requested).size() > 1) {
                 lastRequest.put(requested, requests.get(requested).get(1));
             } else lastRequest.remove(requested);
@@ -93,5 +127,10 @@ public class TPASection implements Section {
     public List<Player> getRequests(Player to) {
         requests.computeIfAbsent(to, k -> new ArrayList<>());
         return requests.get(to);
+    }
+
+    public List<Player> getHereRequests(Player to) {
+        hereRequests.computeIfAbsent(to, k -> new ArrayList<>());
+        return hereRequests.get(to);
     }
 }

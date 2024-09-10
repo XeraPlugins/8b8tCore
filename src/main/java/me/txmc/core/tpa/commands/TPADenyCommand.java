@@ -25,14 +25,28 @@ public class TPADenyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (sender instanceof Player requested) {
+            Player requester = null;
+
             if (args.length == 0) {
-                Player requester = main.getLastRequest(requested);
+                requester = main.getLastRequest(requested);
                 denyTPA(requested, requester);
-            } else if (args.length == 1) {
-                Player requester = main.hasRequested(Bukkit.getPlayer(args[0]), requested) ? Bukkit.getPlayer(args[0]) : null;
-                denyTPA(requested, requester);
-            } else sendPrefixedLocalizedMessage(requested, "tpa_syntax");
-        } else sendMessage(sender, "&cYou must be a player");
+            }
+            else if (args.length == 1) {
+                requester = Bukkit.getPlayer(args[0]);
+
+                if (requester != null && main.hasRequested(requester, requested)) {
+                    denyTPA(requested, requester);
+                } else {
+                    sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
+                }
+            }
+
+            else {
+                sendPrefixedLocalizedMessage(requested, "tpa_syntax");
+            }
+        } else {
+            sendMessage(sender, "&cYou must be a player");
+        }
         return true;
     }
 
@@ -44,6 +58,8 @@ public class TPADenyCommand implements CommandExecutor {
 
         sendPrefixedLocalizedMessage(requester, "tpa_request_denied_from", requested.getName());
         sendPrefixedLocalizedMessage(requested, "tpa_request_denied_to", requester.getName());
-        main.removeRequest(requester, requested);
+
+        if(main.hasRequested(requester, requested)) main.removeRequest(requester, requested);
+        if(main.hasHereRequested(requester, requested)) main.removeHereRequest(requester, requested);
     }
 }

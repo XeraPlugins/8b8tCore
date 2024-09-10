@@ -30,52 +30,48 @@ public class TPAAcceptCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (sender instanceof Player requested) {
+            Player requester = null;
+
             if (args.length == 0) {
-                Player requester = main.getLastRequest(requested);
+                requester = main.getLastRequest(requested);
+                if (requester == null) {
+                    sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
+                    return true;
+                }
+            }
+            else if (args.length == 1) {
+                Player potentialRequester = Bukkit.getPlayer(args[0]);
+                if (potentialRequester != null && main.hasRequested(potentialRequester, requested)) {
+                    requester = potentialRequester;
+                } else if (potentialRequester != null && main.hasHereRequested(potentialRequester, requested)) {
+                    requester = potentialRequester;
+                }
 
                 if (requester == null) {
                     sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
                     return true;
                 }
+            }
+            else {
+                sendPrefixedLocalizedMessage(requested, "tpa_syntax");
+                return true;
+            }
 
-                int maxDistanceFromSpawn = getMaxDistanceFromSpawn(requester);
-                if(requested.getWorld().getEnvironment() == World.Environment.NETHER){
-                    maxDistanceFromSpawn = getMaxDistanceFromSpawn(requester) / 8;
-                }
-
-                if(!isWithinRestrictedArea(requested, maxDistanceFromSpawn)){
-                    acceptTPA(requested, requester);
-                } else {
-                    sendPrefixedLocalizedMessage(requested, "tpa_requested_too_close", requester.getName());
-                    main.removeRequest(requester, requested);
-                }
-
-            } else if (args.length == 1) {
-                Player requester = main.hasRequested(Bukkit.getPlayer(args[0]), requested) ? Bukkit.getPlayer(args[0]) : null;
-                if (requester == null) {
-                    sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
-                    return true;
-                }
-                int maxDistanceFromSpawn = getMaxDistanceFromSpawn(requester);
-                if(requested.getWorld().getEnvironment() == World.Environment.NETHER){
-                    maxDistanceFromSpawn = getMaxDistanceFromSpawn(requester) / 8;
-                }
-
-                if(!isWithinRestrictedArea(requested, maxDistanceFromSpawn)){
-                    acceptTPA(requested, requester);
-                } else {
-                    sendPrefixedLocalizedMessage(requested, "tpa_requested_too_close", requester.getName());
-                    main.removeRequest(requester, requested);
-                }
-
-            } else sendPrefixedLocalizedMessage(requested, "tpa_syntax");
-        } else sendMessage(sender, "&cYou must be a player");
+            if (main.hasHereRequested(requester, requested)) {
+                acceptTPAHere(requested, requester);
+            } else if (main.hasRequested(requester, requested)) {
+                acceptTPA(requested, requester);
+            }
+        } else {
+            sendMessage(sender, "&cYou must be a player");
+        }
         return true;
     }
 
     private void acceptTPA(Player requested, @Nullable Player requester) {
-        if (requester == null) {
+        if (requester == null || !requester.isOnline() || requested == null || !requested.isOnline()) {
             sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
+            main.removeRequest(requester, requested);
             return;
         }
 
@@ -85,30 +81,16 @@ public class TPAAcceptCommand implements CommandExecutor {
         main.removeRequest(requester, requested);
     }
 
-    private int getMaxDistanceFromSpawn(Player player) {
-        Map<String, Integer> distanceMap = Map.of(
-                "home.spawn.donator5", 2000,
-                "home.spawn.donator4", 4000,
-                "home.spawn.donator3", 6000,
-                "home.spawn.donator2", 8000,
-                "home.spawn.donator1", 10000,
-                "home.spawn.voter", 15000
-        );
-
-        int maxDistance = 20000;
-
-        for (Map.Entry<String, Integer> entry : distanceMap.entrySet()) {
-            if (player.hasPermission(entry.getKey())) {
-                maxDistance = Math.min(maxDistance, entry.getValue());
-            }
+    private void acceptTPAHere(Player requested, @Nullable Player requester) {
+        if (requester == null || !requester.isOnline() || requested == null || !requested.isOnline()) {
+            sendPrefixedLocalizedMessage(requested, "tpa_no_request_found");
+            main.removeHereRequest(requester, requested);
+            return;
         }
 
-        return maxDistance;
-    }
-
-    private boolean isWithinRestrictedArea(Player player, int range) {
-        if (player.isOp()) return false;
-        Location loc = player.getLocation();
-        return loc.getBlockX() < range && loc.getBlockX() > -range && loc.getBlockZ() < range && loc.getBlockZ() > -range;
+        requested.teleportAsync(requester.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+        sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
+        sendPrefixedLocalizedMessage(requested, "tpa_teleporting");
+        main.removeHereRequest(requester, requested);
     }
 }
