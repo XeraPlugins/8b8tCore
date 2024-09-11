@@ -10,18 +10,25 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
@@ -167,5 +174,24 @@ public class GlobalUtils {
     }
     public static String formatLocation(Location location) {
         return location.getWorld().getName() + " " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
+    }
+    public static @NotNull UUID getChunkUUID(@NotNull Block block) {
+        int x = block.getChunk().getX();
+        int z = block.getChunk().getZ();
+
+        return UUID.nameUUIDFromBytes((x + ":" + z).getBytes());
+    }
+    public static @NotNull UUID getChunkUUID(@NotNull Chunk chunk) {
+        int x = chunk.getX();
+        int z = chunk.getZ();
+
+        return UUID.nameUUIDFromBytes((x + ":" + z).getBytes());
+    }
+
+    public static int getItemCountInChunk(Block block) {
+        return (int) Arrays.stream(block.getChunk().getEntities())
+                .filter(entity -> entity instanceof Item)
+                .map(entity -> (Item) entity)
+                .count();
     }
 }

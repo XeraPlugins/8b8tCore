@@ -3,7 +3,6 @@ package me.txmc.core.dupe.zombiedupe;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
@@ -12,13 +11,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
+import static me.txmc.core.util.GlobalUtils.*;
 
 /**
  * Handles the duplication of items held by zombies when shot with an arrow by an elytra-flying player.
@@ -52,14 +50,11 @@ public class ZombieDupe implements Listener {
     @EventHandler
     public void onEntityHitByArrow(EntityDamageByEntityEvent event) {
 
-        if (event.getDamager() instanceof Arrow) {
-            Arrow arrow = (Arrow) event.getDamager();
+        if (event.getDamager() instanceof Arrow arrow) {
 
-            if (event.getEntity() instanceof Zombie) {
-                Zombie zombie = (Zombie) event.getEntity();
+            if (event.getEntity() instanceof Zombie zombie) {
 
-                if (arrow.getShooter() instanceof Player) {
-                    Player player = (Player) arrow.getShooter();
+                if (arrow.getShooter() instanceof Player player) {
 
                     final boolean ENABLED = plugin.getConfig().getBoolean("ZombieDupe.enabled", true);
                     if (!ENABLED) return;
@@ -75,7 +70,7 @@ public class ZombieDupe implements Listener {
                         if (randomSuccess >= PROBABILITY_PERCENTAGE) return;
 
                         Block block = zombie.getLocation().getBlock();
-                        UUID chunkId = getChunkId(block);
+                        UUID chunkId = getChunkUUID(block);
                         final long DUPLICATION_INTERVAL = plugin.getConfig().getLong("ZombieDupe.dupeCooldown", 200L);
 
                         if (System.currentTimeMillis() - lastDuplicationTimes.getOrDefault(chunkId, 0L) < DUPLICATION_INTERVAL) {
@@ -106,19 +101,5 @@ public class ZombieDupe implements Listener {
                 }
             }
         }
-    }
-
-    private UUID getChunkId(Block block) {
-        int x = block.getChunk().getX();
-        int z = block.getChunk().getZ();
-
-        return UUID.nameUUIDFromBytes((x + ":" + z).getBytes());
-    }
-
-    private int getItemCountInChunk(Block block) {
-        return (int) Arrays.stream(block.getChunk().getEntities())
-                .filter(entity -> entity instanceof Item)
-                .map(entity -> (Item) entity)
-                .count();
     }
 }
