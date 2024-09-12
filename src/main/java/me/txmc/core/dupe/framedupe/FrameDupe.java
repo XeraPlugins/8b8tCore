@@ -1,9 +1,9 @@
 package me.txmc.core.dupe.framedupe;
 
+import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,7 +12,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -83,7 +82,7 @@ public class FrameDupe implements Listener {
         ItemFrame itemFrame = (ItemFrame) event.getEntity();
         UUID frameId = itemFrame.getUniqueId();
         Block block = itemFrame.getLocation().getBlock();
-        UUID chunkId = getChunkId(block);
+        UUID chunkId = GlobalUtils.getChunkId(block);
 
 
         if (System.currentTimeMillis() - lastDuplicationTimes.getOrDefault(chunkId /*frameId*/, 0L) < DUPLICATION_INTERVAL) {
@@ -91,34 +90,17 @@ public class FrameDupe implements Listener {
             return;
         }
 
-        // Check item count in the chunk
-        if (getItemCountInChunk(block) >= MAX_ITEMS_IN_CHUNK) {
+        if (GlobalUtils.getItemCountInChunk(block) >= MAX_ITEMS_IN_CHUNK) {
             sendPrefixedLocalizedMessage(player, "framedupe_items_limit");
-            return; // Stop duplicating if there are too many items in the chunk
+            return;
         }
 
-        // Duplicate item
         ItemStack itemStack = itemFrame.getItem();
         if (itemStack != null && itemStack.getType() != Material.AIR) {
             itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), itemStack);
         }
 
-        // Update duplication time
         lastDuplicationTimes.put(chunkId /*frameId*/, System.currentTimeMillis());
     }
 
-    private UUID getChunkId(Block block) {
-        // Generate a unique ID for the chunk based on its coordinates
-        int x = block.getChunk().getX();
-        int z = block.getChunk().getZ();
-
-        return UUID.nameUUIDFromBytes((x + ":" + z).getBytes());
-    }
-
-    private int getItemCountInChunk(Block block) {
-        return (int) Arrays.stream(block.getChunk().getEntities())
-                .filter(entity -> entity instanceof Item)
-                .map(entity -> (Item) entity)
-                .count();
-    }
 }

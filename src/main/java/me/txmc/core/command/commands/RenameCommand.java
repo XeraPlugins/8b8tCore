@@ -4,6 +4,7 @@ import me.txmc.core.command.BaseCommand;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
@@ -64,7 +65,7 @@ public class RenameCommand extends BaseCommand {
             return;
         }
 
-        meta.displayName(displayName);
+        meta.displayName(displayName.decoration(TextDecoration.ITALIC,false));
         itemInHand.setItemMeta(meta);
 
         String displayNameLegacy = LegacyComponentSerializer.legacyAmpersand().serialize(displayName);
@@ -79,7 +80,7 @@ public class RenameCommand extends BaseCommand {
 
     private void extractPlainTextRecursive(Component component, StringBuilder plainText) {
         if (component instanceof TextComponent textComponent) {
-            plainText.append(textComponent.content());
+            plainText.append(textComponent.decoration(TextDecoration.ITALIC,false).content());
         }
         for (Component child : component.children()) {
             extractPlainTextRecursive(child, plainText);
