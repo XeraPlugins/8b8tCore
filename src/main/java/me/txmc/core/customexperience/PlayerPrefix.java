@@ -1,15 +1,16 @@
 package me.txmc.core.customexperience;
 
 import me.txmc.core.customexperience.util.PrefixManager;
+import me.txmc.core.database.GeneralDatabase;
+import me.txmc.core.util.GlobalUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.spigotmc.event.player.PlayerSpawnLocationEvent;
-
-import static org.apache.logging.log4j.LogManager.getLogger;
 
 /**
  * Manages and sets the player's prefix in the player list when they join the server.
@@ -29,28 +30,26 @@ import static org.apache.logging.log4j.LogManager.getLogger;
 public class PlayerPrefix implements Listener {
     private final JavaPlugin plugin;
     private final PrefixManager prefixManager = new PrefixManager();
+    private final GeneralDatabase database;
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public PlayerPrefix(JavaPlugin plugin) {
         this.plugin = plugin;
+        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         String tag = prefixManager.getPrefix(event.getPlayer());
         setupTag(event.getPlayer(), tag);
+
+        String displayName = database.getNickname(event.getPlayer().getName());
+        if (displayName != null && !displayName.isEmpty()) {
+            Component component = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(displayName));
+            event.getPlayer().displayName(component);
+        }
     }
 
-    @EventHandler
-    public void onPlayerRespawn(PlayerRespawnEvent event) {
-        String tag = prefixManager.getPrefix(event.getPlayer());
-        setupTag(event.getPlayer(), tag);
-    }
-
-    @EventHandler
-    public void onPlayerSpawn(PlayerSpawnLocationEvent event) {
-        String tag = prefixManager.getPrefix(event.getPlayer());
-        setupTag(event.getPlayer(), tag);
-    }
 
     public void setupTag(Player player, String tag) {
         player.setPlayerListName(String.format("%s%s",ChatColor.translateAlternateColorCodes('&', tag), player.getDisplayName()));

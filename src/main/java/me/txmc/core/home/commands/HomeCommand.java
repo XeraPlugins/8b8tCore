@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class HomeCommand implements TabExecutor {
                 if (!home.getName().equals(args[0])) continue;
                 vanish(player);
                 main.plugin.lastLocations.put(player, player.getLocation());
-                player.teleportAsync(home.getLocation());
+                player.teleportAsync(home.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
                 unVanish(player);
                 sendPrefixedLocalizedMessage(player, "home_success", home.getName());
                 homeFound = true;

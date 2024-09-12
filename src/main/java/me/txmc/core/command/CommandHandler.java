@@ -34,6 +34,10 @@ public class CommandHandler implements TabExecutor {
         addCommand(new WorldSwitcher());
         addCommand(new TpsinfoCommand(main.getPlugin()));
         addCommand(new RepairCommand());
+        addCommand(new NickCommand(main.getPlugin()));
+        addCommand(new ItemColorCommand());
+        addCommand(new NameColorCommand(main.getPlugin()));
+        addCommand(new RenameCommand());
     }
 
     private void addCommand(BaseCommand command) {

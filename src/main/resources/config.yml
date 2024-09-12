@@ -115,6 +115,16 @@ ChatControl:
     - '/dupe'
     - '/tpsinfo'
     - '/repair'
+    - '/ic'
+    - '/itemcolor'
+    - '/setcolor'
+    - '/nc'
+    - '/nickcolor'
+    - '/namecolor'
+    - '/nick'
+    - '/setnick'
+    - '/nickname'
+    - '/rename'
 TPA:
   RequestTimeout: 3 # In minutes
 TPS:

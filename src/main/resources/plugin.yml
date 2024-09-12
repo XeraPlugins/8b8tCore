@@ -40,6 +40,13 @@ commands:
   tpsinfo:
   repair:
   dupe:
+  nick:
+    aliases: [nickname, setnick]
+  ic:
+    aliases: [itemcolor, setcolor]
+  nc:
+    aliases: [nickcolor, namecolor]
+  rename:
 permissions:
   8b8tcore.viewdistance.default:
     description: Permission for the default view distance

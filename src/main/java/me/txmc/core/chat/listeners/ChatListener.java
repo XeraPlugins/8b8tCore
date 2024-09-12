@@ -120,8 +120,8 @@ public class ChatListener implements Listener {
         TextComponent name = GlobalUtils.translateChars(String.format(formatString, tag, playerName));
 
         String highlightedMessage = message
-                .replaceAll("(?i)" + mentionedPlayerName, ChatColor.GOLD + mentionedPlayerName + ChatColor.RESET)
-                .replaceAll("(?i)here", ChatColor.GOLD + "here" + ChatColor.RESET);
+                .replaceAll("(?i)" + mentionedPlayerName, ChatColor.YELLOW + mentionedPlayerName + ChatColor.RESET)
+                .replaceAll("(?i)\\b@?here\\b", ChatColor.YELLOW + "$0" + ChatColor.RESET);
 
         TextComponent msg = (highlightedMessage.startsWith(">"))
                 ? Component.text(highlightedMessage).color(TextColor.color(0, 255, 0))

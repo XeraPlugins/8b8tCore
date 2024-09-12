@@ -22,8 +22,8 @@ public class NameCheck implements Check {
         ItemMeta meta = item.getItemMeta();
         if (meta.displayName() == null) return false;
         Component name =  meta.displayName();
-        if (name.hasStyling()) return true;
-        if (hasDecorations(name)) return true;
+        if (name.hasStyling()) return false;
+        if (hasDecorations(name)) return false;
         if (GlobalUtils.getStringContent(name).length() > 50) return true;
         return false;
     }

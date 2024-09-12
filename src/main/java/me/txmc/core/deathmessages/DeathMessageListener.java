@@ -1,5 +1,6 @@
 package me.txmc.core.deathmessages;
 
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
@@ -192,7 +193,7 @@ public class DeathMessageListener implements Listener {
         ItemMeta meta = weapon.getItemMeta();
 
         if (meta != null && meta.hasDisplayName()) {
-            return meta.getDisplayName();
+            return LegacyComponentSerializer.legacyAmpersand().serialize(meta.displayName());
         } else {
             return weapon.getType().toString().replace("_", " ").toLowerCase();
         }
