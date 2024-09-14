@@ -35,7 +35,7 @@ public class MapCreationListener implements Listener {
         int z = mapView.getCenterZ();
         int id = event.getMap().getId();
 
-        int radius = 64;
+        int radius = 256;
         int minX = x - radius;
         int maxX = x + radius;
         int minZ = z - radius;

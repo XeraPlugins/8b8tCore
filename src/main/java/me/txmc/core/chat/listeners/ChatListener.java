@@ -104,8 +104,8 @@ public class ChatListener implements Listener {
     }
     private TextComponent format(String message, String playerName, Player player) {
         String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(player));
-        String formatString = "%s<%s&r> ";
-        if (tag.isEmpty()) formatString = "%s<%s&r> ";
+        String formatString = "%s&r<%s&r> ";
+        if (tag.isEmpty()) formatString = "%s&r<%s&r> ";
 
         TextComponent name = GlobalUtils.translateChars(String.format(formatString, tag, playerName));
         TextComponent msg = (message.startsWith(">")) ? Component.text(message).color(TextColor.color(0, 255, 0)) : Component.text(message);
@@ -114,8 +114,8 @@ public class ChatListener implements Listener {
 
     private TextComponent formatHighlightPlayerName(String message, String playerName, Player player, String mentionedPlayerName) {
         String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(player));
-        String formatString = "%s<%s&r> ";
-        if (tag.isEmpty()) formatString = "%s<%s&r> ";
+        String formatString = "%s&r<%s&r> ";
+        if (tag.isEmpty()) formatString = "%s&r<%s&r> ";
 
         TextComponent name = GlobalUtils.translateChars(String.format(formatString, tag, playerName));
 

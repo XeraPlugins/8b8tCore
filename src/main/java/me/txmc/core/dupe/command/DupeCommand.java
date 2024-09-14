@@ -64,12 +64,14 @@ public class DupeCommand implements CommandExecutor {
                 }
 
                 int copies = 1;
-                if (args.length > 0) {
+                if (args.length > 1) {
                     try {
-                        copies = Integer.parseInt(args[0]);
+                        if(args[0].indexOf("\u0078") == 0){
+                            copies = Integer.parseInt(args[0].replace("\u0078", ""));
 
-                        if (copies < 1 || copies > 54) {
-                            copies = 1;
+                            if (copies < 1 || copies > 54) {
+                                copies = 1;
+                            }
                         }
                     } catch (NumberFormatException ignore) {}
                 }

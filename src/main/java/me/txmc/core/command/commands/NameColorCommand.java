@@ -101,12 +101,14 @@ public class NameColorCommand extends BaseTabCommand {
             case "light_purple" -> "&d";
             case "yellow" -> "&e";
             case "white" -> "&f";
-            case "gradient_fire" -> "<gradient:#F3904F:#883D26>";
+            case "gradient_fire" -> "<gradient:#F3904F:#E7654A>";
             case "gradient_sky" -> "<gradient:#1488CC:#0B14C3>";
             case "gradient_pink" -> "<gradient:#F4C4F3:#EC00E9>";
             case "gradient_green" -> "<gradient:#59ED33:#165818>";
             case "gradient_silver" -> "<gradient:#C9C9C9:#2F2F2F>";
-            case "gradient_red" -> "<gradient:#840900:#CB4A58>";
+            case "gradient_red" -> "<gradient:#BF0C1F:#DE4E4E>";
+            case "gradient_aqua" -> "<gradient:#4FF3EA:#00828D>";
+            case "gradient_retro" -> "<gradient:#F34F4F:#65008D>";
             default -> "&f";
         };
     }
@@ -122,7 +124,7 @@ public class NameColorCommand extends BaseTabCommand {
     }
 
     public List<String> getColorOptions() {
-        return List.of("black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white", "gradient_fire", "gradient_sky", "gradient_green", "gradient_pink", "gradient_silver", "gradient_red");
+        return List.of("black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white", "gradient_fire", "gradient_sky", "gradient_green", "gradient_pink", "gradient_silver", "gradient_red", "gradient_aqua", "gradient_retro");
     }
 
     public List<String> getStyleOptions() {
