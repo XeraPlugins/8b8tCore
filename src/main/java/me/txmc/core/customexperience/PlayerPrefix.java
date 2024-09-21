@@ -5,7 +5,6 @@ import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,15 +12,15 @@ import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Manages and sets the player's prefix in the player list when they join the server.
+ * Quản lý và thiết lập tiền tố của người chơi trong danh sách người chơi khi họ tham gia máy chủ.
  *
- * <p>This class is part of the 8b8tCore plugin, which provides custom functionalities
- * including player prefixes based on their permissions.</p>
+ * <p>Lớp này là một phần của plugin 8b8tCore, cung cấp các chức năng tùy chỉnh
+ * bao gồm tiền tố người chơi dựa trên quyền của họ.</p>
  *
- * <p>Functionality includes:</p>
+ * <p>Chức năng bao gồm:</p>
  * <ul>
- *     <li>Assigning the appropriate prefix to a player based on their permissions when they join the server</li>
- *     <li>Updating the player's display name in the player list with the assigned prefix</li>
+ *     <li>Gán tiền tố thích hợp cho người chơi dựa trên quyền của họ khi tham gia máy chủ</li>
+ *     <li>Cập nhật tên hiển thị của người chơi trong danh sách người chơi với tiền tố đã gán</li>
  * </ul>
  *
  * @author Minelord9000 (agarciacorte)
@@ -50,10 +49,7 @@ public class PlayerPrefix implements Listener {
         }
     }
 
-
     public void setupTag(Player player, String tag) {
-        player.setPlayerListName(String.format("%s%s",ChatColor.translateAlternateColorCodes('&', tag), player.getDisplayName()));
+        player.setPlayerListName(tag + player.getDisplayName());
     }
-
 }
-
