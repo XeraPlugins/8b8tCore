@@ -37,7 +37,7 @@ import static org.apache.logging.log4j.LogManager.getLogger;
 public class AntiLagChestListener implements Listener {
     private final int MAX_ITEM_SIZE_BYTES;
     private final JavaPlugin plugin;
-    private final Map<UUID, Long> lastOpenTimes = new HashMap<>(); // Map to track last chest open time for each player
+    private final Map<UUID, Long> lastOpenTimes = new HashMap<>();
 
     public AntiLagChestListener(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -51,7 +51,7 @@ public class AntiLagChestListener implements Listener {
         Player player = (Player) event.getPlayer();
 
         final boolean ENABLED = plugin.getConfig().getBoolean("AntiLagChest.enabled", true);
-        final long OPEN_COOLDOWN = plugin.getConfig().getLong("AntiLagChest.openCooldown", 1000L); // Default one second
+        final long OPEN_COOLDOWN = plugin.getConfig().getLong("AntiLagChest.openCooldown", 1000L);
 
         if (!ENABLED) return;
 
@@ -61,10 +61,8 @@ public class AntiLagChestListener implements Listener {
             return;
         }
 
-        // Update last open time
         lastOpenTimes.put(player.getUniqueId(), System.currentTimeMillis());
 
-        // Optional: Access and iterate through the chest inventory
         Inventory inventory = event.getInventory();
 
         for (ItemStack item : inventory.getContents()) {
@@ -82,7 +80,6 @@ public class AntiLagChestListener implements Listener {
                     itemSize = calculateStringSizeInBytes(item.toString());
                 }
                 if (itemSize > MAX_ITEM_SIZE_BYTES) {
-                    // Clear the item
                     inventory.remove(item);
                     getLogger().warn("Cleared a " + getItemName(item) + " with a size of " + itemSize + " bytes from a " + inventory.getType() + " triggered by " + player.getName());
                     sendPrefixedLocalizedMessage(player, "nbtPatch_deleted_item", getItemName(item));
