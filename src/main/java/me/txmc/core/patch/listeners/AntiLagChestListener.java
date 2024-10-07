@@ -94,7 +94,7 @@ public class AntiLagChestListener implements Listener {
 
     private boolean isCheckedInventory(InventoryType type) {
         return switch (type) {
-            case CHEST, HOPPER, SHULKER_BOX, DISPENSER, DROPPER -> true;
+            case CHEST, HOPPER, SHULKER_BOX, DISPENSER, DROPPER, BARREL -> true;
             default -> false;
         };
     }

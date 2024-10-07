@@ -1,19 +1,26 @@
 package me.txmc.core.patch.listeners;
 
+import me.txmc.core.util.GlobalUtils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.block.Container;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Material;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 import static org.apache.logging.log4j.LogManager.getLogger;
@@ -35,33 +42,37 @@ import static org.apache.logging.log4j.LogManager.getLogger;
  * @since 2024/08/03 14:49
  */
 public class NbtBanPatch implements Listener {
-    private final JavaPlugin plugin;
     private final int MAX_ITEM_SIZE_BYTES;
 
     public NbtBanPatch(JavaPlugin plugin) {
-        this.plugin = plugin;
         this.MAX_ITEM_SIZE_BYTES = plugin.getConfig().getInt("NbtBanItemChecker.maxItemSizeAllowed", 50000);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        handleInventory(player);
+    }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        getLogger().info("Se disparó el leave");
+        Player player = event.getPlayer();
+        handleInventory(player);
+    }
+
+
+    private void handleInventory(Player player) {
         for (ItemStack item : player.getInventory().getContents()) {
             int itemSize;
             if (item != null) {
-
-                if (item.getType() == Material.SHULKER_BOX ||
-                        item.getType() == Material.CHEST ||
-                        item.getType() == Material.TRAPPED_CHEST ||
-                        item.getType() == Material.BARREL ||
-                        item.getType() == Material.DISPENSER ||
-                        item.getType() == Material.DROPPER ||
-                        item.getType() == Material.HOPPER) {
+                if (item.getType().toString().endsWith("SHULKER_BOX") ||
+                        item.getType().toString().endsWith("CHEST") ||
+                        item.getType().toString().endsWith("TRAPPED_CHEST") ||
+                        item.getType().toString().endsWith("BARREL")) {
 
                     itemSize = processContainerItem(item);
                 } else {
-
                     itemSize = calculateStringSizeInBytes(item.toString());
                 }
                 if (itemSize > MAX_ITEM_SIZE_BYTES) {
@@ -101,7 +112,9 @@ public class NbtBanPatch implements Listener {
     }
 
     public static int calculateStringSizeInBytes(String data) {
-        byte[] byteArray = data.getBytes(StandardCharsets.UTF_8);
+        String plainData = GlobalUtils.getStringContent(Component.text(data));
+        byte[] byteArray = plainData.getBytes(StandardCharsets.UTF_8);
+        getLogger().info(byteArray.length);
         return byteArray.length;
     }
 
