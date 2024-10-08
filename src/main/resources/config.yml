@@ -125,6 +125,7 @@ ChatControl:
     - '/setnick'
     - '/nickname'
     - '/rename'
+    - '/hotspot'
 TPA:
   RequestTimeout: 3 # In minutes
 TPS:

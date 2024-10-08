@@ -112,6 +112,14 @@ rename_no_item: "&c色を変更するには手にアイテムを持っている�
 rename_no_name_provided: "&c名前を入力する必要があります &3/rename <item name>&c。"
 nick_too_large: "&cニックネームは最大16文字でなければなりません。"
 ic_too_large: "&cアイテムの名前は最大50文字でなければなりません。"
+hotspot_no_perms_create: "&cホットスポットを作成する権限がありません。"
+hotspot_no_playername: "&cテレポートするプレイヤーを指定してください /hotspot teleport <player>."
+hotspot_already_created: "&cすでにアクティブなホットスポットがあります。次を作成するまで待つ必要があります。"
+hotspot_created: "&3ホットスポットが正常に作成されました。"
+hotspot_not_found_for_player: "&r&a%s&c はアクティブなホットスポットを持っていません。"
+hotspot_teleported_to_player: "&3&r&a%s&3 のホットスポットにテレポートしています。"
+hotspot_not_found: "&cテレポートするアクティブなホットスポットはありません。"
+hotspot_teleported_to: "&3最も近いホットスポットにテレポートしています..."
 
 #Complex messages
 HelpMessage:
@@ -124,6 +132,7 @@ HelpMessage:
   - '&c/tpano &6テレポートリクエストを拒否します'
   - '&c/tpacancel &6送信したtpaリクエストをキャンセルします'
   - '&c/back &6最後の位置に戻ります'
+  - '&c/hotspot &6ホットスポットにテレポートするか、新しいものを作成する'
   - '&c/sethome &6現在の位置にホームを設定します'
   - '&c/delhome &6設定したホームを削除します'
   - '&c/home &6設定したホームにテレポートします'

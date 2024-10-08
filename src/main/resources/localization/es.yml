@@ -112,6 +112,14 @@ rename_no_item: "&cDebes tener un item en la mano para poder cambiar el color."
 rename_no_name_provided: "&cDebes ingresar un nombre &3/rename <item name>&c."
 nick_too_large: "&cEl nick debe ser máximo de 16 caracteres."
 ic_too_large: "&cEl nombre del item debe ser máximo de 50 caracteres."
+hotspot_no_perms_create: "&cNo tienes permiso para crear un hotspot."
+hotspot_no_playername: "&cPor favor incluye un jugador para teletransportarte /hotspot teleport <player>."
+hotspot_already_created: "&cYa tienes un hotspot activo, debes esperar para crear otro."
+hotspot_created: "&3Tu hotspot fue creado exitosamente."
+hotspot_not_found_for_player: "&r&a%s&c no tiene un hotspot activo."
+hotspot_teleported_to_player: "&3Teletransportando al hotspot de &r&a%s&3."
+hotspot_not_found: "&cNo hay hotspots activos para teletransportarte."
+hotspot_teleported_to: "&3Teletransportando al hotspot más cercano..."
 
 #Complex messages
 HelpMessage:
@@ -124,6 +132,7 @@ HelpMessage:
   - '&c/tpano &6para rechazar una solicitud de teletransporte'
   - '&c/tpacancel &6cancela las solicitudes de tpa que enviaste'
   - '&c/back &6regresa a tu última ubicación'
+  - '&c/hotspot &6teletransportate a un hotspot o crea uno nuevo'
   - '&c/sethome &6para establecer home en tu ubicación'
   - '&c/delhome &6para eliminar una home que has establecido'
   - '&c/home &6para teletransportarte a una home que has establecido'

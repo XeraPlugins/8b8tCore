@@ -112,6 +112,14 @@ rename_no_item: "&cيجب أن يكون لديك عنصر في يدك لتغيي
 rename_no_name_provided: "&cيجب عليك إدخال اسم &3/rename <item name>&c."
 nick_too_large: "&cيجب أن يكون الاسم المستعار بحد أقصى 16 حرفًا."
 ic_too_large: "&cيجب أن يكون اسم العنصر بحد أقصى 50 حرفًا."
+hotspot_no_perms_create: "&cليس لديك إذن لإنشاء نقطة ساخنة"
+hotspot_no_playername: "&cيرجى إدخال اسم لاعب للتنقل /hotspot teleport <player>."
+hotspot_already_created: "&cلديك بالفعل نقطة ساخنة نشطة، يجب أن تنتظر لإنشاء أخرى."
+hotspot_created: "&3تم إنشاء نقطتك الساخنة بنجاح."
+hotspot_not_found_for_player: "&r&a%s&c لا يملك نقطة ساخنة نشطة."
+hotspot_teleported_to_player: "&3التنقل إلى النقطة الساخنة لـ &r&a%s&3."
+hotspot_not_found: "&cلا توجد نقاط ساخنة نشطة للتنقل إليها."
+hotspot_teleported_to: "&3التنقل إلى أقرب نقطة ساخنة..."
 
 #Complex messages
 HelpMessage:
@@ -124,6 +132,7 @@ HelpMessage:
   - '&c/tpano &6لرفض طلب التنقل'
   - '&c/tpacancel &6لإلغاء طلبات tpa التي أرسلتها'
   - '&c/back &6للعودة إلى موقعك السابق'
+  - '&c/hotspot &6التنقل إلى نقطة ساخنة أو إنشاء واحدة جديدة'
   - '&c/sethome &6لتحديد منزل في موقعك الحالي'
   - '&c/delhome &6لحذف المنزل الذي قمت بتحديده'
   - '&c/home &6للانتقال إلى المنزل الذي قمت بتحديده'

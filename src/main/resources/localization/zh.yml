@@ -112,6 +112,14 @@ rename_no_item: "&c你必须手上有物品才能更改颜色。"
 rename_no_name_provided: "&c你必须输入一个名称 &3/rename <item name>&c。"
 nick_too_large: "&c昵称必须最多16个字符。"
 ic_too_large: "&c物品名称必须最多50个字符。"
+hotspot_no_perms_create: "&c你没有创建热点的权限。"
+hotspot_no_playername: "&c请包括一个玩家以便传送 /hotspot teleport <player>。"
+hotspot_already_created: "&c你已经有一个活动的热点，必须等待才能创建另一个。"
+hotspot_created: "&3你的热点已成功创建。"
+hotspot_not_found_for_player: "&r&a%s&c 没有活动的热点。"
+hotspot_teleported_to_player: "&3正在传送到 &r&a%s&3 的热点。"
+hotspot_not_found: "&c没有可传送的活动热点。"
+hotspot_teleported_to: "&3正在传送到最近的热点..."
 
 # 复杂信息
 HelpMessage:
@@ -124,6 +132,7 @@ HelpMessage:
   - '&c/tpano &6拒绝传送请求'
   - '&c/tpacancel &6取消你发送的tpa请求'
   - '&c/back &6返回到你上一个位置'
+  - '&c/hotspot &6传送到热点或创建一个新的'
   - '&c/sethome &6在当前位置设置家'
   - '&c/delhome &6删除你设置的家'
   - '&c/home &6传送到你设置的家'

@@ -3,7 +3,6 @@ package me.txmc.core.patch.listeners;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.block.Container;
-import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,12 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.Material;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
-import java.util.logging.Level;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 import static org.apache.logging.log4j.LogManager.getLogger;
@@ -56,7 +51,6 @@ public class NbtBanPatch implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLeave(PlayerQuitEvent event) {
-        getLogger().info("Se disparó el leave");
         Player player = event.getPlayer();
         handleInventory(player);
     }
@@ -69,7 +63,10 @@ public class NbtBanPatch implements Listener {
                 if (item.getType().toString().endsWith("SHULKER_BOX") ||
                         item.getType().toString().endsWith("CHEST") ||
                         item.getType().toString().endsWith("TRAPPED_CHEST") ||
-                        item.getType().toString().endsWith("BARREL")) {
+                        item.getType().toString().endsWith("BARREL") ||
+                        item.getType().toString().endsWith("DISPENSER") ||
+                        item.getType().toString().endsWith("DROPPER") ||
+                        item.getType().toString().endsWith("HOPPER")) {
 
                     itemSize = processContainerItem(item);
                 } else {
@@ -98,7 +95,10 @@ public class NbtBanPatch implements Listener {
                             item.getType().toString().endsWith("SHULKER_BOX") ||
                             item.getType().toString().endsWith("CHEST") ||
                             item.getType().toString().endsWith("TRAPPED_CHEST") ||
-                            item.getType().toString().endsWith("BARREL")
+                            item.getType().toString().endsWith("BARREL") ||
+                            item.getType().toString().endsWith("DISPENSER") ||
+                            item.getType().toString().endsWith("DROPPER") ||
+                            item.getType().toString().endsWith("HOPPER")
                     ) {
                         totalSize += processContainerItem(item);
                     } else {
@@ -114,7 +114,6 @@ public class NbtBanPatch implements Listener {
     public static int calculateStringSizeInBytes(String data) {
         String plainData = GlobalUtils.getStringContent(Component.text(data));
         byte[] byteArray = plainData.getBytes(StandardCharsets.UTF_8);
-        getLogger().info(byteArray.length);
         return byteArray.length;
     }
 

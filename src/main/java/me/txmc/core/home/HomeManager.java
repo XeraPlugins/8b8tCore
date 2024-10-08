@@ -6,10 +6,7 @@ import lombok.experimental.Accessors;
 import me.txmc.core.IStorage;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
-import me.txmc.core.home.commands.BackCommand;
-import me.txmc.core.home.commands.DelHomeCommand;
-import me.txmc.core.home.commands.HomeCommand;
-import me.txmc.core.home.commands.SetHomeCommand;
+import me.txmc.core.home.commands.*;
 import me.txmc.core.home.io.HomeJsonStorage;
 import me.txmc.core.home.listeners.JoinListener;
 import me.txmc.core.util.GlobalUtils;
@@ -44,6 +41,7 @@ public class HomeManager implements Section {
         plugin.getCommand("sethome").setExecutor(new SetHomeCommand(this));
         plugin.getCommand("delhome").setExecutor(new DelHomeCommand(this));
         plugin.getCommand("back").setExecutor(new BackCommand(this));
+        plugin.getCommand("hotspot").setExecutor(new HotspotCommand(this));
     }
 
     @Override

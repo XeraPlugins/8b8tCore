@@ -112,6 +112,14 @@ rename_no_item: "&cTu dois avoir un objet en main pour changer la couleur."
 rename_no_name_provided: "&cTu dois entrer un nom &3/rename <item name>&c."
 nick_too_large: "&cLe pseudo doit comporter au maximum 16 caractères."
 ic_too_large: "&cLe nom de l'objet doit comporter au maximum 50 caractères."
+hotspot_no_perms_create: "&cVous n'avez pas la permission de créer un hotspot."
+hotspot_no_playername: "&cVeuillez inclure un joueur pour vous téléporter /hotspot teleport <player>."
+hotspot_already_created: "&cVous avez déjà un hotspot actif, vous devez attendre avant d'en créer un autre."
+hotspot_created: "&3Votre hotspot a été créé avec succès."
+hotspot_not_found_for_player: "&r&a%s&c n'a pas de hotspot actif."
+hotspot_teleported_to_player: "&3Téléportation au hotspot de &r&a%s&3."
+hotspot_not_found: "&cIl n'y a pas de hotspots actifs pour se téléporter."
+hotspot_teleported_to: "&3Téléportation au hotspot le plus proche..."
 
 # Messages complexes
 HelpMessage:
@@ -124,6 +132,7 @@ HelpMessage:
   - '&c/tpano &6pour refuser une demande de téléportation'
   - '&c/tpacancel &6pour annuler les demandes de tpa envoyées'
   - '&c/back &6pour retourner à votre dernière position'
+  - '&c/hotspot &6téléportez-vous à un hotspot ou créez-en un nouveau'
   - '&c/sethome &6pour définir une maison à votre emplacement'
   - '&c/delhome &6pour supprimer une maison que vous avez définie'
   - '&c/home &6pour vous téléporter à une maison définie'

@@ -27,6 +27,7 @@ commands:
   sethome:
   delhome:
   back:
+  hotspot:
   lef:
   discord:
   help:
