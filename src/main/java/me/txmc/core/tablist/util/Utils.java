@@ -25,7 +25,7 @@ public class Utils {
     public static CompletableFuture<Component> parsePlaceHolders(String input, Player player, long startTime) {
         CompletableFuture<Component> future = new CompletableFuture<>();
         GlobalUtils.getTpsNearEntity(player).thenAccept(tps -> {
-            String strTps = (tps >= 20) ? String.format("%s*20.0", ChatColor.GREEN) : String.format("%s%.2f", Utils.getTPSColor(tps), tps);
+            String strTps = (tps >= 20) ? String.format("%s20.00", ChatColor.GREEN) : String.format("%s%.2f", Utils.getTPSColor(tps), tps);
             String uptime = Utils.getFormattedInterval(System.currentTimeMillis() - startTime);
             String online = String.valueOf(Bukkit.getOnlinePlayers().size());
             String ping = String.valueOf(player.getPing());

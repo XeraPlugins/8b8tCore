@@ -7,14 +7,16 @@ import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -30,6 +32,7 @@ public class ChatListener implements Listener {
     private final HashSet<String> tlds;
     private ScheduledExecutorService service;
     private final PrefixManager prefixManager = new PrefixManager();
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
@@ -44,12 +47,15 @@ public class ChatListener implements Listener {
         }
         ci.setChatLock(true);
         service.schedule(() -> ci.setChatLock(false), cooldown, TimeUnit.SECONDS);
-        String ogMessage = event.getMessage();
-        String playerName = LegacyComponentSerializer.legacyAmpersand().serialize(sender.displayName());
-        TextComponent message = format(ogMessage, playerName, sender);
 
-        String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(sender));
-        sender.setPlayerListName(String.format("%s%s",ChatColor.translateAlternateColorCodes('&', tag), sender.getDisplayName()));
+        String ogMessage = event.getMessage();
+        Component displayName = sender.displayName();
+        Component message = formatMessage(ogMessage, displayName, sender, false, null);
+
+        String legacyPrefix = LegacyComponentSerializer.legacySection().serialize(miniMessage.deserialize(prefixManager.getPrefix(sender)));
+        String legacyDisplayName = LegacyComponentSerializer.legacySection().serialize(displayName);
+        sender.setPlayerListName(legacyPrefix + legacyDisplayName);
+
         if (blockedCheck(ogMessage)) {
             sender.sendMessage(message);
             log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message that has banned words", sender.getName());
@@ -60,16 +66,17 @@ public class ChatListener implements Listener {
             log(Level.INFO, "&3Prevented player&r&a %s&r&3 from sending a link / server ip", sender.getName());
             return;
         }
+
         Bukkit.getLogger().info(GlobalUtils.getStringContent(message));
+
         for (Player recipient : Bukkit.getOnlinePlayers()) {
             ChatInfo info = manager.getInfo(recipient);
-            if (info == null) continue;
-            if (info.isIgnoring(sender.getUniqueId()) || info.isToggledChat()) continue;
+            if (info == null || info.isIgnoring(sender.getUniqueId()) || info.isToggledChat()) continue;
 
             String lowerMessage = ogMessage.toLowerCase();
 
             if (lowerMessage.contains(recipient.getName().toLowerCase()) || lowerMessage.contains("here")) {
-                TextComponent highlightedMessage = formatHighlightPlayerName(ogMessage, playerName, sender, recipient.getName());
+                TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, true, recipient.getName());
                 recipient.sendMessage(highlightedMessage);
             } else {
                 recipient.sendMessage(message);
@@ -102,31 +109,28 @@ public class ChatListener implements Listener {
         }
         return false;
     }
-    private TextComponent format(String message, String playerName, Player player) {
-        String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(player));
-        String formatString = "%s&r<%s&r> ";
-        if (tag.isEmpty()) formatString = "%s&r<%s&r> ";
 
-        TextComponent name = GlobalUtils.translateChars(String.format(formatString, tag, playerName));
-        TextComponent msg = (message.startsWith(">")) ? Component.text(message).color(TextColor.color(0, 255, 0)) : Component.text(message);
-        return name.append(msg);
-    }
+    public TextComponent formatMessage(String message, Component displayName, Player player, boolean highlightMentioned, String mentionedPlayerName) {
+        String prefix = prefixManager.getPrefix(player);
+        Component prefixComponent = miniMessage.deserialize(prefix);
 
-    private TextComponent formatHighlightPlayerName(String message, String playerName, Player player, String mentionedPlayerName) {
-        String tag = ChatColor.translateAlternateColorCodes('&', prefixManager.getPrefix(player));
-        String formatString = "%s&r<%s&r> ";
-        if (tag.isEmpty()) formatString = "%s&r<%s&r> ";
+        Component nameComponent = prefixComponent
+                .append(Component.text("<").color(TextColor.color(170, 170, 170)))
+                .append(displayName)
+                .append(Component.text("> ").color(TextColor.color(170, 170, 170)));
 
-        TextComponent name = GlobalUtils.translateChars(String.format(formatString, tag, playerName));
+        if (highlightMentioned && mentionedPlayerName != null) {
+            String resetColor = message.startsWith(">") ? ChatColor.GREEN.toString() : ChatColor.RESET.toString();
 
-        String highlightedMessage = message
-                .replaceAll("(?i)" + mentionedPlayerName, ChatColor.YELLOW + mentionedPlayerName + ChatColor.RESET)
-                .replaceAll("(?i)\\b@?here\\b", ChatColor.YELLOW + "$0" + ChatColor.RESET);
+            message = message
+                    .replaceAll("(?i)" + mentionedPlayerName, ChatColor.YELLOW + mentionedPlayerName + resetColor)
+                    .replaceAll("(?i)\\b@?here\\b", ChatColor.YELLOW + "$0" + resetColor);
+        }
 
-        TextComponent msg = (highlightedMessage.startsWith(">"))
-                ? Component.text(highlightedMessage).color(TextColor.color(0, 255, 0))
-                : Component.text(highlightedMessage);
+        Component msgComponent = message.startsWith(">")
+                ? Component.text(message.substring(1).trim()).color(TextColor.color(85, 255, 85))
+                : Component.text(message);
 
-        return name.append(msg);
+        return (TextComponent) nameComponent.append(msgComponent);
     }
 }
