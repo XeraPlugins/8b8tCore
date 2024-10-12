@@ -75,6 +75,10 @@ public class HotspotCommand implements TabExecutor, Listener {
 
         sendPrefixedLocalizedMessage(player, "hotspot_created");
 
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            sendPrefixedLocalizedMessage(p, "hotspot_created_to_everyone", player.getName(), player.getName());
+        }
+
         String hotspotText = GlobalUtils.convertToMiniMessageFormat("<bold><gradient:#5555FF:#0000AA>" + player.getName() + "'s hotspot - Do <gradient:#FFE259:#FFA751>/hotspot</gradient> to teleport.</gradient>");
         Component hotspotTextComponent = MiniMessage.miniMessage().deserialize(hotspotText);
         BossBar bossBar = BossBar.bossBar(hotspotTextComponent,1, BossBar.Color.BLUE, BossBar.Overlay.PROGRESS);

@@ -120,6 +120,7 @@ hotspot_not_found_for_player: "&r&a%s&c non ha un hotspot attivo."
 hotspot_teleported_to_player: "&3Teletrasporto all'hotspot di &r&a%s&3."
 hotspot_not_found: "&cNon ci sono hotspot attivi per il teletrasporto."
 hotspot_teleported_to: "&3Teletrasporto all'hotspot più vicino..."
+hotspot_created_to_everyone: "&r&a%s&3 ha creato un nuovo hotspot, usa <gold><underlined><hover:show_text:'<gray>Clicca per teletrasportarti'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> per teletrasportarti lì"
 
 #Complex messages
 HelpMessage:
