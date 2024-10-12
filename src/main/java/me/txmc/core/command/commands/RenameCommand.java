@@ -42,7 +42,7 @@ public class RenameCommand extends BaseCommand {
             return;
         }
 
-        String itemName = String.join(" ", args);
+        String itemName = String.join(" ", args).replaceAll("(?i)<(hover:.*?|click:.*?|insert:.*?|selector:.*?|nbt:.*?|newline)[^>]*>", "").trim();
 
         String miniMessageFormatted = GlobalUtils.convertToMiniMessageFormat(itemName);
 

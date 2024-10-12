@@ -43,7 +43,8 @@ public class NickCommand extends BaseCommand {
             return;
         }
 
-        String nickname = String.join(" ", args);
+        String nickname = String.join(" ", args).replaceAll("(?i)<(hover:.*?|click:.*?|insert:.*?|selector:.*?|nbt:.*?|newline)[^>]*>", "").trim();
+
 
         Component displayName = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(nickname));
 

@@ -126,7 +126,7 @@ public class ChatListener implements Listener {
         int timePlayedTicks = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
 
         double distanceWalkedKm = distanceWalked / 100000.0;
-        double timePlayedHours = timePlayedTicks / 1200.0;
+        double timePlayedHours = timePlayedTicks / 20.0 / 3600.0;
 
         DecimalFormat df = new DecimalFormat("#.##");
         String distanceWalkedFormatted = df.format(distanceWalkedKm);

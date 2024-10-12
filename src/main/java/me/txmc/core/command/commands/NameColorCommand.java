@@ -72,7 +72,6 @@ public class NameColorCommand extends BaseTabCommand {
         nameBuilder.append(player.getName());
 
         String displayNameString = nameBuilder.toString();
-        log(Level.SEVERE, displayNameString);
         Component displayName = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(displayNameString));
 
         player.displayName(displayName);
@@ -109,6 +108,7 @@ public class NameColorCommand extends BaseTabCommand {
             case "gradient_red" -> "<gradient:#BF0C1F:#DE4E4E>";
             case "gradient_aqua" -> "<gradient:#4FF3EA:#00828D>";
             case "gradient_retro" -> "<gradient:#F34F4F:#65008D>";
+            case "rainbow" -> "<rainbow>";
             default -> "&f";
         };
     }
@@ -124,7 +124,7 @@ public class NameColorCommand extends BaseTabCommand {
     }
 
     public List<String> getColorOptions() {
-        return List.of("black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white", "gradient_fire", "gradient_sky", "gradient_green", "gradient_pink", "gradient_silver", "gradient_red", "gradient_aqua", "gradient_retro");
+        return List.of("black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white", "gradient_fire", "gradient_sky", "gradient_green", "gradient_pink", "gradient_silver", "gradient_red", "gradient_aqua", "gradient_retro", "rainbow");
     }
 
     public List<String> getStyleOptions() {
