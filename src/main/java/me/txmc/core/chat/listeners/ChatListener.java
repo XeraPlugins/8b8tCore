@@ -7,9 +7,13 @@ import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,6 +21,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -41,7 +46,7 @@ public class ChatListener implements Listener {
         Player sender = event.getPlayer();
         int cooldown = manager.getConfig().getInt("Cooldown");
         ChatInfo ci = manager.getInfo(sender);
-        if (ci.isChatLock()) {
+        if (ci.isChatLock() && !sender.isOp()) {
             sendPrefixedLocalizedMessage(sender, "chat_cooldown", cooldown);
             return;
         }
@@ -52,7 +57,7 @@ public class ChatListener implements Listener {
         Component displayName = sender.displayName();
         Component message = formatMessage(ogMessage, displayName, sender, false, null);
 
-        String legacyPrefix = LegacyComponentSerializer.legacySection().serialize(miniMessage.deserialize(prefixManager.getPrefix(sender)));
+        String legacyPrefix = prefixManager.getPrefix(sender);
         String legacyDisplayName = LegacyComponentSerializer.legacySection().serialize(displayName);
         sender.setPlayerListName(legacyPrefix + legacyDisplayName);
 
@@ -77,7 +82,7 @@ public class ChatListener implements Listener {
 
             if (lowerMessage.contains(recipient.getName().toLowerCase()) || lowerMessage.contains("here")) {
                 TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, true, recipient.getName());
-                recipient.sendMessage(highlightedMessage);
+                if(highlightedMessage != null) recipient.sendMessage(highlightedMessage);
             } else {
                 recipient.sendMessage(message);
             }
@@ -111,13 +116,50 @@ public class ChatListener implements Listener {
     }
 
     public TextComponent formatMessage(String message, Component displayName, Player player, boolean highlightMentioned, String mentionedPlayerName) {
+
+        int exp = player.getLevel();
+        String lang = player.locale().getLanguage();
+
+        int distanceWalked = player.getStatistic(Statistic.WALK_ONE_CM);
+        int playerKills = player.getStatistic(Statistic.PLAYER_KILLS);
+        int playerDeaths = player.getStatistic(Statistic.DEATHS);
+        int timePlayedTicks = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
+
+        double distanceWalkedKm = distanceWalked / 100000.0;
+        double timePlayedHours = timePlayedTicks / 1200.0;
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        String distanceWalkedFormatted = df.format(distanceWalkedKm);
+        String timePlayedFormatted = df.format(timePlayedHours);
+
+        Component hoverText = Component.text()
+                .append(player.displayName())
+                .append(Component.text("\n\n", NamedTextColor.GRAY))
+                .append(Component.text("Lang: ").color(TextColor.fromHexString("#FFD700")))
+                .append(Component.text(lang + "\n", NamedTextColor.LIGHT_PURPLE))
+                .append(Component.text("Experience: ").color(TextColor.fromHexString("#FFD700")))
+                .append(Component.text(exp + "\n", NamedTextColor.GREEN))
+                .append(Component.text("Distance Walked: ").color(TextColor.fromHexString("#FFD700")))
+                .append(Component.text(distanceWalkedFormatted + " km\n", NamedTextColor.BLUE))
+                .append(Component.text("Player Kills: ").color(TextColor.fromHexString("#FFD700")))
+                .append(Component.text(playerKills + "\n", NamedTextColor.RED))
+                .append(Component.text("Player Deaths: ").color(TextColor.fromHexString("#FFD700")))
+                .append(Component.text(playerDeaths + "\n", NamedTextColor.RED))
+                .append(Component.text("Time Played: ").color(TextColor.fromHexString("#FFD700")))
+                .append(Component.text(timePlayedFormatted + " hours\n", NamedTextColor.YELLOW))
+                .append(Component.text("\n(Click to send a direct message)").color(NamedTextColor.GRAY))
+                .build();
+
         String prefix = prefixManager.getPrefix(player);
         Component prefixComponent = miniMessage.deserialize(prefix);
 
         Component nameComponent = prefixComponent
                 .append(Component.text("<").color(TextColor.color(170, 170, 170)))
-                .append(displayName)
+                .append(displayName
+                        .hoverEvent(HoverEvent.showText(hoverText))
+                        .clickEvent(ClickEvent.suggestCommand("/msg " + player.getName() + " ")))
                 .append(Component.text("> ").color(TextColor.color(170, 170, 170)));
+
 
         if (highlightMentioned && mentionedPlayerName != null) {
             String resetColor = message.startsWith(">") ? ChatColor.GREEN.toString() : ChatColor.RESET.toString();
@@ -126,6 +168,8 @@ public class ChatListener implements Listener {
                     .replaceAll("(?i)" + mentionedPlayerName, ChatColor.YELLOW + mentionedPlayerName + resetColor)
                     .replaceAll("(?i)\\b@?here\\b", ChatColor.YELLOW + "$0" + resetColor);
         }
+
+        if (message.trim().equals(">") || message.trim().isEmpty()) return null;
 
         Component msgComponent = message.startsWith(">")
                 ? Component.text(message.substring(1).trim()).color(TextColor.color(85, 255, 85))

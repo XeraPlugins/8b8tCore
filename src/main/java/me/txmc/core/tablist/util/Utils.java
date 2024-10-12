@@ -4,14 +4,6 @@ import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.ChatColor;
-import java.io.*;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,7 +17,7 @@ public class Utils {
     public static CompletableFuture<Component> parsePlaceHolders(String input, Player player, long startTime) {
         CompletableFuture<Component> future = new CompletableFuture<>();
         GlobalUtils.getTpsNearEntity(player).thenAccept(tps -> {
-            String strTps = (tps >= 20) ? String.format("%s20.00", ChatColor.GREEN) : String.format("%s%.2f", Utils.getTPSColor(tps), tps);
+            String strTps = (tps >= 20) ? String.format("%s20.00", "<green>") : String.format("%s%.2f", Utils.getTPSColor(tps), tps);
             String uptime = Utils.getFormattedInterval(System.currentTimeMillis() - startTime);
             String online = String.valueOf(Bukkit.getOnlinePlayers().size());
             String ping = String.valueOf(player.getPing());
@@ -40,17 +32,11 @@ public class Utils {
         long days = ms / 86400000L;
         return String.format("%dd %02dh %02dm %02ds", days, hours, minutes, seconds);
     }
-    public static ChatColor getTPSColor(double tps) {
+    public static String getTPSColor(double tps) {
         if (tps >= 18.0D) {
-            return ChatColor.GREEN;
+            return "<green>";
         } else {
-            return tps >= 13.0D ? ChatColor.YELLOW : ChatColor.RED;
-        }
-    }
-    public static void secondPass(HashMap<Player, Integer> hashMap) {
-        for (Map.Entry<Player, Integer> violationEntry : hashMap.entrySet()) {
-            if (violationEntry.getValue() > 0)
-                violationEntry.setValue(violationEntry.getValue() - 1);
+            return tps >= 13.0D ? "<yellow>" : "<red>";
         }
     }
 

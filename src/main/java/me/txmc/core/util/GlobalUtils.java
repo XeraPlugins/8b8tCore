@@ -6,7 +6,7 @@ import me.txmc.core.Localization;
 import me.txmc.core.Main;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
@@ -38,6 +38,7 @@ import java.util.Random;
  */
 public class GlobalUtils {
     @Getter private static final String PREFIX = Main.prefix;
+    private static final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public static void info(String format) {
         log(Level.INFO, format);
@@ -51,7 +52,7 @@ public class GlobalUtils {
     }
 
     public static TextComponent translateChars(String input) {
-        return LegacyComponentSerializer.legacy('&').deserialize(input);
+        return (TextComponent) miniMessage.deserialize(convertToMiniMessageFormat(input));
     }
 
     public static String convertToMiniMessageFormat(String input) {
@@ -127,7 +128,7 @@ public class GlobalUtils {
                         .map(s -> s.replace("%kill-weapon%", weapon))
                         .map(GlobalUtils::translateChars).toList();
 
-                TextComponent msg = deathMessages.get(msgIndex);
+                Component msg = deathMessages.get(msgIndex);
                 p.sendMessage(msg);
             }
         } catch (Throwable ignored){};

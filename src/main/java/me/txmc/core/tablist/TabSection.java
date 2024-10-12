@@ -56,7 +56,6 @@ public class TabSection implements Section {
         tag = GlobalUtils.convertToMiniMessageFormat(tag);
         Component displayNameComponent = player.displayName();
 
-
         Component tagComponent = MiniMessage.miniMessage().deserialize(tag);
 
         Component fullName = tagComponent.append(displayNameComponent);

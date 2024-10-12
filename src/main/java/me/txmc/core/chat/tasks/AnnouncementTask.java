@@ -2,6 +2,7 @@ package me.txmc.core.chat.tasks;
 
 import me.txmc.core.Localization;
 import me.txmc.core.util.GlobalUtils;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ public class AnnouncementTask implements Runnable {
                     .stream()
                     .map(s -> s.replace("%prefix%", loc.getPrefix()))
                     .map(GlobalUtils::translateChars).toList();
-            TextComponent announcement = announcements.get(random.nextInt(announcements.size()));
+            Component announcement = announcements.get(random.nextInt(announcements.size()));
             p.sendMessage(announcement);
         }
     }

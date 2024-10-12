@@ -188,8 +188,8 @@ TpsMessage:
 tps_failed: '&cВам не разрешено запрашивать TPS'
 
 announcements:
-  - '&6[&18b&98t&6]&6 Посетите &chttps://votefor.8b8t.me &6и проголосуйте, чтобы получить бесплатно /nc 2 дополнительных расстояния рендеринга и 5 дополнительных домов'
-  - '&6[&18b&98t&6]&6 Сделайте пожертвование в поддержку 8b8t на сайте &chttps://donate.8b8t.me'
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] Посетите <red><hover:show_text:'<gray>Нажмите, чтобы открыть ссылку'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <gold>и проголосуйте, чтобы получить 2 дополнительных расстояния рендера и 5 дополнительных домов бесплатно</gold>"
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] Пожертвуйте, чтобы поддержать 8b8t на <red><hover:show_text:'<gray>Нажмите, чтобы открыть ссылку'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

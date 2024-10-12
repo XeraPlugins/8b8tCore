@@ -191,8 +191,8 @@ TpsMessage:
 tps_failed: '&cأنت غير مسموح لك بالتحقق من TPS'
 
 announcements:
-  - '&6[&18b&98t&6]&6 قم بزيارة &chttps://votefor.8b8t.me &6وصوت لتلقي /nc مجانًا و5 منازل إضافية'
-  - '&6[&18b&98t&6]&6 تبرع لدعم 8b8t على &chttps://donate.8b8t.me'
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] قم بزيارة <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <gold>وصوت للحصول على 2 مسافات عرض إضافية و 5 نقاط منزل إضافية مجانًا</gold>"
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] تبرع لدعم 8b8t على <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

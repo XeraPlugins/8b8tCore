@@ -188,8 +188,8 @@ TpsMessage:
 tps_failed: "&cVous n'êtes pas autorisé à vérifier le TPS"
 
 announcements:
-  - '&6[&18b&98t&6]&6 Visitez &chttps://votefor.8b8t.me &6et votez pour recevoir gratuitement /nc 2 distances de rendu supplémentaires et 5 maisons supplémentaires'
-  - '&6[&18b&98t&6]&6 Faites un don pour soutenir 8b8t sur &chttps://donate.8b8t.me'
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] Visitez <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <gold>et votez pour recevoir 2 distances de rendu supplémentaires et 5 homes supplémentaires gratuitement</gold>"
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] Faites un don pour soutenir 8b8t à <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

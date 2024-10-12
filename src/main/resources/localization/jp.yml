@@ -188,8 +188,8 @@ TpsMessage:
 tps_failed: '&cTPSを確認する権限がありません'
 
 announcements:
-  - '&6[&18b&98t&6]&6 &chttps://votefor.8b8t.me &6にアクセスして投票すると、無料の/nc 2つの追加レンダリング距離と5つの追加住宅が受け取れます'
-  - '&6[&18b&98t&6]&6 8b8tをサポートするために寄付は &chttps://donate.8b8t.me にてお願いします'
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] <red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> にアクセスして、2つの追加レンダリング距離と5つの無料のホームを受け取るために投票しましょう</gold>"
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] 8b8tをサポートするために<red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>で寄付しましょう"
 
 # Death messages
 global-pvp-death-messages:

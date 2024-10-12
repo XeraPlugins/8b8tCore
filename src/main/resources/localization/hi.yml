@@ -188,8 +188,8 @@ TpsMessage:
 tps_failed: '&cआप TPS की जांच करने के लिए अधिकृत नहीं हैं'
 
 announcements:
-  - '&6[&18b&98t&6]&6 https://votefor.8b8t.me पर जाएँ और मुफ़्त /nc 2 अतिरिक्त रेंडर दूरी और 5 अतिरिक्त घर प्राप्त करने के लिए वोट करें'
-  - '&6[&18b&98t&6]&6 8b8t का समर्थन करने के लिए दान करें &chttps://donate.8b8t.me'
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] <red><hover:show_text:'<gray>लिंक खोलने के लिए क्लिक करें'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> पर जाएं और वोट करें ताकि आपको 2 अतिरिक्त रेंडर डिस्टेंस और 5 अतिरिक्त होम्स मुफ्त में मिल सकें</gold>"
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] <red><hover:show_text:'<gray>लिंक खोलने के लिए क्लिक करें'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red> पर 8b8t को समर्थन देने के लिए दान करें"
 
 # Mensajes de Muerte
 global-pvp-death-messages:

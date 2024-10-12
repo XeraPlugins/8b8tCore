@@ -188,8 +188,8 @@ TpsMessage:
 tps_failed: '&c您没有被允许查询TPS'
 
 announcements:
-  - '&6[&18b&98t&6]&6 访问 &chttps://votefor.8b8t.me &6并投票可免费获得 /nc 2 个额外渲染距离和 5 个额外住宅'
-  - '&6[&18b&98t&6]&6 捐款以帮助支持 8b8t，网址为 &chttps://donate.8b8t.me'
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] 访问 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <gold>并投票以免费获得2个额外的渲染距离和5个额外的家</gold>"
+  - "<gold>[<dark_blue>8b<blue>8t<gold>] 捐赠支持 8b8t 在 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

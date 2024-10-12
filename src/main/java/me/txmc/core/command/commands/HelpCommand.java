@@ -2,7 +2,7 @@ package me.txmc.core.command.commands;
 
 import me.txmc.core.Localization;
 import me.txmc.core.command.BaseCommand;
-import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,7 +18,7 @@ public class HelpCommand extends BaseCommand {
     public void execute(CommandSender sender, String[] args) {
         if (sender instanceof Player player) {
             Localization loc = Localization.getLocalization(player.locale().getLanguage());
-            TextComponent helpMsg = translateChars(String.join("\n", loc.getStringList("HelpMessage").toArray(String[]::new)));
+            Component helpMsg = translateChars(String.join("\n", loc.getStringList("HelpMessage").toArray(String[]::new)));
             player.sendMessage(helpMsg);
         } else sendMessage(sender, "&cYou must be a player");
     }
