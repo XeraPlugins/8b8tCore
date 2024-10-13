@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * @author 254n_m
@@ -23,7 +24,20 @@ public class Localization {
         if (localizationMap != null) localizationMap.clear();
         localizationMap = new HashMap<>();
         File localeDir = new File(dataFolder, "Localization");
-        if (!localeDir.exists()) localeDir.mkdirs();
+
+        if (!localeDir.exists()) {
+            localeDir.mkdirs();
+        } else {
+            File[] existingYmlFiles = localeDir.listFiles(f -> f.getName().endsWith(".yml"));
+            if (existingYmlFiles != null) {
+                for (File file : existingYmlFiles) {
+                    if (!file.delete()) {
+                        GlobalUtils.log(Level.SEVERE, "Failed to delete localization file: " + file.getName());
+                    }
+                }
+            }
+        }
+
         GlobalUtils.unpackResource("localization/ar.yml", new File(localeDir, "ar.yml"));
         GlobalUtils.unpackResource("localization/en.yml", new File(localeDir, "en.yml"));
         GlobalUtils.unpackResource("localization/es.yml", new File(localeDir, "es.yml"));
@@ -34,9 +48,13 @@ public class Localization {
         GlobalUtils.unpackResource("localization/pt.yml", new File(localeDir, "pt.yml"));
         GlobalUtils.unpackResource("localization/ru.yml", new File(localeDir, "ru.yml"));
         GlobalUtils.unpackResource("localization/zh.yml", new File(localeDir, "zh.yml"));
-        for (File ymlFile : localeDir.listFiles(f -> f.getName().endsWith(".yml"))) {
-            Configuration config = YamlConfiguration.loadConfiguration(ymlFile);
-            localizationMap.put(ymlFile.getName().replace(".yml", ""), new Localization(config));
+
+        File[] ymlFiles = localeDir.listFiles(f -> f.getName().endsWith(".yml"));
+        if (ymlFiles != null) {
+            for (File ymlFile : ymlFiles) {
+                Configuration config = YamlConfiguration.loadConfiguration(ymlFile);
+                localizationMap.put(ymlFile.getName().replace(".yml", ""), new Localization(config));
+            }
         }
     }
 
@@ -55,6 +73,7 @@ public class Localization {
         return config.getString(key, String.format("Unknown key %s", key))
                 .replace("%prefix%", getPrefix());
     }
+
     public List<String> getStringList(String key) {
         return config.getStringList(key).stream()
                 .map(s -> s.replace("%prefix%", getPrefix()))
