@@ -55,7 +55,7 @@ public class ChatListener implements Listener {
 
         String ogMessage = event.getMessage();
         Component displayName = sender.displayName();
-        Component message = formatMessage(ogMessage, displayName, sender, false, null);
+        Component message = formatMessage(ogMessage, displayName, sender, null);
 
         String legacyPrefix = prefixManager.getPrefix(sender);
         String legacyDisplayName = LegacyComponentSerializer.legacySection().serialize(displayName);
@@ -80,8 +80,8 @@ public class ChatListener implements Listener {
 
             String lowerMessage = ogMessage.toLowerCase();
 
-            if (lowerMessage.contains(recipient.getName().toLowerCase()) || lowerMessage.contains("here")) {
-                TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, true, recipient.getName());
+            if (lowerMessage.contains(recipient.getName().toLowerCase())) {
+                TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, recipient.getName());
                 if(highlightedMessage != null) recipient.sendMessage(highlightedMessage);
             } else {
                 recipient.sendMessage(message);
@@ -115,12 +115,11 @@ public class ChatListener implements Listener {
         return false;
     }
 
-    public TextComponent formatMessage(String message, Component displayName, Player player, boolean highlightMentioned, String mentionedPlayerName) {
+    public TextComponent formatMessage(String message, Component displayName, Player player, String mentionedPlayerName) {
 
         int exp = player.getLevel();
         String lang = player.locale().getLanguage();
-
-        int distanceWalked = player.getStatistic(Statistic.WALK_ONE_CM);
+        int distanceWalked = player.getStatistic(Statistic.WALK_ONE_CM) + player.getStatistic(Statistic.SPRINT_ONE_CM);
         int playerKills = player.getStatistic(Statistic.PLAYER_KILLS);
         int playerDeaths = player.getStatistic(Statistic.DEATHS);
         int timePlayedTicks = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
@@ -160,21 +159,71 @@ public class ChatListener implements Listener {
                         .clickEvent(ClickEvent.suggestCommand("/msg " + player.getName() + " ")))
                 .append(Component.text("> ").color(TextColor.color(170, 170, 170)));
 
+        String resetColor = message.startsWith(">") ? ChatColor.GREEN.toString() : ChatColor.RESET.toString();
+        message = message.replaceAll("(?i)\\b@?here\\b", ChatColor.YELLOW + "$0" + resetColor);
+        message = message.replaceAll("(?i)\\b@?everyone\\b", ChatColor.YELLOW + "$0" + resetColor);
 
-        if (highlightMentioned && mentionedPlayerName != null) {
-            String resetColor = message.startsWith(">") ? ChatColor.GREEN.toString() : ChatColor.RESET.toString();
+        NamedTextColor colorMessage = null;
 
-            message = message
-                    .replaceAll("(?i)" + mentionedPlayerName, ChatColor.YELLOW + mentionedPlayerName + resetColor)
-                    .replaceAll("(?i)\\b@?here\\b", ChatColor.YELLOW + "$0" + resetColor);
+        if(message.startsWith(">")){
+            message = message.substring(1).trim();
+            colorMessage = NamedTextColor.GREEN;
         }
 
-        if (message.trim().equals(">") || message.trim().isEmpty()) return null;
+        Component msgComponent = Component.text("");
+        String[] words = message.split(" ");
 
-        Component msgComponent = message.startsWith(">")
-                ? Component.text(message.substring(1).trim()).color(TextColor.color(85, 255, 85))
-                : Component.text(message);
+        for (String word : words) {
+            boolean isPlayerName = false;
+
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                if (word.equalsIgnoreCase(onlinePlayer.getName())) {
+                    Component mentionedHoverText = Component.text()
+                            .append(onlinePlayer.displayName())
+                            .append(Component.text("\n\n", NamedTextColor.GRAY))
+                            .append(Component.text("Lang: ").color(TextColor.fromHexString("#FFD700")))
+                            .append(Component.text(onlinePlayer.locale().getLanguage() + "\n", NamedTextColor.LIGHT_PURPLE))
+                            .append(Component.text("Experience: ").color(TextColor.fromHexString("#FFD700")))
+                            .append(Component.text(onlinePlayer.getLevel() + "\n", NamedTextColor.GREEN))
+                            .append(Component.text("Distance Walked: ").color(TextColor.fromHexString("#FFD700")))
+                            .append(Component.text(df.format(onlinePlayer.getStatistic(Statistic.WALK_ONE_CM) / 100000.0) + " km\n", NamedTextColor.BLUE))
+                            .append(Component.text("Player Kills: ").color(TextColor.fromHexString("#FFD700")))
+                            .append(Component.text(onlinePlayer.getStatistic(Statistic.PLAYER_KILLS) + "\n", NamedTextColor.RED))
+                            .append(Component.text("Player Deaths: ").color(TextColor.fromHexString("#FFD700")))
+                            .append(Component.text(onlinePlayer.getStatistic(Statistic.DEATHS) + "\n", NamedTextColor.RED))
+                            .append(Component.text("Time Played: ").color(TextColor.fromHexString("#FFD700")))
+                            .append(Component.text(df.format(onlinePlayer.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20.0 / 3600.0) + " hours\n", NamedTextColor.YELLOW))
+                            .append(Component.text("\n(Click to send a direct message)").color(NamedTextColor.GRAY))
+                            .build();
+
+                    Component mentionedNameComponent = Component.text(onlinePlayer.getName())
+                            .hoverEvent(HoverEvent.showText(mentionedHoverText))
+                            .clickEvent(ClickEvent.suggestCommand("/msg " + onlinePlayer.getName() + " "));
+
+                    if(mentionedPlayerName != null){
+                        if(onlinePlayer.getName().equals(mentionedPlayerName)){
+                            mentionedNameComponent = mentionedNameComponent.color(NamedTextColor.YELLOW);
+                        } else{
+                            if(colorMessage != null) mentionedNameComponent = mentionedNameComponent.color(colorMessage);
+                        }
+                    }
+
+                    msgComponent = msgComponent.append(mentionedNameComponent).append(Component.text(" "));
+                    isPlayerName = true;
+                    break;
+                }
+            }
+
+            if (!isPlayerName) {
+                if(colorMessage != null){
+                    msgComponent = msgComponent.append(Component.text(word + " ").color(colorMessage));
+                } else msgComponent = msgComponent.append(Component.text(word + " "));
+            }
+        }
+
+        if (message.trim().isEmpty()) return null;
 
         return (TextComponent) nameComponent.append(msgComponent);
     }
+
 }
