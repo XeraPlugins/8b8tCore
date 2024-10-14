@@ -56,6 +56,7 @@ public class ChatListener implements Listener {
         String ogMessage = event.getMessage();
         Component displayName = sender.displayName();
         Component message = formatMessage(ogMessage, displayName, sender, null);
+        if(message == null) return;
 
         String legacyPrefix = prefixManager.getPrefix(sender);
         String legacyDisplayName = LegacyComponentSerializer.legacySection().serialize(displayName);
@@ -82,7 +83,9 @@ public class ChatListener implements Listener {
 
             if (lowerMessage.contains(recipient.getName().toLowerCase())) {
                 TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, recipient.getName());
-                if(highlightedMessage != null) recipient.sendMessage(highlightedMessage);
+                if(highlightedMessage == null) return;
+
+                recipient.sendMessage(highlightedMessage);
             } else {
                 recipient.sendMessage(message);
             }
@@ -170,6 +173,8 @@ public class ChatListener implements Listener {
             colorMessage = NamedTextColor.GREEN;
         }
 
+        if (message.trim().isEmpty()) return null;
+
         Component msgComponent = Component.text("");
         String[] words = message.split(" ");
 
@@ -220,8 +225,6 @@ public class ChatListener implements Listener {
                 } else msgComponent = msgComponent.append(Component.text(word + " "));
             }
         }
-
-        if (message.trim().isEmpty()) return null;
 
         return (TextComponent) nameComponent.append(msgComponent);
     }
