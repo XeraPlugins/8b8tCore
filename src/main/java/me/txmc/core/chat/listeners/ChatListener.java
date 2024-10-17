@@ -1,5 +1,6 @@
 package me.txmc.core.chat.listeners;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.chat.ChatInfo;
 import me.txmc.core.chat.ChatSection;
@@ -12,14 +13,13 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.text.DecimalFormat;
 import java.util.HashSet;
@@ -40,7 +40,7 @@ public class ChatListener implements Listener {
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event) {
+    public void onChat(AsyncChatEvent event) {
         if (service == null) service = manager.getPlugin().getExecutorService();
         event.setCancelled(true);
         Player sender = event.getPlayer();
@@ -53,14 +53,10 @@ public class ChatListener implements Listener {
         ci.setChatLock(true);
         service.schedule(() -> ci.setChatLock(false), cooldown, TimeUnit.SECONDS);
 
-        String ogMessage = event.getMessage();
+        String ogMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
         Component displayName = sender.displayName();
         Component message = formatMessage(ogMessage, displayName, sender, null);
         if(message == null) return;
-
-        String legacyPrefix = prefixManager.getPrefix(sender);
-        String legacyDisplayName = LegacyComponentSerializer.legacySection().serialize(displayName);
-        sender.setPlayerListName(legacyPrefix + legacyDisplayName);
 
         if (blockedCheck(ogMessage)) {
             sender.sendMessage(message);

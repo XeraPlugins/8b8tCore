@@ -5,7 +5,6 @@ import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,13 +27,11 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @since 2024/08/11 03:42 PM
  */
 public class PlayerPrefix implements Listener {
-    private final JavaPlugin plugin;
     private final PrefixManager prefixManager = new PrefixManager();
     private final GeneralDatabase database;
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public PlayerPrefix(JavaPlugin plugin) {
-        this.plugin = plugin;
         this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
     }
 
@@ -52,7 +49,7 @@ public class PlayerPrefix implements Listener {
 
 
     public void setupTag(Player player, String tag) {
-        player.setPlayerListName(String.format("%s%s",ChatColor.translateAlternateColorCodes('&', tag), player.getDisplayName()));
+        player.playerListName(miniMessage.deserialize(String.format("%s%s",tag, player.getDisplayName())));
     }
 
 }

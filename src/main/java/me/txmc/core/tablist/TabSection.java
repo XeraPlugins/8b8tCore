@@ -30,7 +30,7 @@ public class TabSection implements Section {
     @Override
     public void enable() {
         config = plugin.getSectionConfig(this);
-        plugin.getExecutorService().scheduleAtFixedRate(new TabWorker(this), 0, 150, TimeUnit.MILLISECONDS);
+        plugin.getExecutorService().scheduleAtFixedRate(new TabWorker(this), 0, 500, TimeUnit.MILLISECONDS);
         plugin.register(new PlayerJoinListener(this));
     }
 
