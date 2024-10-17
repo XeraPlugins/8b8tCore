@@ -68,7 +68,7 @@ public class RenameCommand extends BaseCommand {
         meta.displayName(displayName.decoration(TextDecoration.ITALIC,false));
         itemInHand.setItemMeta(meta);
 
-        String displayNameLegacy = LegacyComponentSerializer.legacyAmpersand().serialize(displayName);
+        String displayNameLegacy = miniMessage.serialize(displayName);
         sendPrefixedLocalizedMessage(player, "rename_success", displayNameLegacy);
     }
 

@@ -166,7 +166,7 @@ public class ChatListener implements Listener {
         message = message.replaceAll("(?i)\\b@?here\\b", ChatColor.YELLOW + "$0" + resetColor);
         message = message.replaceAll("(?i)\\b@?everyone\\b", ChatColor.YELLOW + "$0" + resetColor);
 
-        NamedTextColor colorMessage = null;
+        NamedTextColor colorMessage = NamedTextColor.WHITE;
 
         if(message.startsWith(">")){
             message = message.substring(1).trim();
@@ -183,33 +183,12 @@ public class ChatListener implements Listener {
 
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
                 if (word.equalsIgnoreCase(onlinePlayer.getName())) {
-                    Component mentionedHoverText = Component.text()
-                            .append(onlinePlayer.displayName())
-                            .append(Component.text("\n\n", NamedTextColor.GRAY))
-                            .append(Component.text("Lang: ").color(TextColor.fromHexString("#FFD700")))
-                            .append(Component.text(onlinePlayer.locale().getLanguage() + "\n", NamedTextColor.LIGHT_PURPLE))
-                            .append(Component.text("Experience: ").color(TextColor.fromHexString("#FFD700")))
-                            .append(Component.text(onlinePlayer.getLevel() + "\n", NamedTextColor.GREEN))
-                            .append(Component.text("Distance Walked: ").color(TextColor.fromHexString("#FFD700")))
-                            .append(Component.text(df.format(onlinePlayer.getStatistic(Statistic.WALK_ONE_CM) / 100000.0) + " km\n", NamedTextColor.BLUE))
-                            .append(Component.text("Player Kills: ").color(TextColor.fromHexString("#FFD700")))
-                            .append(Component.text(onlinePlayer.getStatistic(Statistic.PLAYER_KILLS) + "\n", NamedTextColor.RED))
-                            .append(Component.text("Player Deaths: ").color(TextColor.fromHexString("#FFD700")))
-                            .append(Component.text(onlinePlayer.getStatistic(Statistic.DEATHS) + "\n", NamedTextColor.RED))
-                            .append(Component.text("Time Played: ").color(TextColor.fromHexString("#FFD700")))
-                            .append(Component.text(df.format(onlinePlayer.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20.0 / 3600.0) + " hours\n", NamedTextColor.YELLOW))
-                            .append(Component.text("\n(Click to send a direct message)").color(NamedTextColor.GRAY))
-                            .build();
+                    Component mentionedNameComponent = onlinePlayer.name();
 
-                    Component mentionedNameComponent = Component.text(onlinePlayer.getName())
-                            .hoverEvent(HoverEvent.showText(mentionedHoverText))
-                            .clickEvent(ClickEvent.suggestCommand("/msg " + onlinePlayer.getName() + " "));
-
+                    mentionedNameComponent = mentionedNameComponent.color(colorMessage);
                     if(mentionedPlayerName != null){
                         if(onlinePlayer.getName().equals(mentionedPlayerName)){
                             mentionedNameComponent = mentionedNameComponent.color(NamedTextColor.YELLOW);
-                        } else{
-                            if(colorMessage != null) mentionedNameComponent = mentionedNameComponent.color(colorMessage);
                         }
                     }
 
@@ -220,7 +199,7 @@ public class ChatListener implements Listener {
             }
 
             if (!isPlayerName) {
-                if(colorMessage != null){
+                if(colorMessage != NamedTextColor.WHITE){
                     msgComponent = msgComponent.append(Component.text(word + " ").color(colorMessage));
                 } else msgComponent = msgComponent.append(Component.text(word + " "));
             }
@@ -228,5 +207,4 @@ public class ChatListener implements Listener {
 
         return (TextComponent) nameComponent.append(msgComponent);
     }
-
 }
