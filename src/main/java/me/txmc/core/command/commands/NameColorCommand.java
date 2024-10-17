@@ -75,7 +75,7 @@ public class NameColorCommand extends BaseTabCommand {
         Component displayName = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(displayNameString));
 
         player.displayName(displayName);
-        String playerName = LegacyComponentSerializer.legacyAmpersand().serialize(player.displayName());
+        String playerName = miniMessage.serialize(player.displayName());
         sendPrefixedLocalizedMessage(player, "nc_success", playerName);
 
         database.insertNickname(player.getName(), GlobalUtils.convertToMiniMessageFormat(displayNameString));

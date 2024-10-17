@@ -54,7 +54,7 @@ public class NickCommand extends BaseCommand {
         }
 
         player.displayName(displayName);
-        String playerName = LegacyComponentSerializer.legacyAmpersand().serialize(player.displayName());
+        String playerName = miniMessage.serialize(player.displayName());
 
         sendPrefixedLocalizedMessage(player, "nick_success", playerName);
         database.insertNickname(player.getName(), GlobalUtils.convertToMiniMessageFormat(nickname));

@@ -4,6 +4,7 @@ import me.txmc.core.command.BaseTabCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -77,7 +78,7 @@ public class ItemColorCommand extends BaseTabCommand {
             meta.displayName(itemNameComponent);
             itemInHand.setItemMeta(meta);
 
-            sendPrefixedLocalizedMessage(player, "ic_success", LegacyComponentSerializer.legacyAmpersand().serialize(meta.displayName()));
+            sendPrefixedLocalizedMessage(player, "ic_success", MiniMessage.miniMessage().serialize(meta.displayName()));
         }, () -> sendMessage(sender, "&c%s", PLAYER_ONLY));
     }
 
