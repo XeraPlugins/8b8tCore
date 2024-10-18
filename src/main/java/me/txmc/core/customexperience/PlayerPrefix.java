@@ -47,7 +47,6 @@ public class PlayerPrefix implements Listener {
         }
     }
 
-
     public void setupTag(Player player, String tag) {
         player.playerListName(miniMessage.deserialize(String.format("%s%s",tag, player.getDisplayName())));
     }

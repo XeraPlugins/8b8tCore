@@ -121,6 +121,7 @@ hotspot_teleported_to_player: "&3Телепортируемся к точке д
 hotspot_not_found: "&cНет активных точек доступа для телепортации."
 hotspot_teleported_to: "&3Телепортация к ближайшей точке доступа..."
 hotspot_created_to_everyone: "&r&a%s&3 создал новую точку доступа, используйте <gold><underlined><hover:show_text:'<gray>Нажмите, чтобы телепортироваться'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> для телепортации"
+repair_fail_while_pvp: "&cВы не можете использовать эту команду во время или вскоре после PvP!"
 
 #Complex messages
 HelpMessage:

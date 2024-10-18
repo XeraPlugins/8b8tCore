@@ -121,6 +121,7 @@ hotspot_teleported_to_player: "&3Teletransportando al hotspot de &r&a%s&3."
 hotspot_not_found: "&cNo hay hotspots activos para teletransportarte."
 hotspot_teleported_to: "&3Teletransportando al hotspot más cercano..."
 hotspot_created_to_everyone: "&r&a%s&3 creó un nuevo hotspot, usa <gold><underlined><hover:show_text:'<gray>Click para teletransportarte'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> para teletransportarte a él"
+repair_fail_while_pvp: "&c¡No puedes usar este comando durante o poco después del PvP!"
 
 #Complex messages
 HelpMessage:

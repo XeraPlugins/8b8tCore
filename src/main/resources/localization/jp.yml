@@ -121,6 +121,7 @@ hotspot_teleported_to_player: "&3&r&a%s&3 のホットスポットにテレポ�
 hotspot_not_found: "&cテレポートするアクティブなホットスポットはありません。"
 hotspot_teleported_to: "&3最も近いホットスポットにテレポートしています..."
 hotspot_created_to_everyone: "&r&a%s&3 が新しいホットスポットを作成しました。<gold><underlined><hover:show_text:'<gray>クリックしてテレポート'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> を使用してテレポートします"
+repair_fail_while_pvp: "&cPvP中またはPvP直後にこのコマンドを使用することはできません！"
 
 #Complex messages
 HelpMessage:

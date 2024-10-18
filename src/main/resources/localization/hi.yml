@@ -121,6 +121,7 @@ hotspot_teleported_to_player: "&3&r&a%s&3 के हॉटस्पॉट पर
 hotspot_not_found: "&cटेलीपोर्ट करने के लिए कोई सक्रिय हॉटस्पॉट नहीं हैं।"
 hotspot_teleported_to: "&3सबसे नजदीकी हॉटस्पॉट पर टेलीपोर्ट किया जा रहा है..."
 hotspot_created_to_everyone: "&r&a%s&3 ने एक नया हॉटस्पॉट बनाया, <gold><underlined><hover:show_text:'<gray>टेलीपोर्ट करने के लिए क्लिक करें'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> का उपयोग करके वहां टेलीपोर्ट करें"
+repair_fail_while_pvp: "&cआप PvP के दौरान या PvP के तुरंत बाद इस कमांड का उपयोग नहीं कर सकते!"
 
 #Complex messages
 HelpMessage:

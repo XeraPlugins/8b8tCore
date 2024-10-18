@@ -121,6 +121,7 @@ hotspot_teleported_to_player: "&3正在传送到 &r&a%s&3 的热点。"
 hotspot_not_found: "&c没有可传送的活动热点。"
 hotspot_teleported_to: "&3正在传送到最近的热点..."
 hotspot_created_to_everyone: "&r&a%s&3 创建了一个新的热点，使用 <gold><underlined><hover:show_text:'<gray>点击传送'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> 传送到那里"
+repair_fail_while_pvp: "&c你不能在PvP期间或之后不久使用此命令！"
 
 # 复杂信息
 HelpMessage:

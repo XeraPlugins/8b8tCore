@@ -29,18 +29,38 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
  * @author Minelord9000 (agarciacorte)
  * @since 2024/08/27 09:18 PM
  */
-public class RepairCommand extends BaseTabCommand {
-    private final List<String> repairOptions;
 
-    public RepairCommand() {
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+public class RepairCommand extends BaseTabCommand implements Listener {
+    private final List<String> repairOptions;
+    private final Map<UUID, Long> lastPvPCombatTime;
+    private final long combatCooldown;
+
+    public RepairCommand(JavaPlugin plugin) {
         super("repair", "/repair [all]", "8b8tcore.command.repair");
         repairOptions = List.of("all");
+        lastPvPCombatTime = new HashMap<>();
+        combatCooldown = TimeUnit.SECONDS.toMillis(30);
+
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(ChatColor.RED + "This command can only be used by players.");
+            sender.sendMessage("This command can only be used by players.");
+            return;
+        }
+
+        if (isInCombatCooldown(player)) {
+            sendPrefixedLocalizedMessage(player, "repair_fail_while_pvp");
             return;
         }
 
@@ -68,6 +88,18 @@ public class RepairCommand extends BaseTabCommand {
         }
     }
 
+    private boolean isInCombatCooldown(Player player) {
+        UUID playerId = player.getUniqueId();
+        long currentTime = System.currentTimeMillis();
+        if (lastPvPCombatTime.containsKey(playerId)) {
+            long lastCombat = lastPvPCombatTime.get(playerId);
+            if ((currentTime - lastCombat) < combatCooldown) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void repairAllItems(Player player) {
         for (ItemStack item : player.getInventory().getContents()) {
             if (item != null && item.getType() != Material.AIR && item.getType().getMaxDurability() > 0) {
@@ -85,5 +117,17 @@ public class RepairCommand extends BaseTabCommand {
                     .collect(Collectors.toList());
         }
         return new ArrayList<>();
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player damager && event.getEntity() instanceof Player target) {
+            UUID damagerId = damager.getUniqueId();
+            UUID targetId = target.getUniqueId();
+            long currentTime = System.currentTimeMillis();
+
+            lastPvPCombatTime.put(damagerId, currentTime);
+            lastPvPCombatTime.put(targetId, currentTime);
+        }
     }
 }

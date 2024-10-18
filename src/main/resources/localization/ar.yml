@@ -121,6 +121,7 @@ hotspot_teleported_to_player: "&3التنقل إلى النقطة الساخنة
 hotspot_not_found: "&cلا توجد نقاط ساخنة نشطة للتنقل إليها."
 hotspot_teleported_to: "&3التنقل إلى أقرب نقطة ساخنة..."
 hotspot_created_to_everyone: "&r&a%s&3 أنشأ نقطة ساخنة جديدة، استخدم <gold><underlined><hover:show_text:'<gray>انقر للتنقل'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> للتنقل إليها"
+repair_fail_while_pvp: "&cلا يمكنك استخدام هذا الأمر أثناء أو بعد فترة وجيزة من PvP!"
 
 #Complex messages
 HelpMessage:
