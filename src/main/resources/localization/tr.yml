@@ -1,0 +1,519 @@
+prefix: "&6[&18b&98t&6]&6"
+
+#Basic messages
+ignore_successful: "&3Başarıyla oyuncuyu görmezden geldiniz&r&a %s&r"
+already_ignoring: "&cBu oyuncuyu zaten görmezden geliyorsunuz"
+ignore_command_syntax: "&cLütfen bir oyuncu belirtin /ignore <oyuncuAdı>"
+unignore_successful: "&3Başarıyla oyuncunun görmezden gelinmesi kaldırıldı&r&a %s&r"
+unignore_not_ignoring: "&c%s'yi görmezden gelmiyorsunuz"
+unignore_command_syntax: "&cLütfen bir oyuncu belirtin /unignore <oyuncuAdı>"
+ignorelist_successful: "&3Görmezden gelinen oyuncular: &c%s"
+ignorelist_not_ignoring: "&6Kimseyi görmezden gelmiyorsunuz"
+ignorelist_failed: "&6Görmezden gelinen liste bilgileri alınamadı."
+whisper_from: "&d%s Fısıldadı: %s"
+whisper_to: "&d%s'ye: %s"
+whisper_ignoring: "&c%s sizi görmezden geliyor"
+whisper_you_are_ignoring: "&cGörmezden geldiğiniz bir oyuncuya mesaj gönderemezsiniz"
+msg_could_not_find_player: "&cOyuncu %s bulunamadı"
+msg_command_syntax: "&cLütfen bir hedef ve bir mesaj belirtin /msg <hedef> <mesaj>"
+reply_player_offline: "&c%s oyuncusu çevrimdışı"
+reply_no_target: "&cHenüz kimseye mesaj göndermediniz"
+reply_command_syntax: "&cLütfen bir mesaj belirtin /r <mesaj>"
+togglechat_chat_enabled: "&aSohbet etkinleştirildi"
+togglechat_chat_disabled: "&cSohbet devre dışı bırakıldı"
+cmdwhitelist_cmd_not_allowed: "&cKomut&r&a %s&r&c izin verilmedi"
+chat_cooldown: "&3Lütfen en az&r&a %d&r&3 saniye bekleyin"
+delhome_no_homes: "&3Hiç eviniz yok"
+delhome_specify_home: "&3Silmek için bir ev adı belirtin. Mevcut evler: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3Ev&r&a %s&r&3 bulunamadı"
+delhome_success: "&3Ev&r&a %s&r&3 silindi"
+delhome_fail: "&3Silinemedi&r&a %s&r"
+home_no_homes: "&3Hiç ev bulunamadı"
+home_specify_home: "&3Bir ev belirtin! Mevcut evler: (&r&a%s&r&3)&r"
+home_too_close: "&3Ev kullanmak için spawn noktasından&r&a %d&r&3 blok uzakta olmalısınız"
+home_success: "&3Eve teleport ediliyor&r&a %s&r&3..."
+home_not_found: "&3Ev&r&a %s&r&3 bulunamadı"
+sethome_include_name: "&3Yeni eviniz için bir isim belirtin"
+sethome_home_already_exists: "&cBu isimle bir ev&r&a %s&r&c zaten mevcut."
+sethome_max_reached: "&3Maksimum ev sayısına ulaşıldı!"
+sethome_success: "&3Ev&r&a %s &r&3Kuruldu"
+back_teleported: "&3Son konumunuza teleport ediliyor..."
+back_no_last_location: "&cHiçbir önceki konum kaydedilmedi."
+kick_restarting: "&3Sunucu yeniden başlatılıyor"
+elytra_too_fast: "&3Elytra ile çok hızlı gidiyorsunuz"
+elytra_school_zone: "&3Şu anda okul bölgesindesiniz. Lütfen maksimum 15 km/s hızla seyahat edin"
+elytras_disabled: "&3Sunucu gecikmesi nedeniyle elytra devre dışı bırakıldı. Yakında tekrar aktif olacaktır"
+bookban_inventory_clear: "&cKitap yasaklamasını önlemek için envanteriniz temizlendi"
+bookban_removed_item: "&cTüm&r&3 %s(ler) &r&cenvanterinizden kaldırıldı"
+kick_lever_ratelimit: "&cÇok hızlı etkileşimde bulunuyorsunuz"
+kick_pps_limit: "&cPaketleri çok hızlı gönderiyorsunuz!"
+kick_failed_to_inject: "&cEnjekte edilemedi"
+join_message: "&7%s katıldı"
+player_join_first_time: "&7%s ilk kez katıldı"
+leave_message: "&7%s ayrıldı"
+kick_message: "&7%s \"%s\" için atıldı"
+could_not_translate_message: "Mesaj çevrilemedi: %s nedeniyle"
+message_auto_translated: "Bu mesaj otomatik olarak çevrilmiştir.\n\nOrijinal Metin: %s"
+welcome_message: "&38b8t'ye hoş geldiniz"
+vote_announcement: "&c%s &6&8b&98t için oy kullandı &6ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev aldı"
+vote_thanks: "&68b8t'ye oy kullandığınız için teşekkürler, ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev alındı"
+vote_info: "&68b8t için oy verebilirsiniz &chttps://votefor.8b8t.me"
+tpa_syntax: "&cLütfen bir oyuncu belirtin. /tpa <oyuncu>"
+tpa_player_not_online: "&c%s oyuncusu çevrimdışı"
+tpa_no_request_found: "&cTPA isteği bulunamadı"
+tpa_self_tpa: "&cKendinize TPA yapamazsınız"
+tpa_request_received: "&a%s&r&3 size teleport olmak istiyor&r &a/tpayes &3KULLANICI ADI &c/tpano &3KULLANICI ADI"
+tpa_request_sent: "&3&r&a %s'e isteğiniz gönderildi"
+tpa_already_sent: "&cZaten bekleyen bir isteğiniz var"
+tpahere_syntax: "&cSizi kendinize teleport etmek için bir oyuncu belirtin /tpahere <oyuncu>"
+tpahere_request_received: "&a%s&r&3 sizi kendisine teleport etmek istiyor&r &a/tpayes &3KULLANICI ADI &c/tpano &3KULLANICI ADI"
+tpa_too_close: "&3Spawn noktasından&r&a %d&r&3 blok uzakta olmalısınız"
+tpa_requested_too_close: "&c%s oyuncusu spawn noktasına bu kadar yakın gelemez"
+tpa_teleporting: "&3Teleport ediliyor&r&a..."
+tpa_request_timeout_from: "&cGönderdiğiniz TPA isteği &a%s&r&c zaman aşımına uğradı."
+tpa_request_timeout_to: "&cAldığınız TPA isteği &a%s&r&c zaman aşımına uğradı."
+tpa_request_cancelled_from: "&3Gönderdiğiniz TPA isteği &a%s&r&3 başarıyla iptal edildi."
+tpa_request_cancelled_to: "&cAldığınız TPA isteği &a%s&r&c iptal edildi."
+tpa_request_denied_from: "&a%s&r&c isteğinizi reddetti"
+tpa_request_denied_to: "&3İstek başarıyla reddedildi"
+tpa_pending_request: "&a%s&r &cbekleyen bir isteğe sahiptir"
+tpa_to_left: "&cTPA, çünkü&r&a %s&r&c ayrıldı"
+op_not_allowed: "&cOP olmanıza izin verilmiyor"
+framedupe_cooldown: "&cÇok hızlı çoğaltma yapıyorsunuz"
+framedupe_items_limit: "&cBu parçadaki zaten çok fazla eşya var"
+dupe_permission: "&cBu kadar kolay çoğaltma yapmaya çalıştığınız için trollendiniz."
+dupe_failed: "&cÇoğaltmak için bir eşya tutmalısınız."
+dupe_success: "&3Eşya başarıyla çoğaltıldı."
+nbtPatch_deleted_item: "&c&6%s&r&c envanterinizden fazla veri nedeniyle kaldırıldı"
+chest_cooldown: "&cSandıkları çok hızlı açıyorsunuz. Lütfen bekleyin!"
+chestlimiter_deleted_chest: "&c&6%s&r&c sandıklar, parçada maksimum &c&6%s&r&c sandık sayısını aştığı için kaldırıldı"
+repair_success: "&3Eşya başarıyla onarıldı!"
+repair_no_item: "&cOnarıcıda bir eşya tutmalısınız."
+repair_not_repairable: "&cBu eşya onarılamaz."
+repair_all_success: "&3Envanterinizdeki tüm eşyalar başarıyla onarıldı!"
+nick_success: "&3Tamam! Takma adınız artık &3%s&r&3."
+nick_no_permission: "&cBu komut sadece DONOR5 içindir &3https://donate.8b8t.me/&c."
+nick_no_name_provided: "&cBir takma ad girmelisiniz &3/nick <takma_ad>&c."
+nick_user_protection: "&cTakma adınız kullanıcı adınızla aynı olmalıdır &3/nick <takma_ad>&c."
+nc_success: "&3Tamam! Takma adınız artık &3%s&r&3."
+nc_no_permission: "&cBu komutu kullanmak için oy vermiş olmalısınız."
+nc_invalid_color: "&cSadece listeden stilleri kullanabilirsiniz &3/nc <renk> <stilller...>&c."
+nc_usage: "&cEn az renkten birini girmelisiniz &3/nc <renk> <stilller...>&c."
+ic_success: "&3Tamam! Eşyanız artık &3%s&r&3 olarak adlandırıldı."
+ic_no_permission: "&cBu komut yalnızca DONOR4 içindir &3https://donate.8b8t.me/&c."
+ic_invalid_color: "&cSadece listeden stilleri kullanabilirsiniz &3/ic <renk> <stilller...>&c."
+ic_invalid_item: "&cBu eşya geçerli değil."
+ic_no_item: "&cRengini değiştirmek için elinizde bir eşya bulundurmalısınız."
+ic_usage: "&cEn az renkten birini girmelisiniz &3/ic <renk> <stilller...>&c."
+rename_success: "&3Tamam! Eşyanız artık &3%s&r&3 olarak adlandırıldı."
+rename_no_permission: "&cBu komut yalnızca DONOR5 içindir &3https://donate.8b8t.me/&c."
+rename_invalid_item: "&cBu eşya geçerli değil."
+rename_no_item: "&cRengini değiştirmek için elinizde bir eşya bulundurmalısınız."
+rename_no_name_provided: "&cBir isim girmelisiniz &3/rename <eşya ismi>&c."
+nick_too_large: "&cTakma ad maksimum 16 karakter olmalıdır."
+ic_too_large: "&cEşya adı maksimum 50 karakter olmalıdır."
+hotspot_no_perms_create: "&cBir hotspot oluşturma izniniz yok."
+hotspot_no_playername: "&cTeleport etmek için bir oyuncu ismi girmelisiniz /hotspot teleport <oyuncu>."
+hotspot_already_created: "&cZaten aktif bir hotspot'unuz var, başka bir tane oluşturmak için beklemelisiniz."
+hotspot_created: "&3Hotspot'unuz başarıyla oluşturuldu."
+hotspot_not_found_for_player: "&r&a%s&c için aktif bir hotspot bulunmamaktadır."
+hotspot_teleported_to_player: "&3Teleport ediliyor &r&a%s&3'nin hotspot'una."
+hotspot_not_found: "&cTeleport edilecek aktif hotspot yok."
+hotspot_teleported_to: "&3En yakın hotspot'a teleport ediliyor..."
+
+#Complex messages
+HelpMessage:
+  - '&1--------------------------------------'
+  - '&6Kuralları okumak için &chttps://www.8b8t.me/terms &6adresini ziyaret et'
+  - '&1--------------Komutlar----------------'
+  - '&c/tpa &6başka bir oyuncuya ışınlanmak için'
+  - '&c/tpahere &6bir oyuncuyu kendi konumuna ışınlamak için'
+  - '&c/tpayes &6bir ışınlanma isteğini kabul etmek için'
+  - '&c/tpano &6bir ışınlanma isteğini reddetmek için'
+  - '&c/tpacancel &6gönderilen tpa isteklerini iptal etmek için'
+  - '&c/back &6son konumuna geri dönmek için'
+  - '&c/hotspot &6bir sıcak noktaya ışınlanmak veya yeni bir tane oluşturmak için'
+  - '&c/sethome &6konumunda bir ev ayarlamak için'
+  - '&c/delhome &6ayarladığın bir evi silmek için'
+  - '&c/home &6ayarlanmış bir eve ışınlanmak için'
+  - '&c/skin set &6ten rengini ayarlamak için'
+  - '&c/vote &68b8t için oy vermek için'
+  - '&c/discord &68b8t discord davetini almak için'
+  - '&c/kill &6intihar etmek için'
+  - '&c/ignore &6diğer oyuncuları görmezden gelmek için'
+  - '&c/unignore &6diğer oyuncuların görmezden gelmesini kaldırmak için'
+  - '&c/ignorelist &6görmezden geldiğin oyuncuları göstermek için'
+  - '&c/msg &6diğer oyunculara mesaj göndermek için'
+  - '&c/changepass &6şifreni değiştirmek için'
+  - '&c/joindate &6senin ve diğerlerinin katılma tarihini görmek için'
+  - '&c/worldstats &6dünyanın boyutunu görmek için'
+  - '&c/pvp &68b8t PVP sunucusuna bağlanmak için'
+  - '&c/lobby &6lobiye bağlanmak için'
+  - '&c/tpsinfo &6sunucu tıklama sayısını kontrol etmek için'
+  - '&1-------------Sadece Oy Verenler---------------'
+  - '&c/nc &6isim rengini ayarlamak için'
+  - '&6Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et'
+  - '&1------------Sadece Bağışcılar--------------'
+  - '&c/ic &6eşya rengini ayarlamak için'
+  - '&c/rename &6bir eşyayı yeniden adlandırmak için'
+  - '&c/seen &6bir oyuncunun en son ne zaman giriş yaptığını görmek için'
+  - '&c/echest &6ender chestini açmak için'
+  - '&c/nick &6bir takma ad ayarlamak için'
+  - '&c/dupe &6elindeki eşyayı çoğaltmak için'
+  - '&6Bağış yapmak için &chttps://donate.8b8t.me &6adresini ziyaret et'
+  - '&1--------------------------------------'
+
+TabList:
+  Header:
+    - ''
+    - '&18builders&98tools'
+    - ''
+    - "&68b8t.me'den memnun musun? Bağışta bulunmak için https://donate.8b8t.me adresini ziyaret et"
+    - ''
+  
+  Footer:
+    - ''
+    - '&7tps:&r %tps% &7ping: &r%ping% &7oyuncular: &f%players% &7çalışma süresi: &r%uptime%'
+    - ''
+    - '&7İletişim: contact@8b8t.me'
+    - '&7Tartışma: https://discord.8b8t.me'
+    - '&7Web Sitesi: https://www.8b8t.me'
+    - '&7Bu resmi 8b8t web siteleri ve iletişimleri'
+    - ''
+TpsMessage:
+  - '&1------------TPS Bilgisi------------'
+  - '&6TPS: &a%s &6MSTP: &a%s'
+  - '&6En Düşük Bölge TPS: &c%s'
+  - '&6Çevrimiçi Oyuncular &a%s'
+  - '&1-------------------------------------'
+tps_failed: '&cTPS kontrol etmek için yetkiniz yok'
+
+announcements:
+  - '&6[&18b&98t&6]&6 Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev al'
+  - "&6[&18b&98t&6]&6 8b8t'yi desteklemek için &chttps://donate.8b8t.me &6adresinden bağış yap"
+
+# Death messages
+global-pvp-death-messages:
+  - "&3%victim%&r&4, &3%killer%&r&4 tarafından öldürüldü"
+  - "&3%victim%&r&4, &3%killer%&r&4 tarafından &6[%kill-weapon%&6] ile öldürüldü"
+  - "&3%victim%&r&4, &3%killer%&r&4 tarafından rahmetli edildi"
+  - "&3%victim%&r&4, &3%killer%&r&4 tarafından &6[%kill-weapon%&6] ile pwned oldu"
+  - "&3%killer%&r&4, &6[%kill-weapon%&6] ile &3%victim%&r&4'ü parçaladı"
+  - "&3%victim%&r&4, &3%killer%&r&4 tarafından rahmetli edildi"
+  - "&3%victim%&r&4, &3%killer%&r&4 ve onların güçlü &6[%kill-weapon%&6] ile rekt oldu"
+  - "&3%victim%&r&4, &3%killer%&r&4 tarafından &6[%kill-weapon%&6] ile EZ clapped oldu"
+
+melee-death-messages:
+  - "&3%victim%&r&4, &3%killer%&r&4 tarafından tokatlandı"
+  - "&3%victim%&r&4, &3%killer%&r&4 tarafından KO edildi"
+  - "&3%victim%&r&4, &3%killer%&r&4 tarafından rahmetli edildi"
+
+fall-damage-messages:
+  - "&3%victim%&r&4, yer çekimini test etmeye karar verdi ve hata aldı"
+  - "&3%victim%&r&4, paraşüt getirmeyi unuttu"
+  - "&3%victim%&r&4, uçabileceğini düşündü... ama uçamadı"
+
+drowning-messages:
+  - "&3%victim%&r&4, balıklarla uyumaya karar verdi"
+  - "&3%victim%&r&4, zamanında oksijene ulaşabileceğini düşündü"
+  - "&3%victim%&r&4, suyu geçmeye çalıştı"
+
+suffocation-messages:
+  - "&3%victim%&r&4, bir kafasını bir bloğa geçirdi"
+  - "&3%victim%&r&4, bir blok içinde nefes alamadı"
+  - "&3%victim%&r&4, bir blok tarafından zekice kandırıldı"
+
+cramming-messages:
+  - "&3%victim%&r&4, yok edilene kadar sıkıştırıldı"
+  - "&4Zavallı &3%victim%&r&4, 1x1 alanda yaşayabileceklerini düşündüler"
+
+thorns-messages:
+  - "&3%victim%&r&4, &3%killer%&r&4'ün dikenli zırhı tarafından geri püskürtüldü"
+  - "&3%victim%&r&4, &3%killer%&r&4'ün dikenleriyle tuzağa düşürüldü"
+
+lava-messages:
+  - "&3%victim%&r&4, bir lav çukurunda yanarak yok oldu"
+  - "&3%victim%&r&4, lavda yüzmeye gitti ve yandı"
+
+magma-block-messages:
+  - "&3%victim%&r&4, sıcak bir &6magma bloğu tarafından yok edildi"
+  - "&3%victim%&r&4'ün ayakları bir &6magma bloğu tarafından kavurmaya dönüştürüldü"
+
+elytra-messages:
+  - "&3%victim%&r&4, bir duvara çarparak öldü...?"
+  - "&3%victim%&r&4, elytrası tarafından bir duvara çarptırıldı"
+
+wither-messages:
+  - "&3%victim%&r&4, &9wither &4hastalığına yakalandı"
+  - "&3%victim%&r&4, &9witherli &4olarak 4. boyuta gitti"
+
+suicide-messages:
+  - "&3%victim%&r&4, kendini öldürdü"
+  - "&3%victim%&r&4, zihinsel bir çöküş yaşadı ve öldü"
+
+fire-messages:
+  - "&3%victim%&r&4, şöminenin içinde durdu"
+  - "&3%victim%&r&4, ateşle oynadı"
+
+fire-tick-messages:
+  - "&3%victim%&r&4, durmayı, yuvarlanmayı ve atlamayı unuttu"
+
+starvation-messages:
+  - "&3%victim%&r&4, yemek yemeyi unuttu"
+  - "&3%victim%&r&4'ün annesi, evde yiyecek var dedi"
+
+cactus-messages:
+  - "&3%victim%&r&4, dikenler tarafından öldürüldü"
+  - "&3%victim%&r&4, akupunktur denedi ama öldü"
+  - "&3%victim%&r&4, bir dikeni kucaklayarak öldü"
+
+potion-messages:
+  - "&3%victim%&r&4, kötü bir iksirin kurbanı oldu"
+  - "&3%victim%&r&4, korona virüsten öldü"
+
+void-messages:
+  - "&3%victim%&r&4, boşlukta bir gezi yapmanın eğlenceli olacağını düşündü"
+  - "&3%victim%&r&4, boşluğa tek yönlü bir yolculuk yaptı"
+  - "&3%victim%&r&4, bir uzay gemisi olmadan kozmik bir maceraya atıldı..."
+
+lightning-messages:
+  - "&3%victim%&r&4, ilahi müdahale tarafından çarpıldı"
+  - "&3%victim%&r&4, tanrılar tarafından yere serildi"
+  - "&3%victim%&r&4, yukarıdan şok edici bir hatırlatma aldı"
+
+falling-block-messages:
+  - "&3%victim%&r&4, düşen bir blok tarafından ezildi"
+  - "&3%victim%&r&4, düşen blokla bir bütün oldu"
+  - "&3%victim%&r&4, düşen bir blokta karşısına çıkanla karşılaştı"
+
+freeze-messages:
+  - "&3%victim%&r&4, kutupsal girdaba dayanamadı"
+  - "&3%victim%&r&4, kış ceketini unuttu"
+  - "&3%victim%&r&4, bir buz küpünden daha hızlı dondu"
+
+firework-messages:
+  - "&3%victim%&r&4, bir havai fişek için fitili çok erken ateşledi"
+  - "&3%victim%&r&4, şık bir şekilde uçmaya çalıştı... ve kaza yaptı"
+  - "&3%victim%&r&4, amatör w+m1 tehlikelerini keşfetti"
+
+slime-messages:
+  - "&3%victim%&r&4, bir &2DEV SLİME tarafından ezildi"
+  - "&3%victim%&r&4, slime toplarken &2slime'lanarak &4öldü"
+
+zombie-messages:
+  - "&3%victim%&r&4, bir &2Zombi tarafından canlı canlı yendi"
+  - "&3%victim%&r&4, bir &2Zombinin &4dostane olduğunu düşündü"
+
+pigman-messages:
+  - "&3%victim%&r&4, &ePigmenleri &4kızdırdı ve canlı canlı yendi"
+  - "&3%victim%&r&4, &ePigmenleri &4kızdırdı ve onların kavurması oldu"
+
+skeleton-messages:
+  - "&3%victim%&r&4, kemiksiz bir &fİskelet tarafından vuruldu"
+  - "&3%victim%&r&4, bir &fskeleton tarafından vuruldu"
+
+magmacube-messages:
+  - "&3%victim%&r&4, bir &6DEV MAGMA KÜPÜ tarafından ezildi"
+
+husk-messages:
+  - "&3%victim%&r&4, bir çöl sakini olan &3Husk tarafından yendi"
+
+spider-messages:
+  - "&3%victim%&r&4, kurnaz bir &1örümcek tarafından kandırıldı"
+  - "&3%victim%&r&4, &1örümcek atıştırmasıyla karşılaştı"
+
+cavespider-messages:
+  - "&3%victim%&r&4, bir &1Mağara Örümceği tarafından ısırılarak öldürüldü"
+  - "&3%victim%&r&4, bir &1Mağara Örümceği tarafından zehirli bir sarılma aldı"
+
+witherskeleton-messages:
+  - "&3%victim%&r&4, taş kılıçla bir &0Wither İskeleti tarafından yok edildi"
+  - "&3%victim%&r&4, taş kılıçla bir &0Wither İskeleti tarafından ezildi"
+
+witherboss-messages:
+  - "&3%victim%&r&4, &0Wither tarafından kafası uçuruldu"
+  - "&3%victim%&r&4, &0Wither ile mücadele etti ve kafasını kaybetti"
+  - "&3%victim%&r&4, &0Wither'dan ölümcül bir ders aldı"
+
+dragon-messages:
+  - "&3%victim%&r&4, &5Ender Dragon tarafından bağırsakları dışarı çıkarıldı"
+  - "&3%victim%&r&4, &5Ender Dragon tarafından kafası uçuruldu"
+  - "&3%victim%&r&4, sonlandırma portalını değil, yeniden doğma ekranını buldu"
+
+dragon-breath-messages:
+  - "&3%victim%&r&4, &5Ender Dragon'ın nefesinde banyo yaptı"
+  - "&3%victim%&r&4, &5Ender Dragon'ın nefesinden fazla nefes aldı"
+  - "&3%victim%&r&4, &5Ender Dragon'ın nefes &4saldırısı tarafından kül oldu"
+
+elderguardian-messages:
+  - "&3%victim%&r&4, bir okyanus anıtını temizlemeye çalıştı ama &bElder Guardian &4hayır dedi"
+  - "&3%victim%&r&4, bir okyanus anıtını fethedebilir diye düşündü, ama &bElder Guardian &4başka planlar yaptı"
+
+tnt-messages:
+  - "&3%victim%&r&4, &4TNT tarafından kafası uçuruldu"
+  - "&3%victim%&r&4, &4TNT tarafından havaya uçuruldu"
+  - "&3%victim%&r&4, patlayıcılar hakkında zor yoldan bilgi edindi"
+
+end-crystal-messages:
+  - "&3%victim%&r&4, bir &5End Crystal tarafından parçalandı"
+  - "&3%victim%&r&4, bir &5End Crystal tarafından havaya uçuruldu"
+
+creeper-messages:
+  - "&3%victim%&r&4, bir &aCreeper'ın &4patlayıcı kişiliğiyle kaba bir şekilde tanıştırıldı"
+  - "&3%victim%&r&4, bir &aCreeper ile karşılaştı ve havaya uçtu"
+  - "&3%victim%&r&4, bir &aCreeper'ın patlama alanını hafife aldı"
+  - "&3%victim%&r&4, bir &aCreeper'ı etkisiz hale getirmeye çalıştı ama işe yaramadı"
+
+ghast-messages:
+  - "&3%victim%&r&4, bir &bGhast tarafından ateş topuyla vuruldu"
+
+enderman-messages:
+  - "&3%victim%&r&4, bir &5Enderman'ın gözlerine baktı"
+  - "&3%victim%&r&4, bir &5Enderman ile göz göze gelmeye çalıştı"
+
+silverfish-messages:
+  - "&3%victim%&r&4, bir &7Silverfish tarafından yutuldu"
+
+witch-messages:
+  - "&3%victim%&r&4, sinsi bir &9Cadı tarafından büyülendi"
+  - "&3%victim%&r&4, intikamcı bir &9Cadı tarafından kurbağaya dönüştürüldü"
+
+shulker-messages:
+  - "&3%victim%&r&4, bazı &dShulker &4kabuklarını almaya çalışırken öldü"
+  - "&3%victim%&r&4, bir &dShulker tarafından vuruldu"
+  - "&3%victim%&r&4, bir &dShulker tarafından mahvoldu"
+
+guardian-messages:
+  - "&3%victim%&r&4, bir &7Guardian tarafından öldürüldü"
+  - "&3%victim%&r&4, elektriğe kapılan bir &7Guardian tarafından zappedildi"
+  - "&3%victim%&r&4, sinsi bir &7Guardian tarafından geçildi"
+
+golem-messages:
+  - "&3%victim%&r&4, bir &7Demir Golem'i &4kızdırdı"
+  - "&3%victim%&r&4, bir &7Demir Golem'in öfkesini &4provok etti"
+  - "&3%victim%&r&4, &7Demir Golem &4diplomasisinde bir ders aldı"
+
+zombievillager-messages:
+  - "&3%victim%&r&4, bir &2Zombi Köylü tarafından akşam yemeği yapıldı"
+
+endermite-messages:
+  - "&3%victim%&r&4, bir &5Endermite ile karşılaştı ve ısırılarak öldürüldü"
+  - "&3%victim%&r&4, bir &5Endermite tarafından zekice alt edildi"
+
+phantom-messages:
+  - "&3%victim%&r&4, bir &1Phantom tarafından kaçırıldı"
+
+drowned-messages:
+  - "&3%victim%&r&4, geç bir gece yüzmesine çıktı ve bir &2Drowned Zombie tarafından yutuldu"
+  - "&3%victim%&r&4, &2Drowned'ın &4sadece sıradan yüzücüler olmadığını keşfetti"
+
+pillager-messages:
+  - "&3%victim%&r&4, bir &3Pillager tarafından vuruldu"
+
+ravager-messages:
+  - "&3%victim%&r&4, bir &3Ravager tarafından çarpıldı"
+
+illusioner-messages:
+  - "&3%victim%&r&4, bir &6Illusioner tarafından illüzyon dünyasına gönderildi"
+  - "&3%victim%&r&4, bir &6Illusioner tarafından kandırıldı"
+  - "&3%victim%&r&4, bir &6Illusioner tarafından öldürüldü"
+
+bee-messages:
+  - "&3%victim%&r&4, bir &6ARI tarafından sokuldu"
+  - "&3%victim%&r&4, bir &6arı ile karşılaştı ve onların sadece bal üreticisi olmadığını öğrendi"
+  - "&3%victim%&r&4, ısrarcı bir &6arı tarafından sokuldu"
+
+wolf-messages:
+  - "&3%victim%&r&4, bir &7Kurt tarafından parçalandı"
+  - "&3%victim%&r&4, bir &7Kurt'u kışkırttı"
+
+llama-messages:
+  - "&3%victim%&r&4, bir &eLlama tarafından tükürerek öldürüldü"
+  - "&3%victim%&r&4, bir &eLlama'nın &4tükürüğüyle yakalandı"
+  - "&3%victim%&r&4, &eLlama'nın &4tükürüğüyle ağzı doldu"
+
+blaze-messages:
+  - "&3%victim%&r&4, bir &6Blaze tarafından kömürleşti"
+  - "&3%victim%&r&4, ateşli bir &6Blaze tarafından kızartıldı"
+  - "&3%victim%&r&4, ateşle oynamamanın zor yoldan öğrenildiğini öğrendi &6Blazes"
+
+stray-messages:
+  - "&3%victim%&r&4, bir &7Stray tarafından vuruldu"
+
+vex-messages:
+  - "&3%victim%&r&4, küçük bir uçan &bVex tarafından yutuldu"
+  - "&3%victim%&r&4, bir &bVex tarafından rahatsız oldu"
+
+vindicator-messages:
+  - "&3%victim%&r&4, bir &4Vindicator tarafından avlandı"
+  - "&3%victim%&r&4, bir &4Vindicator'ın gücünü hafife aldı"
+  - "&3%victim%&r&4, bir &4Vindicator'ın &4yıkım yoluna yakalandı"
+
+evoker-messages:
+  - "&3%victim%&r&4, bir &4Evoker tarafından ölüler dünyasına çağrıldı"
+  - "&3%victim%&r&4, bir &4Evoker'ın öfkesini denedi"
+  - "&3%victim%&r&4, bir &4Evoker tarafından çağrıldı"
+
+pufferfish-messages:
+  - "&3%victim%&r&4, bir &ePufferfish'in toksisitesini hafife aldı"
+  - "&3%victim%&r&4, bir &ePufferfish ile karşılaştı ve dokunmamanın zor yoldan öğrenildiğini öğrendi"
+
+polar-bear-messages:
+  - "&3%victim%&r&4, buz gibi bir &fKutup Ayısı tarafından parçalandı"
+  - "&3%victim%&r&4, bir &fKutup Ayısı tarafından kar haline getirildi"
+
+dolphin-messages:
+  - "&3%victim%&r&4, bir &bDolphin'i &4kışkırttı... ve kaybetti mi?"
+  - "&3%victim%&r&4, bir &bDolphin'e &4çarptı ve onlar da karşılık verdi"
+
+panda-messages:
+  - "&3%victim%&r&4, bir &8Panda'nın &4akşam yemeği haline getirildi"
+  - "&3%victim%&r&4, bir &8Panda'nın &4bambu'sunu çalmaya çalıştı"
+
+piglin-messages:
+  - "&3%victim%&r&4, yeni &6Piglins'le karşılaşarak başı belaya girdi"
+  - "&3%victim%&r&4, &6Piglins ile savaşa girdi ve hayatta kalma dersi aldı"
+  - "&3%victim%&r&4, &6Piglins ile tanıştı ve onların müzakere yapmadığını öğrendi"
+
+hoglin-messages:
+  - "&3%victim%&r&4, bir &6Hoglin tarafından saldırıya uğradı, biraz kaba değil mi?"
+  - "&3%victim%&r&4, &6Hoglins hakkında yaman notları okumadı"
+
+zoglin-messages:
+  - "&3%victim%&r&4, bir &6Zoglin'in &4boynuzunu akşam yemeği olarak yedi"
+  - "&3%victim%&r&4, bir &6Zoglin tarafından çarpıldı"
+
+goat-messages:
+  - "&3%victim%&r&4, bir &4Keçi tarafından başı ile vuruldu"
+  - "&3%victim%&r&4, bir &4Keçi &4boynuzu tarafından impale edildi"
+
+zombified-piglin-messages:
+  - "&3%victim%&r&4, bir &6Piglin'i üst dünyaya götürdü ve onların yeni, pek de dost canlısı olmayan evcil hayvanı tarafından öldürüldü"
+  - "&3%victim%&r&4, bir &6Piglin'e &4ölmek zorunda kaldı... yani, Pigman... yani, Zombify edilmiş Piglin"
+
+fox-messages:
+  - "&3%victim%&r&4, &6tilki gibi &4davrandı ve öğrendi"
+  - "&3%victim%&r&4, bir &6Tilki tarafından ısırıldı"
+
+warden-messages:
+  - "&3%victim%&r&4, bir &1Warden tarafından öldürüldü... yani, ne bekliyordun ki?"
+  - "&3%victim%&r&4, &1Warden'ın &4gücünü hafife aldı"
+  - "&3%victim%&r&4, bir &1Warden'ın &4bölgesine çok yaklaştı"
+
+warden-sonic-boom-messages:
+  - "&3%victim%&r&4, bir &1Warden tarafından ses dalgası ile vuruldu"
+  - "&3%victim%&r&4, bir &1Warden'ın ses dalgası ile kulakları patlatıldı"
+
+unknown-messages:
+  - "&3%victim%&r&4, bilinmeyen nedenlerden dolayı öldü"
+  - "&3%victim%&r&4, öldü"
+  - "&3%victim%&r&4, öldürüldü"
+
+fireball-messages:
+  - "&3%victim%&r&4, beklenmedik bir &4ateş topu &4saldırısı tarafından kızartıldı"
+  - "&3%victim%&r&4, &4ateş toplarının &4yangınlı fırtınasında yakalandı"
+  - "&3%victim%&r&4, bir dizi &4ateş topu ile yakıldı"
+
+arrow-messages:
+  - "&3%victim%&r&4, &5okların yağmuruna kapıldı"
+  - "&3%victim%&r&4, &5oklardan &4kaçmaya çalıştı... ama işe yaramadı"
