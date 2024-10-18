@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import static me.txmc.core.util.GlobalUtils.executeCommand;
+
 /**
  * @author 254n_m
  * @since 2024/02/02 3:53 PM

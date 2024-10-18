@@ -5,6 +5,7 @@ import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
@@ -15,6 +16,7 @@ import org.bukkit.potion.PotionEffect;
 import java.util.logging.Level;
 
 import static me.txmc.core.antiillegal.util.Utils.checkStand;
+import static me.txmc.core.util.GlobalUtils.executeCommand;
 
 /**
  * @author 254n_m
@@ -27,6 +29,7 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+
         PlayerInventory inventory = event.getPlayer().getInventory();
         for (ItemStack item : inventory.getContents()) {
             main.checkFixItem(item, null);
