@@ -11,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import static me.txmc.core.util.GlobalUtils.executeCommand;
+
 /**
  * Manages and sets the player's prefix in the player list when they join the server.
  *
@@ -37,6 +39,10 @@ public class PlayerPrefix implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+//        Player player = event.getPlayer();
+//        if (player.getName().startsWith(".")) {
+//            executeCommand("lp user " + player.getName() + " permissit ition set sierra.bypass true");
+//        }
         String tag = prefixManager.getPrefix(event.getPlayer());
         setupTag(event.getPlayer(), tag);
 
