@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
+import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static me.txmc.core.util.GlobalUtils.executeCommand;
@@ -32,17 +33,21 @@ public class PlayerPrefix implements Listener {
     private final PrefixManager prefixManager = new PrefixManager();
     private final GeneralDatabase database;
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private final JavaPlugin plugin;
 
     public PlayerPrefix(JavaPlugin plugin) {
+        this.plugin = plugin;
         this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-//        Player player = event.getPlayer();
-//        if (player.getName().startsWith(".")) {
-//            executeCommand("lp user " + player.getName() + " permissit ition set sierra.bypass true");
-//        }
+
+        if (event.getPlayer().getName().startsWith(".")) {
+            PermissionAttachment attachment = event.getPlayer().addAttachment(plugin);
+            attachment.setPermission("nocheatplus.shortcut.bypass", true);
+        }
+
         String tag = prefixManager.getPrefix(event.getPlayer());
         setupTag(event.getPlayer(), tag);
 
