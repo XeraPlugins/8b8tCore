@@ -29,7 +29,6 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-
         PlayerInventory inventory = event.getPlayer().getInventory();
         for (ItemStack item : inventory.getContents()) {
             main.checkFixItem(item, null);
