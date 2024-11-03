@@ -19,28 +19,39 @@ public class EntityCheckTask implements Runnable {
     @Override
     public void run() {
         try {
-            for (Chunk[] chunks : Bukkit.getWorlds().stream().map(World::getLoadedChunks).toList()) {
-                for (Chunk chunk : chunks) {
-                    if (chunk.getEntities().length == 0) continue;
-                    main.entityPerChunk().forEach((e, i) -> {
-                        Entity[] entities = Arrays.stream(chunk.getEntities())
-                                .filter(en -> en.getType() == e)
-                                .toList()
+            for (World world : Bukkit.getWorlds()) {
+                for (Chunk chunk : world.getLoadedChunks()) {
+                    Entity[] chunkEntities = chunk.getEntities();
+                    if (chunkEntities.length == 0) continue;
+
+                    main.entityPerChunk().forEach((entityType, maxAllowed) -> {
+                        Entity[] filteredEntities = Arrays.stream(chunkEntities)
+                                .filter(en -> en.getType() == entityType)
                                 .toArray(Entity[]::new);
-                        int amt = entities.length;
-                        if (amt >= i) {
-                            log(Level.INFO, "Removed %d entities from chunk %d,%d in world %s", amt - i, chunk.getX(), chunk.getZ(), chunk.getWorld().getName());
-                            for (int j = 0; j < amt - i; j++) {
-                                Entity entity = entities[j];
-                                entity.getScheduler().run(main.plugin(), (t) -> entity.remove(), () -> {});
+
+                        int excessCount = filteredEntities.length - maxAllowed;
+                        if (excessCount > 0) {
+                            log(Level.INFO, "Removing %d entities from chunk %d,%d in world %s",
+                                    excessCount, chunk.getX(), chunk.getZ(), world.getName());
+
+                            for (int i = 0; i < excessCount; i++) {
+                                Entity entityToRemove = filteredEntities[i];
+
+                                entityToRemove.getScheduler().run(main.plugin(), (task) -> {
+                                    if (entityToRemove.isValid()) {
+                                        entityToRemove.remove();
+                                    }
+                                }, () -> {
+                                    log(Level.WARNING, "Failed to schedule removal for entity %s", entityToRemove);
+                                });
                             }
                         }
                     });
                 }
             }
-        } catch (Exception ex) {
-            log(Level.SEVERE, "An error occurred while checking entities: %s", ex.getMessage());
-            ex.printStackTrace();
+        } catch (Exception ignore) {
+            //log(Level.SEVERE, "An error occurred while checking entities: %s", ex.getMessage());
+            //ex.printStackTrace();
         }
     }
 }
