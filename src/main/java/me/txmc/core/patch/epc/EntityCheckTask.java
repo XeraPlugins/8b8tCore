@@ -22,7 +22,7 @@ public class EntityCheckTask implements Runnable {
         try {
             for (World world : Bukkit.getWorlds()) {
                 for (Chunk chunk : world.getLoadedChunks()) {
-                    Bukkit.getRegionScheduler().execute(main.plugin(), chunk.getBlock(chunk.getX(), 0, chunk.getZ()).getLocation(), () -> {
+                    Bukkit.getRegionScheduler().execute(main.plugin(), chunk.getBlock(0, 0, 0).getLocation(), () -> {
                         Entity[] chunkEntities = chunk.getEntities();
                         if (chunkEntities.length == 0) return;
 
@@ -47,9 +47,9 @@ public class EntityCheckTask implements Runnable {
                     });
                 }
             }
-        } catch (Exception ignore) {
-            //log(Level.SEVERE, "An error occurred while checking entities: %s", ex.getMessage());
-            //ex.printStackTrace();
+        } catch (Exception ex) {
+            log(Level.SEVERE, "An error occurred while checking entities: %s", ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }
