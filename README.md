@@ -38,6 +38,7 @@
 This plugin supports the following languages, which are displayed to each player according to their region.
 
 <p align="center">
+  <img src="https://flagcdn.com/w40/tr.png" alt="Turkish" style="margin-right: 10px;">
   <img src="https://flagcdn.com/w40/cn.png" alt="Chinese" style="margin-right: 10px;">
   <img src="https://flagcdn.com/w40/gb.png" alt="English" style="margin-right: 10px;">
   <img src="https://flagcdn.com/w40/es.png" alt="Spanish" style="margin-right: 10px;">
