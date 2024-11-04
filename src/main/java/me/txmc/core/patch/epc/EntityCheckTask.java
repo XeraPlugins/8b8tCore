@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -21,31 +22,28 @@ public class EntityCheckTask implements Runnable {
         try {
             for (World world : Bukkit.getWorlds()) {
                 for (Chunk chunk : world.getLoadedChunks()) {
-                    Entity[] chunkEntities = chunk.getEntities();
-                    if (chunkEntities.length == 0) continue;
+                    Bukkit.getRegionScheduler().execute(main.plugin(), chunk.getBlock(chunk.getX(), 0, chunk.getZ()).getLocation(), () -> {
+                        Entity[] chunkEntities = chunk.getEntities();
+                        if (chunkEntities.length == 0) return;
 
-                    main.entityPerChunk().forEach((entityType, maxAllowed) -> {
-                        Entity[] filteredEntities = Arrays.stream(chunkEntities)
-                                .filter(en -> en.getType() == entityType)
-                                .toArray(Entity[]::new);
+                        main.entityPerChunk().forEach((entityType, maxAllowed) -> {
+                            Entity[] filteredEntities = Arrays.stream(chunkEntities)
+                                    .filter(en -> en.getType() == entityType)
+                                    .toArray(Entity[]::new);
 
-                        int excessCount = filteredEntities.length - maxAllowed;
-                        if (excessCount > 0) {
-                            log(Level.INFO, "Removing %d entities from chunk %d,%d in world %s",
-                                    excessCount, chunk.getX(), chunk.getZ(), world.getName());
+                            int excessCount = filteredEntities.length - maxAllowed;
+                            if (excessCount > 0) {
+                                log(Level.INFO, "Removing %d entities from chunk %d,%d in world %s",
+                                        excessCount, chunk.getX(), chunk.getZ(), world.getName());
 
-                            for (int i = 0; i < excessCount; i++) {
-                                Entity entityToRemove = filteredEntities[i];
-
-                                entityToRemove.getScheduler().run(main.plugin(), (task) -> {
+                                for (int i = 0; i < excessCount; i++) {
+                                    Entity entityToRemove = filteredEntities[i];
                                     if (entityToRemove.isValid()) {
                                         entityToRemove.remove();
                                     }
-                                }, () -> {
-                                    log(Level.WARNING, "Failed to schedule removal for entity %s", entityToRemove);
-                                });
+                                }
                             }
-                        }
+                        });
                     });
                 }
             }
