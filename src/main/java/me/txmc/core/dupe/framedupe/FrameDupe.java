@@ -1,5 +1,6 @@
 package me.txmc.core.dupe.framedupe;
 
+import me.txmc.core.Main;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -60,7 +61,6 @@ public class FrameDupe implements Listener {
 
         final boolean ENABLED = plugin.getConfig().getBoolean("FrameDupe.enabled", true);
         final long DUPLICATION_INTERVAL = plugin.getConfig().getLong("FrameDupe.dupeCooldown", 200L);
-        final int MAX_ITEMS_IN_CHUNK = plugin.getConfig().getInt("FrameDupe.limitItemsPerChunk", 18);
         final int PROBABILITY_PERCENTAGE = plugin.getConfig().getInt("FrameDupe.probabilityPercentage", 100);
 
         if (!(event.getEntity() instanceof ItemFrame)) return;
@@ -90,10 +90,7 @@ public class FrameDupe implements Listener {
             return;
         }
 
-        if (GlobalUtils.getItemCountInChunk(block) >= MAX_ITEMS_IN_CHUNK) {
-            sendPrefixedLocalizedMessage(player, "framedupe_items_limit");
-            return;
-        }
+        if(!Main.getInstance().dupeManager.isDupeable(itemFrame.getItem(),event.getDamager())) return; // Ground Items Check, NonDupeableItems Check
 
         ItemStack itemStack = itemFrame.getItem();
         if (itemStack != null && itemStack.getType() != Material.AIR) {

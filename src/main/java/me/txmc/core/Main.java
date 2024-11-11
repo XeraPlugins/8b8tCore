@@ -10,6 +10,7 @@ import me.txmc.core.customexperience.PlayerPrefix;
 import me.txmc.core.customexperience.PlayerSimulationDistance;
 import me.txmc.core.customexperience.PlayerViewDistance;
 import me.txmc.core.deathmessages.DeathMessageListener;
+import me.txmc.core.dupe.DupeManager;
 import me.txmc.core.dupe.DupeSection;
 import me.txmc.core.dupe.SalC1Dupe;
 import me.txmc.core.home.HomeManager;
@@ -46,6 +47,7 @@ public class Main extends JavaPlugin {
     private List<Section> sections;
     private List<Reloadable> reloadables;
     private List<ViolationManager> violationManagers;
+    public DupeManager dupeManager = new DupeManager(this);
     @Getter private long startTime;
     public final Map<Player, Location> lastLocations = new HashMap<>();
 
@@ -68,6 +70,7 @@ public class Main extends JavaPlugin {
         violationManagers = new ArrayList<>();
         instance = this;
         executorService = Executors.newScheduledThreadPool(4);
+        dupeManager.loadNonDupeableItems();
         startTime = System.currentTimeMillis();
         prefix = getConfig().getString("PluginMessagePrefix", "&6[&18b&98t&cCore&6]");
         saveDefaultConfig();
@@ -119,6 +122,7 @@ public class Main extends JavaPlugin {
     @Override
     public void reloadConfig() {
         super.reloadConfig();
+        dupeManager.loadNonDupeableItems();
         sections.forEach(s -> {
             ConfigurationSection section = getConfig().getConfigurationSection(s.getName());
             if (section != null) s.reloadConfig();

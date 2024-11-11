@@ -16,13 +16,17 @@ AntiIllegal:
     - 'DIRT_PATH'
     - 'FARMLAND'
     - 'REINFORCED_DEEPSLATE'
+
 AnnouncementInterval: 90 # In seconds
+
 AntiLagChest:
   enabled: true
   openCooldown: 1000L
   maxItemSizeAllowed: 50000 #size in bytes
+
 NbtBanItemChecker:
   maxItemSizeAllowed: 50000 #size in bytes
+
 ChatControl:
   PreventLinks: true #Uses a list of all TLDs
   #How long before a player can chat again (In seconds)
@@ -127,21 +131,26 @@ ChatControl:
     - '/nickname'
     - '/rename'
     - '/hotspot'
+
 TPA:
   RequestTimeout: 3 # In minutes
+
 TPS:
   Permissions:
     - '8b8tcore.tpsinfo'
+
 Home:
   #The closest the player can be to 0,0
   Radius: 500
   #Max homes a player can have
   MaxHomes: 3
+
 Vote:
   MaxHomesByVoting: 10
   AddHomePermission: '8b8tcore.home.max.%d'
   Permissions: #List of permissions to give the player
     - 'Leee.nc'
+
 Patch:
   #Please note that elytra speed is measured in km/h
   ElytraMaxSpeed: 56.9 #Max speed in blocks/second. Default value is the max speed reachable with firework rockets
@@ -159,26 +168,37 @@ Patch:
     StrictTPS: 13 #The tps to start strictly monitoring redstone at
     StrictMaxVLS: 70 #How many redstone operations per second can happen in strict mode
     RegularMaxVLS: 20000 #How many redstone operations per second can happen in regular mode
+
 Commands:
   # to send to the player for /discord
   Discord: '&3Join us on discord at&r&a https://discord.8b8t.me'
+
 OpUsersWhiteList:
   - 'Leee'
   - 'SrGokuto'
   - 'TheTroll2001'
+
 PluginMessagePrefix: '&6[&18b&98t&cCore&6]'
+
 viewdistance:
   default: 6
+
 simulationdistance:
   default: 4
+
+#Dupes
+Dupe:
+  MaxItemsOnGround: 20 # Dropped items
+  NonDupeableItems:
+#    - player_head
+
 FrameDupe:
   enabled: false
   dupeCooldown: 200L # Miliseconds
-  limitItemsPerChunk: 18 # Dropped items
   probabilityPercentage: 100
+
 ZombieDupe:
   enabled: true
   dupeCooldown: 200L # Miliseconds
-  limitItemsPerChunk: 18 # Dropped items
   probabilityPercentage: 100
   rottenFleshDropPercentage: 50

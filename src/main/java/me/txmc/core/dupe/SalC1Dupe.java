@@ -27,7 +27,8 @@ public void onInteractAtEntity(PlayerInteractAtEntityEvent e){
                 ChestedHorse donkey = (ChestedHorse) entity;
                 for(ItemStack i : donkey.getInventory().getContents()){
                     if(i != null){
-                        if(i.getType() != Material.SADDLE){
+                        if(i.getType() != Material.SADDLE ){
+                            if(!Main.getInstance().dupeManager.isDupeable(i,p)) return;
                             donkey.getWorld().dropItem(donkey.getLocation(), i);
                         }
                     }

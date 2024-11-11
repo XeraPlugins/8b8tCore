@@ -1,5 +1,6 @@
 package me.txmc.core.dupe.zombiedupe;
 
+import me.txmc.core.Main;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -86,15 +87,10 @@ public class ZombieDupe implements Listener {
                             return;
                         }
 
-                        final int MAX_ITEMS_IN_CHUNK = plugin.getConfig().getInt("ZombieDupe.limitItemsPerChunk", 18);
-                        if (GlobalUtils.getItemCountInChunk(block) >= MAX_ITEMS_IN_CHUNK) {
-                            sendPrefixedLocalizedMessage(player, "framedupe_items_limit");
-                            return;
-                        }
-
                         ItemStack itemInHand = zombie.getEquipment().getItemInMainHand();
                         if (itemInHand != null && itemInHand.getType() != Material.AIR) {
                             ItemStack duplicateItem = itemInHand.clone();
+                            if(!Main.getInstance().dupeManager.isDupeable(duplicateItem,player)) return;
                             zombie.getWorld().dropItemNaturally(zombie.getLocation(), duplicateItem);
 
                             final int ROTTEN_FLESH_DROP_PERCENTAGE = plugin.getConfig().getInt("ZombieDupe.rottenFleshDropPercentage", 50);
