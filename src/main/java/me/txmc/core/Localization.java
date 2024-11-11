@@ -47,6 +47,7 @@ public class Localization {
         GlobalUtils.unpackResource("localization/jp.yml", new File(localeDir, "jp.yml"));
         GlobalUtils.unpackResource("localization/pt.yml", new File(localeDir, "pt.yml"));
         GlobalUtils.unpackResource("localization/ru.yml", new File(localeDir, "ru.yml"));
+        GlobalUtils.unpackResource("localization/tr.yml", new File(localeDir, "tr.yml"));
         GlobalUtils.unpackResource("localization/zh.yml", new File(localeDir, "zh.yml"));
 
         File[] ymlFiles = localeDir.listFiles(f -> f.getName().endsWith(".yml"));
