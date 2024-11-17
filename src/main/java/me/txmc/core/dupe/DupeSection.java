@@ -50,7 +50,4 @@ public class DupeSection implements Section {
         return "Dupe";
     }
 
-    private String getItemName(ItemStack itemStack) {
-        return (itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()) ? GlobalUtils.getStringContent(itemStack.getItemMeta().displayName()) : itemStack.getType().name();
-    }
 }
