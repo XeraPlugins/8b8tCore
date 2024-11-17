@@ -3,14 +3,16 @@ package me.txmc.core.patch.workers;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.patch.PatchSection;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import static me.txmc.core.util.GlobalUtils.removeElytra;
-import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
+import java.util.logging.Level;
+
+import static me.txmc.core.util.GlobalUtils.*;
 
 /**
  * @author 254n_m
@@ -23,25 +25,37 @@ public class ElytraWorker implements Runnable {
 
     @Override
     public void run() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!player.isGliding()) {
-                main.positions().remove(player);
-                continue;
+        try {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                Bukkit.getRegionScheduler().execute(main.plugin(), player.getLocation(), () -> {
+                    if (!player.isGliding()) {
+                        main.positions().remove(player);
+                        return;
+                    }
+
+                    Location from = main.positions().getOrDefault(player, null);
+                    if (from == null) {
+                        main.positions().put(player, player.getLocation());
+                        return;
+                    }
+
+                    double speed = calcSpeed(from, player.getLocation());
+                    main.positions().replace(player, player.getLocation());
+
+                    Chunk playerChunk = player.getLocation().getChunk();
+                    if (speed > main.config().getDouble("TileEntityElytraMaxSpeed") &&
+                            playerChunk.getTileEntities().length > 16) {
+                        removeElytra(player);
+                        sendPrefixedLocalizedMessage(player, "elytra_school_zone");
+                    } else if (speed > main.config().getDouble("ElytraMaxSpeed")) {
+                        removeElytra(player);
+                        sendPrefixedLocalizedMessage(player, "elytra_too_fast");
+                    }
+                });
             }
-            Location from = main.positions().getOrDefault(player, null);
-            if (from == null) {
-                main.positions().put(player, player.getLocation());
-                continue;
-            }
-            double speed = calcSpeed(from, player.getLocation());
-            main.positions().replace(player, player.getLocation());
-            if (speed > main.config().getDouble("TileEntityElytraMaxSpeed") && player.getLocation().getChunk().getTileEntities().length > 5) {
-                removeElytra(player);
-                sendPrefixedLocalizedMessage(player, "elytra_school_zone");
-            } else if (speed > main.config().getDouble("ElytraMaxSpeed")) {
-                removeElytra(player);
-                sendPrefixedLocalizedMessage(player, "elytra_too_fast");
-            }
+        } catch (Exception ex) {
+            log(Level.SEVERE, "An error occurred in ElytraWorker: %s", ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -51,3 +65,4 @@ public class ElytraWorker implements Runnable {
         return Math.hypot(deltaX, deltaZ);
     }
 }
+
