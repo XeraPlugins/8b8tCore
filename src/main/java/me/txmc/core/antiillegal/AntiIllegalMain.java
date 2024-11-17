@@ -33,7 +33,7 @@ public class AntiIllegalMain implements Section {
             new OverStackCheck(),
             new DurabilityCheck(),
             new AttributeCheck(),
-            new LoreCheck(),
+            //new LoreCheck(),
             new EnchantCheck(),
             new PotionCheck(),
             new BookCheck(),

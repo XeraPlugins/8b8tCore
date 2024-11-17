@@ -122,6 +122,9 @@ hotspot_not_found: "&cテレポートするアクティブなホットスポッ�
 hotspot_teleported_to: "&3最も近いホットスポットにテレポートしています..."
 hotspot_created_to_everyone: "&r&a%s&3 が新しいホットスポットを作成しました。<gold><underlined><hover:show_text:'<gray>クリックしてテレポート'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> を使用してテレポートします"
 repair_fail_while_pvp: "&cPvP中またはPvP直後にこのコマンドを使用することはできません！"
+sign_success: "&3完了！アイテムを正常にサインしました。"
+sign_fail_already_signed: "&cこのアイテムはすでにサインされています。"
+sign_fail_no_item: "&cサインするには手にアイテムを持っている必要があります。"
 
 #Complex messages
 HelpMessage:

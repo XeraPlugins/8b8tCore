@@ -122,6 +122,9 @@ hotspot_not_found: "&c没有可传送的活动热点。"
 hotspot_teleported_to: "&3正在传送到最近的热点..."
 hotspot_created_to_everyone: "&r&a%s&3 创建了一个新的热点，使用 <gold><underlined><hover:show_text:'<gray>点击传送'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> 传送到那里"
 repair_fail_while_pvp: "&c你不能在PvP期间或之后不久使用此命令！"
+sign_success: "&3完成！你已成功签署物品。"
+sign_fail_already_signed: "&c该物品已被签署。"
+sign_fail_no_item: "&c你必须手持一个物品才能签署它。"
 
 # 复杂信息
 HelpMessage:

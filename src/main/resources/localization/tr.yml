@@ -121,6 +121,9 @@ hotspot_not_found_for_player: "&r&a%s&c için aktif bir hotspot bulunmamaktadır
 hotspot_teleported_to_player: "&3Teleport ediliyor &r&a%s&3'nin hotspot'una."
 hotspot_not_found: "&cTeleport edilecek aktif hotspot yok."
 hotspot_teleported_to: "&3En yakın hotspot'a teleport ediliyor..."
+sign_success: "&3Tamam! Eşyayı başarıyla imzaladınız."
+sign_fail_already_signed: "&cBu eşya zaten imzalanmış."
+sign_fail_no_item: "&cEşyayı imzalamak için elinizde bir eşya olmalı."
 
 #Complex messages
 HelpMessage:

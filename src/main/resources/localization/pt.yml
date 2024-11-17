@@ -122,6 +122,9 @@ hotspot_not_found: "&cNão há hotspots ativos para teleportar."
 hotspot_teleported_to: "&3Teleportando para o hotspot mais próximo..."
 hotspot_created_to_everyone: "&r&a%s&3 criou um novo hotspot, use <gold><underlined><hover:show_text:'<gray>Clique para teletransportar'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> para se teletransportar até lá"
 repair_fail_while_pvp: "&cVocê não pode usar este comando durante ou logo após um PvP!"
+sign_success: "&3Feito! Você assinou o item com sucesso."
+sign_fail_already_signed: "&cEste item já está assinado."
+sign_fail_no_item: "&cVocê deve segurar um item na mão para assiná-lo."
 
 # Mensagens complexas
 HelpMessage:

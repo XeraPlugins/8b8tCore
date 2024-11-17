@@ -48,6 +48,7 @@ commands:
   nc:
     aliases: [nickcolor, namecolor]
   rename:
+  sign:
 permissions:
   8b8tcore.viewdistance.default:
     description: Permission for the default view distance

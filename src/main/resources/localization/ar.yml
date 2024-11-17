@@ -122,6 +122,9 @@ hotspot_not_found: "&cلا توجد نقاط ساخنة نشطة للتنقل إ
 hotspot_teleported_to: "&3التنقل إلى أقرب نقطة ساخنة..."
 hotspot_created_to_everyone: "&r&a%s&3 أنشأ نقطة ساخنة جديدة، استخدم <gold><underlined><hover:show_text:'<gray>انقر للتنقل'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> للتنقل إليها"
 repair_fail_while_pvp: "&cلا يمكنك استخدام هذا الأمر أثناء أو بعد فترة وجيزة من PvP!"
+sign_success: "&3تم! لقد وقعت العنصر بنجاح."
+sign_fail_already_signed: "&cهذا العنصر مُوقع بالفعل."
+sign_fail_no_item: "&cيجب أن تمسك عنصراً في يدك لتتمكن من توقيعه."
 
 #Complex messages
 HelpMessage:

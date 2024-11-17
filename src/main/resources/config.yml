@@ -127,6 +127,7 @@ ChatControl:
     - '/nickname'
     - '/rename'
     - '/hotspot'
+    - '/sign'
 TPA:
   RequestTimeout: 3 # In minutes
 TPS:
