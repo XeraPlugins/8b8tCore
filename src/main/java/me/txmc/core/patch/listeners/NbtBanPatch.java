@@ -118,16 +118,23 @@ public class NbtBanPatch implements Listener {
     }
 
     public static String getItemName(ItemStack itemStack) {
-        if (itemStack == null) {
+        try{
+
+            if (itemStack == null) {
+                return "";
+            }
+
+            ItemMeta meta = itemStack.getItemMeta();
+
+            if (meta != null && meta.hasDisplayName()) {
+                return String.valueOf(itemStack.getItemMeta().getDisplayName());
+            } else {
+                return itemStack.getType().toString().replace("_", " ").toLowerCase();
+            }
+
+        } catch (Exception ignore) {
             return "";
         }
 
-        ItemMeta meta = itemStack.getItemMeta();
-
-        if (meta != null && meta.hasDisplayName()) {
-            return String.valueOf(itemStack.getItemMeta().getDisplayName());
-        } else {
-            return itemStack.getType().toString().replace("_", " ").toLowerCase();
-        }
     }
 }
