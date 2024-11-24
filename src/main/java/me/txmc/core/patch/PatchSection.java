@@ -32,7 +32,7 @@ import static me.txmc.core.util.GlobalUtils.log;
 @RequiredArgsConstructor
 @Accessors(fluent = true)
 public class PatchSection implements Section {
-    private final Main plugin;
+    public final Main plugin;
     private Map<Player, Location> positions;
     @Getter private HashMap<EntityType, Integer> entityPerChunk;
     private ConfigurationSection config;

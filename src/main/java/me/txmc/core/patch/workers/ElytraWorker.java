@@ -5,10 +5,7 @@ import me.txmc.core.patch.PatchSection;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import java.util.logging.Level;
 
@@ -25,6 +22,10 @@ public class ElytraWorker implements Runnable {
 
     @Override
     public void run() {
+
+        final double MAX_SPEED_DEFAULT = main.config().getDouble("DefaultElytraMaxSpeedBlocksPerSecond", 128.0);
+        final double MAX_SPEED_WITH_ENTITIES = main.config().getDouble("TileEntitiesElytraMaxSpeedBlocksPerSecond", 64.0);
+
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 Bukkit.getRegionScheduler().execute(main.plugin(), player.getLocation(), () -> {
@@ -43,13 +44,13 @@ public class ElytraWorker implements Runnable {
                     main.positions().replace(player, player.getLocation());
 
                     Chunk playerChunk = player.getLocation().getChunk();
-                    if (speed > main.config().getDouble("TileEntityElytraMaxSpeed") &&
-                            playerChunk.getTileEntities().length > 16) {
+                    if (speed > MAX_SPEED_WITH_ENTITIES &&
+                            playerChunk.getTileEntities().length > 128) {
                         removeElytra(player);
-                        sendPrefixedLocalizedMessage(player, "elytra_school_zone");
-                    } else if (speed > main.config().getDouble("ElytraMaxSpeed")) {
+                        sendPrefixedLocalizedMessage(player, "elytra_tile_entities_too_fast", MAX_SPEED_WITH_ENTITIES);
+                    } else if (speed > MAX_SPEED_DEFAULT) {
                         removeElytra(player);
-                        sendPrefixedLocalizedMessage(player, "elytra_too_fast");
+                        sendPrefixedLocalizedMessage(player, "elytra_too_fast", MAX_SPEED_DEFAULT);
                     }
                 });
             }

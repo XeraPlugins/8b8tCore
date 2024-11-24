@@ -144,9 +144,9 @@ Vote:
   Permissions: #List of permissions to give the player
     - 'Leee.nc'
 Patch:
-  #Please note that elytra speed is measured in km/h
-  ElytraMaxSpeed: 83.3 #Max speed in blocks/second. Default value is the max speed reachable with firework rockets
-  TileEntityElytraMaxSpeed: 15 #Max speed in a chunk with more than 15 tile entities
+  #Please note that elytra speed is in blocks per second.
+  DefaultElytraMaxSpeedBlocksPerSecond: 128 #Max speed in blocks/second.
+  TileEntitiesElytraMaxSpeedBlocksPerSecond: 64 #Max speed in a chunk with more than 128 tile entities.
   ChestLimitPerChunk: 192
   EntityPerChunk:
     CheckInterval: 1 #In minutes
