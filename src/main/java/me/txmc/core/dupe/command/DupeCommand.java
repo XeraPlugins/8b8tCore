@@ -64,15 +64,13 @@ public class DupeCommand implements CommandExecutor {
                 }
 
                 int copies = 1;
-                if (args.length > 1) {
+                if (args.length > 0) {
                     try {
-                        if(args[0].indexOf("\u0078") == 0){
-                            copies = Integer.parseInt(args[0].replace("\u0078", ""));
+                            copies = Integer.parseInt(args[0]);
 
-                            if (copies < 1 || copies > 54) {
+                            if (copies < 1 || copies > 9) {
                                 copies = 1;
                             }
-                        }
                     } catch (NumberFormatException ignore) {}
                 }
                 ItemStack itemInHand = player.getInventory().getItemInMainHand();
