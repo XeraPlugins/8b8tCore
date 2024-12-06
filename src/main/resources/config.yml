@@ -183,3 +183,5 @@ ZombieDupe:
   limitItemsPerChunk: 18 # Dropped items
   probabilityPercentage: 100
   rottenFleshDropPercentage: 50
+DonkeyDupe:
+  enabled: true

@@ -1,6 +1,9 @@
 package me.txmc.core.patch.listeners;
 
+import org.bukkit.entity.ChestedHorse;
+import org.bukkit.entity.Llama;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -56,6 +59,14 @@ public class AntiLagChestListener implements Listener {
         if (!ENABLED) return;
 
         if (System.currentTimeMillis() - lastOpenTimes.getOrDefault(player.getUniqueId(), 0L) < OPEN_COOLDOWN) {
+
+            if (event.getInventory().getHolder() instanceof ChestedHorse ||
+                    event.getInventory().getHolder() instanceof Llama ||
+                    event.getInventory().getHolder() instanceof Vehicle ||
+                    event.getInventory().getHolder() instanceof Player) {
+                return;
+            }
+
             event.setCancelled(true);
             sendPrefixedLocalizedMessage(player, "chest_cooldown");
             return;
