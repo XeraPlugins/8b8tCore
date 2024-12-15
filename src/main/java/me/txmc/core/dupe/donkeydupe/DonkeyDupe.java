@@ -42,7 +42,7 @@ public class DonkeyDupe implements Listener {
     private final Main plugin;
     private final Map<UUID, ChestedHorse> trackedAnimals = new HashMap<>();
 
-    final double MIN_DISTANCE = 9.0;
+    final double MIN_DISTANCE = 6.0;
 
     public DonkeyDupe(Main plugin) {
         this.plugin = plugin;
@@ -70,7 +70,7 @@ public class DonkeyDupe implements Listener {
             if (player.isOnline() && trackedAnimals.containsKey(player.getUniqueId())) {
                 player.openInventory(inv);
             }
-        }, 30L);
+        }, 40L);
     }
 
     @EventHandler
