@@ -88,7 +88,7 @@ public class DonkeyDupe implements Listener {
 
             Bukkit.getRegionScheduler().runDelayed(plugin, player.getLocation(), (task) -> {
                 player.openInventory(fakeInventory);
-            }, 1L);
+            }, 2L);
 
         } else {
             trackedAnimals.remove(player.getUniqueId());
