@@ -165,8 +165,7 @@ Commands:
   Discord: '&3Join us on discord at&r&a https://discord.8b8t.me'
 OpUsersWhiteList:
   - 'Leee'
-  - 'SrGokuto'
-  - 'TheTroll2001'
+  - 'cubebuilder_'
 PluginMessagePrefix: '&6[&18b&98t&cCore&6]'
 viewdistance:
   default: 6
