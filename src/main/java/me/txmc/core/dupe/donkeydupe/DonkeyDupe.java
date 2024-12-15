@@ -70,7 +70,7 @@ public class DonkeyDupe implements Listener {
             if (player.isOnline() && trackedAnimals.containsKey(player.getUniqueId())) {
                 player.openInventory(inv);
             }
-        }, 40L);
+        }, 30L);
     }
 
     @EventHandler
@@ -82,13 +82,13 @@ public class DonkeyDupe implements Listener {
         ChestedHorse animal = trackedAnimals.get(player.getUniqueId());
         if (animal == null) return;
 
-        if (animal.getLocation().distance(player.getLocation()) >= MIN_DISTANCE) {
+        if (animal.getLocation().distance(player.getLocation()) >= MIN_DISTANCE && player.getVehicle() != null) {
             Inventory fakeInventory = Bukkit.createInventory(player, 18, animal.getName() != null ? animal.getName() : "Entity");
             fakeInventory.setContents(animal.getInventory().getContents());
 
             Bukkit.getRegionScheduler().runDelayed(plugin, player.getLocation(), (task) -> {
                 player.openInventory(fakeInventory);
-            }, 2L);
+            }, 1L);
 
         } else {
             trackedAnimals.remove(player.getUniqueId());
