@@ -1,5 +1,4 @@
-prefix: "&6[&18b&98t&6]&6"
-
+prefix: "&6[&98b&78t&6]&6"
 #Basic messages
 ignore_successful: "&3सफलतापूर्वक खिलाड़ी को नजरअंदाज किया गया&r&a %s&r"
 already_ignoring: "&cआप पहले ही उस खिलाड़ी को नजरअंदाज कर रहे हैं"
@@ -170,7 +169,7 @@ HelpMessage:
 TabList:
   Header:
     - ''
-    - '&18builders&98tools'
+    - '&98builders&78tools'
     - ''
     - '&68b8t.me का आनंद ले रहे हैं? https://donate.8b8t.me पर दान करने पर विचार करें'
     - ''

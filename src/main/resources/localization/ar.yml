@@ -1,5 +1,4 @@
-prefix: "&6[&18b&98t&6]&6"
-
+prefix: "&6[&98b&78t&6]&6"
 #Basic messages
 ignore_successful: "&3تم تجاهل اللاعب بنجاح&r&a %s&r"
 already_ignoring: "&cأنت بالفعل تتجاهل هذا اللاعب"
@@ -170,7 +169,7 @@ HelpMessage:
 TabList:
   Header:
     - ''
-    - '&18builders&98tools'
+    - '&98builders&78tools'
     - ''
     -
     - 'هل تستمتع بـ 8b8t.me؟ يمكنك التبرع على https://donate.8b8t.me

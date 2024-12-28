@@ -1,5 +1,4 @@
-prefix: "&6[&18b&98t&6]&6"
-
+prefix: "&6[&98b&78t&6]&6"
 #Basic messages
 ignore_successful: "&3プレイヤーを無視しました&r&a %s&r"
 already_ignoring: "&cそのプレイヤーはすでに無視しています"
@@ -170,7 +169,7 @@ HelpMessage:
 TabList:
   Header:
     - ''
-    - '&18builders&98tools'
+    - '&98builders&78tools'
     - ''
     - '&68b8t.me を楽しんでいますか？寄付は https://donate.8b8t.me でどうぞ'
     - ''

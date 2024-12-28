@@ -1,5 +1,4 @@
-prefix: "&6[&18b&98t&6]&6"
-
+prefix: "&6[&98b&78t&6]&6"
 # 基本信息
 ignore_successful: "&3成功屏蔽玩家&r&a %s&r"
 already_ignoring: "&c你已经在屏蔽这个玩家了"
@@ -170,7 +169,7 @@ HelpMessage:
 TabList:
   Header:
     - ''
-    - '&18builders&98tools'
+    - '&98builders&78tools'
     - ''
     - '&6喜欢 8b8t.me 吗？考虑在 https://donate.8b8t.me 捐款'
     - ''
