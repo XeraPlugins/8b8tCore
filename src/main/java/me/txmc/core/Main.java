@@ -50,14 +50,14 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Bukkit.getConsoleSender().sendMessage("\u00A71   ___    _        \u00A79___    _      \u00A7c____                       ");
-        Bukkit.getConsoleSender().sendMessage("\u00A71  ( _ )  | |__    \u00A79( _ )  | |_   \u00A7c/ ___|   ___    _ __    ___ ");
-        Bukkit.getConsoleSender().sendMessage("\u00A71  / _ \\  | '_ \\   \u00A79/ _ \\  | __| \u00A7c| |      / _ \\  | '__|  / _ \\");
-        Bukkit.getConsoleSender().sendMessage("\u00A71 | (_) | | |_) | \u00A79| (_) | | |_  \u00A7c| |___  | (_) | | |    |  __/");
-        Bukkit.getConsoleSender().sendMessage("\u00A71  \\___/  |_.__/   \u00A79\\___/   \\__|  \u00A7c\\____|  \\___/  |_|     \\___|");
+        Bukkit.getConsoleSender().sendMessage("\u00A79   ___    _        \u00A79___    _      \u00A77____                       ");
+        Bukkit.getConsoleSender().sendMessage("\u00A79  ( _ )  | |__    \u00A79( _ )  | |_   \u00A77/ ___|   ___    _ __    ___ ");
+        Bukkit.getConsoleSender().sendMessage("\u00A79  / _ \\  | '_ \\   \u00A79/ _ \\  | __| \u00A77| |      / _ \\  | '__|  / _ \\");
+        Bukkit.getConsoleSender().sendMessage("\u00A79 | (_) | | |_) | \u00A79| (_) | | |_  \u00A77| |___  | (_) | | |    |  __/");
+        Bukkit.getConsoleSender().sendMessage("\u00A79  \\___/  |_.__/   \u00A79\\___/   \\__|  \u00A77\\____|  \\___/  |_|     \\___|");
         Bukkit.getConsoleSender().sendMessage("");
         Bukkit.getConsoleSender().sendMessage("\u00A78+============================================================+");
-        Bukkit.getConsoleSender().sendMessage("\u00A71  8b\u00A798t\u00A7cCore \u00A75a Folia Core Plugin for 8b8t and Anarchy Servers   ");
+        Bukkit.getConsoleSender().sendMessage("\u00A79  8b\u00A798t\u00A77Core \u00A75a Folia Core Plugin for 8b8t and Anarchy Servers   ");
         Bukkit.getConsoleSender().sendMessage("\u00A78+============================================================+");
         Bukkit.getConsoleSender().sendMessage("\u00A72 v" + getDescription().getVersion() + "                              \u00A73by 254n_m & agarciacorte");
         Bukkit.getConsoleSender().sendMessage("");
@@ -68,7 +68,7 @@ public class Main extends JavaPlugin {
         instance = this;
         executorService = Executors.newScheduledThreadPool(4);
         startTime = System.currentTimeMillis();
-        prefix = getConfig().getString("PluginMessagePrefix", "&6[&18b&98t&cCore&6]");
+        prefix = getConfig().getString("prefix", "&8[&98b&78t&8]");
         saveDefaultConfig();
         getLogger().addHandler(new LoggerHandler());
         Localization.loadLocalizations(getDataFolder());

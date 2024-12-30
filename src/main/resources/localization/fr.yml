@@ -1,4 +1,3 @@
-prefix: "&6[&98b&78t&6]&6"
 #Basic messages
 ignore_successful: "&3Joueur ignoré avec succès&r&a %s&r"
 already_ignoring: "&cVous ignorez déjà ce joueur"
@@ -119,7 +118,7 @@ hotspot_not_found_for_player: "&r&a%s&c n'a pas de hotspot actif."
 hotspot_teleported_to_player: "&3Téléportation au hotspot de &r&a%s&3."
 hotspot_not_found: "&cIl n'y a pas de hotspots actifs pour se téléporter."
 hotspot_teleported_to: "&3Téléportation au hotspot le plus proche..."
-hotspot_created_to_everyone: "&r&a%s&3 a créé un nouveau hotspot, utilisez <gold><underlined><hover:show_text:'<gray>Cliquez pour vous téléporter'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> pour vous y téléporter"
+hotspot_created_to_everyone: "&r&a%s&3 a créé un nouveau hotspot, utilisez <blue><underlined><hover:show_text:'<gray>Cliquez pour vous téléporter'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></blue> pour vous y téléporter"
 repair_fail_while_pvp: "&cVous ne pouvez pas utiliser cette commande pendant ou peu après un PvP !"
 sign_success: "&3Fait ! Vous avez signé l'objet avec succès."
 sign_fail_already_signed: "&cCet objet est déjà signé."
@@ -169,9 +168,9 @@ HelpMessage:
 TabList:
   Header:
     - ''
-    - '&98builders&78tools'
+    - '&9&l8builders&7&l8tools'
     - ''
-    - '&6Vous aimez 8b8t.me ? Pensez à faire un don à https://donate.8b8t.me'
+    - '&r&c&oVous aimez 8b8t.me ? Pensez à faire un don à https://donate.8b8t.me'
     - ''
 
   Footer:
@@ -192,8 +191,8 @@ TpsMessage:
 tps_failed: "&cVous n'êtes pas autorisé à vérifier le TPS"
 
 announcements:
-  - "<gold>[<dark_blue>8b<blue>8t<gold>] Visitez <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <gold>et votez pour recevoir 2 distances de rendu supplémentaires et 5 homes supplémentaires gratuitement</gold>"
-  - "<gold>[<dark_blue>8b<blue>8t<gold>] Faites un don pour soutenir 8b8t à <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
+  - "%prefix% &9 Visitez <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>et votez pour recevoir 2 distances de rendu supplémentaires et 5 homes supplémentaires gratuitement</blue>"
+  - "%prefix% &9 Faites un don pour soutenir 8b8t à <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

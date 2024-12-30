@@ -1,4 +1,3 @@
-prefix: "&6[&98b&78t&6]&6"
 # 基本信息
 ignore_successful: "&3成功屏蔽玩家&r&a %s&r"
 already_ignoring: "&c你已经在屏蔽这个玩家了"
@@ -119,7 +118,7 @@ hotspot_not_found_for_player: "&r&a%s&c 没有活动的热点。"
 hotspot_teleported_to_player: "&3正在传送到 &r&a%s&3 的热点。"
 hotspot_not_found: "&c没有可传送的活动热点。"
 hotspot_teleported_to: "&3正在传送到最近的热点..."
-hotspot_created_to_everyone: "&r&a%s&3 创建了一个新的热点，使用 <gold><underlined><hover:show_text:'<gray>点击传送'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> 传送到那里"
+hotspot_created_to_everyone: "&r&a%s&3 创建了一个新的热点，使用 <blue><underlined><hover:show_text:'<gray>点击传送'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></blue> 传送到那里"
 repair_fail_while_pvp: "&c你不能在PvP期间或之后不久使用此命令！"
 sign_success: "&3完成！你已成功签署物品。"
 sign_fail_already_signed: "&c该物品已被签署。"
@@ -169,9 +168,9 @@ HelpMessage:
 TabList:
   Header:
     - ''
-    - '&98builders&78tools'
+    - '&9&l8builders&7&l8tools'
     - ''
-    - '&6喜欢 8b8t.me 吗？考虑在 https://donate.8b8t.me 捐款'
+    - '&r&c&o喜欢 8b8t.me 吗？考虑在 https://donate.8b8t.me 捐款'
     - ''
 
   Footer:
@@ -192,8 +191,8 @@ TpsMessage:
 tps_failed: '&c您没有被允许查询TPS'
 
 announcements:
-  - "<gold>[<dark_blue>8b<blue>8t<gold>] 访问 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <gold>并投票以免费获得2个额外的渲染距离和5个额外的家</gold>"
-  - "<gold>[<dark_blue>8b<blue>8t<gold>] 捐赠支持 8b8t 在 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
+  - "%prefix% &9 访问 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>并投票以免费获得2个额外的渲染距离和5个额外的家</blue>"
+  - "%prefix% &9 捐赠支持 8b8t 在 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

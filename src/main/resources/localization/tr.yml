@@ -1,4 +1,3 @@
-prefix: "&6[&98b&78t&6]&6"
 #Basic messages
 ignore_successful: "&3Başarıyla oyuncuyu görmezden geldiniz&r&a %s&r"
 already_ignoring: "&cBu oyuncuyu zaten görmezden geliyorsunuz"
@@ -192,8 +191,8 @@ TpsMessage:
 tps_failed: '&cTPS kontrol etmek için yetkiniz yok'
 
 announcements:
-  - '&6[&18b&98t&6]&6 Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev al'
-  - "&6[&18b&98t&6]&6 8b8t'yi desteklemek için &chttps://donate.8b8t.me &6adresinden bağış yap"
+  - '%prefix% &9 Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev al'
+  - "%prefix% &9 8b8t'yi desteklemek için &chttps://donate.8b8t.me &6adresinden bağış yap"
 
 # Death messages
 global-pvp-death-messages:

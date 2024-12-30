@@ -1,4 +1,3 @@
-prefix: "&6[&98b&78t&6]&6"
 #Basic messages
 ignore_successful: "&3تم تجاهل اللاعب بنجاح&r&a %s&r"
 already_ignoring: "&cأنت بالفعل تتجاهل هذا اللاعب"
@@ -119,7 +118,7 @@ hotspot_not_found_for_player: "&r&a%s&c لا يملك نقطة ساخنة نشط
 hotspot_teleported_to_player: "&3التنقل إلى النقطة الساخنة لـ &r&a%s&3."
 hotspot_not_found: "&cلا توجد نقاط ساخنة نشطة للتنقل إليها."
 hotspot_teleported_to: "&3التنقل إلى أقرب نقطة ساخنة..."
-hotspot_created_to_everyone: "&r&a%s&3 أنشأ نقطة ساخنة جديدة، استخدم <gold><underlined><hover:show_text:'<gray>انقر للتنقل'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></gold> للتنقل إليها"
+hotspot_created_to_everyone: "&r&a%s&3 أنشأ نقطة ساخنة جديدة، استخدم <blue><underlined><hover:show_text:'<gray>انقر للتنقل'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></blue> للتنقل إليها"
 repair_fail_while_pvp: "&cلا يمكنك استخدام هذا الأمر أثناء أو بعد فترة وجيزة من PvP!"
 sign_success: "&3تم! لقد وقعت العنصر بنجاح."
 sign_fail_already_signed: "&cهذا العنصر مُوقع بالفعل."
@@ -195,8 +194,8 @@ TpsMessage:
 tps_failed: '&cأنت غير مسموح لك بالتحقق من TPS'
 
 announcements:
-  - "<gold>[<dark_blue>8b<blue>8t<gold>] قم بزيارة <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <gold>وصوت للحصول على 2 مسافات عرض إضافية و 5 نقاط منزل إضافية مجانًا</gold>"
-  - "<gold>[<dark_blue>8b<blue>8t<gold>] تبرع لدعم 8b8t على <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
+  - "%prefix% &9 قم بزيارة <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>وصوت للحصول على 2 مسافات عرض إضافية و 5 نقاط منزل إضافية مجانًا</blue>"
+  - "%prefix% &9 تبرع لدعم 8b8t على <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:
