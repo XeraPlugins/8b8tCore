@@ -79,7 +79,7 @@ To compile and build the project, follow these steps:
 
 ### Prerequisites
 
-1. **Java Development Kit (JDK) 17:** Ensure you have JDK 17 installed on your machine. You can download it from the [AdoptOpenJDK website](https://adoptium.net/) or the [Oracle website](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
+1. **Java Development Kit (JDK) 21:** Ensure you have JDK 21 installed on your machine. You can download it from the [AdoptOpenJDK website](https://adoptium.net/) or the [Oracle website](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html).
 
 2. **Maven:** Make sure Maven is installed. You can download it from the [Apache Maven website](https://maven.apache.org/download.cgi).
 
