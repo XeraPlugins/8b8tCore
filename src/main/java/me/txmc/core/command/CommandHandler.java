@@ -25,6 +25,7 @@ public class CommandHandler implements TabExecutor {
     public void registerCommands() {
         addCommand(new BaseCmd(main));
         addCommand(new DiscordCommand(main));
+        addCommand(new MatrixCommand(main));
         addCommand(new HelpCommand());
         addCommand(new OpenInv());
         addCommand(new SayCommand());

@@ -97,7 +97,6 @@ ChatControl:
     - '/pl'
     - '/kill'
     - '/stats'
-    - '/discord'
     - '/tpa'
     - '/tpahere'
     - '/tpayes'
@@ -107,6 +106,7 @@ ChatControl:
     - '/worldstats'
     - '/stats'
     - '/discord'
+    - '/matrix'
     - '/joindate'
     - '/jd'
     - '/seen'
@@ -161,8 +161,8 @@ Patch:
     StrictMaxVLS: 70 #How many redstone operations per second can happen in strict mode
     RegularMaxVLS: 20000 #How many redstone operations per second can happen in regular mode
 Commands:
-  # to send to the player for /discord
   Discord: '&3Join us on discord at&r&a https://discord.8b8t.me'
+  Matrix: '&3Join us on matrix at&r&a https://matrix.8b8t.me'
 OpUsersWhiteList:
   - 'Leee'
   - 'cubebuilder_'
