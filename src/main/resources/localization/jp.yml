@@ -142,6 +142,7 @@ HelpMessage:
   - '&c/skin set &6スキンを設定します'
   - '&c/vote &6 8b8tに投票します'
   - '&c/discord &68b8tのDiscordサーバーに招待を受け取ります'
+  - '&c/matrix &68b8t の Matrix ルームへのリンクを取得するには'
   - '&c/kill &6自殺します'
   - '&c/ignore &6他のプレイヤーを無視します'
   - '&c/unignore &6他のプレイヤーを無視解除します'

@@ -77,7 +77,13 @@ public class Localization {
     }         //&c RED
 
     public String get(String key) {
-        return config.getString(key, String.format("Unknown key %s", key))
+        String value = config.getString(key, String.format("Unknown key %s", key));
+
+        if (key.endsWith("-messages")) {
+            return value.replaceAll("%prefix%", getPrefix());
+        }
+
+        return value
                 .replaceAll("%prefix%", getPrefix())
                 .replaceAll("&6", getColorPrimary())
                 .replaceAll("&3", getColorSecondary())
@@ -86,9 +92,16 @@ public class Localization {
     }
 
     public List<String> getStringList(String key) {
-        return config.getStringList(key).stream()
-                .map(s -> s.replaceAll("%prefix%", getPrefix())
-                        .replaceAll("&6", getColorPrimary())
+        List<String> values = config.getStringList(key).stream()
+                .map(s -> s.replaceAll("%prefix%", getPrefix()))
+                .toList();
+
+        if (key.endsWith("-messages")) {
+            return values;
+        }
+
+        return values.stream()
+                .map(s -> s.replaceAll("&6", getColorPrimary())
                         .replaceAll("&3", getColorSecondary())
                         .replaceAll("&a", getColorPositive())
                         .replaceAll("&c", getColorNegative()))

@@ -142,6 +142,7 @@ HelpMessage:
   - '&c/skin set &6设置你的皮肤'
   - '&c/vote &6为8b8t投票'
   - '&c/discord &6获取8b8t的Discord邀请'
+  - '&c/matrix &6获取 8b8t Matrix 房间的链接'
   - '&c/kill &6自杀'
   - '&c/ignore &6忽略其他玩家'
   - '&c/unignore &6取消忽略其他玩家'

@@ -141,6 +141,7 @@ HelpMessage:
   - '&c/skin set &6ten rengini ayarlamak için'
   - '&c/vote &68b8t için oy vermek için'
   - '&c/discord &68b8t discord davetini almak için'
+  - '&c/matrix &68b8t Matrix odasının bağlantısını almak için'
   - '&c/kill &6intihar etmek için'
   - '&c/ignore &6diğer oyuncuları görmezden gelmek için'
   - '&c/unignore &6diğer oyuncuların görmezden gelmesini kaldırmak için'
