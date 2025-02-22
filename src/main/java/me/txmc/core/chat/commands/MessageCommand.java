@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import me.txmc.core.chat.ChatCommand;
 import me.txmc.core.chat.ChatInfo;
 import me.txmc.core.chat.ChatSection;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,7 +28,9 @@ public class MessageCommand extends ChatCommand {
                 if (Bukkit.getOnlinePlayers().contains(target)) {
                     ChatInfo senderInfo = manager.getInfo(player);
                     ChatInfo targetInfo = manager.getInfo(target);
-                    String msg = ChatColor.stripColor(String.join(" ", Arrays.copyOfRange(args, 1, args.length)));
+                    String msg = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+                    //MiniMessage miniMessage = MiniMessage.miniMessage();
+                    //msg = miniMessage.stripTags(msg);
                     sendWhisper(player, senderInfo, target, targetInfo, msg);
                 } else sendPrefixedLocalizedMessage(player, "msg_could_not_find_player", args[0]);
             } else sendPrefixedLocalizedMessage(player, "msg_command_syntax");

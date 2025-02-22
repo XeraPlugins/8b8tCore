@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.txmc.core.chat.ChatCommand;
 import me.txmc.core.chat.ChatInfo;
 import me.txmc.core.chat.ChatSection;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,7 +27,9 @@ public class ReplyCommand extends ChatCommand {
                     Player target = senderInfo.getReplyTarget();
                     if (target.isOnline()) {
                         ChatInfo targetInfo = manager.getInfo(target);
-                        String msg = ChatColor.stripColor(String.join(" ", args));
+                        String msg = String.join(" ", args);
+                        //MiniMessage miniMessage = MiniMessage.miniMessage();
+                        //msg = miniMessage.stripTags(msg);
                         sendWhisper(player, senderInfo, target, targetInfo, msg);
                     } else sendPrefixedLocalizedMessage(player, "reply_player_offline", target.getName());
                 } else sendPrefixedLocalizedMessage(player, "reply_no_target");

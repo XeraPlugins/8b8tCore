@@ -8,7 +8,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -109,7 +108,7 @@ public class GlobalUtils {
         Localization loc = Localization.getLocalization(player.locale().getLanguage());
         String msg = String.format(loc.get(key), args);
         if (prefix) msg = PREFIX.concat(" &r&7>>&r ").concat(msg);
-        player.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(msg));
+        player.sendMessage(translateChars(msg));
     }
     @SuppressWarnings("ConstantConditions")
     public static void sendDeathMessage(String key, String victim, String killer, String weapon) {
