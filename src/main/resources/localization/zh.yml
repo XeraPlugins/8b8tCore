@@ -53,9 +53,9 @@ kick_message: "&7%s 被踢出，原因: \"%s\""
 could_not_translate_message: "由于 %s，无法翻译消息"
 message_auto_translated: "此消息已被自动翻译。\n\n原文: %s"
 welcome_message: "&3欢迎来到 8b8t"
-vote_announcement: "&c%s &6投票支持 &18b&98t &6并免费获得 /nc 2 个额外渲染距离和 5 个额外住宅"
-vote_thanks: "&6感谢您投票支持&18b&98t &6您已获得免费/nc 2 额外渲染距离和 5 额外住宅"
-vote_info: "&6您可以在 &chttps://votefor.8b8t.me &6为&18b&98t 投票"
+vote_announcement: "&c%s &6投票支持 %prefix% &6并免费获得 /nc 2 个额外渲染距离和 5 个额外住宅"
+vote_thanks: "&6感谢您投票支持%prefix% &6您已获得免费/nc 2 额外渲染距离和 5 额外住宅"
+vote_info: "&6您可以在 &chttps://votefor.8b8t.me &6为%prefix% 投票"
 tpa_syntax: "&c请包括一个玩家以进行tpa。/tpa <玩家>"
 tpa_player_not_online: "&c玩家 %s 不在线"
 tpa_no_request_found: "&c未找到TPA请求"
@@ -127,44 +127,44 @@ sign_fail_no_item: "&c你必须手持一个物品才能签署它。"
 # 复杂信息
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6访问 &chttps://www.8b8t.me/terms &6阅读规则'
+  - '&8访问 &chttps://www.8b8t.me/terms &8阅读规则'
   - '&1--------------命令----------------'
-  - '&c/tpa &6将你传送到另一个玩家那里'
-  - '&c/tpahere &6将玩家传送到你的当前位置'
-  - '&c/tpayes &6接受传送请求'
-  - '&c/tpano &6拒绝传送请求'
-  - '&c/tpacancel &6取消你发送的tpa请求'
-  - '&c/back &6返回到你上一个位置'
-  - '&c/hotspot &6传送到热点或创建一个新的'
-  - '&c/sethome &6在当前位置设置家'
-  - '&c/delhome &6删除你设置的家'
-  - '&c/home &6传送到你设置的家'
-  - '&c/skin set &6设置你的皮肤'
-  - '&c/vote &6为8b8t投票'
-  - '&c/discord &6获取8b8t的Discord邀请'
-  - '&c/matrix &6获取 8b8t Matrix 房间的链接'
-  - '&c/kill &6自杀'
-  - '&c/ignore &6忽略其他玩家'
-  - '&c/unignore &6取消忽略其他玩家'
-  - '&c/ignorelist &6显示你正在忽略的玩家'
-  - '&c/msg &6向其他玩家发送消息'
-  - '&c/changepass &6更改你的密码'
-  - '&c/joindate &6查看你和其他玩家的加入日期'
-  - '&c/worldstats &6查看世界大小'
-  - '&c/pvp &6连接到8b8t的PVP服务器'
-  - '&c/lobby &6连接到大厅'
-  - '&c/tpsinfo &6检查服务器的每秒tick数'
+  - '&c/tpa &8将你传送到另一个玩家那里'
+  - '&c/tpahere &8将玩家传送到你的当前位置'
+  - '&c/tpayes &8接受传送请求'
+  - '&c/tpano &8拒绝传送请求'
+  - '&c/tpacancel &8取消你发送的tpa请求'
+  - '&c/back &8返回到你上一个位置'
+  - '&c/hotspot &8传送到热点或创建一个新的'
+  - '&c/sethome &8在当前位置设置家'
+  - '&c/delhome &8删除你设置的家'
+  - '&c/home &8传送到你设置的家'
+  - '&c/skin set &8设置你的皮肤'
+  - '&c/vote &8为8b8t投票'
+  - '&c/discord &8获取8b8t的Discord邀请'
+  - '&c/matrix &8获取 8b8t Matrix 房间的链接'
+  - '&c/kill &8自杀'
+  - '&c/ignore &8忽略其他玩家'
+  - '&c/unignore &8取消忽略其他玩家'
+  - '&c/ignorelist &8显示你正在忽略的玩家'
+  - '&c/msg &8向其他玩家发送消息'
+  - '&c/changepass &8更改你的密码'
+  - '&c/joindate &8查看你和其他玩家的加入日期'
+  - '&c/worldstats &8查看世界大小'
+  - '&c/pvp &8连接到8b8t的PVP服务器'
+  - '&c/lobby &8连接到大厅'
+  - '&c/tpsinfo &8检查服务器的每秒tick数'
   - '&1-------------仅限投票者---------------'
-  - '&c/nc &6设置名字颜色'
-  - '&6访问 &chttps://votefor.8b8t.me &6进行投票'
+  - '&c/nc &8设置名字颜色'
+  - '&8访问 &chttps://votefor.8b8t.me &8进行投票'
   - '&1------------仅限捐赠者--------------'
-  - '&c/ic &6设置物品颜色'
-  - '&c/rename &6重命名物品'
-  - '&c/seen &6查看玩家最后一次上线时间'
-  - '&c/echest &6打开你的末影箱'
-  - '&c/nick &6设置昵称'
-  - '&c/dupe &6复制你手中的物品'
-  - '&6访问 &chttps://donate.8b8t.me &6进行捐赠'
+  - '&c/ic &8设置物品颜色'
+  - '&c/rename &8重命名物品'
+  - '&c/seen &8查看玩家最后一次上线时间'
+  - '&c/echest &8打开你的末影箱'
+  - '&c/nick &8设置昵称'
+  - '&c/dupe &8复制你手中的物品'
+  - '&8访问 &chttps://donate.8b8t.me &8进行捐赠'
   - '&1--------------------------------------'
 TabList:
   Header:

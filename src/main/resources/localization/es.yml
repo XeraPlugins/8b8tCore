@@ -53,9 +53,9 @@ kick_message: "&7%s fue pateado para \"%s\""
 could_not_translate_message: "Error al traducir el mensaje debido a %s"
 message_auto_translated: "Este mensaje se ha traducido automáticamente.\n\nTexto original: %s"
 welcome_message: "Bienvenido a 8b8t"
-vote_announcement: "&c%s &6votó por &18b&98t &6y se le otorgaron 2 distancias de renderizado adicionales y 5 hogares adicionales gratis /nc"
-vote_thanks: "&6Gracias por votar por &18b&98t &6se le han otorgado 2 distancias de renderizado adicionales y 5 hogares adicionales de forma gratuita."
-vote_info: "&6Puedes votar por &18b&98t &6en &chttps://votefor.8b8t.me"
+vote_announcement: "&c%s &6votó por %prefix% &6y se le otorgaron 2 distancias de renderizado adicionales y 5 hogares adicionales gratis /nc"
+vote_thanks: "&6Gracias por votar por %prefix% &6se le han otorgado 2 distancias de renderizado adicionales y 5 hogares adicionales de forma gratuita."
+vote_info: "&6Puedes votar por %prefix% &6en &chttps://votefor.8b8t.me"
 tpa_syntax: "&cPor favor incluye un jugador para teletransportarse a el /tpa <player>"
 tpa_player_not_online: "&cEl jugador %s no está en línea"
 tpa_no_request_found: "&cNo se encontró ninguna solicitud de TPA"
@@ -128,44 +128,44 @@ sign_fail_no_item: "&cDebes tener un item en la mano para poder firmarlo."
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6Visita &chttps://www.8b8t.me/terms &6para leer las reglas'
+  - '&8Visita &chttps://www.8b8t.me/terms &8para leer las reglas'
   - '&1--------------Comandos----------------'
-  - '&c/tpa &6para teletransportarte a otro jugador'
-  - '&c/tpahere &6teletransporta a un jugador a tu ubicación'
-  - '&c/tpayes &6para aceptar una solicitud de teletransporte'
-  - '&c/tpano &6para rechazar una solicitud de teletransporte'
-  - '&c/tpacancel &6cancela las solicitudes de tpa que enviaste'
-  - '&c/back &6regresa a tu última ubicación'
-  - '&c/hotspot &6teletransportate a un hotspot o crea uno nuevo'
-  - '&c/sethome &6para establecer home en tu ubicación'
-  - '&c/delhome &6para eliminar una home que has establecido'
-  - '&c/home &6para teletransportarte a una home que has establecido'
-  - '&c/skin set &6para establecer tu skin'
-  - '&c/vote &6para votar por 8b8t'
-  - '&c/discord &6obtén una invitación al Discord de 8b8t'
-  - '&c/matrix &6para obtener el link a la sala de Matrix de 8b8t'
-  - '&c/kill &6para suicidarte'
-  - '&c/ignore &6para ignorar a otros jugadores'
-  - '&c/unignore &6para dejar de ignorar a otros jugadores'
-  - '&c/ignorelist &6muestra los jugadores que estás ignorando'
-  - '&c/msg &6para enviar mensajes a otros jugadores'
-  - '&c/changepass &6para cambiar tu contraseña'
-  - '&c/joindate &6ver la fecha de unión tuya y de otros'
-  - '&c/worldstats &6ver el tamaño del mundo'
-  - '&c/pvp &6conéctate al servidor PVP de 8b8t'
-  - '&c/lobby &6conéctate al lobby'
-  - '&c/tpsinfo &6para verificar los ticks por segundo del servidor'
+  - '&c/tpa &8para teletransportarte a otro jugador'
+  - '&c/tpahere &8teletransporta a un jugador a tu ubicación'
+  - '&c/tpayes &8para aceptar una solicitud de teletransporte'
+  - '&c/tpano &8para rechazar una solicitud de teletransporte'
+  - '&c/tpacancel &8cancela las solicitudes de tpa que enviaste'
+  - '&c/back &8regresa a tu última ubicación'
+  - '&c/hotspot &8teletransportate a un hotspot o crea uno nuevo'
+  - '&c/sethome &8para establecer home en tu ubicación'
+  - '&c/delhome &8para eliminar una home que has establecido'
+  - '&c/home &8para teletransportarte a una home que has establecido'
+  - '&c/skin set &8para establecer tu skin'
+  - '&c/vote &8para votar por 8b8t'
+  - '&c/discord &8obtén una invitación al Discord de 8b8t'
+  - '&c/matrix &8para obtener el link a la sala de Matrix de 8b8t'
+  - '&c/kill &8para suicidarte'
+  - '&c/ignore &8para ignorar a otros jugadores'
+  - '&c/unignore &8para dejar de ignorar a otros jugadores'
+  - '&c/ignorelist &8muestra los jugadores que estás ignorando'
+  - '&c/msg &8para enviar mensajes a otros jugadores'
+  - '&c/changepass &8para cambiar tu contraseña'
+  - '&c/joindate &8ver la fecha de unión tuya y de otros'
+  - '&c/worldstats &8ver el tamaño del mundo'
+  - '&c/pvp &8conéctate al servidor PVP de 8b8t'
+  - '&c/lobby &8conéctate al lobby'
+  - '&c/tpsinfo &8para verificar los ticks por segundo del servidor'
   - '&1-------------Solo para Votantes---------------'
-  - '&c/nc &6para establecer el color del nombre'
-  - '&6Visita &chttps://votefor.8b8t.me &6para votar'
+  - '&c/nc &8para establecer el color del nombre'
+  - '&8Visita &chttps://votefor.8b8t.me &8para votar'
   - '&1------------Solo para Donadores--------------'
-  - '&c/ic &6para establecer el color del item'
-  - '&c/rename &6renombra un item'
-  - '&c/seen &6ver cuándo un jugador se conectó por última vez'
-  - '&c/echest &6abrir tu cofre de ender'
-  - '&c/nick &6establecer un apodo'
-  - '&c/dupe &6duplica el item de tu mano'
-  - '&6Visita &chttps://donate.8b8t.me &6para donar'
+  - '&c/ic &8para establecer el color del item'
+  - '&c/rename &8renombra un item'
+  - '&c/seen &8ver cuándo un jugador se conectó por última vez'
+  - '&c/echest &8abrir tu cofre de ender'
+  - '&c/nick &8establecer un apodo'
+  - '&c/dupe &8duplica el item de tu mano'
+  - '&8Visita &chttps://donate.8b8t.me &8para donar'
   - '&1--------------------------------------'
 TabList:
   Header:

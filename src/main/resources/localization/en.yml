@@ -53,9 +53,9 @@ kick_message: "&7%s was kicked for \"%s\""
 could_not_translate_message: "Failed to translate message due to %s"
 message_auto_translated: "This message has been translated automatically.\n\nOriginal Text: %s"
 welcome_message: "&3Welcome to 8b8t"
-vote_announcement: "&c%s &6voted for &18b&98t &6and was given free /nc 2 extra render distance and 5 extra homes"
-vote_thanks: "&6Thanks for voting for &18b&98t &6you have been given free /nc 2 extra render distance and 5 extra homes"
-vote_info: "&6You can vote for &18b&98t &6at &chttps://votefor.8b8t.me"
+vote_announcement: "&c%s &6voted for %prefix% &6and was given free /nc 2 extra render distance and 5 extra homes"
+vote_thanks: "&6Thanks for voting for %prefix% &6you have been given free /nc 2 extra render distance and 5 extra homes"
+vote_info: "&6You can vote for %prefix% &6at &chttps://votefor.8b8t.me"
 tpa_syntax: "&cPlease include a player to tpa to. /tpa <player>"
 tpa_player_not_online: "&cPlayer %s is not online"
 tpa_no_request_found: "&cNo TPA request found"
@@ -127,44 +127,44 @@ sign_fail_no_item: "&cYou must hold an item in your hand to sign it."
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6Visit &chttps://www.8b8t.me/terms &6to read the rules'
+  - '&8Visit &chttps://www.8b8t.me/terms &8to read the rules'
   - '&1--------------Commands----------------'
-  - '&c/tpa &6to teleport to another player'
-  - '&c/tpahere &6to teleport a player to your location'
-  - '&c/tpayes &6to accept a teleport request'
-  - '&c/tpano &6to deny a teleport request'
-  - '&c/tpacancel &6to cancel sent tpa requests'
-  - '&c/back &6to return to your last location'
-  - '&c/hotspot &6teleport to a hotspot or create a new one'
-  - '&c/sethome &6to set a home at your location'
-  - '&c/delhome &6to delete a home you set'
-  - '&c/home &6to teleport to a set home'
-  - '&c/skin set &6to set your skin'
-  - '&c/vote &6to vote for 8b8t'
-  - '&c/discord &6to get a 8b8t Discord invite'
-  - '&c/matrix &6to get the link to the 8b8t Matrix room'
-  - '&c/kill &6to commit suicide'
-  - '&c/ignore &6to ignore other players'
-  - '&c/unignore &6to unignore other players'
-  - '&c/ignorelist &6to show the players you are ignoring'
-  - '&c/msg &6to send messages to other players'
-  - '&c/changepass &6to change your password'
-  - '&c/joindate &6to see your and others join date'
-  - '&c/worldstats &6to see the world size'
-  - '&c/pvp &6to connect to the 8b8t PVP server'
-  - '&c/lobby &6to connect to the lobby'
-  - '&c/tpsinfo &6to check the server ticks per second'
+  - '&c/tpa &8to teleport to another player'
+  - '&c/tpahere &8to teleport a player to your location'
+  - '&c/tpayes &8to accept a teleport request'
+  - '&c/tpano &8to deny a teleport request'
+  - '&c/tpacancel &8to cancel sent tpa requests'
+  - '&c/back &8to return to your last location'
+  - '&c/hotspot &8teleport to a hotspot or create a new one'
+  - '&c/sethome &8to set a home at your location'
+  - '&c/delhome &8to delete a home you set'
+  - '&c/home &8to teleport to a set home'
+  - '&c/skin set &8to set your skin'
+  - '&c/vote &8to vote for 8b8t'
+  - '&c/discord &8to get a 8b8t Discord invite'
+  - '&c/matrix &8to get the link to the 8b8t Matrix room'
+  - '&c/kill &8to commit suicide'
+  - '&c/ignore &8to ignore other players'
+  - '&c/unignore &8to unignore other players'
+  - '&c/ignorelist &8to show the players you are ignoring'
+  - '&c/msg &8to send messages to other players'
+  - '&c/changepass &8to change your password'
+  - '&c/joindate &8to see your and others join date'
+  - '&c/worldstats &8to see the world size'
+  - '&c/pvp &8to connect to the 8b8t PVP server'
+  - '&c/lobby &8to connect to the lobby'
+  - '&c/tpsinfo &8to check the server ticks per second'
   - '&1-------------Voters Only---------------'
-  - '&c/nc &6to set the name color'
-  - '&6Visit &chttps://votefor.8b8t.me &6to vote'
+  - '&c/nc &8to set the name color'
+  - '&8Visit &chttps://votefor.8b8t.me &8to vote'
   - '&1------------Donors Only--------------'
-  - '&c/ic &6to set the item color'
-  - '&c/rename &6to rename an item'
-  - '&c/seen &6to see when a player last logged in'
-  - '&c/echest &6to open your ender chest'
-  - '&c/nick &6to set a nickname'
-  - '&c/dupe &6to duplicate the item in your hand'
-  - '&6Visit &chttps://donate.8b8t.me &6to donate'
+  - '&c/ic &8to set the item color'
+  - '&c/rename &8to rename an item'
+  - '&c/seen &8to see when a player last logged in'
+  - '&c/echest &8to open your ender chest'
+  - '&c/nick &8to set a nickname'
+  - '&c/dupe &8to duplicate the item in your hand'
+  - '&8Visit &chttps://donate.8b8t.me &8to donate'
   - '&1--------------------------------------'
   -
 TabList:

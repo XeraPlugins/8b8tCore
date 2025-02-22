@@ -69,12 +69,15 @@ public class Localization {
     public String getPrefix() {
         return config.getString("prefix", "&8[&98b&78t&8]");
     }
-    public String getColorPrimary() { return config.getString("PluginColors.color_primary", "&9"); }           //&6 GOLD
-    public String getColorSecondary() { return config.getString("PluginColors.color_secondary", "&7"); }       //&3 DARK AQUA
-    public String getColorPositive() { return config.getString("PluginColors.color_positive", "&a"); }         //&a GREEN
+    public String getColorPrimary() { return config.getString("PluginColors.color_primary", "&9"); }         //&6 GOLD
+    public String getColorSecondary() { return config.getString("PluginColors.color_secondary", "&8"); }     //&3 DARK AQUA
+    public String getColorPositive() { return config.getString("PluginColors.color_positive", "&a"); }       //&a GREEN
     public String getColorNegative() {
         return config.getString("PluginColors.color_negative", "&c");
-    }         //&c RED
+    }       //&c RED
+    public String getColorPattern() {
+        return config.getString("PluginColors.color_pattern", "&3");
+    }         //&1 BLUE
 
     public String get(String key) {
         String value = config.getString(key, String.format("Unknown key %s", key));
@@ -88,7 +91,8 @@ public class Localization {
                 .replaceAll("&6", getColorPrimary())
                 .replaceAll("&3", getColorSecondary())
                 .replaceAll("&a", getColorPositive())
-                .replaceAll("&c", getColorNegative());
+                .replaceAll("&c", getColorNegative())
+                .replaceAll("&1", getColorPattern());
     }
 
     public List<String> getStringList(String key) {
@@ -104,7 +108,8 @@ public class Localization {
                 .map(s -> s.replaceAll("&6", getColorPrimary())
                         .replaceAll("&3", getColorSecondary())
                         .replaceAll("&a", getColorPositive())
-                        .replaceAll("&c", getColorNegative()))
+                        .replaceAll("&c", getColorNegative())
+                        .replaceAll("&1", getColorPattern()))
                 .toList();
     }
 }

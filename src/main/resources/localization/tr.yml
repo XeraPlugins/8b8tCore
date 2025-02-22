@@ -53,9 +53,9 @@ kick_message: "&7%s \"%s\" için atıldı"
 could_not_translate_message: "Mesaj çevrilemedi: %s nedeniyle"
 message_auto_translated: "Bu mesaj otomatik olarak çevrilmiştir.\n\nOrijinal Metin: %s"
 welcome_message: "&38b8t'ye hoş geldiniz"
-vote_announcement: "&c%s &6&8b&98t için oy kullandı &6ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev aldı"
-vote_thanks: "&68b8t'ye oy kullandığınız için teşekkürler, ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev alındı"
-vote_info: "&68b8t için oy verebilirsiniz &chttps://votefor.8b8t.me"
+vote_announcement: "&c%s %prefix% için oy kullandı &6ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev aldı"
+vote_thanks: "%prefix%'ye oy kullandığınız için teşekkürler, ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev alındı"
+vote_info: "%prefix% için oy verebilirsiniz &chttps://votefor.8b8t.me"
 tpa_syntax: "&cLütfen bir oyuncu belirtin. /tpa <oyuncu>"
 tpa_player_not_online: "&c%s oyuncusu çevrimdışı"
 tpa_no_request_found: "&cTPA isteği bulunamadı"
@@ -126,44 +126,44 @@ sign_fail_no_item: "&cEşyayı imzalamak için elinizde bir eşya olmalı."
 #Complex messages
 HelpMessage:
   - '&1--------------------------------------'
-  - '&6Kuralları okumak için &chttps://www.8b8t.me/terms &6adresini ziyaret et'
+  - '&8Kuralları okumak için &chttps://www.8b8t.me/terms &8adresini ziyaret et'
   - '&1--------------Komutlar----------------'
-  - '&c/tpa &6başka bir oyuncuya ışınlanmak için'
-  - '&c/tpahere &6bir oyuncuyu kendi konumuna ışınlamak için'
-  - '&c/tpayes &6bir ışınlanma isteğini kabul etmek için'
-  - '&c/tpano &6bir ışınlanma isteğini reddetmek için'
-  - '&c/tpacancel &6gönderilen tpa isteklerini iptal etmek için'
-  - '&c/back &6son konumuna geri dönmek için'
-  - '&c/hotspot &6bir sıcak noktaya ışınlanmak veya yeni bir tane oluşturmak için'
-  - '&c/sethome &6konumunda bir ev ayarlamak için'
-  - '&c/delhome &6ayarladığın bir evi silmek için'
-  - '&c/home &6ayarlanmış bir eve ışınlanmak için'
-  - '&c/skin set &6ten rengini ayarlamak için'
-  - '&c/vote &68b8t için oy vermek için'
-  - '&c/discord &68b8t discord davetini almak için'
-  - '&c/matrix &68b8t Matrix odasının bağlantısını almak için'
-  - '&c/kill &6intihar etmek için'
-  - '&c/ignore &6diğer oyuncuları görmezden gelmek için'
-  - '&c/unignore &6diğer oyuncuların görmezden gelmesini kaldırmak için'
-  - '&c/ignorelist &6görmezden geldiğin oyuncuları göstermek için'
-  - '&c/msg &6diğer oyunculara mesaj göndermek için'
-  - '&c/changepass &6şifreni değiştirmek için'
-  - '&c/joindate &6senin ve diğerlerinin katılma tarihini görmek için'
-  - '&c/worldstats &6dünyanın boyutunu görmek için'
-  - '&c/pvp &68b8t PVP sunucusuna bağlanmak için'
-  - '&c/lobby &6lobiye bağlanmak için'
-  - '&c/tpsinfo &6sunucu tıklama sayısını kontrol etmek için'
+  - '&c/tpa &8başka bir oyuncuya ışınlanmak için'
+  - '&c/tpahere &8bir oyuncuyu kendi konumuna ışınlamak için'
+  - '&c/tpayes &8bir ışınlanma isteğini kabul etmek için'
+  - '&c/tpano &8bir ışınlanma isteğini reddetmek için'
+  - '&c/tpacancel &8gönderilen tpa isteklerini iptal etmek için'
+  - '&c/back &8son konumuna geri dönmek için'
+  - '&c/hotspot &8bir sıcak noktaya ışınlanmak veya yeni bir tane oluşturmak için'
+  - '&c/sethome &8konumunda bir ev ayarlamak için'
+  - '&c/delhome &8ayarladığın bir evi silmek için'
+  - '&c/home &8ayarlanmış bir eve ışınlanmak için'
+  - '&c/skin set &8ten rengini ayarlamak için'
+  - '&c/vote &88b8t için oy vermek için'
+  - '&c/discord &88b8t discord davetini almak için'
+  - '&c/matrix &88b8t Matrix odasının bağlantısını almak için'
+  - '&c/kill &8intihar etmek için'
+  - '&c/ignore &8diğer oyuncuları görmezden gelmek için'
+  - '&c/unignore &8diğer oyuncuların görmezden gelmesini kaldırmak için'
+  - '&c/ignorelist &8görmezden geldiğin oyuncuları göstermek için'
+  - '&c/msg &8diğer oyunculara mesaj göndermek için'
+  - '&c/changepass &8şifreni değiştirmek için'
+  - '&c/joindate &8senin ve diğerlerinin katılma tarihini görmek için'
+  - '&c/worldstats &8dünyanın boyutunu görmek için'
+  - '&c/pvp &88b8t PVP sunucusuna bağlanmak için'
+  - '&c/lobby &8lobiye bağlanmak için'
+  - '&c/tpsinfo &8sunucu tıklama sayısını kontrol etmek için'
   - '&1-------------Sadece Oy Verenler---------------'
-  - '&c/nc &6isim rengini ayarlamak için'
-  - '&6Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et'
+  - '&c/nc &8isim rengini ayarlamak için'
+  - '&8Oy vermek için &chttps://votefor.8b8t.me &8adresini ziyaret et'
   - '&1------------Sadece Bağışcılar--------------'
-  - '&c/ic &6eşya rengini ayarlamak için'
-  - '&c/rename &6bir eşyayı yeniden adlandırmak için'
-  - '&c/seen &6bir oyuncunun en son ne zaman giriş yaptığını görmek için'
-  - '&c/echest &6ender chestini açmak için'
-  - '&c/nick &6bir takma ad ayarlamak için'
-  - '&c/dupe &6elindeki eşyayı çoğaltmak için'
-  - '&6Bağış yapmak için &chttps://donate.8b8t.me &6adresini ziyaret et'
+  - '&c/ic &8eşya rengini ayarlamak için'
+  - '&c/rename &8bir eşyayı yeniden adlandırmak için'
+  - '&c/seen &8bir oyuncunun en son ne zaman giriş yaptığını görmek için'
+  - '&c/echest &8ender chestini açmak için'
+  - '&c/nick &8bir takma ad ayarlamak için'
+  - '&c/dupe &8elindeki eşyayı çoğaltmak için'
+  - '&8Bağış yapmak için &chttps://donate.8b8t.me &8adresini ziyaret et'
   - '&1--------------------------------------'
 
 TabList:
