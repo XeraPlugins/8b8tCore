@@ -193,8 +193,8 @@ TpsMessage:
 tps_failed: '&cUsted no tiene permitido consultar los TPS'
 
 announcements:
-  - "%prefix% &9 Visita <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>y vota para recibir 2 distancias de renderizado adicionales y 5 homes adicionales gratis</blue>"
-  - "%prefix% &9 Done para apoyar a 8b8t en <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
+  - "%prefix% &7>>&r&9 Visita <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>y vota para recibir 2 distancias de renderizado adicionales y 5 homes adicionales gratis</blue>"
+  - "%prefix% &7>>&r&9 Done para apoyar a 8b8t en <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

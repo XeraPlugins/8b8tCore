@@ -192,8 +192,8 @@ TpsMessage:
 tps_failed: '&cTPS kontrol etmek için yetkiniz yok'
 
 announcements:
-  - '%prefix% &9 Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev al'
-  - "%prefix% &9 8b8t'yi desteklemek için &chttps://donate.8b8t.me &6adresinden bağış yap"
+  - '%prefix% &7>>&r&9 Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev al'
+  - "%prefix% &7>>&r&9 8b8t'yi desteklemek için &chttps://donate.8b8t.me &6adresinden bağış yap"
 
 # Death messages
 global-pvp-death-messages:
