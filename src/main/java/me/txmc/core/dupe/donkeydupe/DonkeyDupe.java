@@ -75,14 +75,24 @@ public class DonkeyDupe implements Listener {
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
+
+        if(event.getInventory().getSize() == 18 && event.getInventory().getHolder() instanceof Player){
+            Player player = (Player) event.getPlayer();
+            trackedAnimals.remove(player.getUniqueId());
+            return;
+        }
+
         InventoryHolder holder = event.getInventory().getHolder();
         if (!(holder instanceof ChestedHorse)) return;
 
         Player player = (Player) event.getPlayer();
         ChestedHorse animal = trackedAnimals.get(player.getUniqueId());
-        if (animal == null) return;
 
-        if (animal.getLocation().distance(player.getLocation()) >= MIN_DISTANCE && player.getVehicle() != null) {
+
+        if (animal == null) return;
+        if (holder != animal) return;
+
+        if (animal.getLocation().distance(player.getLocation()) >= MIN_DISTANCE && player.getVehicle() != null ) {
             Inventory fakeInventory = Bukkit.createInventory(player, 18, animal.getName() != null ? animal.getName() : "Entity");
             fakeInventory.setContents(animal.getInventory().getContents());
 
