@@ -6,8 +6,8 @@ unignore_successful: "&3Successfully unignored player&r&a %s&r"
 unignore_not_ignoring: "&cYou arent ignoring %s"
 unignore_command_syntax: "&cPlease include a player /unignore <playerName>"
 ignorelist_successful: "&3Ignored players: &c%s"
-ignorelist_not_ignoring: "&6You are not ignoring anyone"
-ignorelist_failed: "&6Unable to retrieve ignore list information."
+ignorelist_not_ignoring: "&cYou are not ignoring anyone"
+ignorelist_failed: "&cUnable to retrieve ignore list information."
 whisper_from: "&d%s Whispers: %s"
 whisper_to: "&dTo %s: %s"
 whisper_ignoring: "&c%s is ignoring you"
@@ -53,9 +53,9 @@ kick_message: "&7%s was kicked for \"%s\""
 could_not_translate_message: "Failed to translate message due to %s"
 message_auto_translated: "This message has been translated automatically.\n\nOriginal Text: %s"
 welcome_message: "&3Welcome to 8b8t"
-vote_announcement: "&c%s &6voted for %prefix% &6and was given free /nc 2 extra render distance and 5 extra homes"
-vote_thanks: "&6Thanks for voting for %prefix% &6you have been given free /nc 2 extra render distance and 5 extra homes"
-vote_info: "&6You can vote for %prefix% &6at &chttps://votefor.8b8t.me"
+vote_announcement: "&c%s &8voted for %prefix% &8and was given free /nc 2 extra render distance and 5 extra homes"
+vote_thanks: "&8Thanks for voting for %prefix% &8you have been given free /nc 2 extra render distance and 5 extra homes"
+vote_info: "&8You can vote for %prefix% &8at &chttps://votefor.8b8t.me"
 tpa_syntax: "&cPlease include a player to tpa to. /tpa <player>"
 tpa_player_not_online: "&cPlayer %s is not online"
 tpa_no_request_found: "&cNo TPA request found"
@@ -186,15 +186,15 @@ TabList:
     - ''
 TpsMessage:
   - '&1------------TPS Information------------'
-  - '&6TPS: &a%s &6MSTP: &a%s'
-  - '&6Lowest Region TPS: &c%s'
-  - '&6Online Players &a%s'
+  - '&8TPS: &a%s &8MSTP: &a%s'
+  - '&8Lowest Region TPS: &c%s'
+  - '&8Online Players &a%s'
   - '&1-------------------------------------'
 tps_failed: '&cYou are not allowed to check TPS'
 
 announcements:
-  - "%prefix% &7>>&r&9 Visit <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>and vote to receive 2 additional render distances and 5 extra homes for free</blue>"
-  - "%prefix% &7>>&r&9 Donate to support 8b8t at <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
+  - "%prefix% &7>>&r&8 Visit <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>and vote to receive 2 additional render distances and 5 extra homes for free</blue>"
+  - "%prefix% &7>>&r&8 Donate to support 8b8t at <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

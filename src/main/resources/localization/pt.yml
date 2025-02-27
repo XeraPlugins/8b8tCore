@@ -6,8 +6,8 @@ unignore_successful: "&3Jogador designorado com sucesso&r&a %s&r"
 unignore_not_ignoring: "&cVocê não está ignorando %s"
 unignore_command_syntax: "&cPor favor, inclua um jogador /unignore <nomeJogador>"
 ignorelist_successful: "&3Jogadores ignorados: &c%s"
-ignorelist_not_ignoring: "&6Você não está ignorando ninguém"
-ignorelist_failed: "&6Não foi possível recuperar as informações da lista de ignorados."
+ignorelist_not_ignoring: "&8Você não está ignorando ninguém"
+ignorelist_failed: "&8Não foi possível recuperar as informações da lista de ignorados."
 whisper_from: "&d%s sussurra: %s"
 whisper_to: "&dPara %s: %s"
 whisper_ignoring: "&c%s está te ignorando"
@@ -53,9 +53,9 @@ kick_message: "&7%s foi expulso por \"%s\""
 could_not_translate_message: "Falha ao traduzir a mensagem devido a %s"
 message_auto_translated: "Esta mensagem foi traduzida automaticamente.\n\nTexto original: %s"
 welcome_message: "&3Bem-vindo ao 8b8t"
-vote_announcement: "&c%s &6votou em %prefix% &6e recebeu gratuitamente /nc 2 distâncias de renderização extras e 5 casas extras"
-vote_thanks: "&6Obrigado por votar em %prefix% &6Você ganhou gratuitamente /nc 2 distâncias de renderização extras e 5 casas extras"
-vote_info: "&6Você pode votar em %prefix% &6em &chttps://votefor.8b8t.me"
+vote_announcement: "&c%s &8votou em %prefix% &8e recebeu gratuitamente /nc 2 distâncias de renderização extras e 5 casas extras"
+vote_thanks: "&8Obrigado por votar em %prefix% &8Você ganhou gratuitamente /nc 2 distâncias de renderização extras e 5 casas extras"
+vote_info: "&8Você pode votar em %prefix% &8em &chttps://votefor.8b8t.me"
 tpa_syntax: "&cPor favor, inclua um jogador para tpa. /tpa <jogador>"
 tpa_player_not_online: "&cJogador %s não está online"
 tpa_no_request_found: "&cNenhuma solicitação de TPA encontrada"
@@ -185,15 +185,15 @@ TabList:
     - ''
 TpsMessage:
   - '&1------------Informação de TPS------------'
-  - '&6TPS: &a%s &6MSTP: &a%s'
-  - '&6Menor TPS da região: &c%s'
-  - '&6Jogadores online: &a%s'
+  - '&8TPS: &a%s &8MSTP: &a%s'
+  - '&8Menor TPS da região: &c%s'
+  - '&8Jogadores online: &a%s'
   - '&1-------------------------------------'
 tps_failed: '&cVocê não tem permissão para consultar o TPS'
 
 announcements:
-  - "%prefix% &7>>&r&9 Visite <red><hover:show_text:'<gray>Clique para abrir o link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>e vote para receber 2 distâncias de renderização adicionais e 5 casas extras de graça</blue>"
-  - "%prefix% &7>>&r&9 Doe para apoiar o 8b8t em <red><hover:show_text:'<gray>Clique para abrir o link'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
+  - "%prefix% &7>>&r&8 Visite <red><hover:show_text:'<gray>Clique para abrir o link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>e vote para receber 2 distâncias de renderização adicionais e 5 casas extras de graça</blue>"
+  - "%prefix% &7>>&r&8 Doe para apoiar o 8b8t em <red><hover:show_text:'<gray>Clique para abrir o link'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

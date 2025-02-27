@@ -6,8 +6,8 @@ unignore_successful: "&3Başarıyla oyuncunun görmezden gelinmesi kaldırıldı
 unignore_not_ignoring: "&c%s'yi görmezden gelmiyorsunuz"
 unignore_command_syntax: "&cLütfen bir oyuncu belirtin /unignore <oyuncuAdı>"
 ignorelist_successful: "&3Görmezden gelinen oyuncular: &c%s"
-ignorelist_not_ignoring: "&6Kimseyi görmezden gelmiyorsunuz"
-ignorelist_failed: "&6Görmezden gelinen liste bilgileri alınamadı."
+ignorelist_not_ignoring: "&8Kimseyi görmezden gelmiyorsunuz"
+ignorelist_failed: "&8Görmezden gelinen liste bilgileri alınamadı."
 whisper_from: "&d%s Fısıldadı: %s"
 whisper_to: "&d%s'ye: %s"
 whisper_ignoring: "&c%s sizi görmezden geliyor"
@@ -53,7 +53,7 @@ kick_message: "&7%s \"%s\" için atıldı"
 could_not_translate_message: "Mesaj çevrilemedi: %s nedeniyle"
 message_auto_translated: "Bu mesaj otomatik olarak çevrilmiştir.\n\nOrijinal Metin: %s"
 welcome_message: "&38b8t'ye hoş geldiniz"
-vote_announcement: "&c%s %prefix% için oy kullandı &6ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev aldı"
+vote_announcement: "&c%s %prefix% için oy kullandı &8ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev aldı"
 vote_thanks: "%prefix%'ye oy kullandığınız için teşekkürler, ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev alındı"
 vote_info: "%prefix% için oy verebilirsiniz &chttps://votefor.8b8t.me"
 tpa_syntax: "&cLütfen bir oyuncu belirtin. /tpa <oyuncu>"
@@ -171,7 +171,7 @@ TabList:
     - ''
     - '&98builders&78tools'
     - ''
-    - "&68b8t.me'den memnun musun? Bağışta bulunmak için https://donate.8b8t.me adresini ziyaret et"
+    - "&88b8t.me'den memnun musun? Bağışta bulunmak için https://donate.8b8t.me adresini ziyaret et"
     - ''
   
   Footer:
@@ -185,15 +185,15 @@ TabList:
     - ''
 TpsMessage:
   - '&1------------TPS Bilgisi------------'
-  - '&6TPS: &a%s &6MSTP: &a%s'
-  - '&6En Düşük Bölge TPS: &c%s'
-  - '&6Çevrimiçi Oyuncular &a%s'
+  - '&8TPS: &a%s &8MSTP: &a%s'
+  - '&8En Düşük Bölge TPS: &c%s'
+  - '&8Çevrimiçi Oyuncular &a%s'
   - '&1-------------------------------------'
 tps_failed: '&cTPS kontrol etmek için yetkiniz yok'
 
 announcements:
-  - '%prefix% &7>>&r&9 Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev al'
-  - "%prefix% &7>>&r&9 8b8t'yi desteklemek için &chttps://donate.8b8t.me &6adresinden bağış yap"
+  - '%prefix% &7>>&r&8 Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev al'
+  - "%prefix% &7>>&r&8 8b8t'yi desteklemek için &chttps://donate.8b8t.me &6adresinden bağış yap"
 
 # Death messages
 global-pvp-death-messages:

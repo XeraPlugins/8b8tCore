@@ -5,9 +5,9 @@ ignore_command_syntax: "&c请包括一个玩家 /ignore <玩家名>"
 unignore_successful: "&3成功解除屏蔽玩家&r&a %s&r"
 unignore_not_ignoring: "&c你没有屏蔽 %s"
 unignore_command_syntax: "&c请包括一个玩家 /unignore <玩家名>"
-ignorelist_successful: "&3被忽略的玩家: &6"
-ignorelist_not_ignoring: "&6您没有忽略任何人"
-ignorelist_failed: "&6无法检索忽略列表信息。"
+ignorelist_successful: "&3被忽略的玩家: &8"
+ignorelist_not_ignoring: "&8您没有忽略任何人"
+ignorelist_failed: "&8无法检索忽略列表信息。"
 whisper_from: "&d%s 悄悄地说: %s"
 whisper_to: "&d给 %s 的悄悄话: %s"
 whisper_ignoring: "&c%s 正在屏蔽你"
@@ -53,9 +53,9 @@ kick_message: "&7%s 被踢出，原因: \"%s\""
 could_not_translate_message: "由于 %s，无法翻译消息"
 message_auto_translated: "此消息已被自动翻译。\n\n原文: %s"
 welcome_message: "&3欢迎来到 8b8t"
-vote_announcement: "&c%s &6投票支持 %prefix% &6并免费获得 /nc 2 个额外渲染距离和 5 个额外住宅"
-vote_thanks: "&6感谢您投票支持%prefix% &6您已获得免费/nc 2 额外渲染距离和 5 额外住宅"
-vote_info: "&6您可以在 &chttps://votefor.8b8t.me &6为%prefix% 投票"
+vote_announcement: "&c%s &8投票支持 %prefix% &8并免费获得 /nc 2 个额外渲染距离和 5 个额外住宅"
+vote_thanks: "&8感谢您投票支持%prefix% &8您已获得免费/nc 2 额外渲染距离和 5 额外住宅"
+vote_info: "&8您可以在 &chttps://votefor.8b8t.me &8为%prefix% 投票"
 tpa_syntax: "&c请包括一个玩家以进行tpa。/tpa <玩家>"
 tpa_player_not_online: "&c玩家 %s 不在线"
 tpa_no_request_found: "&c未找到TPA请求"
@@ -185,15 +185,15 @@ TabList:
     - ''
 TpsMessage:
   - '&1------------TPS信息------------'
-  - '&6TPS: &a%s &6MSTP: &a%s'
-  - '&6最低区域TPS: &c%s'
-  - '&6在线玩家: &a%s'
+  - '&8TPS: &a%s &8MSTP: &a%s'
+  - '&8最低区域TPS: &c%s'
+  - '&8在线玩家: &a%s'
   - '&1-------------------------------------'
 tps_failed: '&c您没有被允许查询TPS'
 
 announcements:
-  - "%prefix% &7>>&r&9 访问 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>并投票以免费获得2个额外的渲染距离和5个额外的家</blue>"
-  - "%prefix% &7>>&r&9 捐赠支持 8b8t 在 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
+  - "%prefix% &7>>&r&8 访问 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>并投票以免费获得2个额外的渲染距离和5个额外的家</blue>"
+  - "%prefix% &7>>&r&8 捐赠支持 8b8t 在 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:
