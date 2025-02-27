@@ -41,7 +41,7 @@ public class EndExitPortalBuilder implements Runnable {
             return;
         }
 
-        int x = 0, y = 60, z = 0;
+        int x = 0, y = 59, z = 0;
 
         Bukkit.getRegionScheduler().execute(plugin, endWorld, x, z, () -> buildEndPortal(endWorld, x, y, z));
     }
