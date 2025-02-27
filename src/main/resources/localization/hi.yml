@@ -192,7 +192,7 @@ TpsMessage:
 tps_failed: '&cआप TPS की जांच करने के लिए अधिकृत नहीं हैं'
 
 announcements:
-  - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>लिंक खोलने के लिए क्लिक करें'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> पर जाएं और वोट करें ताकि आपको 2 अतिरिक्त रेंडर डिस्टेंस और 5 अतिरिक्त होम्स मुफ्त में मिल सकें</blue>"
+  - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>लिंक खोलने के लिए क्लिक करें'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> पर जाएं और वोट करें ताकि आपको 2 अतिरिक्त रेंडर डिस्टेंस और 5 अतिरिक्त होम्स मुफ्त में मिल सकें</dark_gray>"
   - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>लिंक खोलने के लिए क्लिक करें'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red> पर 8b8t को समर्थन देने के लिए दान करें"
 
 # Mensajes de Muerte

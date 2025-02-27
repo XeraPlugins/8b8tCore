@@ -192,7 +192,7 @@ TpsMessage:
 tps_failed: '&cВам не разрешено запрашивать TPS'
 
 announcements:
-  - "%prefix% &7>>&r&8 Посетите <red><hover:show_text:'<gray>Нажмите, чтобы открыть ссылку'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>и проголосуйте, чтобы получить 2 дополнительных расстояния рендера и 5 дополнительных домов бесплатно</blue>"
+  - "%prefix% &7>>&r&8 Посетите <red><hover:show_text:'<gray>Нажмите, чтобы открыть ссылку'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>и проголосуйте, чтобы получить 2 дополнительных расстояния рендера и 5 дополнительных домов бесплатно</dark_gray>"
   - "%prefix% &7>>&r&8 Пожертвуйте, чтобы поддержать 8b8t на <red><hover:show_text:'<gray>Нажмите, чтобы открыть ссылку'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages

@@ -192,7 +192,7 @@ TpsMessage:
 tps_failed: '&c您没有被允许查询TPS'
 
 announcements:
-  - "%prefix% &7>>&r&8 访问 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>并投票以免费获得2个额外的渲染距离和5个额外的家</blue>"
+  - "%prefix% &7>>&r&8 访问 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>并投票以免费获得2个额外的渲染距离和5个额外的家</dark_gray>"
   - "%prefix% &7>>&r&8 捐赠支持 8b8t 在 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages

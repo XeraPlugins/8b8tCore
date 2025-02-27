@@ -193,7 +193,7 @@ TpsMessage:
 tps_failed: '&cUsted no tiene permitido consultar los TPS'
 
 announcements:
-  - "%prefix% &7>>&r&8 Visita <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>y vota para recibir 2 distancias de renderizado adicionales y 5 homes adicionales gratis</blue>"
+  - "%prefix% &7>>&r&8 Visita <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>y vota para recibir 2 distancias de renderizado adicionales y 5 homes adicionales gratis</dark_gray>"
   - "%prefix% &7>>&r&8 Done para apoyar a 8b8t en <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages

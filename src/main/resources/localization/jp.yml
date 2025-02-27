@@ -192,7 +192,7 @@ TpsMessage:
 tps_failed: '&cTPSを確認する権限がありません'
 
 announcements:
-  - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> にアクセスして、2つの追加レンダリング距離と5つの無料のホームを受け取るために投票しましょう</blue>"
+  - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> にアクセスして、2つの追加レンダリング距離と5つの無料のホームを受け取るために投票しましょう</dark_gray>"
   - "%prefix% &7>>&r&8 8b8tをサポートするために<red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>で寄付しましょう"
 
 # Death messages
