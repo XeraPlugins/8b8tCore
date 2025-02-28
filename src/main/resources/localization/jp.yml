@@ -6,8 +6,8 @@ unignore_successful: "&3プレイヤーの無視を解除しました&r&a %s&r"
 unignore_not_ignoring: "&c%s を無視していません"
 unignore_command_syntax: "&cプレイヤーを指定してください /unignore <playerName>"
 ignorelist_successful: "&3無視しているプレイヤー: &c%s"
-ignorelist_not_ignoring: "&6誰も無視していません"
-ignorelist_failed: "&6無視リストの情報を取得できませんでした"
+ignorelist_not_ignoring: "&8誰も無視していません"
+ignorelist_failed: "&8無視リストの情報を取得できませんでした"
 whisper_from: "&d%s がささやきました: %s"
 whisper_to: "&d%s へ: %s"
 whisper_ignoring: "&c%s があなたを無視しています"
@@ -53,9 +53,9 @@ kick_message: "&7%s が \"%s\" の理由でキックされました"
 could_not_translate_message: "メッセージの翻訳に失敗しました: %s"
 message_auto_translated: "このメッセージは自動的に翻訳されました。\n\n元のテキスト: %s"
 welcome_message: "&38b8tへようこそ"
-vote_announcement: "&c%s &6は%prefix% &6に投票し、無料の/nc 2つの追加レンダリング距離と5つの追加住宅が与えられました"
-vote_thanks: "&6%prefix% に投票していただきありがとうございます。&6 追加のレンダリング距離 2 つと追加の住宅 5 つが無料で付与されました。"
-vote_info: "&6%prefix% &6への投票は &chttps://votefor.8b8t.me でできます"
+vote_announcement: "&c%s &8は%prefix% &8に投票し、無料の/nc 2つの追加レンダリング距離と5つの追加住宅が与えられました"
+vote_thanks: "&8%prefix% に投票していただきありがとうございます。&8 追加のレンダリング距離 2 つと追加の住宅 5 つが無料で付与されました。"
+vote_info: "&8%prefix% &8への投票は &chttps://votefor.8b8t.me でできます"
 tpa_syntax: "&cテレポートするプレイヤーを指定してください。 /tpa <player>"
 tpa_player_not_online: "&cプレイヤー %s はオンラインではありません"
 tpa_no_request_found: "&cTPAリクエストが見つかりません"
@@ -185,15 +185,15 @@ TabList:
     - ''
 TpsMessage:
   - '&1------------TPS情報------------'
-  - '&6TPS: &a%s &6MSTP: &a%s'
-  - '&6最低地域TPS: &c%s'
-  - '&6オンラインプレイヤー &a%s'
+  - '&8TPS: &a%s &8MSTP: &a%s'
+  - '&8最低地域TPS: &c%s'
+  - '&8オンラインプレイヤー &a%s'
   - '&1-------------------------------------'
 tps_failed: '&cTPSを確認する権限がありません'
 
 announcements:
-  - "%prefix% &7>>&r&9 <red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> にアクセスして、2つの追加レンダリング距離と5つの無料のホームを受け取るために投票しましょう</blue>"
-  - "%prefix% &7>>&r&9 8b8tをサポートするために<red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>で寄付しましょう"
+  - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> にアクセスして、2つの追加レンダリング距離と5つの無料のホームを受け取るために投票しましょう</dark_gray>"
+  - "%prefix% &7>>&r&8 8b8tをサポートするために<red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>で寄付しましょう"
 
 # Death messages
 global-pvp-death-messages:

@@ -6,8 +6,8 @@ unignore_successful: "&3تم إلغاء تجاهل اللاعب بنجاح&r&a %
 unignore_not_ignoring: "&cأنت لا تتجاهل %s"
 unignore_command_syntax: "&cيرجى إدراج اسم اللاعب /unignore <اسم اللاعب>"
 ignorelist_successful: "&3اللاعبون المتجاهلون: &c%s"
-ignorelist_not_ignoring: "&6أنت لا تتجاهل أي شخص"
-ignorelist_failed: "&6لم يتمكن من استرداد معلومات قائمة التجاهل."
+ignorelist_not_ignoring: "&8أنت لا تتجاهل أي شخص"
+ignorelist_failed: "&8لم يتمكن من استرداد معلومات قائمة التجاهل."
 whisper_from: "&d%s يهمس: %s"
 whisper_to: "&dإلى %s: %s"
 whisper_ignoring: "&c%s يتجاهلك"
@@ -53,9 +53,9 @@ kick_message: "&7%s تم طرده بسبب \"%s\""
 could_not_translate_message: "فشل في ترجمة الرسالة بسبب %s"
 message_auto_translated: "تمت ترجمة هذه الرسالة تلقائيًا.\n\nالنص الأصلي: %s"
 welcome_message: "&3مرحبًا بك في 8b8t"
-vote_announcement: "&c%s &6صوت لـ &18b&98t &6وحصل على /nc مجانًا و5 منازل إضافية"
-vote_thanks: "&6شكرًا لتصويتك لـ &18b&98t &6لقد حصلت على /nc مجانًا و5 منازل إضافية"
-vote_info: "&6يمكنك التصويت لـ &18b&98t &6على &chttps://votefor.8b8t.me"
+vote_announcement: "&c%s &8صوت لـ &18b&98t &8وحصل على /nc مجانًا و5 منازل إضافية"
+vote_thanks: "&8شكرًا لتصويتك لـ &18b&98t &8لقد حصلت على /nc مجانًا و5 منازل إضافية"
+vote_info: "&8يمكنك التصويت لـ &18b&98t &8على &chttps://votefor.8b8t.me"
 tpa_syntax: "&cيرجى إدراج لاعب للتوجه إليه. /tpa <اللاعب>"
 tpa_player_not_online: "&cاللاعب %s غير متصل"
 tpa_no_request_found: "&cلم يتم العثور على طلب TPA"
@@ -187,16 +187,16 @@ TabList:
 
 TpsMessage:
   - '&1------------معلومات TPS------------'
-  - '&6TPS: &a%s &6MSTP: &a%s'
-  - '&6أدنى TPS في المنطقة: &c%s'
-  - '&6اللاعبون المتصلون &a%s'
+  - '&8TPS: &a%s &8MSTP: &a%s'
+  - '&8أدنى TPS في المنطقة: &c%s'
+  - '&8اللاعبون المتصلون &a%s'
   - '&1-------------------------------------'
 
 tps_failed: '&cأنت غير مسموح لك بالتحقق من TPS'
 
 announcements:
-  - "%prefix% &7>>&r&9 قم بزيارة <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <blue>وصوت للحصول على 2 مسافات عرض إضافية و 5 نقاط منزل إضافية مجانًا</blue>"
-  - "%prefix% &7>>&r&9 تبرع لدعم 8b8t على <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
+  - "%prefix% &7>>&r&8 قم بزيارة <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>وصوت للحصول على 2 مسافات عرض إضافية و 5 نقاط منزل إضافية مجانًا</dark_gray>"
+  - "%prefix% &7>>&r&8 تبرع لدعم 8b8t على <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:
