@@ -1,21 +1,19 @@
 package me.txmc.core.command.commands;
 
+import lombok.Getter;
 import me.txmc.core.Main;
 import me.txmc.core.command.BaseTabCommand;
 import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import static me.txmc.core.util.GlobalUtils.log;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 /**
@@ -30,15 +28,30 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 public class NameColorCommand extends BaseTabCommand {
     private final List<String> colorOptions;
     private final List<String> styleOptions;
+    private final List<Gradient> gradientsOptions;
     private final MiniMessage miniMessage;
     private final GeneralDatabase database;
 
     public NameColorCommand(Main plugin) {
         super("nc", "/nc <color> <styles...>", "8b8tcore.command.nc");
-        colorOptions = getColorOptions();
         styleOptions = getStyleOptions();
         miniMessage = MiniMessage.miniMessage();
         this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        gradientsOptions = new ArrayList<>(List.of(new Gradient("fire", "#F3904F", "#E7654A"),
+            new Gradient("sky", "#1488CC", "#0B14C3"),
+            new Gradient("pink", "#F4C4F3", "#EC00E9"),
+            new Gradient("green", "#59ED33", "#165818"),
+            new Gradient("silver", "#C9C9C9", "#2F2F2F"),
+            new Gradient("red", "#BF0C1F", "#DE4E4E"),
+            new Gradient("aqua", "#4FF3EA", "#00828D"),
+            new Gradient("retro", "#F34F4F", "#65008D"),
+            new Gradient("mango", "#2BBFA7","#FFC600"),
+            new Gradient("orange", "#FF9800", "#BC4664"),
+            new Gradient("red_dark", "#212121", "#f4143f"),
+            new Gradient("rick", "#98f8dd", "#F6FF58"),
+            new Gradient("purple", "#d481d2", "#703b94")
+        ));
+        colorOptions = getColorOptions();
     }
 
     @Override
@@ -100,17 +113,18 @@ public class NameColorCommand extends BaseTabCommand {
             case "light_purple" -> "&d";
             case "yellow" -> "&e";
             case "white" -> "&f";
-            case "gradient_fire" -> "<gradient:#F3904F:#E7654A>";
-            case "gradient_sky" -> "<gradient:#1488CC:#0B14C3>";
-            case "gradient_pink" -> "<gradient:#F4C4F3:#EC00E9>";
-            case "gradient_green" -> "<gradient:#59ED33:#165818>";
-            case "gradient_silver" -> "<gradient:#C9C9C9:#2F2F2F>";
-            case "gradient_red" -> "<gradient:#BF0C1F:#DE4E4E>";
-            case "gradient_aqua" -> "<gradient:#4FF3EA:#00828D>";
-            case "gradient_retro" -> "<gradient:#F34F4F:#65008D>";
             case "rainbow" -> "<rainbow>";
-            default -> "&f";
+            default -> getGradient(colorName);
         };
+    }
+
+    private String getGradient(String colorName) {
+        for (Gradient gradient : gradientsOptions) {
+            if (gradient.getName().equals(colorName)) {
+                return gradient.getTag();
+            }
+        }
+        return "&f";
     }
 
     private String getStyleCode(String styleName) {
@@ -124,7 +138,9 @@ public class NameColorCommand extends BaseTabCommand {
     }
 
     public List<String> getColorOptions() {
-        return List.of("black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white", "gradient_fire", "gradient_sky", "gradient_green", "gradient_pink", "gradient_silver", "gradient_red", "gradient_aqua", "gradient_retro", "rainbow");
+        List<String> colorOptions = new ArrayList<>(List.of("black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white", "reset"));
+        colorOptions.addAll(gradientsOptions.stream().map(Gradient::getName).toList());
+        return colorOptions;
     }
 
     public List<String> getStyleOptions() {
@@ -148,5 +164,15 @@ public class NameColorCommand extends BaseTabCommand {
     @Override
     public void sendNoPermission(CommandSender sender) {
         if (sender instanceof Player player)  sendPrefixedLocalizedMessage(player, "nc_no_permission");
+    }
+
+    @Getter
+    private static class Gradient{
+        public Gradient(String name, String... hex) {
+            this.name = "gradient_" + name;
+            this.tag =  "<gradient:" + String.join(":", hex) + ">";
+        }
+
+        private final String name, tag;
     }
 }
