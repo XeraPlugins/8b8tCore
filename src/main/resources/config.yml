@@ -128,8 +128,9 @@ ChatControl:
     - '/rename'
     - '/hotspot'
     - '/sign'
+    - '/togglejoinmessages'
 TPA:
-  RequestTimeout: 3 # In minutes
+  RequestTimeoutInMinutes: 5
 TPS:
   Permissions:
     - '8b8tcore.tpsinfo'

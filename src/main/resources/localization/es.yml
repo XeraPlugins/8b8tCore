@@ -46,9 +46,9 @@ bookban_removed_item: "&cSe removió &r&3%s(s) &r&cde tu inventario para preveni
 kick_lever_ratelimit: "&cEstas interactuando bastante rapido!"
 kick_pps_limit: "&cEstas mandando paquetes muy rapido!"
 kick_failed_to_inject: "&cNo se pudo inyectar"
-join_message: "&7%s se unió al servidor"
-player_join_first_time: "&7%s unió por primera vez"
-leave_message: "&7%s se salió del servidor"
+join_message: "&a▲&8 El jugador &7%s&r&8 Se unió."
+first_join_message: "&a▲&8 El jugador &7%s&r&8 Se unió por primera vez."
+leave_message: "&c▼&8 El jugador &7%s&r&8 Salió."
 kick_message: "&7%s fue pateado para \"%s\""
 could_not_translate_message: "Error al traducir el mensaje debido a %s"
 message_auto_translated: "Este mensaje se ha traducido automáticamente.\n\nTexto original: %s"
@@ -123,7 +123,8 @@ repair_fail_while_pvp: "&c¡No puedes usar este comando durante o poco después 
 sign_success: "&3Hecho! Firmaste el item satisfactoriamente."
 sign_fail_already_signed: "&cEste item ya está firmado."
 sign_fail_no_item: "&cDebes tener un item en la mano para poder firmarlo."
-
+show_join_leave_messages_false: "&8Los mensajes de Join/Leave ahora &cestán ocultos&8. Para mostrarlos usa nuevamente este comando."
+show_join_leave_messages_true: "&8Los mensajes de Join/Leave ahora &ason visibles&8."
 
 #Complex messages
 HelpMessage:

@@ -69,7 +69,7 @@ public class TPASection implements Section {
             lastRequest.remove(requested);
             hereRequests.get(requested).remove(requester);
             if (!hereRequests.get(requested).isEmpty()) lastRequest.put(requested, hereRequests.get(requested).get(0));
-        }, config.getInt("RequestTimeout"), TimeUnit.MINUTES);
+        }, config.getInt("RequestTimeoutInMinutes", 5), TimeUnit.MINUTES);
     }
 
     public boolean hasHereRequested(Player requester, Player requested) {
@@ -101,7 +101,7 @@ public class TPASection implements Section {
             lastRequest.remove(requested);
             requests.get(requested).remove(requester);
             if (!requests.get(requested).isEmpty()) lastRequest.put(requested, requests.get(requested).get(0));
-        }, config.getInt("RequestTimeout"), TimeUnit.MINUTES);
+        }, config.getInt("RequestTimeoutInMinutes", 5), TimeUnit.MINUTES);
     }
 
     public Player getLastRequest(Player requested) {

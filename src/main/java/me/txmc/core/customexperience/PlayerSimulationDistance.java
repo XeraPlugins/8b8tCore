@@ -30,16 +30,14 @@ import static me.txmc.core.util.GlobalUtils.log;
  * @author Minelord9000 (agarciacorte)
  * @since 2024/07/18 12:42 PM
  */
-public class PlayerSimulationDistance implements Listener {
+public class PlayerSimulationDistance {
     private final JavaPlugin plugin;
 
     public PlayerSimulationDistance(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+    public void handlePlayerJoin(Player player) {
         setSimulationDistance(player);
     }
 
@@ -64,6 +62,6 @@ public class PlayerSimulationDistance implements Listener {
         }
 
         player.setSimulationDistance(simulationDistance);
-        log(Level.INFO,"Simulation distance set to " + simulationDistance + " chunks for player: " + player.getName());
+        log(Level.INFO, "Simulation distance set to " + simulationDistance + " chunks for player: " + player.getName());
     }
 }

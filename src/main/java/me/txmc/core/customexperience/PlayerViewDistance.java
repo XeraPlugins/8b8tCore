@@ -30,16 +30,14 @@ import static me.txmc.core.util.GlobalUtils.log;
  * @author Minelord9000 (agarciacorte)
  * @since 2024/07/18 12:42 PM
  */
-public class PlayerViewDistance implements Listener {
+public class PlayerViewDistance {
     private final JavaPlugin plugin;
 
     public PlayerViewDistance(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+    public void handlePlayerJoin(Player player) {
         setRenderDistance(player);
     }
 
@@ -65,6 +63,6 @@ public class PlayerViewDistance implements Listener {
 
         player.setSendViewDistance(renderDistance);
         player.setViewDistance(renderDistance);
-        log(Level.INFO,"View distance set to " + renderDistance + " chunks for player: " + player.getName());
+        log(Level.INFO, "View distance set to " + renderDistance + " chunks for player: " + player.getName());
     }
 }

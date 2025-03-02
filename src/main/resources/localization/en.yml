@@ -46,9 +46,9 @@ bookban_removed_item: "&cRemoved all&r&3 %s(s) &r&cfrom your inventory to preven
 kick_lever_ratelimit: "&cYou are interacting too fast"
 kick_pps_limit: "&cYou are sending packets too fast!"
 kick_failed_to_inject: "&cFailed to inject"
-join_message: "&7%s joined"
-player_join_first_time: "&7%s joined for the first time"
-leave_message: "&7%s left"
+join_message: "&a▲&8 Player &7%s&r&8 Joined."
+first_join_message: "&a▲&8 Player &7%s&r&8 Joined for the first time."
+leave_message: "&c▼&8 Player &7%s&r&8 Left."
 kick_message: "&7%s was kicked for \"%s\""
 could_not_translate_message: "Failed to translate message due to %s"
 message_auto_translated: "This message has been translated automatically.\n\nOriginal Text: %s"
@@ -123,6 +123,8 @@ repair_fail_while_pvp: "&cYou cannot use this command during or shortly after Pv
 sign_success: "&3Done! You successfully signed the item."
 sign_fail_already_signed: "&cThis item is already signed."
 sign_fail_no_item: "&cYou must hold an item in your hand to sign it."
+show_join_leave_messages_false: "&8Join/Leave messages are now &chidden&8. To show them again, use this command."
+show_join_leave_messages_true: "&8Join/Leave messages are now &ashown&8."
 
 #Complex messages
 HelpMessage:

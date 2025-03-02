@@ -1,11 +1,13 @@
 package me.txmc.core.home.commands;
 
+import me.txmc.core.Main;
 import me.txmc.core.home.HomeManager;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.TabExecutor;
@@ -30,7 +32,10 @@ public class HotspotCommand implements TabExecutor, Listener {
     private static final String PERMISSION = "8b8tcore.command.hotspotcreate";
     private int durationInSeconds = 300;
 
+    private Main main;
+
     public HotspotCommand(HomeManager main) {
+        this.main = main.plugin;
         Bukkit.getPluginManager().registerEvents(this, main.plugin);
     }
 
@@ -77,6 +82,14 @@ public class HotspotCommand implements TabExecutor, Listener {
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             sendPrefixedLocalizedMessage(p, "hotspot_created_to_everyone", player.getName(), player.getName());
+
+            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 2.0f, 0.7f);
+
+            Bukkit.getRegionScheduler().runDelayed(main, player.getLocation(), (task) -> {
+                if (player.isOnline()) {
+                    p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 2.0f, 1.0f);
+                }
+            }, 6L);
         }
 
         String hotspotText = GlobalUtils.convertToMiniMessageFormat("<bold><gradient:#5555FF:#0000AA>" + player.getName() + "'s hotspot - Do <gradient:#FFE259:#FFA751>/hotspot</gradient> to teleport.</gradient>");

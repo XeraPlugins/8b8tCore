@@ -36,6 +36,7 @@ public class CommandHandler implements TabExecutor {
         addCommand(new TpsinfoCommand(main.getPlugin()));
         addCommand(new RepairCommand(main.getPlugin()));
         addCommand(new NickCommand(main.getPlugin()));
+        addCommand(new ToggleJoinMessagesCommand(main.getPlugin()));
         addCommand(new ItemColorCommand());
         addCommand(new NameColorCommand(main.getPlugin()));
         addCommand(new RenameCommand());

@@ -29,7 +29,7 @@ import static me.txmc.core.util.GlobalUtils.executeCommand;
  * @author Minelord9000 (agarciacorte)
  * @since 2024/08/11 03:42 PM
  */
-public class PlayerPrefix implements Listener {
+public class PlayerPrefix {
     private final PrefixManager prefixManager = new PrefixManager();
     private final GeneralDatabase database;
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
@@ -40,27 +40,23 @@ public class PlayerPrefix implements Listener {
         this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
     }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-
-        if (event.getPlayer().getName().startsWith(".")) {
-            PermissionAttachment attachment = event.getPlayer().addAttachment(plugin);
+    public void handlePlayerJoin(Player player) {
+        if (player.getName().startsWith(".")) {
+            PermissionAttachment attachment = player.addAttachment(plugin);
             attachment.setPermission("nocheatplus.shortcut.bypass", true);
         }
 
-        String tag = prefixManager.getPrefix(event.getPlayer());
-        setupTag(event.getPlayer(), tag);
+        String tag = prefixManager.getPrefix(player);
+        setupTag(player, tag);
 
-        String displayName = database.getNickname(event.getPlayer().getName());
+        String displayName = database.getNickname(player.getName());
         if (displayName != null && !displayName.isEmpty()) {
             Component component = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(displayName));
-            event.getPlayer().displayName(component);
+            player.displayName(component);
         }
     }
 
     public void setupTag(Player player, String tag) {
-        player.playerListName(miniMessage.deserialize(String.format("%s%s",tag, player.getDisplayName())));
+        player.playerListName(miniMessage.deserialize(String.format("%s%s", tag, player.getDisplayName())));
     }
-
 }
-

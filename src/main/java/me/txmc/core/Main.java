@@ -6,9 +6,7 @@ import me.txmc.core.chat.ChatSection;
 import me.txmc.core.chat.listeners.OpWhiteListListener;
 import me.txmc.core.chat.tasks.AnnouncementTask;
 import me.txmc.core.command.CommandSection;
-import me.txmc.core.customexperience.PlayerPrefix;
-import me.txmc.core.customexperience.PlayerSimulationDistance;
-import me.txmc.core.customexperience.PlayerViewDistance;
+import me.txmc.core.customexperience.listeners.CustomExperienceJoinLeave;
 import me.txmc.core.deathmessages.DeathMessageListener;
 import me.txmc.core.dupe.DupeSection;
 import me.txmc.core.home.HomeManager;
@@ -78,8 +76,8 @@ public class Main extends JavaPlugin {
         executorService.scheduleAtFixedRate(() -> violationManagers.forEach(ViolationManager::decrementAll), 0, 1, TimeUnit.SECONDS);
         getExecutorService().scheduleAtFixedRate(new AnnouncementTask(), 10L, getConfig().getInt("AnnouncementInterval"), TimeUnit.SECONDS);
 
-        getExecutorService().scheduleAtFixedRate(new EndPortalBuilder(this), 300L, 1800, TimeUnit.SECONDS);
-        getExecutorService().scheduleAtFixedRate(new EndExitPortalBuilder(this), 300L, 1800, TimeUnit.SECONDS);
+        getExecutorService().scheduleAtFixedRate(new EndPortalBuilder(this), 200L, 10, TimeUnit.SECONDS);
+        getExecutorService().scheduleAtFixedRate(new EndExitPortalBuilder(this), 200L, 10, TimeUnit.SECONDS);
 
 
         register(new TabSection(this));
@@ -90,9 +88,7 @@ public class Main extends JavaPlugin {
         register(new PatchSection(this));
         register(new DupeSection(this));
         register(new DeathMessageListener());
-        register(new PlayerPrefix(this));
-        register(new PlayerViewDistance(this));
-        register(new PlayerSimulationDistance(this));
+        register(new CustomExperienceJoinLeave(this));
         register(new OpWhiteListListener(this));
 
         if(getConfig().getBoolean("AntiIllegal.Enabled", true)) register(new AntiIllegalMain(this));

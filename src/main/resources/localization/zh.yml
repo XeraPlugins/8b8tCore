@@ -46,9 +46,9 @@ bookban_removed_item: "&c已移除所有&r&3 %s(们) &r&c以防止被书籍封�
 kick_lever_ratelimit: "&c你的交互速度太快了"
 kick_pps_limit: "&c你发送数据包的速度太快了!"
 kick_failed_to_inject: "&c注入失败"
-join_message: "&7%s 加入了"
-player_join_first_time: "&7%s 第一次加入"
-leave_message: "&7%s 离开了"
+join_message: "&a▲&8 玩家 &7%s&r&8 加入了。"
+first_join_message: "&a▲&8 玩家 &7%s&r&8 第一次加入了。"
+leave_message: "&c▼&8 玩家 &7%s&r&8 离开了。"
 kick_message: "&7%s 被踢出，原因: \"%s\""
 could_not_translate_message: "由于 %s，无法翻译消息"
 message_auto_translated: "此消息已被自动翻译。\n\n原文: %s"
@@ -123,6 +123,8 @@ repair_fail_while_pvp: "&c你不能在PvP期间或之后不久使用此命令！
 sign_success: "&3完成！你已成功签署物品。"
 sign_fail_already_signed: "&c该物品已被签署。"
 sign_fail_no_item: "&c你必须手持一个物品才能签署它。"
+show_join_leave_messages_false: "&8加入/离开消息现在已被 &c隐藏&8。要重新显示它们，请使用此命令。"
+show_join_leave_messages_true: "&8加入/离开消息现在已被 &a显示&8。"
 
 # 复杂信息
 HelpMessage:

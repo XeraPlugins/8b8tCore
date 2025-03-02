@@ -24,11 +24,26 @@ public class GeneralDatabase {
                 "displayname TEXT NOT NULL" +
                 ");";
 
+        String addShowJoinMsgColumnSQL = "ALTER TABLE playerdata ADD COLUMN showJoinMsg BOOLEAN DEFAULT TRUE;";
+
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt = conn.createStatement()) {
             stmt.execute(createNicknamesTableSQL);
+
+            if (!columnExists(conn, "playerdata", "showJoinMsg")) {
+                stmt.execute(addShowJoinMsgColumnSQL);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private boolean columnExists(Connection conn, String tableName, String columnName) {
+        try (ResultSet rs = conn.getMetaData().getColumns(null, null, tableName, columnName)) {
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -58,6 +73,33 @@ public class GeneralDatabase {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void updateShowJoinMsg(String username, boolean showJoinMsg) {
+        String updateSQL = "UPDATE playerdata SET showJoinMsg = ? WHERE username = ?";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+            pstmt.setBoolean(1, showJoinMsg);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean getPlayerShowJoinMsg(String username) {
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement("SELECT showJoinMsg FROM playerdata WHERE username = ?")) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("showJoinMsg") == 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
 }
