@@ -129,6 +129,7 @@ show_join_leave_messages_false: "&8I messaggi di Join/Leave sono ora &cNascosti&
 show_join_leave_messages_true: "&8I messaggi di Join/Leave sono ora &aVisibili&8."
 mapart_deleted_inventory: "&cUn mapart proibito è stato rimosso dal tuo inventario. Se verrai sorpreso di nuovo con questo tipo di materiale, sarai bannato dal server."
 mapart_deleted_frame: "&cUn mapart proibito è stato rimosso dalla tua base. Se verrai sorpreso di nuovo con questo tipo di materiale, sarai bannato dal server."
+spam_alert: "&cPer favore, non fare spam."
 
 #Complex messages
 HelpMessage:

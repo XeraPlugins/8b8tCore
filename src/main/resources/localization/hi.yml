@@ -129,6 +129,7 @@ show_join_leave_messages_false: "&8Join/Leave संदेश अब &cछुप
 show_join_leave_messages_true: "&8Join/Leave संदेश अब &adिखाए जा रहे हैं&8।"
 mapart_deleted_inventory: "&cआपके इन्वेंट्री से एक प्रतिबंधित मैपआर्ट हटा दिया गया है। यदि आपको फिर से इस प्रकार की सामग्री के साथ पकड़ा जाता है, तो आपको सर्वर से बैन कर दिया जाएगा।"
 mapart_deleted_frame: "&cआपके बेस से एक प्रतिबंधित मैपआर्ट हटा दिया गया है। यदि आपको फिर से इस प्रकार की सामग्री के साथ पकड़ा जाता है, तो आपको सर्वर से बैन कर दिया जाएगा।"
+spam_alert: "&cकृपया स्पैम न करें।"
 
 #Complex messages
 HelpMessage:

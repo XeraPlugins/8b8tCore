@@ -22,8 +22,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.text.DecimalFormat;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -38,6 +37,10 @@ public class ChatListener implements Listener {
     private ScheduledExecutorService service;
     private final PrefixManager prefixManager = new PrefixManager();
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
+
+    private final Map<UUID, LinkedList<String>> playerMessages = new HashMap<>();
+    private static final double SIMILARITY_THRESHOLD = 0.8;
+    private static final int MESSAGE_HISTORY = 3;
 
     @EventHandler
     public void onChat(AsyncChatEvent event) {
@@ -54,6 +57,21 @@ public class ChatListener implements Listener {
         service.schedule(() -> ci.setChatLock(false), cooldown, TimeUnit.SECONDS);
 
         String ogMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
+
+        LinkedList<String> messages = playerMessages.computeIfAbsent(sender.getUniqueId(), k -> new LinkedList<>());
+
+        for (String oldMessage : messages) {
+            if (similarityPercentage(oldMessage, ogMessage) >= SIMILARITY_THRESHOLD) {
+                sendPrefixedLocalizedMessage(sender, "spam_alert");
+                return;
+            }
+        }
+
+        if (messages.size() >= MESSAGE_HISTORY) {
+            messages.removeFirst();
+        }
+        messages.addLast(ogMessage);
+
         Component displayName = sender.displayName();
         Component message = formatMessage(ogMessage, displayName, sender, null);
         if(message == null) return;
@@ -80,7 +98,6 @@ public class ChatListener implements Listener {
             if (lowerMessage.contains(recipient.getName().toLowerCase())) {
                 TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, recipient.getName());
                 if(highlightedMessage == null) return;
-
                 recipient.sendMessage(highlightedMessage);
             } else {
                 recipient.sendMessage(message);
@@ -112,6 +129,34 @@ public class ChatListener implements Listener {
             if (message.toLowerCase().contains(blockedWord.toLowerCase())) return true;
         }
         return false;
+    }
+
+    private double similarityPercentage(String str1, String str2) {
+        int maxLength = Math.max(str1.length(), str2.length());
+        if (maxLength == 0) return 1.0;
+
+        int distance = levenshteinDistance(str1, str2);
+        return 1.0 - ((double) distance / maxLength);
+    }
+
+    private int levenshteinDistance(String str1, String str2) {
+        int len1 = str1.length();
+        int len2 = str2.length();
+        int[][] dp = new int[len1 + 1][len2 + 1];
+
+        for (int i = 0; i <= len1; i++) {
+            for (int j = 0; j <= len2; j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else {
+                    int cost = (str1.charAt(i - 1) == str2.charAt(j - 1)) ? 0 : 1;
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1), dp[i - 1][j - 1] + cost);
+                }
+            }
+        }
+        return dp[len1][len2];
     }
 
     public TextComponent formatMessage(String message, Component displayName, Player player, String mentionedPlayerName) {

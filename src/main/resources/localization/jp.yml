@@ -129,6 +129,7 @@ show_join_leave_messages_false: "&8Join/Leave メッセージは現在 &c非表�
 show_join_leave_messages_true: "&8Join/Leave メッセージは現在 &a表示中&8 です。"
 mapart_deleted_inventory: "&c禁止されたマップアートがインベントリから削除されました。再びこの種類のアイテムを所持しているのが発覚した場合、サーバーからBANされます。"
 mapart_deleted_frame: "&c禁止されたマップアートが拠点から削除されました。再びこの種類のアイテムを所持しているのが発覚した場合、サーバーからBANされます。"
+spam_alert: "&cスパムをしないでください。"
 
 #Complex messages
 HelpMessage:

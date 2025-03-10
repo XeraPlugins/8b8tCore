@@ -154,6 +154,8 @@ public class HotspotCommand implements TabExecutor, Listener {
             public void run() {
                 if (timeLeft <= 0 || !player.isOnline()) {
                     deleteHotspot(player);
+                    cancel();
+                    return;
                 }
 
                 bossBar.progress((float) timeLeft / duration);

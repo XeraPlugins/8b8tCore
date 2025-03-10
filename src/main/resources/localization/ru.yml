@@ -129,6 +129,7 @@ show_join_leave_messages_false: "&8Сообщения Join/Leave теперь &c
 show_join_leave_messages_true: "&8Сообщения Join/Leave теперь &adоступны&8."
 mapart_deleted_inventory: "&cЗапрещённая карта была удалена из вашего инвентаря. Если вас снова поймают с таким материалом, вас забанят на сервере."
 mapart_deleted_frame: "&cЗапрещённая карта была удалена с вашей базы. Если вас снова поймают с таким материалом, вас забанят на сервере."
+spam_alert: "&cПожалуйста, не спамьте."
 
 #Complex messages
 HelpMessage:
