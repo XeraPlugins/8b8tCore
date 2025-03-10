@@ -167,7 +167,6 @@ HelpMessage:
   - '&c/seen &8ver cuándo un jugador se conectó por última vez'
   - '&c/echest &8abrir tu cofre de ender'
   - '&c/nick &8establecer un apodo'
-  - '&c/dupe &8duplica el item de tu mano'
   - '&8Visita &chttps://donate.8b8t.me &8para donar'
   - '&1--------------------------------------'
 TabList:

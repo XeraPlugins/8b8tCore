@@ -167,7 +167,6 @@ HelpMessage:
   - '&c/seen &8para ver quando um jogador se conectou pela última vez'
   - '&c/echest &8para abrir seu baú de ender'
   - '&c/nick &8para definir um apelido'
-  - '&c/dupe &8para duplicar o item em sua mão'
   - '&8Visite &chttps://donate.8b8t.me &8para doar'
   - '&1--------------------------------------'
 TabList:

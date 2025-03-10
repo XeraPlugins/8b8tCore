@@ -167,7 +167,6 @@ HelpMessage:
   - '&c/seen &8pour voir quand un joueur s`est connecté pour la dernière fois'
   - '&c/echest &8pour ouvrir votre coffre de l`ender'
   - '&c/nick &8pour définir un pseudonyme'
-  - '&c/dupe &8pour dupliquer l`item dans votre main'
   - '&8Visitez &chttps://donate.8b8t.me &8pour faire un don'
   - '&1--------------------------------------'
 TabList:

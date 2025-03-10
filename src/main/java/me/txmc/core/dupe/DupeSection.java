@@ -32,7 +32,7 @@ public class DupeSection implements Section {
         plugin.register(new ZombieDupe(plugin));
         plugin.register(new DonkeyDupe(plugin));
 
-        plugin.getCommand("dupe").setExecutor(new DupeCommand(this));
+        //plugin.getCommand("dupe").setExecutor(new DupeCommand(this));
     }
 
     @Override

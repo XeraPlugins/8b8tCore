@@ -41,7 +41,6 @@ commands:
   vote:
   tpsinfo:
   repair:
-  dupe:
   nick:
     aliases: [nickname, setnick]
   ic:
