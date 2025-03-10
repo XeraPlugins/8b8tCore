@@ -124,8 +124,6 @@ sign_fail_already_signed: "&cBu eşya zaten imzalanmış."
 sign_fail_no_item: "&cEşyayı imzalamak için elinizde bir eşya olmalı."
 show_join_leave_messages_false: "&8Join/Leave mesajları şimdi &cgizli&8. Yeniden göstermek için bu komutu kullanın."
 show_join_leave_messages_true: "&8Join/Leave mesajları şimdi &agörünür&8."
-mapart_deleted_inventory: "&cYasaklı bir harita sanatı envanterinizden kaldırılmıştır. Eğer tekrar bu tür bir malzeme ile yakalanırsanız, sunucudan yasaklanacaksınız."
-mapart_deleted_frame: "&cYasaklı bir harita sanatı üssünüzden kaldırılmıştır. Eğer tekrar bu tür bir malzeme ile yakalanırsanız, sunucudan yasaklanacaksınız."
 
 #Complex messages
 HelpMessage:
