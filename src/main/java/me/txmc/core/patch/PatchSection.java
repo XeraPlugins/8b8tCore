@@ -53,6 +53,7 @@ public class PatchSection implements Section {
         plugin.register(new PvpPatchListeners());
         plugin.register(new ChestLimiter(plugin));
         plugin.register(new MapCreationListener(plugin));
+        plugin.register(new MapRemovalPatch(plugin));
     }
 
     @Override

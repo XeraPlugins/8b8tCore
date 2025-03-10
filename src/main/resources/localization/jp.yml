@@ -125,6 +125,8 @@ sign_fail_already_signed: "&cこのアイテムはすでにサインされてい
 sign_fail_no_item: "&cサインするには手にアイテムを持っている必要があります。"
 show_join_leave_messages_false: "&8Join/Leave メッセージは現在 &c非表示&8 です。再表示するにはこのコマンドを使ってください。"
 show_join_leave_messages_true: "&8Join/Leave メッセージは現在 &a表示中&8 です。"
+mapart_deleted_inventory: "&c禁止されたマップアートがインベントリから削除されました。再びこの種類のアイテムを所持しているのが発覚した場合、サーバーからBANされます。"
+mapart_deleted_frame: "&c禁止されたマップアートが拠点から削除されました。再びこの種類のアイテムを所持しているのが発覚した場合、サーバーからBANされます。"
 
 #Complex messages
 HelpMessage:

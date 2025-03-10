@@ -125,6 +125,8 @@ sign_fail_already_signed: "&cEste item já está assinado."
 sign_fail_no_item: "&cVocê deve segurar um item na mão para assiná-lo."
 show_join_leave_messages_false: "&8Mensagens de Join/Leave agora estão &cocultas&8. Para mostrá-las novamente, use este comando."
 show_join_leave_messages_true: "&8Mensagens de Join/Leave agora estão &avisíveis&8."
+mapart_deleted_inventory: "&cUm mapart proibido foi removido do seu inventário. Se for pego novamente com esse tipo de material, será banido do servidor."
+mapart_deleted_frame: "&cUm mapart proibido foi removido da sua base. Se for pego novamente com esse tipo de material, será banido do servidor."
 
 # Mensagens complexas
 HelpMessage:

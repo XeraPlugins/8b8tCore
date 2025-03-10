@@ -125,6 +125,8 @@ sign_fail_already_signed: "&c该物品已被签署。"
 sign_fail_no_item: "&c你必须手持一个物品才能签署它。"
 show_join_leave_messages_false: "&8加入/离开消息现在已被 &c隐藏&8。要重新显示它们，请使用此命令。"
 show_join_leave_messages_true: "&8加入/离开消息现在已被 &a显示&8。"
+mapart_deleted_inventory: "&c一个被禁止的地图艺术已从您的库存中移除。如果再次发现您持有此类物品，您将被服务器封禁。"
+mapart_deleted_frame: "&c一个被禁止的地图艺术已从您的基地中移除。如果再次发现您持有此类物品，您将被服务器封禁。"
 
 # 复杂信息
 HelpMessage:
