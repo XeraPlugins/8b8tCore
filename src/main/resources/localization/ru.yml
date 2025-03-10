@@ -114,6 +114,8 @@ hotspot_no_perms_create: "&cУ вас нет прав для создания т
 hotspot_no_playername: "&cПожалуйста, укажите игрока для телепортации /hotspot teleport <player>."
 hotspot_already_created: "&cУ вас уже есть активная точка доступа, необходимо подождать перед созданием новой."
 hotspot_created: "&3Ваша точка доступа успешно создана."
+hotspot_deleted: "&3Ваша точка доступа была успешно удалена."
+hotspot_not_active: "&cУ вас нет активной точки доступа в данный момент."
 hotspot_not_found_for_player: "&r&a%s&c не имеет активной точки доступа."
 hotspot_teleported_to_player: "&3Телепортируемся к точке доступа &r&a%s&3."
 hotspot_not_found: "&cНет активных точек доступа для телепортации."

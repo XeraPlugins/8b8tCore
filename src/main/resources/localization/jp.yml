@@ -114,6 +114,8 @@ hotspot_no_perms_create: "&cホットスポットを作成する権限があり�
 hotspot_no_playername: "&cテレポートするプレイヤーを指定してください /hotspot teleport <player>."
 hotspot_already_created: "&cすでにアクティブなホットスポットがあります。次を作成するまで待つ必要があります。"
 hotspot_created: "&3ホットスポットが正常に作成されました。"
+hotspot_deleted: "&3あなたのホットスポットは正常に削除されました。"
+hotspot_not_active: "&c現在、アクティブなホットスポットはありません。"
 hotspot_not_found_for_player: "&r&a%s&c はアクティブなホットスポットを持っていません。"
 hotspot_teleported_to_player: "&3&r&a%s&3 のホットスポットにテレポートしています。"
 hotspot_not_found: "&cテレポートするアクティブなホットスポットはありません。"

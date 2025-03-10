@@ -27,7 +27,7 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 public class HotspotCommand implements TabExecutor, Listener {
     private final Map<Player, Location> hotspotLocations = new HashMap<>();
     private final Map<Player, BossBar> playerBossBars = new HashMap<>();
-    private final List<String> hotspotOptions = List.of("create", "teleport");
+    private final List<String> hotspotOptions = List.of("create", "delete", "teleport");
     private final Map<UUID, Long> lastCreateTimes = new HashMap<>();
     private static final String PERMISSION = "8b8tcore.command.hotspotcreate";
     private int durationInSeconds = 300;
@@ -44,6 +44,9 @@ public class HotspotCommand implements TabExecutor, Listener {
         if (sender instanceof Player player) {
             if (args.length > 0 && args[0].equalsIgnoreCase("create")) {
                 if (player.hasPermission(PERMISSION) || player.isOp()) createHotspot(player);
+                else sendPrefixedLocalizedMessage(player, "hotspot_no_perms_create");
+            } else if (args.length > 0 && args[0].equalsIgnoreCase("delete")) {
+                if (player.hasPermission(PERMISSION) || player.isOp()) deleteHotspot(player);
                 else sendPrefixedLocalizedMessage(player, "hotspot_no_perms_create");
             } else if (args.length > 0 && args[0].equalsIgnoreCase("teleport")) {
                 if (args.length == 2) {
@@ -92,13 +95,13 @@ public class HotspotCommand implements TabExecutor, Listener {
             }, 6L);
         }
 
-        String hotspotText = GlobalUtils.convertToMiniMessageFormat("<bold><gradient:#5555FF:#0000AA>" + player.getName() + "'s hotspot - Do <gradient:#FFE259:#FFA751>/hotspot</gradient> to teleport.</gradient>");
+        String hotspotText = GlobalUtils.convertToMiniMessageFormat("<bold><gradient:#5555FF:#0000AA>" + MiniMessage.miniMessage().serialize(player.displayName()) + "<reset><bold><gradient:#5555FF:#0000AA>'s hotspot - Do <gradient:#FFE259:#FFA751>/hotspot</gradient> to teleport.</gradient>");
         Component hotspotTextComponent = MiniMessage.miniMessage().deserialize(hotspotText);
         BossBar bossBar = BossBar.bossBar(hotspotTextComponent,1, BossBar.Color.BLUE, BossBar.Overlay.PROGRESS);
 
         for (Player nearbyPlayer : Bukkit.getOnlinePlayers()) {
             if (nearbyPlayer.getWorld().equals(hotspotLocation.getWorld()) &&
-                    nearbyPlayer.getLocation().distance(hotspotLocation) <= 128) {
+                    nearbyPlayer.getLocation().distance(hotspotLocation) <= 256) {
                 bossBar.addViewer(nearbyPlayer);
             }
         }
@@ -106,6 +109,36 @@ public class HotspotCommand implements TabExecutor, Listener {
         playerBossBars.put(player, bossBar);
 
         handleCooldown(bossBar, durationInSeconds, player);
+    }
+
+    private void deleteHotspot(Player player) {
+        if (!hotspotLocations.containsKey(player)) {
+            sendPrefixedLocalizedMessage(player, "hotspot_not_active");
+            return;
+        }
+
+        hotspotLocations.remove(player);
+        lastCreateTimes.remove(player.getUniqueId());
+
+        BossBar bossBar = playerBossBars.remove(player);
+
+        List<Audience> toRemove = new ArrayList<>();
+        bossBar.viewers().forEach(vwer -> {
+            toRemove.add((Audience) vwer);
+        });
+
+        toRemove.forEach(bossBar::removeViewer);
+
+        for (Map.Entry<Player, BossBar> entry : playerBossBars.entrySet()) {
+            if (entry.getValue().equals(bossBar)) {
+                Player associatedPlayer = entry.getKey();
+                playerBossBars.remove(associatedPlayer);
+                hotspotLocations.remove(associatedPlayer);
+                break;
+            }
+        }
+
+        if(player.isOnline()) sendPrefixedLocalizedMessage(player, "hotspot_deleted");
     }
 
     private void handleCooldown(BossBar bossBar, int duration, Player player) {
@@ -120,23 +153,7 @@ public class HotspotCommand implements TabExecutor, Listener {
             @Override
             public void run() {
                 if (timeLeft <= 0 || !player.isOnline()) {
-                    List<Audience> toRemove = new ArrayList<>();
-                    bossBar.viewers().forEach(vwer -> {
-                        toRemove.add((Audience) vwer);
-                    });
-
-                    toRemove.forEach(bossBar::removeViewer);
-
-                    for (Map.Entry<Player, BossBar> entry : playerBossBars.entrySet()) {
-                        if (entry.getValue().equals(bossBar)) {
-                            Player associatedPlayer = entry.getKey();
-                            playerBossBars.remove(associatedPlayer);
-                            hotspotLocations.remove(associatedPlayer);
-                            break;
-                        }
-                    }
-                    cancel();
-                    return;
+                    deleteHotspot(player);
                 }
 
                 bossBar.progress((float) timeLeft / duration);
@@ -150,7 +167,7 @@ public class HotspotCommand implements TabExecutor, Listener {
                 }
 
                 if (showingHotspotMessage) {
-                    String hotspotText = GlobalUtils.convertToMiniMessageFormat("<bold><gradient:#5555FF:#0000AA>" + player.getName() + "'s hotspot - Do <gradient:#FFE259:#FFA751>/hotspot</gradient> to teleport.</gradient>");
+                    String hotspotText = GlobalUtils.convertToMiniMessageFormat("<bold><gradient:#5555FF:#0000AA>" +  MiniMessage.miniMessage().serialize(player.displayName()) + "<reset><bold><gradient:#5555FF:#0000AA>'s hotspot - Do <gradient:#FFE259:#FFA751>/hotspot</gradient> to teleport.</gradient>");
                     Component hotspotTextComponent = MiniMessage.miniMessage().deserialize(hotspotText);
                     bossBar.name(hotspotTextComponent);
                 } else {
@@ -161,7 +178,7 @@ public class HotspotCommand implements TabExecutor, Listener {
                     }
                     else if (timeLeft <= 60) color = colorYellow;
 
-                    String hotspotText = GlobalUtils.convertToMiniMessageFormat( "<bold><gradient:#5555FF:#0000AA>" + player.getName() + "'s hotspot ends in " + color + timeRemaining + "</gradient> minutes.</gradient></bold>");
+                    String hotspotText = GlobalUtils.convertToMiniMessageFormat( "<bold><gradient:#5555FF:#0000AA>" + MiniMessage.miniMessage().serialize(player.displayName()) + "<reset><bold><gradient:#5555FF:#0000AA>'s hotspot ends in " + color + timeRemaining + "</gradient> minutes.</gradient></bold>");
                     Component hotspotTextComponent = MiniMessage.miniMessage().deserialize(hotspotText);
                     bossBar.name(hotspotTextComponent);
                 }
@@ -219,7 +236,7 @@ public class HotspotCommand implements TabExecutor, Listener {
             Location hotspotLocation = entry.getValue();
 
             if (playerLocation.getWorld().equals(hotspotLocation.getWorld()) &&
-                    playerLocation.distance(hotspotLocation) <= 128) {
+                    playerLocation.distance(hotspotLocation) <= 256) {
                 BossBar bossBar = playerBossBars.get(hotspotOwner);
                 if (bossBar != null) {
                     bossBar.addViewer(player);
