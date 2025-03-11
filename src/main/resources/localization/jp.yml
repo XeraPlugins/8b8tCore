@@ -130,6 +130,8 @@ show_join_leave_messages_true: "&8Join/Leave メッセージは現在 &a表示�
 mapart_deleted_inventory: "&c禁止されたマップアートがインベントリから削除されました。再びこの種類のアイテムを所持しているのが発覚した場合、サーバーからBANされます。"
 mapart_deleted_frame: "&c禁止されたマップアートが拠点から削除されました。再びこの種類のアイテムを所持しているのが発覚した場合、サーバーからBANされます。"
 spam_alert: "&cスパムをしないでください。"
+vanish_true: "&8あなたは現在、&3バニッシュモード&8です。 解除するには、もう一度 /vanish コマンドを使用してください。"
+vanish_false: "&8あなたは &3表示可能 &8になりました。"
 
 #Complex messages
 HelpMessage:

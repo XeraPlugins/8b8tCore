@@ -130,6 +130,8 @@ show_join_leave_messages_true: "&8Join/Leave messages are now &ashown&8."
 mapart_deleted_inventory: "&cA prohibited mapart has been removed from your inventory. If you are caught again with this type of material, you will be banned from the server."
 mapart_deleted_frame: "&cA prohibited mapart has been removed from your base. If you are caught again with this type of material, you will be banned from the server."
 spam_alert: "&cPlease do not spam."
+vanish_true: "&8You are now in &3vanish mode&8. To exit, use the /vanish command again."
+vanish_false: "&8You are now &3visible &8to other players."
 
 #Complex messages
 HelpMessage:

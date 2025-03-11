@@ -26,10 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -47,6 +44,7 @@ public class Main extends JavaPlugin {
     private List<ViolationManager> violationManagers;
     @Getter private long startTime;
     public final Map<Player, Location> lastLocations = new HashMap<>();
+    @Getter private final Set<UUID> vanishedPlayers = new HashSet<>();
 
     @Override
     public void onEnable() {

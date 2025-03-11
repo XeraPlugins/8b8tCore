@@ -130,6 +130,8 @@ show_join_leave_messages_true: "&8加入/离开消息现在已被 &a显示&8。"
 mapart_deleted_inventory: "&c一个被禁止的地图艺术已从您的库存中移除。如果再次发现您持有此类物品，您将被服务器封禁。"
 mapart_deleted_frame: "&c一个被禁止的地图艺术已从您的基地中移除。如果再次发现您持有此类物品，您将被服务器封禁。"
 spam_alert: "&c请不要发送垃圾消息。"
+vanish_true: "&8您现在处于 &3隐身模式&8。要退出，请再次使用 /vanish 命令。"
+vanish_false: "&8您现在 &3可见 &8给其他玩家。"
 
 # 复杂信息
 HelpMessage:

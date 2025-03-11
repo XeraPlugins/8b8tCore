@@ -1,5 +1,6 @@
 package me.txmc.core.customexperience.listeners;
 
+import me.txmc.core.Main;
 import me.txmc.core.customexperience.PlayerPrefix;
 import me.txmc.core.customexperience.PlayerSimulationDistance;
 import me.txmc.core.customexperience.PlayerViewDistance;
@@ -22,9 +23,11 @@ public class CustomExperienceJoinLeave implements Listener {
     private final PlayerSimulationDistance playerSimulationDistance;
     private final PlayerViewDistance playerViewDistance;
     private final GeneralDatabase database;
+    private final Main main;
 
-    public CustomExperienceJoinLeave(JavaPlugin plugin) {
-        this.plugin = plugin;
+    public CustomExperienceJoinLeave(Main main) {
+        this.main = main;
+        this.plugin = main;
         this.playerPrefix = new PlayerPrefix(plugin);
         this.playerSimulationDistance = new PlayerSimulationDistance(plugin);
         this.playerViewDistance = new PlayerViewDistance(plugin);
@@ -35,13 +38,25 @@ public class CustomExperienceJoinLeave implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
+        if (main.getVanishedPlayers().contains(player.getUniqueId())) {
+            event.joinMessage(null);
+
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                if (!onlinePlayer.hasPermission("8b8tcore.command.vanish") && !onlinePlayer.isOp()) {
+                    onlinePlayer.hidePlayer(main, player);
+                }
+            }
+        } else {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (database.getPlayerShowJoinMsg(p.getName())) {
+                    sendPrefixedLocalizedMessage(p, "join_message", MiniMessage.miniMessage().serialize(player.displayName()));
+                }
+            }
+        }
+
         playerPrefix.handlePlayerJoin(player);
         playerSimulationDistance.handlePlayerJoin(player);
         playerViewDistance.handlePlayerJoin(player);
-
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if(database.getPlayerShowJoinMsg(p.getName())) sendPrefixedLocalizedMessage(p, "join_message", MiniMessage.miniMessage().serialize(player.displayName()));
-        }
 
         sendPrefixedLocalizedMessage(player, "vote_info");
 
@@ -57,8 +72,12 @@ public class CustomExperienceJoinLeave implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if(database.getPlayerShowJoinMsg(p.getName())) sendPrefixedLocalizedMessage(p, "leave_message", MiniMessage.miniMessage().serialize(player.displayName()));
+        if (!main.getVanishedPlayers().contains(player.getUniqueId())) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (database.getPlayerShowJoinMsg(p.getName())) {
+                    sendPrefixedLocalizedMessage(p, "leave_message", MiniMessage.miniMessage().serialize(player.displayName()));
+                }
+            }
         }
     }
 }

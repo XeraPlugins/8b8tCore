@@ -6,8 +6,6 @@ import me.txmc.core.Main;
 import me.txmc.core.Section;
 import org.bukkit.configuration.ConfigurationSection;
 
-import static me.txmc.core.util.GlobalUtils.info;
-
 
 @Getter
 @RequiredArgsConstructor

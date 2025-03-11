@@ -129,6 +129,7 @@ ChatControl:
     - '/sign'
     - '/togglejoinmessages'
     - '/shadowmute'
+    - '/vanish'
 TPA:
   RequestTimeoutInMinutes: 5
 TPS:
