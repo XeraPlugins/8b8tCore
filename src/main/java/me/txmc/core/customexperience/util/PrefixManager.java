@@ -22,8 +22,8 @@ public class PrefixManager {
     private static double globalAnimationIndex = 0.0; // Shared animation index for all players
 
     private static final List<String> PREFIX_HIERARCHY = Arrays.asList(
-            "*",
             "8b8tcore.prefix.dev",
+            "*",
             "8b8tcore.prefix.bot",
             "8b8tcore.prefix.donator5",
             "8b8tcore.prefix.donator4",
@@ -33,14 +33,14 @@ public class PrefixManager {
     );
 
     static {
-        PREFIXES.put("*", "<gradient:#BA3FFC:#D9ADFD:#BA3FFC:%s>[OWNER<green>✔</green>]</gradient>");
         PREFIXES.put("8b8tcore.prefix.dev", "<gradient:#5555FF:#9492F5:#5555FF:%s>[DEV<green>✔</green>]</gradient>");
+        PREFIXES.put("*", "<gradient:#BA3FFC:#D9ADFD:#BA3FFC:%s>[OWNER<green>✔</green>]</gradient>");
         PREFIXES.put("8b8tcore.prefix.bot", "<gradient:#00AA00:#6ef385:#00AA00:%s>[BOT]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator5", "<gradient:#00AAA3:#55FFFF:#00AAA3:%s>[DONOR5]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator4", "<gradient:#00AA00:#55FF82:#00AA00:%s>[DONOR4]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator3", "<gradient:#0000AA:#005FAD:#0000AA:%s>[DONOR3]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator2", "<gradient:#FFAA00:#FFDB92:#FFAA00:%s>[DONOR2]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator1", "<gradient:#AAAAAA:#F3F3F3:#AAAAAA:%s>[DONOR1]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator5", "<gradient:#00AAA3:#55FFFF:#00AAA3:%s>[Pro+]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator4", "<gradient:#00AA00:#55FF82:#00AA00:%s>[Pro]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator3", "<gradient:#0000AA:#005FAD:#0000AA:%s>[Mini]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator2", "<gradient:#FFAA00:#FFDB92:#FFAA00:%s>[SE]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator1", "<gradient:#AAAAAA:#F3F3F3:#AAAAAA:%s>[Donor]</gradient>");
     }
 
     public String getPrefix(Player player) {
