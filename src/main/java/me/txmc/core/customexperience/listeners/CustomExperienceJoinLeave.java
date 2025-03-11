@@ -38,6 +38,12 @@ public class CustomExperienceJoinLeave implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
+        playerPrefix.handlePlayerJoin(player);
+        playerSimulationDistance.handlePlayerJoin(player);
+        playerViewDistance.handlePlayerJoin(player);
+
+        sendPrefixedLocalizedMessage(player, "vote_info");
+
         if (main.getVanishedPlayers().contains(player.getUniqueId())) {
             event.joinMessage(null);
 
@@ -53,12 +59,6 @@ public class CustomExperienceJoinLeave implements Listener {
                 }
             }
         }
-
-        playerPrefix.handlePlayerJoin(player);
-        playerSimulationDistance.handlePlayerJoin(player);
-        playerViewDistance.handlePlayerJoin(player);
-
-        sendPrefixedLocalizedMessage(player, "vote_info");
 
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 2.0f, 0.7f);
         Bukkit.getRegionScheduler().runDelayed(plugin, player.getLocation(), (task) -> {

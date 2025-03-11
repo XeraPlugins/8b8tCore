@@ -191,3 +191,8 @@ ZombieDupe:
   rottenFleshDropPercentage: 50
 DonkeyDupe:
   enabled: true
+RestrictedMapIDs:
+  - 1366
+  - 1261
+  - 1537
+  - 1288

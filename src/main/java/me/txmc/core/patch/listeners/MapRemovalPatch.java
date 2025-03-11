@@ -2,6 +2,7 @@ package me.txmc.core.patch.listeners;
 
 import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -22,23 +23,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 public class MapRemovalPatch implements Listener {
 
-    private static final Set<Integer> RESTRICTED_MAP_IDS = new HashSet<>();
-
-    static {
-        RESTRICTED_MAP_IDS.add(1366);
-        RESTRICTED_MAP_IDS.add(1261);
-        RESTRICTED_MAP_IDS.add(1537);
-        RESTRICTED_MAP_IDS.add(1288);
-    }
+    private final Set<Integer> RESTRICTED_MAP_IDS = new HashSet<>();
 
     public MapRemovalPatch(JavaPlugin plugin) {
+        FileConfiguration config = plugin.getConfig();
+
+        List<Integer> restrictedIds = config.getIntegerList("RestrictedMapIDs");
+        RESTRICTED_MAP_IDS.addAll(restrictedIds);
     }
+
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
