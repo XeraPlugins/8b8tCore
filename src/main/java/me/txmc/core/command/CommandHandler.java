@@ -41,6 +41,7 @@ public class CommandHandler implements TabExecutor {
         addCommand(new NameColorCommand(main.getPlugin()));
         addCommand(new RenameCommand());
         addCommand(new SignCommand());
+        addCommand(new ShadowMuteCommand(main.getPlugin()));
     }
 
     private void addCommand(BaseCommand command) {

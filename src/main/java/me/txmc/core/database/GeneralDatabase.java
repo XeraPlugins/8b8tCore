@@ -2,13 +2,19 @@ package me.txmc.core.database;
 
 import java.io.File;
 import java.sql.*;
+import java.time.Instant;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class GeneralDatabase {
     private final String url;
+    private final ExecutorService databaseExecutor;
 
     public GeneralDatabase(String pluginFolderPath) {
         String databasePath = pluginFolderPath + "/Database/8b8tCorePlayerDB.db";
         this.url = "jdbc:sqlite:" + databasePath;
+        this.databaseExecutor = Executors.newCachedThreadPool();
 
         File databaseDir = new File(pluginFolderPath + "/Database");
         if (!databaseDir.exists()) {
@@ -21,17 +27,20 @@ public class GeneralDatabase {
     private void createTables() {
         String createNicknamesTableSQL = "CREATE TABLE IF NOT EXISTS playerdata (" +
                 "username TEXT PRIMARY KEY NOT NULL, " +
-                "displayname TEXT NOT NULL" +
+                "displayname TEXT, " +
+                "muted INTEGER" +
                 ");";
-
-        String addShowJoinMsgColumnSQL = "ALTER TABLE playerdata ADD COLUMN showJoinMsg BOOLEAN DEFAULT TRUE;";
 
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt = conn.createStatement()) {
             stmt.execute(createNicknamesTableSQL);
 
             if (!columnExists(conn, "playerdata", "showJoinMsg")) {
-                stmt.execute(addShowJoinMsgColumnSQL);
+                stmt.execute("ALTER TABLE playerdata ADD COLUMN showJoinMsg BOOLEAN DEFAULT TRUE;");
+            }
+
+            if (!columnExists(conn, "playerdata", "muted")) {
+                stmt.execute("ALTER TABLE playerdata ADD COLUMN muted INTEGER;");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,58 +57,146 @@ public class GeneralDatabase {
     }
 
     public void insertNickname(String username, String displayname) {
-        String insertSQL = "INSERT OR REPLACE INTO playerdata (username, displayname) VALUES (?, ?)";
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
-            pstmt.setString(1, username);
-            pstmt.setString(2, displayname);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String insertSQL = "INSERT INTO playerdata (username, displayname) VALUES (?, ?) ON CONFLICT(username) DO UPDATE SET displayname = excluded.displayname;";
+
+        databaseExecutor.execute(() -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, displayname);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public String getNickname(String username) {
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(
-                     "SELECT displayname FROM playerdata WHERE username = ?")) {
-            pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
+        Callable<String> task = () -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement("SELECT displayname FROM playerdata WHERE username = ?")) {
+                pstmt.setString(1, username);
+                ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                return rs.getString("displayname");
+                if (rs.next()) {
+                    return rs.getString("displayname");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
+            return null;
+        };
+
+        Future<String> future = databaseExecutor.submit(task);
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public void updateShowJoinMsg(String username, boolean showJoinMsg) {
-        String updateSQL = "UPDATE playerdata SET showJoinMsg = ? WHERE username = ?";
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
-            pstmt.setBoolean(1, showJoinMsg);
-            pstmt.setString(2, username);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String updateSQL = "INSERT INTO playerdata (username, displayname, showJoinMsg) " +
+                "VALUES (?, ?, ?) " +
+                "ON CONFLICT(username) DO UPDATE SET showJoinMsg = excluded.showJoinMsg;";
+        databaseExecutor.execute(() -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, username);
+                pstmt.setBoolean(3, showJoinMsg);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public boolean getPlayerShowJoinMsg(String username) {
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement("SELECT showJoinMsg FROM playerdata WHERE username = ?")) {
-            pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
+        Callable<Boolean> task = () -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement("SELECT showJoinMsg FROM playerdata WHERE username = ?")) {
+                pstmt.setString(1, username);
+                ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                return rs.getInt("showJoinMsg") == 1;
+                if (rs.next()) {
+                    return rs.getInt("showJoinMsg") == 1;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
+            return true;
+        };
+
+        Future<Boolean> future = databaseExecutor.submit(task);
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
+            return true;
         }
-        return true;
     }
 
+    public boolean isMuted(String username) {
+        Callable<Boolean> task = () -> {
+            String sql = "SELECT muted FROM playerdata WHERE username = ?";
+
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, username);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    long mutedUntil = rs.getLong("muted");
+                    if (mutedUntil > Instant.now().getEpochSecond()) {
+                        return true;
+                    } else {
+                        unmute(username);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        };
+
+        Future<Boolean> future = databaseExecutor.submit(task);
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void mute(String username, long timestamp) {
+        String sql = "INSERT INTO playerdata (username, displayname, muted) VALUES (?, ?, ?) ON CONFLICT(username) DO UPDATE SET muted = excluded.muted;";
+
+        databaseExecutor.execute(() -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, username);
+                pstmt.setLong(3, timestamp);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void unmute(String username) {
+        String sql = "INSERT INTO playerdata (username, displayname, muted) VALUES (?, ?, NULL) ON CONFLICT(username) DO UPDATE SET muted = NULL;";
+        databaseExecutor.execute(() -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, username);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

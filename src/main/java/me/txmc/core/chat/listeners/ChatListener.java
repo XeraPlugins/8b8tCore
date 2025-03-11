@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import me.txmc.core.chat.ChatInfo;
 import me.txmc.core.chat.ChatSection;
 import me.txmc.core.customexperience.util.PrefixManager;
+import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -37,13 +38,21 @@ public class ChatListener implements Listener {
     private ScheduledExecutorService service;
     private final PrefixManager prefixManager = new PrefixManager();
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private final GeneralDatabase database;
 
     private final Map<UUID, LinkedList<String>> playerMessages = new HashMap<>();
     private static final double SIMILARITY_THRESHOLD = 0.8;
     private static final int MESSAGE_HISTORY = 3;
 
+    public ChatListener(ChatSection manager, HashSet<String> tlds) {
+        this.manager = manager;
+        this.tlds = tlds;
+        this.database = new GeneralDatabase(manager.getPlugin().getDataFolder().getAbsolutePath());
+    }
+
     @EventHandler
     public void onChat(AsyncChatEvent event) {
+
         if (service == null) service = manager.getPlugin().getExecutorService();
         event.setCancelled(true);
         Player sender = event.getPlayer();
@@ -81,6 +90,12 @@ public class ChatListener implements Listener {
             log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message that has banned words", sender.getName());
             return;
         }
+
+        if (database.isMuted(sender.getName())) {
+            sender.sendMessage(message);
+            return;
+        }
+
         if (domainCheck(ogMessage)) {
             sender.sendMessage(message);
             log(Level.INFO, "&3Prevented player&r&a %s&r&3 from sending a link / server ip", sender.getName());
