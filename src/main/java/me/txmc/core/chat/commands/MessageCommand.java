@@ -16,9 +16,10 @@ import java.util.Arrays;
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
-@RequiredArgsConstructor
 public class MessageCommand extends ChatCommand {
-    private final ChatSection manager;
+    public MessageCommand(ChatSection manager) {
+        super(manager);
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
@@ -29,8 +30,6 @@ public class MessageCommand extends ChatCommand {
                     ChatInfo senderInfo = manager.getInfo(player);
                     ChatInfo targetInfo = manager.getInfo(target);
                     String msg = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-                    //MiniMessage miniMessage = MiniMessage.miniMessage();
-                    //msg = miniMessage.stripTags(msg);
                     sendWhisper(player, senderInfo, target, targetInfo, msg);
                 } else sendPrefixedLocalizedMessage(player, "msg_could_not_find_player", args[0]);
             } else sendPrefixedLocalizedMessage(player, "msg_command_syntax");

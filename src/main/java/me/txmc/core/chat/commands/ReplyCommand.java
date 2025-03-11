@@ -14,9 +14,11 @@ import org.jetbrains.annotations.NotNull;
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
-@RequiredArgsConstructor
 public class ReplyCommand extends ChatCommand {
-    private final ChatSection manager;
+
+    public ReplyCommand(ChatSection manager) {
+        super(manager);
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
