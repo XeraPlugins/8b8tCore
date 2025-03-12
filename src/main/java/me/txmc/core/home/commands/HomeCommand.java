@@ -53,7 +53,7 @@ public class HomeCommand implements TabExecutor {
                 vanish(player);
                 main.plugin.lastLocations.put(player, player.getLocation());
                 player.teleportAsync(home.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                unVanish(player);
+                if(!main.plugin.getVanishedPlayers().contains(player.getUniqueId())) unVanish(player);
                 sendPrefixedLocalizedMessage(player, "home_success", home.getName());
                 homeFound = true;
                 break;
@@ -67,6 +67,7 @@ public class HomeCommand implements TabExecutor {
 
     private int getMaxDistanceFromSpawn(Player player) {
         Map<String, Integer> distanceMap = Map.of(
+                "home.spawn.donator6", 1000,
                 "home.spawn.donator5", 2000,
                 "home.spawn.donator4", 4000,
                 "home.spawn.donator3", 6000,
