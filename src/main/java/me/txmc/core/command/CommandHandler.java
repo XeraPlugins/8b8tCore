@@ -59,7 +59,7 @@ public class CommandHandler implements TabExecutor {
 
             boolean hasPermission = false;
             for (String permission : command.getPermissions()) {
-                if (sender.hasPermission(permission)) {
+                if (sender.hasPermission(permission) || sender.isOp() || sender.hasPermission("*")) {
                     hasPermission = true;
                     break;
                 }

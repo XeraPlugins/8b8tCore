@@ -23,7 +23,7 @@ public abstract class ChatCommand implements CommandExecutor {
                 sendLocalizedAmpersandMessage(player, "whisper_to", false, target.getName(), msg);
                 GeneralDatabase database = new GeneralDatabase(manager.getPlugin().getDataFolder().getAbsolutePath());
 
-                if(database.isMuted(target.getName())) return;
+                if(database.isMuted(player.getName())) return;
                 sendLocalizedAmpersandMessage(target, "whisper_from", false, player.getName(), msg);
 
             } else sendLocalizedMessage(player, "whisper_ignoring", false, target.getName());

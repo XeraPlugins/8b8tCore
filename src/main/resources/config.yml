@@ -168,6 +168,7 @@ Commands:
 OpUsersWhiteList:
   - 'Leee'
   - 'cubebuilder_'
+  - 'Minelord9000'
 prefix: '&8[&98b&78t&8]'
 PluginColors:
   color_primary: '&9'
