@@ -11,7 +11,7 @@ import me.txmc.core.chat.io.ChatFileIO;
 import me.txmc.core.chat.listeners.ChatListener;
 import me.txmc.core.chat.listeners.CommandWhitelist;
 import me.txmc.core.chat.listeners.JoinLeaveListener;
-import me.txmc.core.chat.tasks.AnnouncementTask;
+import me.txmc.core.chat.listeners.VanishTabListener;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -21,10 +21,8 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import static me.txmc.core.util.GlobalUtils.info;
 
 @RequiredArgsConstructor
 public class ChatSection implements Section {
@@ -46,6 +44,7 @@ public class ChatSection implements Section {
         plugin.register(new JoinLeaveListener(this));
         plugin.register(new CommandWhitelist(this));
         plugin.register(new ChatListener(this, parseTLDS(tldFile)));
+        plugin.register(new VanishTabListener(this.plugin));
         plugin.getCommand("ignore").setExecutor(new IgnoreCommand(this));
         plugin.getCommand("msg").setExecutor(new MessageCommand(this));
         plugin.getCommand("reply").setExecutor(new ReplyCommand(this));
