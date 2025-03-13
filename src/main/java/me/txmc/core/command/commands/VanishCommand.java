@@ -45,7 +45,7 @@ public class VanishCommand extends BaseCommand {
             sendPrefixedLocalizedMessage(player, "vanish_false");
         } else {
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                if (!onlinePlayer.hasPermission("8b8tcore.command.vanish") || !player.isOp()) {
+                if (!onlinePlayer.hasPermission("8b8tcore.command.vanish") || !onlinePlayer.isOp() || !onlinePlayer.hasPermission("*")) {
                     onlinePlayer.hidePlayer(main, player);
                 }
             }
