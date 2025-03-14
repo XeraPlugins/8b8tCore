@@ -130,6 +130,7 @@ ChatControl:
     - '/togglejoinmessages'
     - '/shadowmute'
     - '/vanish'
+    - '/clearentities'
 TPA:
   RequestTimeoutInMinutes: 5
 TPS:

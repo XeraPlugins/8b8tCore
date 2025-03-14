@@ -29,6 +29,8 @@ public class HotspotCommand implements TabExecutor, Listener {
     private final Map<Player, BossBar> playerBossBars = new HashMap<>();
     private final List<String> hotspotOptions = List.of("create", "delete", "teleport");
     private final Map<UUID, Long> lastCreateTimes = new HashMap<>();
+    private final Map<UUID, Long> creationCooldowns = new HashMap<>();
+
     private static final String PERMISSION = "8b8tcore.command.hotspotcreate";
     private int durationInSeconds = 300;
 
@@ -66,8 +68,10 @@ public class HotspotCommand implements TabExecutor, Listener {
 
     private void createHotspot(Player player) {
 
-        final long CREATE_COOLDOWN = durationInSeconds * 1000L;
-        if (System.currentTimeMillis() - lastCreateTimes.getOrDefault(player.getUniqueId(), 0L) < CREATE_COOLDOWN) {
+        final long DURATION_MILLISECONDS = durationInSeconds * 1000L;
+        final long CREATION_COOLDOWN = 30 * 1000L;
+
+        if (System.currentTimeMillis() - lastCreateTimes.getOrDefault(player.getUniqueId(), 0L) < DURATION_MILLISECONDS) {
             sendPrefixedLocalizedMessage(player, "hotspot_already_created");
             return;
         }
@@ -77,9 +81,21 @@ public class HotspotCommand implements TabExecutor, Listener {
             return;
         }
 
+        if (creationCooldowns.containsKey(player.getUniqueId())) {
+            long lastCreationTime = creationCooldowns.get(player.getUniqueId());
+            long timeSinceLastCreation = System.currentTimeMillis() - lastCreationTime;
+
+            if (timeSinceLastCreation < CREATION_COOLDOWN) {
+                long secondsLeft = (CREATION_COOLDOWN - timeSinceLastCreation) / 1000;
+                sendPrefixedLocalizedMessage(player, "hotspot_creation_cooldown", secondsLeft);
+                return;
+            }
+        }
+
         Location hotspotLocation = player.getLocation();
         hotspotLocations.put(player, hotspotLocation);
         lastCreateTimes.put(player.getUniqueId(), System.currentTimeMillis());
+        creationCooldowns.put(player.getUniqueId(), System.currentTimeMillis());
 
         sendPrefixedLocalizedMessage(player, "hotspot_created");
 

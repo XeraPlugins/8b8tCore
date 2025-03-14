@@ -116,6 +116,7 @@ hotspot_no_playername: "&cTeleport etmek için bir oyuncu ismi girmelisiniz /hot
 hotspot_already_created: "&cZaten aktif bir hotspot'unuz var, başka bir tane oluşturmak için beklemelisiniz."
 hotspot_created: "&3Hotspot'unuz başarıyla oluşturuldu."
 hotspot_deleted: "&3Hotspot'unuz başarıyla silindi."
+hotspot_creation_cooldown: "&cBaşka bir hotspot oluşturmadan önce &a%s&c saniye beklemelisiniz."
 hotspot_not_active: "&cŞu anda aktif bir hotspot'unuz yok."
 hotspot_not_found_for_player: "&r&a%s&c için aktif bir hotspot bulunmamaktadır."
 hotspot_teleported_to_player: "&3Teleport ediliyor &r&a%s&3'nin hotspot'una."

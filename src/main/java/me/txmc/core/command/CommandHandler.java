@@ -43,6 +43,7 @@ public class CommandHandler implements TabExecutor {
         addCommand(new SignCommand());
         addCommand(new ShadowMuteCommand(main.getPlugin()));
         addCommand(new VanishCommand(main.getPlugin()));
+        addCommand(new ClearEntitiesCommand());
     }
 
     private void addCommand(BaseCommand command) {

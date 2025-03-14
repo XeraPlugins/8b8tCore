@@ -115,6 +115,7 @@ hotspot_no_playername: "&cPor favor incluye un jugador para teletransportarte /h
 hotspot_already_created: "&cYa tienes un hotspot activo, debes esperar para crear otro."
 hotspot_created: "&3Tu hotspot fue creado exitosamente."
 hotspot_deleted: "&3Tu hotspot fue eliminado exitosamente."
+hotspot_creation_cooldown: "&cDebes esperar &a%s&c segundos antes de crear otro hotspot."
 hotspot_not_active: "&cNo tienes un hotspot activo actualmente."
 hotspot_not_found_for_player: "&r&a%s&c no tiene un hotspot activo."
 hotspot_teleported_to_player: "&3Teletransportando al hotspot de &r&a%s&3."

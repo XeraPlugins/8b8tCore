@@ -115,6 +115,7 @@ hotspot_no_playername: "&cيرجى إدخال اسم لاعب للتنقل /hots
 hotspot_already_created: "&cلديك بالفعل نقطة ساخنة نشطة، يجب أن تنتظر لإنشاء أخرى."
 hotspot_created: "&3تم إنشاء نقطتك الساخنة بنجاح."
 hotspot_deleted: "&3تم حذف نقطة الاتصال الخاصة بك بنجاح."
+hotspot_creation_cooldown: "&cيجب أن تنتظر &a%s&c ثانية قبل إنشاء نقطة اتصال أخرى."
 hotspot_not_active: "&cليس لديك نقطة اتصال نشطة حاليًا."
 hotspot_not_found_for_player: "&r&a%s&c لا يملك نقطة ساخنة نشطة."
 hotspot_teleported_to_player: "&3التنقل إلى النقطة الساخنة لـ &r&a%s&3."

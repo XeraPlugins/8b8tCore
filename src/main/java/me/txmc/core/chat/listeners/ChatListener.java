@@ -58,7 +58,7 @@ public class ChatListener implements Listener {
         Player sender = event.getPlayer();
         int cooldown = manager.getConfig().getInt("Cooldown");
         ChatInfo ci = manager.getInfo(sender);
-        if (ci.isChatLock() && !sender.isOp()) {
+        if (ci.isChatLock() && !sender.isOp() && !sender.hasPermission("*")) {
             sendPrefixedLocalizedMessage(sender, "chat_cooldown", cooldown);
             return;
         }
@@ -69,10 +69,15 @@ public class ChatListener implements Listener {
 
         LinkedList<String> messages = playerMessages.computeIfAbsent(sender.getUniqueId(), k -> new LinkedList<>());
 
-        for (String oldMessage : messages) {
-            if (similarityPercentage(oldMessage, ogMessage) >= SIMILARITY_THRESHOLD) {
-                sendPrefixedLocalizedMessage(sender, "spam_alert");
-                return;
+        if(!sender.isOp() && !sender.hasPermission("*")){
+            for (String oldMessage : messages) {
+
+                if(ogMessage.length() < 20) continue;
+
+                if (similarityPercentage(filterLongWords(oldMessage), filterLongWords(ogMessage)) >= SIMILARITY_THRESHOLD) {
+                    sendPrefixedLocalizedMessage(sender, "spam_alert");
+                    return;
+                }
             }
         }
 
@@ -152,6 +157,19 @@ public class ChatListener implements Listener {
 
         int distance = levenshteinDistance(str1, str2);
         return 1.0 - ((double) distance / maxLength);
+    }
+
+    public static String filterLongWords(String message) {
+        String[] words = message.split("\\s+");
+        StringBuilder result = new StringBuilder();
+
+        for (String word : words) {
+            if (word.length() <= 12) {
+                result.append(word).append(" ");
+            }
+        }
+
+        return result.toString().trim();
     }
 
     private int levenshteinDistance(String str1, String str2) {
