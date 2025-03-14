@@ -111,6 +111,9 @@ permissions:
   8b8tcore.prefix.donator5:
     description: Nametag Prefix for DONATOR 5
     default: false
+  8b8tcore.prefix.donator6:
+    description: Nametag Prefix for DONATOR 6
+    default: false
   8b8tcore.prefix.dev:
     description: Nametag Prefix for DEV
     default: false

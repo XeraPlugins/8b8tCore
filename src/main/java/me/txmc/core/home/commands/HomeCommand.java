@@ -33,8 +33,9 @@ public class HomeCommand implements TabExecutor {
                 return true;
             }
             String names = String.join(", ", homes.stream().map(Home::getName).toArray(String[]::new));
+            String homesCount = String.valueOf(homes.stream().count());
             if (args.length < 1) {
-                sendPrefixedLocalizedMessage(player, "home_specify_home", names);
+                sendPrefixedLocalizedMessage(player, "home_specify_home", homesCount, names);
                 return true;
             }
 
@@ -67,7 +68,7 @@ public class HomeCommand implements TabExecutor {
 
     private int getMaxDistanceFromSpawn(Player player) {
         Map<String, Integer> distanceMap = Map.of(
-                "home.spawn.donator6", 1000,
+                "home.spawn.donator6", 0,
                 "home.spawn.donator5", 2000,
                 "home.spawn.donator4", 4000,
                 "home.spawn.donator3", 6000,
