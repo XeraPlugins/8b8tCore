@@ -31,7 +31,7 @@ public abstract class ChatCommand implements CommandExecutor {
     }
 
     private String sanitizeMessage(String msg) {
-        msg = msg.replaceAll("(?i)<(?!black|dark_blue|dark_green|dark_aqua|dark_red|dark_purple|gold|gray|dark_gray|blue|green|aqua|red|light_purple|yellow|white|gradient|bold|italic|underlined|strikethrough|obfuscated|reset|st|u|i|b|r)[a-zA-Z]+>", "");
+        msg = msg.replaceAll("(?i)<(?!black|dark_blue|dark_green|dark_aqua|dark_red|dark_purple|gold|gray|dark_gray|blue|green|aqua|red|light_purple|yellow|white|gradient|bold|italic|underlined|strikethrough|obfuscated|reset|st|u|i|b|r)([^>]+)>", "");
         return msg;
     }
 }

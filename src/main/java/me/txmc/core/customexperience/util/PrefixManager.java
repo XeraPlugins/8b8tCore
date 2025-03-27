@@ -37,7 +37,7 @@ public class PrefixManager {
         PREFIXES.put("8b8tcore.prefix.dev", "<gradient:#5555FF:#9492F5:#5555FF:%s>[DEV<green>✔</green>]</gradient>");
         PREFIXES.put("*", "<gradient:#BA3FFC:#D9ADFD:#BA3FFC:%s>[OWNER<green>✔</green>]</gradient>");
         PREFIXES.put("8b8tcore.prefix.bot", "<gradient:#00AA00:#6ef385:#00AA00:%s>[BOT]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator6", "<gradient:#a0b2c6:#d0e6ff:#a0b2c6:%s>[Ultra]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator6", "<gradient:#9145b0:#ceafcf:#9145b0:%s>[Ultra]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator5", "<gradient:#a18800:#ecc700:#a18800:%s>[Pro+]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator4", "<gradient:#ef9a98:#f7cac9:#ef9a98:%s>[Pro]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator3", "<gradient:#999B9B:#ced5d5:#999B9B:%s>[Mini]</gradient>");
