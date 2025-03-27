@@ -44,6 +44,9 @@ public class CommandHandler implements TabExecutor {
         addCommand(new ShadowMuteCommand(main.getPlugin()));
         addCommand(new VanishCommand(main.getPlugin()));
         addCommand(new ClearEntitiesCommand());
+        addCommand(new GmCreativeCommand());
+        addCommand(new GmSpectatorCommand());
+        addCommand(new GmSurvivalCommand());
     }
 
     private void addCommand(BaseCommand command) {

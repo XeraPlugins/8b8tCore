@@ -50,9 +50,16 @@ commands:
   rename:
   sign:
   togglejoinmessages:
+    aliases: [jm, tjm]
   shadowmute:
+    aliases: [mute, sm]
   vanish:
+    aliases: [v]
   clearentities:
+    aliases: [ce]
+  gmc:
+  gmsp:
+  gms:
 permissions:
   8b8tcore.viewdistance.default:
     description: Permission for the default view distance
