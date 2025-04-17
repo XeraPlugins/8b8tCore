@@ -47,6 +47,8 @@ public class CommandHandler implements TabExecutor {
         addCommand(new GmCreativeCommand());
         addCommand(new GmSpectatorCommand());
         addCommand(new GmSurvivalCommand());
+        addCommand(new SuicideCommand());
+        addCommand(new TableCommand());
     }
 
     private void addCommand(BaseCommand command) {

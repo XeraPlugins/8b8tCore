@@ -133,6 +133,8 @@ mapart_deleted_frame: "&cआपके बेस से एक प्रतिब
 spam_alert: "&cकृपया स्पैम न करें।"
 vanish_true: "&8आप अब &3वैनिश मोड&8 में हैं। बाहर निकलने के लिए /vanish कमांड का फिर से उपयोग करें।"
 vanish_false: "&8अब आप &3दिखाई देने योग्य &8हैं।"
+table_usage: "&cआपको एक टेबल प्रकार निर्दिष्ट करना होगा &3/table <type>&c."
+table_invalid_type: "&cअमान्य टेबल प्रकार। मान्य विकल्प देखने के लिए टैब-पूर्णता का उपयोग करें &3/table <type>&c."
 
 #Complex messages
 HelpMessage:

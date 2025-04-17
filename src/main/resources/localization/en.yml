@@ -133,6 +133,8 @@ mapart_deleted_frame: "&cA prohibited mapart has been removed from your base. If
 spam_alert: "&cPlease do not spam."
 vanish_true: "&8You are now in &3vanish mode&8. To exit, use the /vanish command again."
 vanish_false: "&8You are now &3visible &8to other players."
+table_usage: "&cYou must specify a table type &3/table <type>&c."
+table_invalid_type: "&cInvalid table type. Use tab-complete to see valid options &3/table <type>&c."
 
 #Complex messages
 HelpMessage:

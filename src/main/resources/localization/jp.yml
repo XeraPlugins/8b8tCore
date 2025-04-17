@@ -133,6 +133,8 @@ mapart_deleted_frame: "&c禁止されたマップアートが拠点から削除�
 spam_alert: "&cスパムをしないでください。"
 vanish_true: "&8あなたは現在、&3バニッシュモード&8です。 解除するには、もう一度 /vanish コマンドを使用してください。"
 vanish_false: "&8あなたは &3表示可能 &8になりました。"
+table_usage: "&cテーブルの種類を指定する必要があります &3/table <type>&c."
+table_invalid_type: "&c無効なテーブルタイプです。有効なオプションを見るにはタブ補完を使用してください &3/table <type>&c."
 
 #Complex messages
 HelpMessage:

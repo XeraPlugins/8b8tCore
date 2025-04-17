@@ -133,6 +133,8 @@ mapart_deleted_frame: "&cUn mapart interdit a été supprimé de votre base. Si 
 spam_alert: "&cVeuillez ne pas faire de spam."
 vanish_true: "&8Vous êtes maintenant en mode &3vanish&8. Pour quitter, utilisez la commande /vanish à nouveau."
 vanish_false: "&8Vous êtes maintenant &3visible &8par les autres joueurs."
+table_usage: "&cVous devez spécifier un type de table &3/table <type>&c."
+table_invalid_type: "&cType de table invalide. Utilisez la complétion automatique pour voir les options valides &3/table <type>&c."
 
 # Messages complexes
 HelpMessage:

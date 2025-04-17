@@ -131,6 +131,8 @@ ChatControl:
     - '/shadowmute'
     - '/vanish'
     - '/clearentities'
+    - '/suicide'
+    - '/table'
 TPA:
   RequestTimeoutInMinutes: 5
 TPS:

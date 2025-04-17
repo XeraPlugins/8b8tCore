@@ -133,6 +133,8 @@ mapart_deleted_frame: "&cتمت إزالة خريطة فنية محظورة من
 spam_alert: "&cيرجى عدم إرسال الرسائل العشوائية."
 vanish_true: "&8أنت الآن في وضع &3التلاشي&8. للخروج، استخدم الأمر /vanish مرة أخرى."
 vanish_false: "&8أنت الآن &3مرئي &8لبقية اللاعبين."
+table_usage: "&cيجب تحديد نوع الجدول &3/table <type>&c."
+table_invalid_type: "&cنوع الجدول غير صالح. استخدم الإكمال التلقائي لرؤية الخيارات المتاحة &3/table <type>&c."
 
 #Complex messages
 HelpMessage:

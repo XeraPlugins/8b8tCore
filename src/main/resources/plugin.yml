@@ -60,6 +60,9 @@ commands:
   gmc:
   gmsp:
   gms:
+  suicide:
+    aliases: [illegal, illegalevent, kit, kits, dupe]
+  table:
 permissions:
   8b8tcore.viewdistance.default:
     description: Permission for the default view distance
