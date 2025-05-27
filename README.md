@@ -52,16 +52,13 @@ This plugin supports the following languages, which are displayed to each player
 
 ## To Do
 
-- **Feature Suggestions:** We welcome your ideas for new features! Join our [Discord server](https://discord.gg/EgfXQtUz5e) to share your thoughts.
+- **Feature Suggestions:** We welcome your ideas for new features! Join our [Matrix room](https://matrix.to/#/#xera-general:matrix.xera.ca) to share your thoughts.
 
 ## Discussion / Support
 
 <p align="center">
   <a href="https://matrix.to/#/#xera:matrix.xera.ca">
     <img src="https://img.shields.io/badge/Join_Matrix-7F8C8D?style=for-the-badge&logo=matrix&logoColor=white" alt="Join Matrix">
-  </a>
-  <a href="https://discord.gg/EgfXQtUz5e">
-    <img src="https://img.shields.io/badge/Join_Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord">
   </a>
 </p>
 
