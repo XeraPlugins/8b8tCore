@@ -41,7 +41,7 @@ public class IllegalBlocksCleaner implements Listener {
         if(event.isNewChunk()) return;
 
         Chunk chunk = event.getChunk();
-        if(abs(chunk.getX()) >= 1000000 || abs(chunk.getZ()) >= 1000000) return;
+        if(abs(chunk.getX()) >= 29999984 || abs(chunk.getZ()) >= 29999984) return;
 
         int yUpperLimit = event.getWorld().getMaxHeight();
 
