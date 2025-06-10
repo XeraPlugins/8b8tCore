@@ -20,22 +20,6 @@ import java.nio.charset.StandardCharsets;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 import static org.apache.logging.log4j.LogManager.getLogger;
 
-/**
- * Listener for handling the NBT (Named Binary Tag) data of items in the player's inventory.
- *
- * <p>This class is part of the 8b8tCore plugin and is responsible for ensuring that items containing
- * excessive amounts of data are cleared from the player's inventory upon join.</p>
- *
- * <p>Functionality includes:</p>
- * <ul>
- *     <li>Detecting items in the player's inventory upon join</li>
- *     <li>Calculating the size of each item's metadata</li>
- *     <li>Clearing items that exceed a specific size threshold</li>
- * </ul>
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/08/03 14:49
- */
 public class NbtBanPatch implements Listener {
     private final int MAX_ITEM_SIZE_BYTES;
 
@@ -55,28 +39,16 @@ public class NbtBanPatch implements Listener {
         handleInventory(player);
     }
 
-
     private void handleInventory(Player player) {
         for (ItemStack item : player.getInventory().getContents()) {
-            int itemSize;
-            if (item != null) {
-                if (item.getType().toString().endsWith("SHULKER_BOX") ||
-                        item.getType().toString().endsWith("CHEST") ||
-                        item.getType().toString().endsWith("TRAPPED_CHEST") ||
-                        item.getType().toString().endsWith("BARREL") ||
-                        item.getType().toString().endsWith("DISPENSER") ||
-                        item.getType().toString().endsWith("DROPPER") ||
-                        item.getType().toString().endsWith("HOPPER")) {
+            if (item == null) continue;
 
-                    itemSize = processContainerItem(item);
-                } else {
-                    itemSize = calculateStringSizeInBytes(item.toString());
-                }
-                if (itemSize > MAX_ITEM_SIZE_BYTES) {
-                    player.getInventory().remove(item);
-                    getLogger().warn("Cleared item in " + player.getName() + "'s inventory with size " + itemSize + " bytes named '" + getItemName(item) + "'");
-                    sendPrefixedLocalizedMessage(player, "nbtPatch_deleted_item", getItemName(item));
-                }
+            int itemSize = isContainerItem(item) ? processContainerItem(item) : calculateStringSizeInBytes(item.toString());
+
+            if (itemSize > MAX_ITEM_SIZE_BYTES) {
+                player.getInventory().remove(item);
+                getLogger().warn("Cleared item in " + player.getName() + "'s inventory with size " + itemSize + " bytes named '" + getItemName(item) + "'");
+                sendPrefixedLocalizedMessage(player, "nbtPatch_deleted_item", getItemName(item));
             }
         }
     }
@@ -84,26 +56,16 @@ public class NbtBanPatch implements Listener {
     public static int processContainerItem(ItemStack containerItem) {
         int totalSize = 0;
 
-        BlockStateMeta blockStateMeta = (BlockStateMeta) containerItem.getItemMeta();
-        if (blockStateMeta != null && blockStateMeta.getBlockState() instanceof Container) {
-            Container container = (Container) blockStateMeta.getBlockState();
-            Inventory containerInventory = container.getInventory();
+        ItemMeta meta = containerItem.getItemMeta();
+        if (meta instanceof BlockStateMeta blockStateMeta) {
+            if (blockStateMeta.getBlockState() instanceof Container container) {
+                Inventory containerInventory = container.getInventory();
 
-            for (ItemStack item : containerInventory.getContents()) {
-                if (item != null) {
-                    if (
-                            item.getType().toString().endsWith("SHULKER_BOX") ||
-                            item.getType().toString().endsWith("CHEST") ||
-                            item.getType().toString().endsWith("TRAPPED_CHEST") ||
-                            item.getType().toString().endsWith("BARREL") ||
-                            item.getType().toString().endsWith("DISPENSER") ||
-                            item.getType().toString().endsWith("DROPPER") ||
-                            item.getType().toString().endsWith("HOPPER")
-                    ) {
-                        totalSize += processContainerItem(item);
-                    } else {
-                        totalSize += calculateStringSizeInBytes(item.toString());
-
+                for (ItemStack item : containerInventory.getContents()) {
+                    if (item != null) {
+                        totalSize += isContainerItem(item)
+                                ? processContainerItem(item)
+                                : calculateStringSizeInBytes(item.toString());
                     }
                 }
             }
@@ -113,28 +75,32 @@ public class NbtBanPatch implements Listener {
 
     public static int calculateStringSizeInBytes(String data) {
         String plainData = GlobalUtils.getStringContent(Component.text(data));
-        byte[] byteArray = plainData.getBytes(StandardCharsets.UTF_8);
-        return byteArray.length;
+        return plainData.getBytes(StandardCharsets.UTF_8).length;
     }
 
     public static String getItemName(ItemStack itemStack) {
-        try{
-
-            if (itemStack == null) {
-                return "";
-            }
-
+        try {
+            if (itemStack == null) return "";
             ItemMeta meta = itemStack.getItemMeta();
-
             if (meta != null && meta.hasDisplayName()) {
-                return String.valueOf(itemStack.getItemMeta().getDisplayName());
+                return meta.getDisplayName();
             } else {
                 return itemStack.getType().toString().replace("_", " ").toLowerCase();
             }
-
         } catch (Exception ignore) {
             return "";
         }
+    }
 
+    private static boolean isContainerItem(ItemStack item) {
+        if (item == null) return false;
+        String type = item.getType().toString();
+        return type.endsWith("SHULKER_BOX") ||
+                type.endsWith("CHEST") ||
+                type.endsWith("TRAPPED_CHEST") ||
+                type.endsWith("BARREL") ||
+                type.endsWith("DISPENSER") ||
+                type.endsWith("DROPPER") ||
+                type.endsWith("HOPPER");
     }
 }
