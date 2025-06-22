@@ -37,6 +37,9 @@ public class AntiIllegalMain implements Section {
             new EnchantCheck(),
             new PotionCheck(),
             new BookCheck(),
+            new LegacyTextCheck(),
+            new StackedTotemCheck(),
+            new ShulkerCeptionCheck(),
             new IllegalItemCheck()
     ));
 

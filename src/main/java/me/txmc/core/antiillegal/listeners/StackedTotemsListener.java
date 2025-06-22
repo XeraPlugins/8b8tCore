@@ -121,5 +121,4 @@ public class StackedTotemsListener implements Listener {
             item.setAmount(1);
         }
     }
-
 }
