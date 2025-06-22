@@ -1,30 +1,10 @@
 package me.txmc.core.patch.tasks;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.*;
 import org.bukkit.block.Block;
-
-/**
- * This class is responsible for building an exit portal in the End world within the Minecraft server.
- * It generates the structure of the portal using Bedrock and End Portal blocks at specific coordinates.
- *
- * <p>The functionality includes:</p>
- * <ul>
- *     <li>Scheduling the task to run and build the portal in the End world</li>
- *     <li>Building two layers of Bedrock as the base of the portal</li>
- *     <li>Placing the End Portal blocks in a specific pattern to create the exit portal</li>
- *     <li>Creating an additional column of Bedrock to reinforce the portal structure</li>
- * </ul>
- *
- * <p>The portal is constructed at fixed coordinates (x=0, y=60, z=0), and the task is scheduled to run on the End world</p>
- *
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2025/02/26 13:40 PM
- */
-
+import org.bukkit.plugin.java.JavaPlugin;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class EndExitPortalBuilder implements Runnable {
 
@@ -37,27 +17,36 @@ public class EndExitPortalBuilder implements Runnable {
     @Override
     public void run() {
         World endWorld = Bukkit.getWorlds().get(2);
-        if (endWorld == null) {
-            return;
+        if (endWorld == null) return;
+
+        int centerX = 0, centerY = 59, centerZ = 0;
+
+        Set<ChunkCoord> neededChunks = getNeededChunks(centerX, centerZ);
+
+        // Load all required chunks asynchronously
+        List<CompletableFuture<Chunk>> loadFutures = new ArrayList<>();
+        for (ChunkCoord coord : neededChunks) {
+            loadFutures.add(endWorld.getChunkAtAsync(coord.chunkX, coord.chunkZ));
         }
 
-        int x = 0, y = 59, z = 0;
-
-        Bukkit.getRegionScheduler().execute(plugin, endWorld, x, z, () -> buildEndPortal(endWorld, x, y, z));
+        // When all chunks are loaded, schedule the build
+        CompletableFuture.allOf(loadFutures.toArray(new CompletableFuture[0])).thenRun(() -> {
+            Bukkit.getRegionScheduler().execute(plugin, endWorld, centerX, centerZ, () ->
+                    buildEndPortal(endWorld, centerX, centerY, centerZ));
+        });
     }
 
     private void buildEndPortal(World world, int x, int y, int z) {
         int[][] bedrockLayer1 = {
                 {-1, -2}, {0, -2}, {1, -2},
-                {-2, -1},{-1, -1}, {0, -1}, {1, -1}, {2, -1},
-                {-2, 0},{-1, 0}, {0, 0}, {1, 0}, {2, 0},
-                {-2, 1},{-1, 1}, {0, 1}, {1, 1}, {2, 1},
+                {-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {2, -1},
+                {-2, 0}, {-1, 0}, {0, 0}, {1, 0}, {2, 0},
+                {-2, 1}, {-1, 1}, {0, 1}, {1, 1}, {2, 1},
                 {-1, 2}, {0, 2}, {1, 2}
         };
 
         for (int[] offset : bedrockLayer1) {
-            Block block = world.getBlockAt(x + offset[0], y, z + offset[1]);
-            block.setType(Material.BEDROCK);
+            world.getBlockAt(x + offset[0], y, z + offset[1]).setType(Material.BEDROCK);
         }
 
         int[][] bedrockLayer2 = {
@@ -71,25 +60,58 @@ public class EndExitPortalBuilder implements Runnable {
         };
 
         for (int[] offset : bedrockLayer2) {
-            Block block = world.getBlockAt(x + offset[0], y + 1, z + offset[1]);
-            block.setType(Material.BEDROCK);
+            world.getBlockAt(x + offset[0], y + 1, z + offset[1]).setType(Material.BEDROCK);
         }
 
         int[][] portalBlocks = {
                 {-1, -2}, {0, -2}, {1, -2},
-                {-2, -1},{-1, -1}, {0, -1}, {1, -1}, {2, -1},
+                {-2, -1}, {-1, -1}, {0, -1}, {1, -1}, {2, -1},
                 {-2, 0}, {-1, 0}, {1, 0}, {2, 0},
-                {-2, 1},{-1, 1}, {0, 1}, {1, 1}, {2, 1},
+                {-2, 1}, {-1, 1}, {0, 1}, {1, 1}, {2, 1},
                 {-1, 2}, {0, 2}, {1, 2}
         };
 
         for (int[] offset : portalBlocks) {
-            Block block = world.getBlockAt(x + offset[0], y + 1, z + offset[1]);
-            block.setType(Material.END_PORTAL);
+            world.getBlockAt(x + offset[0], y + 1, z + offset[1]).setType(Material.END_PORTAL);
         }
 
         for (int dy = 1; dy <= 4; dy++) {
             world.getBlockAt(x, y + dy, z).setType(Material.BEDROCK);
+        }
+    }
+
+    private Set<ChunkCoord> getNeededChunks(int centerX, int centerZ) {
+        Set<ChunkCoord> chunks = new HashSet<>();
+
+        // Covers the entire structure bounds, -3 to +3 range
+        for (int dx = -3; dx <= 3; dx++) {
+            for (int dz = -3; dz <= 3; dz++) {
+                int blockX = centerX + dx;
+                int blockZ = centerZ + dz;
+                chunks.add(new ChunkCoord(blockX >> 4, blockZ >> 4));
+            }
+        }
+
+        return chunks;
+    }
+
+    private static class ChunkCoord {
+        final int chunkX, chunkZ;
+
+        ChunkCoord(int x, int z) {
+            this.chunkX = x;
+            this.chunkZ = z;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof ChunkCoord c)) return false;
+            return chunkX == c.chunkX && chunkZ == c.chunkZ;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(chunkX, chunkZ);
         }
     }
 }
