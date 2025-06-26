@@ -6,6 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
@@ -70,6 +72,19 @@ public class StackedTotemsListener implements Listener {
         cleanTotemStacks(inventory);
     }
 
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        // Handle right-click from armor stands or custom NBT-based mechanisms
+        Player player = event.getPlayer();
+        cleanTotemStacks(player.getInventory());
+    }
+
+    @EventHandler
+    public void onPlayerAttack(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player attacker && event.getEntity() instanceof Player) {
+            cleanTotemStacks(attacker.getInventory());
+        }
+    }
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {

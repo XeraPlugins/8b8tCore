@@ -6,9 +6,8 @@
 
     <groupId>me.txmc</groupId>
     <artifactId>8b8tCore</artifactId>
-    <version>1.4.8</version>
+    <version>1.4.9</version>
     <packaging>jar</packaging>
-
 
     <name>8b8tCore</name>
 
