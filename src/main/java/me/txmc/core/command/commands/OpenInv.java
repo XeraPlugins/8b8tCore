@@ -1,10 +1,12 @@
 package me.txmc.core.command.commands;
 
-
 import me.txmc.core.command.BaseCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+
+import java.util.Arrays;
 
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 
@@ -37,7 +39,9 @@ public class OpenInv extends BaseCommand {
                         break;
                     case "inv":
                     case "inventory":
-                        player.openInventory(target.getInventory());
+                        Inventory inv = Bukkit.createInventory(null, 36, target.getName() + "'s Inventory");
+                        inv.setContents(Arrays.copyOfRange(target.getInventory().getContents(), 0, 36));
+                        player.openInventory(inv);
                         break;
                     default:
                         sendErrorMessage(sender, "Unknown argument " + args[0]);
