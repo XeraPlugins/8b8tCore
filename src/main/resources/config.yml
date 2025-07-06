@@ -1,7 +1,20 @@
-#8b8tCore Version 1.4.8
+#8b8tCore Version 1.5.1
 AntiIllegal:
   Enabled: true
-  EnableIllegalBlocksCleaner: false
+  EnableIllegalBlocksCleaner: true
+  IllegalBlocks:
+    - BEDROCK
+    - BARRIER
+    - COMMAND_BLOCK
+    - CHAIN_COMMAND_BLOCK
+    - REPEATING_COMMAND_BLOCK
+    - STRUCTURE_BLOCK
+    - JIGSAW
+    - STRUCTURE_VOID
+    - SPAWNER
+    - END_PORTAL_FRAME
+    - END_PORTAL
+    - LIGHT
   MaxItemNameLength: 51
   IllegalItems:
     - 'BEDROCK'

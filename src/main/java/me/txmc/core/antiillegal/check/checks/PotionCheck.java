@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.PotionMeta;
  */
 public class PotionCheck implements Check {
 
-    private static final int MAX_LEGAL_DURATION = 490 * 20;
+    private static final int MAX_LEGAL_DURATION = 12000;
     private static final int MAX_LEGAL_AMPLIFIER = 2;
 
     @Override

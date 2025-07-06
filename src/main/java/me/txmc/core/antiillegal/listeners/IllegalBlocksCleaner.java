@@ -1,98 +1,94 @@
+/*
+ * IllegalBlocksCleaner.java
+ */
 package me.txmc.core.antiillegal.listeners;
 
-import lombok.extern.slf4j.Slf4j;
+import me.txmc.core.Main;
 import org.bukkit.Chunk;
+import org.bukkit.ChunkSnapshot;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.block.Block;
 
-import static java.lang.Math.abs;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
- * Listener for cleaning illegal blocks in chunks when they are loaded.
- *
- * <p>This class is part of the 8b8tCore plugin and is responsible for removing blocks that are considered
- * illegal (such as Bedrock, End Portal Frames, Reinforced Deepslate, and Barriers) from chunks as they
- * are loaded into the world.</p>
- *
- * <p>Functionality includes:</p>
- * <ul>
- *     <li>Handling the ChunkLoadEvent to process chunks when they are loaded</li>
- *     <li>Checking each block within the chunk to determine if it is illegal</li>
- *     <li>Replacing illegal blocks with air</li>
- * </ul>
- *
- * <p>Note: The range of Y coordinates is dynamically adjusted based on the world type, with special handling
- * for the Nether environment.</p>
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/08/06 23:30
+ * Simplified, performant listener that removes illegal blocks on chunk load.
  */
-
-@Slf4j
 public class IllegalBlocksCleaner implements Listener {
+    private final Main plugin;
+    private final EnumSet<Material> illegalMaterials;
+
+    /**
+     * @param plugin         main plugin instance
+     * @param blockPatterns  wildcard patterns from config
+     */
+    public IllegalBlocksCleaner(Main plugin, List<String> blockPatterns) {
+        this.plugin = plugin;
+        this.illegalMaterials = buildMaterialSet(blockPatterns);
+    }
 
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
-
-        if(event.isNewChunk()) return;
-
+        if (event.isNewChunk()) return;
         Chunk chunk = event.getChunk();
-        if(abs(chunk.getX()) >= 29999984 || abs(chunk.getZ()) >= 29999984) return;
+        int cx = chunk.getX(), cz = chunk.getZ();
+        if (Math.abs(cx) >= 29999984 || Math.abs(cz) >= 29999984) return;
 
-        int yUpperLimit = event.getWorld().getMaxHeight();
+        World world = event.getWorld();
+        World.Environment env = world.getEnvironment();
+        int minY = world.getMinHeight();
+        int maxY = (env == World.Environment.NETHER ? 127 : world.getMaxHeight());
 
-        int yLowerLimit = event.getWorld().getMinHeight();
-
-        World.Environment worldEnv = event.getWorld().getEnvironment();
-
-        if (worldEnv == World.Environment.NETHER) {
-            yUpperLimit = 127;
-        }
+        // Use ChunkSnapshot for fast reads
+        ChunkSnapshot snap = chunk.getChunkSnapshot(false, false, false);
 
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                for (int y = yLowerLimit; y < yUpperLimit; y++) {
-                    Block block = chunk.getBlock(x, y, z);
-                    Material type = block.getType();
+                for (int y = minY; y < maxY; y++) {
+                    Material type = snap.getBlockType(x, y, z);
+                    if (!illegalMaterials.contains(type)) continue;
 
-                    // NETHER
-                    if (worldEnv == World.Environment.NETHER && (
-                            type == Material.END_PORTAL_FRAME ||
-                            type == Material.REINFORCED_DEEPSLATE ||
-                            type == Material.BARRIER ||
-                            type == Material.LIGHT ||
-                            type == Material.END_PORTAL ||
-                            (type == Material.BEDROCK && y >= yLowerLimit + 5 && y <= yUpperLimit - 5))) {
-                        block.setType(Material.AIR);
+                    // Bedrock rules per dimension
+                    if (type == Material.BEDROCK) {
+                        if (env == World.Environment.NETHER) {
+                            // skip bottom 5 and top 5 layers
+                            if (y < minY + 5 || y > maxY - 5) continue;
+                        } else if (env == World.Environment.NORMAL) {
+                            // skip bottom 5 layers
+                            if (y < minY + 5) continue;
+                        }
+                        // THE_END: remove all bedrock
                     }
 
-                    // OVERWORLD
-                    if (worldEnv == World.Environment.NORMAL && (
-                            type == Material.END_PORTAL_FRAME ||
-                            type == Material.REINFORCED_DEEPSLATE ||
-                            type == Material.BARRIER ||
-                            type == Material.LIGHT ||
-                            type == Material.END_PORTAL ||
-                            (type == Material.BEDROCK && y >= yLowerLimit + 5))) {
-                        block.setType(Material.AIR);
-                    }
-
-                    // END
-                    if (worldEnv == World.Environment.THE_END && (
-                            type == Material.END_PORTAL_FRAME ||
-                            type == Material.REINFORCED_DEEPSLATE ||
-                            type == Material.BARRIER ||
-                            type == Material.LIGHT ||
-                            type == Material.END_PORTAL ||
-                            (type == Material.BEDROCK))) {
-                        block.setType(Material.AIR);
-                    }
+                    // Remove the block
+                    Block b = chunk.getBlock(x, y, z);
+                    b.setType(Material.AIR);
                 }
             }
         }
+    }
+
+    /**
+     * Build an EnumSet of Materials matching wildcard patterns.
+     */
+    private static EnumSet<Material> buildMaterialSet(List<String> patterns) {
+        EnumSet<Material> set = EnumSet.noneOf(Material.class);
+        for (String pat : patterns) {
+            String regex = "^" + pat.replace("*", ".*") + "$";
+            Pattern p = Pattern.compile(regex);
+            for (Material m : Material.values()) {
+                if (p.matcher(m.name()).matches()) {
+                    set.add(m);
+                }
+            }
+        }
+        return set;
     }
 }

@@ -1,7 +1,7 @@
 name: 8b8tCore
 main: me.txmc.core.Main
-version: 1.5.0
-author: 254n_m, agarciacorte
+version: 1.5.1
+author: 254n_m, agarciacort, Leeewith3Es
 description: All the bullshit for 8b8t
 api-version: 1.20
 folia-supported: true

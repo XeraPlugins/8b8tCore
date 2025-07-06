@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.HashMap;
@@ -11,105 +12,91 @@ import java.util.List;
 import java.util.logging.Level;
 
 /**
- * @author 254n_m
- * @since 2023/12/18 1:50 PM
- * This file was created as a part of 8b8tCore
+ * Handles loading of localization files from disk, allowing edits after initial generation.
  */
 @RequiredArgsConstructor
 public class Localization {
     private static HashMap<String, Localization> localizationMap;
     private final Configuration config;
 
+    /**
+     * Loads or reloads localization files from the "Localization" folder under plugin data.
+     * Will not overwrite existing files, only unpacks missing defaults.
+     */
     protected static void loadLocalizations(File dataFolder) {
+        // Clear previous cache
         if (localizationMap != null) localizationMap.clear();
         localizationMap = new HashMap<>();
-        File localeDir = new File(dataFolder, "Localization");
 
-        if (!localeDir.exists()) {
-            localeDir.mkdirs();
-        } else {
-            File[] existingYmlFiles = localeDir.listFiles(f -> f.getName().endsWith(".yml"));
-            if (existingYmlFiles != null) {
-                for (File file : existingYmlFiles) {
-                    if (!file.delete()) {
-                        GlobalUtils.log(Level.SEVERE, "Failed to delete localization file: " + file.getName());
-                    }
-                }
-            }
+        // Prepare folder
+        File localeDir = new File(dataFolder, "Localization");
+        if (!localeDir.exists() && !localeDir.mkdirs()) {
+            GlobalUtils.log(Level.SEVERE, "Could not create localization directory: %s", localeDir.getAbsolutePath());
+            return;
         }
 
-        GlobalUtils.unpackResource("localization/ar.yml", new File(localeDir, "ar.yml"));
-        GlobalUtils.unpackResource("localization/en.yml", new File(localeDir, "en.yml"));
-        GlobalUtils.unpackResource("localization/es.yml", new File(localeDir, "es.yml"));
-        GlobalUtils.unpackResource("localization/fr.yml", new File(localeDir, "fr.yml"));
-        GlobalUtils.unpackResource("localization/hi.yml", new File(localeDir, "hi.yml"));
-        GlobalUtils.unpackResource("localization/it.yml", new File(localeDir, "it.yml"));
-        GlobalUtils.unpackResource("localization/jp.yml", new File(localeDir, "jp.yml"));
-        GlobalUtils.unpackResource("localization/pt.yml", new File(localeDir, "pt.yml"));
-        GlobalUtils.unpackResource("localization/ru.yml", new File(localeDir, "ru.yml"));
-        GlobalUtils.unpackResource("localization/tr.yml", new File(localeDir, "tr.yml"));
-        GlobalUtils.unpackResource("localization/zh.yml", new File(localeDir, "zh.yml"));
+        // Unpack default locale files if missing
+        String[] locales = {"ar", "en", "es", "fr", "hi", "it", "jp", "pt", "ru", "tr", "zh"};
+        for (String locale : locales) {
+            File file = new File(localeDir, locale + ".yml");
+            GlobalUtils.unpackResource("Localization/" + locale + ".yml", file);
+        }
 
-        File[] ymlFiles = localeDir.listFiles(f -> f.getName().endsWith(".yml"));
-        if (ymlFiles != null) {
-            for (File ymlFile : ymlFiles) {
-                Configuration config = YamlConfiguration.loadConfiguration(ymlFile);
-                localizationMap.put(ymlFile.getName().replace(".yml", ""), new Localization(config));
+        // Load all .yml files in the directory
+        File[] ymlFiles = localeDir.listFiles(f -> f.isFile() && f.getName().endsWith(".yml"));
+        if (ymlFiles == null) return;
+
+        for (File ymlFile : ymlFiles) {
+            try {
+                Configuration cfg = YamlConfiguration.loadConfiguration(ymlFile);
+                String key = ymlFile.getName().substring(0, ymlFile.getName().length() - 4);
+                localizationMap.put(key, new Localization(cfg));
+            } catch (Exception e) {
+                GlobalUtils.log(Level.SEVERE, "Failed to load localization file %s: %s", ymlFile.getName(), e.getMessage());
+                e.printStackTrace();
             }
         }
     }
 
+    /**
+     * Retrieve a localization, falling back to language prefix or English.
+     */
     public static Localization getLocalization(String locale) {
         if (localizationMap.containsKey(locale)) return localizationMap.get(locale);
-        String first = locale.split("_")[0];
-        if (localizationMap.containsKey(first)) return localizationMap.get(first);
-        return localizationMap.get("en");
+        String base = locale.split("[_-]")[0];
+        if (localizationMap.containsKey(base)) return localizationMap.get(base);
+        return localizationMap.getOrDefault("en", new Localization(YamlConfiguration.loadConfiguration(new File(""))));
     }
 
-    public String getPrefix() {
-        return config.getString("prefix", "&8[&98b&78t&8]");
-    }
-    public String getColorPrimary() { return config.getString("PluginColors.color_primary", "&9"); }         //&6 GOLD
-    public String getColorSecondary() { return config.getString("PluginColors.color_secondary", "&8"); }     //&3 DARK AQUA
-    public String getColorPositive() { return config.getString("PluginColors.color_positive", "&a"); }       //&a GREEN
-    public String getColorNegative() {
-        return config.getString("PluginColors.color_negative", "&c");
-    }       //&c RED
-    public String getColorPattern() {
-        return config.getString("PluginColors.color_pattern", "&3");
-    }         //&1 BLUE
+    // Existing getters for color patterns, prefix, messages, etc.
+    public String getPrefix() { return config.getString("prefix", "&8[&98b&78t&8]"); }
+    public String getColorPrimary() { return config.getString("PluginColors.color_primary", "&9"); }
+    public String getColorSecondary() { return config.getString("PluginColors.color_secondary", "&8"); }
+    public String getColorPositive() { return config.getString("PluginColors.color_positive", "&a"); }
+    public String getColorNegative() { return config.getString("PluginColors.color_negative", "&c"); }
+    public String getColorPattern() { return config.getString("PluginColors.color_pattern", "&3"); }
 
+    /**
+     * Fetches a single localized string.
+     * Only replaces %prefix%, then converts all &-codes via MiniMessage.
+     */
     public String get(String key) {
-        String value = config.getString(key, String.format("Unknown key %s", key));
-
-        if (key.endsWith("-messages")) {
-            return value.replaceAll("%prefix%", getPrefix());
-        }
-
-        return value
-                .replaceAll("%prefix%", getPrefix())
-                .replaceAll("&6", getColorPrimary())
-                .replaceAll("&3", getColorSecondary())
-                .replaceAll("&a", getColorPositive())
-                .replaceAll("&c", getColorNegative())
-                .replaceAll("&1", getColorPattern());
+        String val = config.getString(key, String.format("Unknown key %s", key));
+        String withPrefix = val.replace("%prefix%", getPrefix());
+        return GlobalUtils.convertToMiniMessageFormat(withPrefix);
     }
 
+    /**
+     * Fetches a list of localized strings.
+     * Only replaces %prefix%, then converts all &-codes via MiniMessage.
+     */
     public List<String> getStringList(String key) {
-        List<String> values = config.getStringList(key).stream()
-                .map(s -> s.replaceAll("%prefix%", getPrefix()))
-                .toList();
-
-        if (key.endsWith("-messages")) {
-            return values;
-        }
-
-        return values.stream()
-                .map(s -> s.replaceAll("&6", getColorPrimary())
-                        .replaceAll("&3", getColorSecondary())
-                        .replaceAll("&a", getColorPositive())
-                        .replaceAll("&c", getColorNegative())
-                        .replaceAll("&1", getColorPattern()))
+        List<String> list = config.getStringList(key);
+        return list.stream()
+                .map(line -> {
+                    String withPrefix = line.replace("%prefix%", getPrefix());
+                    return GlobalUtils.convertToMiniMessageFormat(withPrefix);
+                })
                 .toList();
     }
 }

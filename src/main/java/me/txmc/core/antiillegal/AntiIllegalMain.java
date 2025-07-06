@@ -1,3 +1,6 @@
+/*
+ * AntiIllegalMain.java
+ */
 package me.txmc.core.antiillegal;
 
 import lombok.Getter;
@@ -7,22 +10,23 @@ import me.txmc.core.Main;
 import me.txmc.core.Section;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.antiillegal.check.checks.*;
-import me.txmc.core.antiillegal.listeners.*;
-import me.txmc.core.util.GlobalUtils;
-import org.bukkit.Material;
+import me.txmc.core.antiillegal.listeners.IllegalBlocksCleaner;
+import me.txmc.core.antiillegal.listeners.PlayerListeners;
+import me.txmc.core.antiillegal.listeners.MiscListeners;
+import me.txmc.core.antiillegal.listeners.InventoryListeners;
+import me.txmc.core.antiillegal.listeners.AttackListener;
+import me.txmc.core.antiillegal.listeners.StackedTotemsListener;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.event.Cancellable;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.Material;
+import org.bukkit.event.Cancellable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
- * @author 254n_m
- * @since 2023/12/17 9:44 PM
- * This file was created as a part of 8b8tCore
+ * Main section for AntiIllegal features.
  */
 @Getter
 @RequiredArgsConstructor
@@ -33,7 +37,6 @@ public class AntiIllegalMain implements Section {
             new OverStackCheck(),
             new DurabilityCheck(),
             new AttributeCheck(),
-            //new LoreCheck(),
             new EnchantCheck(),
             new PotionCheck(),
             new BookCheck(),
@@ -47,19 +50,25 @@ public class AntiIllegalMain implements Section {
 
     @Override
     public void enable() {
-
         config = plugin.getSectionConfig(this);
         checks.add(new NameCheck(config));
-//        checks.add(new ItemSizeCheck());
 
-        plugin.register(new PlayerListeners(this), new MiscListeners(this), new InventoryListeners(this), new AttackListener(), new StackedTotemsListener());
-        if(plugin.getConfig().getBoolean("AntiIllegal.EnableIllegalBlocksCleaner", true)) plugin.register(new IllegalBlocksCleaner());
+        plugin.register(
+                new PlayerListeners(this),
+                new MiscListeners(this),
+                new InventoryListeners(this),
+                new AttackListener(),
+                new StackedTotemsListener()
+        );
+
+        if (config.getBoolean("EnableIllegalBlocksCleaner", true)) {
+            List<String> illegalBlocks = config.getStringList("IllegalBlocks");
+            plugin.register(new IllegalBlocksCleaner(plugin, illegalBlocks));
+        }
     }
 
     @Override
-    public void disable() {
-
-    }
+    public void disable() {}
 
     @Override
     public void reloadConfig() {
@@ -76,13 +85,9 @@ public class AntiIllegalMain implements Section {
         for (Check check : checks) {
             if (check.shouldCheck(item) && check.check(item)) {
                 if (cancellable != null && !cancellable.isCancelled()) cancellable.setCancelled(true);
-                //GlobalUtils.log(Level.INFO, "Item %s failed the %s check and has been fixed.", getItemName(item), check.getClass().getSimpleName());
                 check.fix(item);
                 item.setItemMeta(item.getItemMeta());
             }
         }
-    }
-    private String getItemName(ItemStack itemStack) {
-        return (itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()) ? GlobalUtils.getStringContent(itemStack.getItemMeta().displayName()) : itemStack.getType().name();
     }
 }

@@ -58,6 +58,10 @@ public class ChatListener implements Listener {
         Player sender = event.getPlayer();
         int cooldown = manager.getConfig().getInt("Cooldown");
         ChatInfo ci = manager.getInfo(sender);
+        if (ci == null) {
+            log(Level.WARNING, "ChatInfo is null for player %s", sender.getName());
+            return;
+        }
         if (ci.isChatLock() && !sender.isOp() && !sender.hasPermission("*")) {
             sendPrefixedLocalizedMessage(sender, "chat_cooldown", cooldown);
             return;
