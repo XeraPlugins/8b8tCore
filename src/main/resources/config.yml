@@ -153,9 +153,10 @@ TPA:
 TPS:
   Permissions:
     - '8b8tcore.tpsinfo'
+TPAHOMERADIUS:
+  # default max distance if no permission matches
+  default: 20000  # override this value in your config; actual limits come from permissions like home.spawn.<n> and tpa.spawn.<n>
 Home:
-  #The closest the player can be to 0,0
-  Radius: 500
   #Max homes a player can have
   MaxHomes: 5
 #Voting requires VotifierPlus
