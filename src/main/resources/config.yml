@@ -1,4 +1,4 @@
-#8b8tCore Version 1.5.2
+#8b8tCore Version 1.5.4
 AntiIllegal:
   Enabled: true
   EnableIllegalBlocksCleaner: true
@@ -157,7 +157,9 @@ Home:
   #The closest the player can be to 0,0
   Radius: 500
   #Max homes a player can have
-  MaxHomes: 3
+  MaxHomes: 5
+#Voting requires VotifierPlus
+#https://www.spigotmc.org/resources/votifierplus.74040/
 Vote:
   Rewards:
     - 'lp user %s group add voter'
