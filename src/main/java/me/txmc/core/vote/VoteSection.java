@@ -1,14 +1,16 @@
 package me.txmc.core.vote;
 
+import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
+import org.bukkit.Bukkit;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
-import me.txmc.core.home.HomeManager;
-import me.txmc.core.util.GlobalUtils;
 import me.txmc.core.vote.command.VoteCommand;
 import me.txmc.core.vote.io.VoteIO;
 import me.txmc.core.vote.listeners.VoteListener;
+import me.txmc.core.vote.listeners.JoinListener;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -17,46 +19,45 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.logging.Level;
 
-import static me.txmc.core.util.GlobalUtils.executeCommand;
-import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
-
-/**
- * @author 254n_m
- * @since 2023/12/20 6:54 PM
- * This file was created as a part of 8b8tCore
- */
 @RequiredArgsConstructor
 public class VoteSection implements Section {
     private final Main plugin;
-    private VoteIO io;
+    @Getter private VoteIO io;
     @Getter private HashMap<String, Integer> toReward;
     @Getter private ConfigurationSection config;
 
     @Override
     public void enable() {
+        // Load configuration section
         config = plugin.getSectionConfig(this);
+        // Register vote command
         plugin.getCommand("vote").setExecutor(new VoteCommand());
+        // Prepare offline vote storage
         try {
             File votesFile = new File(plugin.getSectionDataFolder(this), "OfflineVotes.json");
             if (!votesFile.exists()) votesFile.createNewFile();
             io = new VoteIO(votesFile);
         } catch (Throwable t) {
-            GlobalUtils.log(Level.SEVERE, "Failed to create OfflineVotes.json. Please see stacktrace below for more info");
-            t.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Failed to create OfflineVotes.json. See stacktrace:", t);
         }
+        // Load pending offline votes
         toReward = io.load();
+        // Register listeners
         plugin.register(new VoteListener(this));
+        plugin.register(new JoinListener(this));
     }
 
     @Override
     public void disable() {
-        io.save(toReward);
+        // Save any remaining offline votes
+        if (io != null) io.save(toReward);
         toReward.clear();
     }
 
     @Override
     public void reloadConfig() {
-
+        // Reload only the vote config section
+        config = plugin.getSectionConfig(this);
     }
 
     @Override
@@ -64,27 +65,55 @@ public class VoteSection implements Section {
         return "Vote";
     }
 
+    /**
+     * Reward a player for voting.
+     */
     public void rewardPlayer(Player player) {
-        if (!player.hasPermission("Leee.ic")) {
-            executeCommand("lp user %s group add voter", player.getName());
-        } else {
-            executeCommand("lp user %s group remove voter", player.getName());
-        }
-        executeCommand("lp user %s group remove default", player.getName());
-        //int maxHomes = ((HomeManager) plugin.getSectionByName("Home")).getMaxHomes(player);
-        //if ((maxHomes + 2) >= config.getInt("MaxHomesByVoting")) return;
+        // Thank the voting player
         sendPrefixedLocalizedMessage(player, "vote_thanks");
-        //executeCommand(config.getString("AddHomePermission"), (maxHomes + 2));
+
+        // Notify others about this vote
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (!p.getName().equals(player.getName())) {
+                sendPrefixedLocalizedMessage(p, "vote_announcement", player.getName());
+            }
+        }
+
+        // Execute each configured reward command (commands use '%s' for player name)
+        for (String cmd : config.getStringList("Rewards")) {
+            String toRun = String.format(cmd, player.getName());
+            try {
+                plugin.getServer().dispatchCommand(
+                        plugin.getServer().getConsoleSender(),
+                        toRun
+                );
+            } catch (Exception ex) {
+                plugin.getLogger().warning(
+                        "Failed to run vote reward command: " + toRun + " – " + ex.getMessage()
+                );
+            }
+        }
     }
 
+    /**
+     * Called when a vote arrives for a player not currently online.
+     */
     public void registerOfflineVote(String username) {
         toReward.putIfAbsent(username, 1);
         toReward.computeIfPresent(username, (n, votes) -> votes + 1);
     }
+
+    /**
+     * Returns pending offline vote count for a player.
+     */
+    public Optional<Integer> getToRewardEntry(Player player) {
+        return Optional.ofNullable(toReward.get(player.getName()));
+    }
+
+    /**
+     * Remove a player from offline reward map.
+     */
     public void markAsRewarded(String username) {
         toReward.remove(username);
-    }
-    public Optional<Integer> getToRewardEntry(Player player) {
-        return toReward.containsKey(player.getName()) ? Optional.of(toReward.get(player.getName())) : Optional.empty();
     }
 }

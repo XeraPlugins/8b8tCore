@@ -138,9 +138,9 @@ table_invalid_type: "&cInvalid table type. Use tab-complete to see valid options
 
 #Complex messages
 HelpMessage:
-  - '&1--------------------------------------'
+  - '&3-------------------------------------'
   - '&8Visit &chttps://www.8b8t.me/terms &8to read the rules'
-  - '&1--------------Commands----------------'
+  - '&3-------------Commands----------------'
   - '&c/tpa &8to teleport to another player'
   - '&c/tpahere &8to teleport a player to your location'
   - '&c/tpayes &8to accept a teleport request'
@@ -166,23 +166,24 @@ HelpMessage:
   - '&c/pvp &8to connect to the 8b8t PVP server'
   - '&c/lobby &8to connect to the lobby'
   - '&c/tpsinfo &8to check the server ticks per second'
-  - '&1-------------Voters Only---------------'
+  - '&3-------------Voters Only---------------'
   - '&c/nc &8to set the name color'
   - '&8Visit &chttps://votefor.8b8t.me &8to vote'
-  - '&1------------Donors Only--------------'
+  - '&3-----------Donors Only--------------'
   - '&c/ic &8to set the item color'
   - '&c/rename &8to rename an item'
   - '&c/seen &8to see when a player last logged in'
   - '&c/echest &8to open your ender chest'
   - '&c/nick &8to set a nickname'
   - '&8Visit &chttps://donate.8b8t.me &8to donate'
-  - '&1--------------------------------------'
+  - '&3-------------------------------------'
   -
 TabList:
   Header:
     - ''
     - '&9&l8builders&7&l8tools'
     - ''
+    - '&r&c&oMulti task has been enabled illegally placed blocks are gone ;)'
     - '&r&c&oEnjoying 8b8t.me ? Consider donating at https://donate.8b8t.me'
     - ''
 
@@ -196,11 +197,11 @@ TabList:
     - '&7These are the only official 8b8t websites and contacts'
     - ''
 TpsMessage:
-  - '&1------------TPS Information------------'
+  - '&3-----------TPS Information------------'
   - '&8TPS: &a%s &8MSTP: &a%s'
   - '&8Lowest Region TPS: &c%s'
   - '&8Online Players &a%s'
-  - '&1-------------------------------------'
+  - '&3------------------------------------'
 tps_failed: '&cYou are not allowed to check TPS'
 
 announcements:

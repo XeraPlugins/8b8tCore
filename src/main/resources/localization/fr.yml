@@ -138,9 +138,9 @@ table_invalid_type: "&cType de table invalide. Utilisez la complétion automatiq
 
 # Messages complexes
 HelpMessage:
-  - '&1--------------------------------------'
+  - '&3--------------------------------------'
   - '&8Visitez &chttps://www.8b8t.me/terms &8pour lire les règles'
-  - '&1--------------Commandes----------------'
+  - '&3--------------Commandes----------------'
   - '&c/tpa &8pour vous téléporter à un autre joueur'
   - '&c/tpahere &8pour téléporter un joueur à votre emplacement'
   - '&c/tpayes &8pour accepter une demande de téléportation'
@@ -166,17 +166,17 @@ HelpMessage:
   - '&c/pvp &8pour vous connecter au serveur PVP de 8b8t'
   - '&c/lobby &8pour vous connecter au lobby'
   - '&c/tpsinfo &8pour vérifier les ticks par seconde du serveur'
-  - '&1-------------Réservé aux votants---------------'
+  - '&3-------------Réservé aux votants---------------'
   - '&c/nc &8pour définir la couleur du nom'
   - '&8Visitez &chttps://votefor.8b8t.me &8pour voter'
-  - '&1------------Réservé aux donateurs--------------'
+  - '&3------------Réservé aux donateurs--------------'
   - '&c/ic &8pour définir la couleur de l`item'
   - '&c/rename &8pour renommer un item'
   - '&c/seen &8pour voir quand un joueur s`est connecté pour la dernière fois'
   - '&c/echest &8pour ouvrir votre coffre de l`ender'
   - '&c/nick &8pour définir un pseudonyme'
   - '&8Visitez &chttps://donate.8b8t.me &8pour faire un don'
-  - '&1--------------------------------------'
+  - '&3--------------------------------------'
 TabList:
   Header:
     - ''
@@ -195,11 +195,11 @@ TabList:
   - '&7Ce sont les seuls sites et contacts officiels de 8b8t'
   - ''
 TpsMessage:
-  - '&1------------Informations TPS------------'
+  - '&3------------Informations TPS------------'
   - '&8TPS: &a%s &8MSTP: &a%s'
   - '&8TPS de la région la plus basse : &c%s'
   - '&8Joueurs en ligne &a%s'
-  - '&1-------------------------------------'
+  - '&3-------------------------------------'
 tps_failed: "&cVous n'êtes pas autorisé à vérifier le TPS"
 
 announcements:

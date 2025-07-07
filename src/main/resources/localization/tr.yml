@@ -135,9 +135,9 @@ table_invalid_type: "&cGeçersiz tablo türü. Geçerli seçenekleri görmek iç
 
 #Complex messages
 HelpMessage:
-  - '&1--------------------------------------'
+  - '&3---------------------------------------'
   - '&8Kuralları okumak için &chttps://www.8b8t.me/terms &8adresini ziyaret et'
-  - '&1--------------Komutlar----------------'
+  - '&3--------------Komutlar------------------'
   - '&c/tpa &8başka bir oyuncuya ışınlanmak için'
   - '&c/tpahere &8bir oyuncuyu kendi konumuna ışınlamak için'
   - '&c/tpayes &8bir ışınlanma isteğini kabul etmek için'
@@ -163,17 +163,17 @@ HelpMessage:
   - '&c/pvp &88b8t PVP sunucusuna bağlanmak için'
   - '&c/lobby &8lobiye bağlanmak için'
   - '&c/tpsinfo &8sunucu tıklama sayısını kontrol etmek için'
-  - '&1-------------Sadece Oy Verenler---------------'
+  - '&3-------------Sadece Oy Verenler--------------'
   - '&c/nc &8isim rengini ayarlamak için'
   - '&8Oy vermek için &chttps://votefor.8b8t.me &8adresini ziyaret et'
-  - '&1------------Sadece Bağışcılar--------------'
+  - '&3--------------Sadece Bağışcılar--------------'
   - '&c/ic &8eşya rengini ayarlamak için'
   - '&c/rename &8bir eşyayı yeniden adlandırmak için'
   - '&c/seen &8bir oyuncunun en son ne zaman giriş yaptığını görmek için'
   - '&c/echest &8ender chestini açmak için'
   - '&c/nick &8bir takma ad ayarlamak için'
   - '&8Bağış yapmak için &chttps://donate.8b8t.me &8adresini ziyaret et'
-  - '&1--------------------------------------'
+  - '&3---------------------------------------------'
 
 TabList:
   Header:
@@ -193,11 +193,11 @@ TabList:
     - '&7Bu resmi 8b8t web siteleri ve iletişimleri'
     - ''
 TpsMessage:
-  - '&1------------TPS Bilgisi------------'
+  - '&3------------TPS Bilgisi------------'
   - '&8TPS: &a%s &8MSTP: &a%s'
   - '&8En Düşük Bölge TPS: &c%s'
   - '&8Çevrimiçi Oyuncular &a%s'
-  - '&1-------------------------------------'
+  - '&3-----------------------------------'
 tps_failed: '&cTPS kontrol etmek için yetkiniz yok'
 
 announcements:

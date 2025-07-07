@@ -1,4 +1,4 @@
-#8b8tCore Version 1.5.1
+#8b8tCore Version 1.5.2
 AntiIllegal:
   Enabled: true
   EnableIllegalBlocksCleaner: true
@@ -9,12 +9,12 @@ AntiIllegal:
     - CHAIN_COMMAND_BLOCK
     - REPEATING_COMMAND_BLOCK
     - STRUCTURE_BLOCK
-    - JIGSAW
     - STRUCTURE_VOID
-    - SPAWNER
+    - JIGSAW
     - END_PORTAL_FRAME
-    - END_PORTAL
+    - NETHER_PORTAL
     - LIGHT
+    - REINFORCED_DEEPSLATE
   MaxItemNameLength: 51
   IllegalItems:
     - 'BEDROCK'
@@ -109,6 +109,8 @@ ChatControl:
     - '/plugins'
     - '/pl'
     - '/kill'
+    - '/jihad'
+    - '/dupe'
     - '/stats'
     - '/tpa'
     - '/tpahere'
@@ -157,10 +159,8 @@ Home:
   #Max homes a player can have
   MaxHomes: 3
 Vote:
-  MaxHomesByVoting: 10
-  AddHomePermission: '8b8tcore.home.max.%d'
-  Permissions: #List of permissions to give the player
-    - 'Leee.nc'
+  Rewards:
+    - 'lp user %s group add voter'
 Patch:
   #Please note that elytra speed is in blocks per second.
   DefaultElytraMaxSpeedBlocksPerSecond: 128 #Max speed in blocks/second.
@@ -183,8 +183,8 @@ Commands:
   Matrix: '&3Join us on matrix at&r&a https://matrix.8b8t.me'
 OpUsersWhiteList:
   - 'Leee'
+  - 'YoThisIsAnAltLOL'
   - 'cubebuilder_'
-  - 'Minelord9000'
 prefix: '&8[&98b&78t&8]'
 PluginColors:
   color_primary: '&9'

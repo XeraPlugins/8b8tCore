@@ -138,9 +138,9 @@ table_invalid_type: "&cTipo de mesa inválido. Use o tab-complete para ver as op
 
 # Mensagens complexas
 HelpMessage:
-  - '&1--------------------------------------'
+  - '&3--------------------------------------'
   - '&8Visite &chttps://www.8b8t.me/terms &8para ler as regras'
-  - '&1--------------Comandos----------------'
+  - '&3--------------Comandos----------------'
   - '&c/tpa &8para se teletransportar para outro jogador'
   - '&c/tpahere &8para teletransportar um jogador para sua localização'
   - '&c/tpayes &8para aceitar uma solicitação de teletransporte'
@@ -166,17 +166,17 @@ HelpMessage:
   - '&c/pvp &8para se conectar ao servidor PVP do 8b8t'
   - '&c/lobby &8para se conectar ao lobby'
   - '&c/tpsinfo &8para verificar os ticks por segundo do servidor'
-  - '&1-------------Apenas para Votantes---------------'
+  - '&3-------------Apenas para Votantes---------------'
   - '&c/nc &8para definir a cor do nome'
   - '&8Visite &chttps://votefor.8b8t.me &8para votar'
-  - '&1------------Apenas para Doadores--------------'
+  - '&3------------Apenas para Doadores--------------'
   - '&c/ic &8para definir a cor do item'
   - '&c/rename &8para renomear um item'
   - '&c/seen &8para ver quando um jogador se conectou pela última vez'
   - '&c/echest &8para abrir seu baú de ender'
   - '&c/nick &8para definir um apelido'
   - '&8Visite &chttps://donate.8b8t.me &8para doar'
-  - '&1--------------------------------------'
+  - '&3--------------------------------------'
 TabList:
   Header:
     - ''
@@ -195,11 +195,11 @@ TabList:
     - '&7Esses são os únicos websites e contatos oficiais do 8b8t'
     - ''
 TpsMessage:
-  - '&1------------Informação de TPS------------'
+  - '&3------------Informação de TPS------------'
   - '&8TPS: &a%s &8MSTP: &a%s'
   - '&8Menor TPS da região: &c%s'
   - '&8Jogadores online: &a%s'
-  - '&1-------------------------------------'
+  - '&3-------------------------------------'
 tps_failed: '&cVocê não tem permissão para consultar o TPS'
 
 announcements:
