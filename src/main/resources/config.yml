@@ -155,7 +155,9 @@ TPS:
     - '8b8tcore.tpsinfo'
 TPAHOMERADIUS:
   # default max distance if no permission matches
-  default: 20000  # override this value in your config; actual limits come from permissions like home.spawn.<n> and tpa.spawn.<n>
+  # override this value in your permissions plugin;
+  # actual limits come from permissions like home.spawn.<n> and tpa.spawn.<n>
+  default: 20000
 Home:
   #Max homes a player can have
   MaxHomes: 5
