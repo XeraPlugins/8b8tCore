@@ -9,29 +9,35 @@ softdepend:
   - VotifierPlus
 commands:
   msg:
-    aliases: [message, whisper, tell, w, t]
+    aliases: [message, whisper, tell, w, t, mesaj]
   reply:
-    aliases: [r]
+    aliases: [r, yanıtla]
   ignore:
   togglechat:
   unignore:
   ignorelist:
   tpa:
+    aliases: [ışınlan]
   tpahere:
   tpayes:
-    aliases: [tpaaccept]
+    aliases: [tpaaccept, tpaccept]
   tpano:
-    aliases: [tpadeny]
+    aliases: [tpadeny, tpdeny]
   tpacancel:
   home:
+    aliases: [ev]
   sethome:
+    aliases: [evayarla]
   delhome:
+    aliases: [evsil]
   back:
+    aliases: [geri]
   hotspot:
   lef:
   discord:
   matrix:
   help:
+    aliases: [yardım]
   open:
   say:
   spawn:
@@ -39,16 +45,19 @@ commands:
   uptime:
   world:
   vote:
+    aliases: [oyla, oy]
   tpsinfo:
   repair:
+    aliases: [tamir]
   nick:
-    aliases: [nickname, setnick]
+    aliases: [nickname, setnick, isim]
   ic:
-    aliases: [itemcolor, setcolor]
+    aliases: [itemcolor, setcolor, eşyarengi]
   nc:
-    aliases: [nickcolor, namecolor]
+    aliases: [nickcolor, namecolor, isimrengi]
   rename:
   sign:
+    aliases: [tabela]
   togglejoinmessages:
     aliases: [jm, tjm]
   shadowmute:
@@ -61,8 +70,9 @@ commands:
   gmsp:
   gms:
   suicide:
-    aliases: [illegal, illegalevent, kit, kits, dupe]
+    aliases: [illegal, illegalevent, kit, kits, dupe, intihar, öl]
   table:
+    aliases: [masa]
 permissions:
   8b8tcore.viewdistance.default:
     description: Permission for the default view distance
