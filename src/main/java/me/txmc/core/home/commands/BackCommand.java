@@ -7,8 +7,11 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -66,24 +69,22 @@ public class BackCommand implements CommandExecutor {
     }
 
     private int getMaxDistanceFromSpawn(Player player) {
-        Map<String, Integer> distanceMap = Map.of(
-                "home.spawn.donator6", 0,
-                "home.spawn.donator5", 2000,
-                "home.spawn.donator4", 4000,
-                "home.spawn.donator3", 6000,
-                "home.spawn.donator2", 8000,
-                "home.spawn.donator1", 10000,
-                "home.spawn.voter", 15000
-        );
+        FileConfiguration cfg = main.plugin.getConfig();
+        ConfigurationSection sec = cfg.getConfigurationSection("TPAHOMERADIUS");
+        // read the configured default (no hard-coded fallback)
+        int maxDistance = sec.getInt("default");
 
-        int maxDistance = 20000;
-
-        for (Map.Entry<String, Integer> entry : distanceMap.entrySet()) {
-            if (player.hasPermission(entry.getKey())) {
-                maxDistance = Math.min(maxDistance, entry.getValue());
+        // scan for any home.spawn.<n> permission on the player
+        for (PermissionAttachmentInfo info : player.getEffectivePermissions()) {
+            if (!info.getValue()) continue;
+            String perm = info.getPermission();
+            if (perm.startsWith("tpa.spawn.")) {
+                try {
+                    int dist = Integer.parseInt(perm.substring("tpa.spawn.".length()));
+                    maxDistance = Math.min(maxDistance, dist);
+                } catch (NumberFormatException ignored) {}
             }
         }
-
         return maxDistance;
     }
 
