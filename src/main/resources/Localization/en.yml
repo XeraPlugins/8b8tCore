@@ -201,7 +201,7 @@ TpsMessage:
   - '&8TPS: &a%s &8MSTP: &a%s'
   - '&8Lowest Region TPS: &c%s'
   - '&8Online Players &a%s'
-  - '&3------------------------------------'
+  - '&3--------------------------------------'
 tps_failed: '&cYou are not allowed to check TPS'
 
 announcements:

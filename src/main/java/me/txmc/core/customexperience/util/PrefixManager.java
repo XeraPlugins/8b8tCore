@@ -22,8 +22,8 @@ public class PrefixManager {
     private static double globalAnimationIndex = 0.0;
 
     private static final List<String> PREFIX_HIERARCHY = Arrays.asList(
+            "8b8tcore.prefix.owner",
             "8b8tcore.prefix.dev",
-            "*",
             "8b8tcore.prefix.bot",
             "8b8tcore.prefix.donator6",
             "8b8tcore.prefix.donator5",
@@ -34,8 +34,8 @@ public class PrefixManager {
     );
 
     static {
+        PREFIXES.put("8b8tcore.prefix.owner", "<gradient:#BA3FFC:#D9ADFD:#BA3FFC:%s>[OWNER<green>✔</green>]</gradient>");
         PREFIXES.put("8b8tcore.prefix.dev", "<gradient:#5555FF:#9492F5:#5555FF:%s>[DEV<green>✔</green>]</gradient>");
-        PREFIXES.put("*", "<gradient:#BA3FFC:#D9ADFD:#BA3FFC:%s>[OWNER<green>✔</green>]</gradient>");
         PREFIXES.put("8b8tcore.prefix.bot", "<gradient:#00AA00:#6ef385:#00AA00:%s>[BOT]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator6", "<gradient:#9145b0:#ceafcf:#9145b0:%s>[Ultra]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator5", "<gradient:#a18800:#ecc700:#a18800:%s>[Pro+]</gradient>");

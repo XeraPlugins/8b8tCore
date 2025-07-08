@@ -70,11 +70,6 @@ public class Localization {
 
     // Existing getters for color patterns, prefix, messages, etc.
     public String getPrefix() { return config.getString("prefix", "&8[&98b&78t&8]"); }
-    public String getColorPrimary() { return config.getString("PluginColors.color_primary", "&9"); }
-    public String getColorSecondary() { return config.getString("PluginColors.color_secondary", "&8"); }
-    public String getColorPositive() { return config.getString("PluginColors.color_positive", "&a"); }
-    public String getColorNegative() { return config.getString("PluginColors.color_negative", "&c"); }
-    public String getColorPattern() { return config.getString("PluginColors.color_pattern", "&3"); }
 
     /**
      * Fetches a single localized string.
