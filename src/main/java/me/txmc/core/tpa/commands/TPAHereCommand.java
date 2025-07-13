@@ -51,7 +51,10 @@ public class TPAHereCommand implements CommandExecutor {
                     sendPrefixedLocalizedMessage(from, "tpa_self_tpa");
                     return true;
                 }
-
+            if (Boolean.parseBoolean(args[1])){
+                //sendMessage(from, "This user has TPA toggled off.");
+                return true;
+            }
                 TextComponent acceptButton = Component.text("ACCEPT").clickEvent(ClickEvent.runCommand("/tpayes " + from.getName()));
                 TextComponent denyButton = Component.text("DENY").clickEvent(ClickEvent.runCommand("/tpano " + from.getName()));
                 TextReplacementConfig acceptReplace = TextReplacementConfig.builder().match("accept").replacement(acceptButton).build();

@@ -64,7 +64,7 @@ public class TPACommand implements CommandExecutor {
             sendPrefixedLocalizedMessage(from, "tpa_too_close", maxDistanceFromSpawn);
             return true;
         }
-        if (args[1]){
+        if (Boolean.parseBoolean(args[1])){
             sendMessage(from, "This user has TPA toggled off.");
             return true;
         }
