@@ -41,7 +41,7 @@ public class TPACommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length != 1) {
+        if (args.length < 1) {
             sendPrefixedLocalizedMessage(from, "tpa_syntax");
             return true;
         }
