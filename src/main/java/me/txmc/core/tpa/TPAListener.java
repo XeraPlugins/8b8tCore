@@ -37,8 +37,8 @@ public class TPAListener implements Listener {
             }else{
                 Set<Player> recipients = event.getRecipients();
                 Array ecip[] = recipients.toArray();
-                private ToggledPlayer recipient = recip[0];
-                if(recipient.isToggledOff){
+                ToggledPlayer recipient = recip[0];
+                if(recipient.isToggledOff()){
                     sendMessage("This player has TPA requests toggled off.");
                     TPADenyCommand.denyTPA(recipient, sender);
                     return;

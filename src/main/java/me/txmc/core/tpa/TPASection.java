@@ -23,21 +23,7 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
  * This file was created as a part of 8b8tCore
  */
 
-@RequiredArgsConstructor
-public class ToggledPlayer extends Player{
-    public final Main plugin;
-    private static final HashMap<Player, Player> lastRequest = new HashMap<>();
-    private static final HashMap<Player, List<Player>> requests = new HashMap<>();
-    private static final HashMap<Player, List<Player>> hereRequests = new HashMap<>();
-    private boolean toggledOff = False;
 
-    public void toggle(ToggledPlayer player){
-        player.toggledOff = True;
-    }
-    public boolean isToggledOff(ToggledPlayer player){
-        return toggledOff;
-    }
-}
 
 @RequiredArgsConstructor
 public class TPASection implements Section {
