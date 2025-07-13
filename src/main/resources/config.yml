@@ -148,6 +148,7 @@ ChatControl:
     - '/clearentities'
     - '/suicide'
     - '/table'
+    - '/tpatoggle'
 TPA:
   RequestTimeoutInMinutes: 5
 TPS:
