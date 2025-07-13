@@ -1,6 +1,7 @@
 package me.txmc.core.tpa;
 
 import lombok.RequiredArgsConstructor;
+import me.txmc.core.tpa.commands.*;
 import org.bukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -8,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
@@ -25,20 +27,26 @@ public class TPAListener implements Listener {
         handleTPARequst(event.getPlayer(), event.getMessage());
     }
 
-    private void handleTPARequest(@NotNull CommandSender sender, String unverifiedCommand){
-        if(unverifiedCommand != "tpa" || unverifiedCommand != "tpahere"){
+
+    private void handleTPARequest(@NotNull CommandSender sender, Command unverifiedCommand){
+        if(unverifiedCommand.getName() != "tpa" || unverifiedCommand.getName() != "tpahere"){
             return;
         }else{
-            private Set<Player> recipients = event.getRecipients();
-            private recipient[] = recipients.toArray();
-            private ToggledPlayer recipient = recipient[0];
-            if(recipient.isToggledOff){
-                sendMessage("This player has TPA requests toggled off.")
+            if(unverifiedCommand.args.size() > 1){
                 return;
-            }else{if(unverifiedCommand = "tpahere"){
-                Bukkit.getServer().dispatchCommand(sender, tpahere recipient True );
-            }else
-                Bukkit.getServer().dispatchCommand(sender, tpa recipient True );
+            }else{
+                private Set<Player> recipients = event.getRecipients();
+                private recipient[] = recipients.toArray();
+                private ToggledPlayer recipient = recipient[0];
+                if(recipient.isToggledOff){
+                    sendMessage("This player has TPA requests toggled off.")
+                    denyTPA(recipient, sender);
+                    return;
+                }else{if(unverifiedCommand = "tpahere"){
+                    Bukkit.getServer().dispatchCommand(sender, tpahere recipient False );
+                }else
+                    Bukkit.getServer().dispatchCommand(sender, tpa recipient False );
+                }
             }
         }
     }
