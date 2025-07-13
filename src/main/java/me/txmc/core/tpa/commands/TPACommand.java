@@ -65,7 +65,7 @@ public class TPACommand implements CommandExecutor {
             return true;
         }
         if (args[1]){
-            sendMessage(from, "tpa_toggled_off");
+            sendMessage(from, "This user has TPA toggled off.");
             return true;
         }
 
