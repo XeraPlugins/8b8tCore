@@ -9,16 +9,22 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 
-@RequiredArgsConstructor
-public class ToggledPlayer extends Player{
-    private boolean toggledOff = False;
+//@RequiredArgsConstructor
+public class ToggledPlayer{
+    private final Player player;
+    private boolean toggledOff = false;
 
-    public void toggle(ToggledPlayer player){
-        if(toggledOff){
-            player.toggledOff = True;
-        }else player.toggledOff = False;
+    public ToggledPlayer(Player player){
+        this.player = player;
     }
-    public boolean isToggledOff(ToggledPlayer player){
-        return toggledOff;
+
+    public void toggle(){
+        if(toggledOff){
+            this.toggledOff = false;
+        }else this.toggledOff = true;
+    }
+
+    public boolean isToggledOff(){
+        return this.toggledOff;
     }
 }

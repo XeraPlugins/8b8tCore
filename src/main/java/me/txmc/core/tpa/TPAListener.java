@@ -2,14 +2,19 @@ package me.txmc.core.tpa;
 
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.tpa.commands.*;
-import org.bukkit;
+import me.txmc.core.tpa.ToggledPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
@@ -24,33 +29,38 @@ public class TPAListener implements Listener {
 
     @EventHandler
     private void onTPARequst(PlayerCommandPreprocessEvent event){
-        handleTPARequst(event.getPlayer(), event.getMessage());
+        String[] args = event.getMessage().split(" ");
+        String command = args[0].toLowerCase();
+        String targetName = args[1];
+        Player targetPlayer = Bukkit.getPlayerExact(targetName);
+        handleTPARequest(event.getPlayer(), command, targetName, event);
     }
 
 
-    private void handleTPARequest(@NotNull CommandSender sender, Command unverifiedCommand){
-        if(unverifiedCommand.getName() != "tpa" || unverifiedCommand.getName() != "tpahere"){
+    private void handleTPARequest(@NotNull CommandSender sender, String unverifiedCommand, String recipient, PlayerCommandPreprocessEvent event){
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("Only players can use this command.");
+            return;
+        }
+        if(unverifiedCommand != "tpa" || unverifiedCommand != "tpahere"){
             return;
         }else{
-            if(unverifiedCommand.args.size() > 1){
+            Player from = (Player) sender;
+            ToggledPlayer target = new ToggledPlayer(from);
+            Player targetPlayer = Bukkit.getPlayerExact(recipient);
+            if(target.isToggledOff()){
+                //sendMessage("This player has TPA requests toggled off.");
+                event.setCancelled(true);
                 return;
             }else{
-                Set<Player> recipients = event.getRecipients();
-                Array ecip[] = recipients.toArray();
-                ToggledPlayer recipient = recip[0];
-                if(recipient.isToggledOff()){
-                    sendMessage("This player has TPA requests toggled off.");
-                    TPADenyCommand.denyTPA(recipient, sender);
+                if(unverifiedCommand == "tpahere"){
+                    Bukkit.getServer().dispatchCommand(sender, ("tpahere " + targetPlayer + " 0") );
                     return;
-                }else{if(unverifiedCommand.getName() = "tpahere"){
-                    Bukkit.getServer().dispatchCommand(sender, tpahere, recipient, False );
-                    return;
-                }else
-                    Bukkit.getServer().dispatchCommand(sender, tpa, recipient, False );
+                }else{
+                    Bukkit.getServer().dispatchCommand(sender, ("tpa " + targetPlayer + " 0") );
                     return;
                 }
             }
         }
-        return;
     }
 }
