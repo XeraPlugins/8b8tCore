@@ -64,6 +64,10 @@ public class TPACommand implements CommandExecutor {
             sendPrefixedLocalizedMessage(from, "tpa_too_close", maxDistanceFromSpawn);
             return true;
         }
+        if (args[1]){
+            sendMessage(from, "tpa_toggled_off");
+            return true;
+        }
 
         // Build ACCEPT / DENY buttons
         TextComponent acceptButton = Component.text("ACCEPT")
