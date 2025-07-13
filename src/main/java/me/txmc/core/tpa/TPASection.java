@@ -19,8 +19,26 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 /**
  * @author 254n_m
  * @since 2023/12/18 4:07 PM
+ * Edited by 5aks
  * This file was created as a part of 8b8tCore
  */
+
+@RequiredArgsConstructor
+public class ToggledPlayer extends Player{
+    public final Main plugin;
+    private static final HashMap<Player, Player> lastRequest = new HashMap<>();
+    private static final HashMap<Player, List<Player>> requests = new HashMap<>();
+    private static final HashMap<Player, List<Player>> hereRequests = new HashMap<>();
+    private boolean toggledOff = False;
+
+    public void toggle(ToggledPlayer player){
+        player.toggledOff = True;
+    }
+    public boolean isToggledOff(ToggledPlayer player){
+        return toggledOff;
+    }
+}
+
 @RequiredArgsConstructor
 public class TPASection implements Section {
     public final Main plugin;
@@ -33,6 +51,7 @@ public class TPASection implements Section {
     public void enable() {
         config = plugin.getSectionConfig(this);
         plugin.register(new LeaveListener(this));
+        plugin.register(new TPARequestListener(this));
         plugin.getCommand("tpa").setExecutor(new TPACommand(this));
         plugin.getCommand("tpahere").setExecutor(new TPAHereCommand(this));
         plugin.getCommand("tpayes").setExecutor(new TPAAcceptCommand(this));
@@ -55,6 +74,7 @@ public class TPASection implements Section {
     public String getName() {
         return "TPA";
     }
+
 
     public void registerHereRequest(Player requester, Player requested) {
         lastRequest.put(requested, requester);
