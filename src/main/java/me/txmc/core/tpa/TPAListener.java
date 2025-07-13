@@ -40,7 +40,7 @@ public class TPAListener implements Listener {
                 private ToggledPlayer recipient = recipient[0];
                 if(recipient.isToggledOff){
                     sendMessage("This player has TPA requests toggled off.")
-                    denyTPA(recipient, sender);
+                    TPADenyCommand.denyTPA(recipient, sender);
                     return;
                 }else{if(unverifiedCommand = "tpahere"){
                     Bukkit.getServer().dispatchCommand(sender, tpahere recipient False );
