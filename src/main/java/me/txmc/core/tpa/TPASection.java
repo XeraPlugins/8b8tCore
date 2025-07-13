@@ -6,6 +6,8 @@ import me.txmc.core.Section;
 import me.txmc.core.tpa.commands.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class TPASection implements Section {
     public void enable() {
         config = plugin.getSectionConfig(this);
         plugin.register(new LeaveListener(this));
-        plugin.register(new TPARequestListener(this));
+        plugin.register(new TPAListener(this));
         plugin.getCommand("tpa").setExecutor(new TPACommand(this));
         plugin.getCommand("tpahere").setExecutor(new TPAHereCommand(this));
         plugin.getCommand("tpayes").setExecutor(new TPAAcceptCommand(this));
