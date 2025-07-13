@@ -35,19 +35,22 @@ public class TPAListener implements Listener {
             if(unverifiedCommand.args.size() > 1){
                 return;
             }else{
-                private Set<Player> recipients = event.getRecipients();
-                private recip[] = recipients.toArray();
+                Set<Player> recipients = event.getRecipients();
+                Array ecip[] = recipients.toArray();
                 private ToggledPlayer recipient = recip[0];
                 if(recipient.isToggledOff){
-                    sendMessage("This player has TPA requests toggled off.")
+                    sendMessage("This player has TPA requests toggled off.");
                     TPADenyCommand.denyTPA(recipient, sender);
                     return;
                 }else{if(unverifiedCommand.getName() = "tpahere"){
-                    Bukkit.getServer().dispatchCommand(sender, tpahere recipient False );
+                    Bukkit.getServer().dispatchCommand(sender, tpahere, recipient, False );
+                    return;
                 }else
-                    Bukkit.getServer().dispatchCommand(sender, tpa recipient False );
+                    Bukkit.getServer().dispatchCommand(sender, tpa, recipient, False );
+                    return;
                 }
             }
         }
+        return;
     }
 }
