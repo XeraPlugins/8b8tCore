@@ -38,6 +38,7 @@ public class TPASection implements Section {
         plugin.getCommand("tpayes").setExecutor(new TPAAcceptCommand(this));
         plugin.getCommand("tpano").setExecutor(new TPADenyCommand(this));
         plugin.getCommand("tpacancel").setExecutor(new TPACancelCommand(this));
+        plugin.getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
     }
 
     @Override
