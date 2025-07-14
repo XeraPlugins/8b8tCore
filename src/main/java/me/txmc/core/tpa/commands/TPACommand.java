@@ -3,6 +3,7 @@ package me.txmc.core.tpa.commands;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.Localization;
 import me.txmc.core.tpa.TPASection;
+import me.txmc.core.tpa.ToggledPlayer;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -36,11 +37,7 @@ public class TPACommand implements CommandExecutor {
                              @NotNull Command command,
                              @NotNull String label,
                              @NotNull String[] args) {
-        String comString = args[0].substring(args[0].length() - 2, args[0].length());
-        if (!comString.equals(" 1") || !comString.equals(" 0")){
-                //sendMessage(from, "This user has TPA toggled off.");
-                return true;
-        }
+
         if (!(sender instanceof Player from)) {
             sendMessage(sender, "&cYou must be a player");
             return true;
@@ -50,12 +47,25 @@ public class TPACommand implements CommandExecutor {
             sendPrefixedLocalizedMessage(from, "tpa_syntax");
             return true;
         }
-
-        Player to = Bukkit.getPlayer(args[0]);
-        if (to == null) {
+        //Player from = (Player) sender;
+        Player to;
+        if (Bukkit.getPlayer(args[0]) == null) {
             sendPrefixedLocalizedMessage(from, "tpa_player_not_online", args[0]);
             return true;
         }
+        if(args[0].contains(" ")){
+            String temp = args[0].substring(0, args[0].length() - 2);
+            to = Bukkit.getPlayer(temp);
+        }else to = Bukkit.getPlayer(args[0]);
+
+        if(main.checkToggle(to)){
+            //sendMessage("This player has TPA requests toggled off.");
+            if(main.hasRequested(from, to)) main.removeRequest(from, to);
+            if(main.hasHereRequested(from, to)) main.removeHereRequest(from, to);
+            return true;
+        }
+        
+
         if (to == from) {
             sendPrefixedLocalizedMessage(from, "tpa_self_tpa");
             return true;

@@ -40,27 +40,22 @@ public class TPAHereCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player from) {
-            String comString = args[0].substring(args[0].length() - 2, args[0].length());
-            if (!comString.equals(" 1") || !comString.equals(" 0")){
-                //sendMessage(from, "This user has TPA toggled off.");
-                return true;
-            }
             if (args.length == 1) {
-                Player to = Bukkit.getPlayer(args[0]);
-                if (to == null) {
+                if (Bukkit.getPlayer(args[0]) == null) {
                     sendPrefixedLocalizedMessage(from, "tpa_player_not_online", args[0]);
                     return true;
                 }
+                Player to = Bukkit.getPlayer(args[0]);
                 if (to == from) {
                     sendPrefixedLocalizedMessage(from, "tpa_self_tpa");
                     return true;
                 }
-            String arg = args[0];
-            String toggleCheck = arg.substring(arg.length() - 2, arg.length() - 1);
-            if (toggleCheck.equals("0")){
-                //sendMessage(from, "This user has TPA toggled off.");
-                return true;
-            }
+                if(main.checkToggle(to)){
+                    //sendMessage("This player has TPA requests toggled off.");
+                    if(main.hasRequested(from, to)) main.removeRequest(from, to);
+                    if(main.hasHereRequested(from, to)) main.removeHereRequest(from, to);
+                    return true;
+                }
                 TextComponent acceptButton = Component.text("ACCEPT").clickEvent(ClickEvent.runCommand("/tpayes " + from.getName()));
                 TextComponent denyButton = Component.text("DENY").clickEvent(ClickEvent.runCommand("/tpano " + from.getName()));
                 TextReplacementConfig acceptReplace = TextReplacementConfig.builder().match("accept").replacement(acceptButton).build();

@@ -33,10 +33,11 @@ public class TPAToggleCommand implements CommandExecutor {
 
         if (args.length != 0) {
             //sendMessage(sender, "Do not provide any arguments.");
+            return true;
         }else{
             Player targetPlayer = (Player) sender;
-            ToggledPlayer target = (ToggledPlayer) targetPlayer;
-            target.toggle();
+            ToggledPlayer player = new ToggledPlayer(targetPlayer, main);
+            player.toggle();
             //sendMessage(sender, "TPA successfully toggled.");
         }
         return true;
