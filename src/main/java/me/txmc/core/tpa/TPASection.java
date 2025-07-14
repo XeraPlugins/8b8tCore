@@ -3,6 +3,7 @@ package me.txmc.core.tpa;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
+import me.txmc.core.tpa.ToggledPlayer;
 import me.txmc.core.tpa.commands.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -34,6 +35,7 @@ public class TPASection implements Section {
     private static final HashMap<Player, List<Player>> requests = new HashMap<>();
     private ConfigurationSection config;
     private static final HashMap<Player, List<Player>> hereRequests = new HashMap<>();
+    private static final HashMap<Player, ToggledPlayer> toggledPlayers = new HashMap<>();
 
     @Override
     public void enable() {
@@ -141,5 +143,18 @@ public class TPASection implements Section {
     public List<Player> getHereRequests(Player to) {
         hereRequests.computeIfAbsent(to, k -> new ArrayList<>());
         return hereRequests.get(to);
+    }
+
+    public void togglePlayer(Player tPlayer){
+        if(toggledPlayers.get(tPlayer) == null){
+            ToggledPlayer toggledPlayer = (ToggledPlayer) tPlayer;
+            toggledPlayers.put(tPlayer, toggledPlayer);
+        }else toggledPlayers.remove(tPlayer);
+    }
+
+    public boolean checkToggle(Player cPlayer){
+        if(toggledPlayers.get(cPlayer) == null){
+            return false;
+        }else return true;
     }
 }

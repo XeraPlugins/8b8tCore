@@ -31,6 +31,7 @@ public class TPAListener implements Listener {
     private void onTPARequst(PlayerCommandPreprocessEvent event){
         String[] args = event.getMessage().split(" ");
         String command = args[0].toLowerCase();
+        if(args.length < 3) return;
         String targetName = args[1];
         Player targetPlayer = Bukkit.getPlayerExact(targetName);
         handleTPARequest(event.getPlayer(), command, targetName, event);
@@ -46,14 +47,18 @@ public class TPAListener implements Listener {
             return;
         }else{
             Player from = (Player) sender;
-            ToggledPlayer target = new ToggledPlayer(from);
             Player targetPlayer = Bukkit.getPlayerExact(recipient);
+            ToggledPlayer target = (ToggledPlayer) targetPlayer;
+            
             if(target.isToggledOff()){
                 //sendMessage("This player has TPA requests toggled off.");
+                if(main.hasRequested(from, targetPlayer)) main.removeRequest(from, targetPlayer);
+                if(main.hasHereRequested(from, targetPlayer)) main.removeHereRequest(from, targetPlayer);
                 event.setCancelled(true);
                 return;
             }else{
                 if(unverifiedCommand == "tpahere"){
+
                     Bukkit.getServer().dispatchCommand(sender, ("tpahere " + targetPlayer + " 0") );
                     return;
                 }else{
