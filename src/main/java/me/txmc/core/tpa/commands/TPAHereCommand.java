@@ -40,7 +40,11 @@ public class TPAHereCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player from) {
-
+            String comString = args[0].substring(args[0].length() - 2, args[0].length());
+            if (!comString.equals(" 1") || !comString.equals(" 0")){
+                //sendMessage(from, "This user has TPA toggled off.");
+                return true;
+            }
             if (args.length == 1) {
                 Player to = Bukkit.getPlayer(args[0]);
                 if (to == null) {
@@ -51,7 +55,9 @@ public class TPAHereCommand implements CommandExecutor {
                     sendPrefixedLocalizedMessage(from, "tpa_self_tpa");
                     return true;
                 }
-            if (Boolean.parseBoolean(args[1])){
+            String arg = args[0];
+            String toggleCheck = arg.substring(arg.length() - 2, arg.length() - 1);
+            if (toggleCheck.equals("0")){
                 //sendMessage(from, "This user has TPA toggled off.");
                 return true;
             }

@@ -36,6 +36,11 @@ public class TPACommand implements CommandExecutor {
                              @NotNull Command command,
                              @NotNull String label,
                              @NotNull String[] args) {
+        String comString = args[0].substring(args[0].length() - 2, args[0].length());
+        if (!comString.equals(" 1") || !comString.equals(" 0")){
+                //sendMessage(from, "This user has TPA toggled off.");
+                return true;
+        }
         if (!(sender instanceof Player from)) {
             sendMessage(sender, "&cYou must be a player");
             return true;
@@ -64,8 +69,10 @@ public class TPACommand implements CommandExecutor {
             sendPrefixedLocalizedMessage(from, "tpa_too_close", maxDistanceFromSpawn);
             return true;
         }
-        if (Boolean.parseBoolean(args[1])){
-            sendMessage(from, "This user has TPA toggled off.");
+        String arg = args[0];
+        String toggleCheck = arg.substring(arg.length() - 2, arg.length() - 1);
+        if (toggleCheck.equals("0")){
+            //sendMessage(from, "This user has TPA toggled off.");
             return true;
         }
 
