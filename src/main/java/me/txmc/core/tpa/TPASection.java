@@ -41,7 +41,7 @@ public class TPASection implements Section {
     public void enable() {
         config = plugin.getSectionConfig(this);
         plugin.register(new LeaveListener(this));
-        plugin.register(new TPAListener(this));
+        //plugin.register(new TPAListener(this));
         plugin.getCommand("tpa").setExecutor(new TPACommand(this));
         plugin.getCommand("tpahere").setExecutor(new TPAHereCommand(this));
         plugin.getCommand("tpayes").setExecutor(new TPAAcceptCommand(this));
@@ -147,7 +147,7 @@ public class TPASection implements Section {
 
     public void togglePlayer(Player tPlayer){
         if(toggledPlayers.get(tPlayer) == null){
-            ToggledPlayer toggledPlayer = (ToggledPlayer) tPlayer;
+            ToggledPlayer toggledPlayer = new ToggledPlayer(tPlayer, this);
             toggledPlayers.put(tPlayer, toggledPlayer);
         }else toggledPlayers.remove(tPlayer);
     }
