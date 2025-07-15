@@ -3,6 +3,7 @@ package me.txmc.core.tpa.commands;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.tpa.TPASection;
 import me.txmc.core.tpa.ToggledPlayer;
+import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static me.txmc.core.util.GlobalUtils.*;
 //import me.txmc.core.util.GlobalUtils.sendMessage;
 //import me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
@@ -38,7 +40,10 @@ public class TPAToggleCommand implements CommandExecutor {
             Player targetPlayer = (Player) sender;
             ToggledPlayer player = new ToggledPlayer(targetPlayer, main);
             player.toggle();
-            //sendMessage(sender, "TPA successfully toggled.");
+            if(player.isToggledOff()){
+                sendPrefixedLocalizedMessage(targetPlayer, "tpa_requests_disabled");
+            }else sendPrefixedLocalizedMessage(targetPlayer, "tpa_requests_enabled");
+            
         }
         return true;
     }

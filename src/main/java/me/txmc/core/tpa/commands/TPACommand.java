@@ -59,9 +59,7 @@ public class TPACommand implements CommandExecutor {
         }else to = Bukkit.getPlayer(args[0]);
 
         if(main.checkToggle(to)){
-            //sendMessage("This player has TPA requests toggled off.");
-            if(main.hasRequested(from, to)) main.removeRequest(from, to);
-            if(main.hasHereRequested(from, to)) main.removeHereRequest(from, to);
+            sendPrefixedLocalizedMessage(from, "tpa_request_blocked");
             return true;
         }
         
@@ -79,12 +77,12 @@ public class TPACommand implements CommandExecutor {
             sendPrefixedLocalizedMessage(from, "tpa_too_close", maxDistanceFromSpawn);
             return true;
         }
-        String arg = args[0];
+        /*String arg = args[0];
         String toggleCheck = arg.substring(arg.length() - 2, arg.length() - 1);
         if (toggleCheck.equals("0")){
-            //sendMessage(from, "This user has TPA toggled off.");
+            sendPrefixedLocalizedMessage(from, "tpa_request_blocked");
             return true;
-        }
+        }*/
 
         // Build ACCEPT / DENY buttons
         TextComponent acceptButton = Component.text("ACCEPT")

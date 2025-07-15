@@ -41,7 +41,7 @@ public class TPAHereCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player from) {
             if (args.length == 1) {
-                if (Bukkit.getPlayer(args[0]) == null) {
+                if (Bukkit.getPlayer(args[0]) == null){
                     sendPrefixedLocalizedMessage(from, "tpa_player_not_online", args[0]);
                     return true;
                 }
@@ -51,9 +51,7 @@ public class TPAHereCommand implements CommandExecutor {
                     return true;
                 }
                 if(main.checkToggle(to)){
-                    //sendMessage("This player has TPA requests toggled off.");
-                    if(main.hasRequested(from, to)) main.removeRequest(from, to);
-                    if(main.hasHereRequested(from, to)) main.removeHereRequest(from, to);
+                    sendPrefixedLocalizedMessage(from, "tpa_request_blocked");
                     return true;
                 }
                 TextComponent acceptButton = Component.text("ACCEPT").clickEvent(ClickEvent.runCommand("/tpayes " + from.getName()));
