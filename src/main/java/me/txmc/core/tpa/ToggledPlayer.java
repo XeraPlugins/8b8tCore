@@ -14,7 +14,6 @@ import javax.annotation.Nullable;
 public class ToggledPlayer{
     private final Player player;
     private final TPASection main;
-    private boolean toggledOff = false;
 
     public ToggledPlayer(Player player, TPASection main){
         this.player = player;
@@ -22,13 +21,12 @@ public class ToggledPlayer{
     }
 
     public void toggle(){
-        this.toggledOff = !this.toggledOff;
         main.togglePlayer(this.player);
         
     }
 
     public boolean isToggledOff(){
-        return this.toggledOff;
+        return main.checkToggle(player);
     }
 
     public Player getPlayer(){

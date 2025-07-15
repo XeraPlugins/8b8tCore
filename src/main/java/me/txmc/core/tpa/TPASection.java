@@ -135,6 +135,20 @@ public class TPASection implements Section {
         } else requests.get(requested).remove(requester);
     }
 
+    public void removeAllInRequests(Player player){
+        if(requests.containsKey(player)){
+            List<Player> requesters = requests.get(player);
+            requesters.forEach(r -> sendPrefixedLocalizedMessage(r, "tpa_request_denied_from", player.getName()));
+            requests.remove(player);
+        }
+        if(hereRequests.containsKey(player)){
+            List<Player> requesters = requests.get(player);
+            requesters.forEach( r -> sendPrefixedLocalizedMessage(r, "tpa_request_denied_from", player.getName()));
+            hereRequests.remove(player);
+        }
+        
+    }
+
     public List<Player> getRequests(Player to) {
         requests.computeIfAbsent(to, k -> new ArrayList<>());
         return requests.get(to);
@@ -150,6 +164,7 @@ public class TPASection implements Section {
             ToggledPlayer toggledPlayer = new ToggledPlayer(tPlayer, this);
             toggledPlayers.put(tPlayer, toggledPlayer);
         }else toggledPlayers.remove(tPlayer);
+        removeAllInRequests(tPlayer);
     }
 
     public boolean checkToggle(Player cPlayer){
