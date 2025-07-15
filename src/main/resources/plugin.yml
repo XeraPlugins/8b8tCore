@@ -24,6 +24,7 @@ commands:
   tpano:
     aliases: [tpadeny, tpdeny]
   tpacancel:
+  tpatoggle:
   home:
     aliases: [ev]
   sethome:
