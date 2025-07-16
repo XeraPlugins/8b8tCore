@@ -62,7 +62,7 @@ public class TPACommand implements CommandExecutor {
             sendPrefixedLocalizedMessage(from, "tpa_request_blocked");
             return true;
         }
-        
+
 
         if (to == from) {
             sendPrefixedLocalizedMessage(from, "tpa_self_tpa");
