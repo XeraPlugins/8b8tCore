@@ -3,6 +3,7 @@ package me.txmc.core.tpa.commands;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.Localization;
 import me.txmc.core.tpa.TPASection;
+import me.txmc.core.tpa.ToggledPlayer;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -36,21 +37,33 @@ public class TPACommand implements CommandExecutor {
                              @NotNull Command command,
                              @NotNull String label,
                              @NotNull String[] args) {
+
         if (!(sender instanceof Player from)) {
             sendMessage(sender, "&cYou must be a player");
             return true;
         }
 
-        if (args.length != 1) {
+        if (args.length < 1) {
             sendPrefixedLocalizedMessage(from, "tpa_syntax");
             return true;
         }
-
-        Player to = Bukkit.getPlayer(args[0]);
-        if (to == null) {
+        //Player from = (Player) sender;
+        Player to;
+        if (Bukkit.getPlayer(args[0]) == null) {
             sendPrefixedLocalizedMessage(from, "tpa_player_not_online", args[0]);
             return true;
         }
+        if(args[0].contains(" ")){
+            String temp = args[0].substring(0, args[0].length() - 2);
+            to = Bukkit.getPlayer(temp);
+        }else to = Bukkit.getPlayer(args[0]);
+
+        if(main.checkToggle(to)){
+            sendPrefixedLocalizedMessage(from, "tpa_request_blocked");
+            return true;
+        }
+        
+
         if (to == from) {
             sendPrefixedLocalizedMessage(from, "tpa_self_tpa");
             return true;
@@ -64,6 +77,12 @@ public class TPACommand implements CommandExecutor {
             sendPrefixedLocalizedMessage(from, "tpa_too_close", maxDistanceFromSpawn);
             return true;
         }
+        /*String arg = args[0];
+        String toggleCheck = arg.substring(arg.length() - 2, arg.length() - 1);
+        if (toggleCheck.equals("0")){
+            sendPrefixedLocalizedMessage(from, "tpa_request_blocked");
+            return true;
+        }*/
 
         // Build ACCEPT / DENY buttons
         TextComponent acceptButton = Component.text("ACCEPT")

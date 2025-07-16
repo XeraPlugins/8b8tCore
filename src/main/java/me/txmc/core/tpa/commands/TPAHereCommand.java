@@ -40,18 +40,20 @@ public class TPAHereCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player from) {
-
             if (args.length == 1) {
-                Player to = Bukkit.getPlayer(args[0]);
-                if (to == null) {
+                if (Bukkit.getPlayer(args[0]) == null){
                     sendPrefixedLocalizedMessage(from, "tpa_player_not_online", args[0]);
                     return true;
                 }
+                Player to = Bukkit.getPlayer(args[0]);
                 if (to == from) {
                     sendPrefixedLocalizedMessage(from, "tpa_self_tpa");
                     return true;
                 }
-
+                if(main.checkToggle(to)){
+                    sendPrefixedLocalizedMessage(from, "tpa_request_blocked");
+                    return true;
+                }
                 TextComponent acceptButton = Component.text("ACCEPT").clickEvent(ClickEvent.runCommand("/tpayes " + from.getName()));
                 TextComponent denyButton = Component.text("DENY").clickEvent(ClickEvent.runCommand("/tpano " + from.getName()));
                 TextReplacementConfig acceptReplace = TextReplacementConfig.builder().match("accept").replacement(acceptButton).build();

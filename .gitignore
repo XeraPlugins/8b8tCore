@@ -119,3 +119,5 @@ buildNumber.properties
 
 # Common working directory
 run/
+afterBuild.bat
+*.bat
