@@ -121,3 +121,4 @@ buildNumber.properties
 run/
 afterBuild.bat
 *.bat
+src/main/java/me/txmc/core/tpa/commands/TPABlockCommand.java
