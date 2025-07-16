@@ -22,7 +22,7 @@ public class ToggledPlayer{
 
     public void toggle(){
         main.togglePlayer(this.player);
-        
+
     }
 
     public boolean isToggledOff(){
@@ -33,5 +33,3 @@ public class ToggledPlayer{
         return this.player;
     }
 }
-
-    

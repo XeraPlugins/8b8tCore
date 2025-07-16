@@ -42,7 +42,7 @@ public class TPAToggleCommand implements CommandExecutor {
             if(player.isToggledOff()){
                 sendPrefixedLocalizedMessage(targetPlayer, "tpa_requests_disabled");
             }else sendPrefixedLocalizedMessage(targetPlayer, "tpa_requests_enabled");
-            
+
         }
         return true;
     }

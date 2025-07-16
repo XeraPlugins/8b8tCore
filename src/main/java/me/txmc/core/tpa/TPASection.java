@@ -128,7 +128,7 @@ public class TPASection implements Section {
     public void removeRequest(Player requester, Player requested) {
         if (requests.get(requested) == null) return;
         if (requests.get(requested).indexOf(requester) == 0) {
-                requests.get(requested).remove(0);
+            requests.get(requested).remove(0);
             if (requests.get(requested).size() > 1) {
                 lastRequest.put(requested, requests.get(requested).get(1));
             } else lastRequest.remove(requested);
@@ -146,7 +146,7 @@ public class TPASection implements Section {
             requesters.forEach( r -> sendPrefixedLocalizedMessage(r, "tpa_request_denied_from", player.getName()));
             hereRequests.remove(player);
         }
-        
+
     }
 
     public List<Player> getRequests(Player to) {
