@@ -21,7 +21,7 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
  */
 
 @RequiredArgsConstructor
-public class TPABlockCommand implements CommandExecutor{
+public class TPAIgnoreCommand implements CommandExecutor{
     private final TPASection main;
 
     @Override

@@ -149,7 +149,7 @@ ChatControl:
     - '/suicide'
     - '/table'
     - '/tpatoggle'
-    - '/tpablock'
+    - '/tpaignore'
 TPA:
   RequestTimeoutInMinutes: 5
 TPS:
