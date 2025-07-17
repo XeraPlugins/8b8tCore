@@ -119,6 +119,6 @@ buildNumber.properties
 
 # Common working directory
 run/
-afterBuild.bat
 *.bat
-src/main/java/me/txmc/core/tpa/commands/TPABlockCommand.java
+.vscode/launch.json
+.vscode/settings.json

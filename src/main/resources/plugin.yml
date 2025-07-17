@@ -25,6 +25,7 @@ commands:
     aliases: [tpadeny, tpdeny]
   tpacancel:
   tpatoggle:
+  tpablock:
   home:
     aliases: [ev]
   sethome:

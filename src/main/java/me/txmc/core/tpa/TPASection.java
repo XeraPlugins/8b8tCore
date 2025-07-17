@@ -3,20 +3,32 @@ package me.txmc.core.tpa;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
-import me.txmc.core.tpa.ToggledPlayer;
-import me.txmc.core.tpa.commands.*;
+//import me.txmc.core.tpa.ToggledPlayer;
+import me.txmc.core.tpa.commands.TPAAcceptCommand;
+import me.txmc.core.tpa.commands.TPACancelCommand;
+import me.txmc.core.tpa.commands.TPACommand;
+import me.txmc.core.tpa.commands.TPADenyCommand;
+import me.txmc.core.tpa.commands.TPAHereCommand;
+import me.txmc.core.tpa.commands.TPAToggleCommand;
+import me.txmc.core.tpa.commands.TPABlockCommand;
+
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+//import org.bukkit.event.EventHandler;
+//import org.bukkit.event.Listener;
 
-import javax.annotation.Nullable;
+//import javax.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static me.txmc.core.util.GlobalUtils.info;
+//import static me.txmc.core.util.GlobalUtils.info;
+
+import javax.management.RuntimeErrorException;
+
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 /**
@@ -36,18 +48,19 @@ public class TPASection implements Section {
     private ConfigurationSection config;
     private static final HashMap<Player, List<Player>> hereRequests = new HashMap<>();
     private static final HashMap<Player, ToggledPlayer> toggledPlayers = new HashMap<>();
+    private static final HashMap<Player, List<Player>> blockedPlayers = new HashMap<>();
 
     @Override
     public void enable() {
         config = plugin.getSectionConfig(this);
         plugin.register(new LeaveListener(this));
-        //plugin.register(new TPAListener(this));
         plugin.getCommand("tpa").setExecutor(new TPACommand(this));
         plugin.getCommand("tpahere").setExecutor(new TPAHereCommand(this));
         plugin.getCommand("tpayes").setExecutor(new TPAAcceptCommand(this));
         plugin.getCommand("tpano").setExecutor(new TPADenyCommand(this));
         plugin.getCommand("tpacancel").setExecutor(new TPACancelCommand(this));
         plugin.getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
+        plugin.getCommand("tpablock").setExecutor(new TPABlockCommand(this));
     }
 
     @Override
@@ -64,7 +77,6 @@ public class TPASection implements Section {
     public String getName() {
         return "TPA";
     }
-
 
     public void registerHereRequest(Player requester, Player requested) {
         lastRequest.put(requested, requester);
@@ -121,7 +133,6 @@ public class TPASection implements Section {
 
     public boolean hasRequested(Player requester, Player requested) {
         if (requests.get(requested) == null) return false;
-        if (!requests.get(requested).contains(requester)) return false;
         return requests.get(requested).contains(requester);
     }
 
@@ -149,6 +160,26 @@ public class TPASection implements Section {
 
     }
 
+    public void removeInRequestsFrom(Player requested, Player requester){
+        if(requests.containsKey(requested)){
+            List<Player> requesters = requests.get(requested);
+            if(requesters.contains(requester)){
+                sendPrefixedLocalizedMessage(requester, "tpa_request_denied_from", requested.getName());
+                requests.remove(requested, requester);
+                lastRequest.remove(requested, requester);
+            }
+            
+        }
+        if(hereRequests.containsKey(requested)){
+            List<Player> requesters = hereRequests.get(requested);
+            if(requesters.contains(requester)){
+                sendPrefixedLocalizedMessage(requester, "tpa_request_denied_from", requested.getName());
+                hereRequests.remove(requested, requester);
+                lastRequest.remove(requested, requester);
+            }
+        }
+    }
+
     public List<Player> getRequests(Player to) {
         requests.computeIfAbsent(to, k -> new ArrayList<>());
         return requests.get(to);
@@ -159,17 +190,34 @@ public class TPASection implements Section {
         return hereRequests.get(to);
     }
 
-    public void togglePlayer(Player tPlayer){
-        if(toggledPlayers.get(tPlayer) == null){
-            ToggledPlayer toggledPlayer = new ToggledPlayer(tPlayer, this);
-            toggledPlayers.put(tPlayer, toggledPlayer);
-        }else toggledPlayers.remove(tPlayer);
-        removeAllInRequests(tPlayer);
+    public void togglePlayer(Player requested){
+        if(toggledPlayers.get(requested) == null){
+            ToggledPlayer toggledPlayer = new ToggledPlayer(requested, this);
+            toggledPlayers.put(requested, toggledPlayer);
+        }else toggledPlayers.remove(requested);
+        removeAllInRequests(requested);
     }
 
     public boolean checkToggle(Player cPlayer){
         if(toggledPlayers.get(cPlayer) == null){
             return false;
         }else return true;
+    }
+
+    public void addBlockedPlayer(Player requested, Player requester){
+        if(blockedPlayers.get(requested) == null){
+            blockedPlayers.put(requested, new ArrayList<>());
+        }
+        if(!blockedPlayers.get(requested).contains(requester)) blockedPlayers.get(requested).add(requester);
+        removeInRequestsFrom(requested, requester);
+    }
+
+    public void removeBlockedPlayer(Player requested, Player requester){
+        if(blockedPlayers.get(requested).contains(requester)) blockedPlayers.get(requested).remove(requester);
+    }
+
+    public boolean checkBlocked(Player requested, Player requester){
+        if(blockedPlayers.get(requested) == null) return false;
+        return blockedPlayers.get(requested).contains(requester);
     }
 }

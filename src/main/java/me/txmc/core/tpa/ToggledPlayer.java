@@ -10,6 +10,14 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 
+/**
+ *
+ *  @author 5aks
+ *  @since  7/16/2025 1:00 PM
+ *  This file was created as a part of 8b8tCore
+ * 
+ */
+
 //@RequiredArgsConstructor
 public class ToggledPlayer{
     private final Player player;

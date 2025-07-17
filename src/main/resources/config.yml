@@ -1,4 +1,4 @@
-#8b8tCore Version 1.5.6
+#8b8tCore Version 1.5.7
 AntiIllegal:
   Enabled: true
   EnableIllegalBlocksCleaner: true
@@ -149,6 +149,7 @@ ChatControl:
     - '/suicide'
     - '/table'
     - '/tpatoggle'
+    - '/tpablock'
 TPA:
   RequestTimeoutInMinutes: 5
 TPS:
