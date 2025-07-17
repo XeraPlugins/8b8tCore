@@ -26,6 +26,7 @@ import static me.txmc.core.util.GlobalUtils.*;
 /**
  * @author 254n_m
  * @since 2023/12/18 4:17 PM
+ * Edited by 5aks
  * This file was created as a part of 8b8tCore
  */
 @RequiredArgsConstructor
@@ -58,7 +59,7 @@ public class TPACommand implements CommandExecutor {
             to = Bukkit.getPlayer(temp);
         }else to = Bukkit.getPlayer(args[0]);
 
-        if(main.checkToggle(to)){
+        if(main.checkToggle(to) || main.checkBlocked(to, from)){
             sendPrefixedLocalizedMessage(from, "tpa_request_blocked");
             return true;
         }

@@ -119,5 +119,6 @@ buildNumber.properties
 
 # Common working directory
 run/
-afterBuild.bat
 *.bat
+.vscode/launch.json
+.vscode/settings.json

@@ -17,9 +17,11 @@ import static me.txmc.core.util.GlobalUtils.*;
 //import me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 /**
- * @author 5aks
- * @since 7/13/2025 1:30AM
- * This file was created as a part of 8b8tCore
+ *
+ *  @author 5aks
+ *  @since  7/16/2025 1:00 PM
+ *  This file was created as a part of 8b8tCore
+ * 
  */
 
 @RequiredArgsConstructor
@@ -28,17 +30,16 @@ public class TPAToggleCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args){
-        if (!(sender instanceof Player from)) {
-            //sendMessage(sender, "&cYou must be a player");
+        if (!(sender instanceof Player)) {
+            sendMessage(sender, "&cYou must be a player");
             return true;
         }
-
+        Player targetPlayer = (Player) sender;
+        ToggledPlayer player = new ToggledPlayer(targetPlayer, main);
         if (args.length != 0) {
-            //sendMessage(sender, "Do not provide any arguments.");
+            sendPrefixedLocalizedMessage(targetPlayer, "tpatoggle_syntax");
             return true;
         }else{
-            Player targetPlayer = (Player) sender;
-            ToggledPlayer player = new ToggledPlayer(targetPlayer, main);
             player.toggle();
             if(player.isToggledOff()){
                 sendPrefixedLocalizedMessage(targetPlayer, "tpa_requests_disabled");

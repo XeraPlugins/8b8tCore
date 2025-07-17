@@ -32,6 +32,7 @@ import static me.txmc.core.util.GlobalUtils.*;
  *
  * @author Minelord9000 (agarciacorte)
  * @since 2024/09/08 02:37 PM
+ * Edited by 5aks
  */
 @RequiredArgsConstructor
 public class TPAHereCommand implements CommandExecutor {
@@ -50,7 +51,7 @@ public class TPAHereCommand implements CommandExecutor {
                     sendPrefixedLocalizedMessage(from, "tpa_self_tpa");
                     return true;
                 }
-                if(main.checkToggle(to)){
+                if(main.checkToggle(to) || main.checkBlocked(to, from)){
                     sendPrefixedLocalizedMessage(from, "tpa_request_blocked");
                     return true;
                 }
