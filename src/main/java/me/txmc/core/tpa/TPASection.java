@@ -10,7 +10,7 @@ import me.txmc.core.tpa.commands.TPACommand;
 import me.txmc.core.tpa.commands.TPADenyCommand;
 import me.txmc.core.tpa.commands.TPAHereCommand;
 import me.txmc.core.tpa.commands.TPAToggleCommand;
-import me.txmc.core.tpa.commands.TPABlockCommand;
+import me.txmc.core.tpa.commands.TPAIgnoreCommand;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -60,7 +60,7 @@ public class TPASection implements Section {
         plugin.getCommand("tpano").setExecutor(new TPADenyCommand(this));
         plugin.getCommand("tpacancel").setExecutor(new TPACancelCommand(this));
         plugin.getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
-        plugin.getCommand("tpablock").setExecutor(new TPABlockCommand(this));
+        plugin.getCommand("tpaignore").setExecutor(new TPAIgnoreCommand(this));
     }
 
     @Override
