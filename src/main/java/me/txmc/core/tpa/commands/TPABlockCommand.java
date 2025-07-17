@@ -29,6 +29,10 @@ public class TPABlockCommand implements CommandExecutor{
         if(sender instanceof Player from){
             if(args.length == 1){
                 Player blocked = Bukkit.getPlayer(args[0]);
+                if(blocked == null){
+                    sendPrefixedLocalizedMessage(from, "tpa_player_not_online", args[0]);
+                    return true;
+                }
                 if(main.checkBlocked(from, blocked)){
                     sendPrefixedLocalizedMessage(from, "tpa_requests_unblocked", blocked.getName());
                     main.removeBlockedPlayer(from, blocked);
