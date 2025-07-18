@@ -97,7 +97,7 @@ repair_no_item: "&cيجب أن يكون لديك عنصر لإصلاحه في ا
 repair_not_repairable: "&cلا يمكن إصلاح هذا العنصر."
 repair_all_success: "&3تم إصلاح جميع العناصر في مخزونك بنجاح!"
 nick_success: "&3تم! الآن اسمك المستعار هو &3%s&r&3."
-nick_no_permission: "&cهذه الأمر مخصص لـ DONOR5 فقط &3https://donate.8b8t.me/&c."
+nick_no_permission: "&cهذه الأمر مخصص لـ DONOR5 فقط &3https://shop.8b8t.me/&c."
 nick_no_name_provided: "&cيجب عليك إدخال اسم مستعار &3/nick <nickname>&c."
 nick_user_protection: "&cيجب أن يكون الاسم المستعار هو نفسه اسم المستخدم الخاص بك &3/nick <nickname>&c."
 nc_success: "&3تم! الآن اسمك المستعار هو &3%s&r&3."
@@ -105,13 +105,13 @@ nc_no_permission: "&cيجب أن تكون قد صوتت لاستخدام هذا 
 nc_invalid_color: "&cيمكنك فقط استخدام الأنماط من القائمة &3/nc <color> <styles...>&c."
 nc_usage: "&cيجب عليك إدخال اللون على الأقل &3/nc <color> <styles...>&c."
 ic_success: "&3تم! الآن اسم العنصر الخاص بك هو &3%s&r&3."
-ic_no_permission: "&cهذه الأمر مخصص لـ DONOR4 فقط &3https://donate.8b8t.me/&c."
+ic_no_permission: "&cهذه الأمر مخصص لـ DONOR4 فقط &3https://shop.8b8t.me/&c."
 ic_invalid_color: "&cيمكنك فقط استخدام الأنماط من القائمة &3/ic <color> <styles...>&c."
 ic_invalid_item: "&cهذا العنصر غير صالح."
 ic_no_item: "&cيجب أن يكون لديك عنصر في يدك لتغيير لونه."
 ic_usage: "&cيجب عليك إدخال اللون على الأقل &3/ic <color> <styles...>&c."
 rename_success: "&3تم! الآن اسم العنصر الخاص بك هو &3%s&r&3."
-rename_no_permission: "&cهذه الأمر مخصص لـ DONOR5 فقط &3https://donate.8b8t.me/&c."
+rename_no_permission: "&cهذه الأمر مخصص لـ DONOR5 فقط &3https://shop.8b8t.me/&c."
 rename_invalid_item: "&cهذا العنصر غير صالح."
 rename_no_item: "&cيجب أن يكون لديك عنصر في يدك لتغيير لونه."
 rename_no_name_provided: "&cيجب عليك إدخال اسم &3/rename <item name>&c."
@@ -182,7 +182,7 @@ HelpMessage:
   - '&c/seen &8لعرض آخر مرة اتصل بها لاعب'
   - '&c/echest &8لفتح صندوق النهاية الخاص بك'
   - '&c/nick &8لتحديد لقب'
-  - '&8قم بزيارة &chttps://donate.8b8t.me &8للتبرع'
+  - '&8قم بزيارة &chttps://shop.8b8t.me &8للتبرع'
   - '&3--------------------------------------'
 TabList:
   Header:
@@ -190,7 +190,7 @@ TabList:
     - '&98builders&78tools'
     - ''
     -
-    - 'هل تستمتع بـ 8b8t.me؟ يمكنك التبرع على https://donate.8b8t.me
+    - 'هل تستمتع بـ 8b8t.me؟ يمكنك التبرع على https://shop.8b8t.me
     - '
 
   Footer:
@@ -214,7 +214,7 @@ tps_failed: '&cأنت غير مسموح لك بالتحقق من TPS'
 
 announcements:
   - "%prefix% &7>>&r&8 قم بزيارة <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>وصوت للحصول على 2 مسافات عرض إضافية و 5 نقاط منزل إضافية مجانًا</dark_gray>"
-  - "%prefix% &7>>&r&8 تبرع لدعم 8b8t على <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
+  - "%prefix% &7>>&r&8 تبرع لدعم 8b8t على <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

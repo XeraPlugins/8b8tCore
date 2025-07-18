@@ -98,7 +98,7 @@ repair_not_repairable: "&cBu eşya onarılamaz."
 repair_all_success: "&3Envanterinizdeki tüm eşyalar başarıyla onarıldı!"
 repair_fail_while_pvp: "&cPvP sırasında bu komudu kullanamazsınız!"
 nick_success: "&3Tamam! Takma adınız artık &3%s&r&3."
-nick_no_permission: "&cBu komut sadece DONOR5 içindir &3https://donate.8b8t.me/&c."
+nick_no_permission: "&cBu komut sadece DONOR5 içindir &3https://shop.8b8t.me/&c."
 nick_no_name_provided: "&cBir takma ad girmelisiniz &3/nick <takma_ad>&c."
 nick_user_protection: "&cTakma adınız kullanıcı adınızla aynı olmalıdır &3/nick <takma_ad>&c."
 nc_success: "&3Tamam! Takma adınız artık &3%s&r&3."
@@ -106,13 +106,13 @@ nc_no_permission: "&cBu komutu kullanmak için oy vermiş olmalısınız."
 nc_invalid_color: "&cSadece listeden stilleri kullanabilirsiniz &3/nc <renk> <stilller...>&c."
 nc_usage: "&cEn az renkten birini girmelisiniz &3/nc <renk> <stilller...>&c."
 ic_success: "&3Tamam! Eşyanız artık &3%s&r&3 olarak adlandırıldı."
-ic_no_permission: "&cBu komut yalnızca DONOR4 içindir &3https://donate.8b8t.me/&c."
+ic_no_permission: "&cBu komut yalnızca DONOR4 içindir &3https://shop.8b8t.me/&c."
 ic_invalid_color: "&cSadece listeden stilleri kullanabilirsiniz &3/ic <renk> <stilller...>&c."
 ic_invalid_item: "&cBu eşya geçerli değil."
 ic_no_item: "&cRengini değiştirmek için elinizde bir eşya bulundurmalısınız."
 ic_usage: "&cEn az renkten birini girmelisiniz &3/ic <renk> <stilller...>&c."
 rename_success: "&3Tamam! Eşyanız artık &3%s&r&3 olarak adlandırıldı."
-rename_no_permission: "&cBu komut yalnızca DONOR5 içindir &3https://donate.8b8t.me/&c."
+rename_no_permission: "&cBu komut yalnızca DONOR5 içindir &3https://shop.8b8t.me/&c."
 rename_invalid_item: "&cBu eşya geçerli değil."
 rename_no_item: "&cRengini değiştirmek için elinizde bir eşya bulundurmalısınız."
 rename_no_name_provided: "&cBir isim girmelisiniz &3/rename <eşya ismi>&c."
@@ -179,7 +179,7 @@ HelpMessage:
   - '&c/seen &8bir oyuncunun en son ne zaman giriş yaptığını görmek için'
   - '&c/echest &8ender chestini açmak için'
   - '&c/nick &8bir takma ad ayarlamak için'
-  - '&8Bağış yapmak için &chttps://donate.8b8t.me &8adresini ziyaret et'
+  - '&8Bağış yapmak için &chttps://shop.8b8t.me &8adresini ziyaret et'
   - '&3---------------------------------------------'
 
 TabList:
@@ -187,7 +187,7 @@ TabList:
     - ''
     - '&98builders&78tools'
     - ''
-    - "&88b8t.me'den memnun musun? Bağışta bulunmak için https://donate.8b8t.me adresini ziyaret et"
+    - "&88b8t.me'den memnun musun? Bağışta bulunmak için https://shop.8b8t.me adresini ziyaret et"
     - ''
   
   Footer:
@@ -209,7 +209,7 @@ tps_failed: '&cTPS kontrol etmek için yetkiniz yok'
 
 announcements:
   - '%prefix% &7>>&r&8 Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev al'
-  - "%prefix% &7>>&r&8 8b8t'yi desteklemek için &chttps://donate.8b8t.me &8adresinden bağış yap"
+  - "%prefix% &7>>&r&8 8b8t'yi desteklemek için &chttps://shop.8b8t.me &8adresinden bağış yap"
 
 # Death messages
 global-pvp-death-messages:

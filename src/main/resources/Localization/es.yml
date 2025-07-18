@@ -97,7 +97,7 @@ repair_no_item: "&cDebes de tener un item para reparar en la mano."
 repair_not_repairable: "&cEste item no es reparable."
 repair_all_success: "&3Los items de tu inventario fueron reparados exitosamente!"
 nick_success: "&3Hecho! Ahora tu nickname es &3%s&r&3."
-nick_no_permission: "&cEste comando es exclusivo para DONOR5 &3https://donate.8b8t.me/&c."
+nick_no_permission: "&cEste comando es exclusivo para DONOR5 &3https://shop.8b8t.me/&c."
 nick_no_name_provided: "&cDebes ingresar un nickname &3/nick <nickname>&c."
 nick_user_protection: "&cEl nickname debe ser igual a tu usuario &3/nick <nickname>&c."
 nc_success: "&3Hecho! Ahora tu nickname es &3%s&r&3."
@@ -105,13 +105,13 @@ nc_no_permission: "&cDebes haber votado para poder usar este comando."
 nc_invalid_color: "&cSolo puedes usar los estilos de la lista &3/nc <color> <styles...>&c."
 nc_usage: "&cDebes ingresar almenos el color &3/nc <color> <styles...>&c."
 ic_success: "&3Hecho! Ahora tu item se llama &3%s&r&3."
-ic_no_permission: "&cEste comando es exclusivo para DONOR4 &3https://donate.8b8t.me/&c."
+ic_no_permission: "&cEste comando es exclusivo para DONOR4 &3https://shop.8b8t.me/&c."
 ic_invalid_color: "&cSolo puedes usar los estilos de la lista &3/ic <color> <styles...>&c."
 ic_invalid_item: "&cEste item no es valido."
 ic_no_item: "&cDebes tener un item en la mano para poder cambiar el color."
 ic_usage: "&cDebes ingresar almenos el color &3/ic <color> <styles...>&c."
 rename_success: "&3Hecho! Ahora tu item se llama &3%s&r&3."
-rename_no_permission: "&cEste comando es exclusivo para DONOR5 &3https://donate.8b8t.me/&c."
+rename_no_permission: "&cEste comando es exclusivo para DONOR5 &3https://shop.8b8t.me/&c."
 rename_invalid_item: "&cEste item no es valido."
 rename_no_item: "&cDebes tener un item en la mano para poder cambiar el color."
 rename_no_name_provided: "&cDebes ingresar un nombre &3/rename <item name>&c."
@@ -182,14 +182,14 @@ HelpMessage:
   - '&c/seen &8ver cuándo un jugador se conectó por última vez'
   - '&c/echest &8abrir tu cofre de ender'
   - '&c/nick &8establecer un apodo'
-  - '&8Visita &chttps://donate.8b8t.me &8para donar'
+  - '&8Visita &chttps://shop.8b8t.me &8para donar'
   - '&3--------------------------------------'
 TabList:
   Header:
     - ''
     - '&9&l8builders&7&l8tools'
     - ''
-    - '&r&c&o¿Te gusta 8b8t.me? Considera hacer una donación en https://donate.8b8t.me'
+    - '&r&c&o¿Te gusta 8b8t.me? Considera hacer una donación en https://shop.8b8t.me'
     - ''
 
   Footer:
@@ -211,7 +211,7 @@ tps_failed: '&cUsted no tiene permitido consultar los TPS'
 
 announcements:
   - "%prefix% &7>>&r&8 Visita <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>y vota para recibir 2 distancias de renderizado adicionales y 5 homes adicionales gratis</dark_gray>"
-  - "%prefix% &7>>&r&8 Done para apoyar a 8b8t en <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>"
+  - "%prefix% &7>>&r&8 Done para apoyar a 8b8t en <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
 
 # Death messages
 global-pvp-death-messages:

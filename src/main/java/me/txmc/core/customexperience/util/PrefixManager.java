@@ -42,7 +42,7 @@ public class PrefixManager {
         PREFIXES.put("8b8tcore.prefix.donator4", "<gradient:#ef9a98:#f7cac9:#ef9a98:%s>[Pro]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator3", "<gradient:#999B9B:#ced5d5:#999B9B:%s>[Mini]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator2", "<gradient:#CD7F32:#fc9937:#CD7F32:%s>[SE]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator1", "<gradient:#20252c:#62666c:#20252c:%s>[Donor]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator1", "<gradient:#20252c:#62666c:#20252c:%s>[Basic]</gradient>");
     }
 
     public String getPrefix(Player player) {
