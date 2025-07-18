@@ -153,7 +153,7 @@ public class TPASection implements Section {
             requests.remove(player);
         }
         if(hereRequests.containsKey(player)){
-            List<Player> requesters = requests.get(player);
+            List<Player> requesters = hereRequests.get(player);
             requesters.forEach( r -> sendPrefixedLocalizedMessage(r, "tpa_request_denied_from", player.getName()));
             hereRequests.remove(player);
         }
