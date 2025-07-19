@@ -14,6 +14,7 @@ import me.txmc.core.patch.PatchSection;
 import me.txmc.core.patch.tasks.EndPortalBuilder;
 import me.txmc.core.patch.tasks.EndExitPortalBuilder;
 import me.txmc.core.tablist.TabSection;
+import me.txmc.core.timestats.TimeStatsSection;
 import me.txmc.core.util.MapCreationLogger;
 import me.txmc.core.tpa.TPASection;
 import me.txmc.core.vote.VoteSection;
@@ -57,7 +58,7 @@ public class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("\u00A78+============================================================+");
         Bukkit.getConsoleSender().sendMessage("\u00A79  8b\u00A798t\u00A77Core \u00A75a Folia Core Plugin for 8b8t and Anarchy Servers   ");
         Bukkit.getConsoleSender().sendMessage("\u00A78+============================================================+");
-        Bukkit.getConsoleSender().sendMessage("\u00A72 v" + getDescription().getVersion() + "                              \u00A73by 254n_m, agarciacorte & Leeewith3Es");
+        Bukkit.getConsoleSender().sendMessage("\u00A72 v" + getPluginMeta().getVersion() + "                              \u00A73by 254n_m, agarciacorte & Leeewith3Es");
         Bukkit.getConsoleSender().sendMessage("");
 
         sections = new ArrayList<>();
@@ -85,6 +86,7 @@ public class Main extends JavaPlugin {
         register(new CommandSection(this));
         register(new PatchSection(this));
         register(new DupeSection(this));
+        register(new TimeStatsSection(this));
         register(new DeathMessageListener());
         register(new CustomExperienceJoinLeave(this));
         register(new OpWhiteListListener(this));

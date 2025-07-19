@@ -142,6 +142,18 @@ vanish_true: "&8Vous êtes maintenant en mode &3vanish&8. Pour quitter, utilisez
 vanish_false: "&8Vous êtes maintenant &3visible &8par les autres joueurs."
 table_usage: "&cVous devez spécifier un type de table &3/table <type>&c."
 table_invalid_type: "&cType de table invalide. Utilisez la complétion automatique pour voir les options valides &3/table <type>&c."
+seen: "&a%s&r&3 a été vu en ligne pour la dernière fois :"
+seen_online: "&a%s&r&3 est actuellement en ligne."
+seen_self: "&cVous êtes actuellement en ligne."
+seen_syntax: "&cVeuillez fournir un nom d’utilisateur."
+since: "&a%s&r&3 joue depuis :"
+since_self: "&3Vous jouez depuis :"
+playtime: "&3Temps passé en ligne par &a%s&r&3 :"
+never_joined: "&cCe joueur n’a pas rejoint le serveur."
+name_too_long: "&cCe nom est trop long."
+bad_char: "&cCaractères non valides."
+too_many_arguments: "&cTrop d’arguments."
+player_not_exist: "&cCe joueur n’existe pas."
 
 # Messages complexes
 HelpMessage:
