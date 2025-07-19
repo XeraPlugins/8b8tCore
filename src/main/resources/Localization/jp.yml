@@ -97,7 +97,7 @@ repair_no_item: "&c修理するアイテムを手に持っている必要があ�
 repair_not_repairable: "&cこのアイテムは修理できません。"
 repair_all_success: "&3インベントリ内のすべてのアイテムが正常に修理されました！"
 nick_success: "&3完了しました! あなたのニックネームは &3%s&r&3 です。"
-nick_no_permission: "&cこのコマンドはDONOR5専用です &3https://donate.8b8t.me/&c。"
+nick_no_permission: "&cこのコマンドはDONOR5専用です &3https://shop.8b8t.me/&c。"
 nick_no_name_provided: "&cニックネームを入力する必要があります &3/nick <nickname>&c。"
 nick_user_protection: "&cニックネームはあなたのユーザー名と同じでなければなりません &3/nick <nickname>&c。"
 nc_success: "&3完了しました! あなたのニックネームは &3%s&r&3 です。"
@@ -105,13 +105,13 @@ nc_no_permission: "&cこのコマンドを使用するには投票する必要�
 nc_invalid_color: "&cリストにあるスタイルだけを使用できます &3/nc <color> <styles...>&c。"
 nc_usage: "&c少なくとも色を入力する必要があります &3/nc <color> <styles...>&c。"
 ic_success: "&3完了しました! あなたのアイテムの名前は &3%s&r&3 です。"
-ic_no_permission: "&cこのコマンドはDONOR4専用です &3https://donate.8b8t.me/&c。"
+ic_no_permission: "&cこのコマンドはDONOR4専用です &3https://shop.8b8t.me/&c。"
 ic_invalid_color: "&cリストにあるスタイルだけを使用できます &3/ic <color> <styles...>&c。"
 ic_invalid_item: "&cこのアイテムは無効です。"
 ic_no_item: "&c色を変更するには手にアイテムを持っている必要があります。"
 ic_usage: "&c少なくとも色を入力する必要があります &3/ic <color> <styles...>&c。"
 rename_success: "&3完了しました! あなたのアイテムの名前は &3%s&r&3 です。"
-rename_no_permission: "&cこのコマンドはDONOR5専用です &3https://donate.8b8t.me/&c。"
+rename_no_permission: "&cこのコマンドはDONOR5専用です &3https://shop.8b8t.me/&c。"
 rename_invalid_item: "&cこのアイテムは無効です。"
 rename_no_item: "&c色を変更するには手にアイテムを持っている必要があります。"
 rename_no_name_provided: "&c名前を入力する必要があります &3/rename <item name>&c。"
@@ -194,14 +194,14 @@ HelpMessage:
   - '&c/seen &8プレイヤーが最後にログインした時間を表示します'
   - '&c/echest &8自分のエンダーチェストを開きます'
   - '&c/nick &8ニックネームを設定します'
-  - '&8寄付するには &chttps://donate.8b8t.me &8を訪問してください'
+  - '&8寄付するには &chttps://shop.8b8t.me &8を訪問してください'
   - '&3--------------------------------------'
 TabList:
   Header:
     - ''
     - '&9&l8builders&7&l8tools'
     - ''
-    - '&r&c&o8b8t.me を楽しんでいますか？寄付は https://donate.8b8t.me でどうぞ'
+    - '&r&c&o8b8t.me を楽しんでいますか？寄付は https://shop.8b8t.me でどうぞ'
     - ''
 
   Footer:
@@ -223,7 +223,7 @@ tps_failed: '&cTPSを確認する権限がありません'
 
 announcements:
   - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> にアクセスして、2つの追加レンダリング距離と5つの無料のホームを受け取るために投票しましょう</dark_gray>"
-  - "%prefix% &7>>&r&8 8b8tをサポートするために<red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://donate.8b8t.me'>https://donate.8b8t.me</click></hover></red>で寄付しましょう"
+  - "%prefix% &7>>&r&8 8b8tをサポートするために<red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>で寄付しましょう"
 
 # Death messages
 global-pvp-death-messages:
