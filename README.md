@@ -134,4 +134,6 @@ Feel free to reach out if you have any questions or run into issues!
 
 ## License
 
-This project is licensed under the [Unlicense](https://unlicense.org). This means that the software is dedicated to the public domain and can be freely used, modified, and distributed by anyone for any purpose. For more details, please refer to the [LICENSE](https://github.com/XeraPlugins/8b8tCore/blob/master/LICENSE) file in this repository.
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). This means that the software can be freely used, modified, and distributed, provided that the original copyright notice and permission notice are included in all copies or substantial portions of the software. 
+
+For more details, please refer to the [LICENSE](https://github.com/XeraPlugins/8b8tCore/blob/master/LICENSE) file in this repository.

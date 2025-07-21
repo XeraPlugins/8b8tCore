@@ -1,6 +1,6 @@
 name: 8b8tCore
 main: me.txmc.core.Main
-version: 1.6.0
+version: 1.5.9
 author: 254n_m, agarciacort, Leeewith3Es
 description: A core plugin for 8b8t
 api-version: 1.20
@@ -26,11 +26,6 @@ commands:
   tpacancel:
   tpatoggle:
   tpaignore:
-  seen:
-  since:
-  playtime:
-  joindate:
-    aliases: [jd]
   home:
     aliases: [ev]
   sethome:
