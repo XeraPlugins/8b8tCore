@@ -142,6 +142,18 @@ vanish_true: "&8Usted ahora está en &3modo vanish&8. Para salir use el comando 
 vanish_false: "&8Usted ahora es &3visible &8para el resto de jugadores."
 table_usage: "&cDebes especificar un tipo de mesa &3/table <tipo>&c."
 table_invalid_type: "&cTipo de mesa no válido. Usa el tab-complete para ver las opciones válidas &3/table <tipo>&c."
+seen: "&a%s&r&3 fue visto por última vez en línea:"
+seen_online: "&a%s&r&3 está actualmente en línea."
+seen_self: "&cEstás actualmente en línea."
+seen_syntax: "&cPor favor proporciona un nombre de usuario."
+joined: "&a%s&r&3 lleva jugando desde:"
+joined_self: "&3Has estado jugando desde:"
+playtime: "&3Tiempo en línea de &a%s&r&3:"
+never_joined: "&cEste jugador no se ha unido al servidor. Los nombres de usuario distinguen entre mayúsculas y minúsculas."
+name_too_long: "&cEse nombre es demasiado largo."
+bad_char: "&cCaracteres inválidos."
+too_many_arguments: "&cDemasiados argumentos."
+player_not_exist: "&cEse jugador no existe."
 
 #Complex messages
 HelpMessage:
