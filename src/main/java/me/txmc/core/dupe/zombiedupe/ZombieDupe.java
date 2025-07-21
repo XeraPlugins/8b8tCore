@@ -62,7 +62,7 @@ public class ZombieDupe implements Listener {
 
                 if (arrow.getShooter() instanceof Player) {
                     Player player = (Player) arrow.getShooter();
-                    PotionEffect jumpBoost = player.getPotionEffect(PotionEffectType.JUMP);
+                    PotionEffect jumpBoost = player.getPotionEffect(PotionEffectType.JUMP_BOOST);
 
                     final boolean ENABLED = plugin.getConfig().getBoolean("ZombieDupe.enabled", true);
                     if (!ENABLED) return;
