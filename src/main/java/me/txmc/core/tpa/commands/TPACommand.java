@@ -48,6 +48,7 @@ public class TPACommand implements CommandExecutor {
             sendPrefixedLocalizedMessage(from, "tpa_syntax");
             return true;
         }
+        //Player from = (Player) sender;
         Player to;
         if (Bukkit.getPlayer(args[0]) == null) {
             sendPrefixedLocalizedMessage(from, "tpa_player_not_online", args[0]);
@@ -77,6 +78,12 @@ public class TPACommand implements CommandExecutor {
             sendPrefixedLocalizedMessage(from, "tpa_too_close", maxDistanceFromSpawn);
             return true;
         }
+        /*String arg = args[0];
+        String toggleCheck = arg.substring(arg.length() - 2, arg.length() - 1);
+        if (toggleCheck.equals("0")){
+            sendPrefixedLocalizedMessage(from, "tpa_request_blocked");
+            return true;
+        }*/
 
         // Build ACCEPT / DENY buttons
         TextComponent acceptButton = Component.text("ACCEPT")

@@ -139,18 +139,6 @@ vanish_true: "&8Şu anda &3görünmez moddasınız&8. Çıkmak için /vanish kom
 vanish_false: "&8Artık &3görünürsünüz &8diğer oyuncular için."
 table_usage: "&cBir masa türü belirtmelisiniz &3/table <type>&c."
 table_invalid_type: "&cGeçersiz masa türü. Geçerli seçenekleri görmek için &3/table &cyazdıktan sonra tab tuşuna basın."
-seen: "&a%s&r&3 en son çevrimiçi görüldü:"
-seen_online: "&a%s&r&3 şu anda çevrimiçi."
-seen_self: "&cŞu anda çevrim içindesiniz."
-seen_syntax: "&cLütfen bir kullanıcı adı girin."
-joined: "&a%s&r&3 şundan beri oynuyor:"
-joined_self: "&3Şundan beri oynuyorsun:"
-playtime: "&3&a%s&r&3 tarafından çevrimiçinde geçirilen süre:"
-never_joined: "&cBu oyuncu sunucuya hiç katılmamış. Kullanıcı adları büyük/küçük harfe duyarlıdır."
-name_too_long: "&cBu isim çok uzun."
-bad_char: "&cGeçersiz karakterler."
-too_many_arguments: "&cÇok fazla argüman."
-player_not_exist: "&cBu oyuncu mevcut değil."
 
 #Complex messages
 HelpMessage:

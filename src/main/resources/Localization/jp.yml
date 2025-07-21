@@ -142,18 +142,6 @@ vanish_true: "&8あなたは現在、&3バニッシュモード&8です。 解�
 vanish_false: "&8あなたは &3表示可能 &8になりました。"
 table_usage: "&cテーブルの種類を指定する必要があります &3/table <type>&c."
 table_invalid_type: "&c無効なテーブルタイプです。有効なオプションを見るにはタブ補完を使用してください &3/table <type>&c."
-seen: "&a%s&r&3 は最後にオンラインでした:"
-seen_online: "&a%s&r&3 は現在オンラインです。"
-seen_self: "&cあなたは現在オンラインです。"
-seen_syntax: "&cユーザー名を入力してください。"
-joined: "&a%s&r&3 は以下の日時からプレイしています:"
-joined_self: "&3あなたは以下の日時からプレイしています:"
-playtime: "&3&a%s&r&3 のオンラインプレイ時間:"
-never_joined: "&cこのプレイヤーはサーバーに参加したことがありません。ユーザー名は大文字と小文字を区別します。"
-name_too_long: "&cその名前は長すぎます。"
-bad_char: "&c無効な文字が含まれています。"
-too_many_arguments: "&c引数が多すぎます。"
-player_not_exist: "&cそのプレイヤーは存在しません。"
 
 #Complex messages
 HelpMessage:
