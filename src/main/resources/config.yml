@@ -150,8 +150,6 @@ ChatControl:
     - '/table'
     - '/tpatoggle'
     - '/tpaignore'
-    - '/seen'
-    - '/since'
     - '/playtime'
 TPA:
   RequestTimeoutInMinutes: 5

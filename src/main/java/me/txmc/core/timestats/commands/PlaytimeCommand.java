@@ -1,21 +1,20 @@
 package me.txmc.core.timestats.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+
 import org.jetbrains.annotations.NotNull;
 
-import lombok.RequiredArgsConstructor;
-import me.txmc.core.timestats.NameLookup;
+import me.txmc.core.timestats.PlayerStats;
 import me.txmc.core.timestats.TimeStatsSection;
+
+import static java.lang.System.currentTimeMillis;
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
-
-import java.util.Date;
 
 /**
  *
@@ -23,56 +22,67 @@ import java.util.Date;
  * @since 7/18/2025 3:40 PM This file was created as a part of 8b8tCore
  *
  */
-@RequiredArgsConstructor
 public class PlaytimeCommand implements CommandExecutor {
-
-    private final TimeStatsSection main;
-    private String playtime;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        OfflinePlayer fromOff = (OfflinePlayer) sender;
-        Player fromOn = (Player) sender;
-        if (args.length == 0) {
-            playtime = main.getPlaytime(fromOff);
-            String[] fromName = new String[1];
-            fromName[0] = fromOn.getName();
-            sendPrefixedLocalizedMessage(fromOn, "playtime", fromName[0]);
-            sendMessage(sender, "   " + playtime);
-            return true;
-        }
-        if (args.length > 1) {
-            sendPrefixedLocalizedMessage(fromOn, "too_many_arguments");
-            return true;
-        }
-        if (!(args[0].length() <= 25)) {
-            sendPrefixedLocalizedMessage(fromOn, "name_too_long");
-            return true;
-        }
-        if (!args[0].matches("[A-Za-z0-9_]+")) {
-            sendPrefixedLocalizedMessage(fromOn, "bad_char");
-            return true;
-        }
         if (!(sender instanceof Player)) {
             sendMessage(sender, "&cYou must be a player");
             return true;
         }
-
-        OfflinePlayer to = Bukkit.getOfflinePlayer(args[0]);
-        String[] toName = new String[1];
-        toName[0] = to.getName();
-        if (NameLookup.nameLookUp(toName[0])) {
-            if (to.hasPlayedBefore()) {
-                playtime = main.getPlaytime(to);
-                sendPrefixedLocalizedMessage(fromOn, "playtime", toName[0]);
-                sendMessage(sender, "   " + playtime);
-                return true;
-            }
-            sendPrefixedLocalizedMessage(fromOn, "never_joined");
+        Player from = (Player) sender;
+        String fromName = from.getName();
+        if (!args[0].matches("[A-Za-z0-9_]+")) {
+            sendPrefixedLocalizedMessage(from, "bad_char");                                                                             //Get rid of unaccepted username characters
             return true;
         }
-        sendPrefixedLocalizedMessage(fromOn, "player_not_exist");
+        if (args.length == 0 || (args.length == 1 && args[0].equals(fromName))) {                                                       //Check for empty arguments or own name
+
+            PlayerStats playerStats = TimeStatsSection.getPlayerStats(fromName);
+            long now = currentTimeMillis();
+            long seen = playerStats.getSeen();
+            long playtime = playerStats.getPlaytime() + (now - seen);
+            String output = (TimeStatsSection.formatMS(playtime));
+            sendPrefixedLocalizedMessage(from, "playtime", fromName);
+            sendMessage(sender, "     &3" + output + "&r");
+            return true;
+        }
+        if (args.length > 1) {
+            sendPrefixedLocalizedMessage(from, "too_many_arguments");                                                               //Check for too many aguments
+            return true;
+        }
+        if (!(args[0].length() <= 25)) {
+            sendPrefixedLocalizedMessage(from, "name_too_long");                                                                    //Check for oversized username
+            return true;
+        }
+
+        String toName = args[0];
+        for (Player p : Bukkit.getOnlinePlayers()) {                                                                                    //Compare name to each online player
+
+            if (p.getName().equals(toName)) {
+                PlayerStats playerStats = TimeStatsSection.getPlayerStats(toName);
+                long now = currentTimeMillis();
+                long seen = playerStats.getSeen();
+                long playtime = playerStats.getPlaytime() + (now - seen);
+                String output = TimeStatsSection.formatMS(playtime);
+                sendPrefixedLocalizedMessage(from, "playtime", toName);
+                sendMessage(from, "     &3" + output + "&r");
+                return true;
+            }
+            PlayerStats playerStats = TimeStatsSection.getDB().fetchPlayer(toName);
+            if (playerStats != null) {
+                long now = currentTimeMillis();
+                long seen = playerStats.getSeen();
+                long playtime = playerStats.getPlaytime() + (now - seen);
+                String output = TimeStatsSection.formatMS(playtime);
+
+                sendPrefixedLocalizedMessage(from, "playtime", toName);
+                sendMessage(from, "     &3" + output + "&r");
+                return true;
+            }
+        }
+
+        sendPrefixedLocalizedMessage(from, "never_joined");
         return true;
     }
-
 }

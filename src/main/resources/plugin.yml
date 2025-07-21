@@ -29,6 +29,8 @@ commands:
   seen:
   since:
   playtime:
+  joindate:
+    aliases: [jd]
   home:
     aliases: [ev]
   sethome:

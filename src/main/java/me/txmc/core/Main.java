@@ -14,10 +14,13 @@ import me.txmc.core.patch.PatchSection;
 import me.txmc.core.patch.tasks.EndPortalBuilder;
 import me.txmc.core.patch.tasks.EndExitPortalBuilder;
 import me.txmc.core.tablist.TabSection;
+import me.txmc.core.timestats.Database;
 import me.txmc.core.timestats.TimeStatsSection;
+import me.txmc.core.timestats.Listeners.LeaveJoinListener;
 import me.txmc.core.util.MapCreationLogger;
 import me.txmc.core.tpa.TPASection;
 import me.txmc.core.vote.VoteSection;
+
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -34,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 
+import org.bukkit.plugin.Plugin;
+
 import static me.txmc.core.util.GlobalUtils.log;
 
 public class Main extends JavaPlugin {
@@ -46,6 +51,7 @@ public class Main extends JavaPlugin {
     @Getter private long startTime;
     public final Map<Player, Location> lastLocations = new HashMap<>();
     @Getter private final Set<UUID> vanishedPlayers = new HashSet<>();
+    
 
     @Override
     public void onEnable() {
@@ -90,6 +96,7 @@ public class Main extends JavaPlugin {
         register(new DeathMessageListener());
         register(new CustomExperienceJoinLeave(this));
         register(new OpWhiteListListener(this));
+        register(new LeaveJoinListener());
 
         if(getConfig().getBoolean("AntiIllegal.Enabled", true)) register(new AntiIllegalMain(this));
         if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
@@ -102,6 +109,7 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         }
+        
     }
 
     @Override
@@ -168,4 +176,6 @@ public class Main extends JavaPlugin {
     public Location getLastLocation(Player player) {
         return lastLocations.get(player);
     }
+
+
 }
