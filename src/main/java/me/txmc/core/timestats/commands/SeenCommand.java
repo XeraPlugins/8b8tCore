@@ -63,15 +63,14 @@ public class SeenCommand implements CommandExecutor {
                 return true;
             }
         }
-
-        PlayerStats fromStats = TimeStatsSection.getDB().fetchPlayer(fromName);
-        long timeSince = fromStats.getSeen();
-        Instant instantSince = Instant.ofEpochMilli(timeSince);
-        ZonedDateTime zonedSince = instantSince.atZone(ZoneId.of("America/New_York"));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
-        String formatted = formatter.format(zonedSince);
         PlayerStats playerStats = TimeStatsSection.getPlayerStats(toName);
+
         if (playerStats != null) {
+            long timeSince = playerStats.getSeen();
+            Instant instantSince = Instant.ofEpochMilli(timeSince);
+            ZonedDateTime zonedSince = instantSince.atZone(ZoneId.of("America/New_York"));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
+            String formatted = formatter.format(zonedSince);
             String seen = TimeStatsSection.formatMS(playerStats.getSeen());
             sendPrefixedLocalizedMessage(from, "seen", toName);
             sendMessage(from, "     &3" + formatted + "&r");
@@ -79,6 +78,11 @@ public class SeenCommand implements CommandExecutor {
         }
         playerStats = TimeStatsSection.getDB().fetchPlayer(toName);                                                                 //Otherwise check that DB for offline players.
         if (playerStats != null) {
+            long timeSince = playerStats.getSeen();
+            Instant instantSince = Instant.ofEpochMilli(timeSince);
+            ZonedDateTime zonedSince = instantSince.atZone(ZoneId.of("America/New_York"));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
+            String formatted = formatter.format(zonedSince);
             String seen = TimeStatsSection.formatMS(playerStats.getSeen());
             sendPrefixedLocalizedMessage(from, "seen", toName);
             sendMessage(from, "     &3" + formatted + "&r");
