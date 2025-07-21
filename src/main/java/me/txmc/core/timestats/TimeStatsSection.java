@@ -32,6 +32,11 @@ public class TimeStatsSection implements Section {
 
     @Override
     public void enable() {
+        try {
+            Class.forName("org.h2.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         config = plugin.getSectionConfig(this);
         plugin.getCommand("seen").setExecutor(new SeenCommand());
         plugin.getCommand("joindate").setExecutor(new JoindateCommand());
