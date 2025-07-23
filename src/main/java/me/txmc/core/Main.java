@@ -30,6 +30,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -42,16 +50,21 @@ import org.bukkit.plugin.Plugin;
 import static me.txmc.core.util.GlobalUtils.log;
 
 public class Main extends JavaPlugin {
-    @Getter private static Main instance;
-    @Getter public static String prefix;
-    @Getter private ScheduledExecutorService executorService;
+
+    @Getter
+    private static Main instance;
+    @Getter
+    public static String prefix;
+    @Getter
+    private ScheduledExecutorService executorService;
     private List<Section> sections;
     private List<Reloadable> reloadables;
     private List<ViolationManager> violationManagers;
-    @Getter private long startTime;
+    @Getter
+    private long startTime;
     public final Map<Player, Location> lastLocations = new HashMap<>();
-    @Getter private final Set<UUID> vanishedPlayers = new HashSet<>();
-    
+    @Getter
+    private final Set<UUID> vanishedPlayers = new HashSet<>();
 
     @Override
     public void onEnable() {
@@ -64,9 +77,8 @@ public class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("\u00A78+============================================================+");
         Bukkit.getConsoleSender().sendMessage("\u00A79  8b\u00A798t\u00A77Core \u00A75a Folia Core Plugin for 8b8t and Anarchy Servers   ");
         Bukkit.getConsoleSender().sendMessage("\u00A78+============================================================+");
-        Bukkit.getConsoleSender().sendMessage("\u00A72 v" + getPluginMeta().getVersion() + "                              \u00A73by 254n_m, agarciacorte & Leeewith3Es");
+        Bukkit.getConsoleSender().sendMessage("\u00A72 v" + getDescription().getVersion() + "                              \u00A73by 254n_m, agarciacorte & Leeewith3Es");
         Bukkit.getConsoleSender().sendMessage("");
-
         sections = new ArrayList<>();
         reloadables = new ArrayList<>();
         violationManagers = new ArrayList<>();
@@ -84,7 +96,6 @@ public class Main extends JavaPlugin {
         getExecutorService().scheduleAtFixedRate(new EndPortalBuilder(this), 200L, 10, TimeUnit.SECONDS);
         getExecutorService().scheduleAtFixedRate(new EndExitPortalBuilder(this), 200L, 10, TimeUnit.SECONDS);
 
-
         register(new TabSection(this));
         register(new ChatSection(this));
         register(new TPASection(this));
@@ -98,8 +109,12 @@ public class Main extends JavaPlugin {
         register(new OpWhiteListListener(this));
         register(new LeaveJoinListener());
 
-        if(getConfig().getBoolean("AntiIllegal.Enabled", true)) register(new AntiIllegalMain(this));
-        if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
+        if (getConfig().getBoolean("AntiIllegal.Enabled", true)) {
+            register(new AntiIllegalMain(this));
+        }
+        if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) {
+            register(new VoteSection(this));
+        }
 
         for (Section section : sections) {
             try {
@@ -109,7 +124,7 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         }
-        
+
     }
 
     @Override
@@ -129,29 +144,38 @@ public class Main extends JavaPlugin {
         super.reloadConfig();
         sections.forEach(s -> {
             ConfigurationSection section = getConfig().getConfigurationSection(s.getName());
-            if (section != null) s.reloadConfig();
+            if (section != null) {
+                s.reloadConfig();
+            }
         });
         reloadables.forEach(Reloadable::reloadConfig);
     }
 
     private void register(Section section) {
-        if (getSectionByName(section.getName()) != null)
+        if (getSectionByName(section.getName()) != null) {
             throw new IllegalArgumentException("Section has already been registered " + section.getName());
+        }
         sections.add(section);
     }
 
     public void register(Listener... listeners) {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
-            if (listener instanceof Reloadable reloadable) reloadables.add(reloadable);
+            if (listener instanceof Reloadable reloadable) {
+                reloadables.add(reloadable);
+            }
         }
     }
 
     public void register(ViolationManager manager) {
 //        if (violationManagers.contains(manager)) throw new IllegalArgumentException("Attempted to register violation manager twice");
-        if (violationManagers.contains(manager)) return;
+        if (violationManagers.contains(manager)) {
+            return;
+        }
         violationManagers.add(manager);
-        if (manager instanceof Listener) register((Listener) manager);
+        if (manager instanceof Listener) {
+            register((Listener) manager);
+        }
     }
 
     public Reloadable registerReloadable(Reloadable reloadable) {
@@ -165,7 +189,9 @@ public class Main extends JavaPlugin {
 
     public File getSectionDataFolder(Section section) {
         File dataFolder = new File(getDataFolder(), section.getName());
-        if (!dataFolder.exists()) dataFolder.mkdirs();
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
         return dataFolder;
     }
 
@@ -177,5 +203,30 @@ public class Main extends JavaPlugin {
         return lastLocations.get(player);
     }
 
+    public void downloadDatabaseDrivers(File pluginFolder) {
+        try {
+            final URI URI = new URI("https://search.maven.org/remotecontent?filepath=com/h2database/h2/2.3.232/h2-2.3.232.jar");
+            final URL DRIVER_URL = URI.toURL();
 
+            final String FILE_NAME = "h2-2.3.232.jar";
+
+            File serverRoot = pluginFolder.getParentFile().getParentFile();
+            File targetFile = new File(serverRoot, FILE_NAME);
+
+            if (targetFile.exists()) {
+                System.out.println("\nH2 drivers already\n");
+                return;
+            }
+            try (InputStream in = DRIVER_URL.openStream()) {
+                Files.copy(in, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                System.out.println("\n\n! ! ! ! ! Failed to download H2 database drivers. ! ! ! ! !\n\n");
+                e.printStackTrace();
+            }
+
+        } catch (URISyntaxException | MalformedURLException ex) {
+                System.out.println("\n\n! ! ! ! ! Failed to fetch H2 database drivers. ! ! ! ! !\n\n");
+                ex.printStackTrace();
+        }
+    }
 }

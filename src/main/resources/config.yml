@@ -1,4 +1,7 @@
 #8b8tCore Version 1.6.0
+TimeStats:
+  Enabled: false
+  #If you are seeing " java.sql.SQLException: No suitable driver found for jdbc:h2:file: ", please ensure you have h2-2.3.232 in your servers root folder.
 AntiIllegal:
   Enabled: true
   EnableIllegalBlocksCleaner: true

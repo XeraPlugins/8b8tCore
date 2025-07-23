@@ -63,6 +63,7 @@ public class TimeStatsSection implements Section {
                 log.log(new LogRecord(Level.SEVERE, ex.getMessage()));
             }
         }
+        plugin.downloadDatabaseDrivers(plugin.getDataFolder());
 
     }
 
