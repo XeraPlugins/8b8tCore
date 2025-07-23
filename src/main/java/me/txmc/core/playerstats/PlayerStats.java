@@ -1,4 +1,4 @@
-package me.txmc.core.timestats;
+package me.txmc.core.playerstats;
 
 import static java.lang.System.currentTimeMillis;
 import java.sql.Timestamp;

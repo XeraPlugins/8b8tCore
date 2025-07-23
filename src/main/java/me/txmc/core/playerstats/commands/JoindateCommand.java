@@ -1,4 +1,4 @@
-package me.txmc.core.timestats.commands;
+package me.txmc.core.playerstats.commands;
 
 import org.bukkit.Bukkit;
 
@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import me.txmc.core.timestats.TimeStatsSection;
+import me.txmc.core.playerstats.PlayerStatsSection;
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
@@ -20,7 +20,7 @@ import java.util.Date;
 
 import org.bukkit.command.FormattedCommandAlias;
 
-import me.txmc.core.timestats.PlayerStats;
+import me.txmc.core.playerstats.PlayerStats;
 
 /**
  *
@@ -39,7 +39,7 @@ public class JoindateCommand implements CommandExecutor {
 
         Player from = (Player) sender;
         String fromName = from.getName();
-        PlayerStats fromStats = TimeStatsSection.getDB().fetchPlayer(fromName);
+        PlayerStats fromStats = PlayerStatsSection.getDB().fetchPlayer(fromName);
         long joindate = fromStats.getJoindate();
         Instant instantJoined = Instant.ofEpochMilli(joindate);
         ZonedDateTime zonedJoined = instantJoined.atZone(ZoneId.of("America/New_York"));
@@ -67,7 +67,7 @@ public class JoindateCommand implements CommandExecutor {
         String toName = args[0];
         for (Player p : Bukkit.getOnlinePlayers()) {                                                            //Compare name to each online player
             if (p.getName().equals(toName)) {
-                joindate = TimeStatsSection.getPlayerStats(toName).getJoindate();
+                joindate = PlayerStatsSection.getPlayerStats(toName).getJoindate();
                 instantJoined = Instant.ofEpochMilli(joindate);
                 zonedJoined = instantJoined.atZone(ZoneId.of("America/New_York"));
                 formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
@@ -78,7 +78,7 @@ public class JoindateCommand implements CommandExecutor {
                 return true;
             }
         }
-        PlayerStats playerStats = TimeStatsSection.getDB().fetchPlayer(toName);                                 //Otherwise check that DB for offline players.
+        PlayerStats playerStats = PlayerStatsSection.getDB().fetchPlayer(toName);                                 //Otherwise check that DB for offline players.
         if (playerStats != null) {
             joindate = playerStats.getJoindate();
             instantJoined = Instant.ofEpochMilli(joindate);

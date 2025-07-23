@@ -1,4 +1,4 @@
-package me.txmc.core.timestats;
+package me.txmc.core.playerstats;
 
 import java.io.File;
 
@@ -23,15 +23,15 @@ import java.util.Date;
 
 public class Database {
 
-    private static TimeStatsSection main;
+    private static PlayerStatsSection main;
     private String url = "";
     private final ExecutorService databaseExecutor;
     private static final String DB_USERNAME = "sa"; // Default H2 username                                                      //Prepare DB info.
     private static final String DB_PASSWORD = ""; // Default H2 password
 
-    public Database(String pluginPath, TimeStatsSection main) {
+    public Database(String pluginPath, PlayerStatsSection main) {
         this.main = main;
-        String databasePath = pluginPath + "/TimeStats.db";
+        String databasePath = pluginPath + "/PlayerStats.db";
         this.url = "jdbc:h2:file:" + databasePath;
         this.databaseExecutor = Executors.newCachedThreadPool();                                                                //Instantiate.
 

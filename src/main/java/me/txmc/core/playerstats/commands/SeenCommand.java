@@ -1,4 +1,4 @@
-package me.txmc.core.timestats.commands;
+package me.txmc.core.playerstats.commands;
 
 import org.bukkit.Bukkit;
 
@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import me.txmc.core.timestats.PlayerStats;
-import me.txmc.core.timestats.TimeStatsSection;
+import me.txmc.core.playerstats.PlayerStats;
+import me.txmc.core.playerstats.PlayerStatsSection;
 
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
@@ -63,7 +63,7 @@ public class SeenCommand implements CommandExecutor {
                 return true;
             }
         }
-        PlayerStats playerStats = TimeStatsSection.getPlayerStats(toName);
+        PlayerStats playerStats = PlayerStatsSection.getPlayerStats(toName);
 
         if (playerStats != null) {
             long timeSince = playerStats.getSeen();
@@ -71,19 +71,19 @@ public class SeenCommand implements CommandExecutor {
             ZonedDateTime zonedSince = instantSince.atZone(ZoneId.of("America/New_York"));
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
             String formatted = formatter.format(zonedSince);
-            String seen = TimeStatsSection.formatMS(playerStats.getSeen());
+            String seen = PlayerStatsSection.formatMS(playerStats.getSeen());
             sendPrefixedLocalizedMessage(from, "seen", toName);
             sendMessage(from, "     &3" + formatted + "&r");
             return true;
         }
-        playerStats = TimeStatsSection.getDB().fetchPlayer(toName);                                                                 //Otherwise check that DB for offline players.
+        playerStats = PlayerStatsSection.getDB().fetchPlayer(toName);                                                                 //Otherwise check that DB for offline players.
         if (playerStats != null) {
             long timeSince = playerStats.getSeen();
             Instant instantSince = Instant.ofEpochMilli(timeSince);
             ZonedDateTime zonedSince = instantSince.atZone(ZoneId.of("America/New_York"));
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
             String formatted = formatter.format(zonedSince);
-            String seen = TimeStatsSection.formatMS(playerStats.getSeen());
+            String seen = PlayerStatsSection.formatMS(playerStats.getSeen());
             sendPrefixedLocalizedMessage(from, "seen", toName);
             sendMessage(from, "     &3" + formatted + "&r");
             return true;

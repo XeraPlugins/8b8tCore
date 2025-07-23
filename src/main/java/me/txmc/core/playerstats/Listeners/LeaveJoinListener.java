@@ -1,4 +1,4 @@
-package me.txmc.core.timestats.Listeners;
+package me.txmc.core.playerstats.Listeners;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -9,8 +9,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import me.txmc.core.timestats.PlayerStats;
-import me.txmc.core.timestats.TimeStatsSection;
+import me.txmc.core.playerstats.PlayerStats;
+import me.txmc.core.playerstats.PlayerStatsSection;
 /**
  *
  * @author 5aks
@@ -42,49 +42,49 @@ public class LeaveJoinListener implements Listener {
         String playerName = event.getPlayer().getName();
         Player player = event.getPlayer();
         long now = currentTimeMillis();
-        PlayerStats playerStats = TimeStatsSection.getDB().fetchPlayer(playerName);
+        PlayerStats playerStats = PlayerStatsSection.getDB().fetchPlayer(playerName);
         if (playerStats != null) {                                                                                  //Checks if new
             playerStats.setSeen(now);
             long playtime = playerStats.getPlaytime();
-            TimeStatsSection.addPlayerStats(playerName, playerStats);                                               //Adds PlayerStats to cache
-            TimeStatsSection.getDB().insertPlayer(playerName, now, playtime);                                       //Updates players DB entry
+            PlayerStatsSection.addPlayerStats(playerName, playerStats);                                               //Adds PlayerStats to cache
+            PlayerStatsSection.getDB().insertPlayer(playerName, now, playtime);                                       //Updates players DB entry
             return;
         }
         playerStats = new PlayerStats(player);
         long seen = now;
         playerStats.setSeen(seen);
-        TimeStatsSection.getDB().insertNewPlayer(playerName, seen, 0);                                              //Adds new player to DB. Join date sets automatically
-        TimeStatsSection.addPlayerStats(playerName, playerStats);                                                   //Adds PlayerStats to cache 
+        PlayerStatsSection.getDB().insertNewPlayer(playerName, seen, 0);                                              //Adds new player to DB. Join date sets automatically
+        PlayerStatsSection.addPlayerStats(playerName, playerStats);                                                   //Adds PlayerStats to cache 
 
     }
 
     private void handleQuitEvent(PlayerQuitEvent event) {
 
         String name = event.getPlayer().getName();                                                                   //Yoinks player name ASAP to get stats from cache
-        PlayerStats playerStats = TimeStatsSection.getPlayerStats(name);    
+        PlayerStats playerStats = PlayerStatsSection.getPlayerStats(name);    
         if (playerStats != null) {                                                                                   //This should never be null, but just in case.
             long now = currentTimeMillis();
             long seen = playerStats.getSeen();
             long playtime = playerStats.getPlaytime() + (now - seen);                                                //Calculate new time played from previous JoinEvent
             playerStats.setPlaytime(playtime);
             playerStats.setSeen(now);
-            TimeStatsSection.getDB().insertPlayer(name, now, playtime);                                              //Update DB with last seen and playtime
-            TimeStatsSection.removePlayerStats(name);                                                                //Clean cache of PlayerStats
+            PlayerStatsSection.getDB().insertPlayer(name, now, playtime);                                              //Update DB with last seen and playtime
+            PlayerStatsSection.removePlayerStats(name);                                                                //Clean cache of PlayerStats
         }
     }
 
     private void handleKickEvent(PlayerKickEvent event) {
 
         String name = event.getPlayer().getName();
-        PlayerStats playerStats = TimeStatsSection.getPlayerStats(name);    
+        PlayerStats playerStats = PlayerStatsSection.getPlayerStats(name);    
         if (playerStats != null) {
             long now = currentTimeMillis();
             long seen = playerStats.getSeen();
             long playtime = playerStats.getPlaytime() + (now - seen);
             playerStats.setPlaytime(playtime);
             playerStats.setSeen(now);
-            TimeStatsSection.getDB().insertPlayer(name, now, playtime);
-            TimeStatsSection.removePlayerStats(name);
+            PlayerStatsSection.getDB().insertPlayer(name, now, playtime);
+            PlayerStatsSection.removePlayerStats(name);
         }
     }
 }

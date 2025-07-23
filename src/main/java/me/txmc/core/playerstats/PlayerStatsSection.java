@@ -1,4 +1,4 @@
-package me.txmc.core.timestats;
+package me.txmc.core.playerstats;
 
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -15,9 +15,9 @@ import org.bukkit.plugin.PluginLogger;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
-import me.txmc.core.timestats.commands.PlaytimeCommand;
-import me.txmc.core.timestats.commands.SeenCommand;
-import me.txmc.core.timestats.commands.JoindateCommand;
+import me.txmc.core.playerstats.commands.PlaytimeCommand;
+import me.txmc.core.playerstats.commands.SeenCommand;
+import me.txmc.core.playerstats.commands.JoindateCommand;
 
 /**
  *
@@ -26,7 +26,7 @@ import me.txmc.core.timestats.commands.JoindateCommand;
  *
  */
 @RequiredArgsConstructor
-public class TimeStatsSection implements Section {
+public class PlayerStatsSection implements Section {
 
     private final Main plugin;
     private ConfigurationSection config;

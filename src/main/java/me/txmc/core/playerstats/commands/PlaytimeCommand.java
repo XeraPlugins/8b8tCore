@@ -1,4 +1,4 @@
-package me.txmc.core.timestats.commands;
+package me.txmc.core.playerstats.commands;
 
 import org.bukkit.Bukkit;
 
@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 
 import org.jetbrains.annotations.NotNull;
 
-import me.txmc.core.timestats.PlayerStats;
-import me.txmc.core.timestats.TimeStatsSection;
+import me.txmc.core.playerstats.PlayerStats;
+import me.txmc.core.playerstats.PlayerStatsSection;
 
 import static java.lang.System.currentTimeMillis;
 import static me.txmc.core.util.GlobalUtils.sendMessage;
@@ -34,11 +34,11 @@ public class PlaytimeCommand implements CommandExecutor {
         String fromName = from.getName();
         if (args.length == 0 || (args.length == 1 && args[0].equals(fromName))) {                                                       //Check for empty arguments or own name
 
-            PlayerStats playerStats = TimeStatsSection.getPlayerStats(fromName);
+            PlayerStats playerStats = PlayerStatsSection.getPlayerStats(fromName);
             long now = currentTimeMillis();
             long seen = playerStats.getSeen();
             long playtime = playerStats.getPlaytime() + (now - seen);
-            String output = (TimeStatsSection.formatMS(playtime));
+            String output = (PlayerStatsSection.formatMS(playtime));
             sendPrefixedLocalizedMessage(from, "playtime", fromName);
             sendMessage(sender, "     &3" + output + "&r");
             return true;
@@ -60,21 +60,21 @@ public class PlaytimeCommand implements CommandExecutor {
         for (Player p : Bukkit.getOnlinePlayers()) {                                                                                    //Compare name to each online player
 
             if (p.getName().equals(toName)) {
-                PlayerStats playerStats = TimeStatsSection.getPlayerStats(toName);
+                PlayerStats playerStats = PlayerStatsSection.getPlayerStats(toName);
                 long now = currentTimeMillis();
                 long seen = playerStats.getSeen();
                 long playtime = playerStats.getPlaytime() + (now - seen);
-                String output = TimeStatsSection.formatMS(playtime);
+                String output = PlayerStatsSection.formatMS(playtime);
                 sendPrefixedLocalizedMessage(from, "playtime", toName);
                 sendMessage(from, "     &3" + output + "&r");
                 return true;
             }
-            PlayerStats playerStats = TimeStatsSection.getDB().fetchPlayer(toName);
+            PlayerStats playerStats = PlayerStatsSection.getDB().fetchPlayer(toName);
             if (playerStats != null) {
                 long now = currentTimeMillis();
                 long seen = playerStats.getSeen();
                 long playtime = playerStats.getPlaytime() + (now - seen);
-                String output = TimeStatsSection.formatMS(playtime);
+                String output = PlayerStatsSection.formatMS(playtime);
 
                 sendPrefixedLocalizedMessage(from, "playtime", toName);
                 sendMessage(from, "     &3" + output + "&r");
