@@ -10,6 +10,7 @@ import me.txmc.core.Main;
 import me.txmc.core.Section;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.antiillegal.check.checks.*;
+import me.txmc.core.antiillegal.check.checks.antiprefilledchests;
 import me.txmc.core.antiillegal.listeners.IllegalBlocksCleaner;
 import me.txmc.core.antiillegal.listeners.PlayerListeners;
 import me.txmc.core.antiillegal.listeners.MiscListeners;
@@ -43,7 +44,8 @@ public class AntiIllegalMain implements Section {
             new LegacyTextCheck(),
             new StackedTotemCheck(),
             new ShulkerCeptionCheck(),
-            new IllegalItemCheck()
+            new IllegalItemCheck(),
+            new antiprefilledchests()
     ));
 
     private ConfigurationSection config;
