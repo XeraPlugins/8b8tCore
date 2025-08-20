@@ -179,7 +179,6 @@ HelpMessage:
   - '&3-----------Donors Only--------------'
   - '&c/ic &8to set the item color'
   - '&c/rename &8to rename an item'
-  - '&c/seen &8to see when a player last logged in'
   - '&c/echest &8to open your ender chest'
   - '&c/nick &8to set a nickname'
   - '&8Visit &chttps://shop.8b8t.me &8to donate'
@@ -190,6 +189,7 @@ TabList:
     - ''
     - '&9&l8builders&7&l8tools'
     - ''
+    - '&r&c&oIllegal items are enabled for 1 week as a thank you for donating'
     - '&r&c&oMulti task has been enabled illegally placed blocks are gone ;)'
     - '&r&c&oEnjoying 8b8t.me ? Consider donating at https://shop.8b8t.me'
     - ''
@@ -214,7 +214,7 @@ tps_failed: '&cYou are not allowed to check TPS'
 announcements:
   - "%prefix% &7>>&r&8 Visit <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>and vote to receive 2 additional render distances and 5 extra homes for free</dark_gray>"
   - "%prefix% &7>>&r&8 Donate to support 8b8t at <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
-  - "%prefix% &7>> &8Join the community discord server at <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://discord.8b8t.me'>https://discord.8b8t.me</click></hover></red>"
+  - "%prefix% &7>> &8Join the official announcement discord server at <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://discord.8b8t.me'>https://discord.8b8t.me</click></hover></red>"
   - "%prefix% &7>> &8Join the official matrix chat at <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://matrix.8b8t.me'>https://matrix.8b8t.me</click></hover></red>"
 # Death messages
 global-pvp-death-messages:
