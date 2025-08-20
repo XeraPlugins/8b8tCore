@@ -181,7 +181,7 @@ HelpMessage:
   - '&c/rename &8to rename an item'
   - '&c/echest &8to open your ender chest'
   - '&c/nick &8to set a nickname'
-  - '&8Visit &chttps://shop.8b8t.me &8to donate'
+  - '&8Visit &chttps://shop.8b8t.me'
   - '&3-------------------------------------'
   -
 TabList:
@@ -189,7 +189,7 @@ TabList:
     - ''
     - '&9&l8builders&7&l8tools'
     - ''
-    - '&r&c&oEnjoying 8b8t.me ? Consider donating at https://shop.8b8t.me'
+    - '&r&c&oEnjoying 8b8t.me ? Consider buying a rank at https://shop.8b8t.me'
     - ''
 
   Footer:
