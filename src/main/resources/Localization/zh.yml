@@ -168,7 +168,6 @@ HelpMessage:
   - '&c/ignorelist &8显示你正在忽略的玩家'
   - '&c/msg &8向其他玩家发送消息'
   - '&c/changepass &8更改你的密码'
-  - '&c/joindate &8查看你和其他玩家的加入日期'
   - '&c/worldstats &8查看世界大小'
   - '&c/pvp &8连接到8b8t的PVP服务器'
   - '&c/lobby &8连接到大厅'

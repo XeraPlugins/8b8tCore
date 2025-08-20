@@ -168,7 +168,6 @@ HelpMessage:
   - '&c/ignorelist &8para mostrar os jogadores que você está ignorando'
   - '&c/msg &8para enviar mensagens para outros jogadores'
   - '&c/changepass &8para alterar sua senha'
-  - '&c/joindate &8para ver sua data de entrada e de outros'
   - '&c/worldstats &8para ver o tamanho do mundo'
   - '&c/pvp &8para se conectar ao servidor PVP do 8b8t'
   - '&c/lobby &8para se conectar ao lobby'

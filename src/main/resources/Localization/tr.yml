@@ -165,7 +165,6 @@ HelpMessage:
   - '&c/ignorelist &8görmezden geldiğin oyuncuları göstermek için'
   - '&c/msg &8diğer oyunculara mesaj göndermek için'
   - '&c/changepass &8şifreni değiştirmek için'
-  - '&c/joindate &8senin ve diğerlerinin katılma tarihini görmek için'
   - '&c/worldstats &8dünyanın boyutunu görmek için'
   - '&c/pvp &88b8t PVP sunucusuna bağlanmak için'
   - '&c/lobby &8lobiye bağlanmak için'
