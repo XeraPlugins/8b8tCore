@@ -196,7 +196,7 @@ TabList:
     - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: &r%uptime%'
     - ''
     - '&7Contact: contact@8b8t.me'
-    - '&7Discussion: https://matrix.8b8t.me'
+    - '&7Discussion: https://discord.8b8t.me'
     - '&7Website: https://www.8b8t.me'
     - '&7These are the only official 8b8t websites and contacts'
     - ''
@@ -212,7 +212,7 @@ announcements:
   - "%prefix% &7>>&r&8 Visit <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>and vote to receive 2 additional render distances and 5 extra homes for free</dark_gray>"
   - "%prefix% &7>>&r&8 Donate to support 8b8t at <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
   - "%prefix% &7>> &8Join the official announcement discord server at <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://discord.8b8t.me'>https://discord.8b8t.me</click></hover></red>"
-  - "%prefix% &7>> &8Join the official matrix chat at <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://matrix.8b8t.me'>https://matrix.8b8t.me</click></hover></red>"
+  - "%prefix% &7>> &8Join the official matrix chat at <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://matrix.8b8t.me'>https://discord.8b8t.me</click></hover></red>"
 # Death messages
 global-pvp-death-messages:
   - "&3%victim%&r&4 has been killed by &3%killer%&r&4"
