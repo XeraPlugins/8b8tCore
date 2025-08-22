@@ -25,8 +25,9 @@ public class EntitySwitchWorldListener implements Listener {
     private final Main main;
 
     private final HashSet<EntityType> blacklist = new HashSet<>() {{
-        add(EntityType.BOAT);
-        add(EntityType.DROPPED_ITEM);
+        // Updated 8/21/25 to support all boat types for 1.21.6 Folia API the previous symbol has been removed. 
+        addAll(Arrays.stream(EntityType.values()).filter(e -> e.name().contains("BOAT")).toList());
+        add(EntityType.ITEM);
         addAll(Arrays.stream(EntityType.values()).filter(e -> e.name().contains("MINECART")).toList());
     }};
     @EventHandler
