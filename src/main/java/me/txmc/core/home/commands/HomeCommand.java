@@ -56,9 +56,16 @@ public class HomeCommand implements TabExecutor {
                 if (!home.getName().equals(args[0])) continue;
                 vanish(player);
                 main.plugin.lastLocations.put(player, player.getLocation());
-                player.teleportAsync(home.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                if(!main.plugin.getVanishedPlayers().contains(player.getUniqueId())) unVanish(player);
-                sendPrefixedLocalizedMessage(player, "home_success", home.getName());
+                
+                Location targetLoc = home.getLocation();
+                final String homeName = home.getName();
+                targetLoc.getWorld().getChunkAtAsyncUrgently(targetLoc.getBlock()).thenAccept(chunk -> {
+                    if (player.isOnline()) {
+                        player.teleportAsync(targetLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                        if(!main.plugin.getVanishedPlayers().contains(player.getUniqueId())) unVanish(player);
+                        sendPrefixedLocalizedMessage(player, "home_success", homeName);
+                    }
+                });
                 homeFound = true;
                 break;
             }
