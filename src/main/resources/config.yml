@@ -15,6 +15,9 @@ AntiIllegal:
     - NETHER_PORTAL
     - LIGHT
     - REINFORCED_DEEPSLATE
+    - CHORUS_PLANT
+    - TRIAL_SPAWNER
+    - LIGHT
   MaxItemNameLength: 51
   IllegalItems:
     - 'BEDROCK'
@@ -29,6 +32,7 @@ AntiIllegal:
     - 'DIRT_PATH'
     - 'FARMLAND'
     - 'REINFORCED_DEEPSLATE'
+    - 'DEBUG_STICK'
 AnnouncementInterval: 90 # In seconds
 AntiLagChest:
   enabled: true
