@@ -47,12 +47,9 @@ public class PlayerEffectListener implements Listener {
      * This is the only repeating timer used in this listener.
      */
     private void startEffectChecker() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                checkAllPlayers();
-            }
-        }.runTaskTimer(plugin, 20L, checkInterval);
+        Bukkit.getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
+            checkAllPlayers();
+        }, 20L, checkInterval);
     }
     
     /**
