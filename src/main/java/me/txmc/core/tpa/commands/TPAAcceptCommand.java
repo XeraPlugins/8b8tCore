@@ -75,14 +75,7 @@ public class TPAAcceptCommand implements CommandExecutor {
             return;
         }
         main.plugin.lastLocations.put(requester, requester.getLocation());
-        
-        Location targetLoc = requested.getLocation();
-        targetLoc.getWorld().getChunkAtAsyncUrgently(targetLoc.getBlock()).thenAccept(chunk -> {
-            if (requester.isOnline()) {
-                requester.teleportAsync(targetLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            }
-        });
-        
+        requester.teleportAsync(requested.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
         sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
         sendPrefixedLocalizedMessage(requested, "tpa_teleporting");
         main.removeRequest(requester, requested);
@@ -96,14 +89,7 @@ public class TPAAcceptCommand implements CommandExecutor {
         }
 
         main.plugin.lastLocations.put(requested, requested.getLocation());
-        
-        Location targetLoc = requester.getLocation();
-        targetLoc.getWorld().getChunkAtAsyncUrgently(targetLoc.getBlock()).thenAccept(chunk -> {
-            if (requested.isOnline()) {
-                requested.teleportAsync(targetLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            }
-        });
-        
+        requested.teleportAsync(requester.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
         sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
         sendPrefixedLocalizedMessage(requested, "tpa_teleporting");
         main.removeHereRequest(requester, requested);
