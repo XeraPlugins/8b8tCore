@@ -20,8 +20,8 @@ public class PlayerEffectCheck implements Check {
     private static final Map<PotionEffectType, Integer> VANILLA_LEVEL_LIMITS = new HashMap<>();
     
     private static final int MAX_LEGAL_DURATION = 9600; // 8 minutes for vanilla potions
-    private static final int MAX_LEGAL_DURATION_EXTENDED = 19200; // 16 minutes (extended potions)
-    private static final int MAX_LEGAL_DURATION_SPECIAL = 24000; // 20 minutes (edgecases like Bad Omen)
+    private static final int MAX_LEGAL_DURATION_EXTENDED = 10800; // 10 minutes (extended potions)
+    private static final int MAX_LEGAL_DURATION_SPECIAL = 144000; // 120 minutes (edgecases like Bad Omen)
     
     static {
         // Standard potions (max level 1)
