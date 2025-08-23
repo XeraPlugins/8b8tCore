@@ -71,7 +71,6 @@ public class PlayerEffectCheck implements Check {
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.SLOWNESS, 4);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.RESISTANCE, 4);
 
-        
         // Special cases
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.WIND_CHARGED, 0); // Windcharge weapon
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.INFESTED, 0); // Windcharge weapon
@@ -85,9 +84,6 @@ public class PlayerEffectCheck implements Check {
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.HUNGER, 3); // Pufferfish
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.HERO_OF_THE_VILLAGE, 5); // Village curing
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.BAD_OMEN, 5); // Pillager raids
-
-
-
     }
 
     @Override
