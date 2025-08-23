@@ -17,7 +17,6 @@ AntiIllegal:
     - REINFORCED_DEEPSLATE
     - CHORUS_PLANT
     - TRIAL_SPAWNER
-    - LIGHT
   MaxItemNameLength: 51
   IllegalItems:
     - 'BEDROCK'
@@ -33,6 +32,7 @@ AntiIllegal:
     - 'FARMLAND'
     - 'REINFORCED_DEEPSLATE'
     - 'DEBUG_STICK'
+    - 'LIGHT'
 AnnouncementInterval: 90 # In seconds
 AntiLagChest:
   enabled: true
