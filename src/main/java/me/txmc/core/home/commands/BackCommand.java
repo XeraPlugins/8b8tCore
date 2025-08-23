@@ -2,6 +2,7 @@ package me.txmc.core.home.commands;
 
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.home.HomeManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -59,8 +60,13 @@ public class BackCommand implements CommandExecutor {
                 return true;
             }
 
-            player.teleportAsync(lastLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            sendPrefixedLocalizedMessage(player, "back_teleported");
+            lastLocation.getWorld().getChunkAtAsyncUrgently(lastLocation.getBlock()).thenAccept(chunk -> {
+                if (player.isOnline()) {
+                    player.teleportAsync(lastLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    sendPrefixedLocalizedMessage(player, "back_teleported");
+                    main.plugin().lastLocations.remove(player);
+                }
+            });
             main.plugin().lastLocations.remove(player);
         } else {
             sender.sendMessage("Only players can use this command.");
