@@ -38,6 +38,8 @@ public class PlayerEffectCheck implements Check {
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.DARKNESS, 1);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.OOZING, 1);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.GLOWING, 1);
+        VANILLA_LEVEL_LIMITS.put(PotionEffectType.NAUSEA, 1);
+        VANILLA_LEVEL_LIMITS.put(PotionEffectType.BLINDNESS, 1);
 
         /*
         // Bedrock (Not in the Bukkit API as it's only for Java)
@@ -47,8 +49,14 @@ public class PlayerEffectCheck implements Check {
         // VANILLA_LEVEL_LIMITS.put(PotionEffectType.RAID_OMEN, 0); // Pillager RAIDS
         // Illegal effects
         // VANILLA_LEVEL_LIMITS.put(PotionEffectType.HEALTH_BOOST, 0);
+        // VANILLA_LEVEL_LIMITS.put(PotionEffectType.BAD_LUCK, 0);
+        // April Fools Effects
+        // VANILLA_LEVEL_LIMITS.put(PotionEffectType.BIG, 2);
+        // VANILLA_LEVEL_LIMITS.put(PotionEffectType.SMALL, 2);
+        // VANILLA_LEVEL_LIMITS.put(PotionEffectType.CARING, 2);
+        // VANILLA_LEVEL_LIMITS.put(PotionEffectType.SHARING, 1);
         */
-       
+
         // Potions with max level 2
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.SPEED, 2);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.STRENGTH, 2);
@@ -63,7 +71,6 @@ public class PlayerEffectCheck implements Check {
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.SLOWNESS, 4);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.RESISTANCE, 4);
 
-        
         // Special cases
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.WIND_CHARGED, 0); // Windcharge weapon
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.INFESTED, 0); // Windcharge weapon
@@ -77,8 +84,6 @@ public class PlayerEffectCheck implements Check {
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.HUNGER, 3); // Pufferfish
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.HERO_OF_THE_VILLAGE, 5); // Village curing
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.BAD_OMEN, 5); // Pillager raids
-
-
     }
 
     @Override
