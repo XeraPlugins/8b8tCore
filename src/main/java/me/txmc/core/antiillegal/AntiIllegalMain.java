@@ -11,7 +11,6 @@ import me.txmc.core.Section;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.antiillegal.check.checks.*;
 import me.txmc.core.antiillegal.listeners.*;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Material;
 import org.bukkit.event.Cancellable;
@@ -80,14 +79,8 @@ public class AntiIllegalMain implements Section {
 
     public void checkFixItem(ItemStack item, Cancellable cancellable) {
         if (item == null || item.getType() == Material.AIR) return;
-        
-        // Debug: Log all items being checked and send them to the console. 
-        // Bukkit.getConsoleSender().sendMessage("[8b8tCore DEBUG] Checking item: " + item.getType());
-        
         for (Check check : checks) {
             if (check.shouldCheck(item) && check.check(item)) {
-                // Debug logging: shows which items are being deleted. 
-                // Bukkit.getConsoleSender().sendMessage("[8b8tCore] Item " + item.getType() + " failed check: " + check.getClass().getSimpleName());
                 if (cancellable != null && !cancellable.isCancelled()) cancellable.setCancelled(true);
                 check.fix(item);
                 item.setItemMeta(item.getItemMeta());
