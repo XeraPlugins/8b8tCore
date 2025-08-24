@@ -67,6 +67,9 @@ public class ZombieDupe implements Listener {
                     final boolean ENABLED = plugin.getConfig().getBoolean("ZombieDupe.enabled", true);
                     if (!ENABLED) return;
 
+                    final boolean VOTERS_ONLY = plugin.getConfig().getBoolean("ZombieDupe.votersOnly", false);
+                    if (VOTERS_ONLY && !player.hasPermission("8b8tcore.dupe.zombie")) return;
+
                     if (player.isGliding() || (jumpBoost != null && player.getLocation().getBlock().getType() == Material.AIR && player.getVelocity().getY() < 0)) {
 
                         zombie.damage(0, player);
