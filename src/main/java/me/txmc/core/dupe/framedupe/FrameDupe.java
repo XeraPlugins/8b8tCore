@@ -74,6 +74,9 @@ public class FrameDupe implements Listener {
             return;
         }
 
+        final boolean VOTERS_ONLY = plugin.getConfig().getBoolean("FrameDupe.votersOnly", false);
+        if (VOTERS_ONLY && !player.hasPermission("8b8tcore.dupe.frame")) return;
+
         int randomSuccess = (int)Math.round(Math.random() * 100);
         if (!(randomSuccess <= PROBABILITY_PERCENTAGE)) {
             return;
