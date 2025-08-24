@@ -165,7 +165,6 @@ HelpMessage:
   - '&c/ignorelist &8görmezden geldiğin oyuncuları göstermek için'
   - '&c/msg &8diğer oyunculara mesaj göndermek için'
   - '&c/changepass &8şifreni değiştirmek için'
-  - '&c/joindate &8senin ve diğerlerinin katılma tarihini görmek için'
   - '&c/worldstats &8dünyanın boyutunu görmek için'
   - '&c/pvp &88b8t PVP sunucusuna bağlanmak için'
   - '&c/lobby &8lobiye bağlanmak için'
@@ -176,7 +175,6 @@ HelpMessage:
   - '&3--------------Sadece Bağışcılar--------------'
   - '&c/ic &8eşya rengini ayarlamak için'
   - '&c/rename &8bir eşyayı yeniden adlandırmak için'
-  - '&c/seen &8bir oyuncunun en son ne zaman giriş yaptığını görmek için'
   - '&c/echest &8ender chestini açmak için'
   - '&c/nick &8bir takma ad ayarlamak için'
   - '&8Bağış yapmak için &chttps://shop.8b8t.me &8adresini ziyaret et'
@@ -195,7 +193,7 @@ TabList:
     - '&7tps:&r %tps% &7ping: &r%ping% &7oyuncular: &f%players% &7çalışma süresi: &r%uptime%'
     - ''
     - '&7İletişim: contact@8b8t.me'
-    - '&7Tartışma: https://matrix.8b8t.me'
+    - '&7Tartışma: https://discord.8b8t.me'
     - '&7Web Sitesi: https://www.8b8t.me'
     - '&7Bu resmi 8b8t web siteleri ve iletişimleri'
     - ''
@@ -208,7 +206,7 @@ TpsMessage:
 tps_failed: '&cTPS kontrol etmek için yetkiniz yok'
 
 announcements:
-  - '%prefix% &7>>&r&8 Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev al'
+  - '%prefix% &7>>&r&8 Oy vermek için &chttps://votefor.8b8t.me &6adresini ziyaret et ve ücretsiz /nc 2 ekstra render mesafesi ve 5 ekstra ev ve eşek dupe erişimi al'
   - "%prefix% &7>>&r&8 8b8t'yi desteklemek için &chttps://shop.8b8t.me &8adresinden bağış yap"
 
 # Death messages

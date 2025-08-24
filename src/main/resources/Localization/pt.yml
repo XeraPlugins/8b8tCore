@@ -168,7 +168,6 @@ HelpMessage:
   - '&c/ignorelist &8para mostrar os jogadores que você está ignorando'
   - '&c/msg &8para enviar mensagens para outros jogadores'
   - '&c/changepass &8para alterar sua senha'
-  - '&c/joindate &8para ver sua data de entrada e de outros'
   - '&c/worldstats &8para ver o tamanho do mundo'
   - '&c/pvp &8para se conectar ao servidor PVP do 8b8t'
   - '&c/lobby &8para se conectar ao lobby'
@@ -179,7 +178,6 @@ HelpMessage:
   - '&3------------Apenas para Doadores--------------'
   - '&c/ic &8para definir a cor do item'
   - '&c/rename &8para renomear um item'
-  - '&c/seen &8para ver quando um jogador se conectou pela última vez'
   - '&c/echest &8para abrir seu baú de ender'
   - '&c/nick &8para definir um apelido'
   - '&8Visite &chttps://shop.8b8t.me &8para doar'
@@ -197,7 +195,7 @@ TabList:
     - '&7tps:&r %tps% &7ping: &r%ping% &7jogadores: &f%players% &7tempo de atividade: &r%uptime%'
     - ''
     - '&7Contato: contact@8b8t.me'
-    - '&7Discussão: https://matrix.8b8t.me'
+    - '&7Discussão: https://discord.8b8t.me'
     - '&7Website: https://www.8b8t.me'
     - '&7Esses são os únicos websites e contatos oficiais do 8b8t'
     - ''
@@ -210,7 +208,7 @@ TpsMessage:
 tps_failed: '&cVocê não tem permissão para consultar o TPS'
 
 announcements:
-  - "%prefix% &7>>&r&8 Visite <red><hover:show_text:'<gray>Clique para abrir o link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>e vote para receber 2 distâncias de renderização adicionais e 5 casas extras de graça</dark_gray>"
+  - "%prefix% &7>>&r&8 Visite <red><hover:show_text:'<gray>Clique para abrir o link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>e vote para receber 2 distâncias de renderização adicionais e 5 casas extras e acesso ao dupe de burro de graça</dark_gray>"
   - "%prefix% &7>>&r&8 Doe para apoiar o 8b8t em <red><hover:show_text:'<gray>Clique para abrir o link'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
 
 # Death messages

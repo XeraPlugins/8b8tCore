@@ -168,7 +168,6 @@ HelpMessage:
   - '&c/ignorelist &8इग्नोर किए गए खिलाड़ियों की सूची दिखाने के लिए'
   - '&c/msg &8दूसरे खिलाड़ियों को संदेश भेजने के लिए'
   - '&c/changepass &8अपना पासवर्ड बदलने के लिए'
-  - '&c/joindate &8अपनी और अन्य खिलाड़ियों की जॉइन डेट देखने के लिए'
   - '&c/worldstats &8दुनिया के आकार को देखने के लिए'
   - '&c/pvp &88b8t के PVP सर्वर से कनेक्ट करने के लिए'
   - '&c/lobby &8लॉबी से कनेक्ट करने के लिए'
@@ -179,7 +178,6 @@ HelpMessage:
   - '&3------------सिर्फ डोनर्स के लिए--------------'
   - '&c/ic &8आइटम का रंग सेट करने के लिए'
   - '&c/rename &8आइटम का नाम बदलने के लिए'
-  - '&c/seen &8देखें कि किसी खिलाड़ी ने आखिरी बार कब लॉग इन किया था'
   - '&c/echest &8अपना एंडर चेस्ट खोलने के लिए'
   - '&c/nick &8अपना उपनाम सेट करने के लिए'
   - '&8दान करने के लिए &chttps://shop.8b8t.me &8पर जाएं'
@@ -197,7 +195,7 @@ TabList:
   - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: &r%uptime%'
   - ''
   - '&7संपर्क: contact@8b8t.me'
-  - '&7चर्चा: https://matrix.8b8t.me'
+  - '&7चर्चा: https://discord.8b8t.me'
   - '&7वेबसाइट: https://www.8b8t.me'
   - '&7ये ही आधिकारिक 8b8t वेबसाइट और संपर्क हैं'
   - ''
@@ -210,7 +208,7 @@ TpsMessage:
 tps_failed: '&cआप TPS की जांच करने के लिए अधिकृत नहीं हैं'
 
 announcements:
-  - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>लिंक खोलने के लिए क्लिक करें'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> पर जाएं और वोट करें ताकि आपको 2 अतिरिक्त रेंडर डिस्टेंस और 5 अतिरिक्त होम्स मुफ्त में मिल सकें</dark_gray>"
+  - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>लिंक खोलने के लिए क्लिक करें'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> पर जाएं और वोट करें ताकि आपको 2 अतिरिक्त रेंडर डिस्टेंस और 5 अतिरिक्त होम्स और गधे डुप का एक्सेस मुफ्त में मिल सकें</dark_gray>"
   - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>लिंक खोलने के लिए क्लिक करें'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red> पर 8b8t को समर्थन देने के लिए दान करें"
 
 # Mensajes de Muerte

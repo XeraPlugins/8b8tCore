@@ -168,7 +168,6 @@ HelpMessage:
   - '&c/ignorelist &8muestra los jugadores que estás ignorando'
   - '&c/msg &8para enviar mensajes a otros jugadores'
   - '&c/changepass &8para cambiar tu contraseña'
-  - '&c/joindate &8ver la fecha de unión tuya y de otros'
   - '&c/worldstats &8ver el tamaño del mundo'
   - '&c/pvp &8conéctate al servidor PVP de 8b8t'
   - '&c/lobby &8conéctate al lobby'
@@ -179,7 +178,6 @@ HelpMessage:
   - '&3------------Solo para Donadores--------------'
   - '&c/ic &8para establecer el color del item'
   - '&c/rename &8renombra un item'
-  - '&c/seen &8ver cuándo un jugador se conectó por última vez'
   - '&c/echest &8abrir tu cofre de ender'
   - '&c/nick &8establecer un apodo'
   - '&8Visita &chttps://shop.8b8t.me &8para donar'
@@ -197,7 +195,7 @@ TabList:
     - '&7tps:&r %tps% &7ping: &r%ping% &7jugadores: &f%players% &7tiempo en línea: &r%uptime%'
     - ''
     - '&7Contacto: contact@8b8t.me'
-    - '&7Discusión: https://matrix.8b8t.me'
+    - '&7Discusión: https://discord.8b8t.me'
     - '&7Sitio web: https://www.8b8t.me'
     - '&7Estos son los únicos sitios web y contactos oficiales de 8b8t.'
     - ''
@@ -210,7 +208,7 @@ TpsMessage:
 tps_failed: '&cUsted no tiene permitido consultar los TPS'
 
 announcements:
-  - "%prefix% &7>>&r&8 Visita <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>y vota para recibir 2 distancias de renderizado adicionales y 5 homes adicionales gratis</dark_gray>"
+  - "%prefix% &7>>&r&8 Visita <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>y vota para recibir 2 distancias de renderizado adicionales y 5 homes adicionales y acceso al dupe de burro gratis</dark_gray>"
   - "%prefix% &7>>&r&8 Done para apoyar a 8b8t en <red><hover:show_text:'<gray>Clic para abrir el enlace'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
 
 # Death messages

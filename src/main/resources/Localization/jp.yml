@@ -168,7 +168,6 @@ HelpMessage:
   - '&c/ignorelist &8無視しているプレイヤーを表示します'
   - '&c/msg &8他のプレイヤーにメッセージを送信します'
   - '&c/changepass &8パスワードを変更します'
-  - '&c/joindate &8自分や他のプレイヤーの参加日を表示します'
   - '&c/worldstats &8ワールドのサイズを表示します'
   - '&c/pvp &8 8b8tのPVPサーバーに接続します'
   - '&c/lobby &8ロビーに接続します'
@@ -179,7 +178,6 @@ HelpMessage:
   - '&3------------寄付者のみ--------------'
   - '&c/ic &8アイテムの色を設定します'
   - '&c/rename &8アイテムの名前を変更します'
-  - '&c/seen &8プレイヤーが最後にログインした時間を表示します'
   - '&c/echest &8自分のエンダーチェストを開きます'
   - '&c/nick &8ニックネームを設定します'
   - '&8寄付するには &chttps://shop.8b8t.me &8を訪問してください'
@@ -197,7 +195,7 @@ TabList:
     - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: &r%uptime%'
     - ''
     - '&7連絡先: contact@8b8t.me'
-    - '&7ディスカッション: https://matrix.8b8t.me'
+    - '&7ディスカッション: https://discord.8b8t.me'
     - '&7ウェブサイト: https://www.8b8t.me'
     - '&7これが公式の8b8tウェブサイトと連絡先です'
     - ''
@@ -210,7 +208,7 @@ TpsMessage:
 tps_failed: '&cTPSを確認する権限がありません'
 
 announcements:
-  - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> にアクセスして、2つの追加レンダリング距離と5つの無料のホームを受け取るために投票しましょう</dark_gray>"
+  - "%prefix% &7>>&r&8 <red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> にアクセスして、2つの追加レンダリング距離と5つの無料のホームとロバデュープへのアクセスを受け取るために投票しましょう</dark_gray>"
   - "%prefix% &7>>&r&8 8b8tをサポートするために<red><hover:show_text:'<gray>リンクを開くにはクリック'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>で寄付しましょう"
 
 # Death messages

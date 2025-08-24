@@ -168,7 +168,6 @@ HelpMessage:
   - '&c/ignorelist &8لعرض قائمة اللاعبين الذين تتجاهلهم'
   - '&c/msg &8لإرسال رسائل إلى لاعبين آخرين'
   - '&c/changepass &8لتغيير كلمة المرور الخاصة بك'
-  - '&c/joindate &8لعرض تاريخ الانضمام الخاص بك والآخرين'
   - '&c/worldstats &8لعرض حجم العالم'
   - '&c/pvp &8للاتصال بخادم PVP الخاص بـ 8b8t'
   - '&c/lobby &8للاتصال باللوبي'
@@ -179,7 +178,6 @@ HelpMessage:
   - '&3------------للمتبرعين فقط--------------'
   - '&c/ic &8لتحديد لون العنصر'
   - '&c/rename &8لتغيير اسم العنصر'
-  - '&c/seen &8لعرض آخر مرة اتصل بها لاعب'
   - '&c/echest &8لفتح صندوق النهاية الخاص بك'
   - '&c/nick &8لتحديد لقب'
   - '&8قم بزيارة &chttps://shop.8b8t.me &8للتبرع'
@@ -198,7 +196,7 @@ TabList:
     - '&7TPS:&r %tps% &7الـ Ping: &r%ping% &7اللاعبين: &f%players% &7مدة التشغيل: &r%uptime%'
     - ''
     - '&7اتصال: contact@8b8t.me'
-    - '&7نقاش: https://matrix.8b8t.me'
+    - '&7نقاش: https://discord.8b8t.me'
     - '&7الموقع الإلكتروني: https://www.8b8t.me'
     - '&7هذه هي المواقع والاتصالات الرسمية الوحيدة لـ 8b8t'
     - ''
@@ -213,7 +211,7 @@ TpsMessage:
 tps_failed: '&cأنت غير مسموح لك بالتحقق من TPS'
 
 announcements:
-  - "%prefix% &7>>&r&8 قم بزيارة <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>وصوت للحصول على 2 مسافات عرض إضافية و 5 نقاط منزل إضافية مجانًا</dark_gray>"
+  - "%prefix% &7>>&r&8 قم بزيارة <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>وصوت للحصول على 2 مسافات عرض إضافية و 5 نقاط منزل إضافية والوصول إلى دوب الحمار مجانًا</dark_gray>"
   - "%prefix% &7>>&r&8 تبرع لدعم 8b8t على <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
 
 # Death messages
