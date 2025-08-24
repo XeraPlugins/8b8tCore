@@ -50,6 +50,9 @@ public class DupeCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 
         if (sender instanceof Player player) {
+            
+            final boolean VOTERS_ONLY = main.plugin().getConfig().getBoolean("DupeCommand.votersOnly", false);
+            if (VOTERS_ONLY && !player.hasPermission("8b8tcore.dupe.command")) return true;
 
             UUID playerId = player.getUniqueId();
 
