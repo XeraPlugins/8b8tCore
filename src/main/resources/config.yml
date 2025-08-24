@@ -204,17 +204,23 @@ simulationdistance:
   default: 4
 FrameDupe:
   enabled: false
+  votersOnly: false
   dupeCooldown: 200L # Miliseconds
   limitItemsPerChunk: 18 # Dropped items
   probabilityPercentage: 100
 ZombieDupe:
   enabled: true
+  votersOnly: false
   dupeCooldown: 200L # Miliseconds
   limitItemsPerChunk: 18 # Dropped items
   probabilityPercentage: 100
   rottenFleshDropPercentage: 50
 DonkeyDupe:
   enabled: true
+  votersOnly: false
+DupeCommand:
+  enabled: false
+  votersOnly: false
 RestrictedMapIDs:
   - 1366
   - 1261
