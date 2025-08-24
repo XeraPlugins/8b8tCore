@@ -59,6 +59,9 @@ public class DonkeyDupe implements Listener {
         final boolean ENABLED = plugin.getConfig().getBoolean("DonkeyDupe.enabled", true);
         if (!ENABLED) return;
 
+        final boolean VOTERS_ONLY = plugin.getConfig().getBoolean("DonkeyDupe.votersOnly", false);
+        if (VOTERS_ONLY && !player.hasPermission("8b8tcore.dupe.donkey")) return;
+
         if (trackedAnimals.containsKey(player.getUniqueId())) return;
 
         event.setCancelled(true);
