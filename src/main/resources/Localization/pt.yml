@@ -208,7 +208,7 @@ TpsMessage:
 tps_failed: '&cVocê não tem permissão para consultar o TPS'
 
 announcements:
-  - "%prefix% &7>>&r&8 Visite <red><hover:show_text:'<gray>Clique para abrir o link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>e vote para receber 2 distâncias de renderização adicionais e 5 casas extras de graça</dark_gray>"
+  - "%prefix% &7>>&r&8 Visite <red><hover:show_text:'<gray>Clique para abrir o link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>e vote para receber 2 distâncias de renderização adicionais e 5 casas extras e acesso ao dupe de burro de graça</dark_gray>"
   - "%prefix% &7>>&r&8 Doe para apoiar o 8b8t em <red><hover:show_text:'<gray>Clique para abrir o link'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
 
 # Death messages

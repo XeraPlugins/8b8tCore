@@ -211,7 +211,7 @@ TpsMessage:
 tps_failed: '&cأنت غير مسموح لك بالتحقق من TPS'
 
 announcements:
-  - "%prefix% &7>>&r&8 قم بزيارة <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>وصوت للحصول على 2 مسافات عرض إضافية و 5 نقاط منزل إضافية مجانًا</dark_gray>"
+  - "%prefix% &7>>&r&8 قم بزيارة <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>وصوت للحصول على 2 مسافات عرض إضافية و 5 نقاط منزل إضافية والوصول إلى دوب الحمار مجانًا</dark_gray>"
   - "%prefix% &7>>&r&8 تبرع لدعم 8b8t على <red><hover:show_text:'<gray>انقر لفتح الرابط'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
 
 # Death messages
