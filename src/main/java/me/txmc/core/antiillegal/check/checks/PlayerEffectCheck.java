@@ -34,7 +34,6 @@ public class PlayerEffectCheck implements Check {
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.WEAKNESS, 1);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.DOLPHINS_GRACE, 1);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.CONDUIT_POWER, 1);
-        VANILLA_LEVEL_LIMITS.put(PotionEffectType.ABSORPTION, 1);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.DARKNESS, 1);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.OOZING, 1);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.GLOWING, 1);
@@ -70,6 +69,8 @@ public class PlayerEffectCheck implements Check {
         // Potions with max level 4
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.SLOWNESS, 4);
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.RESISTANCE, 4);
+        VANILLA_LEVEL_LIMITS.put(PotionEffectType.ABSORPTION, 4);
+
 
         // Special cases
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.WIND_CHARGED, 0); // Windcharge weapon
