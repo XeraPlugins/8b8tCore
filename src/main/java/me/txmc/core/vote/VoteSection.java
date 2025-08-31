@@ -1,6 +1,7 @@
 package me.txmc.core.vote;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
+import me.txmc.core.Localization;
 import org.bukkit.Bukkit;
 
 import lombok.Getter;
@@ -89,29 +90,42 @@ public class VoteSection implements Section {
         return "Vote";
     }
 
+
+
   
     public void announceVote(String voterName) {
+        int votingDays = config.getInt("VoterRoleExpirationDays", 30);
         for (Player p : Bukkit.getOnlinePlayers()) {
-            sendPrefixedLocalizedMessage(p, "vote_announcement", voterName);
+            Localization loc = Localization.getLocalization(p.locale().getLanguage());
+            String message = loc.getWithPlaceholders("vote_announcement", "%days%", String.valueOf(votingDays));
+            String finalMessage = String.format(message, voterName);            
+            String prefixedMessage = loc.getPrefix() + " &r&7>>&r " + finalMessage;
+            p.sendMessage(me.txmc.core.util.GlobalUtils.translateChars(prefixedMessage));
         }
     }
 
     /**
-     * Execute reward commands.
+     * Execute reward commands - only for online players
      */
     private void executeRewards(Player player) {
-        for (String cmd : config.getStringList("Rewards")) {
+        // Only execute reward commands if  the player is online (required for cracked servers)
+        if (player == null || !player.isOnline()) {
+            return;
+        }
+        
+        java.util.List<String> rewards = config.getStringList("Rewards");
+        
+        for (String cmd : rewards) {
             String toRun = String.format(cmd, player.getName());
-            try {
-                plugin.getServer().dispatchCommand(
-                        plugin.getServer().getConsoleSender(),
-                        toRun
-                );
-            } catch (Exception ex) {
-                plugin.getLogger().warning(
-                        "Failed to run vote reward command: " + toRun + " – " + ex.getMessage()
-                );
-            }
+            
+            // Use Luminols's GlobalRegionScheduler to execute command on correct thread with delay
+            org.bukkit.Bukkit.getGlobalRegionScheduler().runDelayed(plugin, (task) -> {
+                try {
+                    plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), toRun);
+                } catch (Exception ex) {
+                    plugin.getLogger().warning("Failed to execute vote reward command: " + toRun + " - " + ex.getMessage());
+                }
+            }, 100L);
         }
     }
 
@@ -119,7 +133,13 @@ public class VoteSection implements Section {
      * Reward a player for voting
      */
     public void rewardPlayer(Player player) {
-        sendPrefixedLocalizedMessage(player, "vote_thanks");
+        int votingDays = config.getInt("VoterRoleExpirationDays", 30);
+        
+        Localization loc = Localization.getLocalization(player.locale().getLanguage());
+        String message = loc.getWithPlaceholders("vote_thanks", "%days%", String.valueOf(votingDays));
+        
+        String prefixedMessage = loc.getPrefix() + " &r&7>>&r " + message;
+        player.sendMessage(me.txmc.core.util.GlobalUtils.translateChars(prefixedMessage));
 
         announceVote(player.getName());
 
@@ -135,16 +155,34 @@ public class VoteSection implements Section {
     }
 
     /**
+     * Grant voter role to a player when they join
+     */
+    public void grantVoterRole(Player player) {
+        if (player != null && player.isOnline()) {
+            executeRewards(player);
+        }
+    }
+
+    /**
      * Reward offline votes without announcements. But thank them later for supporting the server.
      */
     public void rewardOfflineVotes(Player player, int voteCount) {
-        sendPrefixedLocalizedMessage(player, "vote_thanks");
+        int votingDays = config.getInt("VoterRoleExpirationDays", 30);
+        
+        Localization loc = Localization.getLocalization(player.locale().getLanguage());
+        String message = loc.getWithPlaceholders("vote_thanks", "%days%", String.valueOf(votingDays));
+        
+        String prefixedMessage = loc.getPrefix() + " &r&7>>&r " + message;
+        player.sendMessage(me.txmc.core.util.GlobalUtils.translateChars(prefixedMessage));
         
         for (int i = 0; i < voteCount; i++) {
             executeRewards(player);
         }
         
-        markAsRewarded(player.getName().toLowerCase());
+        VoteEntry entry = toReward.get(player.getName().toLowerCase());
+        if (entry != null) {
+            entry.setCount(0);
+        }
         
         if (sqliteStorage != null) {
             sqliteStorage.save(toReward);

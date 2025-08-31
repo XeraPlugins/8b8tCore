@@ -90,7 +90,9 @@ public class Main extends JavaPlugin {
         register(new OpWhiteListListener(this));
 
         if(getConfig().getBoolean("AntiIllegal.Enabled", true)) register(new AntiIllegalMain(this));
+        // Force Votifier plus by the server uncommented for compability reasons. 
         // if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
+        register(new VoteSection(this));
 
         for (Section section : sections) {
             try {

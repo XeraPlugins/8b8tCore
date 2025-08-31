@@ -94,4 +94,20 @@ public class Localization {
                 })
                 .toList();
     }
+
+    /**
+     * Custom Prefix handling
+     */
+    public String getWithPlaceholders(String key, String... replacements) {
+        String val = config.getString(key, String.format("Unknown key %s", key));
+        
+        for (int i = 0; i < replacements.length; i += 2) {
+            if (i + 1 < replacements.length) {
+                val = val.replace(replacements[i], replacements[i + 1]);
+            }
+        }
+        
+        String withPrefix = val.replace("%prefix%", getPrefix());
+        return GlobalUtils.convertToMiniMessageFormat(withPrefix);
+    }
 }
