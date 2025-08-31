@@ -18,14 +18,18 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        String username = player.getName().toLowerCase();
                 
         main.checkAndMigrateLegacyPlayer(player.getName());
         
-        main.getToRewardEntry(player).ifPresent(voteCount -> {
-            if (voteCount > 0) {
-                main.rewardOfflineVotes(player, voteCount);
-                main.markAsRewarded(player.getName().toLowerCase());
+        if (main.getToReward().containsKey(username)) {
+            if (!main.hasVoterRoleExpired(username)) {
+                main.getToRewardEntry(player).ifPresent(voteCount -> {
+                    if (voteCount > 0) {
+                        main.rewardOfflineVotes(player, voteCount);
+                    }
+                });
             }
-        });
+        }
     }
 }
