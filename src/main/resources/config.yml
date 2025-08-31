@@ -1,4 +1,4 @@
-#8b8tCore Version 1.6.1
+#8b8tCore Version 1.6.2
 AntiIllegal:
   Enabled: true
   EnableIllegalBlocksCleaner: true
@@ -171,6 +171,12 @@ Home:
 Vote:
   Rewards:
     - 'lp user %s group add voter'
+  # In days (0 days = no expiry)
+  OfflineVoteExpirationDays: 7
+  VoterRoleExpirationDays: 30
+  LegacyPlayerDefaultDaysRemaining: 20
+  EnableLegacyPlayerMigration: true
+  ExpirationCommand: 'lp user %s group remove voter'
 Patch:
   #Please note that elytra speed is in blocks per second.
   DefaultElytraMaxSpeedBlocksPerSecond: 128 #Max speed in blocks/second.
