@@ -18,9 +18,7 @@ public class PlayerEffectCheck implements Check {
 
     // Vanilla potion effect limits: Map<EffectType, MaxLevel>
     private static final Map<PotionEffectType, Integer> VANILLA_LEVEL_LIMITS = new HashMap<>();
-    
     private static final int MAX_LEGAL_DURATION = 9600; // 8 minutes for vanilla potions
-    private static final int MAX_LEGAL_DURATION_EXTENDED = 10800; // 10 minutes (extended potions)
     private static final int MAX_LEGAL_DURATION_SPECIAL = 144000; // 120 minutes (edgecases like Bad Omen)
     
     static {
@@ -51,7 +49,6 @@ public class PlayerEffectCheck implements Check {
         // https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
         // VANILLA_LEVEL_LIMITS.put(PotionEffectType.Fatal_Poison, 1);
         // Removed in 1.21
-        // VANILLA_LEVEL_LIMITS.put(PotionEffectType.RAID_OMEN, 0); // Pillager RAIDS
         // Illegal effects
         // VANILLA_LEVEL_LIMITS.put(PotionEffectType.HEALTH_BOOST, 0);
         // VANILLA_LEVEL_LIMITS.put(PotionEffectType.BAD_LUCK, 0);
@@ -87,6 +84,7 @@ public class PlayerEffectCheck implements Check {
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.HUNGER, 3); // Pufferfish
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.HERO_OF_THE_VILLAGE, 5); // Village curing
         VANILLA_LEVEL_LIMITS.put(PotionEffectType.BAD_OMEN, 5); // Pillager raids
+        VANILLA_LEVEL_LIMITS.put(PotionEffectType.RAID_OMEN, 5); // Pillager raids
     }
 
     @Override
@@ -172,12 +170,8 @@ public class PlayerEffectCheck implements Check {
     }
     
     private boolean isExcessiveDuration(int duration, PotionEffectType type) {
-        if (type == PotionEffectType.BAD_OMEN) {
+        if (type == PotionEffectType.BAD_OMEN || type == PotionEffectType.RAID_OMEN) {
             return duration > MAX_LEGAL_DURATION_SPECIAL;
-        }
-        
-        if (duration > MAX_LEGAL_DURATION_EXTENDED) {
-            return true;
         }
         return duration > MAX_LEGAL_DURATION;
     }
