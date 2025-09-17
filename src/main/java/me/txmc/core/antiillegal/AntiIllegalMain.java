@@ -40,6 +40,7 @@ public class AntiIllegalMain implements Section {
             new StackedTotemCheck(),
             new ShulkerCeptionCheck(),
             new IllegalItemCheck(),
+            new IllegalDataCheck(),
             new antiprefilledchests()
     ));
 
