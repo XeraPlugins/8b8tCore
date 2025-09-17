@@ -11,8 +11,8 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @since 2025/09/17
  * This file was created as a part of 8b8tAntiIllegal
  */
-
 public class IllegalDataCheck implements Check {
+    
     private static final int MAX_LEGAL_AMPLIFIER = 5;
     private static final int MAX_LEGAL_DURATION = 9600;
 
@@ -33,6 +33,10 @@ public class IllegalDataCheck implements Check {
             }
 
             if (hasIllegalFoodEffects(meta)) {
+                return true;
+            }
+            
+            if (hasIllegalBlockState(meta)) {
                 return true;
             }
             
@@ -71,5 +75,9 @@ public class IllegalDataCheck implements Check {
             }
         }        
         return false;
+    }
+    private boolean hasIllegalBlockState(ItemMeta meta) {
+        String componentString = meta.getAsComponentString();
+        return componentString.contains("waterlogged: \"true\"");
     }
 }
