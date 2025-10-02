@@ -57,8 +57,10 @@ public class EntityEffectListener implements Listener {
     private void checkAllEntities() {
         for (org.bukkit.World world : Bukkit.getWorlds()) {
             for (LivingEntity entity : world.getLivingEntities()) {
-                if (!(entity instanceof org.bukkit.entity.Player)) {
-                    checkEntity(entity);
+                if (!(entity instanceof org.bukkit.entity.Player) && entity.isValid() && !entity.isDead()) {
+                    entity.getScheduler().run(plugin, (task) -> {
+                        checkAndFixEntityEffects(entity);
+                    }, null);
                 }
             }
         }
@@ -68,17 +70,9 @@ public class EntityEffectListener implements Listener {
      * Check and fix a specific entity's potion effects
      * @param entity The entity to check
      */
-    public void checkEntity(LivingEntity entity) {
-        if (entity != null && entity.isValid() && !entity.isDead()) {
-            checkAndFixEntityEffects(entity);
-        }
-    }
-    
-    /**
-     * Check if an entity has illegal effects and remove them
-     * @param entity The entity to check and fix
-     */
     private void checkAndFixEntityEffects(LivingEntity entity) {
+        if (!entity.isValid() || entity.isDead()) return;
+        
         if (effectCheck.checkEntityEffects(entity)) {
             effectCheck.fixEntityEffects(entity);
         }
@@ -112,7 +106,12 @@ public class EntityEffectListener implements Listener {
         if (event.isNewChunk()) return;        
         for (org.bukkit.entity.Entity entity : event.getChunk().getEntities()) {
             if (entity instanceof LivingEntity && !(entity instanceof org.bukkit.entity.Player)) {
-                checkEntity((LivingEntity) entity);
+                LivingEntity livingEntity = (LivingEntity) entity;
+                if (livingEntity.isValid() && !livingEntity.isDead()) {
+                    livingEntity.getScheduler().run(plugin, (task) -> {
+                        checkAndFixEntityEffects(livingEntity);
+                    }, null);
+                }
             }
         }
     }
