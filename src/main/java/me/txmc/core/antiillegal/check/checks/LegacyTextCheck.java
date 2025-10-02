@@ -18,14 +18,16 @@ import java.util.regex.Pattern;
 public class LegacyTextCheck implements Check {
 
     private static final Pattern LEGACY_COLOR_PATTERN = Pattern.compile("§[0-9a-fk-or]", Pattern.CASE_INSENSITIVE);
-    private static final Pattern SIGNED_ITEM_PATTERN = Pattern.compile("§9by §e@[^§\n\r]*");
+    private static final Pattern SIGNED_ITEM_PATTERN = Pattern.compile("§[0-9a-f]by §[0-9a-f]@[^§\n\r]*", Pattern.CASE_INSENSITIVE);
+    private static final Pattern BOOK_AUTHOR_PATTERN = Pattern.compile("§[0-9a-f]Author: §[0-9a-f][^§\n\r]*", Pattern.CASE_INSENSITIVE);
+    private static final Pattern MAP_AUTHOR_PATTERN = Pattern.compile("§7by @[^§\n\r]*", Pattern.CASE_INSENSITIVE);
 
     @Override
     public boolean check(ItemStack item) {
         if (!item.hasItemMeta()) return false;
         ItemMeta meta = item.getItemMeta();
 
-        if (isSignedBySignCommand(meta)) {
+        if (isLegitimatelySigned(meta)) {
             return false; 
         }
 
@@ -48,7 +50,7 @@ public class LegacyTextCheck implements Check {
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
 
-        if (isSignedBySignCommand(meta)) {
+        if (isLegitimatelySigned(meta)) {
             return;
         }
 
@@ -69,10 +71,12 @@ public class LegacyTextCheck implements Check {
         item.setItemMeta(meta);
     }
 
-    private boolean isSignedBySignCommand(ItemMeta meta) {
+    private boolean isLegitimatelySigned(ItemMeta meta) {
         if (meta == null || !meta.hasLore()) return false;
         for (String line : meta.getLore()) {
-            if (SIGNED_ITEM_PATTERN.matcher(line).find()) {
+            if (SIGNED_ITEM_PATTERN.matcher(line).find() || 
+                BOOK_AUTHOR_PATTERN.matcher(line).find() ||
+                MAP_AUTHOR_PATTERN.matcher(line).find()) {
                 return true;
             }
         }
