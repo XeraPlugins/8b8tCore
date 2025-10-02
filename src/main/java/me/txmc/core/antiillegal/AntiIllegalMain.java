@@ -11,6 +11,7 @@ import me.txmc.core.Section;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.antiillegal.check.checks.*;
 import me.txmc.core.antiillegal.listeners.*;
+import me.txmc.core.antiillegal.listeners.EntityEffectListener;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Material;
@@ -57,7 +58,8 @@ public class AntiIllegalMain implements Section {
                 new InventoryListeners(this),
                 new AttackListener(),
                 new StackedTotemsListener(),
-                new PlayerEffectListener(plugin)
+                new PlayerEffectListener(plugin),
+                new EntityEffectListener(plugin)
         );
 
         if (config.getBoolean("EnableIllegalBlocksCleaner", true)) {
