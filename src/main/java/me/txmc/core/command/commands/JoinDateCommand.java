@@ -19,8 +19,8 @@ import static me.txmc.core.util.GlobalUtils.sendMessage;
 /**
  * JoinDate command that shows when a player first joined the server
  * Code ported from Joindate Plugin
- * @author 8b8tCore
- * @since 2025
+ * @author Libalpm (MindComplexity)
+ * @since 10/2/2025
  */
 public class JoinDateCommand extends BaseTabCommand {
     
@@ -59,7 +59,6 @@ public class JoinDateCommand extends BaseTabCommand {
             return;
         }
         
-        // Check another player's join date
         if (!hasPermission(sender, "8b8tcore.command.joindate.others")) {
             sendNoPermission(sender);
             return;
@@ -67,7 +66,6 @@ public class JoinDateCommand extends BaseTabCommand {
         
         String targetName = args[0];
         
-        // Try to get online player first
         Player target = Bukkit.getPlayer(targetName);
         if (target != null) {
             showJoinDate(sender, target);
