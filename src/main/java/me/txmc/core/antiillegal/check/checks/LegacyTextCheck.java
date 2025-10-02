@@ -15,22 +15,25 @@ import java.util.regex.Pattern;
  * @author ChatGPT
  * @since 2025-06-22
  */
-public class LegacyTextCheck implements Check {
+ppublic class LegacyTextCheck implements Check {
 
     private static final Pattern LEGACY_COLOR_PATTERN = Pattern.compile("§[0-9a-fk-or]", Pattern.CASE_INSENSITIVE);
+    private static final Pattern SIGNED_ITEM_PATTERN = Pattern.compile("§9by §e@[^§\n\r]*");
 
     @Override
     public boolean check(ItemStack item) {
         if (!item.hasItemMeta()) return false;
         ItemMeta meta = item.getItemMeta();
 
-        // Check display name
+        if (isSignedBySignCommand(meta)) {
+            return false; 
+        }
+
         if (meta.hasDisplayName()) {
             String name = GlobalUtils.getStringContent(meta.displayName());
             if (LEGACY_COLOR_PATTERN.matcher(name).find()) return true;
         }
 
-        // Check lore
         if (meta.hasLore()) {
             for (String line : meta.getLore()) {
                 if (LEGACY_COLOR_PATTERN.matcher(line).find()) return true;
@@ -41,24 +44,20 @@ public class LegacyTextCheck implements Check {
     }
 
     @Override
-    public boolean shouldCheck(ItemStack item) {
-        return true;
-    }
-
-    @Override
     public void fix(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
-
         if (meta == null) return;
 
-        // Fix display name
+        if (isSignedBySignCommand(meta)) {
+            return;
+        }
+
         if (meta.hasDisplayName()) {
             String legacy = GlobalUtils.getStringContent(meta.displayName());
             String stripped = LEGACY_COLOR_PATTERN.matcher(legacy).replaceAll("");
             meta.setDisplayName(stripped);
         }
 
-        // Fix lore
         if (meta.hasLore()) {
             List<String> oldLore = meta.getLore();
             List<String> newLore = oldLore.stream()
@@ -68,5 +67,20 @@ public class LegacyTextCheck implements Check {
         }
 
         item.setItemMeta(meta);
+    }
+
+    private boolean isSignedBySignCommand(ItemMeta meta) {
+        if (meta == null || !meta.hasLore()) return false;
+        for (String line : meta.getLore()) {
+            if (SIGNED_ITEM_PATTERN.matcher(line).find()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean shouldCheck(ItemStack item) {
+        return true;
     }
 }
