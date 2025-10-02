@@ -12,7 +12,7 @@ import static me.txmc.core.util.GlobalUtils.sendMessage;
 /**
  * Kill command that allows players to kill themselves or others (with permission)
  * Code ported from Kill Plugin
- * @author 8b8tCore
+ * @author Libalpm (MindComplexity)
  * @since 10/2/2025
  */
 public class KillCommand extends BaseCommand {
@@ -33,7 +33,6 @@ public class KillCommand extends BaseCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
-            // Kill self
             if (!(sender instanceof Player player)) {
                 sendMessage(sender, "&cYou must specify a player name when using this command from console!");
                 return;
@@ -48,7 +47,6 @@ public class KillCommand extends BaseCommand {
             return;
         }
         
-        // Kill another player
         if (!hasPermission(sender, "8b8tcore.command.kill.others")) {
             sendNoPermission(sender);
             return;
@@ -66,7 +64,6 @@ public class KillCommand extends BaseCommand {
     }
     
     private void killPlayer(CommandSender sender, Player target) {
-        // Set health to 0 to kill the player
         target.setHealth(0);
         
         if (sender.equals(target)) {
