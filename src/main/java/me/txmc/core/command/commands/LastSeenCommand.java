@@ -24,9 +24,10 @@ import static me.txmc.core.util.GlobalUtils.sendMessage;
 /**
  * LastSeen command that shows when a player was last online
  * Code ported from the last seen plugin.
- * @author 8b8tCore
+ * @author Libalpm (MindComplexity)
  * @since 10/2/2025
  */
+
 public class LastSeenCommand extends BaseTabCommand implements Listener {
     
     private final Main plugin;
@@ -61,7 +62,6 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
         
         String targetName = args[0];
         
-        // Check if player is online first
         Player onlinePlayer = Bukkit.getPlayer(targetName);
         if (onlinePlayer != null) {
             sendMessage(sender, String.format("&e%s &ais currently online!", onlinePlayer.getName()));
@@ -72,7 +72,6 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
             
-            // Check if player has never joined
             if (offlinePlayer.getFirstPlayed() == 0L) {
                 sendMessage(sender, String.format("&cPlayer '&e%s&c' has never joined the server!", targetName));
                 return;
@@ -93,7 +92,6 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
                         cachedData.x, cachedData.y, cachedData.z));
                 }
             } else {
-                // Use offline player's last played time
                 long lastPlayed = offlinePlayer.getLastPlayed();
                 if (lastPlayed > 0) {
                     SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -110,15 +108,11 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
     @Override
     public List<String> onTab(String[] args) {
         if (args.length == 1) {
-            // Add all player names from cache and online players
             List<String> suggestions = new ArrayList<>();
-            
-            // Add online players
             suggestions.addAll(Bukkit.getOnlinePlayers().stream()
                     .map(Player::getName)
                     .collect(Collectors.toList()));
             
-            // Add cached players
             suggestions.addAll(lastSeenCache.values().stream()
                     .map(data -> data.name)
                     .collect(Collectors.toList()));
