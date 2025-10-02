@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * @author ChatGPT
  * @since 2025-06-22
  */
-ppublic class LegacyTextCheck implements Check {
+public class LegacyTextCheck implements Check {
 
     private static final Pattern LEGACY_COLOR_PATTERN = Pattern.compile("§[0-9a-fk-or]", Pattern.CASE_INSENSITIVE);
     private static final Pattern SIGNED_ITEM_PATTERN = Pattern.compile("§9by §e@[^§\n\r]*");
