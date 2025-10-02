@@ -18,15 +18,15 @@ import static me.txmc.core.util.GlobalUtils.sendMessage;
 
 /**
  * Jihad command that gives players TNT and flint & steel with cooldown
- * Code ported from Tristans /jihad command
- * @author 8b8tCore
+ * Code ported from iTristans /jihad command
+ * @author Libalpm (MindComplexity)
  * @since 10/2/2025 
  */
 public class JihadCommand extends BaseCommand {
     
     private final Main plugin;
     private final Map<UUID, Long> cooldowns;
-    private static final long COOLDOWN_TIME = 15000; // 15 seconds in milliseconds
+    private static final long COOLDOWN_TIME = 15000;
     
     public JihadCommand(Main plugin) {
         super(
@@ -49,7 +49,6 @@ public class JihadCommand extends BaseCommand {
         UUID playerId = player.getUniqueId();
         long currentTime = System.currentTimeMillis();
         
-        // Check cooldown
         if (cooldowns.containsKey(playerId)) {
             long lastUsed = cooldowns.get(playerId);
             long timeLeft = (lastUsed + COOLDOWN_TIME) - currentTime;
@@ -61,23 +60,16 @@ public class JihadCommand extends BaseCommand {
             }
         }
         
-        // Create TNT stack
         ItemStack tnt = new ItemStack(Material.TNT, 64);
         ItemMeta tntMeta = tnt.getItemMeta();
         tntMeta.setDisplayName(ChatColor.RED + "WINST0N");
         tnt.setItemMeta(tntMeta);
-        
-        // Create flint and steel
         ItemStack lighter = new ItemStack(Material.FLINT_AND_STEEL, 1);
         ItemMeta lighterMeta = lighter.getItemMeta();
         lighterMeta.setDisplayName(ChatColor.GOLD + "John's ALLAHU AKBAR");
         lighterMeta.addEnchant(Enchantment.UNBREAKING, 3, false);
-        lighter.setItemMeta(lighterMeta);
-        
-        // Give items to player
+        lighter.setItemMeta(lighterMeta);        
         player.getInventory().addItem(tnt, lighter);
-        
-        // Update cooldown
         cooldowns.put(playerId, currentTime);
         
         sendMessage(player, "&a&lALLAHU AKBAR! &r&7You have received explosive materials!");
