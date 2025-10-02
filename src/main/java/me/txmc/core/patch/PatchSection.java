@@ -55,6 +55,7 @@ public class PatchSection implements Section {
         plugin.register(new MapCreationListener(plugin));
         plugin.register(new MapRemovalPatch(plugin));
         plugin.register(new VanishVerifier(plugin));
+        plugin.register(new BoundaryListener(plugin));
     }
 
     @Override
