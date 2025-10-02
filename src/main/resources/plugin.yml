@@ -1,6 +1,6 @@
 name: 8b8tCore
 main: me.txmc.core.Main
-version: 1.6.4
+version: 1.6.5
 author: 254n_m, agarciacort, Leeewith3Es, MindComplexity
 description: A core plugin for 8b8t
 api-version: 1.21
@@ -75,6 +75,10 @@ commands:
     aliases: [illegal, illegalevent, kit, kits, dupe, intihar, öl]
   table:
     aliases: [masa]
+  jihad:
+  joindate:
+  kill:
+  lastseen:
 permissions:
   8b8tcore.viewdistance.default:
     description: Permission for the default view distance
@@ -141,4 +145,25 @@ permissions:
     default: false
   8b8tcore.prefix.owner:
     description: Nametag Prefix for Owner
+    default: false
+  8b8tcore.command.jihad:
+    description: Permission to use the jihad command
+    default: true
+  8b8tcore.command.joindate:
+    description: Permission to check your own join date
+    default: true
+  8b8tcore.command.joindate.others:
+    description: Permission to check other players' join dates
+    default: false
+  8b8tcore.command.joindate.reload:
+    description: Permission to reload join date configuration
+    default: false
+  8b8tcore.command.kill.others:
+    description: Permission to kill other players
+    default: false
+  8b8tcore.command.lastseen:
+    description: Permission to check when a player was last seen
+    default: true
+  8b8tcore.command.lastseen.location:
+    description: Permission to see player's last location
     default: false
