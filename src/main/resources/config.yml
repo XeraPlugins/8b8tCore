@@ -12,11 +12,8 @@ AntiIllegal:
     - STRUCTURE_VOID
     - JIGSAW
     - END_PORTAL_FRAME
-    - NETHER_PORTAL
     - LIGHT
     - REINFORCED_DEEPSLATE
-    - CHORUS_PLANT
-    - TRIAL_SPAWNER
   MaxItemNameLength: 51
   IllegalItems:
     - 'BEDROCK'
@@ -43,7 +40,7 @@ NbtBanItemChecker:
 ChatControl:
   PreventLinks: true #Uses a list of all TLDs
   #How long before a player can chat again (In seconds)
-  Cooldown: 5
+  Cooldown: 2
   #Blocked words
   Blocked:
     - 'Anar Anarchy'
@@ -129,6 +126,7 @@ ChatControl:
     - '/joindate'
     - '/jd'
     - '/seen'
+    - '/lastseen'
     - '/echest'
     - '/voicechat'
     - '/vote'
@@ -181,7 +179,7 @@ Patch:
   #Please note that elytra speed is in blocks per second.
   DefaultElytraMaxSpeedBlocksPerSecond: 128 #Max speed in blocks/second.
   TileEntitiesElytraMaxSpeedBlocksPerSecond: 64 #Max speed in a chunk with more than 128 tile entities.
-  ChestLimitPerChunk: 192
+  ChestLimitPerChunk: 280
   BoundaryProtection:
     Enabled: true
     NetherRoofProtection:
@@ -199,8 +197,8 @@ Patch:
       - 'boat::10'
       - 'falling_block::200'
       - 'dropped_item::100'
-      - 'item_frame::130'
-      - 'glow_item_frame::130'
+      - 'item_frame::256'
+      - 'glow_item_frame::256'
 Redstone:
     StrictTPS: 14 #The tps to start strictly monitoring redstone at
     StrictMaxVLS: 70 #How many redstone operations per second can happen in strict mode
@@ -212,27 +210,28 @@ OpUsersWhiteList:
   - 'Leee'
   - 'YoThisIsAnAltLOL'
   - 'cubebuilder_'
+  - 'SrGokuto'
 prefix: '&8[&98b&78t&8]'
 viewdistance:
   default: 6
 simulationdistance:
   default: 4
 FrameDupe:
-  enabled: false
-  votersOnly: false
+  enabled: true
+  votersOnly: true
   dupeCooldown: 200L # Miliseconds
   limitItemsPerChunk: 18 # Dropped items
-  probabilityPercentage: 100
+  probabilityPercentage: 5
 ZombieDupe:
   enabled: true
-  votersOnly: false
+  votersOnly: true
   dupeCooldown: 200L # Miliseconds
   limitItemsPerChunk: 18 # Dropped items
   probabilityPercentage: 100
   rottenFleshDropPercentage: 50
 DonkeyDupe:
   enabled: true
-  votersOnly: false
+  votersOnly: true
 DupeCommand:
   enabled: false
   votersOnly: false
@@ -241,3 +240,8 @@ RestrictedMapIDs:
   - 1261
   - 1537
   - 1288
+  - 13902
+  - 13903
+  - 13904
+  - 13905
+  - 13901
