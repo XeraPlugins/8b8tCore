@@ -49,6 +49,10 @@ public class CommandHandler implements TabExecutor {
         addCommand(new GmSurvivalCommand());
         addCommand(new SuicideCommand());
         addCommand(new TableCommand());
+        addCommand(new JihadCommand(main.getPlugin()));
+        addCommand(new JoinDateCommand(main.getPlugin()));
+        addCommand(new KillCommand(main.getPlugin()));
+        addCommand(new LastSeenCommand(main.getPlugin()));
     }
 
     private void addCommand(BaseCommand command) {

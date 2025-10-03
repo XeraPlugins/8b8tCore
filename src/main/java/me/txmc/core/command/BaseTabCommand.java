@@ -14,6 +14,9 @@ public abstract class BaseTabCommand extends BaseCommand {
     public BaseTabCommand(String name, String usage, String permission, String description, String[] subCommands) {
         super(name, usage, permission, description, subCommands);
     }
+    public BaseTabCommand(String name, String usage, String[] permissions, String description, String[] subCommands) {
+        super(name, usage, permissions, description, subCommands);
+    }
 
     public abstract List<String> onTab(String[] args);
 }

@@ -1,4 +1,4 @@
-#8b8tCore Version 1.6.4
+#8b8tCore Version 1.6.5
 AntiIllegal:
   Enabled: true
   EnableIllegalBlocksCleaner: true
@@ -182,6 +182,15 @@ Patch:
   DefaultElytraMaxSpeedBlocksPerSecond: 128 #Max speed in blocks/second.
   TileEntitiesElytraMaxSpeedBlocksPerSecond: 64 #Max speed in a chunk with more than 128 tile entities.
   ChestLimitPerChunk: 192
+  BoundaryProtection:
+    Enabled: true
+    NetherRoofProtection:
+      Enabled: true
+      # Keep this false. If set to true, it will kill players. This is not needed. Teleporting is much cooler and better.
+      DamagePlayers: false
+      BlockPlayers: true
+      EnsureSafeTeleport: true
+      NetherYLevel: 128
   EntityPerChunk:
     CheckInterval: 1 #In minutes
     DefaultMax: 32 # -1 for unlimited default max
