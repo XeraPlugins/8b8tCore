@@ -130,7 +130,8 @@ Feel free to reach out if you have any questions or run into issues!
 
 - Contributions are welcome! If you have suggestions or want to contribute, please open a pull request or raise an issue on our GitHub repository.
 - When contributing, please follow the existing code structure and programming style used in the project. This helps maintain consistency and makes it easier to review and integrate your changes.
-- If you're unsure about the code structure or style, review the existing code and follow the patterns used. While there is no formal contribution guide, adhering to these practices will help ensure a smooth contribution process.
+- If you're unsure about the code structure or style, review the existing code and follow the patterns used. While there is no formal contribution guide, adhering to these practices will help ensure a smooth contribution process,
+that's it, have a nice day :)
 
 ## License
 
