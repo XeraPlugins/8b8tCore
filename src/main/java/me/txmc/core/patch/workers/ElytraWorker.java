@@ -28,29 +28,33 @@ public class ElytraWorker implements Runnable {
 
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                Bukkit.getRegionScheduler().execute(main.plugin(), player.getLocation(), () -> {
-                    if (!player.isGliding()) {
-                        main.positions().remove(player);
-                        return;
-                    }
+                Bukkit.getRegionScheduler().run(main.plugin(), player.getLocation(), (task) -> {
+                    try {
+                        if (!player.isGliding()) {
+                            main.positions().remove(player);
+                            return;
+                        }
 
-                    Location from = main.positions().getOrDefault(player, null);
-                    if (from == null) {
-                        main.positions().put(player, player.getLocation());
-                        return;
-                    }
+                        Location from = main.positions().getOrDefault(player, null);
+                        if (from == null) {
+                            main.positions().put(player, player.getLocation());
+                            return;
+                        }
 
-                    double speed = calcSpeed(from, player.getLocation());
-                    main.positions().replace(player, player.getLocation());
+                        double speed = calcSpeed(from, player.getLocation());
+                        main.positions().replace(player, player.getLocation());
 
-                    Chunk playerChunk = player.getLocation().getChunk();
-                    if (speed > MAX_SPEED_WITH_ENTITIES &&
-                            playerChunk.getTileEntities().length > 128) {
-                        removeElytra(player);
-                        sendPrefixedLocalizedMessage(player, "elytra_tile_entities_too_fast", MAX_SPEED_WITH_ENTITIES);
-                    } else if (speed > MAX_SPEED_DEFAULT) {
-                        removeElytra(player);
-                        sendPrefixedLocalizedMessage(player, "elytra_too_fast", MAX_SPEED_DEFAULT);
+                        Chunk playerChunk = player.getLocation().getChunk();
+                        if (speed > MAX_SPEED_WITH_ENTITIES &&
+                                playerChunk.getTileEntities().length > 128) {
+                            removeElytra(player);
+                            sendPrefixedLocalizedMessage(player, "elytra_tile_entities_too_fast", MAX_SPEED_WITH_ENTITIES);
+                        } else if (speed > MAX_SPEED_DEFAULT) {
+                            removeElytra(player);
+                            sendPrefixedLocalizedMessage(player, "elytra_too_fast", MAX_SPEED_DEFAULT);
+                        }
+                    } catch (Exception e) {
+                        log(Level.WARNING, "Error processing elytra check for " + player.getName() + ": " + e.getMessage());
                     }
                 });
             }

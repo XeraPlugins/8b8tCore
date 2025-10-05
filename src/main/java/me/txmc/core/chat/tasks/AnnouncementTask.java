@@ -15,14 +15,16 @@ public class AnnouncementTask implements Runnable {
     private ThreadLocalRandom random = ThreadLocalRandom.current();
     @Override
     public void run() {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            Localization loc = Localization.getLocalization(p.locale().getLanguage());
-            List<TextComponent> announcements = loc.getStringList("announcements")
-                    .stream()
-                    .map(s -> s.replace("%prefix%", loc.getPrefix()))
-                    .map(GlobalUtils::translateChars).toList();
-            Component announcement = announcements.get(random.nextInt(announcements.size()));
-            p.sendMessage(announcement);
-        }
+        Bukkit.getGlobalRegionScheduler().runDelayed(me.txmc.core.Main.getInstance(), (task) -> {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                Localization loc = Localization.getLocalization(p.locale().getLanguage());
+                List<TextComponent> announcements = loc.getStringList("announcements")
+                        .stream()
+                        .map(s -> s.replace("%prefix%", loc.getPrefix()))
+                        .map(GlobalUtils::translateChars).toList();
+                Component announcement = announcements.get(random.nextInt(announcements.size()));
+                p.sendMessage(announcement);
+            }
+        }, 1L);
     }
 }
