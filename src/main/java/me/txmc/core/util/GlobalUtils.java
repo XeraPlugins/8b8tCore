@@ -125,19 +125,26 @@ public class GlobalUtils {
                 Random random = new Random();
                 msgIndex = random.nextInt(deathListMessages.size());
             }
+            final int finalMsgIndex = msgIndex;
 
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                Localization loc = Localization.getLocalization(p.locale().getLanguage());
-                List<TextComponent> deathMessages = loc.getStringList(key)
-                        .stream()
-                        .map(s -> s.replace("%victim%", victim))
-                        .map(s -> s.replace("%killer%", killer))
-                        .map(s -> s.replace("%kill-weapon%", weapon))
-                        .map(GlobalUtils::translateChars).toList();
+            Bukkit.getGlobalRegionScheduler().runDelayed(Main.getInstance(), (task) -> {
+                try {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        Localization loc = Localization.getLocalization(p.locale().getLanguage());
+                        List<TextComponent> deathMessages = loc.getStringList(key)
+                                .stream()
+                                .map(s -> s.replace("%victim%", victim))
+                                .map(s -> s.replace("%killer%", killer))
+                                .map(s -> s.replace("%kill-weapon%", weapon))
+                                .map(GlobalUtils::translateChars).toList();
 
-                Component msg = deathMessages.get(msgIndex);
-                p.sendMessage(msg);
-            }
+                        Component msg = deathMessages.get(finalMsgIndex);
+                        p.sendMessage(msg);
+                    }
+                } catch (Throwable t) {
+                    Main.getInstance().getLogger().warning("Failed to send death message: " + t.getMessage());
+                }
+            }, 1L);
         } catch (Throwable ignored){};
 
     }
@@ -161,18 +168,24 @@ public class GlobalUtils {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format(command, args));
     }
     public static void removeElytra(Player player) {
-        ItemStack chestPlate = player.getInventory().getChestplate();
-        if (chestPlate == null) return;
-        if (chestPlate.getType() == Material.AIR) return;
-        if (chestPlate.getType() == Material.ELYTRA) {
-            PlayerInventory inventory = player.getInventory();
-            if (inventory.firstEmpty() == -1) {
-                player.getWorld().dropItemNaturally(player.getLocation(), chestPlate);
-            } else inventory.setItem(inventory.firstEmpty(), chestPlate);
-            ItemStack[] buffer = inventory.getArmorContents();
-            buffer[2] = null;
-            inventory.setArmorContents(buffer);
-        }
+        Bukkit.getRegionScheduler().run(Main.getInstance(), player.getLocation(), (task) -> {
+            try {
+                ItemStack chestPlate = player.getInventory().getChestplate();
+                if (chestPlate == null) return;
+                if (chestPlate.getType() == Material.AIR) return;
+                if (chestPlate.getType() == Material.ELYTRA) {
+                    PlayerInventory inventory = player.getInventory();
+                    if (inventory.firstEmpty() == -1) {
+                        player.getWorld().dropItemNaturally(player.getLocation(), chestPlate);
+                    } else inventory.setItem(inventory.firstEmpty(), chestPlate);
+                    ItemStack[] buffer = inventory.getArmorContents();
+                    buffer[2] = null;
+                    inventory.setArmorContents(buffer);
+                }
+            } catch (Exception e) {
+                Main.getInstance().getLogger().warning("Failed to remove elytra from " + player.getName() + ": " + e.getMessage());
+            }
+        });
     }
     public static String getStringContent(Component component) {
         PlainTextComponentSerializer serializer = PlainTextComponentSerializer.plainText();
@@ -180,12 +193,30 @@ public class GlobalUtils {
     }
     public static CompletableFuture<Double> getTpsNearEntity(Entity entity) {
         CompletableFuture<Double> future = new CompletableFuture<>();
-        entity.getScheduler().run(Main.getInstance(), (st) -> future.complete(getCurrentRegionTps()), () -> {});
+        double tps = getCurrentRegionTps();
+        if (tps != -1) {
+            future.complete(tps);
+            return future;
+        }
+        
+        entity.getScheduler().run(Main.getInstance(), (st) -> {
+            double regionTps = getCurrentRegionTps();
+            future.complete(regionTps);
+        }, () -> future.complete(-1.0));
         return future;
     }
     public static CompletableFuture<Double> getRegionTps(Location location) {
         CompletableFuture<Double> future = new CompletableFuture<>();
-        Bukkit.getRegionScheduler().run(Main.getInstance(),location, (st) -> future.complete(getCurrentRegionTps()));
+        double tps = getCurrentRegionTps();
+        if (tps != -1) {
+            future.complete(tps);
+            return future;
+        }
+        
+        Bukkit.getRegionScheduler().run(Main.getInstance(), location, (st) -> {
+            double regionTps = getCurrentRegionTps();
+            future.complete(regionTps);
+        });
         return future;
     }
 

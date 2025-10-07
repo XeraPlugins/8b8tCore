@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
  * @author Minelord9000 (agarciacorte)
  * @since 2024/08/27 10:30 AM
  */
+
 @Slf4j
 public class MapCreationListener implements Listener {
     private final Main plugin;
@@ -60,6 +61,8 @@ public class MapCreationListener implements Listener {
 
         Location mapLocation = new Location(mapView.getWorld(), x, 64, z);
 
+        // Process players immediately instead of having to schedulue it out.
+        // You don't really want to stress out the scheduler by spamming requests.
         List<Player> playersInZone = Bukkit.getOnlinePlayers().stream()
                 .filter(player -> {
                     int playerX = player.getLocation().getBlockX();
@@ -68,31 +71,37 @@ public class MapCreationListener implements Listener {
                 })
                 .collect(Collectors.toList());
 
+        if (playersInZone.isEmpty()) {
+            return;
+        }
+
         String playersSign = playersInZone.stream()
                 .map(Player::getName)
                 .collect(Collectors.joining(", @"));
 
-        RegionScheduler scheduler = Bukkit.getRegionScheduler();
-        scheduler.runDelayed(Main.getInstance(), mapLocation, task -> {
-            for (Player player : playersInZone) {
-                findMapInInventoryAndSign(player, id, playersSign);
-            }
+        // Process players immediately instead of having to schedulue it out.
+        // You don't really want to stress out the scheduler by spamming requests.
+        for (Player player : playersInZone) {
+            findMapInInventoryAndSign(player, id, playersSign);
+        }
 
-            String message = String.format(
-                    "Map created with ID: %d at coordinates X: %d, Z: %d. Players in range: %s",
-                    id, x, z, playersSign.isEmpty() ? "anonymous" : playersSign
-            );
-            MapCreationLogger.getLogger().log(Level.WARNING, message);
-        }, 5L);
-
+        String message = String.format(
+                "Map created with ID: %d at coordinates X: %d, Z: %d. Players in range: %s",
+                id, x, z, playersSign.isEmpty() ? "anonymous" : playersSign
+        );
+        MapCreationLogger.getLogger().log(Level.WARNING, message);
     }
-
+    
     private void findMapInInventoryAndSign(Player player, int mapId, String playersSign) {
-        for (ItemStack item : player.getInventory().getContents()) {
+        ItemStack[] contents = player.getInventory().getContents();
+        for (int i = 0; i < contents.length; i++) {
+            ItemStack item = contents[i];
             if (item != null && item.getType() == Material.FILLED_MAP) {
                 MapMeta meta = (MapMeta) item.getItemMeta();
                 if (meta != null && meta.hasMapId() && meta.getMapId() == mapId) {
                     signMap(item, playersSign);
+                    player.getInventory().setItem(i, item);
+                    break;
                 }
             }
         }

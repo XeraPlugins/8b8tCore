@@ -45,7 +45,6 @@ public class EndPortalBuilder implements Runnable {
             }
         }
 
-        // Asynchronously load all involved chunks
         List<CompletableFuture<Void>> futures = new ArrayList<>();
         for (ChunkCoord coord : chunksToLoad) {
             CompletableFuture<Void> future = world.getChunkAtAsync(coord.chunkX, coord.chunkZ)
@@ -53,9 +52,10 @@ public class EndPortalBuilder implements Runnable {
             futures.add(future);
         }
 
-        // Once all are loaded, schedule the portal construction
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).thenRun(() ->
-                Bukkit.getRegionScheduler().run(plugin, world, x, z, task -> buildEndPortal(world, x, y, z))
+                Bukkit.getRegionScheduler().run(plugin, world, x, z, task -> {
+                    buildEndPortal(world, x, y, z);
+                })
         );
     }
 

@@ -22,7 +22,7 @@ public class EntityCheckTask implements Runnable {
         try {
             for (World world : Bukkit.getWorlds()) {
                 for (Chunk chunk : world.getLoadedChunks()) {
-                    Bukkit.getRegionScheduler().execute(main.plugin(), chunk.getBlock(0, 0, 0).getLocation(), () -> {
+                    Bukkit.getRegionScheduler().run(main.plugin(), chunk.getBlock(0, 0, 0).getLocation(), (task) -> {
                         Entity[] chunkEntities = chunk.getEntities();
                         if (chunkEntities.length == 0) return;
 

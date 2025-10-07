@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
 
@@ -95,13 +96,16 @@ public class VoteSection implements Section {
   
     public void announceVote(String voterName) {
         int votingDays = config.getInt("VoterRoleExpirationDays", 30);
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            Localization loc = Localization.getLocalization(p.locale().getLanguage());
-            String message = loc.getWithPlaceholders("vote_announcement", "%days%", String.valueOf(votingDays));
-            String finalMessage = String.format(message, voterName);            
-            String prefixedMessage = loc.getPrefix() + " &r&7>>&r " + finalMessage;
-            p.sendMessage(me.txmc.core.util.GlobalUtils.translateChars(prefixedMessage));
-        }
+        
+        Bukkit.getGlobalRegionScheduler().runDelayed(plugin, (task) -> {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                Localization loc = Localization.getLocalization(p.locale().getLanguage());
+                String message = loc.getWithPlaceholders("vote_announcement", "%days%", String.valueOf(votingDays));
+                String finalMessage = String.format(message, voterName);            
+                String prefixedMessage = loc.getPrefix() + " &r&7>>&r " + finalMessage;
+                p.sendMessage(me.txmc.core.util.GlobalUtils.translateChars(prefixedMessage));
+            }
+        }, 1L);
     }
 
     /**
@@ -242,9 +246,18 @@ public class VoteSection implements Section {
         try {
             Player player = Bukkit.getPlayerExact(username);
             if (player != null && player.isOnline()) {
-                boolean hasRole = player.hasPermission("group.voter") || player.hasPermission("voter");
-                // plugin.getLogger().info("Checked online player " + username + " for voter role: " + hasRole);
-                return hasRole;
+                CompletableFuture<Boolean> permissionFuture = new CompletableFuture<>();
+                Bukkit.getRegionScheduler().run(plugin, player.getLocation(), (task) -> {
+                    boolean hasRole = player.hasPermission("group.voter") || player.hasPermission("voter");
+                    permissionFuture.complete(hasRole);
+                });
+                
+                try {
+                    return permissionFuture.get(1, java.util.concurrent.TimeUnit.SECONDS);
+                } catch (Exception e) {
+                    plugin.getLogger().warning("Failed to check voter role for " + username + ": " + e.getMessage());
+                    return false;
+                }
             }
             // plugin.getLogger().info("Cannot check voter role for offline player " + username + " - will check on join");
             return false;

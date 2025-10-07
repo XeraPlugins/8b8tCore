@@ -113,20 +113,22 @@ public class ChatListener implements Listener {
 
         Bukkit.getLogger().info(GlobalUtils.getStringContent(message));
 
-        for (Player recipient : Bukkit.getOnlinePlayers()) {
-            ChatInfo info = manager.getInfo(recipient);
-            if (info == null || info.isIgnoring(sender.getUniqueId()) || info.isToggledChat()) continue;
+        Bukkit.getGlobalRegionScheduler().runDelayed(manager.getPlugin(), (task) -> {
+            for (Player recipient : Bukkit.getOnlinePlayers()) {
+                ChatInfo info = manager.getInfo(recipient);
+                if (info == null || info.isIgnoring(sender.getUniqueId()) || info.isToggledChat()) continue;
 
-            String lowerMessage = ogMessage.toLowerCase();
+                String lowerMessage = ogMessage.toLowerCase();
 
-            if (lowerMessage.contains(recipient.getName().toLowerCase())) {
-                TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, recipient.getName());
-                if(highlightedMessage == null) return;
-                recipient.sendMessage(highlightedMessage);
-            } else {
-                recipient.sendMessage(message);
+                if (lowerMessage.contains(recipient.getName().toLowerCase())) {
+                    TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, recipient.getName());
+                    if(highlightedMessage == null) return;
+                    recipient.sendMessage(highlightedMessage);
+                } else {
+                    recipient.sendMessage(message);
+                }
             }
-        }
+        }, 1L);
     }
 
     private boolean domainCheck(String message) {

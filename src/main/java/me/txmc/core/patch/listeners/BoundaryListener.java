@@ -94,38 +94,29 @@ public class BoundaryListener implements Listener {
         
         event.setCancelled(true);
         
-        player.teleportAsync(safeLocation);
-        player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
-        player.setFallDistance(0);
-        
-        player.getWorld().getChunkAt(safeLocation).load();
-        player.teleportAsync(safeLocation.clone().add(0, 0.1, 0));
-        
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            if (player.isOnline()) {
-                player.teleportAsync(safeLocation);
-                player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
-                player.setFallDistance(0);
-                
-                if (player.getLocation().getY() < player.getWorld().getMinHeight()) {
-                    player.teleportAsync(safeLocation.clone().add(0, 1, 0));
-                    player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
+        if (isPlayerMounted(player)) {
+            dismountPlayer(player);            
+            player.getScheduler().runDelayed(plugin, (task) -> {
+                if (player.isOnline()) {
+                    performBottomBoundaryTeleport(player, safeLocation);
                 }
-            }
-        }, 1L);
+            }, null, 3L);
+        } else {
+            performBottomBoundaryTeleport(player, safeLocation);
+        }
         
         player.setInvulnerable(true);
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+        player.getScheduler().runDelayed(plugin, (task) -> {
             if (player.isOnline()) player.setInvulnerable(false);
-        }, 20L);
+        }, null, 20L);
         
         lastBottomTeleport.put(player.getUniqueId(), System.currentTimeMillis() + 1000);
         
         player.sendMessage("§eYou were teleported to safety above the bottom boundary!");
         
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+        player.getScheduler().runDelayed(plugin, (task) -> {
             lastBottomTeleport.remove(player.getUniqueId());
-        }, 100L);
+        }, null, 100L);
     }
     
     private void handleNetherRoofAttempt(org.bukkit.entity.Player player, PlayerMoveEvent event) {
@@ -142,7 +133,10 @@ public class BoundaryListener implements Listener {
         if (safeLocation != null) {
             teleportPlayer(player, safeLocation);
         } else {
-            Location fallbackLocation = event.getFrom().clone().subtract(0, 3, 0);
+            Location fallbackLocation = event.getFrom().clone().subtract(0, 10, 0);
+            if (fallbackLocation.getY() < 1) {
+                fallbackLocation.setY(5);
+            }
             teleportPlayer(player, fallbackLocation);
         }
         
@@ -181,11 +175,11 @@ public class BoundaryListener implements Listener {
                 
                 player.sendMessage("§cYou cannot be above the Nether roof!");
                 
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                player.getScheduler().runDelayed(plugin, (task) -> {
                     try {
                         lastNetherRoofDamage.remove(player.getUniqueId());
                     } catch (Exception ignored) {}
-                }, 200L);
+                }, null, 200L);
             } else {
                 teleportPlayerDownFromNetherRoof(player, event, from);
             }
@@ -216,16 +210,82 @@ public class BoundaryListener implements Listener {
         player.sendMessage("§cYou cannot go above the nether roof!");
     }
     
+    /**
+     * Checks if a player is currently mounted on any entity (boat, horse, etc.)
+     */
+    private boolean isPlayerMounted(org.bukkit.entity.Player player) {
+        return player.getVehicle() != null;
+    }
+    
+    /**
+     * Safely dismounts a player from any vehicle they might be riding
+     */
+    private void dismountPlayer(org.bukkit.entity.Player player) {
+        if (isPlayerMounted(player)) {
+            org.bukkit.entity.Entity vehicle = player.getVehicle();
+            if (vehicle != null) {
+                vehicle.eject();
+                player.getScheduler().runDelayed(plugin, (task) -> {
+                    if (player.isOnline() && isPlayerMounted(player)) {
+                        player.leaveVehicle();
+                    }
+                }, null, 1L);
+            }
+        }
+    }
+    
     private void teleportPlayer(org.bukkit.entity.Player player, Location location) {
+         if (isPlayerMounted(player)) {
+             dismountPlayer(player);
+             
+             player.getScheduler().runDelayed(plugin, (task) -> {
+                 if (player.isOnline()) {
+                     performTeleport(player, location);
+                 }
+             }, null, 3L);
+         } else {
+             performTeleport(player, location);
+         }
+     }
+     
+     /**
+      * Performs the actual teleportation after ensuring player is dismounted
+      */
+     private void performTeleport(org.bukkit.entity.Player player, Location location) {
          player.teleportAsync(location);
          
          final Location finalLocation = location;
-         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+         player.getScheduler().runDelayed(plugin, (task) -> {
              if (player.isOnline() && player.getLocation().getY() >= plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128)) {
                  player.teleportAsync(finalLocation);
                  player.setVelocity(player.getVelocity().setY(0));
              }
-         }, 5L);
+         }, null, 5L);
+     }
+     
+     /**
+      * Performs the specific teleportation logic for bottom boundary violations
+      */
+     private void performBottomBoundaryTeleport(org.bukkit.entity.Player player, Location safeLocation) {
+         player.teleportAsync(safeLocation);
+         player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
+         player.setFallDistance(0);
+         
+         player.getWorld().getChunkAt(safeLocation).load();
+         player.teleportAsync(safeLocation.clone().add(0, 0.1, 0));
+         
+         player.getScheduler().runDelayed(plugin, (task) -> {
+             if (player.isOnline()) {
+                 player.teleportAsync(safeLocation);
+                 player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
+                 player.setFallDistance(0);
+                 
+                 if (player.getLocation().getY() < player.getWorld().getMinHeight()) {
+                     player.teleportAsync(safeLocation.clone().add(0, 1, 0));
+                     player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
+                 }
+             }
+         }, null, 1L);
      }
     
     /**
@@ -235,28 +295,35 @@ public class BoundaryListener implements Listener {
         int maxY = world.getMaxHeight();
         int minY = world.getMinHeight();
         
-        // Start from the configured Y level and search upward
         for (int y = (int)startY; y < maxY && y < startY + 50; y++) {
-            Block block = world.getBlockAt((int)x, y, (int)z);
-            Block above = world.getBlockAt((int)x, y + 1, (int)z);
-            Block twoAbove = world.getBlockAt((int)x, y + 2, (int)z);
+            Block ground = world.getBlockAt((int)x, y - 1, (int)z);
+            Block body = world.getBlockAt((int)x, y, (int)z);
+            Block head = world.getBlockAt((int)x, y + 1, (int)z);
             
-            if (isSafeBlock(block) && isSafeBlock(above) && isSafeBlock(twoAbove)) {
-                Location location = new Location(world, x + 0.5, y + 1, z + 0.5);
-                
-                if (plugin.getConfig().getBoolean("Patch.BoundaryProtection.CreateBottomPlatform", true)) {
-                    createBottomPlatform(world, (int)x, y - 1, (int)z);
-                }
+            if (isSolidBlock(ground) && isAirSpace(body) && isAirSpace(head)) {
+                Location location = new Location(world, x, y, z);                
+                if (!isAirSpace(body)) body.setType(Material.AIR);
+                if (!isAirSpace(head)) head.setType(Material.AIR);
                 
                 return location;
             }
         }
         
-        // Fallback: create a platform at startY
+        // If no safe spot found, create one at startY
         int y = (int)startY;
         if (y >= minY && y < maxY) {
-            createBottomPlatform(world, (int)x, y - 1, (int)z);
-            return new Location(world, x + 0.5, y, z + 0.5);
+            Block ground = world.getBlockAt((int)x, y - 1, (int)z);
+            Block body = world.getBlockAt((int)x, y, (int)z);
+            Block head = world.getBlockAt((int)x, y + 1, (int)z);
+            
+            if (!isSolidBlock(ground)) {
+                ground.setType(Material.STONE);
+            }
+            
+            body.setType(Material.AIR);
+            head.setType(Material.AIR);
+            
+            return new Location(world, x, y, z);
         }
         
         return new Location(world, x, startY, z);
@@ -269,7 +336,6 @@ public class BoundaryListener implements Listener {
         World world = from.getWorld();
         int netherYLevel = plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128);
         
-        // Find the actual bedrock ceiling
         int bedrockCeiling = netherYLevel;
         for (int y = netherYLevel; y < world.getMaxHeight() && y < netherYLevel + 20; y++) {
             Block block = world.getBlockAt(from.getBlockX(), y, from.getBlockZ());
@@ -279,24 +345,56 @@ public class BoundaryListener implements Listener {
             }
         }
         
-        // Search for a safe spot at least 2 blocks below the bedrock ceiling
-        for (int y = bedrockCeiling - 2; y > 0 && y > bedrockCeiling - 30; y--) {
-            Block block = world.getBlockAt(from.getBlockX(), y, from.getBlockZ());
-            Block above = world.getBlockAt(from.getBlockX(), y + 1, from.getBlockZ());
-            Block twoAbove = world.getBlockAt(from.getBlockX(), y + 2, from.getBlockZ());
+        for (int y = bedrockCeiling - 8; y > 0 && y > bedrockCeiling - 40; y--) {
+            Block ground = world.getBlockAt(from.getBlockX(), y - 1, from.getBlockZ());
+            Block body = world.getBlockAt(from.getBlockX(), y, from.getBlockZ());
+            Block head = world.getBlockAt(from.getBlockX(), y + 1, from.getBlockZ());
             
-            if (isSafeBlock(block) && isSafeBlock(above) && isSafeBlock(twoAbove)) {
-                Location location = new Location(world, from.getX(), y + 1, from.getZ());
+            if (isSolidBlock(ground) && isAirSpace(body) && isAirSpace(head)) {
+                Location location = new Location(world, from.getX(), y, from.getZ());
+                
+                if (!isAirSpace(body)) body.setType(Material.AIR);
+                if (!isAirSpace(head)) head.setType(Material.AIR);
+
+                for (int clearY = y + 2; clearY <= y + 4 && clearY < bedrockCeiling; clearY++) {
+                    Block aboveBlock = world.getBlockAt(from.getBlockX(), clearY, from.getBlockZ());
+                    if (!isAirSpace(aboveBlock) && aboveBlock.getType() != Material.BEDROCK) {
+                        aboveBlock.setType(Material.AIR);
+                    }
+                }
                 
                 if (plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.CreateNetherPlatform", true)) {
-                    createNetherPlatform(world, from.getBlockX(), y, from.getBlockZ());
+                    createNetherPlatform(world, from.getBlockX(), y - 1, from.getBlockZ());
                 }
                 
                 return location;
             }
         }
         
-        return null;
+        // Exception to create safe space 10 blocks below bedrock if no safe spot found
+        int forceY = Math.max(5, bedrockCeiling - 10);
+        Block ground = world.getBlockAt(from.getBlockX(), forceY - 1, from.getBlockZ());
+        Block body = world.getBlockAt(from.getBlockX(), forceY, from.getBlockZ());
+        Block head = world.getBlockAt(from.getBlockX(), forceY + 1, from.getBlockZ());
+        
+        if (!isSolidBlock(ground) && ground.getType() != Material.BEDROCK) {
+            ground.setType(Material.NETHERRACK);
+        }
+        body.setType(Material.AIR);
+        head.setType(Material.AIR);
+        
+        for (int clearY = forceY + 2; clearY <= forceY + 5 && clearY < bedrockCeiling; clearY++) {
+            Block aboveBlock = world.getBlockAt(from.getBlockX(), clearY, from.getBlockZ());
+            if (aboveBlock.getType() != Material.BEDROCK) {
+                aboveBlock.setType(Material.AIR);
+            }
+        }
+        
+        if (plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.CreateNetherPlatform", true)) {
+            createNetherPlatform(world, from.getBlockX(), forceY - 1, from.getBlockZ());
+        }
+        
+        return new Location(world, from.getX(), forceY, from.getZ());
     }
     
     /**
@@ -305,19 +403,24 @@ public class BoundaryListener implements Listener {
     private void createBottomPlatform(World world, int x, int y, int z) {
         if (y < world.getMinHeight() || y >= world.getMaxHeight()) return;
         
-        Block center = world.getBlockAt(x, y, z);
-        if (center.getType() == Material.AIR || center.getType() == Material.VOID_AIR) {
-            center.setType(Material.STONE);
-        }
-        
         // Create a 3x3 platform
         for (int dx = -1; dx <= 1; dx++) {
             for (int dz = -1; dz <= 1; dz++) {
-                if (dx == 0 && dz == 0) continue;
-                
                 Block block = world.getBlockAt(x + dx, y, z + dz);
-                if (block.getType() == Material.AIR || block.getType() == Material.VOID_AIR) {
+                if (block.getType() == Material.AIR || block.getType() == Material.VOID_AIR || block.getType() == Material.CAVE_AIR) {
                     block.setType(Material.STONE);
+                }
+            }
+        }
+        
+        // Ensure air space above the platform (2 blocks high)
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dz = -1; dz <= 1; dz++) {
+                for (int dy = 1; dy <= 2; dy++) {
+                    Block block = world.getBlockAt(x + dx, y + dy, z + dz);
+                    if (block.getType().isSolid() && block.getType() != Material.BEDROCK) {
+                        block.setType(Material.AIR);
+                    }
                 }
             }
         }
@@ -329,31 +432,55 @@ public class BoundaryListener implements Listener {
     private void createNetherPlatform(World world, int x, int y, int z) {
         if (y < 0 || y >= world.getMaxHeight()) return;
         
-        Block center = world.getBlockAt(x, y, z);
-        if (center.getType() == Material.AIR || center.getType() == Material.VOID_AIR || center.getType() == Material.LAVA) {
-            center.setType(Material.NETHERRACK);
-        }
-        
-        // Create a 3x3 platform, protecting end portals
+        // Create a 3x3 platform (excluding end portals)
         for (int dx = -1; dx <= 1; dx++) {
             for (int dz = -1; dz <= 1; dz++) {
-                if (dx == 0 && dz == 0) continue;
-                
                 Block block = world.getBlockAt(x + dx, y, z + dz);
-                if ((block.getType() == Material.AIR || block.getType() == Material.VOID_AIR || block.getType() == Material.LAVA) &&
+                if ((block.getType() == Material.AIR || block.getType() == Material.VOID_AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.LAVA) &&
                     block.getType() != Material.END_PORTAL && block.getType() != Material.END_PORTAL_FRAME) {
                     block.setType(Material.NETHERRACK);
+                }
+            }
+        }
+        
+        // Ensure air space above the platform
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dz = -1; dz <= 1; dz++) {
+                for (int dy = 1; dy <= 4; dy++) {
+                    Block block = world.getBlockAt(x + dx, y + dy, z + dz);
+                    if (block.getType().isSolid() && block.getType() != Material.BEDROCK) {
+                        block.setType(Material.AIR);
+                    }
                 }
             }
         }
     }
     
     /**
-     * Checks if a block is safe for player placement
+     * Checks if a block is safe for player placement (solid ground)
      */
-    private boolean isSafeBlock(Block block) {
+    private boolean isSolidBlock(Block block) {
         Material type = block.getType();
-        return type != Material.LAVA && type != Material.WATER && type != Material.FIRE &&
-               !type.isSolid() && type != Material.MAGMA_BLOCK;
+        return type.isSolid() && 
+               type != Material.LAVA && 
+               type != Material.WATER && 
+               type != Material.FIRE && 
+               type != Material.MAGMA_BLOCK &&
+               !type.name().contains("LEAVES");
+    }
+    
+    /**
+     * Checks if a block is air or safe for player to occupy
+     */
+    private boolean isAirSpace(Block block) {
+        Material type = block.getType();
+        return type == Material.AIR || 
+               type == Material.VOID_AIR || 
+               type == Material.CAVE_AIR ||
+               (!type.isSolid() && 
+                type != Material.LAVA && 
+                type != Material.WATER && 
+                type != Material.FIRE &&
+                type != Material.MAGMA_BLOCK);
     }
 }

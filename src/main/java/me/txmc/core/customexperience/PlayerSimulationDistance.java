@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.logging.Level;
 import static me.txmc.core.util.GlobalUtils.log;
@@ -30,7 +31,7 @@ import static me.txmc.core.util.GlobalUtils.log;
  * @author Minelord9000 (agarciacorte)
  * @since 2024/07/18 12:42 PM
  */
-public class PlayerSimulationDistance {
+public class PlayerSimulationDistance implements Listener {
     private final JavaPlugin plugin;
 
     public PlayerSimulationDistance(JavaPlugin plugin) {
@@ -38,30 +39,50 @@ public class PlayerSimulationDistance {
     }
 
     public void handlePlayerJoin(Player player) {
-        setSimulationDistance(player);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (player.isOnline()) {
+                    setSimulationDistance(player);
+                }
+            }
+        }.runTaskLater(plugin, 10L); // 0.5 second delay
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        handlePlayerJoin(event.getPlayer());
     }
 
     private void setSimulationDistance(Player player) {
-        int simulationDistance = plugin.getConfig().getInt("simulationdistance.default", 4);
-        int maxChunks = 2;
+        int simulationDistance = calculateSimulationDistance(player);
+        
+        try {
+            player.setSimulationDistance(simulationDistance);
+            log(Level.INFO, "Simulation distance set to " + simulationDistance + " chunks for player: " + player.getName());
+        } catch (Exception e) {
+            log(Level.WARNING, "Failed to set simulation distance for " + player.getName() + ": " + e.getMessage());
+        }
+    }
 
-        for (String permission : player.getEffectivePermissions().stream().map(PermissionAttachmentInfo::getPermission).toList()) {
+    private int calculateSimulationDistance(Player player) {
+        int defaultDistance = plugin.getConfig().getInt("simulationdistance.default", 4);
+        int maxDistance = defaultDistance;
+
+        for (PermissionAttachmentInfo permInfo : player.getEffectivePermissions()) {
+            String permission = permInfo.getPermission();
             if (permission.startsWith("8b8tcore.simulationdistance.")) {
-                String chunksStr = permission.replace("8b8tcore.simulationdistance.", "");
                 try {
+                    String chunksStr = permission.substring("8b8tcore.simulationdistance.".length());
                     int chunks = Integer.parseInt(chunksStr);
                     chunks = Math.max(2, Math.min(32, chunks));
-
-                    if (chunks > maxChunks) {
-                        maxChunks = chunks;
-                    }
-                    simulationDistance = maxChunks;
+                    maxDistance = Math.max(maxDistance, chunks);
                 } catch (NumberFormatException ignored) {
+                    // If it's not here it's an invalid permission format. So we will skip.
                 }
             }
         }
 
-        player.setSimulationDistance(simulationDistance);
-        log(Level.INFO, "Simulation distance set to " + simulationDistance + " chunks for player: " + player.getName());
+        return maxDistance;
     }
 }

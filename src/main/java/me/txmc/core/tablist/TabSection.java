@@ -49,6 +49,10 @@ public class TabSection implements Section {
         return "TabList";
     }
 
+    public Main getPlugin() {
+        return plugin;
+    }
+
     public void setTab(Player player) {
 
         String tag = prefixManager.getPrefix(player);

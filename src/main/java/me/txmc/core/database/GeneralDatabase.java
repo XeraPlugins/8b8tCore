@@ -199,4 +199,16 @@ public class GeneralDatabase {
             }
         });
     }
+
+    public void close() {
+        databaseExecutor.shutdown();
+        try {
+            if (!databaseExecutor.awaitTermination(10, TimeUnit.SECONDS)) {
+                databaseExecutor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            databaseExecutor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
 }

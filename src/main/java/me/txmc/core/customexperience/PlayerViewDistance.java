@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.logging.Level;
 import static me.txmc.core.util.GlobalUtils.log;
@@ -30,7 +31,8 @@ import static me.txmc.core.util.GlobalUtils.log;
  * @author Minelord9000 (agarciacorte)
  * @since 2024/07/18 12:42 PM
  */
-public class PlayerViewDistance {
+
+public class PlayerViewDistance implements Listener {
     private final JavaPlugin plugin;
 
     public PlayerViewDistance(JavaPlugin plugin) {
@@ -38,31 +40,51 @@ public class PlayerViewDistance {
     }
 
     public void handlePlayerJoin(Player player) {
-        setRenderDistance(player);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (player.isOnline()) {
+                    setRenderDistance(player);
+                }
+            }
+        }.runTaskLater(plugin, 10L); // 0.5 second delay
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        handlePlayerJoin(event.getPlayer());
     }
 
     private void setRenderDistance(Player player) {
-        int renderDistance = plugin.getConfig().getInt("viewdistance.default", 2);
-        int maxChunks = 2;
+        int renderDistance = calculateRenderDistance(player);
+        
+        try {
+            player.setSendViewDistance(renderDistance);
+            player.setViewDistance(renderDistance);
+            log(Level.INFO, "View distance set to " + renderDistance + " chunks for player: " + player.getName());
+        } catch (Exception e) {
+            log(Level.WARNING, "Failed to set view distance for " + player.getName() + ": " + e.getMessage());
+        }
+    }
 
-        for (String permission : player.getEffectivePermissions().stream().map(PermissionAttachmentInfo::getPermission).toList()) {
+    private int calculateRenderDistance(Player player) {
+        int defaultDistance = plugin.getConfig().getInt("viewdistance.default", 2);
+        int maxDistance = defaultDistance;
+
+        for (PermissionAttachmentInfo permInfo : player.getEffectivePermissions()) {
+            String permission = permInfo.getPermission();
             if (permission.startsWith("8b8tcore.viewdistance.")) {
-                String chunksStr = permission.replace("8b8tcore.viewdistance.", "");
                 try {
+                    String chunksStr = permission.substring("8b8tcore.viewdistance.".length());
                     int chunks = Integer.parseInt(chunksStr);
                     chunks = Math.max(2, Math.min(32, chunks));
-
-                    if (chunks > maxChunks) {
-                        maxChunks = chunks;
-                    }
-                    renderDistance = maxChunks;
+                    maxDistance = Math.max(maxDistance, chunks);
                 } catch (NumberFormatException ignored) {
+                    // If it's not here it's an invalid permission format. So we will skip.
                 }
             }
         }
 
-        player.setSendViewDistance(renderDistance);
-        player.setViewDistance(renderDistance);
-        log(Level.INFO, "View distance set to " + renderDistance + " chunks for player: " + player.getName());
+        return maxDistance;
     }
 }
