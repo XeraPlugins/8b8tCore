@@ -94,38 +94,29 @@ public class BoundaryListener implements Listener {
         
         event.setCancelled(true);
         
-        player.teleportAsync(safeLocation);
-        player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
-        player.setFallDistance(0);
-        
-        player.getWorld().getChunkAt(safeLocation).load();
-        player.teleportAsync(safeLocation.clone().add(0, 0.1, 0));
-        
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            if (player.isOnline()) {
-                player.teleportAsync(safeLocation);
-                player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
-                player.setFallDistance(0);
-                
-                if (player.getLocation().getY() < player.getWorld().getMinHeight()) {
-                    player.teleportAsync(safeLocation.clone().add(0, 1, 0));
-                    player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
+        if (isPlayerMounted(player)) {
+            dismountPlayer(player);            
+            player.getScheduler().runDelayed(plugin, (task) -> {
+                if (player.isOnline()) {
+                    performBottomBoundaryTeleport(player, safeLocation);
                 }
-            }
-        }, 1L);
+            }, null, 3L);
+        } else {
+            performBottomBoundaryTeleport(player, safeLocation);
+        }
         
         player.setInvulnerable(true);
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+        player.getScheduler().runDelayed(plugin, (task) -> {
             if (player.isOnline()) player.setInvulnerable(false);
-        }, 20L);
+        }, null, 20L);
         
         lastBottomTeleport.put(player.getUniqueId(), System.currentTimeMillis() + 1000);
         
         player.sendMessage("§eYou were teleported to safety above the bottom boundary!");
         
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+        player.getScheduler().runDelayed(plugin, (task) -> {
             lastBottomTeleport.remove(player.getUniqueId());
-        }, 100L);
+        }, null, 100L);
     }
     
     private void handleNetherRoofAttempt(org.bukkit.entity.Player player, PlayerMoveEvent event) {
@@ -184,11 +175,11 @@ public class BoundaryListener implements Listener {
                 
                 player.sendMessage("§cYou cannot be above the Nether roof!");
                 
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                player.getScheduler().runDelayed(plugin, (task) -> {
                     try {
                         lastNetherRoofDamage.remove(player.getUniqueId());
                     } catch (Exception ignored) {}
-                }, 200L);
+                }, null, 200L);
             } else {
                 teleportPlayerDownFromNetherRoof(player, event, from);
             }
@@ -219,16 +210,82 @@ public class BoundaryListener implements Listener {
         player.sendMessage("§cYou cannot go above the nether roof!");
     }
     
+    /**
+     * Checks if a player is currently mounted on any entity (boat, horse, etc.)
+     */
+    private boolean isPlayerMounted(org.bukkit.entity.Player player) {
+        return player.getVehicle() != null;
+    }
+    
+    /**
+     * Safely dismounts a player from any vehicle they might be riding
+     */
+    private void dismountPlayer(org.bukkit.entity.Player player) {
+        if (isPlayerMounted(player)) {
+            org.bukkit.entity.Entity vehicle = player.getVehicle();
+            if (vehicle != null) {
+                vehicle.eject();
+                player.getScheduler().runDelayed(plugin, (task) -> {
+                    if (player.isOnline() && isPlayerMounted(player)) {
+                        player.leaveVehicle();
+                    }
+                }, null, 1L);
+            }
+        }
+    }
+    
     private void teleportPlayer(org.bukkit.entity.Player player, Location location) {
+         if (isPlayerMounted(player)) {
+             dismountPlayer(player);
+             
+             player.getScheduler().runDelayed(plugin, (task) -> {
+                 if (player.isOnline()) {
+                     performTeleport(player, location);
+                 }
+             }, null, 3L);
+         } else {
+             performTeleport(player, location);
+         }
+     }
+     
+     /**
+      * Performs the actual teleportation after ensuring player is dismounted
+      */
+     private void performTeleport(org.bukkit.entity.Player player, Location location) {
          player.teleportAsync(location);
          
          final Location finalLocation = location;
-         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+         player.getScheduler().runDelayed(plugin, (task) -> {
              if (player.isOnline() && player.getLocation().getY() >= plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128)) {
                  player.teleportAsync(finalLocation);
                  player.setVelocity(player.getVelocity().setY(0));
              }
-         }, 5L);
+         }, null, 5L);
+     }
+     
+     /**
+      * Performs the specific teleportation logic for bottom boundary violations
+      */
+     private void performBottomBoundaryTeleport(org.bukkit.entity.Player player, Location safeLocation) {
+         player.teleportAsync(safeLocation);
+         player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
+         player.setFallDistance(0);
+         
+         player.getWorld().getChunkAt(safeLocation).load();
+         player.teleportAsync(safeLocation.clone().add(0, 0.1, 0));
+         
+         player.getScheduler().runDelayed(plugin, (task) -> {
+             if (player.isOnline()) {
+                 player.teleportAsync(safeLocation);
+                 player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
+                 player.setFallDistance(0);
+                 
+                 if (player.getLocation().getY() < player.getWorld().getMinHeight()) {
+                     player.teleportAsync(safeLocation.clone().add(0, 1, 0));
+                     player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
+                 }
+             }
+         }, null, 1L);
      }
     
     /**
@@ -263,11 +320,9 @@ public class BoundaryListener implements Listener {
                 ground.setType(Material.STONE);
             }
             
-            // Clear air space
             body.setType(Material.AIR);
             head.setType(Material.AIR);
             
-            // Use exact coordinates without centering to prevent rounding errors
             return new Location(world, x, y, z);
         }
         
@@ -281,7 +336,6 @@ public class BoundaryListener implements Listener {
         World world = from.getWorld();
         int netherYLevel = plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128);
         
-        // Find the actual bedrock ceiling
         int bedrockCeiling = netherYLevel;
         for (int y = netherYLevel; y < world.getMaxHeight() && y < netherYLevel + 20; y++) {
             Block block = world.getBlockAt(from.getBlockX(), y, from.getBlockZ());

@@ -1,6 +1,6 @@
 name: 8b8tCore
 main: me.txmc.core.Main
-version: 1.6.5
+version: 1.6.6
 author: 254n_m, agarciacort, Leeewith3Es, MindComplexity
 description: A core plugin for 8b8t
 api-version: 1.21
