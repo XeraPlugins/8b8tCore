@@ -111,6 +111,18 @@ public class Main extends JavaPlugin {
         sections.forEach(Section::disable);
         sections.clear();
 
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
+            try {
+                if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                    executorService.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                executorService.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }
+
         for (Handler handler : MapCreationLogger.getLogger().getHandlers()) {
             handler.close();
         }

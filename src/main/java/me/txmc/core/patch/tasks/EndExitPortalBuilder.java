@@ -29,9 +29,8 @@ public class EndExitPortalBuilder implements Runnable {
             loadFutures.add(endWorld.getChunkAtAsync(coord.chunkX, coord.chunkZ));
         }
 
-        // When all chunks are loaded, schedule the build
         CompletableFuture.allOf(loadFutures.toArray(new CompletableFuture[0])).thenRun(() -> {
-            Bukkit.getRegionScheduler().execute(plugin, endWorld, centerX, centerZ, () ->
+            Bukkit.getRegionScheduler().run(plugin, endWorld, centerX, centerZ, (task) ->
                     buildEndPortal(endWorld, centerX, centerY, centerZ));
         });
     }

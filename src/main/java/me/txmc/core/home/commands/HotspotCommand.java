@@ -5,31 +5,36 @@ import me.txmc.core.home.HomeManager;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.Component;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 public class HotspotCommand implements TabExecutor, Listener {
-    private final Map<Player, Location> hotspotLocations = new HashMap<>();
-    private final Map<Player, BossBar> playerBossBars = new HashMap<>();
+    private final Map<Player, Location> hotspotLocations = new ConcurrentHashMap<>();
+    private final Map<Player, BossBar> playerBossBars = new ConcurrentHashMap<>();
     private final List<String> hotspotOptions = List.of("create", "delete", "teleport");
-    private final Map<UUID, Long> lastCreateTimes = new HashMap<>();
-    private final Map<UUID, Long> creationCooldowns = new HashMap<>();
+    private final Map<UUID, Long> lastCreateTimes = new ConcurrentHashMap<>();
+    private final Map<UUID, Long> creationCooldowns = new ConcurrentHashMap<>();
+    private final Map<Player, ScheduledTask> cooldownTasks = new ConcurrentHashMap<>();
 
     private static final String PERMISSION = "8b8tcore.command.hotspotcreate";
     private int durationInSeconds = 300;
@@ -136,74 +141,75 @@ public class HotspotCommand implements TabExecutor, Listener {
         hotspotLocations.remove(player);
         lastCreateTimes.remove(player.getUniqueId());
 
+        ScheduledTask task = cooldownTasks.remove(player);
+        if (task != null) {
+            task.cancel();
+        }
+
         BossBar bossBar = playerBossBars.remove(player);
-
-        List<Audience> toRemove = new ArrayList<>();
-        bossBar.viewers().forEach(vwer -> {
-            toRemove.add((Audience) vwer);
-        });
-
-        toRemove.forEach(bossBar::removeViewer);
-
-        for (Map.Entry<Player, BossBar> entry : playerBossBars.entrySet()) {
-            if (entry.getValue().equals(bossBar)) {
-                Player associatedPlayer = entry.getKey();
-                playerBossBars.remove(associatedPlayer);
-                hotspotLocations.remove(associatedPlayer);
-                break;
-            }
+        
+        if (bossBar != null) {
+            List<Audience> toRemove = new ArrayList<>();
+            bossBar.viewers().forEach(vwer -> {
+                toRemove.add((Audience) vwer);
+            });
+            toRemove.forEach(bossBar::removeViewer);
         }
 
         if(player.isOnline()) sendPrefixedLocalizedMessage(player, "hotspot_deleted");
     }
 
     private void handleCooldown(BossBar bossBar, int duration, Player player) {
-        new Timer().schedule(new TimerTask() {
-            private int timeLeft = duration;
-            private final int viewSwitchTime = 5;
-            private boolean showingHotspotMessage = true;
-            private final String colorRed = "<gradient:#CB2D3E:#EF473A>";
-            private final String colorGreen = "<gradient:#2DCB62:#53AE2C>";
-            private final String colorYellow = "<gradient:#FFE259:#FFA751>";
+        ScheduledTask existingTask = cooldownTasks.remove(player);
+        if (existingTask != null) {
+            existingTask.cancel();
+        }
 
-            @Override
-            public void run() {
-                if (timeLeft <= 0 || !player.isOnline()) {
-                    deleteHotspot(player);
-                    cancel();
-                    return;
-                }
+        int[] timeLeft = {duration};
+        final int viewSwitchTime = 5;
+        final boolean[] showingHotspotMessage = {true};
+        final String colorRed = "<gradient:#CB2D3E:#EF473A>";
+        final String colorGreen = "<gradient:#2DCB62:#53AE2C>";
+        final String colorYellow = "<gradient:#FFE259:#FFA751>";
 
-                bossBar.progress((float) timeLeft / duration);
-
-                int minutes = timeLeft / 60;
-                int seconds = timeLeft % 60;
-                String timeRemaining = String.format("%02d:%02d", minutes, seconds);
-
-                if (timeLeft % viewSwitchTime == 0) {
-                    showingHotspotMessage = !showingHotspotMessage;
-                }
-
-                if (showingHotspotMessage) {
-                    String hotspotText = GlobalUtils.convertToMiniMessageFormat("<bold><gradient:#5555FF:#0000AA>" +  MiniMessage.miniMessage().serialize(player.displayName()) + "<reset><bold><gradient:#5555FF:#0000AA>'s hotspot - Do <gradient:#FFE259:#FFA751>/hotspot</gradient> to teleport.</gradient>");
-                    Component hotspotTextComponent = MiniMessage.miniMessage().deserialize(hotspotText);
-                    bossBar.name(hotspotTextComponent);
-                } else {
-                    String color = colorGreen;
-                    if(timeLeft <= 30) {
-                        color = colorRed;
-                        bossBar.color(BossBar.Color.RED);
-                    }
-                    else if (timeLeft <= 60) color = colorYellow;
-
-                    String hotspotText = GlobalUtils.convertToMiniMessageFormat( "<bold><gradient:#5555FF:#0000AA>" + MiniMessage.miniMessage().serialize(player.displayName()) + "<reset><bold><gradient:#5555FF:#0000AA>'s hotspot ends in " + color + timeRemaining + "</gradient> minutes.</gradient></bold>");
-                    Component hotspotTextComponent = MiniMessage.miniMessage().deserialize(hotspotText);
-                    bossBar.name(hotspotTextComponent);
-                }
-
-                timeLeft--;
+        ScheduledTask task = Bukkit.getGlobalRegionScheduler().runAtFixedRate(main, (scheduledTask) -> {
+            if (timeLeft[0] <= 0 || !player.isOnline()) {
+                deleteHotspot(player);
+                cooldownTasks.remove(player);
+                return;
             }
-        }, 0, 1000);
+
+            bossBar.progress((float) timeLeft[0] / duration);
+
+            int minutes = timeLeft[0] / 60;
+            int seconds = timeLeft[0] % 60;
+            String timeRemaining = String.format("%02d:%02d", minutes, seconds);
+
+            if (timeLeft[0] % viewSwitchTime == 0) {
+                showingHotspotMessage[0] = !showingHotspotMessage[0];
+            }
+
+            if (showingHotspotMessage[0]) {
+                String hotspotText = GlobalUtils.convertToMiniMessageFormat("<bold><gradient:#5555FF:#0000AA>" +  MiniMessage.miniMessage().serialize(player.displayName()) + "<reset><bold><gradient:#5555FF:#0000AA>'s hotspot - Do <gradient:#FFE259:#FFA751>/hotspot</gradient> to teleport.</gradient>");
+                Component hotspotTextComponent = MiniMessage.miniMessage().deserialize(hotspotText);
+                bossBar.name(hotspotTextComponent);
+            } else {
+                String color = colorGreen;
+                if(timeLeft[0] <= 30) {
+                    color = colorRed;
+                    bossBar.color(BossBar.Color.RED);
+                }
+                else if (timeLeft[0] <= 60) color = colorYellow;
+
+                String hotspotText = GlobalUtils.convertToMiniMessageFormat( "<bold><gradient:#5555FF:#0000AA>" + MiniMessage.miniMessage().serialize(player.displayName()) + "<reset><bold><gradient:#5555FF:#0000AA>'s hotspot ends in " + color + timeRemaining + "</gradient> minutes.</gradient></bold>");
+                Component hotspotTextComponent = MiniMessage.miniMessage().deserialize(hotspotText);
+                bossBar.name(hotspotTextComponent);
+            }
+
+            timeLeft[0]--;
+        }, 1L, 20L); // 20 ticks = 1 second
+
+        cooldownTasks.put(player, task);
     }
 
 
@@ -217,8 +223,12 @@ public class HotspotCommand implements TabExecutor, Listener {
 
         Location hotspotLocation = hotspotLocations.get(targetPlayer);
 
-        player.teleportAsync(hotspotLocation);
-        sendPrefixedLocalizedMessage(player, "hotspot_teleported_to_player", targetPlayerName);
+        Bukkit.getGlobalRegionScheduler().runDelayed(main, (task) -> {
+            if (player.isOnline() && targetPlayer.isOnline()) {
+                player.teleportAsync(hotspotLocation);
+                sendPrefixedLocalizedMessage(player, "hotspot_teleported_to_player", targetPlayerName);
+            }
+        }, 1L);
     }
 
     private void teleportToNearestHotspot(Player player) {
@@ -227,7 +237,7 @@ public class HotspotCommand implements TabExecutor, Listener {
         Location closestHotspot = null;
 
         for (Location hotspotLocation : hotspotLocations.values()) {
-            if (hotspotLocation.getWorld().equals(playerLocation.getWorld())) {
+            if (hotspotLocation.getWorld().getName().equals(playerLocation.getWorld().getName())) {
                 double distance = playerLocation.distance(hotspotLocation);
                 if (distance < closestDistance) {
                     closestDistance = distance;
@@ -236,11 +246,34 @@ public class HotspotCommand implements TabExecutor, Listener {
             }
         }
 
+        if (closestHotspot == null && !hotspotLocations.isEmpty()) {
+            Player mostRecentPlayer = null;
+            long mostRecentTime = 0;
+            
+            for (Map.Entry<Player, Location> entry : hotspotLocations.entrySet()) {
+                Player hotspotOwner = entry.getKey();
+                Long creationTime = lastCreateTimes.get(hotspotOwner.getUniqueId());
+                if (creationTime != null && creationTime > mostRecentTime) {
+                    mostRecentTime = creationTime;
+                    mostRecentPlayer = hotspotOwner;
+                }
+            }
+            
+            if (mostRecentPlayer != null) {
+                closestHotspot = hotspotLocations.get(mostRecentPlayer);
+            }
+        }
+
         if (closestHotspot == null) {
             sendPrefixedLocalizedMessage(player, "hotspot_not_found");
         } else {
-            player.teleportAsync(closestHotspot);
-            sendPrefixedLocalizedMessage(player, "hotspot_teleported_to");
+            Location finalClosestHotspot = closestHotspot;
+            Bukkit.getGlobalRegionScheduler().runDelayed(main, (task) -> {
+                if (player.isOnline()) {
+                    player.teleportAsync(finalClosestHotspot);
+                    sendPrefixedLocalizedMessage(player, "hotspot_teleported_to");
+                }
+            }, 1L);
         }
     }
 
@@ -265,6 +298,14 @@ public class HotspotCommand implements TabExecutor, Listener {
                     bossBar.removeViewer(player);
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();        
+        for (BossBar bossBar : playerBossBars.values()) {
+            bossBar.removeViewer(player);
         }
     }
 

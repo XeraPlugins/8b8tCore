@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 import static me.txmc.core.util.GlobalUtils.translateChars;
@@ -84,16 +83,12 @@ public class TpsinfoCommand extends BaseCommand {
                 .thenApply(v -> {
                     double lowestTPS = Double.MAX_VALUE;
                     for (CompletableFuture<Double> future : futures) {
-                        try {
-                            double regionTPS = future.get();
-                            if (regionTPS < lowestTPS) {
-                                lowestTPS = regionTPS;
-                            }
-                        } catch (InterruptedException | ExecutionException e) {
-                            //ignore
+                        double regionTPS = future.getNow(-1.0);
+                        if (regionTPS != -1.0 && regionTPS < lowestTPS) {
+                            lowestTPS = regionTPS;
                         }
                     }
-                    return lowestTPS;
+                    return lowestTPS == Double.MAX_VALUE ? -1.0 : lowestTPS;
                 });
     }
 }
