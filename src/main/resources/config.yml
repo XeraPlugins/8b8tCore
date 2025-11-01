@@ -232,6 +232,7 @@ ZombieDupe:
 DonkeyDupe:
   enabled: true
   votersOnly: true
+  twoPlayerMode: true
 DupeCommand:
   enabled: false
   votersOnly: false

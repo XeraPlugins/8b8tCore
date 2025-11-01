@@ -11,10 +11,9 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Handles the duplication of items stored in chested animals (e.g., donkeys) when interacting
@@ -26,11 +25,13 @@ import java.util.UUID;
  * <p>Configuration:</p>
  * <ul>
  *     <li><b>DonkeyDupe.enabled</b>: Enable or disable the donkey dupe functionality.</li>
+ *     <li><b>DonkeyDupe.twoPlayerMode</b>: Enable 2-player simultaneous access dupe.</li>
  * </ul>
  *
  * <p>Functionality:</p>
  * <ul>
  *     <li>Creates a fake inventory if the player moves too far from the tracked animal.</li>
+ *     <li>Allows two players to simultaneously access the same donkey for duplication.</li>
  * </ul>
  *
  * @author Minelord9000 (agarciacorte)
@@ -41,6 +42,8 @@ public class DonkeyDupe implements Listener {
 
     private final Main plugin;
     private final Map<UUID, ChestedHorse> trackedAnimals = new HashMap<>();
+    private final Map<UUID, Set<UUID>> donkeyViewers = new HashMap<>();
+    private final Map<UUID, Map<Integer, ItemStack>> donkeySnapshots = new HashMap<>();
 
     final double MIN_DISTANCE = 6.0;
 
@@ -61,6 +64,27 @@ public class DonkeyDupe implements Listener {
 
         final boolean VOTERS_ONLY = plugin.getConfig().getBoolean("DonkeyDupe.votersOnly", false);
         if (VOTERS_ONLY && !player.hasPermission("8b8tcore.dupe.donkey")) return;
+
+        final boolean TWO_PLAYER_MODE = plugin.getConfig().getBoolean("DonkeyDupe.twoPlayerMode", true);
+
+        if (TWO_PLAYER_MODE) {
+            UUID donkeyId = animal.getUniqueId();
+            donkeyViewers.computeIfAbsent(donkeyId, k -> new HashSet<>()).add(player.getUniqueId());
+            
+            if (!donkeySnapshots.containsKey(donkeyId)) {
+                Map<Integer, ItemStack> snapshot = new HashMap<>();
+                for (int i = 0; i < animal.getInventory().getSize(); i++) {
+                    ItemStack item = animal.getInventory().getItem(i);
+                    if (item != null) {
+                        snapshot.put(i, item.clone());
+                    }
+                }
+                donkeySnapshots.put(donkeyId, snapshot);
+            }
+            
+            trackedAnimals.put(player.getUniqueId(), animal);
+            return;
+        }
 
         if (trackedAnimals.containsKey(player.getUniqueId())) return;
 
@@ -91,9 +115,32 @@ public class DonkeyDupe implements Listener {
         Player player = (Player) event.getPlayer();
         ChestedHorse animal = trackedAnimals.get(player.getUniqueId());
 
-
         if (animal == null) return;
         if (holder != animal) return;
+
+        final boolean TWO_PLAYER_MODE = plugin.getConfig().getBoolean("DonkeyDupe.twoPlayerMode", true);
+        UUID donkeyId = animal.getUniqueId();
+
+        if (TWO_PLAYER_MODE) {
+            Set<UUID> viewers = donkeyViewers.get(donkeyId);
+            if (viewers != null) {
+                viewers.remove(player.getUniqueId());
+                
+                if (viewers.isEmpty()) {
+                    donkeyViewers.remove(donkeyId);
+                    
+                    Map<Integer, ItemStack> snapshot = donkeySnapshots.get(donkeyId);
+                    if (snapshot != null) {
+                        for (Map.Entry<Integer, ItemStack> entry : snapshot.entrySet()) {
+                            animal.getInventory().setItem(entry.getKey(), entry.getValue().clone());
+                        }
+                        donkeySnapshots.remove(donkeyId);
+                    }
+                }
+            }
+            trackedAnimals.remove(player.getUniqueId());
+            return;
+        }
 
         if (animal.getLocation().distance(player.getLocation()) >= MIN_DISTANCE && player.getVehicle() != null ) {
             Inventory fakeInventory = Bukkit.createInventory(player, 18, animal.getName() != null ? animal.getName() : "Entity");
@@ -127,4 +174,4 @@ public class DonkeyDupe implements Listener {
             }
         }
     }
-}
+            }
