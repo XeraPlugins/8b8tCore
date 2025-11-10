@@ -145,11 +145,12 @@ table_invalid_type: "&cInvalid table type. Use tab-complete to see valid options
 
 #Complex messages
 HelpMessage:
-  - '&3-------------------------------------'
+  - '&3---------------------------------------'
   - '&8Visit &chttps://www.8b8t.me/terms &8to read the rules'
-  - '&3-------------Commands----------------'
+  - '&3---------------------------------------'
+  - '&6Commands:'
   - '&c/tpa &8to teleport to another player'
-  - '&c/tpahere &8to teleport a player to your location'
+  - '&c/tpahere &8to teleport a player to your location'x
   - '&c/tpayes &8to accept a teleport request'
   - '&c/tpano &8to deny a teleport request'
   - '&c/tpacancel &8to cancel sent tpa requests'
@@ -172,16 +173,18 @@ HelpMessage:
   - '&c/pvp &8to connect to the 8b8t PVP server'
   - '&c/lobby &8to connect to the lobby'
   - '&c/tpsinfo &8to check the server ticks per second'
-  - '&3-------------Voters Only---------------'
+  - '&3---------------------------------------'
+  - '&6Voters Only:'
   - '&c/nc &8to set the name color'
   - '&8Visit &chttps://votefor.8b8t.me &8to vote'
-  - '&3-----------Donors Only--------------'
+  - '&3---------------------------------------'
+  - '&6Ranked Users Only:'
   - '&c/ic &8to set the item color'
   - '&c/rename &8to rename an item'
   - '&c/echest &8to open your ender chest'
   - '&c/nick &8to set a nickname'
   - '&8Visit &chttps://shop.8b8t.me'
-  - '&3-------------------------------------'
+  - '&3---------------------------------------'
   -
 TabList:
   Header:
@@ -201,7 +204,8 @@ TabList:
     - '&7These are the only official 8b8t websites and contacts'
     - ''
 TpsMessage:
-  - '&3-----------TPS Information------------'
+  - '&3--------------------------------------'
+  - '&6TPS Information:'
   - '&8TPS: &a%s &8MSTP: &a%s'
   - '&8Lowest Region TPS: &c%s'
   - '&8Online Players &a%s'

@@ -145,9 +145,10 @@ table_invalid_type: "&cTipo de mesa no válido. Usa el tab-complete para ver las
 
 #Complex messages
 HelpMessage:
-  - '&3--------------------------------------'
+  - '&3---------------------------------------'
   - '&8Visita &chttps://www.8b8t.me/terms &8para leer las reglas'
-  - '&3--------------Comandos----------------'
+  - '&3---------------------------------------'
+  - '&6Comandos:'
   - '&c/tpa &8para teletransportarte a otro jugador'
   - '&c/tpahere &8teletransporta a un jugador a tu ubicación'
   - '&c/tpayes &8para aceptar una solicitud de teletransporte'
@@ -172,16 +173,18 @@ HelpMessage:
   - '&c/pvp &8conéctate al servidor PVP de 8b8t'
   - '&c/lobby &8conéctate al lobby'
   - '&c/tpsinfo &8para verificar los ticks por segundo del servidor'
-  - '&3-------------Solo para Votantes---------------'
+  - '&3---------------------------------------'
+  - '&6Solo para Votantes:'
   - '&c/nc &8para establecer el color del nombre'
   - '&8Visita &chttps://votefor.8b8t.me &8para votar'
-  - '&3------------Solo para Donadores--------------'
+  - '&3---------------------------------------'
+  - '&6Solo usuarios con rango:'
   - '&c/ic &8para establecer el color del item'
   - '&c/rename &8renombra un item'
   - '&c/echest &8abrir tu cofre de ender'
   - '&c/nick &8establecer un apodo'
   - '&8Visita &chttps://shop.8b8t.me &8para donar'
-  - '&3--------------------------------------'
+  - '&3---------------------------------------'
 TabList:
   Header:
     - ''
@@ -200,11 +203,12 @@ TabList:
     - '&7Estos son los únicos sitios web y contactos oficiales de 8b8t.'
     - ''
 TpsMessage:
-  - '&3------------Información de TPS------------'
+  - '&3---------------------------------------'
+  - '&6Información de TPS:'
   - '&8TPS: &a%s &8MSTP: &a%s'
   - '&8Región con los TPS más bajos: &c%s'
   - '&8Jugadores en línea: &a%s'
-  - '&3-------------------------------------'
+  - '&3---------------------------------------'
 tps_failed: '&cUsted no tiene permitido consultar los TPS'
 
 announcements:
