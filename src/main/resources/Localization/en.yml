@@ -150,7 +150,7 @@ HelpMessage:
   - '&3---------------------------------------'
   - '&6Commands:'
   - '&c/tpa &8to teleport to another player'
-  - '&c/tpahere &8to teleport a player to your location'x
+  - '&c/tpahere &8to teleport a player to your location'
   - '&c/tpayes &8to accept a teleport request'
   - '&c/tpano &8to deny a teleport request'
   - '&c/tpacancel &8to cancel sent tpa requests'
