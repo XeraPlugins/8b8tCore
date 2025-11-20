@@ -3,6 +3,8 @@ package me.txmc.core.antiillegal.check.checks;
 import me.txmc.core.Main;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.util.GlobalUtils;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,7 +25,23 @@ public class IllegalItemCheck implements Check {
 
     @Override
     public boolean check(ItemStack item) {
-        return illegals.contains(item.getType()); // O(1) thanks HashSet
+        boolean listed = illegals.contains(item.getType());
+        if (!listed) return false;
+        if (item.hasItemMeta()) {
+            ItemMeta meta = item.getItemMeta();
+            if (meta != null && meta.hasEnchants()) {
+                if (isPumpkin(item) || isCarvedPumpkin(item) || isHead(item) || isSkull(item)) {
+                    Map<Enchantment, Integer> ench = meta.getEnchants();
+                    boolean onlyCurses = true;
+                    for (Enchantment e : ench.keySet()) {
+                        String k = e.getKey().getKey().toLowerCase();
+                        if (!k.equals("binding_curse") && !k.equals("vanishing_curse")) { onlyCurses = false; break; }
+                    }
+                    if (onlyCurses) return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -59,4 +77,10 @@ public class IllegalItemCheck implements Check {
         }
         return new HashSet<>(output);
     }
+
+    private boolean isPumpkin(ItemStack item) { return item.getType() == Material.PUMPKIN; }
+    private boolean isCarvedPumpkin(ItemStack item) { return item.getType() == Material.CARVED_PUMPKIN; }
+    private boolean isHead(ItemStack item) { String n = item.getType().name(); return n.endsWith("_HEAD"); }
+    private boolean isSkull(ItemStack item) { String n = item.getType().name(); return n.endsWith("_SKULL"); }
+
 }

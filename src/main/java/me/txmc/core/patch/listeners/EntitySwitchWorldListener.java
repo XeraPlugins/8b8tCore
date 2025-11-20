@@ -34,7 +34,8 @@ public class EntitySwitchWorldListener implements Listener {
     public void onEntitySwitchWorld(EntityPortalEnterEvent event) {
         Entity entity = event.getEntity();
         if (blacklist.contains(entity.getType())) {
-            GlobalUtils.log(Level.INFO, "Prevented a %s from going through a portal at %s", event.getEntityType(), GlobalUtils.formatLocation(event.getEntity().getLocation()));
+            // prevent spam
+            // GlobalUtils.log(Level.INFO, "Prevented a %s from going through a portal at %s", event.getEntityType(), GlobalUtils.formatLocation(event.getEntity().getLocation()));
             entity.getScheduler().run(main, (tsk) -> entity.remove(), () ->{});
         }
     }

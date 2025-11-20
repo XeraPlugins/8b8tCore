@@ -34,7 +34,9 @@ public class InventoryListeners implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         main.checkFixItem(event.getCursor(), event);
+        main.checkFixItem(event.getCurrentItem(), event);
         checkBundleContents(event.getCursor());
+        checkBundleContents(event.getCurrentItem());
     }
 
     @EventHandler
@@ -54,7 +56,7 @@ public class InventoryListeners implements Listener {
     @EventHandler
     private void inventoryClickEvent(InventoryClickEvent event) {
         for (ItemStack itemStack : event.getInventory()) {
-            main.checkFixItem(itemStack, event);
+            main.checkFixItem(itemStack, null);
             checkBundleContents(itemStack);
         }
     }
@@ -62,7 +64,7 @@ public class InventoryListeners implements Listener {
     @EventHandler
     private void playerItemConsumeEvent(PlayerItemConsumeEvent event) {
         for (ItemStack itemStack : event.getPlayer().getInventory()) {
-            main.checkFixItem(itemStack, event);
+            main.checkFixItem(itemStack, null);
             checkBundleContents(itemStack);
         }
     }

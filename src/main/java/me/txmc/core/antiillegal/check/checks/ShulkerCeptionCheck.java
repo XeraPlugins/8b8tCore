@@ -1,7 +1,7 @@
 package me.txmc.core.antiillegal.check.checks;
 
 import me.txmc.core.antiillegal.check.Check;
-import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.inventory.Inventory;
@@ -20,7 +20,7 @@ public class ShulkerCeptionCheck implements Check {
     @Override
     public boolean check(ItemStack item) {
         if (item == null) return false;
-        if (item.getType() != Material.SHULKER_BOX) return false;
+        if (!Tag.SHULKER_BOXES.isTagged(item.getType())) return false;
 
         if (!(item.getItemMeta() instanceof BlockStateMeta meta)) return false;
 
@@ -30,18 +30,18 @@ public class ShulkerCeptionCheck implements Check {
         Inventory inv = shulkerBox.getInventory();
         // Check for any nested shulker box inside
         return Arrays.stream(inv.getContents())
-                .anyMatch(i -> i != null && i.getType() == Material.SHULKER_BOX);
+                .anyMatch(i -> i != null && Tag.SHULKER_BOXES.isTagged(i.getType()));
     }
 
     @Override
     public boolean shouldCheck(ItemStack item) {
-        return true; // Check all items
+        return item != null && Tag.SHULKER_BOXES.isTagged(item.getType());
     }
 
     @Override
     public void fix(ItemStack item) {
         if (item == null) return;
-        if (item.getType() != Material.SHULKER_BOX) return;
+        if (!Tag.SHULKER_BOXES.isTagged(item.getType())) return;
 
         if (!(item.getItemMeta() instanceof BlockStateMeta meta)) return;
 
@@ -53,8 +53,8 @@ public class ShulkerCeptionCheck implements Check {
 
         for (int i = 0; i < inv.getSize(); i++) {
             ItemStack content = inv.getItem(i);
-            if (content != null && content.getType() == Material.SHULKER_BOX) {
-                inv.setItem(i, null);  // Remove nested shulker box
+            if (content != null && Tag.SHULKER_BOXES.isTagged(content.getType())) {
+                inv.setItem(i, null);
                 changed = true;
             }
         }

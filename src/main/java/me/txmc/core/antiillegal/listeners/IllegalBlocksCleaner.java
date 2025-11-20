@@ -4,6 +4,7 @@
 package me.txmc.core.antiillegal.listeners;
 
 import me.txmc.core.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.Material;
@@ -24,6 +25,8 @@ import java.util.regex.Pattern;
 public class IllegalBlocksCleaner implements Listener {
     private final Main plugin;
     private final EnumSet<Material> illegalMaterials;
+    private final int batchSize;
+    private final long delayTicks;
 
     /**
      * @param plugin         main plugin instance
@@ -32,6 +35,8 @@ public class IllegalBlocksCleaner implements Listener {
     public IllegalBlocksCleaner(Main plugin, List<String> blockPatterns) {
         this.plugin = plugin;
         this.illegalMaterials = buildMaterialSet(blockPatterns);
+        this.batchSize = Math.max(1, plugin.getConfig().getInt("IllegalBlocksCleaner.Batch", 128));
+        this.delayTicks = Math.max(1L, plugin.getConfig().getLong("IllegalBlocksCleaner.DelayTicks", 5L));
     }
 
     @EventHandler
@@ -46,33 +51,58 @@ public class IllegalBlocksCleaner implements Listener {
         int minY = world.getMinHeight();
         int maxY = (env == World.Environment.NETHER ? 127 : world.getMaxHeight());
 
-        // Use ChunkSnapshot for fast reads
         ChunkSnapshot snap = chunk.getChunkSnapshot(false, false, false);
 
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
+        List<int[]> toRemove = new ArrayList<>(512);
+        int baseX = (cx << 4), baseZ = (cz << 4);
+
+        for (int lx = 0; lx < 16; lx++) {
+            for (int lz = 0; lz < 16; lz++) {
                 for (int y = minY; y < maxY; y++) {
-                    Material type = snap.getBlockType(x, y, z);
+                    Material type = snap.getBlockType(lx, y, lz);
                     if (!illegalMaterials.contains(type)) continue;
 
-                    // Bedrock rules per dimension
                     if (type == Material.BEDROCK) {
                         if (env == World.Environment.NETHER) {
-                            // skip bottom 5 and top 5 layers
                             if (y < minY + 5 || y > maxY - 5) continue;
                         } else if (env == World.Environment.NORMAL) {
-                            // skip bottom 5 layers
                             if (y < minY + 5) continue;
                         }
-                        // THE_END: remove all bedrock
                     }
 
-                    // Remove the block
-                    Block b = chunk.getBlock(x, y, z);
-                    b.setType(Material.AIR);
+                    int wx = baseX + lx;
+                    int wz = baseZ + lz;
+                    toRemove.add(new int[] { wx, y, wz });
                 }
             }
         }
+
+        if (toRemove.isEmpty()) return;
+
+        int[] anchor = toRemove.get(0);
+        org.bukkit.Location anchorLoc = new org.bukkit.Location(world, anchor[0], anchor[1], anchor[2]);
+
+        final int BATCH = batchSize;
+        final List<int[]> queue = new ArrayList<>(toRemove);
+
+        java.util.function.Consumer<Object> worker = new java.util.function.Consumer<>() {
+            @Override
+            public void accept(Object ignore) {
+                int processed = 0;
+                while (processed < BATCH && !queue.isEmpty()) {
+                    int[] pos = queue.remove(queue.size() - 1);
+                    Block b = world.getBlockAt(pos[0], pos[1], pos[2]);
+                    if (illegalMaterials.contains(b.getType())) {
+                        b.setType(Material.AIR, false);
+                    }
+                    processed++;
+                }
+                if (!queue.isEmpty()) {
+                    Bukkit.getRegionScheduler().runDelayed(plugin, anchorLoc, (t2) -> accept(null), delayTicks);
+                }
+            }
+        };
+        Bukkit.getRegionScheduler().run(plugin, anchorLoc, (t) -> worker.accept(null));
     }
 
     /**

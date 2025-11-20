@@ -1,6 +1,6 @@
 package me.txmc.core.antiillegal.check.checks;
 
-import io.papermc.paper.datacomponent.item.DeathProtection;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import me.txmc.core.antiillegal.check.Check;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -40,6 +40,10 @@ public class IllegalDataCheck implements Check {
                 return true;
             }
             
+            if (hasIllegalMaxDamage(meta)) {
+                return true;
+            }
+            
         } catch (Exception e) {
             return false;
         }
@@ -54,12 +58,31 @@ public class IllegalDataCheck implements Check {
 
     @Override
     public void fix(ItemStack item) {
-        item.setAmount(0);
+        if (item == null || !item.hasItemMeta()) return;
+        
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
+        
+        try {
+            if (meta.isGlider() && item.getType() != Material.ELYTRA) {
+                try { meta.setGlider(false); } catch (Exception ignored) {}
+            }
+            
+            try { if (item.getType() != Material.TOTEM_OF_UNDYING) item.unsetData(DataComponentTypes.DEATH_PROTECTION); } catch (Exception ignored) {}
+            try { item.unsetData(DataComponentTypes.MAX_DAMAGE); } catch (Exception ignored) {}
+            
+            item.setItemMeta(meta);
+        } catch (Exception ignored) {}
     }
     
     private boolean hasDeathProtectionComponent(ItemMeta meta) {
         String componentString = meta.getAsComponentString();
         return componentString.contains("minecraft:death_protection");
+    }
+    
+    private boolean hasIllegalMaxDamage(ItemMeta meta) {
+        String componentString = meta.getAsComponentString();
+        return componentString.contains("!minecraft:max_damage");
     }
     
     private boolean hasIllegalFoodEffects(ItemMeta meta) {

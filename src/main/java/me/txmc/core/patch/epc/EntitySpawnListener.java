@@ -27,7 +27,8 @@ public class EntitySpawnListener implements Listener {
         int max = main.entityPerChunk().get(entity.getType());
         if (amt >= max) {
             entity.getScheduler().run(main.plugin(), (t) -> entity.remove(), () -> {});
-            log(Level.INFO, "Prevented %s from spawning (%d/%d) in chunk %d,%d in world %s", entity.getType().toString().toLowerCase(), amt, max, chunk.getX(), chunk.getZ(), chunk.getWorld().getName());
+            // prevent spamming console
+            // log(Level.INFO, "Prevented %s from spawning (%d/%d) in chunk %d,%d in world %s", entity.getType().toString().toLowerCase(), amt, max, chunk.getX(), chunk.getZ(), chunk.getWorld().getName());
         }
     }
 
