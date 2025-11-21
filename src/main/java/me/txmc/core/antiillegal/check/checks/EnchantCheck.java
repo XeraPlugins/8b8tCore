@@ -19,7 +19,9 @@ public class EnchantCheck implements Check {
     public boolean check(ItemStack item) {
         if (!item.hasItemMeta()) return false;
         ItemMeta meta = item.getItemMeta();
-        if (!meta.hasEnchants()) return false;
+        if (item.getType() == Material.ENCHANTED_BOOK) {
+            return false;
+        }
         if (item.getType().isBlock()) {
             if (isCarvedPumpkin(item) || isPumpkin(item) || isHead(item) || isSkull(item)) {
                 Map<Enchantment, Integer> enchants = meta.getEnchants();
@@ -38,35 +40,11 @@ public class EnchantCheck implements Check {
             if (lvl > ench.getMaxLevel()) return true;
             if (!ench.canEnchantItem(item)) return true;
         }
-        java.util.Set<String> allowed = allowedKeysFor(item);
-        for (Enchantment e : enchants.keySet()) {
-            if (!allowed.contains(keyOf(e))) return true;
-        }
-        if (isArmor(item)) {
-            int protCount = countPresent(enchants, Enchantment.PROTECTION, Enchantment.FIRE_PROTECTION, Enchantment.BLAST_PROTECTION, Enchantment.PROJECTILE_PROTECTION);
-            if (protCount > 1) return true;
-            if (isBoots(item) && enchants.containsKey(Enchantment.DEPTH_STRIDER) && enchants.containsKey(Enchantment.FROST_WALKER)) return true;
-        }
-        if (isSword(item) || isAxe(item)) {
-            int dmgCount = countPresent(enchants, Enchantment.SHARPNESS, Enchantment.SMITE, Enchantment.BANE_OF_ARTHROPODS);
-            if (dmgCount > 1) return true;
-        }
-        if (isAxe(item) || isMiningTool(item)) {
-            int fs = countPresent(enchants, Enchantment.FORTUNE, Enchantment.SILK_TOUCH);
-            if (fs > 1) return true;
-        }
-        if (isBow(item)) {
-            if (enchants.containsKey(Enchantment.INFINITY) && enchants.containsKey(Enchantment.MENDING)) return true;
-        }
-        if (isTrident(item)) {
-            if (enchants.containsKey(Enchantment.RIPTIDE) && (enchants.containsKey(Enchantment.LOYALTY) || enchants.containsKey(Enchantment.CHANNELING))) return true;
-        }
-        if (isCrossbow(item)) {
-            if (enchants.containsKey(Enchantment.PIERCING) && enchants.containsKey(Enchantment.MULTISHOT)) return true;
-        }
-        if (isMace(item)) {
-            int maceDmg = countPresentByKeys(enchants, "smite", "bane_of_arthropods", "density", "breach");
-            if (maceDmg > 1) return true;
+        Enchantment[] keys = enchants.keySet().toArray(new Enchantment[0]);
+        for (int i = 0; i < keys.length; i++) {
+            for (int j = i + 1; j < keys.length; j++) {
+                if (keys[i].conflictsWith(keys[j])) return true;
+            }
         }
         return false;
     }
@@ -79,6 +57,9 @@ public class EnchantCheck implements Check {
     @Override
     public void fix(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
+        if (item.getType() == Material.ENCHANTED_BOOK) {
+            return;
+        }
         Map<Enchantment, Integer> enchants = new java.util.HashMap<>(meta.getEnchants());
         boolean changed = false;
         boolean removeAll = item.getType().isBlock() && !(isCarvedPumpkin(item) || isPumpkin(item) || isHead(item) || isSkull(item));
@@ -117,54 +98,21 @@ public class EnchantCheck implements Check {
                 changed = true;
             }
         }
-        java.util.Set<String> allowed = allowedKeysFor(item);
-        for (Enchantment e : new java.util.HashSet<>(enchants.keySet())) {
-            if (!allowed.contains(keyOf(e))) {
-                meta.removeEnchant(e);
-                enchants.remove(e);
-                changed = true;
+        {
+            java.util.List<Map.Entry<Enchantment, Integer>> sorted = new java.util.ArrayList<>(enchants.entrySet());
+            sorted.sort((a, b) -> Integer.compare(b.getValue(), a.getValue()));
+            java.util.Set<Enchantment> kept = new java.util.HashSet<>();
+            for (Map.Entry<Enchantment, Integer> e : sorted) {
+                boolean conflict = false;
+                for (Enchantment k : kept) {
+                    if (e.getKey().conflictsWith(k)) { conflict = true; break; }
+                }
+                if (conflict) {
+                    meta.removeEnchant(e.getKey());
+                    enchants.remove(e.getKey());
+                    changed = true;
+                } else kept.add(e.getKey());
             }
-        }
-        if (isArmor(item)) {
-            changed |= enforceExclusive(meta, enchants, Enchantment.PROTECTION, Enchantment.FIRE_PROTECTION, Enchantment.BLAST_PROTECTION, Enchantment.PROJECTILE_PROTECTION);
-            if (isBoots(item) && enchants.containsKey(Enchantment.DEPTH_STRIDER) && enchants.containsKey(Enchantment.FROST_WALKER)) {
-                Enchantment keep = enchants.get(Enchantment.DEPTH_STRIDER) >= enchants.get(Enchantment.FROST_WALKER) ? Enchantment.DEPTH_STRIDER : Enchantment.FROST_WALKER;
-                Enchantment remove = keep == Enchantment.DEPTH_STRIDER ? Enchantment.FROST_WALKER : Enchantment.DEPTH_STRIDER;
-                meta.removeEnchant(remove);
-                enchants.remove(remove);
-                changed = true;
-            }
-        }
-        if (isSword(item) || isAxe(item)) {
-            changed |= enforceExclusive(meta, enchants, Enchantment.SHARPNESS, Enchantment.SMITE, Enchantment.BANE_OF_ARTHROPODS);
-        }
-        if (isAxe(item) || isMiningTool(item)) {
-            changed |= enforceExclusive(meta, enchants, Enchantment.FORTUNE, Enchantment.SILK_TOUCH);
-        }
-        if (isBow(item)) {
-            if (enchants.containsKey(Enchantment.INFINITY) && enchants.containsKey(Enchantment.MENDING)) {
-                meta.removeEnchant(Enchantment.INFINITY);
-                enchants.remove(Enchantment.INFINITY);
-                changed = true;
-            }
-        }
-        if (isTrident(item)) {
-            if (enchants.containsKey(Enchantment.RIPTIDE)) {
-                if (enchants.containsKey(Enchantment.LOYALTY)) { meta.removeEnchant(Enchantment.LOYALTY); enchants.remove(Enchantment.LOYALTY); changed = true; }
-                if (enchants.containsKey(Enchantment.CHANNELING)) { meta.removeEnchant(Enchantment.CHANNELING); enchants.remove(Enchantment.CHANNELING); changed = true; }
-            }
-        }
-        if (isCrossbow(item)) {
-            if (enchants.containsKey(Enchantment.PIERCING) && enchants.containsKey(Enchantment.MULTISHOT)) {
-                Enchantment keep = enchants.get(Enchantment.PIERCING) >= enchants.get(Enchantment.MULTISHOT) ? Enchantment.PIERCING : Enchantment.MULTISHOT;
-                Enchantment remove = keep == Enchantment.PIERCING ? Enchantment.MULTISHOT : Enchantment.PIERCING;
-                meta.removeEnchant(remove);
-                enchants.remove(remove);
-                changed = true;
-            }
-        }
-        if (isMace(item)) {
-            changed |= enforceExclusiveByKeys(meta, enchants, "smite", "bane_of_arthropods", "density", "breach");
         }
         if (changed) item.setItemMeta(meta);
     }
@@ -173,6 +121,13 @@ public class EnchantCheck implements Check {
         int c = 0;
         for (Enchantment e : set) if (enchants.containsKey(e)) c++;
         return c;
+    }
+
+
+
+    private boolean isOneOf(String key, String... keys) {
+        for (String k : keys) if (key.equals(k)) return true;
+        return false;
     }
     private boolean isArmor(ItemStack item) { return isHelmet(item) || isChest(item) || isLeggings(item) || isBoots(item); }
     private boolean isHelmet(ItemStack item) { String n = item.getType().name(); return n.endsWith("HELMET") || n.equals("TURTLE_HELMET"); }
@@ -199,47 +154,6 @@ public class EnchantCheck implements Check {
     private boolean isShears(ItemStack item) { return item.getType() == Material.SHEARS; }
     private boolean isMiningTool(ItemStack item) { String n = item.getType().name(); return n.endsWith("PICKAXE") || n.endsWith("SHOVEL") || n.endsWith("HOE"); }
     private boolean isMace(ItemStack item) { try { return item.getType().name().equals("MACE"); } catch (Exception ignored) { return false; } }
-    private boolean enforceExclusive(ItemMeta meta, Map<Enchantment, Integer> enchants, Enchantment... set) {
-        int bestLevel = -1; Enchantment best = null;
-        for (Enchantment e : set) { Integer lvl = enchants.get(e); if (lvl != null && lvl > bestLevel) { bestLevel = lvl; best = e; } }
-        boolean changed = false;
-        if (best != null) {
-            for (Enchantment e : set) {
-                if (e != best && enchants.containsKey(e)) {
-                    meta.removeEnchant(e);
-                    enchants.remove(e);
-                    changed = true;
-                }
-            }
-        }
-        return changed;
-    }
-
-    private boolean enforceExclusiveByKeys(ItemMeta meta, Map<Enchantment, Integer> enchants, String... keys) {
-        int bestLevel = -1; Enchantment best = null;
-        for (Map.Entry<Enchantment, Integer> e : enchants.entrySet()) {
-            String k = keyOf(e.getKey());
-            for (String target : keys) {
-                if (k.equals(target) && e.getValue() > bestLevel) { bestLevel = e.getValue(); best = e.getKey(); }
-            }
-        }
-        boolean changed = false;
-        for (Map.Entry<Enchantment, Integer> e : new java.util.HashMap<>(enchants).entrySet()) {
-            String k = keyOf(e.getKey());
-            if (best != null && e.getKey() != best) {
-                for (String target : keys) {
-                    if (k.equals(target)) {
-                        meta.removeEnchant(e.getKey());
-                        enchants.remove(e.getKey());
-                        changed = true;
-                        break;
-                    }
-                }
-            }
-        }
-        return changed;
-    }
-
     private String keyOf(Enchantment e) { return e.getKey().getKey().toLowerCase(); }
 
     private int countPresentByKeys(Map<Enchantment, Integer> enchants, String... keys) {
@@ -253,6 +167,24 @@ public class EnchantCheck implements Check {
 
     private java.util.Set<String> baseKeys(String... keys) {
         return new java.util.HashSet<>(java.util.Arrays.asList(keys));
+    }
+
+
+    private boolean enchantsFitItem(Map<Enchantment, Integer> enchants, Material m) {
+        java.util.Set<String> allowed = allowedKeysFor(new ItemStack(m));
+        for (Enchantment e : enchants.keySet()) {
+            if (!allowed.contains(keyOf(e))) return false;
+        }
+        return true;
+    }
+
+    private java.util.Set<Enchantment> allowedForMaterial(Material m, Map<Enchantment, Integer> enchants) {
+        java.util.Set<String> allowed = allowedKeysFor(new ItemStack(m));
+        java.util.Set<Enchantment> res = new java.util.HashSet<>();
+        for (Enchantment e : enchants.keySet()) {
+            if (allowed.contains(keyOf(e))) res.add(e);
+        }
+        return res;
     }
 
     private java.util.Set<String> allowedKeysFor(ItemStack item) {

@@ -42,6 +42,22 @@ public class GeneralDatabase {
             if (!columnExists(conn, "playerdata", "muted")) {
                 stmt.execute("ALTER TABLE playerdata ADD COLUMN muted INTEGER;");
             }
+
+            if (!columnExists(conn, "playerdata", "hidePrefix")) {
+                stmt.execute("ALTER TABLE playerdata ADD COLUMN hidePrefix BOOLEAN DEFAULT FALSE;");
+            }
+
+            if (!columnExists(conn, "playerdata", "hideDeathMessages")) {
+                stmt.execute("ALTER TABLE playerdata ADD COLUMN hideDeathMessages BOOLEAN DEFAULT FALSE;");
+            }
+
+            if (!columnExists(conn, "playerdata", "hideAnnouncements")) {
+                stmt.execute("ALTER TABLE playerdata ADD COLUMN hideAnnouncements BOOLEAN DEFAULT FALSE;");
+            }
+
+            if (!columnExists(conn, "playerdata", "hideBadges")) {
+                stmt.execute("ALTER TABLE playerdata ADD COLUMN hideBadges BOOLEAN DEFAULT FALSE;");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -135,6 +151,174 @@ public class GeneralDatabase {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return true;
+        }
+    }
+
+    public void updateHidePrefix(String username, boolean hidePrefix) {
+        String updateSQL = "INSERT INTO playerdata (username, displayname, hidePrefix) " +
+                "VALUES (?, ?, ?) " +
+                "ON CONFLICT(username) DO UPDATE SET hidePrefix = excluded.hidePrefix;";
+        databaseExecutor.execute(() -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, username);
+                pstmt.setBoolean(3, hidePrefix);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public boolean getPlayerHidePrefix(String username) {
+        Callable<Boolean> task = () -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement("SELECT hidePrefix FROM playerdata WHERE username = ?")) {
+                pstmt.setString(1, username);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt("hidePrefix") == 1;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        };
+
+        Future<Boolean> future = databaseExecutor.submit(task);
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void updateHideDeathMessages(String username, boolean hide) {
+        String updateSQL = "INSERT INTO playerdata (username, displayname, hideDeathMessages) " +
+                "VALUES (?, ?, ?) " +
+                "ON CONFLICT(username) DO UPDATE SET hideDeathMessages = excluded.hideDeathMessages;";
+        databaseExecutor.execute(() -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, username);
+                pstmt.setBoolean(3, hide);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public boolean getPlayerHideDeathMessages(String username) {
+        Callable<Boolean> task = () -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement("SELECT hideDeathMessages FROM playerdata WHERE username = ?")) {
+                pstmt.setString(1, username);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt("hideDeathMessages") == 1;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        };
+
+        Future<Boolean> future = databaseExecutor.submit(task);
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void updateHideAnnouncements(String username, boolean hide) {
+        String updateSQL = "INSERT INTO playerdata (username, displayname, hideAnnouncements) " +
+                "VALUES (?, ?, ?) " +
+                "ON CONFLICT(username) DO UPDATE SET hideAnnouncements = excluded.hideAnnouncements;";
+        databaseExecutor.execute(() -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, username);
+                pstmt.setBoolean(3, hide);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public boolean getPlayerHideAnnouncements(String username) {
+        Callable<Boolean> task = () -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement("SELECT hideAnnouncements FROM playerdata WHERE username = ?")) {
+                pstmt.setString(1, username);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt("hideAnnouncements") == 1;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        };
+
+        Future<Boolean> future = databaseExecutor.submit(task);
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void updateHideBadges(String username, boolean hide) {
+        String updateSQL = "INSERT INTO playerdata (username, displayname, hideBadges) " +
+                "VALUES (?, ?, ?) " +
+                "ON CONFLICT(username) DO UPDATE SET hideBadges = excluded.hideBadges;";
+        databaseExecutor.execute(() -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, username);
+                pstmt.setBoolean(3, hide);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public boolean getPlayerHideBadges(String username) {
+        Callable<Boolean> task = () -> {
+            try (Connection conn = DriverManager.getConnection(url);
+                 PreparedStatement pstmt = conn.prepareStatement("SELECT hideBadges FROM playerdata WHERE username = ?")) {
+                pstmt.setString(1, username);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt("hideBadges") == 1;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        };
+
+        Future<Boolean> future = databaseExecutor.submit(task);
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

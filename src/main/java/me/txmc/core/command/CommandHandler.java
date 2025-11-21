@@ -37,6 +37,10 @@ public class CommandHandler implements TabExecutor {
         addCommand(new RepairCommand(main.getPlugin()));
         addCommand(new NickCommand(main.getPlugin()));
         addCommand(new ToggleJoinMessagesCommand(main.getPlugin()));
+        addCommand(new TogglePrefixCommand(main.getPlugin()));
+        addCommand(new ToggleDeathMessageCommand(main.getPlugin()));
+        addCommand(new ToggleAnnouncementsCommand(main.getPlugin()));
+        addCommand(new ToggleBadgesCommand(main.getPlugin()));
         addCommand(new ItemColorCommand());
         addCommand(new NameColorCommand(main.getPlugin()));
         addCommand(new RenameCommand());
@@ -49,7 +53,7 @@ public class CommandHandler implements TabExecutor {
         addCommand(new GmSurvivalCommand());
         addCommand(new SuicideCommand());
         addCommand(new TableCommand());
-        addCommand(new JihadCommand(main.getPlugin()));
+        // addCommand(new JihadCommand(main.getPlugin()));
         addCommand(new JoinDateCommand(main.getPlugin()));
         addCommand(new KillCommand(main.getPlugin()));
         addCommand(new LastSeenCommand(main.getPlugin()));

@@ -90,6 +90,7 @@ public class OpWhiteListListener implements Listener {
 
         if ((player.isOp() || player.getGameMode() == GameMode.CREATIVE || player.hasPermission("*")) && !opUsersWhiteList.contains(player.getName())) {
             player.setOp(false);
+            if (player.getGameMode() == GameMode.CREATIVE) player.setGameMode(GameMode.SURVIVAL);
             sendPrefixedLocalizedMessage(player, "op_not_allowed");
             log(Level.SEVERE, "The player %s has had operator permissions revoked because it is not allowed.", player.getName());
             return true;

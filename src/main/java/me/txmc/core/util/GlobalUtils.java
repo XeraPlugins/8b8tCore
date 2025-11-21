@@ -4,6 +4,7 @@ import lombok.Cleanup;
 import lombok.Getter;
 import me.txmc.core.Localization;
 import me.txmc.core.Main;
+import me.txmc.core.database.GeneralDatabase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -39,6 +40,7 @@ import java.util.Random;
 public class GlobalUtils {
     @Getter private static final String PREFIX = Main.prefix;
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private static GeneralDatabase database;
 
     public static void info(String format) {
         log(Level.INFO, format);
@@ -130,6 +132,12 @@ public class GlobalUtils {
             Bukkit.getGlobalRegionScheduler().runDelayed(Main.getInstance(), (task) -> {
                 try {
                     for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (database == null && Main.getInstance() != null) {
+                            database = new GeneralDatabase(Main.getInstance().getDataFolder().getAbsolutePath());
+                        }
+                        if (database != null && database.getPlayerHideDeathMessages(p.getName())) {
+                            continue;
+                        }
                         Localization loc = Localization.getLocalization(p.locale().getLanguage());
                         List<TextComponent> deathMessages = loc.getStringList(key)
                                 .stream()

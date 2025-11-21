@@ -1,6 +1,8 @@
 package me.txmc.core.customexperience.util;
 
 import org.bukkit.entity.Player;
+import me.txmc.core.Main;
+import me.txmc.core.database.GeneralDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,7 @@ public class PrefixManager {
 
     private static final Map<String, String> PREFIXES = new HashMap<>();
     private static double globalAnimationIndex = 0.0;
+    private static GeneralDatabase database;
 
     private static final List<String> PREFIX_HIERARCHY = Arrays.asList(
             "8b8tcore.prefix.owner",
@@ -52,6 +55,13 @@ public class PrefixManager {
     }
 
     public String getPrefix(Player player) {
+        if (database == null && Main.getInstance() != null) {
+            database = new GeneralDatabase(Main.getInstance().getDataFolder().getAbsolutePath());
+        }
+
+        if (database != null && database.getPlayerHidePrefix(player.getName())) {
+            return "";
+        }
 
         String highestPermission = "";
 
@@ -71,5 +81,14 @@ public class PrefixManager {
         String animatedPrefix = basePrefix.replace("%s", String.format("%.1f", globalAnimationIndex));
 
         return animatedPrefix + " ";
+    }
+
+    public boolean hasRank(Player player) {
+        for (String permission : PREFIX_HIERARCHY) {
+            if (player.hasPermission(permission)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
