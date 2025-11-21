@@ -154,6 +154,7 @@ ChatControl:
     - '/toggleprefix'
     - '/announcements'
     - '/badges'
+    - '/achievements'
     - '/deathmessage'
 TPA:
   RequestTimeoutInMinutes: 5

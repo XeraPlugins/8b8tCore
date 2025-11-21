@@ -24,6 +24,10 @@ public class IllegalDataCheck implements Check {
         if (meta == null) return false;
         
         try {
+            String s = meta.getAsComponentString();
+            if (s != null && s.toLowerCase().contains("minecraft:luck")) {
+                return true;
+            }
             if (meta.isGlider() && item.getType() != Material.ELYTRA) {
                 return true;
             }
@@ -64,6 +68,11 @@ public class IllegalDataCheck implements Check {
         if (meta == null) return;
         
         try {
+            String sLuck = meta.getAsComponentString();
+            if (sLuck != null && sLuck.toLowerCase().contains("minecraft:luck")) {
+                item.setAmount(0);
+                return;
+            }
             boolean durable = item.getType().getMaxDurability() > 0;
 
             if (meta.isGlider() && item.getType() != Material.ELYTRA) {

@@ -3,7 +3,6 @@ package me.txmc.core.tpa;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
-//import me.txmc.core.tpa.ToggledPlayer;
 import me.txmc.core.tpa.commands.TPAAcceptCommand;
 import me.txmc.core.tpa.commands.TPACancelCommand;
 import me.txmc.core.tpa.commands.TPACommand;
@@ -11,24 +10,14 @@ import me.txmc.core.tpa.commands.TPADenyCommand;
 import me.txmc.core.tpa.commands.TPAHereCommand;
 import me.txmc.core.tpa.commands.TPAToggleCommand;
 import me.txmc.core.tpa.commands.TPAIgnoreCommand;
-
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-//import org.bukkit.event.EventHandler;
-//import org.bukkit.event.Listener;
-
-//import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-
-//import static me.txmc.core.util.GlobalUtils.info;
-
 import javax.management.RuntimeErrorException;
-
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 /**
