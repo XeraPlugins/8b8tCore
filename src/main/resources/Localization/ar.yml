@@ -1,0 +1,543 @@
+#Basic messages
+ignore_successful: "&3ِتم تجاهل هذا اللاعب بنجاح  player&r&a %s&r"
+already_ignoring: "&cأنت بالفعل تتجاهل هذا اللاعب"
+ignore_command_syntax: "&cرجاءا تضمن اسم اللاعب /ignore <اسم_اللاعب>"
+unignore_successful: "&3ِتم الغاء تجاهل هذا اللاعب بنجاح player&r&a %s&r"
+unignore_not_ignoring: "&cأنت لا تتجاهل %s"
+unignore_command_syntax: "&cرجاءا تضمن اسم اللاعب /unignore <اسم_اللاعب>"
+ignorelist_successful: "&3ِاللاعبون المتجاهلون: &c%s"
+ignorelist_not_ignoring: "&cأنت لا تتجاهل اي أحد"
+ignorelist_failed: "&cفشل في استعادة قائمة التجاهل."
+whisper_from: "&d%s يهمس: %s"
+whisper_to: "&dالى %s: %s"
+whisper_ignoring: "&c%s حاليا يتجاهلك"
+whisper_you_are_ignoring: "&cليس باءمكانك الهمس للاعب انت تتجاهله"
+msg_could_not_find_player: "&cلم يستطع العثور على اللاعب %s"
+msg_command_syntax: "&cرجاءا تضمن هدفا و رسالة /msg <الرسالة> <الهدف>"
+reply_player_offline: "&cاللاعب %s حاليا offline"You can be so nice
+reply_no_target: "&cلم تراسل اي أحد بعد"
+reply_command_syntax: "&cرجاءا تضمن رسالة /r <الرسالة>"
+togglechat_chat_enabled: "&aتشغيل الدردشة"
+togglechat_chat_disabled: "&cايقاف تشغيل الدردشة"
+cmdwhitelist_cmd_not_allowed: "&cهذا command&r&a %s&r&c غير مسموح به"
+chat_cooldown: "&3ِ  ثانية قبل التحدث في التشات&r&a %d&r&3  رجاءا انتظر على أقل "
+delhome_no_homes: "&3ِليس لديك اي منازل"
+delhome_specify_home: "&3ِرجاءا تضمن اسم المنزل ليتم حذفه. homes: المنازل الحالية: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3ِلم يتم العثور على هذا المنزل&a %s&r&3 was not found"
+delhome_success: "&3ِتم حذف هذا المنزل بنجاح&r&a %s&r&3 has been deleted"
+delhome_fail: "&3ِفشل حذف هذا المنزل&r&a %s&r"
+home_specify_home: "&3ِرجاءا تضمن اسم المنزل. Current homes المنازل الحالية : (&r&a%s&r&3): &r&a%s&r&3"
+home_too_close: "&3ِيجب ان تكون على بعد &r&a %d&r&3 لتستخدم هذا الكوماند spawn مكعبا من ال  /home"
+home_success: "&3ِيتم التنقل الى المنزل&r&a %s&r&3..."
+home_not_found: "&3ِلم يتم العثور على هذا المنزل&r&a %s&r&3"
+sethome_include_name: "&3ِرجاءا اضف اسما لمنزلك الجديد"
+sethome_home_already_exists: "&cهناك منزل بالفعل بهذا الأسم&r&a %s&r&c."
+sethome_max_reached: "&3ِوصلت الحد المتاح من المنازل"
+sethome_success: "&3ِتم تثبيت المنزل بنجاح &r&a %s &r&3Set"
+back_teleported: "&3ِيتم حاليا نقلك الى أخر موقع لك...."
+back_no_last_location: "&cليس لديك اي مواقع أخيرة مسجلة"
+kick_restarting: "&3ِالسيرفر يعاد تشغيله"
+elytra_tile_entities_too_fast: "&cبلوكا قي الثانية لأنه هناك الكثير من الكائنات في هذه المنطقة %s لا يمكن ان تججاوز سرعتك عدد "
+elytra_too_fast: "&cبلوكا في الثانية %s السرعة المسموح بها هي."
+elytras_disabled: "&3ِمبطلة حاليا بسبب تعليق السيرفر و ستعود للعمل بعد قليل Elytras ال"
+bookban_inventory_clear: "&cتم تطهير حقيبتك لكي لا يتم حظرك عن طريق الكتب"
+bookban_removed_item: "&cتم ازالة كل &r&3 %s(s) &r&c من حقيبت لتجنب حظرك عن طريق الكتب"
+kick_lever_ratelimit: "&cأنت تتفاعل بشكل اسرع من اللازم"
+kick_pps_limit: "&cبشكل اسرع من اللازم packets انت ترسل ال"
+kick_failed_to_inject: "&cفشل في التعاطي"
+join_message: "&a▲&8 اللاعبA &7%s&r&8 انضم!"
+first_join_message: "&a▲&8 اللاعبA &7%s&r&8 انضم لأول مرة"
+leave_message: "&c▼&8 اللاعبA &7%s&r&8 غادر."
+kick_message: "&7%s طرد بسبب \"%s\""
+could_not_translate_message: "%s فشل في ترجمة الرسالة بسبب"
+message_auto_translated: "هذه رسالة مترجمة تلقائيا.\n\nالنص الأصلي: %s"
+welcome_message: "&38b8t مرحبا بك الى"
+vote_announcement: "&c%s &8ِصوت لنا %prefix% &8ِو تلقى الهدايا الأتية /nc, 2 extra render distance, 5 extra homes, and access to the donkey dupe for %days% days"
+vote_thanks: "&8ِكرا لتصويتك لنا %prefix%! &8ِلقد تلقيت هذه الهدايا /nc, 2 extra render distance, 5 extra homes, and access to the donkey dupe for %days% days"
+vote_info: "&8ِيمكنك التصويت لنا في %prefix% &8at &chttps://votefor.8b8t.me"
+tpa_syntax: "&cرجاءا تضمن اسم اللاعب لتنتقل اليه. /tpa <اللاعب>"
+tpa_player_not_online: "&cاللاعب %s ليس online"
+tpa_no_request_found: "&cTPA لم يتم العثور على اي طلب"
+tpa_self_tpa: "&cالى نفسك TPA ليس باءمكانك ال"
+tpa_request_received: "&a%s&r&3 يرغب في الانتقال اليك&r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
+tpa_request_sent: "&3ِتم ارسال الطلب الى >&r&a %s"
+tpa_requests_disabled: "&3ِالطلبات مغلقة. تم التخلص من جميع الطلبات"
+tpa_requests_enabled: "&3ِتم تفعيل الطلبات"
+tpa_requests_blocked: "&a%s&r&3 &3ِالطلبات من هذا اللاعب مغلقة او تم حذفها"
+tpa_requests_unblocked: "&a%s&r&3 &3ِتم الغاء حظر الطلبات من هذا اللاعب"
+tpa_block_syntax: "&cرجاءا تضمن لاعبا ليتم حظره او الغاء حظره"
+tpa_already_sent: "&cلديك طلب ساري بالفعل"
+tpahere_syntax: "&cرجاءا اضف اسم لاعب لينتقل اليك /tpahere <اسم اللاعب>"
+tpatoggle_syntax: "&cرجاءا راجع الصيغة و التزم بها لهذا الكوماند"
+tpahere_request_received: "&a%s&r&3ِ يريد هذا اللاعب نقلك اليهم &r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
+tpa_too_close: "&3ِلأستخدام هذا الكوماند و التنقل spawn  ِهي المسافة الضرورية من ال%d&r&3 /tpa"
+tpa_requested_too_close: "&cاللاعب %s spawn ليس باءمكانه الاقتراب هذا الشكل من ال"
+tpa_teleporting: "&3ِيتم نقله&r&a..."
+tpa_request_timeout_from: "&a%s&r&c الذي ارسلته الى &cTPA انتهت صلاحية طلب ال"
+tpa_request_timeout_to: "&a%s&r&c الذي تلقيته من &cTPA انتهت صلاحية طلب ال"
+tpa_request_cancelled_from: "&a%s&r&3 الذي ارسلته الى A &3TPA تم الغاء طلب ال"
+tpa_request_cancelled_to: "&a%s&r&c &cالذي تلقيته تم الغائه على يد اللاعبTPA طلب ال"
+tpa_request_denied_from: "&a%s&r&c رفض طلبك"
+tpa_request_denied_to: "&3ِتم رفض الطلب بنجاح"
+tpa_request_blocked: "&cمغلقة لدى هذا اللاعب TPA طلبات ال"
+tpa_pending_request: "&a%s&r &cِلديه طلب جاري"
+tpa_to_left: "&r&a %s&r&c بسبب مغادرة اللاعب &cTPA تم الغاء ال"
+op_not_allowed: "&cOp غير مسموح لك ان تكون"
+framedupe_cooldown: "&cأنت تنسخ بشكل اسرع من اللازم"
+framedupe_items_limit: "&cهناك بالعل اغراض اكثر من اللازم عى هذه المنطقة"
+dupe_permission: "&cلعب عليك مقلب لأنك ظننت انه يمكن نسخ الامتعة بهذه السهولة"
+dupe_failed: "&cيجب ان تكون ممسكا بغرض ليتم نسخه"
+dupe_success: "&3ِتم نسخ هذا الغرض بنجاح"
+nbtPatch_deleted_item: "&c&6%s&r&c تم حذفع من حقيبتك لكثرة المعلومات"
+chest_cooldown: "&cِانت تفتح الصناديق بشكل اسرع من اللازم الرجاء الأنتظار!"
+chestlimiter_deleted_chest: "&c&6%s&r&c المسموح به &c&6%s&r&c تم حذف الصناديق لأنهم تخطو الحد"
+repair_success: "&3ِتم تصليح هذا الشيء بنجاح!"
+repair_no_item: "&cِيجب ان يكون هناك شيء في يدك ليتم تصليحه"
+repair_not_repairable: "&cِهذا الشيئ لا يمكن تصليحه"
+repair_all_success: "&3ِتم اصلاح جميع الاغراض في حقيبتك!"
+nick_success: "&3%s&r&3 &3ِتم! الأن لقبك هو"
+nick_no_permission: "&cهذا الكوماند يخص المتبرعيين من المستوى الخامسي و حسب DONOR5 &3https://shop.8b8t.me/&c."
+nick_no_name_provided: "&cيجب ان تدخل لقب في الخانة A &3/nick <اللقب>&c."
+nick_user_protection: "&cاللقب يجب ان يكون مطابقا لأسم المستخدم A &3/nick <اللقب>&c."
+nc_success: "&3%s&r&3  &3ِتم! لقبك الان هو"
+nc_no_permission: "&cِيجب أن تصوت لتستخدم هذا الكوماند"
+nc_invalid_color: "&cيمكنك اختيار الاستيلات من اللستة و حسب A &3/nc <الاستايل> <اللون...>&c."
+nc_usage: "&cيجب عليك ادخال اللون على الأقل A &3/nc <الاستايل> <اللون...>&c."
+ic_success: "&3%s&r&3  &3ِتم! تم تغيير اسم غرضك الى"
+ic_no_permission: "&cهذا الكوماند يخص المتبرعيين من المستوى الرابع و حسب DONOR4 &3https://shop.8b8t.me/&c."
+ic_invalid_color: "&cليس باءمكانك سوى اختيار ستايل و لون من اللسته A &3/ic <الاستايل> <اللون...>&c."
+ic_invalid_item: "&cهذا الغرض غير صالح"
+ic_no_item: "&cيجب ان يكون الغرض في يدك قبل ان تستطيع تغيير لونه"
+ic_usage: "&cيجب عليك ادخال اللون على الاقل A &3/ic <الاستيال> <اللون...>&c."
+rename_success: "&3%s&r&3 &3ِتم! تم اعادة تسمية غرضك ال"
+rename_no_permission: "&cهذا الكوماند يخص المتبرعيين من المستوى الخامسي و حسب DONOR5 &3https://shop.8b8t.me/&c."
+rename_invalid_item: "&cهذا غرض غير صالح"
+rename_no_item: "&cيجب ان يكون الغرض في يدك لكي تغير لونه"
+rename_no_name_provided: "&cيجب ان تضيف اسما A &3/rename <اسم الغرض>&c."
+nick_too_large: "&cالالقاب يجب ان لا تتجاوز 16 حرفا"
+ic_too_large: "&cاسم الغرض لا يمكن ان يتجاوز 50 حرفا"
+hotspot_no_perms_create: "&cليس لديك الاذن لصناعة هوتسبوت"
+hotspot_no_playername: "&cرجاءا اضف اسم اللاعب لكي يتم التنقل /hotspot teleport <اللاعب>."
+hotspot_already_created: "&cلديك هوتسبت نشيطة بالفعل يجب ان تنتظر لكي تصنع واحدة اخرى"
+hotspot_created: "&3ِتم صنع الهوتسبوت بنجاح."
+hotspot_deleted: "&3ِتم حذف الهوتسبوت بنجاح."
+hotspot_creation_cooldown: "&cيجب ان تنتظر: &a%s&c قبل ان تحاول صناعة هوتسبوت جديدة ثانية"
+hotspot_not_active: "&cليس لديك هوتسبوت نشيطة حاليا"
+hotspot_not_found_for_player: "&r&a%s&c ليس لديه هوتسبوت مفعلة حاليا."
+hotspot_teleported_to_player: "&3ِينتقل الى &r&a%s&3's هوتسبوت."
+hotspot_not_found: "&cلم يتم العثور على اي هوتسبوت ليتم التنقل اليها."
+hotspot_teleported_to: "&3ِالتنقل الى اقرب هوتسبوت جاري..."
+hotspot_created_to_everyone: "&r&a%s&3 قام بصناعة هوتسبوت جديدة <blue><underlined><hover:show_text:'<gray>انقر ليتم النقل'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></blue> ليتم نقله"
+repair_fail_while_pvp: "&c !pvp ليس بامكانك استخدام هذا الكوماند مباشرتا بعد ال "
+sign_success: "&3ِتم التوقيع على هذا الشيء بنجاح!"
+sign_fail_already_signed: "&cتم التوقيع على هذا الشيء بالفعل"
+sign_fail_no_item: "&cيجب ان يكون الشيء في يدك قبل ان تتمكن من توقيعه"
+show_join_leave_messages_false: "&aمخفيةاستخدم هذا الكوماند مرة اخرى لأظهارها n&8 &8ِرسائل الانضمام و المغادرة الأن"
+show_join_leave_messages_true: "&aظاهرة n&8 &8ِرسائل الانضمام و المغادرة الأن"
+mapart_deleted_inventory: "&cA رسم خريطة محظور تم مسحه من حقيبتك. اذا قبض عليك مرة و اخرى و هو بحوزتك سيتم حظرك من السيرفر"
+mapart_deleted_frame: "&cA رسم خريطة محظور حذف من قاعدتك. اذا عثر عليه مرة بحوزتك سيتم حظرك "
+spam_alert: "&cspam رجاءا اوقف ال"
+vanish_true: "&3vanish mode رجاءا كرر الكوماند للخروج من ال A &3vanish mode &8ِانت حاليا في وضع ال "
+vanish_false: "&8ِلبقية اللاعبين A  &3ِمرئي A &8ِانت حاليا "
+table_usage: "&cيجب ان تحدد نوع جدول A &3/table <نوع>&c."
+table_invalid_type: "&cنوع دول غير صالح استخدم زر ال التاب لوؤية الانواع المتاحةs &3/table <نوع>&c."
+
+#Complex messages
+HelpMessage:
+  - '&3---------------------------------------'
+  - '&8A &chttps://www.8b8t.me/terms &8rulesقم بزيارة الموقع لقرأة القوانين او ال'
+  - '&3---------------------------------------'
+  - '&6A الأوامر:'
+  - '&c/tpa &8ِلتنقل لبقية اللاعبين'
+  - '&c/tpahere &8ِلنقل لاعب الى مةقعك'
+  - '&c/tpayes &8ِلقبول طلب نقل'
+  - '&c/tpano &8ِلرفض طلب نقل'
+  - '&c/tpacancel &8ِلألغاء طلبات النقل المرسلة'
+  - '&c/back &8ِللعوة لأخر موقع لك'
+  - '&c/hotspot &8ِلأنتقال الى هوتسبوت او صنع واحدة'
+  - '&c/sethome &8ِلتثبيت منزل'
+  - '&c/delhome &8ِلحذف منزل'
+  - '&c/home &8ِلأنتقال الى منزلك'
+  - '&c/skin set &8ِلتحديد السكن الخاص بك'
+  - '&c/vote &8FOR 8b8t لتصويت من أجل'
+  - '&c/discord &8TO 8b8t للحصول على دعوة لديسكورد'
+  - '&c/matrix &8ِFOR 8b8t  8للحصول على رابط غرفة الميتركس على'
+  - '&c/kill &8ِلأنتحار'
+  - '&c/ignore &8ِلتجاهل لاعب اخر'
+  - '&c/unignore &8ِلألغاء تجاهل لاعب اخر'
+  - '&c/ignorelist &8ِلستة اللاعبين الذين يتم تجاهلهم'
+  - '&c/msg &8ِلأرسال رسالة للاعب لخر'
+  - '&c/changepass &8ِلتغيير كلمة السر'
+  - '&c/worldstats &8ِلروئية مساحة العالم'
+  - '&c/pvp &8ِالخاص بنا pvp لأتصال بسيرفر ال'
+  - '&c/lobby &8ِلذهاب الى الاستقبال'
+  - '&c/tpsinfo &8ِلتفقد سرعة السيرفر او التك في الثانية'
+  - '&3---------------------------------------'
+  - '&6ِالمصوتون و حسب:'
+  - '&c/nc &8ِلتغيير لون اسمك'
+  - '&8ِزرنا هنا &chttps://votefor.8b8t.me &8to vote'
+  - '&3---------------------------------------'
+  - '&6ِاللاعبون ذوي المستويات و حسب:'
+  - '&c/ic &8ِلتغيير لون غرض او شيء'
+  - '&c/rename &8ِلتغيير اسم غرض او شيء'
+  - '&c/echest &8ِلفتح صندوق الاندر الخاص بك'
+  - '&c/nick &8ِلتغيير اللقب'
+  - '&8ِزرنا على &chttps://shop.8b8t.me'
+  - '&3---------------------------------------'
+  -
+TabList:
+  Header:
+    - ''
+    - '&9&l8builders&7&l8tools'
+    - ''
+    - '&r&c&oA https://shop.8b8t.me? !فكر في شراء مستوى على موقعنا اذا منت تستمع بالسيرفر'
+    - ''
+
+  Footer:
+    - ''
+    - '&7tps:&r %tps% &7ping: &r%ping% &7players: &f%players% &7uptime: &r%uptime%'
+    - ''
+    - '&7A contact@8b8t.me :للتواصل معنا'
+    - '&7A https://discord.8b8t.me :للنقاش على ديسكورد'
+    - '&7A https://www.8b8t.me صفحتنا الالكترونية: هي'
+    - '&7A 8b8tهذه هي الصفحات الرسمية الوحيدة ل'
+    - ''
+TpsMessage:
+  - '&3--------------------------------------'
+  - '&6TPS معلومات:'
+  - '&8TPS: &a%s &8MSTP: &a%s'
+  - '&8A ادنى منطقة TPS: &c%s'
+  - '&8Online اللاعبون &a%s'
+  - '&3--------------------------------------'
+tps_failed: '&cTPSليس مسموح لك بتفقد ال'
+
+announcements:
+  - "%prefix% &7>>&r&8 !قم بزيارة موقعنا و صوت لنا <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>and vote to receive 2 additional render distance, 5 extra homes and access to the donkey dupe for free</dark_gray>"
+  - "%prefix% &7>>&r&8 8b8t تبرع من أجل :>> <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
+  - "%prefix% &7>> &8ِانضم للديسكورد الرسمي من أجل التحديثات و الاخبار <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://discord.8b8t.me'>https://discord.8b8t.me</click></hover></red>"
+  - "%prefix% &7>> &8ِانضم لدردشة الميتركس على هذا الرابط <red><hover:show_text:'<gray>Click to open the link'><click:open_url:'https://matrix.8b8t.me'>https://matrix.8b8t.me</click></hover></red>"
+# Death messages
+global-pvp-death-messages:
+  - "&3%victim%&r&4 قتل اللاعب <k &3%killer%&r&4"
+  - "&6[%kill-weapon%&6] عن طريق <u &3%victim%&r&4  قام بذبح <k &3%killer%&r&4 "
+  - "&3%victim%&r&4 كتب نهاية <k &3%killer%&r&4"
+  - "&3%victim%&r&4 سحقا <k &3%killer%&r&4 wielding &6[%kill-weapon%&6]"
+  - "&3%killer%&r&4 قام بفرم اللاعب <k &3%victim%&r&4 using &6[%kill-weapon%&6]"
+  - "&3%victim%&r&4 دمر اللاعب <k &3%killer%&r&4"
+  - "&6[%kill-weapon%&6] بواسطة سلاحه الشهير <u &3%victim%&r&4 قام بهزيمة اللاعب <k &3%killer%&r&4 "
+  - "&6[%kill-weapon%&6] بسلاحه <u &3%victim%&r&4 قام باءحراج اللاعب <k &3%killer%&r&4 "
+
+melee-death-messages:
+  - "&3%victim%&r&4 ابرحا ضربا اللاعب <k &3%killer%&r&4"
+  - "&3%victim%&r&4 قام بتربية اللاعب <k &3%killer%&r&4"
+  - "&3%victim%&r&4 صنع عبرة من اللاعب <k &3%killer%&r&4"
+
+fall-damage-messages:
+  - "&3%victim%&r&4 تحدى الجاذبية و خسر"
+  - "&3%victim%&r&4 نسي المظلة"
+  - "&3%victim%&r&4 ظن انه معجز السماء و خاب ظنه"
+
+drowning-messages:
+  - "&3%victim%&r&4 قرر النوم مع السمك"
+  - "&3%victim%&r&4 ظن ان الساحل قريب"
+  - "&3%victim%&r&4 جرب انه يبلغ المحيطات عمقا"
+
+suffocation-messages:
+  - "&3%victim%&r&4 اختنق حتى الموت"
+  - "&3%victim%&r&4 لم يستطع التنفس داخل مكعب"
+  - "&3%victim%&r&4 مكر البلوكات خطر على حياة اللاعب"
+
+cramming-messages:
+  - "&3%victim%&r&4 حشر حتى تحول الى جزيئات هذا اللاعب"
+  - "ظن ان شقة 1*1 صالحة للمعيشة <v &3%victim%&r&4 &4ِالمرحوم"
+
+thorns-messages:
+  - "&3%victim%&r&4 أعادة الصاع صاعين ل <k &3%killer%&r&4 شوك درع اللاعب"
+  - "&3%victim%&r&4 قامة بقلب الطاولة على اللاعب <k &3%killer%&r&4 ِأشواك اللاعب "
+
+lava-messages:
+  - "&3%victim%&r&4 احترق في الحمم البركانية"
+  - "&3%victim%&r&4 ذهب ليسبح في الحمم و لم يعد"
+
+magma-block-messages:
+  - "&6magma block  في <k &3%victim%&r&4 احترق اللاعب"
+  - "&6magma block  في <k &3%victim%&r&4 تم قلي"
+
+elytra-messages:
+  - "&3%victim%&r&4 طار في الحيط و مات"
+  - "&3%victim%&r&4 يحتاج دروس طيران"
+
+wither-messages:
+  - "&9wither &4ْبمرض  <k &3%victim%&r&4 اصيب اللاعب"
+  - "&9wither &4ْبمرض  <k &3%victim%&r&4 تحلل اللاعب"
+
+suicide-messages:
+  - "&3%victim%&r&4 انتحر"
+  - "&3%victim%&r&4 لم يستطع تحمل هذه الحياة البائسة و قتل نفسه"
+
+fire-messages:
+  - "&3%victim%&r&4 نسي نفسه في النار"
+  - "&3%victim%&r&4 لعب بالنار هذا اللاعب"
+
+fire-tick-messages:
+  - "&3%victim%&r&4 حزر من احترق حتى الموت؟ نعم انه"
+
+starvation-messages:
+  - "&3%victim%&r&4 نسى يأكل"
+  - "&3%victim%&r&4's نسى يفطر في رمضان"
+
+cactus-messages:
+  - "&3%victim%&r&4 طعنه الصبار حتى الموت"
+  - "&3%victim%&r&4 جرب يصبح منفتح على العالم عن طريق الصبار"
+  - "&3%victim%&r&4 عانق الصبار بسبب الوحدة"
+
+potion-messages:
+  - "&3%victim%&r&4 سقط ضحية اليكسر مسموم"
+  - "&3%victim%&r&4 مات بكورونا"
+
+void-messages:
+  - "&3%victim%&r&4 ظن ان السباحة في المجهول أمر ممتع"
+  - "&3%victim%&r&4 أخذ تذكرة بلا عودة الى المجهول"
+  - "&3%victim%&r&4 !ذهب في مغامرة كونية من غير سفينة فضائية"
+
+lightning-messages:
+  - "&3%victim%&r&4 ضربته ساعقة"
+  - "&3%victim%&r&4 قتل بالعدالة الكونية"
+  - "&3%victim%&r&4 اتته اخبار صاعقة"
+
+falling-block-messages:
+  - "&3%victim%&r&4 سحقه بلوك متساقط"
+  - "&3%victim%&r&4 أصبح واحدا مع البلوك"
+  - "&3%victim%&r&4 قابل نده في بلوك متهاوي"
+
+freeze-messages:
+  - "&3%victim%&r&4 تجمد حتى الموت"
+  - "&3%victim%&r&4 نسي معطفه الشتوي"
+  - "&3%victim%&r&4 تجمد اسرع من المياه"
+
+firework-messages:
+  - "&3%victim%&r&4 لعب بالأعاب النارية لأخر مرة"
+  - "&3%victim%&r&4 حاول يطير و ضرب فطيس"
+  - "&3%victim%&r&4 اكتشف مخاطر العبث بالأعاب النارية"
+
+slime-messages:
+  - "&3%victim%&r&4 اللاعب <k &2GIANT SLIME سحق ال"
+  - "&3%victim%&r&4 بهضم اللاعب و هو على قيد الحياة <k &2GIANT SLIME قام ال"
+
+zombie-messages:
+  - "&3%victim%&r&4 أكل اللاعب <k &2Zombie"
+  - "&3%victim%&r&4 تعشى على دماغ اللاعب <k &2Zombie"
+
+pigman-messages:
+  - "&3%victim%&r&4 و مزقو اللاعب &ePigmen غضب ال"
+  - "&3%victim%&r&4 اللاعب &ePigmen أكل ال"
+
+skeleton-messages:
+  - "&3%victim%&r&4 اللاعب &fSkeleton قنص"
+  - "&3%victim%&r&4 أصاب اللاعب &fskeleton"
+
+magmacube-messages:
+  - "&3%victim%&r&4 سحق اللاعب <k &6GIANT MAGMA CUBE"
+
+husk-messages:
+  - "&3%victim%&r&4 جعل ضحية من اللاعب <k &3Husk"
+
+spider-messages:
+  - "&3%victim%&r&4 مكر بالاعب <k &1spider"
+  - "&3%victim%&r&4 تحول الى وجبة عناكب"
+
+cavespider-messages:
+  - "&1Cave Spider سمم بواسطة <k &3%victim%&r&4"
+  - "&1Cave Spider مات بسبب عناق سام من ال <k &3%victim%&r&4"
+
+witherskeleton-messages:
+  - "&3%victim%&r&4  اللاعب <k &0Wither دمر"
+  - "&3%victim%&r&4  درسا قاسيا للاعب <k &0Wither لقن الِ"
+
+witherboss-messages:
+  - "&3%victim%&r&4 فجر اللاعب <k &0Wither"
+  - "&3%victim%&r&4 تحدى the &0Wither &4ِوخسر رأسه"
+  - "&3%victim%&r&4 فجر رئس اللاعب <k &0Wither"
+
+dragon-messages:
+  - "&3%victim%&r&4 مزق أحشاء اللاعب <k &5Ender Dragon"
+  - "&3%victim%&r&4 مزق اللاعب <k &5Ender Dragon"
+  - "&3%victim%&r&4 وجد شاشة اعادة اللاعب بدلا من النهاية"
+
+dragon-breath-messages:
+  - "&5Ender Dragon's breath قرر الاستحمام في <d &3%victim%&r&4"
+  - "&5Ender Dragon's breath تنفس أكثر من اللازم نفس ال <d &3%victim%&r&4"
+  - "&5Ender Dragon's breath مسح من الوجود بسبب ال <d &3%victim%&r&4"
+
+elderguardian-messages:
+  - "رفض &bElder Guardian ولكن ال occean monument حاول استكشاف <d &3%victim%&r&4"
+  - "كان له بالمرصاد &bElder Guardian ولكن ال occean monument حاول استكشاف <d &3%victim%&r&4"
+
+tnt-messages:
+  - "&4TNT  انفجر رأسه بسبب ال <k &3%victim%&r&4"
+  - "&4TNT  انفجر بسبب ال <k &3%victim%&r&4"
+  - "&3%victim%&r&4 أخذا درب داعش هذا اللاعب"
+
+end-crystal-messages:
+  - "&3%victim%&r&4 &5End Crystal فجرته ال"
+  - "&3%victim%&r&4 &5End Crystal قتلته شظايا ال"
+
+creeper-messages:
+  - "&3%victim%&r&4 تعرق بشكل لا يمكن نسيانه على افلاعب &aCreeper"
+  - "&3%victim%&r&4 علم الطيران للاعب &aCreeper"
+  - "&3%victim%&r&4 مداى انفجاره كان أعلى من توقعات اللاعب &aCreeper"
+  - "&3%victim%&r&4 و لم ينجح اللاعب &aCreeper&4ِ حاول تفكيك حمولة ال"
+
+ghast-messages:
+  - "&3%victim%&r&4 قصف بكراة اللهب اللاعب &bGhast"
+
+enderman-messages:
+  - "&3%victim%&r&4 &5Enderman &4ِنظر في عيني ال"
+  - "&3%victim%&r&4 &5Enderman لعب الغميضة مع ال"
+
+silverfish-messages:
+  - "&3%victim%&r&4 أكلو اللاعب <k &7Silverfish"
+
+witch-messages:
+  - "&3%victim%&r&4 سحرت اللاعب <k &9Witch"
+  - "&3%victim%&r&4 حولت الى ضفدع اللاعب <k &9Witch"
+
+shulker-messages:
+  - "&dshulker &4ِمات و هو يحاول الحصول على صدف <d &3%victim%&r&4"
+  - "&3%victim%&r&4 أصابت &dShulker"
+  - "&3%victim%&r&4 دمرت &dShulker"
+
+guardian-messages:
+  - "&3%victim%&r&4 قتلت <k &7Guardian"
+  - "&3%victim%&r&4 صعقت اللاعب <k &7Guardian"
+  - "&3%victim%&r&4 أغرقت اللاعب <k &7Guardian"
+
+golem-messages:
+  - "&7Iron Golem &4ِأغضب <d &3%victim%&r&4"
+  - "&7Iron Golem &4ِاثار غضب <d &3%victim%&r&4"
+  - "&7Iron Golem &4ِتعلم دبلوماسية ال <d &3%victim%&r&4"
+
+zombievillager-messages:
+  - "&3%victim%&r&4 تعشى باللاعب <k &2Zombie Villager"
+
+endermite-messages:
+  - "&3%victim%&r&4 &4ِعضت حتى الموت اللاعب <k &5Endermite "
+  - "&3%victim%&r&4 &5Endermite قضى على يد ال"
+
+phantom-messages:
+  - "&3%victim%&r&4 خطف اللاعب <k &1Phantom"
+
+drowned-messages:
+  - "&3%victim%&r&4 &2Drowned Zombie ذهب للسباحة و أغرقه ال"
+  - "&3%victim%&r&4 &2Drowned &4ِاكتشف ان هذه الاشكال في المياه ليست مجرد سباحين مثله  و لكن ال"
+
+pillager-messages:
+  - "&3%victim%&r&4 قنص اللاعب <k &3Pillager"
+
+ravager-messages:
+  - "&3%victim%&r&4 صدم اللاعب <k &3Ravager"
+
+illusioner-messages:
+  - "&3%victim%&r&4 &6Illusioner أرسله لأرض الاحلام ال"
+  - "&3%victim%&r&4 &6Illusioner خدعه ال"
+  - "&3%victim%&r&4 &6Illusioner قتله ال"
+
+bee-messages:
+  - "&3%victim%&r&4 لسعت <k &6BEE"
+  - "&3%victim%&r&4 &6bee &4ِتعلم ان يتقي شر الحليم اذا غضب على يد ال"
+  - "&3%victim%&r&4 لسعته بشكل مستمر هذا اللاعب <k &6bee"
+
+wolf-messages:
+  - "&3%victim%&r&4 &7Wolf مزقه اربا اربا ال"
+  - "&3%victim%&r&4 &7Wolf قام بستعداء ال"
+
+llama-messages:
+  - "&3%victim%&r&4 أغرقت بالبساق اللاعب &eLlama"
+  - "&3%victim%&r&4 أغرقت هذا اللاعب &ellama"
+  - "&3%victim%&r&4 قبلت اللاعب &llama"
+
+blaze-messages:
+  - "&3%victim%&r&4 أحرق <k &6Blaze"
+  - "&3%victim%&r&4 قام بشوي <k &6Blaze"
+  - "&3%victim%&r&4 علمه ان لا يلعب بالنار <k &6Blazes"
+
+stray-messages:
+  - "&3%victim%&r&4 قنص اللاعب <k &7Stray"
+
+vex-messages:
+  - "&3%victim%&r&4 أكلت &bVex"
+  - "&3%victim%&r&4 نحست &bVex"
+
+vindicator-messages:
+  - "&3%victim%&r&4 اصتاد اللاعب <k &4Vindicator"
+  - "&3%victim%&r&4 لا يحب ان يقلل من شأنه من قبل أمثال <k &4Vindicator"
+  - "&3%victim%&r&4 لا ينبغي ان يقف المرء مثل <k  &4Vindicator &4ِفي مسار خراب ال"
+
+evoker-messages:
+  - "&3%victim%&r&4 أرسل الى العالم السفلي اللاعب <d &4Evoker"
+  - "&3%victim%&r&4 استخدم السحر لتدمير <d &4Evoker"
+  - "&3%victim%&r&4 انهى وجود <d &4Evoker"
+
+pufferfish-messages:
+  - "&3%victim%&r&4 لديهم سم عالي كما اكتشف اللاعب &ePufferfish"
+  - "&3%victim%&r&4 علمت قاعدة عدم لمس الحياة البرية للاعب &ePufferfish"
+
+polar-bear-messages:
+  - "&3%victim%&r&4 قام بالتعشي باللاعب &fPolar Bear"
+  - "&3%victim%&r&4 حول اللاعب الى وجبة خفيفة &fPolar Bear"
+
+dolphin-messages:
+  - "&3%victim%&r&4 و لكن الوحيد الذي تنمر عليه هو &bDolphin&4ِقرر التنمر على ال"
+  - "&3%victim%&r&4 الى &bDolphin &4ِرد الاذى هذا ال"
+
+panda-messages:
+  - "&3%victim%&r&4 هذا اللاعب <k &8Pandas &4ِأضحى عشاءا لل"
+  - "&3%victim%&r&4 وللذلك قتل اللاعب <k &8Pandas &4ِجرب سرقة افرع البامبو الخاصة بال"
+
+piglin-messages:
+  - "&3%victim%&r&4 &6Piglins مات على يد ال"
+  - "&3%victim%&r&4 &6Piglins &4ِقرر و لم يحسن التقرير عندما صارع ال"
+  - "&3%victim%&r&4 &6Piglins &4ِاكتشف انهم لا يتفاوذون لأنهم"
+
+hoglin-messages:
+  - "&3%victim%&r&4 هاجمو <d &6Hoglin&4, يالا الوقاحة ال"
+  - "&6Hoglins لم يقراء التحديث بشئن ال <d &3%victim%&r&4"
+
+zoglin-messages:
+  - "&3%victim%&r&4 &6Zoglins &4ِتناول قرون ال"
+  - "&3%victim%&r&4 &6Zoglin سحق حتى الموت على يد ال"
+
+goat-messages:
+  - "&3%victim%&r&4 &4Goat نطح حتى الموت من قبل ال"
+  - "&3%victim%&r&4 &4Goat &4ِقتل على قرون ال"
+
+zombified-piglin-messages:
+  - "&3%victim%&r&4 &6Piglin قتل لأنه أتخذ حيوانا أليفا من كائن ال"
+  - "&3%victim%&r&4 &6Piglin&4... قتل على يد خنزير... يعني"
+
+fox-messages:
+  - "&3%victim%&r&4 &6foxاكتشف ماذا يقول ال"
+  - "&3%victim%&r&4 &6Fox قام بتعبائة كرش بنجاح"
+
+warden-messages:
+  - "&3%victim%&r&4 &1Warden&4... لا أعلم ماذا توقع لنكه قتل على يد"
+  - "&3%victim%&r&4 &1Warden &4ِلم يقدر شأن قوة ال"
+  - "&3%victim%&r&4 &1Warden's &4ِاقترب أكثر من اللازم من عرين ال"
+
+warden-sonic-boom-messages:
+  - "&3%victim%&r&4 &1Warden قتل بالوجات الفوق الصوتية عن طريق ال"
+  - "&3%victim%&r&4 &1Warden دمرت اذناه بسبب صرخة ال"
+
+unknown-messages:
+  - "&3%victim%&r&4 مات في ظروف غامضة"
+  - "&3%victim%&r&4 مات"
+  - "&3%victim%&r&4 قتل"
+
+fireball-messages:
+  - "&3%victim%&r&4 حرق حتى الموت في هجوم بكراة اللهب"
+  - "&3%victim%&r&4 تم استخدامه كهدف حي عن طريق كراة اللهب"
+  - "&3%victim%&r&4 فنى في عاصفة نارية"
+
+arrow-messages:
+  - "&3%victim%&r&4 قضي عليه في مطر من الأسهم"
+  - "&3%victim%&r&4 حاول مسابقة الاسهم ولكنه لم ينجح"
