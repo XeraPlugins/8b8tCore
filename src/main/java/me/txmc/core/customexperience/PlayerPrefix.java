@@ -57,6 +57,7 @@ public class PlayerPrefix {
     }
 
     public void setupTag(Player player, String tag) {
-        player.playerListName(miniMessage.deserialize(String.format("%s%s", tag, player.getDisplayName())));
+        Component name = player.displayName();
+        player.playerListName(tag.isEmpty() ? name : miniMessage.deserialize(tag).append(name));
     }
 }
