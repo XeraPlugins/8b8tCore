@@ -49,7 +49,8 @@ public class NickCommand extends BaseCommand {
             Component original = Component.text(player.getName());
             player.displayName(original);
             String tag = prefixManager.getPrefix(player);
-            player.playerListName(miniMessage.deserialize(String.format("%s%s", tag, player.getDisplayName())));
+            Component name = player.displayName();
+            player.playerListName(tag.isEmpty() ? name : miniMessage.deserialize(tag).append(name));
             String playerName = miniMessage.serialize(player.displayName());
             sendPrefixedLocalizedMessage(player, "nick_success", playerName);
             database.insertNickname(player.getName(), player.getName());
@@ -68,7 +69,8 @@ public class NickCommand extends BaseCommand {
 
         player.displayName(displayName);
         String tag = prefixManager.getPrefix(player);
-        player.playerListName(miniMessage.deserialize(String.format("%s%s", tag, player.getDisplayName())));
+        Component name = player.displayName();
+        player.playerListName(tag.isEmpty() ? name : miniMessage.deserialize(tag).append(name));
         String playerName = miniMessage.serialize(player.displayName());
 
         sendPrefixedLocalizedMessage(player, "nick_success", playerName);

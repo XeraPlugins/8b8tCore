@@ -37,7 +37,11 @@ public class TogglePrefixCommand extends BaseCommand {
         database.updateHidePrefix(player.getName(), newValue);
 
         String tag = newValue ? "" : prefixManager.getPrefix(player);
-        player.playerListName(miniMessage.deserialize(String.format("%s%s", tag, player.getDisplayName())));
+        if (tag.isEmpty()) {
+            player.playerListName(player.displayName());
+        } else {
+            player.playerListName(miniMessage.deserialize(tag).append(player.displayName()));
+        }
 
         if (newValue) {
             sendMessage(player, "&aYour prefix is now hidden.");
