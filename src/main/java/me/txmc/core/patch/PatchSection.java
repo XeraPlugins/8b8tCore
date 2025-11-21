@@ -44,7 +44,6 @@ public class PatchSection implements Section {
         entityPerChunk = parseEntityConf();
         //plugin.getExecutorService().scheduleAtFixedRate(new ElytraWorker(this), 0, 1, TimeUnit.SECONDS); // UNCOMMENT THIS LINE TO ENABLE ElytraWorker
         plugin.getExecutorService().scheduleAtFixedRate(new EntityCheckTask(this), 0, config.getInt("EntityPerChunk.CheckInterval"), TimeUnit.MINUTES);
-        plugin.register(new Redstone(this));
         plugin.register(new EntitySpawnListener(this));
         plugin.register(new FallFlyListener(plugin));
         plugin.register(new EntitySwitchWorldListener(plugin));
