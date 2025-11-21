@@ -14,6 +14,8 @@ import me.txmc.core.antiillegal.listeners.*;
 import me.txmc.core.antiillegal.listeners.EntityEffectListener;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.Material;
 import org.bukkit.event.Cancellable;
 import org.bukkit.configuration.ConfigurationSection;
@@ -83,17 +85,19 @@ public class AntiIllegalMain implements Section {
 
     public void checkFixItem(ItemStack item, Cancellable cancellable) {
         if (item == null || item.getType() == Material.AIR) return;
-        
-        // Debug: Log all items being checked and send them to the console. 
-        // Bukkit.getConsoleSender().sendMessage("[8b8tCore DEBUG] Checking item: " + item.getType());
-        
+        String enchants = (item.hasItemMeta() && item.getItemMeta().hasEnchants()) ? item.getItemMeta().getEnchants().toString() : "{}";
+        String evt = cancellable != null ? cancellable.getClass().getSimpleName() : "none";
+        // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] Checking type=" + item.getType() + " amount=" + item.getAmount() + " enchants=" + enchants + " event=" + evt);
+
         for (Check check : checks) {
-            if (check.shouldCheck(item) && check.check(item)) {
-                // Debug logging: shows which items are being deleted. 
-                // Bukkit.getConsoleSender().sendMessage("[8b8tCore] Item " + item.getType() + " failed check: " + check.getClass().getSimpleName());
-                if (cancellable != null && !cancellable.isCancelled()) cancellable.setCancelled(true);
+            boolean should = check.shouldCheck(item);
+            boolean fail = should && check.check(item);
+            if (fail) {
+                // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] FAILED check=" + check.getClass().getSimpleName() + " type=" + item.getType() + " event=" + evt);
                 check.fix(item);
                 item.setItemMeta(item.getItemMeta());
+                String after = (item.hasItemMeta() && item.getItemMeta().hasEnchants()) ? item.getItemMeta().getEnchants().toString() : "{}";
+                // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] Fixed by=" + check.getClass().getSimpleName() + " newAmount=" + item.getAmount() + " enchants=" + after);
             }
         }
     }

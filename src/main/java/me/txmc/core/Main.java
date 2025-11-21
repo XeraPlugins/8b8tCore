@@ -86,6 +86,7 @@ public class Main extends JavaPlugin {
         register(new PatchSection(this));
         register(new DupeSection(this));
         register(new DeathMessageListener());
+        register(new me.txmc.core.achievements.AchievementsListener(this));
         register(new CustomExperienceJoinLeave(this));
         register(new OpWhiteListListener(this));
 

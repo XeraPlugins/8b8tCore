@@ -1,6 +1,7 @@
 package me.txmc.core.antiillegal.check.checks;
 
 import me.txmc.core.antiillegal.check.Check;import org.bukkit.inventory.ItemStack;
+import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public class LoreCheck implements Check {
 
     @Override
     public boolean shouldCheck(ItemStack item) {
-        return true;
+        return item.getType() != Material.MAP && item.getType() != Material.FILLED_MAP;
     }
 
     @Override

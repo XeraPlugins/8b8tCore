@@ -2,6 +2,7 @@ package me.txmc.core.command.commands;
 
 import me.txmc.core.Main;
 import me.txmc.core.command.BaseCommand;
+import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
@@ -25,6 +26,7 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 public class NickCommand extends BaseCommand {
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
     private final GeneralDatabase database;
+    private final PrefixManager prefixManager = new PrefixManager();
 
     public NickCommand(Main plugin) {
         super("nick", "/nick <name>", "8b8tcore.command.nick");
@@ -43,6 +45,17 @@ public class NickCommand extends BaseCommand {
             return;
         }
 
+        if (args.length == 1 && args[0].equalsIgnoreCase("c")) {
+            Component original = Component.text(player.getName());
+            player.displayName(original);
+            String tag = prefixManager.getPrefix(player);
+            player.playerListName(miniMessage.deserialize(String.format("%s%s", tag, player.getDisplayName())));
+            String playerName = miniMessage.serialize(player.displayName());
+            sendPrefixedLocalizedMessage(player, "nick_success", playerName);
+            database.insertNickname(player.getName(), player.getName());
+            return;
+        }
+
         String nickname = String.join(" ", args).replaceAll("(?i)<(hover:.*?|click:.*?|insert:.*?|selector:.*?|nbt:.*?|newline)[^>]*>", "").trim();
 
 
@@ -54,6 +67,8 @@ public class NickCommand extends BaseCommand {
         }
 
         player.displayName(displayName);
+        String tag = prefixManager.getPrefix(player);
+        player.playerListName(miniMessage.deserialize(String.format("%s%s", tag, player.getDisplayName())));
         String playerName = miniMessage.serialize(player.displayName());
 
         sendPrefixedLocalizedMessage(player, "nick_success", playerName);

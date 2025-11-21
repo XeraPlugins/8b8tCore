@@ -53,9 +53,9 @@ public class PlayerListeners implements Listener {
         ItemStack itemStack = event.getItemDrop().getItemStack();
         for (Check check : main.checks()) {
             if (!check.check(itemStack)) continue;
-            if (!event.isCancelled()) event.setCancelled(true);
             GlobalUtils.log(Level.INFO, "Item %s failed the %s check and has been fixed.", itemStack, check.getClass().getSimpleName());
             check.fix(itemStack);
+            event.getItemDrop().setItemStack(itemStack);
         }
     }
 
@@ -67,7 +67,7 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onPickup(PlayerAttemptPickupItemEvent event) {
-        main.checkFixItem(event.getItem().getItemStack(), event);
+        main.checkFixItem(event.getItem().getItemStack(), null);
     }
 
     @EventHandler
