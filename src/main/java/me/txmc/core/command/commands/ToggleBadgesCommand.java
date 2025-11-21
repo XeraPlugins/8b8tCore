@@ -28,9 +28,9 @@ public class ToggleBadgesCommand extends BaseCommand {
         database.updateHideBadges(player.getName(), newValue);
 
         if (newValue) {
-            sendMessage(player, "&aYou will no longer see other players' advancements.");
+            sendMessage(player, "&aYou will no longer see other players achievements.");
         } else {
-            sendMessage(player, "&aYou will now see other players' advancements.");
+            sendMessage(player, "&aYou will now see other players achievements.");
         }
     }
 }
