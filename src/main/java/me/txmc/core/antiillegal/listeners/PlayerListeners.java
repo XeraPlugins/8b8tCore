@@ -53,7 +53,7 @@ public class PlayerListeners implements Listener {
         ItemStack itemStack = event.getItemDrop().getItemStack();
         for (Check check : main.checks()) {
             if (!check.check(itemStack)) continue;
-            GlobalUtils.log(Level.INFO, "Item %s failed the %s check and has been fixed.", itemStack, check.getClass().getSimpleName());
+            //GlobalUtils.log(Level.INFO, "Item %s failed the %s check and has been fixed.", itemStack, check.getClass().getSimpleName());
             check.fix(itemStack);
             event.getItemDrop().setItemStack(itemStack);
         }
