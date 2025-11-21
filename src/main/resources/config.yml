@@ -151,6 +151,10 @@ ChatControl:
     - '/table'
     - '/tpatoggle'
     - '/tpaignore'
+    - '/toggleprefix'
+    - '/announcements'
+    - '/badges'
+    - '/deathmessage'
 TPA:
   RequestTimeoutInMinutes: 5
 TPS:
