@@ -66,6 +66,7 @@ commands:
   deathmessage:
   announcements:
   badges:
+    aliases: [achievements]
   shadowmute:
     aliases: [mute, sm]
   vanish:

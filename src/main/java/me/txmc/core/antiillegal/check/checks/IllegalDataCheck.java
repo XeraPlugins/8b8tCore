@@ -24,6 +24,10 @@ public class IllegalDataCheck implements Check {
         if (meta == null) return false;
         
         try {
+            String s = meta.getAsComponentString();
+            if (s != null && s.toLowerCase().contains("minecraft:luck")) {
+                return true;
+            }
             if (meta.isGlider() && item.getType() != Material.ELYTRA) {
                 return true;
             }
@@ -64,14 +68,33 @@ public class IllegalDataCheck implements Check {
         if (meta == null) return;
         
         try {
-            if (meta.isGlider() && item.getType() != Material.ELYTRA) {
-                try { meta.setGlider(false); } catch (Exception ignored) {}
+            String sLuck = meta.getAsComponentString();
+            if (sLuck != null && sLuck.toLowerCase().contains("minecraft:luck")) {
+                item.setAmount(0);
+                return;
             }
-            
-            try { if (item.getType() != Material.TOTEM_OF_UNDYING) item.unsetData(DataComponentTypes.DEATH_PROTECTION); } catch (Exception ignored) {}
-            try { item.unsetData(DataComponentTypes.MAX_DAMAGE); } catch (Exception ignored) {}
-            
+            boolean durable = item.getType().getMaxDurability() > 0;
+
+            if (meta.isGlider() && item.getType() != Material.ELYTRA) {
+                meta.setGlider(false);
+            }
             item.setItemMeta(meta);
+
+            if (item.getType() != Material.TOTEM_OF_UNDYING) {
+                item.unsetData(DataComponentTypes.DEATH_PROTECTION);
+            }
+            item.unsetData(DataComponentTypes.MAX_DAMAGE);
+
+            String s = item.getItemMeta() != null ? item.getItemMeta().getAsComponentString() : null;
+            if (s != null) {
+                if (durable && s.contains("!minecraft:max_damage")) {
+                    int max = item.getType().getMaxDurability();
+                    if (max > 0) item.setData(DataComponentTypes.MAX_DAMAGE, max);
+                }
+                if (durable && s.toLowerCase().contains("minecraft:max_stack_size")) {
+                    item.unsetData(DataComponentTypes.MAX_STACK_SIZE);
+                }
+            }
         } catch (Exception ignored) {}
     }
     

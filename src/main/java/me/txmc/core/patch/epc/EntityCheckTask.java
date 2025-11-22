@@ -33,9 +33,8 @@ public class EntityCheckTask implements Runnable {
 
                             int excessCount = filteredEntities.length - maxAllowed;
                             if (excessCount > 0) {
-                                log(Level.INFO, "Removing %d entities from chunk %d,%d in world %s",
-                                        excessCount, chunk.getX(), chunk.getZ(), world.getName());
-
+                                // prevent console spam
+                                // log(Level.INFO, "Removing %d entities from chunk %d,%d in world %s", excessCount, chunk.getX(), chunk.getZ(), world.getName());
                                 for (int i = 0; i < excessCount; i++) {
                                     Entity entityToRemove = filteredEntities[i];
                                     if (entityToRemove.isValid()) {

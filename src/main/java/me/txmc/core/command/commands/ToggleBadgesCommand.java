@@ -12,7 +12,7 @@ public class ToggleBadgesCommand extends BaseCommand {
     private final GeneralDatabase database;
 
     public ToggleBadgesCommand(Main plugin) {
-        super("badges", "/badges", "8b8tcore.command.badges");
+        super("badges", "/badges | /achievements", "8b8tcore.command.badges");
         this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
     }
 
@@ -28,9 +28,9 @@ public class ToggleBadgesCommand extends BaseCommand {
         database.updateHideBadges(player.getName(), newValue);
 
         if (newValue) {
-            sendMessage(player, "&aYou will no longer see other players' advancements.");
+            sendMessage(player, "&aYou will no longer see other players achievements.");
         } else {
-            sendMessage(player, "&aYou will now see other players' advancements.");
+            sendMessage(player, "&aYou will now see other players achievements.");
         }
     }
 }
