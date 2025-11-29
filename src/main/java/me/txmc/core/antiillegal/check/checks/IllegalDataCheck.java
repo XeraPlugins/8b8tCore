@@ -26,7 +26,7 @@ public class IllegalDataCheck implements Check {
         try {
             String s = meta.getAsComponentString();
             if (s != null && s.toLowerCase().contains("minecraft:luck")) {
-                return true;
+                if (isPotion(item.getType())) return true;
             }
             if (meta.isGlider() && item.getType() != Material.ELYTRA) {
                 return true;
@@ -69,10 +69,6 @@ public class IllegalDataCheck implements Check {
         
         try {
             String sLuck = meta.getAsComponentString();
-            if (sLuck != null && sLuck.toLowerCase().contains("minecraft:luck")) {
-                item.setAmount(0);
-                return;
-            }
             boolean durable = item.getType().getMaxDurability() > 0;
 
             if (meta.isGlider() && item.getType() != Material.ELYTRA) {
@@ -84,6 +80,10 @@ public class IllegalDataCheck implements Check {
                 item.unsetData(DataComponentTypes.DEATH_PROTECTION);
             }
             item.unsetData(DataComponentTypes.MAX_DAMAGE);
+
+            if (sLuck != null && sLuck.toLowerCase().contains("minecraft:luck")) {
+                if (isPotion(item.getType())) item.unsetData(DataComponentTypes.POTION_CONTENTS);
+            }
 
             String s = item.getItemMeta() != null ? item.getItemMeta().getAsComponentString() : null;
             if (s != null) {
@@ -98,6 +98,10 @@ public class IllegalDataCheck implements Check {
         } catch (Exception ignored) {}
     }
     
+    private boolean isPotion(Material type) {
+        return type == Material.POTION || type == Material.SPLASH_POTION || type == Material.LINGERING_POTION || type == Material.TIPPED_ARROW;
+    }
+
     private boolean hasDeathProtectionComponent(ItemMeta meta) {
         String componentString = meta.getAsComponentString();
         return componentString.contains("minecraft:death_protection");
