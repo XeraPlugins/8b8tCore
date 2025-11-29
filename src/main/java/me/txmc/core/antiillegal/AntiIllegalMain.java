@@ -95,18 +95,14 @@ public class AntiIllegalMain implements Section {
             if (fail) {
                 // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] FAILED check=" + check.getClass().getSimpleName() + " type=" + item.getType() + " event=" + evt);
 
-                
-                // fix server crash
-                // Without this the stack value would be be mutated and the location address 
-                // would be removed for the item so when Folia or Paper tries to call this 
-                // when dispensing the address doesn't exist crashing the server.
-                if (cancellable instanceof io.papermc.paper.event.block.BlockPreDispenseEvent) {
-                    cancellable.setCancelled(true);
-                    return;
-                }
-                
                 check.fix(item);
                 item.setItemMeta(item.getItemMeta());
+                // Fix a crash by cancelling air blocks which are not handled by BlockPreDispenseEvent, triggering a server panic.
+                if (item.getType() == Material.AIR || item.getAmount() <= 0) {
+                    if (cancellable instanceof io.papermc.paper.event.block.BlockPreDispenseEvent) {
+                        cancellable.setCancelled(true);
+                    }
+                }
                 String after = (item.hasItemMeta() && item.getItemMeta().hasEnchants()) ? item.getItemMeta().getEnchants().toString() : "{}";
                 // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] Fixed by=" + check.getClass().getSimpleName() + " newAmount=" + item.getAmount() + " enchants=" + after);
             }
