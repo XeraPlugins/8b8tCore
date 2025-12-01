@@ -1,4 +1,4 @@
-package tu.paquete;
+package package me.txmc.core.patch;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
