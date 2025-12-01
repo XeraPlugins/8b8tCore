@@ -20,7 +20,7 @@ public class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         saveDefaultConfig();
         FileConfiguration cfg = getConfig();
-        featureEnabled = cfg.getBoolean("kill-bedrock-roof", true);
+        featureEnabled = cfg.getBoolean("ForceKillNetherRoof", true);
 
         Bukkit.getPluginManager().registerEvents(this, this);
     }
