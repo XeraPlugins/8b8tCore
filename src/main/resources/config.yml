@@ -240,6 +240,8 @@ DonkeyDupe:
 DupeCommand:
   enabled: false
   votersOnly: false
+ForceKillNetherRoof:
+  enabled: true
 RestrictedMapIDs:
   - 1366
   - 1261
