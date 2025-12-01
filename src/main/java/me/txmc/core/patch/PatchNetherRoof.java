@@ -1,4 +1,4 @@
-package package me.txmc.core.patch;
+package me.txmc.core.patch;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.block.BlockFace;
 
-public class Main extends JavaPlugin implements Listener {
+public class PatchNetherRoof extends JavaPlugin implements Listener {
 
     private boolean featureEnabled;
 
@@ -33,15 +33,14 @@ public class Main extends JavaPlugin implements Listener {
         Block block = event.getBlock();
 
         if (player.getWorld().getEnvironment() != World.Environment.NETHER) return;
-
         if (block.getType() != Material.BEDROCK) return;
 
-        BlockFace face = event.getBlockFace();
-        if (face != BlockFace.UP) return;
+        if (event.getBlockFace() != BlockFace.UP) return;
 
         player.setHealth(0.0);
     }
 }
+
 
 // If you want to enable/disable this, you may do it at almost the end of the file changing true for false.
 // Last edited by MrBeax31 (https://github.com/MrBeax31)
