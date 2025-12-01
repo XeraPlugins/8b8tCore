@@ -20,7 +20,7 @@ public class PatchNetherRoof extends JavaPlugin implements Listener {
     public void onEnable() {
         saveDefaultConfig();
         FileConfiguration cfg = getConfig();
-        featureEnabled = cfg.getBoolean("ForceKillNetherRoof", true);
+        featureEnabled = cfg.getBoolean("ForceKillNetherRoof.enabled", true);
 
         Bukkit.getPluginManager().registerEvents(this, this);
     }
@@ -40,6 +40,7 @@ public class PatchNetherRoof extends JavaPlugin implements Listener {
         player.setHealth(0.0);
     }
 }
+
 
 
 // If you want to enable/disable this, you may do it at almost the end of the file changing true for false.
