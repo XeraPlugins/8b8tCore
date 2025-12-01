@@ -43,4 +43,5 @@ public class Main extends JavaPlugin implements Listener {
     }
 }
 
+// If you want to enable/disable this, you may do it at almost the end of the file changing true for false.
 // Last edited by MrBeax31 (https://github.com/MrBeax31)
