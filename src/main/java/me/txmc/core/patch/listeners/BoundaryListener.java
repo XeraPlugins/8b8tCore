@@ -60,12 +60,13 @@ public class BoundaryListener implements Listener {
             world.getName().toLowerCase().contains("nether")) {
             
             int netherYLevel = plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128);
-            
-            if (event.getFrom().getY() < netherYLevel && event.getTo().getY() >= netherYLevel) {
-                handleNetherRoofAttempt(player, event);
-            } else if (y >= netherYLevel) {
+
+            //CHANGES MADE HERE: Some exploits type packet-teleport go up to Y200 whiout going trough from< && to>=
+            if (event.getTo().getY() >= netherYLevel) {
                 handleNetherRoof(player, event);
+                return;
             }
+
         }
     }
     
@@ -149,7 +150,8 @@ public class BoundaryListener implements Listener {
         Location from = event.getFrom();
         int netherYLevel = plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128);
         
-        if (from.getBlockY() >= netherYLevel) {
+        // CHANGES ON if (from.getBlockY() >= netherYLevel) {: This part made possbile that exploits that changes the player altitude like 0,01 blocks on Y be able to bypass it. This change detects ALWAYS if you are on the nether roof and don't make that possible
+        if (event.getTo().getY() >= netherYLevel) {
             if (plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.DamagePlayers", true)) {
                 long currentTime = System.currentTimeMillis();
                 long lastDamage = lastNetherRoofDamage.getOrDefault(player.getUniqueId(), 0L);
@@ -168,8 +170,10 @@ public class BoundaryListener implements Listener {
                 if (player.isInvulnerable()) player.setInvulnerable(false);
                 
                 event.setCancelled(true);
-                
+
+                //CHANGES HERE: Invulnerability is gave on other parts of this code. This deletes all the invulnerability making sure the player dies.
                 if (player.isOnline() && !player.isDead()) {
+                    player.setInvulnerable(false);
                     player.setHealth(0);
                 }
                 
