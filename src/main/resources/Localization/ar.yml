@@ -14,7 +14,7 @@ whisper_ignoring: "&c%s حاليا يتجاهلك"
 whisper_you_are_ignoring: "&cليس باءمكانك الهمس للاعب انت تتجاهله"
 msg_could_not_find_player: "&cلم يستطع العثور على اللاعب %s"
 msg_command_syntax: "&cرجاءا تضمن هدفا و رسالة /msg <الرسالة> <الهدف>"
-reply_player_offline: "&cاللاعب %s حاليا offline"You can be so nice
+reply_player_offline: "&cاللاعب %s حاليا offline"
 reply_no_target: "&cلم تراسل اي أحد بعد"
 reply_command_syntax: "&cرجاءا تضمن رسالة /r <الرسالة>"
 togglechat_chat_enabled: "&aتشغيل الدردشة"

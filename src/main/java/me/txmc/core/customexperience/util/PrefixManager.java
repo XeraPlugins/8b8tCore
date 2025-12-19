@@ -30,6 +30,8 @@ public class PrefixManager {
             "8b8tcore.prefix.bot",
             "8b8tcore.prefix.youtuber",
             "8b8tcore.prefix.thetroll2001",
+            "8b8tcore.prefix.qtdonkey",
+            "8b8tcore.prefix.lucky2007",
             "8b8tcore.prefix.donator6",
             "8b8tcore.prefix.donator5",
             "8b8tcore.prefix.donator4",
@@ -46,6 +48,8 @@ public class PrefixManager {
         PREFIXES.put("8b8tcore.prefix.bot", "<gradient:#00AA00:#6ef385:#00AA00:%s>[BOT]</gradient>");
         PREFIXES.put("8b8tcore.prefix.youtuber", "<gradient:#8B0000:#FF0000:#8B0000:%s>[Youtuber]</gradient>");
         PREFIXES.put("8b8tcore.prefix.thetroll2001", "<gradient:#FF0000:#FF7F00:#FFFF00:#00FF00:#0000FF:#4B0082:#8F00FF:#4B0082:#0000FF:#00FF00:#FFFF00:#FF7F00:#FF0000:%s>[Troll]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.qtdonkey", "<gradient:#39FF14:#88FF0C:#B0FF08:#D7FF04:#FFFF00:%s>[Television]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.lucky2007", "<gradient:#C82D19:#FC1F02:#090808:%s>[Addict]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator6", "<gradient:#9145b0:#ceafcf:#9145b0:%s>[Ultra]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator5", "<gradient:#a18800:#ecc700:#a18800:%s>[Pro+]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator4", "<gradient:#ef9a98:#f7cac9:#ef9a98:%s>[Pro]</gradient>");
