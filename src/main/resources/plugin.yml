@@ -9,15 +9,15 @@ softdepend:
   - VotifierPlus
 commands:
   msg:
-    aliases: [message, whisper, tell, w, t, mesaj]
+    aliases: [message, whisper, tell, w, t]
   reply:
-    aliases: [r, yanıtla]
+    aliases: [r]
   ignore:
   togglechat:
   unignore:
   ignorelist:
   tpa:
-    aliases: [ışınlan]
+    aliases: []
   tpahere:
   tpayes:
     aliases: [tpaaccept, tpaccept]
@@ -27,19 +27,19 @@ commands:
   tpatoggle:
   tpaignore:
   home:
-    aliases: [ev]
+    aliases: []
   sethome:
-    aliases: [evayarla]
+    aliases: []
   delhome:
-    aliases: [evsil]
+    aliases: []
   back:
-    aliases: [geri]
+    aliases: []
   hotspot:
   lef:
   discord:
   matrix:
   help:
-    aliases: [yardım]
+    aliases: []
   open:
   say:
   spawn:
@@ -47,19 +47,19 @@ commands:
   uptime:
   world:
   vote:
-    aliases: [oyla, oy]
+    aliases: []
   tpsinfo:
   repair:
-    aliases: [tamir]
+    aliases: []
   nick:
-    aliases: [nickname, setnick, isim]
+    aliases: [nickname, setnick]
   ic:
-    aliases: [itemcolor, setcolor, eşyarengi]
+    aliases: [itemcolor, setcolor]
   nc:
-    aliases: [nickcolor, namecolor, isimrengi]
+    aliases: [namecolor]
   rename:
   sign:
-    aliases: [tabela]
+    aliases: []
   togglejoinmessages:
     aliases: [jm, tjm]
   toggleprefix:
@@ -77,18 +77,22 @@ commands:
   gmsp:
   gms:
   suicide:
-    aliases: [illegal, illegalevent, kit, kits, dupe, intihar, öl]
+    aliases: [illegal, illegalevent, kit, kits, dupe]
   table:
-    aliases: [masa]
+    aliases: []
   jihad:
   joindate:
   kill:
   lastseen:
   title:
   customgradient:
-    aliases: [cg, setgradient]
+    aliases: [cg, setgradient, nickcolor]
   toggleleaderboard:
     aliases: [togglelb, tlb]
+  dps:
+    aliases: [disablephantomspawn, phantoms]
+    description: Disable phantom spawning for yourself
+    permission: 8b8tcore.command.dps
 permissions:
   8b8tcore.viewdistance.default:
     description: Permission for the default view distance

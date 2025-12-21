@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,8 +131,7 @@ public class ItemColorCommand extends BaseTabCommand {
         ItemMeta meta = item.getItemMeta();
 
         if (meta != null && meta.hasDisplayName()) {
-            String name = meta.getDisplayName();
-            return ChatColor.stripColor(name);
+            return PlainTextComponentSerializer.plainText().serialize(meta.displayName());
         } else {
             return item.getType().toString().replace("_", " ").toLowerCase();
         }

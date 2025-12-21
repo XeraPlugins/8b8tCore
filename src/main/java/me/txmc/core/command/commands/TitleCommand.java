@@ -4,7 +4,7 @@ import me.txmc.core.Main;
 import me.txmc.core.command.BaseTabCommand;
 import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.database.GeneralDatabase;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.command.CommandSender;
 
@@ -43,6 +43,7 @@ public class TitleCommand extends BaseTabCommand {
 
         if (input.equals("clear") || input.equals("none")) {
             database.updateSelectedRank(player.getName(), null);
+            refreshPlayer(player);
             sendPrefixedLocalizedMessage(player, "title_cleared");
             return;
         }
@@ -71,7 +72,7 @@ public class TitleCommand extends BaseTabCommand {
         message.append("\n&7Use &6/title <rank>&7 to select a rank");
         message.append("\n&7Use &6/title clear &7to remove your title");
 
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message.toString()));
+        player.sendMessage(MiniMessage.miniMessage().deserialize(me.txmc.core.util.GlobalUtils.convertToMiniMessageFormat(message.toString())));
     }
 
     private void selectRank(Player player, String input, List<String> availableRanks) {
@@ -81,6 +82,7 @@ public class TitleCommand extends BaseTabCommand {
 
         if (availableRanks.contains(targetRank)) {
             database.updateSelectedRank(player.getName(), targetRank);
+            refreshPlayer(player);
             sendPrefixedLocalizedMessage(player, "title_success", stripPrefix(targetRank));
             return;
         }
@@ -88,11 +90,22 @@ public class TitleCommand extends BaseTabCommand {
         String customPermission = "8b8tcore.prefix.custom";
         if (player.hasPermission(customPermission) && targetRank.startsWith(customPermission)) {
             database.updateSelectedRank(player.getName(), customPermission);
+            refreshPlayer(player);
             sendPrefixedLocalizedMessage(player, "title_success", "custom");
             return;
         }
 
         sendPrefixedLocalizedMessage(player, "title_no_permission_for_rank");
+    }
+
+    private void refreshPlayer(Player player) {
+        Main plugin = (Main) Main.getInstance();
+        player.getScheduler().run(plugin, (task) -> {
+           me.txmc.core.Section section = plugin.getSectionByName("TabList");
+           if (section instanceof me.txmc.core.tablist.TabSection tabSection) {
+               tabSection.setTab(player);
+           }
+        }, null);
     }
 
     private String stripPrefix(String rank) {

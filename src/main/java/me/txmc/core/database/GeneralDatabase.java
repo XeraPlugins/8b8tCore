@@ -5,6 +5,12 @@ import java.sql.*;
 import java.time.Instant;
 import java.util.concurrent.*;
 
+/**
+ * @author MindComplexity (aka Libalpm)
+ * @since 2025/12/21
+ * This file was created as a part of 8b8tCore
+*/
+
 public class GeneralDatabase {
     private static GeneralDatabase instance;
     private final String url;
@@ -66,6 +72,9 @@ public class GeneralDatabase {
             addColumnIfNotExists(conn, stmt, "customGradient", "TEXT");
             addColumnIfNotExists(conn, stmt, "hideCustomTab", "BOOLEAN DEFAULT FALSE");
             addColumnIfNotExists(conn, stmt, "useVanillaLeaderboard", "BOOLEAN DEFAULT FALSE");
+            addColumnIfNotExists(conn, stmt, "gradient_animation", "TEXT DEFAULT 'none'");
+            addColumnIfNotExists(conn, stmt, "gradient_speed", "INTEGER DEFAULT 5");
+            addColumnIfNotExists(conn, stmt, "preventPhantomSpawn", "BOOLEAN DEFAULT TRUE");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -313,6 +322,45 @@ public class GeneralDatabase {
                 "SELECT useVanillaLeaderboard FROM playerdata WHERE username = ?",
                 rs -> rs.getBoolean("useVanillaLeaderboard"),
                 false,
+                username
+        );
+    }
+
+    public void updateGradientAnimation(String username, String animation) {
+        upsertPlayer(username, "gradient_animation", animation);
+    }
+
+    public String getGradientAnimation(String username) {
+        return executeQuery(
+                "SELECT gradient_animation FROM playerdata WHERE username = ?",
+                rs -> rs.getString("gradient_animation"),
+                "none",
+                username
+        );
+    }
+
+    public void updateGradientSpeed(String username, int speed) {
+        upsertPlayer(username, "gradient_speed", speed);
+    }
+
+    public int getGradientSpeed(String username) {
+        return executeQuery(
+                "SELECT gradient_speed FROM playerdata WHERE username = ?",
+                rs -> rs.getInt("gradient_speed"),
+                5,
+                username
+        );
+    }
+
+    public void updatePreventPhantomSpawn(String username, boolean prevent) {
+        upsertPlayer(username, "preventPhantomSpawn", prevent);
+    }
+
+    public boolean getPreventPhantomSpawn(String username) {
+        return executeQuery(
+                "SELECT preventPhantomSpawn FROM playerdata WHERE username = ?",
+                rs -> rs.getBoolean("preventPhantomSpawn"),
+                true,
                 username
         );
     }

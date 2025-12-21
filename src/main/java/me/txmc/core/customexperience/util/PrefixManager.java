@@ -3,6 +3,7 @@ package me.txmc.core.customexperience.util;
 import org.bukkit.entity.Player;
 import me.txmc.core.Main;
 import me.txmc.core.database.GeneralDatabase;
+import me.txmc.core.util.GradientAnimator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -85,7 +86,7 @@ public class PrefixManager {
         }
 
         String basePrefix = PREFIXES.get(highestPermission);
-        globalAnimationIndex = (globalAnimationIndex + 0.1) % 1.0;
+        long tick = GradientAnimator.getAnimationTick();
         String animatedPrefix;
 
         if (highestPermission.equals("8b8tcore.prefix.custom")) {
@@ -93,9 +94,21 @@ public class PrefixManager {
             if (customGradient == null || customGradient.isEmpty()) {
                 customGradient = "#FFFFFF:#AAAAAA:#FFFFFF";
             }
-            animatedPrefix = basePrefix.replace("%g", customGradient).replace("%s", String.format("%.1f", globalAnimationIndex));
+            String animationType = database.getGradientAnimation(player.getName());
+            int speed = database.getGradientSpeed(player.getName());
+            
+            String finalGradient = GradientAnimator.applyAnimation(customGradient, animationType, speed, tick);
+            if (!finalGradient.contains(":")) {
+                animatedPrefix = basePrefix.replace("%g", finalGradient).replace("%s", "0.0");
+            } else {
+                int lastColon = finalGradient.lastIndexOf(':');
+                String colors = finalGradient.substring(0, lastColon);
+                String phase = finalGradient.substring(lastColon + 1);
+                animatedPrefix = basePrefix.replace("%g", colors).replace("%s", phase);
+            }
         } else {
-            animatedPrefix = basePrefix.replace("%s", String.format("%.1f", globalAnimationIndex));
+            double phase = Math.sin(tick * 0.1);
+            animatedPrefix = basePrefix.replace("%s", String.format("%.1f", phase));
         }
 
         return animatedPrefix + " ";

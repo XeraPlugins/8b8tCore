@@ -92,7 +92,7 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
                         cachedData.x, cachedData.y, cachedData.z));
                 }
             } else {
-                long lastPlayed = offlinePlayer.getLastPlayed();
+                long lastPlayed = offlinePlayer.getLastSeen();
                 if (lastPlayed > 0) {
                     SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
                     String formattedDate = sdf.format(new Date(lastPlayed));

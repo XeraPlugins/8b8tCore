@@ -120,6 +120,8 @@ nick_too_large: "&cO nickname pode ter no máximo %s caracteres."
 nick_reset: "&3O teu nickname foi redefinido para o teu nome original."
 nick_usage: "&cUso: %s"
 gradient_usage: "&cUso: %s"
+gradient_invalid: "&cGradiente inválido: &e%s&c. Usa o formato hexadecimal como #FF0000:#00FF00"
+gradient_animation_invalid: "&cTipo de animação inválido: &e%s&c. Tipos válidos: wave, pulse, rainbow, shift, none"
 gradient_invalid_color: "&cCor inválida: %s. Usa o formato hexadecimal como #FF0000"
 gradient_set: "&3Gradiente definido para: &r%s"
 gradient_success: "&3Gradiente aplicado com sucesso!"
@@ -137,6 +139,8 @@ hotspot_created: "&3O teu hotspot foi criado com sucesso."
 hotspot_deleted: "&3O teu hotspot foi apagado com sucesso."
 hotspot_creation_cooldown: "&cDeves esperar &a%s&c segundos antes de criar outro hotspot."
 hotspot_not_active: "&cNão tens um hotspot ativo no momento."
+dps_enabled: "&3Geração de Phantom &aativada&3 para ti."
+dps_disabled: "&3Geração de Phantom &cdesativada&3 para ti."
 hotspot_not_found_for_player: "&r&a%s&c não tem um hotspot ativo."
 hotspot_teleported_to_player: "&3A teletransportar para o hotspot de &r&a%s&3."
 hotspot_not_found: "&cNão existem hotspots ativos para teletransportar."
@@ -209,7 +213,7 @@ TabList:
 
   Footer:
     - ''
-    - '&7tps:&r %tps% &7ping: &r%ping% &7jogadores: &f%players% &7uptime: &r%uptime%'
+    - '&7tps:&r %tps% &7mspt:&r %mspt% &7ping: &r%ping% &7jogadores: &f%players% &7uptime: &r%uptime%'
     - ''
     - '&7Contacto: contact@8b8t.me'
     - '&7Discussão: https://discord.8b8t.me'
@@ -219,8 +223,8 @@ TabList:
 TpsMessage:
   - '&3--------------------------------------'
   - '&6Informação de TPS:'
-  - '&8TPS: &a%s &8MSTP: &a%s'
-  - '&8TPS da Região mais baixa: &c%s'
+  - '&8TPS: %s &8MSPT: %s &8MTPS: &a%s'
+  - '&8TPS da Região mais baixa: %s'
   - '&8Jogadores Online &a%s'
   - '&3--------------------------------------'
 tps_failed: '&cNão tens permissão para ver os TPS'

@@ -120,6 +120,8 @@ nick_too_large: "&cTakma ad maksimum %s karakter olabilir."
 nick_reset: "&3Takma adın orijinal kullanıcı adına sıfırlandı."
 nick_usage: "&cKullanım: %s"
 gradient_usage: "&cKullanım: %s"
+gradient_invalid: "&cGeçersiz gradyan: &e%s&c. #FF0000:#00FF00 gibi hex formatı kullanın"
+gradient_animation_invalid: "&cGeçersiz animasyon türü: &e%s&c. Geçerli türler: wave, pulse, rainbow, shift, none"
 gradient_invalid_color: "&cGeçersiz renk: %s. #FF0000 gibi hex formatı kullanın."
 gradient_set: "&3Gradyan şuna ayarlandı: &r%s"
 gradient_success: "&3Gradyan başarıyla uygulandı!"
@@ -137,6 +139,8 @@ hotspot_created: "&3Hotspot başarıyla oluşturuldu."
 hotspot_deleted: "&3Hotspot başarıyla silindi."
 hotspot_creation_cooldown: "&cYeni bir hotspot oluşturmadan önce &a%s&c saniye beklemelisin."
 hotspot_not_active: "&cŞu an aktif bir hotspot'un yok."
+dps_enabled: "&3Phantom oluşumu &aaktif&3."
+dps_disabled: "&3Phantom oluşumu &cdevre dışı&3."
 hotspot_not_found_for_player: "&r&a%s&c adlı oyuncunun aktif bir hotspot'u yok."
 hotspot_teleported_to_player: "&r&a%s&3 adlı oyuncunun hotspot'una ışınlanılıyor."
 hotspot_not_found: "&cIşınlanılacak aktif bir hotspot bulunamadı."
@@ -209,7 +213,7 @@ TabList:
 
   Footer:
     - ''
-    - '&7tps:&r %tps% &7gecikme: &r%ping% &7oyuncular: &f%players% &7uptime: &r%uptime%'
+    - '&7tps:&r %tps% &7mspt:&r %mspt% &7gecikme: &r%ping% &7oyuncular: &f%players% &7uptime: &r%uptime%'
     - ''
     - '&7İletişim: contact@8b8t.me'
     - '&7Tartışma: https://discord.8b8t.me'
@@ -219,8 +223,8 @@ TabList:
 TpsMessage:
   - '&3--------------------------------------'
   - '&6TPS Bilgisi:'
-  - '&8TPS: &a%s &8MSTP: &a%s'
-  - '&8En Düşük Bölge TPS: &c%s'
+  - '&8TPS: %s &8MSPT: %s'
+  - '&8En Düşük Bölge TPS: %s'
   - '&8Çevrimiçi Oyuncular &a%s'
   - '&3--------------------------------------'
 tps_failed: '&cTPS kontrol etme yetkin yok'

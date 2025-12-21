@@ -18,7 +18,6 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -242,9 +241,9 @@ public class ChatListener implements Listener {
                         .clickEvent(ClickEvent.suggestCommand("/msg " + player.getName() + " ")))
                 .append(Component.text("> ").color(TextColor.color(170, 170, 170)));
 
-        String resetColor = message.startsWith(">") ? ChatColor.GREEN.toString() : ChatColor.RESET.toString();
-        message = message.replaceAll("(?i)\\b@?here\\b", ChatColor.YELLOW + "$0" + resetColor);
-        message = message.replaceAll("(?i)\\b@?everyone\\b", ChatColor.YELLOW + "$0" + resetColor);
+        boolean isGreentext = message.startsWith(">");
+        NamedTextColor keywordColor = NamedTextColor.YELLOW;
+        NamedTextColor normalColor = isGreentext ? NamedTextColor.GREEN : NamedTextColor.WHITE;
 
         NamedTextColor colorMessage = NamedTextColor.WHITE;
 
@@ -279,9 +278,13 @@ public class ChatListener implements Listener {
             }
 
             if (!isPlayerName) {
-                if(colorMessage != NamedTextColor.WHITE){
-                    msgComponent = msgComponent.append(Component.text(word + " ").color(colorMessage));
-                } else msgComponent = msgComponent.append(Component.text(word + " "));
+                Component wordComp = Component.text(word + " ");
+                if (word.matches("(?i)@?here|@?everyone")) {
+                    wordComp = wordComp.color(NamedTextColor.YELLOW);
+                } else if (normalColor != NamedTextColor.WHITE) {
+                    wordComp = wordComp.color(normalColor);
+                }
+                msgComponent = msgComponent.append(wordComp);
             }
         }
 

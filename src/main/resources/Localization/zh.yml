@@ -120,6 +120,8 @@ nick_too_large: "&c昵称最多只能包含 %s 个字符。"
 nick_reset: "&3你的昵称已重置为原始用户名。"
 nick_usage: "&c用法: %s"
 gradient_usage: "&c用法: %s"
+gradient_invalid: "&c无效的渐变: &e%s&c. 请使用十六进制格式，如 #FF0000:#00FF00"
+gradient_animation_invalid: "&c无效的动画类型: &e%s&c. 有效类型: wave, pulse, rainbow, shift, none"
 gradient_invalid_color: "&c无效颜色: %s。请使用十六进制格式，如 #FF0000"
 gradient_set: "&3渐变色设置为: &r%s"
 gradient_success: "&3渐变色已成功应用！"
@@ -137,6 +139,8 @@ hotspot_created: "&3你的热点已成功创建。"
 hotspot_deleted: "&3你的热点已成功删除。"
 hotspot_creation_cooldown: "&c你必须等待 &a%s&c 秒才能创建另一个热点。"
 hotspot_not_active: "&c你当前没有活动热点。"
+dps_enabled: "&3幻翼生成已&a开启&3。"
+dps_disabled: "&3幻翼生成已&c关闭&3。"
 hotspot_not_found_for_player: "&r&a%s&c 没有活动热点。"
 hotspot_teleported_to_player: "&3正在传送到 &r&a%s&3 的热点。"
 hotspot_not_found: "&c没有可以传送的活动热点。"
@@ -209,7 +213,7 @@ TabList:
 
   Footer:
     - ''
-    - '&7tps:&r %tps% &7延迟: &r%ping%ms &7人数: &f%players% &7运行时间: &r%uptime%'
+    - '&7tps:&r %tps% &7mspt:&r %mspt% &7延迟: &r%ping%ms &7人数: &f%players% &7运行时间: &r%uptime%'
     - ''
     - '&7联系方式: contact@8b8t.me'
     - '&7讨论区: https://discord.8b8t.me'
@@ -219,8 +223,8 @@ TabList:
 TpsMessage:
   - '&3--------------------------------------'
   - '&6TPS 信息:'
-  - '&8TPS: &a%s &8MSTP: &a%s'
-  - '&8最低区域 TPS: &c%s'
+  - '&8TPS: %s &8MSPT: %s'
+  - '&8最低区域 TPS: %s'
   - '&8在线人数 &a%s'
   - '&3--------------------------------------'
 tps_failed: '&c你没有权限检查 TPS'

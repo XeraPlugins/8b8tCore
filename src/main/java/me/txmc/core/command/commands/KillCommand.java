@@ -64,14 +64,16 @@ public class KillCommand extends BaseCommand {
     }
     
     private void killPlayer(CommandSender sender, Player target) {
-        target.setHealth(0);
-        
-        if (sender.equals(target)) {
-            sendMessage(sender, "&6You have killed yourself!");
-        } else {
-            sendMessage(sender, "&6You have killed &e" + target.getName() + "&6!");
-            sendMessage(target, "&cYou have been killed by &e" + sender.getName() + "&c!");
-        }
+        target.getScheduler().run(plugin, (task) -> {
+            target.setHealth(0);
+            
+            if (sender.equals(target)) {
+                sendMessage(sender, "&6You have killed yourself!");
+            } else {
+                sendMessage(sender, "&6You have killed &e" + target.getName() + "&6!");
+                sendMessage(target, "&cYou have been killed by &e" + sender.getName() + "&c!");
+            }
+        }, null);
     }
     
     private boolean hasPermission(CommandSender sender, String permission) {

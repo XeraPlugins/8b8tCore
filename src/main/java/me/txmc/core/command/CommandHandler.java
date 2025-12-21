@@ -60,6 +60,7 @@ public class CommandHandler implements TabExecutor {
         addCommand(new TitleCommand(main.getPlugin()));
         addCommand(new CustomGradientCommand(main.getPlugin()));
         addCommand(new ToggleLeaderboardCommand(main.getPlugin()));
+        addCommand(new DpsCommand());
     }
 
     private void addCommand(BaseCommand command) {

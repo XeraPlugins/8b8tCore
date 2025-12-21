@@ -55,7 +55,7 @@ public class DeathMessageListener implements Listener {
         long lastDeathTime = lastDeathTimes.getOrDefault(victimId, 0L);
 
         if (currentTime - lastDeathTime < DEATH_COOLDOWN) {
-            event.setDeathMessage(null);
+            event.deathMessage(null);
             return;
         }
 

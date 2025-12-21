@@ -5,6 +5,7 @@ import me.txmc.core.command.BaseCommand;
 import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.util.GlobalUtils;
+import me.txmc.core.util.GradientAnimator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -83,27 +84,29 @@ public class NickCommand extends BaseCommand {
             return;
         }
 
-        String gradient = database.getGradient(player.getName());
-        if (gradient != null && !gradient.isEmpty()) {
-            nickname = String.format("<gradient:%s>%s</gradient>", gradient, nickname);
-        }
-
-        Component displayName = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(nickname));
-        player.displayName(displayName);
-        
+        database.insertNickname(player.getName(), GlobalUtils.convertToMiniMessageFormat(nickname));        
+        GlobalUtils.updateDisplayName(player);
         String tag = prefixManager.getPrefix(player);
-        player.playerListName(tag.isEmpty() ? displayName : miniMessage.deserialize(tag).append(displayName));
-        
-        database.insertNickname(player.getName(), GlobalUtils.convertToMiniMessageFormat(nickname));
-        sendPrefixedLocalizedMessage(player, "nick_success", miniMessage.serialize(displayName));
+        Component finalName = player.displayName();
+        if (!tag.isEmpty()) {
+            finalName = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(tag)).append(finalName);
+        }
+        player.playerListName(finalName);
+
+        sendPrefixedLocalizedMessage(player, "nick_success", miniMessage.serialize(player.displayName()));
     }
     
     private void resetNickname(Player player) {
-        Component original = Component.text(player.getName());
-        player.displayName(original);
-        String tag = prefixManager.getPrefix(player);
-        player.playerListName(tag.isEmpty() ? original : miniMessage.deserialize(tag).append(original));
         database.insertNickname(player.getName(), null);
+        GlobalUtils.updateDisplayName(player);
+        
+        String tag = prefixManager.getPrefix(player);
+        Component finalName = player.displayName();
+        if (!tag.isEmpty()) {
+            finalName = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(tag)).append(finalName);
+        }
+        player.playerListName(finalName);
+        
         sendPrefixedLocalizedMessage(player, "nick_reset");
     }
 

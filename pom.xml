@@ -31,6 +31,10 @@
                 <configuration>
                     <source>21</source>
                     <target>21</target>
+                    <showDeprecation>true</showDeprecation>
+                    <compilerArgs>
+                        <arg>-Xlint:deprecation</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

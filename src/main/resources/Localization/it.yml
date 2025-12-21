@@ -120,6 +120,8 @@ nick_too_large: "&cIl nickname deve avere un massimo di %s caratteri."
 nick_reset: "&3Il tuo nickname è stato resettato al tuo nome utente originale."
 nick_usage: "&cUtilizzo: %s"
 gradient_usage: "&cUtilizzo: %s"
+gradient_invalid: "&cGradiente non valido: &e%s&c. Usa il formato hex come #FF0000:#00FF00"
+gradient_animation_invalid: "&cTipo di animazione non valido: &e%s&c. Tipi validi: wave, pulse, rainbow, shift, none"
 gradient_invalid_color: "&cColore non valido: %s. Usa il formato hex come #FF0000"
 gradient_set: "&3Gradiente impostato su: &r%s"
 gradient_success: "&3Gradiente applicato correttamente!"
@@ -137,6 +139,8 @@ hotspot_created: "&3Il tuo hotspot è stato creato correttamente."
 hotspot_deleted: "&3Il tuo hotspot è stato eliminato correttamente."
 hotspot_creation_cooldown: "&cDevi attendere &a%s&c secondi prima di creare un altro hotspot."
 hotspot_not_active: "&cAl momento non hai un hotspot attivo."
+dps_enabled: "&3Generazione dei Phantom &aabilitata&3 per te."
+dps_disabled: "&3Generazione dei Phantom &cdisabilitata&3 per te."
 hotspot_not_found_for_player: "&r&a%s&c non ha un hotspot attivo."
 hotspot_teleported_to_player: "&3Teletrasporto all'hotspot di &r&a%s&3."
 hotspot_not_found: "&cNon ci sono hotspot attivi a cui teletrasportarsi."
@@ -174,7 +178,7 @@ HelpMessage:
   - '&c/home &8per teletrasportarti a una home'
   - '&c/skin set &8per impostare la tua skin'
   - '&c/vote &8per votare per 8b8t'
-  - '&c/discord &8per ottenere l'invito al Discord di 8b8t'
+  - '&c/discord &8per ottenere l''invito al Discord di 8b8t'
   - '&c/matrix &8per il link alla stanza Matrix di 8b8t'
   - '&c/kill &8per suicidarti'
   - '&c/ignore &8per ignorare altri giocatori'
@@ -209,7 +213,7 @@ TabList:
 
   Footer:
     - ''
-    - '&7tps:&r %tps% &7ping: &r%ping% &7giocatori: &f%players% &7uptime: &r%uptime%'
+    - '&7tps:&r %tps% &7mspt:&r %mspt% &7ping: &r%ping% &7giocatori: &f%players% &7uptime: &r%uptime%'
     - ''
     - '&7Contatto: contact@8b8t.me'
     - '&7Discussioni: https://discord.8b8t.me'
@@ -219,8 +223,8 @@ TabList:
 TpsMessage:
   - '&3--------------------------------------'
   - '&6Informazioni TPS:'
-  - '&8TPS: &a%s &8MSTP: &a%s'
-  - '&8TPS Regione più bassa: &c%s'
+  - '&8TPS: %s &8MSPT: %s &8MTPS: &a%s'
+  - '&8TPS Regione più bassa: %s'
   - '&8Giocatori Online &a%s'
   - '&3--------------------------------------'
 tps_failed: '&cNon hai il permesso di controllare i TPS'

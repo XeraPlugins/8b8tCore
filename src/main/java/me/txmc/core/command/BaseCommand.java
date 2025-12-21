@@ -47,7 +47,7 @@ public abstract class BaseCommand {
         this.subCommands = subCommands;
     }
     public void sendNoPermission(CommandSender sender) {
-        sendMessage(sender, "&cYou are lacking the permission&r&a %s", getPermissions());
+        sendMessage(sender, "&cYou are lacking the permission&r&a %s", (Object) getPermissions());
     }
 
     public void sendErrorMessage(CommandSender sender, String message) {

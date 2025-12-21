@@ -4,17 +4,19 @@ import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
+
 /**
- * Detects and replaces legacy §-formatted text in item display names and lore.
- * Acts as a prevention layer against DFU-triggering strings in NBT.
- *
- * @author ChatGPT
- * @since 2025-06-22
- */
+ * @author MindComplexity (aka Libalpm)
+ * @since 2025/12/21
+ * This file was created as a part of 8b8tCore
+*/
+
 public class LegacyTextCheck implements Check {
 
     private static final Pattern LEGACY_COLOR_PATTERN = Pattern.compile("§[0-9a-fk-or]", Pattern.CASE_INSENSITIVE);
@@ -37,7 +39,8 @@ public class LegacyTextCheck implements Check {
         }
 
         if (meta.hasLore()) {
-            for (String line : meta.getLore()) {
+            for (Component lineComp : meta.lore()) {
+                String line = PlainTextComponentSerializer.plainText().serialize(lineComp);
                 if (LEGACY_COLOR_PATTERN.matcher(line).find()) return true;
             }
         }
@@ -55,17 +58,20 @@ public class LegacyTextCheck implements Check {
         }
 
         if (meta.hasDisplayName()) {
-            String legacy = GlobalUtils.getStringContent(meta.displayName());
+            String legacy = PlainTextComponentSerializer.plainText().serialize(meta.displayName());
             String stripped = LEGACY_COLOR_PATTERN.matcher(legacy).replaceAll("");
-            meta.setDisplayName(stripped);
+            meta.displayName(Component.text(stripped));
         }
 
         if (meta.hasLore()) {
-            List<String> oldLore = meta.getLore();
-            List<String> newLore = oldLore.stream()
-                    .map(line -> LEGACY_COLOR_PATTERN.matcher(line).replaceAll(""))
+            List<Component> oldLore = meta.lore();
+            List<Component> newLore = oldLore.stream()
+                    .<Component>map(lineComp -> {
+                        String line = PlainTextComponentSerializer.plainText().serialize(lineComp);
+                        return Component.text(LEGACY_COLOR_PATTERN.matcher(line).replaceAll(""));
+                    })
                     .toList();
-            meta.setLore(newLore);
+            meta.lore(newLore);
         }
 
         item.setItemMeta(meta);
@@ -73,7 +79,8 @@ public class LegacyTextCheck implements Check {
 
     private boolean isLegitimatelySigned(ItemMeta meta) {
         if (meta == null || !meta.hasLore()) return false;
-        for (String line : meta.getLore()) {
+        for (Component lineComp : meta.lore()) {
+            String line = PlainTextComponentSerializer.plainText().serialize(lineComp);
             if (SIGNED_ITEM_PATTERN.matcher(line).find() || 
                 BOOK_AUTHOR_PATTERN.matcher(line).find() ||
                 MAP_AUTHOR_PATTERN.matcher(line).find()) {

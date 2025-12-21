@@ -83,7 +83,7 @@ public class NbtBanPatch implements Listener {
             if (itemStack == null) return "";
             ItemMeta meta = itemStack.getItemMeta();
             if (meta != null && meta.hasDisplayName()) {
-                return meta.getDisplayName();
+                return GlobalUtils.getStringContent(meta.displayName());
             } else {
                 return itemStack.getType().toString().replace("_", " ").toLowerCase();
             }

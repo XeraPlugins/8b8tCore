@@ -120,6 +120,8 @@ nick_too_large: "&cLe surnom doit comporter un maximum de %s caractères."
 nick_reset: "&3Votre surnom a été réinitialisé à votre nom d'utilisateur d'origine."
 nick_usage: "&cUtilisation : %s"
 gradient_usage: "&cUtilisation : %s"
+gradient_invalid: "&cDégradé invalide : &e%s&c. Utilisez le format hexadécimal comme #FF0000:#00FF00"
+gradient_animation_invalid: "&cType d'animation invalide : &e%s&c. Types valides : wave, pulse, rainbow, shift, none"
 gradient_invalid_color: "&cCouleur invalide : %s. Utilisez le format hexadécimal comme #FF0000"
 gradient_set: "&3Dégradé défini sur : &r%s"
 gradient_success: "&3Dégradé appliqué avec succès !"
@@ -137,6 +139,8 @@ hotspot_created: "&3Votre hotspot a été créé avec succès."
 hotspot_deleted: "&3Votre hotspot a été supprimé avec succès."
 hotspot_creation_cooldown: "&cVous devez attendre &a%s&c secondes avant de créer un autre hotspot."
 hotspot_not_active: "&cVous n'avez pas de hotspot actif actuellement."
+dps_enabled: "&3Apparition des Phantoms &aactivée&3 pour vous."
+dps_disabled: "&3Apparition des Phantoms &cdésactivée&3 pour vous."
 hotspot_not_found_for_player: "&r&a%s&c n'a pas de hotspot actif."
 hotspot_teleported_to_player: "&3Téléportation au hotspot de &r&a%s&3."
 hotspot_not_found: "&cIl n'y a aucun hotspot actif vers lequel se téléporter."
@@ -209,7 +213,7 @@ TabList:
 
   Footer:
     - ''
-    - '&7tps:&r %tps% &7ping : &r%ping% &7joueurs : &f%players% &7uptime : &r%uptime%'
+    - '&7tps:&r %tps% &7mspt:&r %mspt% &7ping : &r%ping% &7joueurs : &f%players% &7uptime : &r%uptime%'
     - ''
     - '&7Contact : contact@8b8t.me'
     - '&7Discussion : https://discord.8b8t.me'
@@ -219,8 +223,8 @@ TabList:
 TpsMessage:
   - '&3--------------------------------------'
   - '&6Informations TPS :'
-  - '&8TPS : &a%s &8MSTP : &a%s'
-  - '&8TPS de la région la plus basse : &c%s'
+  - '&8TPS : %s &8MSPT : %s &8MTPS : &a%s'
+  - '&8TPS de la région la plus basse : %s'
   - '&8Joueurs en ligne &a%s'
   - '&3--------------------------------------'
 tps_failed: '&cVous n''êtes pas autorisé à vérifier le TPS'

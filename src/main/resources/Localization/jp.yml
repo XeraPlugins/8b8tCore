@@ -120,6 +120,8 @@ nick_too_large: "&cニックネームは最大 %s 文字までです。"
 nick_reset: "&3ニックネームを元のユーザー名にリセットしました。"
 nick_usage: "&c使用法: %s"
 gradient_usage: "&c使用法: %s"
+gradient_invalid: "&c無効なグラデーション: &e%s&c. #FF0000:#00FF00 のような16進数形式を使用してください"
+gradient_animation_invalid: "&c無効なアニメーションタイプ: &e%s&c. 有効なタイプ: wave, pulse, rainbow, shift, none"
 gradient_invalid_color: "&c無効な色: %s。Hex形式 (#FF0000 など) を使用してください。"
 gradient_set: "&3グラデーションを以下に設定しました: &r%s"
 gradient_success: "&3グラデーションが適用されました！"
@@ -137,6 +139,8 @@ hotspot_created: "&3ホットスポットを正常に作成しました。"
 hotspot_deleted: "&3ホットスポットを削除しました。"
 hotspot_creation_cooldown: "&c次のホットスポット作成まで &a%s&c 秒待ってください。"
 hotspot_not_active: "&c現在アクティブなホットスポットはありません。"
+dps_enabled: "&3ファントムのスポーンが&a有効&3になりました。"
+dps_disabled: "&3ファントムのスポーンが&c無効&3になりました。"
 hotspot_not_found_for_player: "&r&a%s&c はホットスポットを作成していません。"
 hotspot_teleported_to_player: "&r&a%s&3 のホットスポットにテレポートしています。"
 hotspot_not_found: "&cテレポート可能なアクティブなホットスポットが見つかりません。"
@@ -208,7 +212,7 @@ TabList:
 
   Footer:
     - ''
-    - '&7tps:&r %tps% &7ping: &r%ping% &7プレイヤー: &f%players% &7稼働時間: &r%uptime%'
+    - '&7tps:&r %tps% &7mspt:&r %mspt% &7ping: &r%ping% &7プレイヤー: &f%players% &7稼働時間: &r%uptime%'
     - ''
     - '&7連絡先: contact@8b8t.me'
     - '&7議論: https://discord.8b8t.me'
@@ -218,8 +222,8 @@ TabList:
 TpsMessage:
   - '&3--------------------------------------'
   - '&6TPS情報:'
-  - '&8TPS: &a%s &8MSTP: &a%s'
-  - '&8最低リージョンTPS: &c%s'
+  - '&8TPS: %s &8MSPT: %s'
+  - '&8最低リージョンTPS: %s'
   - '&8オンライン人数: &a%s'
   - '&3--------------------------------------'
 tps_failed: '&cTPSを確認する権限がありません'
