@@ -57,6 +57,9 @@ public class CommandHandler implements TabExecutor {
         addCommand(new JoinDateCommand(main.getPlugin()));
         addCommand(new KillCommand(main.getPlugin()));
         addCommand(new LastSeenCommand(main.getPlugin()));
+        addCommand(new TitleCommand(main.getPlugin()));
+        addCommand(new CustomGradientCommand(main.getPlugin()));
+        addCommand(new ToggleLeaderboardCommand(main.getPlugin()));
     }
 
     private void addCommand(BaseCommand command) {

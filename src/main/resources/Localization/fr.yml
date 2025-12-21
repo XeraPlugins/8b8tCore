@@ -1,48 +1,49 @@
 #Basic messages
-ignore_successful: "&3Joueur ignoré avec succès&r&a %s&r"
+ignore_successful: "&3Vous avez ignoré le joueur&r&a %s&r &3avec succès"
 already_ignoring: "&cVous ignorez déjà ce joueur"
-ignore_command_syntax: "&cVeuillez inclure un joueur /ignore <playerName>"
-unignore_successful: "&3Joueur réintégré avec succès&r&a %s&r"
+ignore_command_syntax: "&cVeuillez inclure un joueur /ignore <nomDuJoueur>"
+unignore_successful: "&3Vous avez cessé d'ignorer le joueur&r&a %s&r &3avec succès"
 unignore_not_ignoring: "&cVous n'ignorez pas %s"
-unignore_command_syntax: "&cVeuillez inclure un joueur /unignore <playerName>"
+unignore_command_syntax: "&cVeuillez inclure un joueur /unignore <nomDuJoueur>"
 ignorelist_successful: "&3Joueurs ignorés : &c%s"
-ignorelist_not_ignoring: "&8Vous n'ignorez personne"
-ignorelist_failed: "&8Impossible de récupérer les informations de la liste des ignorés."
+ignorelist_not_ignoring: "&cVous n'ignorez personne"
+ignorelist_failed: "&cImpossible de récupérer la liste des joueurs ignorés."
 whisper_from: "&d%s Chuchote : %s"
 whisper_to: "&dÀ %s : %s"
 whisper_ignoring: "&c%s vous ignore"
-whisper_you_are_ignoring: "&cVous ne pouvez pas envoyer de message à un joueur que vous avez ignoré"
+whisper_you_are_ignoring: "&cVous ne pouvez pas envoyer de message à un joueur que vous ignorez"
 msg_could_not_find_player: "&cImpossible de trouver le joueur %s"
-msg_command_syntax: "&cVeuillez inclure une cible et un message /msg <target> <message>"
+msg_command_syntax: "&cVeuillez inclure une cible et un message /msg <cible> <message>"
 reply_player_offline: "&cLe joueur %s est hors ligne"
-reply_no_target: "&cVous n'avez encore envoyé de message à personne"
+reply_no_target: "&cVous n'avez envoyé de message à personne pour le moment"
 reply_command_syntax: "&cVeuillez inclure un message /r <message>"
 togglechat_chat_enabled: "&aChat activé"
 togglechat_chat_disabled: "&cChat désactivé"
-cmdwhitelist_cmd_not_allowed: "&cLa commande&r&a %s&r&c n'est pas autorisée"
+cmdwhitelist_cmd_not_allowed: "&cLe commande&r&a %s&r&c n'est pas autorisée"
 chat_cooldown: "&3Veuillez attendre au moins&r&a %d&r&3 secondes entre les messages de chat"
-delhome_no_homes: "&3Vous n'avez pas de maisons"
-delhome_specify_home: "&3Veuillez inclure le nom d'une maison à supprimer. Maisons actuelles : (&r&a%s&r&3)&r"
-delhome_home_not_found: "&3Maison&r&a %s&r&3 non trouvée"
-delhome_success: "&3Maison&r&a %s&r&3 a été supprimée"
+delhome_no_homes: "&3Vous n'avez aucun domicile (home)"
+delhome_specify_home: "&3Veuillez inclure le nom du domicile à supprimer. Domiciles actuels : (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3Le domicile&r&a %s&r&3 est introuvable"
+delhome_success: "&3Le domicile&r&a %s&r&3 a été supprimé"
 delhome_fail: "&3Impossible de supprimer&r&a %s&r"
-home_no_homes: "&3Aucune maison trouvée"
-home_specify_home: "&3Incluez le nom de votre home. Homes actuels (&r&a%s&r&3) : &r&a%s&r&3"
-home_too_close: "&3Vous devez être&r&a %d&r&3 blocs du spawn pour utiliser /home"
-home_success: "&3Téléportation vers la maison&r&a %s&r&3..."
-home_not_found: "&3Maison&r&a %s&r&3 non trouvée"
-sethome_include_name: "&3Veuillez inclure un nom pour votre nouvelle maison"
-sethome_home_already_exists: "&cUne maison du nom&r&a %s&r&c existe déjà."
-sethome_max_reached: "&3Nombre maximal de maisons atteint !"
-sethome_success: "&3Maison&r&a %s &r&3Définie"
+home_no_homes: "&3Aucun domicile trouvé"
+home_specify_home: "&3Incluez le nom de votre domicile. Domiciles actuels (&r&a%s&r&3) : &r&a%s&r&3"
+home_too_close: "&3Vous devez être à&r&a %d&r&3 blocs du spawn pour utiliser /home"
+home_success: "&3Téléportation au domicile&r&a %s&r&3..."
+home_not_found: "&3Le domicile&r&a %s&r&3 est introuvable"
+home_world_not_loaded: "&3Le monde&r&a %s&r&3 n'est pas chargé. Impossible de se téléporter au domicile."
+sethome_include_name: "&3Veuillez inclure un nom pour votre nouveau domicile"
+sethome_home_already_exists: "&cUn domicile portant le nom&r&a %s&r&c existe déjà."
+sethome_max_reached: "&3Nombre maximum de domiciles atteint !"
+sethome_success: "&3Domicile&r&a %s &r&3défini"
 back_teleported: "&3Téléportation à votre dernière position..."
-back_no_last_location: "&cVous n'avez pas d'emplacements précédents enregistrés."
+back_no_last_location: "&cVous n'avez aucune position précédente enregistrée."
 kick_restarting: "&3Le serveur redémarre"
 elytra_tile_entities_too_fast: "&cIl y a trop d'entités dans ce chunk. Votre vitesse ne peut pas dépasser %s blocs par seconde."
 elytra_too_fast: "&cLa vitesse maximale autorisée est de %s blocs par seconde."
-elytras_disabled: "&3Les élytres sont actuellement désactivées en raison d'un lag du serveur. Elles devraient être réactivées bientôt"
-bookban_inventory_clear: "&cVotre inventaire a été vidé pour vous empêcher d'être bookbanni"
-bookban_removed_item: "&cTous les&r&3 %s(s) &r&cont été retirés de votre inventaire pour éviter un bookban"
+elytras_disabled: "&3Les élytres sont actuellement désactivées en raison du lag serveur. Elles devraient revenir sous peu"
+bookban_inventory_clear: "&cVotre inventaire a été vidé pour vous éviter d'être \"book banned\""
+bookban_removed_item: "&cSuppression de tous les&r&3 %s(s) &r&cde votre inventaire pour empêcher le bookban"
 kick_lever_ratelimit: "&cVous interagissez trop vite"
 kick_pps_limit: "&cVous envoyez des paquets trop vite !"
 kick_failed_to_inject: "&cÉchec de l'injection"
@@ -53,261 +54,275 @@ kick_message: "&7%s a été expulsé pour \"%s\""
 could_not_translate_message: "Échec de la traduction du message en raison de %s"
 message_auto_translated: "Ce message a été traduit automatiquement.\n\nTexte original : %s"
 welcome_message: "&3Bienvenue sur 8b8t"
-vote_announcement: "&c%s &8a voté pour %prefix% &8et a reçu /nc gratuit, 2 distances de rendu supplémentaires, 5 maisons supplémentaires, et accès au dupe d'âne pour %days% jours"
-vote_thanks: "&8Merci d'avoir voté pour %prefix%! &8Vous avez reçu /nc gratuit, 2 distances de rendu supplémentaires, 5 maisons supplémentaires, et accès au dupe d'âne pour %days% jours"
+vote_announcement: "&c%s &8a voté pour %prefix% &8et a reçu le /nc gratuit, 2 de distance de rendu supplémentaire, 5 homes supplémentaires et l'accès au donkey dupe pendant %days% jours"
+vote_thanks: "&8Merci d'avoir voté pour %prefix% ! &8Vous avez reçu le /nc gratuit, 2 de distance de rendu supplémentaire, 5 homes supplémentaires et l'accès au donkey dupe pendant %days% jours"
 vote_info: "&8Vous pouvez voter pour %prefix% &8sur &chttps://votefor.8b8t.me"
-tpa_syntax: "&cVeuillez inclure un joueur pour tpa. /tpa <player>"
+tpa_syntax: "&cVeuillez inclure un joueur vers qui se téléporter. /tpa <joueur>"
 tpa_player_not_online: "&cLe joueur %s n'est pas en ligne"
 tpa_no_request_found: "&cAucune demande de TPA trouvée"
-tpa_self_tpa: "&cVous ne pouvez pas TPA vers vous-même"
-tpa_request_received: "&a%s&r&3 souhaite se téléporter vers vous&r &a/tpayes &3NOM_UTILISATEUR &c/tpano &3NOM_UTILISATEUR"
+tpa_self_tpa: "&cVous ne pouvez pas faire de TPA vers vous-même"
+tpa_request_received: "&a%s&r&3 souhaite se téléporter vers vous&r &a/tpayes &3PSEUDO &c/tpano &3PSEUDO"
 tpa_request_sent: "&3Demande envoyée à&r&a %s"
-tpa_requests_disabled: "&3Requêtes désactivées. Toutes les demandes entrantes ont été purgées."
-tpa_requests_enabled: "&3Requêtes activées."
-tpa_already_sent: "&cVous avez déjà une demande en attente"
+tpa_requests_disabled: "&3Demandes désactivées. Toutes les demandes entrantes ont été purgées."
+tpa_requests_enabled: "&3Demandes activées."
 tpa_requests_blocked: "&3Les demandes de &a%s&r&3 ont été bloquées/purgées."
 tpa_requests_unblocked: "&3Les demandes de &a%s&r&3 ont été débloquées."
 tpa_block_syntax: "&cVeuillez inclure un joueur à bloquer/débloquer"
-tpahere_syntax: "&cVeuillez inclure un joueur à téléporter vers vous /tpahere <player>"
-tpatoggle_syntax: "&cVeuillez ne pas fournir d'arguments."
-tpahere_request_received: "&a%s&r&3 veut te téléporter à lui&r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
-tpa_too_close: "&3Vous devez être&r&a %d&r&3 blocs du spawn pour utiliser /tpa"
-tpa_requested_too_close: "&cLe joueur %s ne peut pas venir aussi près du spawn"
+tpa_already_sent: "&cVous avez déjà une demande en attente"
+tpahere_syntax: "&cVeuillez inclure un joueur à téléporter vers vous /tpahere <joueur>"
+tpatoggle_syntax: "&cVeuillez ne fournir aucun argument."
+tpahere_request_received: "&a%s&r&3 veut vous téléporter vers lui&r &a/tpayes &3PSEUDO &c/tpano &3PSEUDO"
+tpa_too_close: "&3Vous devez être à&r&a %d&r&3 blocs du spawn pour utiliser /tpa"
+tpa_requested_too_close: "&cLe joueur %s ne peut pas s'approcher aussi près du spawn"
 tpa_teleporting: "&3Téléportation&r&a..."
 tpa_request_timeout_from: "&cLa demande de TPA que vous avez envoyée à &a%s&r&c a expiré."
 tpa_request_timeout_to: "&cLa demande de TPA que vous avez reçue de &a%s&r&c a expiré."
-tpa_request_cancelled_from: "&3La demande de TPA que vous avez envoyée à &a%s&r&3 a été annulée avec succès."
-tpa_request_cancelled_to: "&cLa demande de TPA que vous avez reçue de &a%s&r&c a été annulée."
+tpa_request_cancelled_from: "&3La demande de TPA envoyée à &a%s&r&3 a été annulée avec succès."
+tpa_request_cancelled_to: "&cLa demande de TPA reçue de &a%s&r&c a été annulée."
 tpa_request_denied_from: "&a%s&r&c a refusé votre demande"
 tpa_request_denied_to: "&3Demande refusée avec succès"
-tpa_request_blocked: "&cLes requêtes TPA de ce joueur sont désactivées."
+tpa_request_blocked: "&cCe joueur a désactivé les demandes de TPA."
 tpa_pending_request: "&a%s&r &ca une demande en attente"
 tpa_to_left: "&cTPA annulé car&r&a %s&r&c est parti"
-op_not_allowed: "&cVous n'êtes pas autorisé à être op"
+op_not_allowed: "&cVous n'êtes pas autorisé à être OP"
 framedupe_cooldown: "&cVous dupliquez trop rapidement"
-framedupe_items_limit: "&cIl y a déjà trop d'objets tombés dans ce chunk"
-dupe_permission: "&cVous vous êtes fait avoir en essayant de dupliquer si facilement."
+framedupe_items_limit: "&cIl y a déjà trop d'objets au sol dans ce chunk"
+dupe_permission: "&cVous vous êtes fait troller pour avoir essayé de dupliquer aussi facilement."
 dupe_failed: "&cVous devez tenir un objet pour le dupliquer."
 dupe_success: "&3L'objet a été dupliqué avec succès."
-nbtPatch_deleted_item: "&c&6%s&r&c a été supprimé de votre inventaire en raison de données excessives"
-chest_cooldown: "&cVous ouvrez les coffres trop rapidement. Veuillez patienter!"
-chestlimiter_deleted_chest: "&c&6%s&r&c coffres ont été supprimés car ils ont dépassé le maximum de &c&6%s&r&c coffres par chunk"
-repair_success: "&3L'objet a été réparé avec succès!"
+nbtPatch_deleted_item: "&c&6%s&r&c a été retiré de votre inventaire en raison de données excessives"
+chest_cooldown: "&cVous ouvrez les coffres trop rapidement. Veuillez patienter !"
+chestlimiter_deleted_chest: "&c&6%s&r&c coffres ont été supprimés car ils dépassaient le maximum de &c&6%s&r&c coffres par chunk"
+repair_success: "&3L'objet a été réparé avec succès !"
 repair_no_item: "&cVous devez avoir un objet à réparer en main."
 repair_not_repairable: "&cCet objet n'est pas réparable."
 repair_all_success: "&3Tous les objets de votre inventaire ont été réparés avec succès !"
-nick_success: "&3Fait ! Ton pseudo est maintenant &3%s&r&3."
-nick_no_permission: "&cCette commande est réservée aux DONOR5 &3https://shop.8b8t.me/&c."
-nick_no_name_provided: "&cTu dois entrer un pseudo &3/nick <nickname>&c."
-nick_user_protection: "&cLe pseudo doit être le même que ton nom d'utilisateur &3/nick <nickname>&c."
-nc_success: "&3Fait ! Ton pseudo est maintenant &3%s&r&3."
-nc_no_permission: "&cTu dois avoir voté pour utiliser cette commande."
-nc_invalid_color: "&cTu ne peux utiliser que les styles de la liste &3/nc <color> <styles...>&c."
-nc_usage: "&cTu dois entrer au moins la couleur &3/nc <color> <styles...>&c."
-ic_success: "&3Fait ! Ton objet s'appelle maintenant &3%s&r&3."
-ic_no_permission: "&cCette commande est réservée aux DONOR4 &3https://shop.8b8t.me/&c."
-ic_invalid_color: "&cTu ne peux utiliser que les styles de la liste &3/ic <color> <styles...>&c."
+nick_success: "&3Terminé ! Votre surnom est maintenant &3%s&r&3."
+nick_no_permission: "&cCette commande est exclusive aux DONOR5 &3https://shop.8b8t.me/&c."
+nick_no_name_provided: "&cVous devez entrer un surnom &3/nick <surnom>&c."
+nick_user_protection: "&cLe surnom doit être identique à votre nom d'utilisateur &3/nick <surnom>&c."
+nc_success: "&3Terminé ! La couleur de votre nom est maintenant &3%s&r&3."
+nc_no_permission: "&cVous devez avoir voté pour utiliser cette commande."
+nc_invalid_color: "&cVous ne pouvez utiliser que les styles de la liste &3/nc <couleur> <styles...>&c."
+nc_usage: "&cVous devez entrer au moins la couleur &3/nc <couleur> <styles...>&c."
+ic_success: "&3Terminé ! Votre objet est maintenant nommé &3%s&r&3."
+ic_no_permission: "&cCette commande est exclusive aux DONOR4 &3https://shop.8b8t.me/&c."
+ic_invalid_color: "&cVous ne pouvez utiliser que les styles de la liste &3/ic <couleur> <styles...>&c."
 ic_invalid_item: "&cCet objet n'est pas valide."
-ic_no_item: "&cTu dois avoir un objet en main pour changer la couleur."
-ic_usage: "&cTu dois entrer au moins la couleur &3/ic <color> <styles...>&c."
-rename_success: "&3Fait ! Ton objet s'appelle maintenant &3%s&r&3."
-rename_no_permission: "&cCette commande est réservée aux DONOR5 &3https://shop.8b8t.me/&c."
+ic_no_item: "&cVous devez avoir un objet en main pour changer sa couleur."
+ic_usage: "&cVous devez entrer au moins la couleur &3/ic <couleur> <styles...>&c."
+rename_success: "&3Terminé ! Votre objet est maintenant nommé &3%s&r&3."
+rename_no_permission: "&cCette commande est exclusive aux DONOR5 &3https://shop.8b8t.me/&c."
 rename_invalid_item: "&cCet objet n'est pas valide."
-rename_no_item: "&cTu dois avoir un objet en main pour changer la couleur."
-rename_no_name_provided: "&cTu dois entrer un nom &3/rename <item name>&c."
-nick_too_large: "&cLe pseudo doit comporter au maximum 16 caractères."
-ic_too_large: "&cLe nom de l'objet doit comporter au maximum 50 caractères."
+rename_no_item: "&cVous devez avoir un objet en main pour changer sa couleur."
+rename_no_name_provided: "&cVous devez entrer un nom &3/rename <nom de l'objet>&c."
+nick_too_large: "&cLe surnom doit comporter un maximum de %s caractères."
+nick_reset: "&3Votre surnom a été réinitialisé à votre nom d'utilisateur d'origine."
+nick_usage: "&cUtilisation : %s"
+gradient_usage: "&cUtilisation : %s"
+gradient_invalid_color: "&cCouleur invalide : %s. Utilisez le format hexadécimal comme #FF0000"
+gradient_set: "&3Dégradé défini sur : &r%s"
+gradient_success: "&3Dégradé appliqué avec succès !"
+ic_too_large: "&cLe nom de l'objet doit comporter un maximum de 50 caractères."
+title_no_ranks: "&cVous n'avez aucun grade disponible pour basculer."
+title_cleared: "&3Votre titre a été effacé."
+title_success: "&3Titre défini sur : &a%s"
+title_no_permission_for_rank: "&cVous n'avez pas la permission pour ce grade."
+leaderboard_vanilla: "&3Passage au classement vanilla. Utilisez /toggleleaderboard pour revenir en arrière."
+leaderboard_custom: "&3Passage au classement personnalisé avec les grades."
 hotspot_no_perms_create: "&cVous n'avez pas la permission de créer un hotspot."
-hotspot_no_playername: "&cVeuillez inclure un joueur pour vous téléporter /hotspot teleport <player>."
-hotspot_already_created: "&cVous avez déjà un hotspot actif, vous devez attendre avant d'en créer un autre."
+hotspot_no_playername: "&cVeuillez inclure un joueur vers qui se téléporter /hotspot teleport <joueur>."
+hotspot_already_created: "&cVous avez déjà un hotspot actif, vous devez attendre pour en créer un autre."
 hotspot_created: "&3Votre hotspot a été créé avec succès."
 hotspot_deleted: "&3Votre hotspot a été supprimé avec succès."
 hotspot_creation_cooldown: "&cVous devez attendre &a%s&c secondes avant de créer un autre hotspot."
-hotspot_not_active: "&cVous n'avez actuellement aucun hotspot actif."
+hotspot_not_active: "&cVous n'avez pas de hotspot actif actuellement."
 hotspot_not_found_for_player: "&r&a%s&c n'a pas de hotspot actif."
 hotspot_teleported_to_player: "&3Téléportation au hotspot de &r&a%s&3."
-hotspot_not_found: "&cIl n'y a pas de hotspots actifs pour se téléporter."
-hotspot_teleported_to: "&3Téléportation au hotspot le plus proche..."
+hotspot_not_found: "&cIl n'y a aucun hotspot actif vers lequel se téléporter."
+hotspot_teleported_to: "&3Téléportation vers le hotspot le plus proche..."
 hotspot_created_to_everyone: "&r&a%s&3 a créé un nouveau hotspot, utilisez <blue><underlined><hover:show_text:'<gray>Cliquez pour vous téléporter'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></blue> pour vous y téléporter"
-repair_fail_while_pvp: "&cVous ne pouvez pas utiliser cette commande pendant ou peu après un PvP !"
-sign_success: "&3Fait ! Vous avez signé l'objet avec succès."
+repair_fail_while_pvp: "&cVous ne pouvez pas utiliser cette commande pendant ou peu après un combat PvP !"
+sign_success: "&3Terminé ! Vous avez signé l'objet avec succès."
 sign_fail_already_signed: "&cCet objet est déjà signé."
-sign_fail_no_item: "&cVous devez tenir un objet dans votre main pour le signer."
-show_join_leave_messages_false: "&8Les messages de Join/Leave sont maintenant &cmasqués&8. Pour les afficher à nouveau, utilisez cette commande."
-show_join_leave_messages_true: "&8Les messages de Join/Leave sont maintenant &avisibles&8."
-mapart_deleted_inventory: "&cUn mapart interdit a été supprimé de votre inventaire. Si vous êtes surpris à nouveau avec ce type de matériel, vous serez banni du serveur."
-mapart_deleted_frame: "&cUn mapart interdit a été supprimé de votre base. Si vous êtes surpris à nouveau avec ce type de matériel, vous serez banni du serveur."
-spam_alert: "&cVeuillez ne pas faire de spam."
-vanish_true: "&8Vous êtes maintenant en mode &3vanish&8. Pour quitter, utilisez la commande /vanish à nouveau."
-vanish_false: "&8Vous êtes maintenant &3visible &8par les autres joueurs."
+sign_fail_no_item: "&cVous devez tenir un objet en main pour le signer."
+show_join_leave_messages_false: "&8Les messages de connexion/déconnexion sont maintenant &cmasqués&8. Pour les afficher à nouveau, utilisez cette commande."
+show_join_leave_messages_true: "&8Les messages de connexion/déconnexion sont maintenant &avisibles&8."
+mapart_deleted_inventory: "&cUn mapart interdit a été retiré de votre inventaire. Si vous êtes pris à nouveau avec ce type de matériel, vous serez banni du serveur."
+mapart_deleted_frame: "&cUn mapart interdit a été retiré de votre base. Si vous êtes pris à nouveau avec ce type de matériel, vous serez banni du serveur."
+spam_alert: "&cVeuillez ne pas spammer."
+vanish_true: "&8Vous êtes maintenant en &3mode invisible&8. Pour quitter, utilisez à nouveau la commande /vanish."
+vanish_false: "&8Vous êtes maintenant &3visible &8aux autres joueurs."
 table_usage: "&cVous devez spécifier un type de table &3/table <type>&c."
 table_invalid_type: "&cType de table invalide. Utilisez la complétion automatique pour voir les options valides &3/table <type>&c."
 
-# Messages complexes
+#Complex messages
 HelpMessage:
   - '&3---------------------------------------'
   - '&8Visitez &chttps://www.8b8t.me/terms &8pour lire les règles'
   - '&3---------------------------------------'
-  - '&6Commandes:'
-  - '&c/tpa &8pour vous téléporter à un autre joueur'
-  - '&c/tpahere &8pour téléporter un joueur à votre emplacement'
+  - '&6Commandes :'
+  - '&c/tpa &8pour se téléporter vers un autre joueur'
+  - '&c/tpahere &8pour téléporter un joueur à votre position'
   - '&c/tpayes &8pour accepter une demande de téléportation'
   - '&c/tpano &8pour refuser une demande de téléportation'
-  - '&c/tpacancel &8pour annuler les demandes de tpa envoyées'
+  - '&c/tpacancel &8pour annuler les demandes tpa envoyées'
   - '&c/back &8pour retourner à votre dernière position'
-  - '&c/hotspot &8téléportez-vous à un hotspot ou créez-en un nouveau'
-  - '&c/sethome &8pour définir une maison à votre emplacement'
-  - '&c/delhome &8pour supprimer une maison que vous avez définie'
-  - '&c/home &8pour vous téléporter à une maison définie'
+  - '&c/hotspot &8se téléporter à un hotspot ou en créer un nouveau'
+  - '&c/sethome &8pour définir un domicile à votre position'
+  - '&c/delhome &8pour supprimer un domicile que vous avez défini'
+  - '&c/home &8pour se téléporter à un domicile défini'
   - '&c/skin set &8pour définir votre skin'
   - '&c/vote &8pour voter pour 8b8t'
-  - '&c/discord &8pour obtenir une invitation au discord de 8b8t'
-  - '&c/matrix &8pour obtenir le lien vers la salle Matrix de 8b8t'
-  - '&c/kill &8pour vous suicider'
-  - '&c/ignore &8pour ignorer d`autres joueurs'
-  - '&c/unignore &8pour ne plus ignorer d`autres joueurs'
+  - '&c/discord &8pour obtenir une invitation au Discord 8b8t'
+  - '&c/matrix &8pour obtenir le lien vers le salon Matrix 8b8t'
+  - '&c/kill &8pour se suicider'
+  - '&c/ignore &8pour ignorer d''autres joueurs'
+  - '&c/unignore &8pour cesser d''ignorer d''autres joueurs'
   - '&c/ignorelist &8pour afficher les joueurs que vous ignorez'
-  - '&c/msg &8pour envoyer des messages à d`autres joueurs'
+  - '&c/msg &8pour envoyer des messages à d''autres joueurs'
   - '&c/changepass &8pour changer votre mot de passe'
   - '&c/worldstats &8pour voir la taille du monde'
-  - '&c/pvp &8pour vous connecter au serveur PVP de 8b8t'
-  - '&c/lobby &8pour vous connecter au lobby'
+  - '&c/pvp &8pour se connecter au serveur PVP 8b8t'
+  - '&c/lobby &8pour se connecter au lobby'
   - '&c/tpsinfo &8pour vérifier les ticks par seconde du serveur'
   - '&3---------------------------------------'
-  - '&6Réservé aux votants:'
+  - '&6Votants uniquement :'
   - '&c/nc &8pour définir la couleur du nom'
   - '&8Visitez &chttps://votefor.8b8t.me &8pour voter'
   - '&3---------------------------------------'
-  - '&6Utilisateurs avec rang uniquement:'
-  - '&c/ic &8pour définir la couleur de l`item'
-  - '&c/rename &8pour renommer un item'
-  - '&c/echest &8pour ouvrir votre coffre de l`ender'
-  - '&c/nick &8pour définir un pseudonyme'
-  - '&8Visitez &chttps://shop.8b8t.me &8pour faire un don'
+  - '&6Utilisateurs gradés uniquement :'
+  - '&c/ic &8pour définir la couleur de l''objet'
+  - '&c/rename &8pour renommer un objet'
+  - '&c/echest &8pour ouvrir votre coffre de l''ender'
+  - '&c/nick &8pour définir un surnom'
+  - '&8Visitez &chttps://shop.8b8t.me'
   - '&3---------------------------------------'
+  -
 TabList:
   Header:
     - ''
     - '&9&l8builders&7&l8tools'
     - ''
-    - '&r&c&oVous aimez 8b8t.me ? Pensez à faire un don à https://shop.8b8t.me'
+    - '&r&c&oVous appréciez 8b8t.me ? Envisagez d''acheter un grade sur https://shop.8b8t.me'
     - ''
 
   Footer:
-  - ''
-  - '&7tps:&r %tps% &7ping: &r%ping% &7joueurs: &f%players% &7temps de fonctionnement: &r%uptime%'
-  - ''
-  - '&7Contact: contact@8b8t.me'
-  - '&7Discussion: https://discord.8b8t.me'
-  - '&7Site Web: https://www.8b8t.me'
-  - '&7Ce sont les seuls sites et contacts officiels de 8b8t'
-  - ''
+    - ''
+    - '&7tps:&r %tps% &7ping : &r%ping% &7joueurs : &f%players% &7uptime : &r%uptime%'
+    - ''
+    - '&7Contact : contact@8b8t.me'
+    - '&7Discussion : https://discord.8b8t.me'
+    - '&7Site Web : https://www.8b8t.me'
+    - '&7Ce sont les seuls sites et contacts officiels de 8b8t'
+    - ''
 TpsMessage:
-  - '&3---------------------------------------'
-  - '&6Informations TPS:'
-  - '&8TPS: &a%s &8MSTP: &a%s'
+  - '&3--------------------------------------'
+  - '&6Informations TPS :'
+  - '&8TPS : &a%s &8MSTP : &a%s'
   - '&8TPS de la région la plus basse : &c%s'
   - '&8Joueurs en ligne &a%s'
-  - '&3---------------------------------------'
-tps_failed: "&cVous n'êtes pas autorisé à vérifier le TPS"
+  - '&3--------------------------------------'
+tps_failed: '&cVous n''êtes pas autorisé à vérifier le TPS'
 
 announcements:
-  - "%prefix% &7>>&r&8 Visitez <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>et votez pour recevoir 2 distances de rendu supplémentaires et 5 homes supplémentaires et accès au dupe d'âne gratuitement</dark_gray>"
-  - "%prefix% &7>>&r&8 Faites un don pour soutenir 8b8t à <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
-
+  - "%prefix% &7>>&r&8 Visitez <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>et votez pour recevoir 2 de distance de rendu supplémentaire, 5 homes supplémentaires et l'accès au donkey dupe gratuitement</dark_gray>"
+  - "%prefix% &7>>&r&8 Faites un don pour soutenir 8b8t sur <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
+  - "%prefix% &7>> &8Rejoignez le serveur discord officiel des annonces sur <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://discord.8b8t.me'>https://discord.8b8t.me</click></hover></red>"
+  - "%prefix% &7>> &8Rejoignez le chat matrix officiel sur <red><hover:show_text:'<gray>Cliquez pour ouvrir le lien'><click:open_url:'https://matrix.8b8t.me'>https://matrix.8b8t.me</click></hover></red>"
 # Death messages
 global-pvp-death-messages:
   - "&3%victim%&r&4 a été tué par &3%killer%&r&4"
-  - "&3%victim%&r&4 a été abattu par &3%killer%&r&4 avec &6[%kill-weapon%&6]"
-  - "&3%victim%&r&4 a été mis hors de combat par &3%killer%&r&4"
-  - "&3%victim%&r&4 a été dominé par &3%killer%&r&4 maniant &6[%kill-weapon%&6]"
-  - "&3%killer%&r&4 a pulvérisé &3%victim%&r&4 avec &6[%kill-weapon%&6]"
+  - "&3%victim%&r&4 a été massacré par &3%killer%&r&4 utilisant &6[%kill-weapon%&6]"
+  - "&3%victim%&r&4 a été abattu par &3%killer%&r&4"
+  - "&3%victim%&r&4 s'est fait humilier par &3%killer%&r&4 brandissant &6[%kill-weapon%&6]"
+  - "&3%killer%&r&4 a pulvérisé &3%victim%&r&4 en utilisant &6[%kill-weapon%&6]"
   - "&3%victim%&r&4 a été détruit par &3%killer%&r&4"
-  - "&3%victim%&r&4 a été anéanti par &3%killer%&r&4 et son puissant &6[%kill-weapon%&6]"
-  - "&3%victim%&r&4 a été battu par &3%killer%&r&4 utilisant &6[%kill-weapon%&6]"
+  - "&3%victim%&r&4 s'est fait démolir par &3%killer%&r&4 et son puissant &6[%kill-weapon%&6]"
+  - "&3%victim%&r&4 s'est fait EZ clap par &3%killer%&r&4 en utilisant &6[%kill-weapon%&6]"
 
 melee-death-messages:
   - "&3%victim%&r&4 a été giflé par &3%killer%&r&4"
-  - "&3%victim%&r&4 a été KO'd par &3%killer%&r&4"
+  - "&3%victim%&r&4 a été mis KO par &3%killer%&r&4"
   - "&3%victim%&r&4 a été secoué par &3%killer%&r&4"
 
 fall-damage-messages:
   - "&3%victim%&r&4 a décidé de tester la gravité et a perdu"
-  - "&3%victim%&r&4 a oublié de prendre son parachute"
-  - "&3%victim%&r&4 pensait qu'ils pouvaient voler... ils ne pouvaient pas"
+  - "&3%victim%&r&4 a oublié d'apporter son parachute"
+  - "&3%victim%&r&4 pensait pouvoir voler... il ne pouvait pas"
 
 drowning-messages:
   - "&3%victim%&r&4 a décidé de dormir avec les poissons"
-  - "&3%victim%&r&4 pensait qu'ils pouvaient atteindre l'oxygène à temps"
+  - "&3%victim%&r&4 pensait pouvoir atteindre l'oxygène à temps"
   - "&3%victim%&r&4 a essayé de nager plus vite que l'eau"
 
 suffocation-messages:
-  - "&3%victim%&r&4 n'a pas pu respirer en étant dans un bloc"
-  - "&3%victim%&r&4 n'a pas pu respirer à l'intérieur d'un bloc"
-  - "&3%victim%&r&4 a été trompé par un bloc"
+  - "&3%victim%&r&4 n'a pas pu reprendre son souffle alors qu'il était dans un bloc"
+  - "&3%victim%&r&4 ne pouvait pas respirer à l'intérieur d'un bloc"
+  - "&3%victim%&r&4 a été déjoué par un bloc"
 
 cramming-messages:
-  - "&3%victim%&r&4 a été comprimé jusqu'à l'oubli"
-  - "&4Pauvre &3%victim%&r&4, ils pensaient pouvoir vivre dans un espace de 1x1"
+  - "&3%victim%&r&4 a été écrasé jusqu'à l'oubli"
+  - "&4Pauvre &3%victim%&r&4, il pensait pouvoir vivre dans un espace de 1x1"
 
 thorns-messages:
   - "&3%victim%&r&4 a été repoussé par l'armure épineuse de &3%killer%&r&4"
-  - "&3%victim%&r&4 a vu la situation se retourner contre eux à cause des épines de &3%killer%&r&4"
+  - "&3%victim%&r&4 a vu la situation se retourner contre lui à cause des épines de &3%killer%&r&4"
 
 lava-messages:
-  - "&3%victim%&r&4 a brûlé dans un puits de lave"
-  - "&3%victim%&r&4 est allé nager dans la lave et a été brûlé"
+  - "&3%victim%&r&4 a brûlé dans une fosse de lave"
+  - "&3%victim%&r&4 est allé nager dans la lave et s'est brûlé"
 
 magma-block-messages:
-  - "&3%victim%&r&4 a été éliminé par un &6bloc de magma&4 chaud"
-  - "&3%victim%&r&4 a vu ses pieds transformés en bacon par un &6bloc de magma"
+  - "&3%victim%&r&4 a été éliminé par un bloc de &6magma chaud"
+  - "&3%victim%&r&4 a eu les pieds transformés en bacon par un bloc de &6magma"
 
 elytra-messages:
-  - "&3%victim%&r&4 a percuté un mur et est mort... ?"
-  - "&3%victim%&r&4 a été projeté contre un mur par son elytra"
+  - "&3%victim%&r&4 a volé dans un mur et est mort... ?"
+  - "&3%victim%&r&4 a été projeté contre un mur par ses élytres"
 
 wither-messages:
-  - "&3%victim%&r&4 a contracté la &9maladie du wither&4"
-  - "&3%victim%&r&4 a &9witheré&4 et s'est envolé vers la 4e dimension"
+  - "&3%victim%&r&4 a attrapé la maladie du &9wither"
+  - "&3%victim%&r&4 s'est &9desséché &4vers la 4ème dimension"
 
 suicide-messages:
   - "&3%victim%&r&4 s'est suicidé"
-  - "&3%victim%&r&4 a eu une crise et est mort"
+  - "&3%victim%&r&4 a fait une dépression nerveuse et est mort"
 
 fire-messages:
-  - "&3%victim%&r&4 est resté dans la cheminée"
+  - "&3%victim%&r&4 s'est tenu dans la cheminée"
   - "&3%victim%&r&4 a joué avec le feu"
 
 fire-tick-messages:
-  - "&3%victim%&r&4 a oublié de s'arrêter, de se jeter par terre et de rouler"
+  - "&3%victim%&r&4 a oublié de s'arrêter, de se jeter au sol et de rouler"
 
 starvation-messages:
   - "&3%victim%&r&4 a oublié de manger"
-  - "&3%victim%&r&4 a entendu sa mère dire qu'il y avait de la nourriture à la maison"
+  - "&3%victim%&r&4, sa maman a dit qu'on a de la nourriture à la maison"
 
 cactus-messages:
   - "&3%victim%&r&4 a été piqué à mort"
   - "&3%victim%&r&4 a essayé l'acupuncture, mais est mort"
-  - "&3%victim%&r&4 a étreint un cactus jusqu'à la mort"
+  - "&3%victim%&r&4 a fait un câlin mortel à un cactus"
 
 potion-messages:
-  - "&3%victim%&r&4 est devenu victime d'une mauvaise potion"
+  - "&3%victim%&r&4 a été victime d'une mauvaise potion"
   - "&3%victim%&r&4 est mort du coronavirus"
 
 void-messages:
-  - "&3%victim%&r&4 pensait que ce serait amusant de faire un voyage dans le vide"
-  - "&3%victim%&r&4 a fait un voyage sans retour dans le vide"
+  - "&3%victim%&r&4 a pensé que ce serait amusant de faire un voyage dans le vide"
+  - "&3%victim%&r&4 a pris un aller simple pour le vide"
   - "&3%victim%&r&4 est parti pour une aventure cosmique... sans vaisseau spatial"
 
 lightning-messages:
-  - "&3%victim%&r&4 a été foudroyé par une intervention divine"
-  - "&3%victim%&r&4 a été abattu par les dieux"
-  - "&3%victim%&r&4 a reçu un rappel électrisant d'en haut"
+  - "&3%victim%&r&4 a été zappé par une intervention divine"
+  - "&3%victim%&r&4 a été foudroyé par les dieux"
+  - "&3%victim%&r&4 a reçu un rappel choquant d'en haut"
 
 falling-block-messages:
-  - "&3%victim%&r&4 a été écrasé par un bloc tombant"
-  - "&3%victim%&r&4 est devenu un avec le bloc tombant"
-  - "&3%victim%&r&4 a rencontré son adversaire dans un bloc tombant"
+  - "&3%victim%&r&4 a été écrasé par la chute d'un bloc"
+  - "&3%victim%&r&4 n'a fait qu'un avec le bloc qui tombait"
+  - "&3%victim%&r&4 a rencontré son égal dans un bloc qui tombait"
 
 freeze-messages:
   - "&3%victim%&r&4 n'a pas survécu au vortex polaire"
@@ -316,186 +331,186 @@ freeze-messages:
 
 firework-messages:
   - "&3%victim%&r&4 a allumé la mèche d'un feu d'artifice trop tôt"
-  - "&3%victim%&r&4 a essayé de voler avec style... et a crashé"
-  - "&3%victim%&r&4 a découvert les dangers des pyrotechnies amateurs"
+  - "&3%victim%&r&4 a essayé de voler avec style... et s'est écrasé"
+  - "&3%victim%&r&4 a découvert les périls de la pyrotechnie amateur"
 
 slime-messages:
-  - "&3%victim%&r&4 a été écrasé par un &2GROS SLIME"
-  - "&3%victim%&r&4 a été &2recouvert de slime &4jusqu'à la mort en ramassant des boules de slime"
+  - "&3%victim%&r&4 a été écrasé par un &2SLIME GÉANT"
+  - "&3%victim%&r&4 a été &2recouvert de slime &4à mort en ramassant des boules de slime"
 
 zombie-messages:
   - "&3%victim%&r&4 a été dévoré vivant par un &2Zombie"
   - "&3%victim%&r&4 pensait qu'un &2Zombie &4était amical"
 
 pigman-messages:
-  - "&3%victim%&r&4 a aggro les &ePigmen &4et a été dévoré vivant"
+  - "&3%victim%&r&4 a provoqué les &ePigmen &4et s'est fait dévorer vivant"
   - "&3%victim%&r&4 a mis en colère les &ePigmen &4et est devenu leur bacon"
 
 skeleton-messages:
-  - "&3%victim%&r&4 a été snipé par un &fSquelette osseux"
-  - "&3%victim%&r&4 a été tiré par un &fSquelette"
+  - "&3%victim%&r&4 s'est fait sniper par un &fSquelette osseux"
+  - "&3%victim%&r&4 s'est fait tirer dessus par un &fsquelette"
 
 magmacube-messages:
-  - "&3%victim%&r&4 a été écrasé par un &6GROS MAGMA CUBE"
+  - "&3%victim%&r&4 s'est fait écraser par un &6CUBE DE MAGMA GÉANT"
 
 husk-messages:
-  - "&3%victim%&r&4 a été dévoré par un habitant du désert, AKA un &3Husk"
+  - "&3%victim%&r&4 s'est fait manger par un habitant du désert AKA un &3Husk"
 
 spider-messages:
-  - "&3%victim%&r&4 a été trompé par une &1araignée rusée"
-  - "&3%victim%&r&4 a été &1araignée-collationnée"
+  - "&3%victim%&r&4 a été déjoué par une astucieuse &1araignée"
+  - "&3%victim%&r&4 a servi de &1goûter aux araignées"
 
 cavespider-messages:
-  - "&3%victim%&r&4 a été mordu à mort par une &1Araignée des cavernes"
-  - "&3%victim%&r&4 a reçu un câlin venimeux d'une &1Araignée des cavernes"
+  - "&3%victim%&r&4 a été mordu à mort par une &1Araignée venimeuse"
+  - "&3%victim%&r&4 a reçu un câlin venimeux d'une &1Araignée venimeuse"
 
 witherskeleton-messages:
-  - "&3%victim%&r&4 a été détruit par un &0Squelette Wither &4avec une épée en pierre"
-  - "&3%victim%&r&4 a été mis à l'école par un &0Squelette Wither &4avec une épée en pierre"
+  - "&3%victim%&r&4 s'est fait détruire par un &0Wither Skeleton &4avec une épée en pierre"
+  - "&3%victim%&r&4 s'est fait donner une leçon par un &0Wither Skeleton &4avec une épée en pierre"
 
 witherboss-messages:
   - "&3%victim%&r&4 a eu la tête explosée par le &0Wither"
-  - "&3%victim%&r&4 a défié le &0Wither &4et a perdu sa tête"
+  - "&3%victim%&r&4 a défié le &0Wither &4et a perdu la tête"
   - "&3%victim%&r&4 a reçu une leçon mortelle du &0Wither"
 
 dragon-messages:
-  - "&3%victim%&r&4 a eu les entrailles arrachées par le &5Dragon de l'End"
-  - "&3%victim%&r&4 a eu la tête explosée par le &5Dragon de l'End"
+  - "&3%victim%&r&4 s'est fait arracher les tripes par l'&5Ender Dragon"
+  - "&3%victim%&r&4 a eu la tête explosée par l'&5Ender Dragon"
   - "&3%victim%&r&4 a trouvé un écran de respawn, pas le portail de l'End"
 
 dragon-breath-messages:
-  - "&3%victim%&r&4 a pris un bain dans le souffle du &5Dragon de l'End"
-  - "&3%victim%&r&4 a inhalé un peu trop de souffle du &5Dragon de l'End"
-  - "&3%victim%&r&4 a été incinéré par l'attaque de souffle du &5Dragon de l'End &4"
+  - "&3%victim%&r&4 a pris un bain dans le souffle de l'&5Ender Dragon"
+  - "&3%victim%&r&4 a inhalé un peu trop du souffle de l'&5Ender Dragon"
+  - "&3%victim%&r&4 a été incinéré par l'attaque de souffle de l'&5Ender Dragon"
 
 elderguardian-messages:
-  - "&3%victim%&r&4 a tenté de vider un monument océanique mais le &bGardien Ancien &4a dit non"
-  - "&3%victim%&r&4 pensait pouvoir conquérir un monument océanique, mais le &bGardien Ancien &4avait d'autres plans"
+  - "&3%victim%&r&4 a essayé de vider un monument océanique mais l'&bElder Guardian &4a dit non"
+  - "&3%victim%&r&4 pensait pouvoir conquérir un monument océanique, mais l'&bElder Guardian &4avait d'autres projets"
 
 tnt-messages:
-  - "&3%victim%&r&4 a eu la tête explosée par de &4TNT"
-  - "&3%victim%&r&4 a été soufflé par de &4TNT"
-  - "&3%victim%&r&4 a découvert les explosifs à ses dépens"
+  - "&3%victim%&r&4 a eu la tête explosée par de la &4TNT"
+  - "&3%victim%&r&4 a été explosé par de la &4TNT"
+  - "&3%victim%&r&4 a découvert les explosifs à la dure"
 
 end-crystal-messages:
-  - "&3%victim%&r&4 a été transpercé par un &5Cristal de l'End"
-  - "&3%victim%&r&4 a été soufflé par un &5Cristal de l'End"
+  - "&3%victim%&r&4 a été mis en pièces par un &5Cristal de l'End"
+  - "&3%victim%&r&4 a été explosé par un &5Cristal de l'End"
 
 creeper-messages:
-  - "&3%victim%&r&4 a été rudement présenté à la personnalité explosive d'un &aCreeper"
-  - "&3%victim%&r&4 a rencontré un &aCreeper &4et a été propulsé dans les airs"
+  - "&3%victim%&r&4 a été grossièrement présenté à la personnalité explosive d'un &aCreeper"
+  - "&3%victim%&r&4 a rencontré un &aCreeper &4et a été propulsé dans le ciel"
   - "&3%victim%&r&4 a sous-estimé le rayon d'explosion d'un &aCreeper"
-  - "&3%victim%&r&4 a tenté de désamorcer un &aCreeper&4... ça n'a pas marché"
+  - "&3%victim%&r&4 a essayé de désamorcer un &aCreeper&4... ça n'a pas marché"
 
 ghast-messages:
-  - "&3%victim%&r&4 a été touché par une boule de feu d'un &bGhast"
+  - "&3%victim%&r&4 s'est pris une boule de feu par un &bGhast"
 
 enderman-messages:
-  - "&3%victim%&r&4 a croisé le regard d'un &5Enderman"
+  - "&3%victim%&r&4 a regardé un &5Enderman &4dans les yeux"
   - "&3%victim%&r&4 a essayé de jouer à cache-cache avec un &5Enderman"
 
 silverfish-messages:
-  - "&3%victim%&r&4 a été dévoré par un &7Silverfish"
+  - "&3%victim%&r&4 a été mangé par un &7Silverfish"
 
 witch-messages:
-  - "&3%victim%&r&4 a été ensorcelé par une &9Sorcière sournoise"
+  - "&3%victim%&r&4 a été ensorcelé par une sournoise &9Sorcière"
   - "&3%victim%&r&4 a été transformé en grenouille par une &9Sorcière vengeresse"
 
 shulker-messages:
-  - "&3%victim%&r&4 est mort en essayant d'obtenir des &dcoques de shulker"
-  - "&3%victim%&r&4 a été tiré par un &dShulker"
+  - "&3%victim%&r&4 est mort en essayant d'obtenir des carapaces de &dshulker"
+  - "&3%victim%&r&4 s'est fait tirer dessus par un &dShulker"
   - "&3%victim%&r&4 a été ruiné par un &dShulker"
 
 guardian-messages:
   - "&3%victim%&r&4 a été tué par un &7Gardien"
-  - "&3%victim%&r&4 a été électrocuté par un &7Gardien"
-  - "&3%victim%&r&4 a été surpassé par un &7Gardien rusé"
+  - "&3%victim%&r&4 a été zappé par un &7Gardien électrisant"
+  - "&3%victim%&r&4 a été surpassé à la nage par un &7Gardien sournois"
 
 golem-messages:
-  - "&3%victim%&r&4 a mis en colère un &7Golem de Fer &4"
-  - "&3%victim%&r&4 a provoqué la &7colère du Golem de Fer &4"
-  - "&3%victim%&r&4 a reçu une leçon sur la &7diplomatie du Golem de Fer &4"
+  - "&3%victim%&r&4 a mis un &7Golem de fer &4en colère"
+  - "&3%victim%&r&4 a provoqué la colère d'un &7Golem de fer"
+  - "&3%victim%&r&4 a reçu une leçon de diplomatie par un &7Golem de fer"
 
 zombievillager-messages:
-  - "&3%victim%&r&4 a été dévoré par un &2Zombie Villager"
+  - "&3%victim%&r&4 a servi de dîner à un &2Villageois Zombie"
 
 endermite-messages:
-  - "&3%victim%&r&4 a rencontré un &5Endermite &4et a été grignoté à mort"
-  - "&3%victim%&r&4 a été trompé par un &5Endermite"
+  - "&3%victim%&r&4 a rencontré une &5Endermite &4et s'est fait grignoter jusqu'à la mort"
+  - "&3%victim%&r&4 a été déjoué par une &5Endermite"
 
 phantom-messages:
   - "&3%victim%&r&4 a été kidnappé par un &1Phantom"
 
 drowned-messages:
-  - "&3%victim%&r&4 est allé se baigner tard dans la nuit et a été dévoré par un &2Zombie Drowned"
-  - "&3%victim%&r&4 a découvert que les &2Drowned &4ne sont pas juste des nageurs ordinaires"
+  - "&3%victim%&r&4 est allé nager tard le soir et s'est fait manger par un &2Noyé"
+  - "&3%victim%&r&4 a découvert que les &2Noyés &4ne sont pas juste des nageurs ordinaires"
 
 pillager-messages:
-  - "&3%victim%&r&4 a été tiré dessus par un &3Pillager"
+  - "&3%victim%&r&4 s'est fait tirer dessus par un &3Pillard"
 
 ravager-messages:
-  - "&3%victim%&r&4 a été chargé par un &3Ravager"
+  - "&3%victim%&r&4 s'est fait percuter par un &3Ravageur"
 
 illusioner-messages:
-  - "&3%victim%&r&4 a été envoyé dans le monde des illusions par un &6Illusioner"
-  - "&3%victim%&r&4 a été trompé par un &6Illusioner"
-  - "&3%victim%&r&4 a été tué par un &6Illusioner"
+  - "&3%victim%&r&4 a été envoyé dans le monde de l'illusion par un &6Illusionniste"
+  - "&3%victim%&r&4 a été dupé par un &6Illusionniste"
+  - "&3%victim%&r&4 a été tué par un &6Illusionniste"
 
 bee-messages:
-  - "&3%victim%&r&4 a été piqué par un &6Abeille"
-  - "&3%victim%&r&4 a rencontré une &6abeille &4et a découvert qu'elles ne sont pas juste des productrices de miel"
-  - "&3%victim%&r&4 a été piqué par une abeille persistante &6"
+  - "&3%victim%&r&4 a été piqué par une &6ABEILLE"
+  - "&3%victim%&r&4 a rencontré une &6abeille &4et a découvert qu'elles ne font pas que du miel"
+  - "&3%victim%&r&4 s'est fait piquer par une &6abeille persistante"
 
 wolf-messages:
   - "&3%victim%&r&4 a été déchiqueté par un &7Loup"
   - "&3%victim%&r&4 a provoqué un &7Loup"
 
 llama-messages:
-  - "&3%victim%&r&4 a été craché à mort par une &eLlama"
-  - "&3%victim%&r&4 a été pris dans un &e crachat de lama &4"
-  - "&3%victim%&r&4 a eu un coup de &l crachat de lama &4"
+  - "&3%victim%&r&4 a été craché dessus jusqu'à la mort par un &eLama"
+  - "&3%victim%&r&4 s'est retrouvé pris dans le tir de crachat d'un &elama"
+  - "&3%victim%&r&4 a reçu une bouchée de crachat de &llama"
 
 blaze-messages:
-  - "&3%victim%&r&4 a été grillé par un &6Blaze"
-  - "&3%victim%&r&4 a été rôti par un &6Blaze enflammé"
-  - "&3%victim%&r&4 a appris à ses dépens à ne pas jouer avec le feu des &6Blazes"
+  - "&3%victim%&r&4 a été carbonisé par un &6Blaze"
+  - "&3%victim%&r&4 a été rôti par un ardent &6Blaze"
+  - "&3%victim%&r&4 a appris à la dure à ne pas jouer avec le feu des &6Blazes"
 
 stray-messages:
-  - "&3%victim%&r&4 a été abattu par un &7Stray"
+  - "&3%victim%&r&4 s'est fait dominer par un &7Vagabond"
 
 vex-messages:
-  - "&3%victim%&r&4 a été dévoré par un petit &bVex volant"
-  - "&3%victim%&r&4 a été embêté par un &bVex"
+  - "&3%victim%&r&4 a été mangé par un petit &bVex volant"
+  - "&3%victim%&r&4 a été tourmenté par un &bVex"
 
 vindicator-messages:
-  - "&3%victim%&r&4 a été pourchassé par un &4Vindicator"
-  - "&3%victim%&r&4 a sous-estimé la force d'un &4Vindicator"
-  - "&3%victim%&r&4 a été pris dans le &4chemin de destruction d'un &4Vindicator"
+  - "&3%victim%&r&4 a été traqué par un &4Vindicateur"
+  - "&3%victim%&r&4 a sous-estimé la force d'un &4Vindicateur"
+  - "&3%victim%&r&4 s'est retrouvé sur le chemin de destruction d'un &4Vindicateur"
 
 evoker-messages:
-  - "&3%victim%&r&4 a été convoqué à la mort par un &4Evoker"
-  - "&3%victim%&r&4 a défié la colère d'un &4Evoker"
-  - "&3%victim%&r&4 a été invoqué par un &4Evoker"
+  - "&3%victim%&r&4 a été convoqué chez les morts par un &4Invocateur"
+  - "&3%victim%&r&4 a goûté à la colère d'un &4Invocateur"
+  - "&3%victim%&r&4 a été évoqué par un &4Invocateur"
 
 pufferfish-messages:
-  - "&3%victim%&r&4 a sous-estimé la toxicité d'un &ePufferfish"
-  - "&3%victim%&r&4 a rencontré un &ePufferfish &4et a appris à ne pas toucher"
+  - "&3%victim%&r&4 a sous-estimé la toxicité d'un &ePoisson-globe"
+  - "&3%victim%&r&4 a rencontré un &ePoisson-globe &4et a appris à la dure à ne pas toucher"
 
 polar-bear-messages:
-  - "&3%victim%&r&4 a été déchiqueté par un &fOurs Polaire glacé"
-  - "&3%victim%&r&4 a été transformé en neige par un &fOurs Polaire"
+  - "&3%victim%&r&4 a été mutilé par un &fOurs polaire glacial"
+  - "&3%victim%&r&4 a été transformé en neige par un &fOurs polaire"
 
 dolphin-messages:
   - "&3%victim%&r&4 a provoqué un &bDauphin&4... et a perdu ?"
   - "&3%victim%&r&4 a frappé un &bDauphin &4et ils ont riposté"
 
 panda-messages:
-  - "&3%victim%&r&4 a été fait dîner d'un &8Panda"
+  - "&3%victim%&r&4 a servi de dîner à un &8Panda"
   - "&3%victim%&r&4 a essayé de voler le bambou d'un &8Panda"
 
 piglin-messages:
   - "&3%victim%&r&4 a rencontré son créateur face aux nouveaux &6Piglins"
-  - "&3%victim%&r&4 s'est battu avec des &6Piglins &4et a reçu une leçon de survie"
+  - "&3%victim%&r&4 s'est emmêlé avec des &6Piglins &4et a reçu une leçon de survie"
   - "&3%victim%&r&4 a rencontré des &6Piglins &4et a découvert qu'ils ne négocient pas"
 
 hoglin-messages:
@@ -503,39 +518,39 @@ hoglin-messages:
   - "&3%victim%&r&4 n'a pas lu les notes de mise à jour sur les &6Hoglins"
 
 zoglin-messages:
-  - "&3%victim%&r&4 a mangé une &6Corne de Zoglin&4 pour le dîner"
+  - "&3%victim%&r&4 a mangé la corne d'un &6Zoglin &4pour le dîner"
   - "&3%victim%&r&4 a été percuté par un &6Zoglin"
 
 goat-messages:
-  - "&3%victim%&r&4 a été percuté par une &4Chèvre"
+  - "&3%victim%&r&4 a reçu un coup de tête d'une &4Chèvre"
   - "&3%victim%&r&4 a été empalé par une corne de &4Chèvre"
 
 zombified-piglin-messages:
-  - "&3%victim%&r&4 a emmené un &6Piglin&4 dans le monde supérieur et a été tué par son nouveau, pas si ami"
-  - "&3%victim%&r&4 est mort à cause d'un &6Piglin&4... je veux dire, Pigman... je veux dire, Piglin Zombifié"
+  - "&3%victim%&r&4 a emmené un &6Piglin &4dans l'overworld et a été assassiné par son nouvel animal de compagnie pas si amical"
+  - "&3%victim%&r&4 est mort face à un &6Piglin&4... je veux dire, Pigman... je veux dire, Zombified Piglin"
 
 fox-messages:
-  - "&3%victim%&r&4 a &6été trompé &4et a découvert"
-  - "&3%victim%&r&4 a été dévoré par un &6Renard"
+  - "&3%victim%&r&4 &6a fait le malin avec un renard &4et l'a regretté"
+  - "&3%victim%&r&4 a été mâchouillé par un &6Renard"
 
 warden-messages:
-  - "&3%victim%&r&4 a été tué par un &1Warden&4... je veux dire, qu'attendiez-vous ?"
-  - "&3%victim%&r&4 a sous-estimé la &1force du Warden&4"
-  - "&3%victim%&r&4 s'est approché trop près du territoire d'un &1Warden&4"
+  - "&3%victim%&r&4 a été tué par un &1Warden&4... je veux dire, à quoi tu t'attendais ?"
+  - "&3%victim%&r&4 a sous-estimé la force du &1Warden"
+  - "&3%victim%&r&4 s'est trop approché du territoire d'un &1Warden"
 
 warden-sonic-boom-messages:
-  - "&3%victim%&r&4 a été victime du &1sonic boom d'un Warden"
-  - "&3%victim%&r&4 a eu les oreilles explosées par le sonic boom d'un &1Warden"
+  - "&3%victim%&r&4 a reçu un boum sonique d'un &1Warden"
+  - "&3%victim%&r&4 a eu les oreilles explosées par le boum sonique d'un &1Warden"
 
 unknown-messages:
-  - "&3%victim%&r&4 est mort pour des raisons inconnues"
+  - "&3%victim%&r&4 est mort de causes inconnues"
   - "&3%victim%&r&4 est mort"
   - "&3%victim%&r&4 a été tué"
 
 fireball-messages:
-  - "&3%victim%&r&4 a été rôti par une attaque de &4boules de feu &4inattendue"
-  - "&3%victim%&r&4 a été pris dans une tempête de &4boules de feu"
-  - "&3%victim%&r&4 a été incinéré par une pluie de &4boules de feu"
+  - "&3%victim%&r&4 a été rôti par une attaque inattendue de &4boule de feu"
+  - "&3%victim%&r&4 a été pris dans une tempête ardente de &4boules de feu"
+  - "&3%victim%&r&4 a été incinéré par un barrage de &4boules de feu"
 
 arrow-messages:
   - "&3%victim%&r&4 a été pris dans une pluie de &5flèches"

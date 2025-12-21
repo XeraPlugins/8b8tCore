@@ -37,7 +37,7 @@ public class PlayerPrefix {
 
     public PlayerPrefix(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     public void handlePlayerJoin(Player player) {

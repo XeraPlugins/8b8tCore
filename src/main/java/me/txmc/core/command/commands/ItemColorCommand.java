@@ -53,12 +53,6 @@ public class ItemColorCommand extends BaseTabCommand {
                 return;
             }
 
-            NamedTextColor color = getColor(args[0]);
-            if (color == null) {
-                sendPrefixedLocalizedMessage(player, "ic_invalid_color");
-                return;
-            }
-
             ItemMeta meta = itemInHand.getItemMeta();
             if (meta == null) {
                 sendPrefixedLocalizedMessage(player, "ic_invalid_item");
@@ -66,13 +60,28 @@ public class ItemColorCommand extends BaseTabCommand {
             }
 
             String itemName = getCleanItemName(itemInHand);
-            Component itemNameComponent = Component.text(itemName).color(color).decoration(TextDecoration.ITALIC,false);
+            String input = String.join(" ", args);
+            Component itemNameComponent;
 
-            for (int i = 1; i < args.length; i++) {
-                TextDecoration decoration = getStyle(args[i]);
-                if (decoration != null) {
-                    itemNameComponent = itemNameComponent.decoration(decoration,true);
+            if (args.length > 1 || input.contains("#") || input.contains("<")) {
+                StringBuilder mmBuilder = new StringBuilder();
+                if (args.length > 1 && !args[0].contains("<")) {
+                    mmBuilder.append("<gradient:");
+                    mmBuilder.append(String.join(":", args));
+                    mmBuilder.append(">").append(itemName).append("</gradient>");
+                } else if (input.contains("<")) {
+                    mmBuilder.append(input.replace("%name%", itemName));
+                } else {
+                    mmBuilder.append("<").append(args[0]).append(">").append(itemName).append("</").append(args[0]).append(">");
                 }
+                itemNameComponent = MiniMessage.miniMessage().deserialize(mmBuilder.toString()).decoration(TextDecoration.ITALIC, false);
+            } else {
+                NamedTextColor color = getColor(args[0]);
+                if (color == null) {
+                    sendPrefixedLocalizedMessage(player, "ic_invalid_color");
+                    return;
+                }
+                itemNameComponent = Component.text(itemName).color(color).decoration(TextDecoration.ITALIC, false);
             }
 
             meta.displayName(itemNameComponent);

@@ -10,5 +10,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Home {
     private final String name;
+    private final String worldName;
     private Location location;
 }

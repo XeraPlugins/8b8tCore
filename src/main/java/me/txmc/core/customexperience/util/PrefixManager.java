@@ -22,7 +22,7 @@ public class PrefixManager {
 
     private static final Map<String, String> PREFIXES = new HashMap<>();
     private static double globalAnimationIndex = 0.0;
-    private static GeneralDatabase database;
+    private final GeneralDatabase database;
 
     private static final List<String> PREFIX_HIERARCHY = Arrays.asList(
             "8b8tcore.prefix.owner",
@@ -37,12 +37,13 @@ public class PrefixManager {
             "8b8tcore.prefix.donator4",
             "8b8tcore.prefix.donator3",
             "8b8tcore.prefix.donator2",
-            "8b8tcore.prefix.donator1"
-
-
+            "8b8tcore.prefix.donator1",
+            "8b8tcore.prefix.custom"
     );
 
-    static {
+    public PrefixManager() {
+        this.database = GeneralDatabase.getInstance();
+        
         PREFIXES.put("8b8tcore.prefix.owner", "<gradient:#BA3FFC:#D9ADFD:#BA3FFC:%s>[OWNER<green>✔</green>]</gradient>");
         PREFIXES.put("8b8tcore.prefix.dev", "<gradient:#5555FF:#9492F5:#5555FF:%s>[DEV<green>✔</green>]</gradient>");
         PREFIXES.put("8b8tcore.prefix.bot", "<gradient:#00AA00:#6ef385:#00AA00:%s>[BOT]</gradient>");
@@ -56,23 +57,26 @@ public class PrefixManager {
         PREFIXES.put("8b8tcore.prefix.donator3", "<gradient:#999B9B:#ced5d5:#999B9B:%s>[Mini]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator2", "<gradient:#CD7F32:#fc9937:#CD7F32:%s>[SE]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator1", "<gradient:#20252c:#62666c:#20252c:%s>[Basic]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.custom", "<gradient:%g:%s>[Custom]</gradient>");
     }
 
     public String getPrefix(Player player) {
-        if (database == null && Main.getInstance() != null) {
-            database = new GeneralDatabase(Main.getInstance().getDataFolder().getAbsolutePath());
-        }
 
         if (database != null && database.getPlayerHidePrefix(player.getName())) {
             return "";
         }
 
         String highestPermission = "";
+        String selectedRank = database.getSelectedRank(player.getName());
 
-        for (String permission : PREFIX_HIERARCHY) {
-            if (player.hasPermission(permission)) {
-                highestPermission = permission;
-                break;
+        if (selectedRank != null && player.hasPermission(selectedRank)) {
+            highestPermission = selectedRank;
+        } else {
+            for (String permission : PREFIX_HIERARCHY) {
+                if (player.hasPermission(permission)) {
+                    highestPermission = permission;
+                    break;
+                }
             }
         }
 
@@ -82,9 +86,29 @@ public class PrefixManager {
 
         String basePrefix = PREFIXES.get(highestPermission);
         globalAnimationIndex = (globalAnimationIndex + 0.1) % 1.0;
-        String animatedPrefix = basePrefix.replace("%s", String.format("%.1f", globalAnimationIndex));
+        String animatedPrefix;
+
+        if (highestPermission.equals("8b8tcore.prefix.custom")) {
+            String customGradient = database.getCustomGradient(player.getName());
+            if (customGradient == null || customGradient.isEmpty()) {
+                customGradient = "#FFFFFF:#AAAAAA:#FFFFFF";
+            }
+            animatedPrefix = basePrefix.replace("%g", customGradient).replace("%s", String.format("%.1f", globalAnimationIndex));
+        } else {
+            animatedPrefix = basePrefix.replace("%s", String.format("%.1f", globalAnimationIndex));
+        }
 
         return animatedPrefix + " ";
+    }
+
+    public List<String> getAvailableRanks(Player player) {
+        List<String> available = new ArrayList<>();
+        for (String permission : PREFIX_HIERARCHY) {
+            if (player.hasPermission(permission)) {
+                available.add(permission);
+            }
+        }
+        return available;
     }
 
     public boolean hasRank(Player player) {

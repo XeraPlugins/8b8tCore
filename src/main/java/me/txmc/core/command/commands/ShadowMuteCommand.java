@@ -24,7 +24,7 @@ public class ShadowMuteCommand extends BaseTabCommand {
                 "8b8tcore.command.shadowmute",
                 "Mute a player without their knowledge"
         );
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
         shadowmuteOptions = List.of("add", "remove");
     }
 

@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -30,7 +31,7 @@ public class NickCommand extends BaseCommand {
 
     public NickCommand(Main plugin) {
         super("nick", "/nick <name>", "8b8tcore.command.nick");
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     @Override
@@ -41,41 +42,69 @@ public class NickCommand extends BaseCommand {
         }
 
         if (args.length == 0) {
-            sendPrefixedLocalizedMessage(player, "nick_no_name_provided");
+            sendPrefixedLocalizedMessage(player, "nick_usage", "/nick <name|reset|gradient <colors...>>");
             return;
         }
 
-        if (args.length == 1 && args[0].equalsIgnoreCase("c")) {
-            Component original = Component.text(player.getName());
-            player.displayName(original);
-            String tag = prefixManager.getPrefix(player);
-            Component name = player.displayName();
-            player.playerListName(tag.isEmpty() ? name : miniMessage.deserialize(tag).append(name));
-            String playerName = miniMessage.serialize(player.displayName());
-            sendPrefixedLocalizedMessage(player, "nick_success", playerName);
-            database.insertNickname(player.getName(), player.getName());
+        if (args[0].equalsIgnoreCase("reset")) {
+            resetNickname(player);
             return;
         }
 
-        String nickname = String.join(" ", args).replaceAll("(?i)<(hover:.*?|click:.*?|insert:.*?|selector:.*?|nbt:.*?|newline)[^>]*>", "").trim();
+        if (args[0].equalsIgnoreCase("gradient")) {
+            if (args.length < 2) {
+                sendPrefixedLocalizedMessage(player, "gradient_usage", "/nick gradient <color1> [color2] [color3...]");
+                return;
+            }
+            
+            StringBuilder gradient = new StringBuilder();
+            for (int i = 1; i < args.length; i++) {
+                String color = args[i].startsWith("#") ? args[i] : "#" + args[i];
+                if (!color.matches("^#[0-9A-Fa-f]{6}$")) {
+                    sendPrefixedLocalizedMessage(player, "gradient_invalid_color", color);
+                    return;
+                }
+                if (i > 1) gradient.append(":");
+                gradient.append(color);
+            }
+            
+            database.updateGradient(player.getName(), gradient.toString());
+            sendPrefixedLocalizedMessage(player, "gradient_set", gradient.toString());
+            return;
+        }
 
+        String nickname = String.join(" ", args)
+            .replaceAll("(?i)<(hover:.*?|click:.*?|insert:.*?|selector:.*?|nbt:.*?|newline)[^>]*>", "")
+            .trim();
+
+        String plainText = nickname.replaceAll("<[^>]+>", "");
+        if (plainText.length() > 16) {
+            sendPrefixedLocalizedMessage(player, "nick_too_large", "16");
+            return;
+        }
+
+        String gradient = database.getGradient(player.getName());
+        if (gradient != null && !gradient.isEmpty()) {
+            nickname = String.format("<gradient:%s>%s</gradient>", gradient, nickname);
+        }
 
         Component displayName = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(nickname));
-
-        if (extractPlainText(displayName).length() > 16) {
-            sendPrefixedLocalizedMessage(player, "nick_too_large");
-            return;
-        }
-
         player.displayName(displayName);
+        
         String tag = prefixManager.getPrefix(player);
-        Component name = player.displayName();
-        player.playerListName(tag.isEmpty() ? name : miniMessage.deserialize(tag).append(name));
-        String playerName = miniMessage.serialize(player.displayName());
-
-        sendPrefixedLocalizedMessage(player, "nick_success", playerName);
+        player.playerListName(tag.isEmpty() ? displayName : miniMessage.deserialize(tag).append(displayName));
+        
         database.insertNickname(player.getName(), GlobalUtils.convertToMiniMessageFormat(nickname));
-
+        sendPrefixedLocalizedMessage(player, "nick_success", miniMessage.serialize(displayName));
+    }
+    
+    private void resetNickname(Player player) {
+        Component original = Component.text(player.getName());
+        player.displayName(original);
+        String tag = prefixManager.getPrefix(player);
+        player.playerListName(tag.isEmpty() ? original : miniMessage.deserialize(tag).append(original));
+        database.insertNickname(player.getName(), null);
+        sendPrefixedLocalizedMessage(player, "nick_reset");
     }
 
     private String extractPlainText(Component component) {

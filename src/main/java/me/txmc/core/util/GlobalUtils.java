@@ -133,7 +133,7 @@ public class GlobalUtils {
                 try {
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         if (database == null && Main.getInstance() != null) {
-                            database = new GeneralDatabase(Main.getInstance().getDataFolder().getAbsolutePath());
+                            database = GeneralDatabase.getInstance();
                         }
                         if (database != null && database.getPlayerHideDeathMessages(p.getName())) {
                             continue;

@@ -42,7 +42,7 @@ public class HomeJsonStorage implements IStorage<HomeData, Player> {
             homeData.getHomes().forEach(h -> {
                 JsonObject homeObj = new JsonObject();
                 homeObj.addProperty("name", h.getName());
-                homeObj.addProperty("world", h.getLocation().getWorld().getName());
+                homeObj.addProperty("world", h.getWorldName());
                 homeObj.addProperty("yaw", h.getLocation().getYaw());
                 homeObj.addProperty("pitch", h.getLocation().getPitch());
                 homeObj.addProperty("x", h.getLocation().x());
@@ -72,15 +72,16 @@ public class HomeJsonStorage implements IStorage<HomeData, Player> {
                 for (JsonElement element : homesArr) {
                     JsonObject homeObj = element.getAsJsonObject();
                     String name = homeObj.get("name").getAsString();
+                    String worldName = homeObj.get("world").getAsString();
                     Location location = new Location(
-                            Bukkit.getWorld(homeObj.get("world").getAsString()),
+                            Bukkit.getWorld(worldName),
                             homeObj.get("x").getAsDouble(),
                             homeObj.get("y").getAsDouble(),
                             homeObj.get("z").getAsDouble(),
                             homeObj.get("yaw").getAsFloat(),
                             homeObj.get("pitch").getAsFloat()
                     );
-                    buf.add(new Home(name, location));
+                    buf.add(new Home(name, worldName, location));
                 }
             }
             return new HomeData(buf);

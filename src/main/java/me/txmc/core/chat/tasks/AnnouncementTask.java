@@ -20,7 +20,7 @@ public class AnnouncementTask implements Runnable {
     public void run() {
         Bukkit.getGlobalRegionScheduler().runDelayed(me.txmc.core.Main.getInstance(), (task) -> {
             if (database == null && Main.getInstance() != null) {
-                database = new GeneralDatabase(Main.getInstance().getDataFolder().getAbsolutePath());
+                this.database = GeneralDatabase.getInstance();
             }
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (database != null && database.getPlayerHideAnnouncements(p.getName())) {

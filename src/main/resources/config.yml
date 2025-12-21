@@ -1,4 +1,4 @@
-#8b8tCore Version 1.7.6
+#8b8tCore Version 1.8.0
 AntiIllegal:
   Enabled: true
   EnableIllegalBlocksCleaner: true
@@ -204,6 +204,16 @@ Patch:
       - 'dropped_item::100'
       - 'item_frame::256'
       - 'glow_item_frame::256'
+    PhantomFixes:
+      Enabled: true
+      BlockAll: false
+      OnlyInEnd: true
+      SpawnAboveBlocks:
+        - END_STONE
+        - CHORUS_FLOWER
+        - CHORUS_PLANT
+      DisableScreechUntilAttacked: true
+      OnlyHostileIfAttacked: true
 Redstone:
     StrictTPS: 14 #The tps to start strictly monitoring redstone at
     StrictMaxVLS: 70 #How many redstone operations per second can happen in strict mode

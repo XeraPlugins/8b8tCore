@@ -1,6 +1,6 @@
 name: 8b8tCore
 main: me.txmc.core.Main
-version: 1.7.6
+version: 1.8.0
 author: 254n_m, agarciacort, Leeewith3Es, MindComplexity
 description: A core plugin for 8b8t
 api-version: 1.21
@@ -84,6 +84,11 @@ commands:
   joindate:
   kill:
   lastseen:
+  title:
+  customgradient:
+    aliases: [cg, setgradient]
+  toggleleaderboard:
+    aliases: [togglelb, tlb]
 permissions:
   8b8tcore.viewdistance.default:
     description: Permission for the default view distance
@@ -183,4 +188,13 @@ permissions:
     default: true
   8b8tcore.command.lastseen.location:
     description: Permission to see player's last location
+    default: false
+  8b8tcore.command.title:
+    description: Permission to switch between earned titles
+    default: true
+  8b8tcore.command.toggleleaderboard:
+    description: Permission to toggle between custom and vanilla tablist
+    default: true
+  8b8tcore.prefix.custom:
+    description: Permission for custom rank with customizable gradient
     default: false

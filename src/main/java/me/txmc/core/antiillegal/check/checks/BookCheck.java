@@ -19,7 +19,7 @@ import java.util.Optional;
  * This file was created as a part of 8b8tCore
  */
 public class BookCheck implements Check {
-    private final CharsetEncoder encoder = StandardCharsets.ISO_8859_1.newEncoder();
+    private final CharsetEncoder encoder = StandardCharsets.UTF_8.newEncoder();
 
     @Override
     public boolean check(ItemStack item) {

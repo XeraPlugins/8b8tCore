@@ -7,6 +7,7 @@ import me.txmc.core.chat.listeners.OpWhiteListListener;
 import me.txmc.core.chat.tasks.AnnouncementTask;
 import me.txmc.core.command.CommandSection;
 import me.txmc.core.customexperience.listeners.CustomExperienceJoinLeave;
+import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.deathmessages.DeathMessageListener;
 import me.txmc.core.dupe.DupeSection;
 import me.txmc.core.home.HomeManager;
@@ -57,7 +58,7 @@ public class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("\u00A78+============================================================+");
         Bukkit.getConsoleSender().sendMessage("\u00A79  8b\u00A798t\u00A77Core \u00A75a Folia Core Plugin for 8b8t and Anarchy Servers   ");
         Bukkit.getConsoleSender().sendMessage("\u00A78+============================================================+");
-        Bukkit.getConsoleSender().sendMessage("\u00A72 v" + getDescription().getVersion() + "                              \u00A73by 254n_m, agarciacorte & Leeewith3Es");
+        Bukkit.getConsoleSender().sendMessage("\u00A72 v" + getDescription().getVersion() + "                              \u00A73by 254n_m, agarciacorte, Leeewith3Es, MindComplexity");
         Bukkit.getConsoleSender().sendMessage("");
 
         sections = new ArrayList<>();
@@ -71,12 +72,14 @@ public class Main extends JavaPlugin {
         getLogger().addHandler(new LoggerHandler());
         Localization.loadLocalizations(getDataFolder());
 
+        GeneralDatabase.initialize(getDataFolder().getAbsolutePath());
+        log(Level.INFO, "GeneralDatabase initialized successfully");
+
         executorService.scheduleAtFixedRate(() -> violationManagers.forEach(ViolationManager::decrementAll), 0, 1, TimeUnit.SECONDS);
         getExecutorService().scheduleAtFixedRate(new AnnouncementTask(), 10L, getConfig().getInt("AnnouncementInterval"), TimeUnit.SECONDS);
 
         getExecutorService().scheduleAtFixedRate(new EndPortalBuilder(this), 200L, 10, TimeUnit.SECONDS);
         getExecutorService().scheduleAtFixedRate(new EndExitPortalBuilder(this), 200L, 10, TimeUnit.SECONDS);
-
 
         register(new TabSection(this));
         register(new ChatSection(this));
@@ -91,8 +94,6 @@ public class Main extends JavaPlugin {
         register(new OpWhiteListListener(this));
 
         if(getConfig().getBoolean("AntiIllegal.Enabled", true)) register(new AntiIllegalMain(this));
-        // Force Votifier plus by the server uncommented for compability reasons. 
-        // if (getServer().getPluginManager().getPlugin("VotifierPlus") != null) register(new VoteSection(this));
         register(new VoteSection(this));
 
         for (Section section : sections) {
@@ -111,6 +112,13 @@ public class Main extends JavaPlugin {
         violationManagers.clear();
         sections.forEach(Section::disable);
         sections.clear();
+
+        try {
+            GeneralDatabase.getInstance().close();
+            log(Level.INFO, "GeneralDatabase closed successfully");
+        } catch (IllegalStateException e) {
+            // Kept Empty (never should reach here)
+        }
 
         if (executorService != null && !executorService.isShutdown()) {
             executorService.shutdown();
@@ -153,7 +161,6 @@ public class Main extends JavaPlugin {
     }
 
     public void register(ViolationManager manager) {
-//        if (violationManagers.contains(manager)) throw new IllegalArgumentException("Attempted to register violation manager twice");
         if (violationManagers.contains(manager)) return;
         violationManagers.add(manager);
         if (manager instanceof Listener) register((Listener) manager);

@@ -5,6 +5,7 @@ import me.txmc.core.Localization;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
 import me.txmc.core.customexperience.util.PrefixManager;
+import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.tablist.listeners.PlayerJoinListener;
 import me.txmc.core.tablist.util.Utils;
 import me.txmc.core.tablist.worker.TabWorker;
@@ -54,6 +55,15 @@ public class TabSection implements Section {
     }
 
     public void setTab(Player player) {
+        GeneralDatabase database = GeneralDatabase.getInstance();
+        boolean useVanilla = database.isVanillaLeaderboard(player.getName());
+
+        if (useVanilla) {
+            player.sendPlayerListHeader(Component.empty());
+            player.sendPlayerListFooter(Component.empty());
+            player.setPlayerListName(null);
+            return;
+        }
 
         String tag = prefixManager.getPrefix(player);
 

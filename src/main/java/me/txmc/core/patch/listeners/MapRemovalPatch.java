@@ -83,6 +83,7 @@ public class MapRemovalPatch implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChunkLoad(ChunkLoadEvent event) {
+        if (event.isNewChunk()) return;
         Chunk chunk = event.getChunk();
 
         for (Entity entity : chunk.getEntities()) {

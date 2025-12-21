@@ -38,7 +38,7 @@ public class NameColorCommand extends BaseTabCommand {
         colorOptions = getColorOptions();
         styleOptions = getStyleOptions();
         miniMessage = MiniMessage.miniMessage();
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     @Override

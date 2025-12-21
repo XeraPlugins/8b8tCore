@@ -47,7 +47,7 @@ public class ChatListener implements Listener {
     public ChatListener(ChatSection manager, HashSet<String> tlds) {
         this.manager = manager;
         this.tlds = tlds;
-        this.database = new GeneralDatabase(manager.getPlugin().getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     @EventHandler
