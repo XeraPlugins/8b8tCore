@@ -22,14 +22,11 @@ import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 /**
- * Allows players to rename the item in their hand with color and style codes.
- *
- * <p>This class is part of the 8b8tCore plugin, which adds custom functionalities
- * to Minecraft Servers.</p>
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/09/11 08:10 PM
- */
+ * @author MindComplexity (aka Libalpm)
+ * @since 2025/12/21
+ * This file was created as a part of 8b8tCore
+*/
+
 public class ItemColorCommand extends BaseTabCommand {
     private final List<String> colorOptions;
     private final List<String> styleOptions;
@@ -61,34 +58,42 @@ public class ItemColorCommand extends BaseTabCommand {
             }
 
             String itemName = getCleanItemName(itemInHand);
-            String input = String.join(" ", args);
-            Component itemNameComponent;
+            List<String> colors = new ArrayList<>();
+            List<String> decorations = new ArrayList<>();
 
-            if (args.length > 1 || input.contains("#") || input.contains("<")) {
-                StringBuilder mmBuilder = new StringBuilder();
-                if (args.length > 1 && !args[0].contains("<")) {
-                    mmBuilder.append("<gradient:");
-                    mmBuilder.append(String.join(":", args));
-                    mmBuilder.append(">").append(itemName).append("</gradient>");
-                } else if (input.contains("<")) {
-                    mmBuilder.append(input.replace("%name%", itemName));
-                } else {
-                    mmBuilder.append("<").append(args[0]).append(">").append(itemName).append("</").append(args[0]).append(">");
+            for (String arg : args) {
+                if (arg.startsWith("#") || arg.contains(":")) {
+                    colors.add(arg);
+                } else if (styleOptions.contains(arg.toLowerCase())) {
+                    decorations.add(arg.toLowerCase());
+                } else if (arg.startsWith("<") && arg.endsWith(">")) {
+                   String mmString = arg + itemName + arg.replace("<", "</");
+                   meta.displayName(MiniMessage.miniMessage().deserialize(mmString).decoration(TextDecoration.ITALIC, false));
+                   itemInHand.setItemMeta(meta);
+                   sendPrefixedLocalizedMessage(player, "ic_success", MiniMessage.miniMessage().serialize(meta.displayName()));
+                   return;
                 }
-                itemNameComponent = MiniMessage.miniMessage().deserialize(mmBuilder.toString()).decoration(TextDecoration.ITALIC, false);
-            } else {
-                NamedTextColor color = getColor(args[0]);
-                if (color == null) {
-                    sendPrefixedLocalizedMessage(player, "ic_invalid_color");
-                    return;
-                }
-                itemNameComponent = Component.text(itemName).color(color).decoration(TextDecoration.ITALIC, false);
             }
 
-            meta.displayName(itemNameComponent);
+            StringBuilder mmBuilder = new StringBuilder();
+            for (String dec : decorations) mmBuilder.append("<").append(dec).append(">");
+            
+            if (colors.size() > 1) {
+                mmBuilder.append("<gradient:").append(String.join(":", colors)).append(">");
+                mmBuilder.append(itemName).append("</gradient>");
+            } else if (colors.size() == 1) {
+                mmBuilder.append("<").append(colors.get(0)).append(">").append(itemName).append("</").append(colors.get(0)).append(">");
+            } else {
+                mmBuilder.append(itemName);
+            }
+
+            for (int i = 0; i < decorations.size(); i++) mmBuilder.append("</").append(decorations.get(i)).append(">");
+
+            Component finalName = MiniMessage.miniMessage().deserialize(mmBuilder.toString()).decoration(TextDecoration.ITALIC, false);
+            meta.displayName(finalName);
             itemInHand.setItemMeta(meta);
 
-            sendPrefixedLocalizedMessage(player, "ic_success", MiniMessage.miniMessage().serialize(meta.displayName()));
+            sendPrefixedLocalizedMessage(player, "ic_success", MiniMessage.miniMessage().serialize(finalName));
         }, () -> sendMessage(sender, "&c%s", PLAYER_ONLY));
     }
 
@@ -138,7 +143,7 @@ public class ItemColorCommand extends BaseTabCommand {
     }
 
     @Override
-    public List<String> onTab(String[] args) {
+    public List<String> onTab(org.bukkit.command.CommandSender sender, String[] args) {
         if (args.length == 1) {
             return colorOptions.stream()
                     .filter(option -> option.startsWith(args[0].toLowerCase()))

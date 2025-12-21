@@ -98,7 +98,7 @@ public class CommandHandler implements TabExecutor {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String alias, String[] args) {
         for (BaseCommand command : commands) {
             if (!command.getName().equalsIgnoreCase(cmd.getName())) continue;
-            if (command instanceof BaseTabCommand tabCommand) return tabCommand.onTab(args);
+            if (command instanceof BaseTabCommand tabCommand) return tabCommand.onTab(sender, args);
             if (command.getSubCommands() != null && args.length == 1) {
                 return Arrays.stream(command.getSubCommands()).map(s -> s.split("::")[0]).filter(s -> s.startsWith(args[0].toLowerCase())).collect(Collectors.toList());
             } else if (args.length > 1) {

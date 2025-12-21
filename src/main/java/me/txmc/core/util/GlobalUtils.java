@@ -35,8 +35,8 @@ import java.util.logging.Level;
 import java.util.Random;
 
 /**
- * @author 254n_m
- * @since 2023/12/17 9:55 PM
+ * @author 254n_m + MindComplexity (aka Libalpm)
+ * @since 2025/12/21
  * This file was created as a part of 8b8tCore
  */
 public class GlobalUtils {
@@ -44,7 +44,6 @@ public class GlobalUtils {
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
     private static GeneralDatabase database;
     
-    // Reflection Cache for Folia TPS/MSPT
     private static java.lang.reflect.Method getCurrentRegionMethod;
     private static java.lang.reflect.Method getDataMethod;
     private static java.lang.reflect.Method getRegionSchedulingHandleMethod;
@@ -398,15 +397,32 @@ public class GlobalUtils {
         String nick = database.getNickname(player.getName());
         if (nick == null || nick.isEmpty()) nick = player.getName();
 
-        nick = nick.replaceAll("(?i)<gradient:[^>]+>", "").replaceAll("(?i)</gradient>", "");
-
-        String gradient = database.getCustomGradient(player.getName());
-        if (gradient != null && !gradient.isEmpty()) {
-            String animationType = database.getGradientAnimation(player.getName());
+        String customGradient = database.getCustomGradient(player.getName());
+        if (customGradient != null && !customGradient.isEmpty()) {
+            String anim = database.getGradientAnimation(player.getName());
             int speed = database.getGradientSpeed(player.getName());
-            long tick = GradientAnimator.getAnimationTick();
-            String animatedGradient = GradientAnimator.applyAnimation(gradient, animationType, speed, tick);
-            nick = String.format("<gradient:%s>%s</gradient>", animatedGradient, nick);
+            String finalGradient = GradientAnimator.applyAnimation(customGradient, anim, speed, GradientAnimator.getAnimationTick());
+            
+            String decorationsStr = database.getPlayerData(player.getName(), "nameDecorations");
+            StringBuilder decoratedNick = new StringBuilder();
+            
+            if (decorationsStr != null && !decorationsStr.isEmpty()) {
+                String[] decorations = decorationsStr.split(",");
+                for (String decoration : decorations) {
+                    decoratedNick.append("<").append(decoration.trim()).append(">");
+                }
+            }
+            
+            decoratedNick.append("<gradient:").append(finalGradient).append(">").append(nick).append("</gradient>");
+            
+            if (decorationsStr != null && !decorationsStr.isEmpty()) {
+                String[] decorations = decorationsStr.split(",");
+                for (int i = decorations.length - 1; i >= 0; i--) {
+                    decoratedNick.append("</").append(decorations[i].trim()).append(">");
+                }
+            }
+            
+            nick = decoratedNick.toString();
         }
 
         Component displayName = miniMessage.deserialize(convertToMiniMessageFormat(nick));

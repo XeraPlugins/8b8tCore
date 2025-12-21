@@ -10,11 +10,10 @@ import org.bukkit.entity.Player;
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 
 /**
- * Kill command that allows players to kill themselves or others (with permission)
- * Code ported from Kill Plugin
- * @author Libalpm (MindComplexity)
- * @since 10/2/2025
- */
+ * @author MindComplexity (aka Libalpm)
+ * @since 2025/12/21
+ * This file was created as a part of 8b8tCore
+*/
 public class KillCommand extends BaseCommand {
     
     private final Main plugin;
@@ -23,7 +22,7 @@ public class KillCommand extends BaseCommand {
         super(
                 "kill",
                 "/kill [player]",
-                new String[]{"minecraft.command.kill", "8b8tcore.command.kill.others"},
+                new String[]{"8b8tcore.command.kill", "8b8tcore.command.kill.others"},
                 "Kill yourself or another player",
                 new String[]{"<player>::Kill another player"}
         );
@@ -37,12 +36,6 @@ public class KillCommand extends BaseCommand {
                 sendMessage(sender, "&cYou must specify a player name when using this command from console!");
                 return;
             }
-            
-            if (!hasPermission(sender, "minecraft.command.kill")) {
-                sendNoPermission(sender);
-                return;
-            }
-            
             killPlayer(player, player);
             return;
         }

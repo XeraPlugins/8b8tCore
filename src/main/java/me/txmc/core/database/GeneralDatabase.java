@@ -74,6 +74,7 @@ public class GeneralDatabase {
             addColumnIfNotExists(conn, stmt, "useVanillaLeaderboard", "BOOLEAN DEFAULT FALSE");
             addColumnIfNotExists(conn, stmt, "gradient_animation", "TEXT DEFAULT 'none'");
             addColumnIfNotExists(conn, stmt, "gradient_speed", "INTEGER DEFAULT 5");
+            addColumnIfNotExists(conn, stmt, "nameDecorations", "TEXT");
             addColumnIfNotExists(conn, stmt, "preventPhantomSpawn", "BOOLEAN DEFAULT TRUE");
 
         } catch (SQLException e) {
@@ -96,8 +97,8 @@ public class GeneralDatabase {
         }
     }
 
-    private void executeUpdate(String sql, Object... params) {
-        databaseExecutor.execute(() -> {
+    private CompletableFuture<Void> executeUpdate(String sql, Object... params) {
+        return CompletableFuture.runAsync(() -> {
             try (Connection conn = getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 for (int i = 0; i < params.length; i++) {
@@ -107,7 +108,7 @@ public class GeneralDatabase {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        });
+        }, databaseExecutor);
     }
 
     private <T> T executeQuery(String sql, ResultSetMapper<T> mapper, T defaultValue, Object... params) {
@@ -129,7 +130,7 @@ public class GeneralDatabase {
 
         Future<T> future = databaseExecutor.submit(task);
         try {
-            return future.get(5, TimeUnit.SECONDS); // Add timeout
+            return future.get(5, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             e.printStackTrace();
             return defaultValue;
@@ -141,22 +142,31 @@ public class GeneralDatabase {
         T map(ResultSet rs) throws SQLException;
     }
 
-    private void upsertPlayer(String username, String column, Object value) {
+    public CompletableFuture<Void> upsertPlayer(String username, String column, Object value) {
         String sql = "INSERT INTO playerdata (username, displayname, " + column + ") VALUES (?, ?, ?) " +
                      "ON CONFLICT(username) DO UPDATE SET " + column + " = excluded." + column + ";";
-        executeUpdate(sql, username, username, value);
+        return executeUpdate(sql, username, username, value);
     }
 
-    public void insertNickname(String username, String displayname) {
+    public CompletableFuture<Void> insertNickname(String username, String displayname) {
         String sql = "INSERT INTO playerdata (username, displayname) VALUES (?, ?) " +
                      "ON CONFLICT(username) DO UPDATE SET displayname = excluded.displayname;";
-        executeUpdate(sql, username, displayname);
+        return executeUpdate(sql, username, displayname);
     }
 
     public String getNickname(String username) {
         return executeQuery(
                 "SELECT displayname FROM playerdata WHERE username = ?",
                 rs -> rs.getString("displayname"),
+                null,
+                username
+        );
+    }
+
+    public String getPlayerData(String username, String column) {
+        return executeQuery(
+                "SELECT " + column + " FROM playerdata WHERE username = ?",
+                rs -> rs.getString(column),
                 null,
                 username
         );
@@ -266,8 +276,8 @@ public class GeneralDatabase {
         executeUpdate(sql, username);
     }
 
-    public void updateSelectedRank(String username, String rank) {
-        upsertPlayer(username, "selectedRank", rank);
+    public CompletableFuture<Void> updateSelectedRank(String username, String rank) {
+        return upsertPlayer(username, "selectedRank", rank);
     }
 
     public String getSelectedRank(String username) {
@@ -279,12 +289,12 @@ public class GeneralDatabase {
         );
     }
 
-    public void updateCustomGradient(String username, String gradient) {
-        upsertPlayer(username, "customGradient", gradient);
+    public CompletableFuture<Void> updateCustomGradient(String username, String gradient) {
+        return upsertPlayer(username, "customGradient", gradient);
     }
-
-    public void updateGradient(String username, String gradient) {
-        updateCustomGradient(username, gradient);
+ 
+    public CompletableFuture<Void> updateGradient(String username, String gradient) {
+        return updateCustomGradient(username, gradient);
     }
 
     public String getCustomGradient(String username) {
@@ -326,8 +336,8 @@ public class GeneralDatabase {
         );
     }
 
-    public void updateGradientAnimation(String username, String animation) {
-        upsertPlayer(username, "gradient_animation", animation);
+    public CompletableFuture<Void> updateGradientAnimation(String username, String animation) {
+        return upsertPlayer(username, "gradient_animation", animation);
     }
 
     public String getGradientAnimation(String username) {
@@ -339,8 +349,8 @@ public class GeneralDatabase {
         );
     }
 
-    public void updateGradientSpeed(String username, int speed) {
-        upsertPlayer(username, "gradient_speed", speed);
+    public CompletableFuture<Void> updateGradientSpeed(String username, int speed) {
+        return upsertPlayer(username, "gradient_speed", speed);
     }
 
     public int getGradientSpeed(String username) {

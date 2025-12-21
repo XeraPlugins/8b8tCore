@@ -6,6 +6,7 @@ import me.txmc.core.database.GeneralDatabase;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
@@ -13,7 +14,7 @@ public class CustomGradientCommand extends BaseCommand {
     private final GeneralDatabase database;
 
     public CustomGradientCommand(Main plugin) {
-        super("customgradient", "/customgradient <#hex:#hex...>", "8b8tcore.prefix.custom");
+        super("customgradient", "/customgradient <#hex:#hex...>", "8b8tcore.prefix.custom", "Custom Prefix/Title Gradient command");
         this.database = GeneralDatabase.getInstance();
     }
 
@@ -53,20 +54,21 @@ public class CustomGradientCommand extends BaseCommand {
         }
 
         database.updateCustomGradient(player.getName(), colors);
-        database.updateGradientAnimation(player.getName(), animation);
-        database.updateGradientSpeed(player.getName(), speed);
+        CompletableFuture<Void> update1 = database.updateCustomGradient(player.getName(), colors);
+        CompletableFuture<Void> update2 = database.updateGradientAnimation(player.getName(), animation);
+        CompletableFuture<Void> update3 = database.updateGradientSpeed(player.getName(), speed);
         
-        refreshPlayer(player);
+        CompletableFuture.allOf(update1, update2, update3).thenRun(() -> refreshPlayer(player));
         
         sendPrefixedLocalizedMessage(player, "gradient_success");
     }
 
     private void refreshPlayer(Player player) {
         Main plugin = (Main) Main.getInstance();
-        player.getScheduler().run(plugin, (task) -> {
+        player.getScheduler().run(plugin, (task) -> { 
            me.txmc.core.Section section = plugin.getSectionByName("TabList");
            if (section instanceof me.txmc.core.tablist.TabSection tabSection) {
-               tabSection.setTab(player);
+               tabSection.setTab(player, true);
            }
         }, null);
     }

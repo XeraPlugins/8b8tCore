@@ -106,7 +106,7 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
     }
     
     @Override
-    public List<String> onTab(String[] args) {
+    public List<String> onTab(org.bukkit.command.CommandSender sender, String[] args) {
         if (args.length == 1) {
             List<String> suggestions = new ArrayList<>();
             suggestions.addAll(Bukkit.getOnlinePlayers().stream()

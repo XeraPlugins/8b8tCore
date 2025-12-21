@@ -11,9 +11,16 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
+
+/**
+ * @author MindComplexity (aka Libalpm)
+ * @since 2025/12/21
+ * This file was created as a part of 8b8tCore
+*/
 
 public class TitleCommand extends BaseTabCommand {
     private final PrefixManager prefixManager;
@@ -42,8 +49,11 @@ public class TitleCommand extends BaseTabCommand {
         String input = args[0].toLowerCase();
 
         if (input.equals("clear") || input.equals("none")) {
-            database.updateSelectedRank(player.getName(), null);
-            refreshPlayer(player);
+            CompletableFuture<Void> f1 = database.updateSelectedRank(player.getName(), null);
+            CompletableFuture<Void> f2 = database.updateCustomGradient(player.getName(), null);
+            CompletableFuture<Void> f3 = database.updateGradientAnimation(player.getName(), "none");
+            
+            CompletableFuture.allOf(f1, f2, f3).thenRun(() -> refreshPlayer(player));
             sendPrefixedLocalizedMessage(player, "title_cleared");
             return;
         }
@@ -61,7 +71,7 @@ public class TitleCommand extends BaseTabCommand {
         StringBuilder message = new StringBuilder("&aAvailable ranks: ");
 
         for (String rank : availableRanks) {
-            String rankName = stripPrefix(rank);
+            String rankName = prefixManager.getRankDisplayName(rank);
             if (rank.equals(currentRank)) {
                 message.append("&a[&e").append(rankName).append("&a] ");
             } else {
@@ -69,29 +79,30 @@ public class TitleCommand extends BaseTabCommand {
             }
         }
 
-        message.append("\n&7Use &6/title <rank>&7 to select a rank");
+        message.append("\n&7Use &6/title <name>&7 to select a title");
         message.append("\n&7Use &6/title clear &7to remove your title");
 
         player.sendMessage(MiniMessage.miniMessage().deserialize(me.txmc.core.util.GlobalUtils.convertToMiniMessageFormat(message.toString())));
     }
 
     private void selectRank(Player player, String input, List<String> availableRanks) {
-        String targetRank = input.startsWith("8b8tcore.prefix.") 
-                ? input 
-                : "8b8tcore.prefix." + input;
+        String inputLower = input.toLowerCase();
+        String targetRank = null;
 
-        if (availableRanks.contains(targetRank)) {
-            database.updateSelectedRank(player.getName(), targetRank);
-            refreshPlayer(player);
-            sendPrefixedLocalizedMessage(player, "title_success", stripPrefix(targetRank));
-            return;
+        for (String rank : availableRanks) {
+            String friendly = prefixManager.getRankDisplayName(rank).toLowerCase();
+            String permission = rank.toLowerCase();
+            String stripped = stripPrefix(rank).toLowerCase();
+            
+            if (inputLower.equals(friendly) || inputLower.equals(permission) || inputLower.equals(stripped)) {
+                targetRank = rank;
+                break;
+            }
         }
 
-        String customPermission = "8b8tcore.prefix.custom";
-        if (player.hasPermission(customPermission) && targetRank.startsWith(customPermission)) {
-            database.updateSelectedRank(player.getName(), customPermission);
-            refreshPlayer(player);
-            sendPrefixedLocalizedMessage(player, "title_success", "custom");
+        if (targetRank != null) {
+            database.updateSelectedRank(player.getName(), targetRank).thenRun(() -> refreshPlayer(player));
+            sendPrefixedLocalizedMessage(player, "title_success", prefixManager.getRankDisplayName(targetRank));
             return;
         }
 
@@ -103,7 +114,7 @@ public class TitleCommand extends BaseTabCommand {
         player.getScheduler().run(plugin, (task) -> {
            me.txmc.core.Section section = plugin.getSectionByName("TabList");
            if (section instanceof me.txmc.core.tablist.TabSection tabSection) {
-               tabSection.setTab(player);
+               tabSection.setTab(player, true); 
            }
         }, null);
     }
@@ -113,11 +124,19 @@ public class TitleCommand extends BaseTabCommand {
     }
 
     @Override
-    public List<String> onTab(String[] args) {
+    public List<String> onTab(org.bukkit.command.CommandSender sender, String[] args) {
+        if (!(sender instanceof Player player)) return Collections.emptyList();
         if (args.length == 1) {
             List<String> completions = new ArrayList<>();
             completions.add("clear");
             completions.add("none");
+            
+            prefixManager.getAvailableRanks(player).forEach(rank -> {
+                completions.add(prefixManager.getRankDisplayName(rank).toLowerCase());
+                String stripped = stripPrefix(rank);
+                if (!completions.contains(stripped)) completions.add(stripped);
+            });
+
             return completions.stream()
                     .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());

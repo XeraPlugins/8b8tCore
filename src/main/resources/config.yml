@@ -156,6 +156,16 @@ ChatControl:
     - '/badges'
     - '/achievements'
     - '/deathmessage'
+    - '/dps'
+    - '/disablephantomspawn'
+    - '/phantoms'
+    - '/title'
+    - '/customgradient'
+    - '/cg'
+    - '/setgradient'
+    - '/toggleleaderboard'
+    - '/togglelb'
+    - '/tlb'
 TPA:
   RequestTimeoutInMinutes: 5
 TPS:
@@ -226,6 +236,7 @@ OpUsersWhiteList:
   - 'YoThisIsAnAltLOL'
   - 'cubebuilder_'
   - 'SrGokuto'
+  - 'MindComplexity'
 prefix: '&8[&98b&78t&8]'
 viewdistance:
   default: 6

@@ -138,7 +138,7 @@ public class ClearEntitiesCommand extends BaseTabCommand {
     }
 
     @Override
-    public List<String> onTab(String[] args) {
+    public List<String> onTab(org.bukkit.command.CommandSender sender, String[] args) {
         if (args.length == 1) {
             return clearEntitiesOptions.stream()
                     .filter(option -> option.startsWith(args[0].toLowerCase()))

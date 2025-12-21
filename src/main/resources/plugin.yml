@@ -56,7 +56,7 @@ commands:
   ic:
     aliases: [itemcolor, setcolor]
   nc:
-    aliases: [namecolor]
+    aliases: [namecolor, nickcolor]
   rename:
   sign:
     aliases: []
@@ -86,7 +86,7 @@ commands:
   lastseen:
   title:
   customgradient:
-    aliases: [cg, setgradient, nickcolor]
+    aliases: [cg, setgradient]
   toggleleaderboard:
     aliases: [togglelb, tlb]
   dps:
@@ -160,6 +160,18 @@ permissions:
   8b8tcore.prefix.owner:
     description: Nametag Prefix for Owner
     default: false
+  8b8tcore.prefix.youtuber:
+    description: Nametag Prefix for Youtubers
+    default: false
+  8b8tcore.prefix.thetroll2001:
+    description: Nametag Prefix for Troll
+    default: false
+  8b8tcore.prefix.qtdonkey:
+    description: Nametag Prefix for Television
+    default: false
+  8b8tcore.prefix.lucky2007:
+    description: Nametag Prefix for Addict
+    default: false
   8b8tcore.command.toggleprefix:
     description: Permission to toggle prefix visibility
     default: true
@@ -193,12 +205,24 @@ permissions:
   8b8tcore.command.lastseen.location:
     description: Permission to see player's last location
     default: false
+  8b8tcore.command.kill:
+    description: Permission to kill yourself
+    default: true
+  8b8tcore.command.suicide:
+    description: Permission to commit suicide
+    default: true
+  8b8tcore.command.dps:
+    description: Permission to use the dps command
+    default: true
   8b8tcore.command.title:
     description: Permission to switch between earned titles
     default: true
   8b8tcore.command.toggleleaderboard:
     description: Permission to toggle between custom and vanilla tablist
     default: true
+  8b8tcore.command.nc:
+    description: Permission to use the nickname color command (voters/donators)
+    default: false
   8b8tcore.prefix.custom:
     description: Permission for custom rank with customizable gradient
     default: false
