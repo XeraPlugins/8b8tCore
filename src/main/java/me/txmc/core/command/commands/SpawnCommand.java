@@ -45,7 +45,7 @@ public class SpawnCommand extends BaseTabCommand {
     }
 
     @Override
-    public List<String> onTab(String[] args) {
+    public List<String> onTab(org.bukkit.command.CommandSender sender, String[] args) {
         if (args.length == 0) return entityTypes;
         return entityTypes.stream().filter(s -> s.startsWith(args[0].toLowerCase())).collect(Collectors.toList());
     }

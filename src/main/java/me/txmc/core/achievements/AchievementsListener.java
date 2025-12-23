@@ -13,7 +13,7 @@ public class AchievementsListener implements Listener {
     private final GeneralDatabase database;
 
     public AchievementsListener(Main plugin) {
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     @EventHandler

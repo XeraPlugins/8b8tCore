@@ -1,542 +1,561 @@
-# 基本信息
-ignore_successful: "&3成功屏蔽玩家&r&a %s&r"
-already_ignoring: "&c你已经在屏蔽这个玩家了"
-ignore_command_syntax: "&c请包括一个玩家 /ignore <玩家名>"
-unignore_successful: "&3成功解除屏蔽玩家&r&a %s&r"
-unignore_not_ignoring: "&c你没有屏蔽 %s"
-unignore_command_syntax: "&c请包括一个玩家 /unignore <玩家名>"
-ignorelist_successful: "&3被忽略的玩家: &8"
-ignorelist_not_ignoring: "&8您没有忽略任何人"
-ignorelist_failed: "&8无法检索忽略列表信息。"
-whisper_from: "&d%s 悄悄地说: %s"
-whisper_to: "&d给 %s 的悄悄话: %s"
-whisper_ignoring: "&c%s 正在屏蔽你"
-whisper_you_are_ignoring: "&c你无法给已屏蔽的玩家发消息"
+#Basic messages
+ignore_successful: "&3已成功屏蔽玩家&r&a %s&r"
+already_ignoring: "&c你已经屏蔽了该玩家"
+ignore_command_syntax: "&c请包含玩家名 /ignore <玩家名>"
+unignore_successful: "&3已成功取消屏蔽玩家&r&a %s&r"
+unignore_not_ignoring: "&c你并没有屏蔽 %s"
+unignore_command_syntax: "&c请包含玩家名 /unignore <玩家名>"
+ignorelist_successful: "&3已屏蔽玩家: &c%s"
+ignorelist_not_ignoring: "&c你没有屏蔽任何人"
+ignorelist_failed: "&c无法检索屏蔽列表信息。"
+whisper_from: "&d%s 对你私聊: %s"
+whisper_to: "&d对 %s 私聊: %s"
+whisper_ignoring: "&c%s 屏蔽了你"
+whisper_you_are_ignoring: "&c你无法给已屏蔽的玩家发送消息"
 msg_could_not_find_player: "&c找不到玩家 %s"
-msg_command_syntax: "&c请包括一个目标和消息 /msg <目标> <消息>"
-reply_player_offline: "&c玩家 %s 不在线"
-reply_no_target: "&c你还没有给任何人发送消息"
-reply_command_syntax: "&c请包括一条消息 /r <消息>"
-togglechat_chat_enabled: "&a已启用聊天"
-togglechat_chat_disabled: "&c已禁用聊天"
-cmdwhitelist_cmd_not_allowed: "&c该命令&r&a %s&r&c 不允许"
-chat_cooldown: "&3请在消息之间等待至少&r&a %d&r&3 秒"
+msg_command_syntax: "&c请包含目标和消息内容 /msg <目标> <消息>"
+reply_player_offline: "&c玩家 %s 已离线"
+reply_no_target: "&c你还没有给任何人发过消息"
+reply_command_syntax: "&c请包含消息内容 /r <消息>"
+togglechat_chat_enabled: "&a已开启聊天"
+togglechat_chat_disabled: "&c已关闭聊天"
+cmdwhitelist_cmd_not_allowed: "&c命令&r&a %s&r&c 不被允许"
+chat_cooldown: "&3请至少等待&r&a %d&r&3 秒后再发送聊天消息"
 delhome_no_homes: "&3你没有任何家"
-delhome_specify_home: "&3请包括要删除的家的名称。当前的家: (&r&a%s&r&3)&r"
-delhome_home_not_found: "&3未找到家&r&a %s&r&3"
-delhome_success: "&3已删除家&r&a %s&r&3"
+delhome_specify_home: "&3请包含要删除的家的名称。当前的家: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3找不到家&r&a %s&r&3"
+delhome_success: "&3家&r&a %s&r&3 已被删除"
 delhome_fail: "&3无法删除&r&a %s&r"
-home_no_homes: "&3没有找到家"
-home_specify_home: "&3请输入您的家名称。当前的家 (&r&a%s&r&3): &r&a%s&r&3"
-home_too_close: "&3你必须距离出生点&r&a %d&r&3 方块以使用 /home"
-home_success: "&3传送到家&r&a %s&r&3..."
-home_not_found: "&3未找到家&r&a %s&r&3"
-sethome_include_name: "&3请为你的新家命名"
-sethome_home_already_exists: "&c名为&r&a %s&r&c 的家已经存在."
-sethome_max_reached: "&3已达到最大家数!"
-sethome_success: "&3家&r&a %s &r&3设置"
-back_teleported: "&3正在传送到你的最后位置..."
-back_no_last_location: "&c你没有注册过的历史位置。"
-kick_restarting: "&3服务器正在重新启动"
-elytra_tile_entities_too_fast: "&c该区块中有太多实体。您的速度不能超过每秒 %s 方块。"
-elytra_too_fast: "&c允许的最大速度是每秒 %s 方块。"
-elytras_disabled: "&3由于服务器延迟，鞘翅目前被禁用。它们应该很快恢复"
-bookban_inventory_clear: "&c为防止被书籍封禁，你的物品栏已清空"
-bookban_removed_item: "&c已移除所有&r&3 %s(们) &r&c以防止被书籍封禁"
-kick_lever_ratelimit: "&c你的交互速度太快了"
-kick_pps_limit: "&c你发送数据包的速度太快了!"
+home_no_homes: "&3未找到家"
+home_specify_home: "&3请输入家的名称。当前的家 (&r&a%s&r&3): &r&a%s&r&3"
+home_too_close: "&3你必须距离主城&r&a %d&r&3 格以外才能使用 /home"
+home_success: "&3正在传送到家&r&a %s&r&3..."
+home_not_found: "&3找不到家&r&a %s&r&3"
+home_world_not_loaded: "&3世界&r&a %s&r&3 未加载。无法传送到家。"
+sethome_include_name: "&3请为你的新家起个名字"
+sethome_home_already_exists: "&c名为&r&a %s&r&c 的家已存在。"
+sethome_max_reached: "&3已达到家的数量上限！"
+sethome_success: "&3家&r&a %s &r&3已设置"
+back_teleported: "&3正在传送到你上一个位置..."
+back_no_last_location: "&c你没有已记录的上一个位置。"
+kick_restarting: "&3服务器正在重启"
+elytra_tile_entities_too_fast: "&c当前区块实体过多。你的速度不能超过每秒 %s 格。"
+elytra_too_fast: "&c允许的最大速度为每秒 %s 格。"
+elytras_disabled: "&3由于服务器卡顿，鞘翅目前已被禁用。它们很快就会恢复"
+bookban_inventory_clear: "&c你的物品栏已被清空，以防止你被书籍封号 (Book Ban)"
+bookban_removed_item: "&c已从你的物品栏中移除所有&r&3 %s&r&c，以防止你被书籍封号"
+kick_lever_ratelimit: "&c你的操作频率太快了"
+kick_pps_limit: "&c你发送数据包的速度太快了！"
 kick_failed_to_inject: "&c注入失败"
-join_message: "&a▲&8 玩家 &7%s&r&8 加入了。"
-first_join_message: "&a▲&8 玩家 &7%s&r&8 第一次加入了。"
-leave_message: "&c▼&8 玩家 &7%s&r&8 离开了。"
-kick_message: "&7%s 被踢出，原因: \"%s\""
-could_not_translate_message: "由于 %s，无法翻译消息"
-message_auto_translated: "此消息已被自动翻译。\n\n原文: %s"
+join_message: "&a▲&8 玩家 &7%s&r&8 加入了服务器。"
+first_join_message: "&a▲&8 玩家 &7%s&r&8 第一次加入了服务器。"
+leave_message: "&c▼&8 玩家 &7%s&r&8 离开了服务器。"
+kick_message: "&7%s 被踢出，原因：\"%s\""
+could_not_translate_message: "由于 %s 导致翻译消息失败"
+message_auto_translated: "此消息已自动翻译。\n\n原文内容: %s"
 welcome_message: "&3欢迎来到 8b8t"
-vote_announcement: "&c%s &8投票支持 %prefix% &8并获得了免费/nc、2个额外渲染距离、5个额外住宅、和驴子复制访问权限，有效期 %days% 天"
-vote_thanks: "&8感谢您投票支持%prefix%！&8您已获得免费/nc、2个额外渲染距离、5个额外住宅、和驴子复制访问权限，有效期 %days% 天"
-vote_info: "&8您可以在 &chttps://votefor.8b8t.me &8为%prefix% 投票"
-tpa_syntax: "&c请包括一个玩家以进行tpa。/tpa <玩家>"
+vote_announcement: "&c%s &8为 %prefix% &8投票，并获得了免费的 /nc、2格额外渲染距离、5个额外家位以及 %days% 天的驴子Dupe权限"
+vote_thanks: "&8感谢为 %prefix% 投票！你已获得免费的 /nc、2格额外渲染距离、5个额外家位以及 %days% 天的驴子Dupe权限"
+vote_info: "&8你可以在 &chttps://votefor.8b8t.me &8为 %prefix% 投票"
+tpa_syntax: "&c请包含要TPA的玩家。 /tpa <玩家>"
 tpa_player_not_online: "&c玩家 %s 不在线"
-tpa_no_request_found: "&c未找到TPA请求"
-tpa_self_tpa: "&c你不能对自己发起TPA"
-tpa_request_received: "&a%s&r&3想要传送到你这里&r &a/tpayes &3用户名 &c/tpano &3用户名"
-tpa_request_sent: "&3传送请求已发送到&r&a %s"
-tpa_requests_disabled: "&3請求已禁用。所有傳入請求均已清除。"
-tpa_requests_enabled: "&3已啟用請求。"
-tpa_already_sent: "&c您已有一个待处理的请求"
-tpa_requests_blocked: "&3來自 &a%s&r&3 的請求已被阻止/清除。"
-tpa_requests_unblocked: "&3來自 &a%s&r&3 的請求已被解除阻止。"
-tpa_block_syntax: "&c請新增要阻止/解除封鎖的玩家"
-tpahere_syntax: "&c请包括一个要传送到你身边的玩家 /tpahere <player>"
-tpatoggle_syntax: "&c請不要提供任何論點。"
-tpahere_request_received: "&a%s&r&3 想要把你传送到他那里&r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
-tpa_too_close: "&3你必须距离出生点&r&a %d&r&3 方块以使用 /tpa"
-tpa_requested_too_close: "&c玩家 %s 无法靠近这个距离的出生点"
-tpa_teleporting: "&3传送中&r&..."
-tpa_request_timeout_from: "&c你发送给 &a%s&r&c 的TPA请求已过期。"
-tpa_request_timeout_to: "&c你收到的来自 &a%s&r&c 的TPA请求已过期。"
-tpa_request_cancelled_from: "&3你发送给 &a%s&r&3 的TPA请求已成功取消。"
-tpa_request_cancelled_to: "&c你收到的来自 &a%s&r&c 的TPA请求已取消。"
-tpa_request_denied_from: "&a%s&r&c拒绝了你的请求"
+tpa_no_request_found: "&c未找到 TPA 请求"
+tpa_self_tpa: "&c你不能传送到你自己"
+tpa_request_received: "&a%s&r&3 想要传送到你这里&r &a/tpayes &3玩家名 &c/tpano &3玩家名"
+tpa_request_sent: "&3请求已发送至&r&a %s"
+tpa_requests_disabled: "&3请求已禁用。所有传入请求已清除。"
+tpa_requests_enabled: "&3请求已启用。"
+tpa_requests_blocked: "&3来自 &a%s&r&3 的请求已被屏蔽/清除。"
+tpa_requests_unblocked: "&3来自 &a%s&r&3 的请求已取消屏蔽。"
+tpa_block_syntax: "&c请包含要屏蔽/取消屏蔽的玩家"
+tpa_already_sent: "&c你已经有一个待处理的请求"
+tpahere_syntax: "&c请包含要传送到你这里的玩家 /tpahere <玩家>"
+tpatoggle_syntax: "&c请不要提供任何参数。"
+tpahere_request_received: "&a%s&r&3 想让你传送到他那里&r &a/tpayes &3玩家名 &c/tpano &3玩家名"
+tpa_too_close: "&3你必须距离主城&r&a %d&r&3 格以外才能使用 /tpa"
+tpa_requested_too_close: "&c玩家 %s 离主城太近，无法传送"
+tpa_teleporting: "&3正在传送&r&a..."
+tpa_request_timeout_from: "&c你发送给 &a%s&r&c 的 TPA 请求已过期。"
+tpa_request_timeout_to: "&c你收到的来自 &a%s&r&c 的 TPA 请求已过期。"
+tpa_request_cancelled_from: "&3你发送给 &a%s&r&3 的 TPA 请求已成功取消。"
+tpa_request_cancelled_to: "&c你收到的来自 &a%s&r&c 的 TPA 请求已取消。"
+tpa_request_denied_from: "&a%s&r&c 拒绝了你的请求"
 tpa_request_denied_to: "&3请求已成功拒绝"
-tpa_request_blocked: "&c該玩家已停用 TPA 請求。"
+tpa_request_blocked: "&c该玩家已禁用 TPA 请求。"
 tpa_pending_request: "&a%s&r &c有一个待处理的请求"
-tpa_to_left: "&cTPA已取消，因为&r&a %s&r&c离开了"
-op_not_allowed: "&c您无权成为操作员"
-framedupe_cooldown: "&c你复制得太快了"
-framedupe_items_limit: "&c这个区块中物品太多，因此不再进行复制"
-dupe_permission: "&c你因为试图轻松复制而被嘲笑了。"
-dupe_failed: "&c你必须手持一个物品才能复制它。"
-dupe_success: "&3物品已成功复制。"
-nbtPatch_deleted_item: "&c&6%s&r&c由于数据过多，已从您的库存中删除"
+tpa_to_left: "&c由于&r&a %s&r&c 离开，TPA 已取消"
+op_not_allowed: "&c你不被允许获得管理员(OP)权限"
+framedupe_cooldown: "&c你刷物品(Dupe)的速度太快了"
+framedupe_items_limit: "&c该区块掉落的物品已经太多了"
+dupe_permission: "&c你想得美，这么容易就想Dupe？"
+dupe_failed: "&c你必须手里拿着物品才能Dupe。"
+dupe_success: "&3物品已成功复制(Dupe)。"
+nbtPatch_deleted_item: "&c由于数据过大，&6%s&r&c 已从你的物品栏中移除"
 chest_cooldown: "&c你打开箱子的速度太快了。请稍等！"
-chestlimiter_deleted_chest: "&c已删除 &c&6%s&r&c 个箱子，因为它们超过了每个区块的最大数量 &c&6%s&r&c 个箱子"
-repair_success: "&3物品已成功修理！"
-repair_no_item: "&c你必须手上有一个物品来修理。"
-repair_not_repairable: "&c此物品无法修理。"
-repair_all_success: "&3你库存中的所有物品已成功修复！"
-nick_success: "&3完成！现在你的昵称是 &3%s&r&3。"
-nick_no_permission: "&c此命令仅适用于 DONOR5 &3https://shop.8b8t.me/&c。"
-nick_no_name_provided: "&c你必须输入一个昵称 &3/nick <nickname>&c。"
-nick_user_protection: "&c昵称必须与你的用户名相同 &3/nick <nickname>&c。"
-nc_success: "&3完成！现在你的昵称是 &3%s&r&3。"
+chestlimiter_deleted_chest: "&c已移除 &6%s&r&c 个箱子，因为超过了每区块最多 &c&6%s&r&c 个箱子的限制"
+repair_success: "&3物品已成功修复！"
+repair_no_item: "&c你必须手里拿着物品才能修复。"
+repair_not_repairable: "&c此物品不可修复。"
+repair_all_success: "&3物品栏中的所有物品已成功修复！"
+nick_success: "&3完成！你的昵称现在是 &3%s&r&3。"
+nick_no_permission: "&c此命令仅限 DONOR5 等级使用 &3https://shop.8b8t.me/&c。"
+nick_no_name_provided: "&c你必须输入一个昵称 &3/nick <昵称>&c。"
+nick_user_protection: "&c昵称必须与你的用户名相同 &3/nick <昵称>&c。"
+nc_success: "&3完成！你的名字颜色现在是 &3%s&r&3。"
 nc_no_permission: "&c你必须投票才能使用此命令。"
-nc_invalid_color: "&c你只能使用列表中的样式 &3/nc <color> <styles...>&c。"
-nc_usage: "&c你必须至少输入颜色 &3/nc <color> <styles...>&c。"
-ic_success: "&3完成！现在你的物品名为 &3%s&r&3。"
-ic_no_permission: "&c此命令仅适用于 DONOR4 &3https://shop.8b8t.me/&c。"
-ic_invalid_color: "&c你只能使用列表中的样式 &3/ic <color> <styles...>&c。"
+nc_invalid_color: "&c你只能使用列表中的样式 &3/nc <颜色> <样式...>&c。"
+nc_usage: "&c你必须至少输入颜色 &3/nc <颜色> <样式...>&c。"
+ic_success: "&3完成！你的物品现在命名为 &3%s&r&3。"
+ic_no_permission: "&c此命令仅限 DONOR4 等级使用 &3https://shop.8b8t.me/&c。"
+ic_invalid_color: "&c你只能使用列表中的样式 &3/ic <颜色> <样式...>&c。"
 ic_invalid_item: "&c此物品无效。"
-ic_no_item: "&c你必须手上有物品才能更改颜色。"
-ic_usage: "&c你必须至少输入颜色 &3/ic <color> <styles...>&c。"
-rename_success: "&3完成！现在你的物品名为 &3%s&r&3。"
-rename_no_permission: "&c此命令仅适用于 DONOR5 &3https://shop.8b8t.me/&c。"
+ic_no_item: "&c你必须手里拿着物品才能更改其颜色。"
+ic_usage: "&c你必须至少输入颜色 &3/ic <颜色> <样式...>&c。"
+rename_success: "&3完成！你的物品现在命名为 &3%s&r&3。"
+rename_no_permission: "&c此命令仅限 DONOR5 等级使用 &3https://shop.8b8t.me/&c。"
 rename_invalid_item: "&c此物品无效。"
-rename_no_item: "&c你必须手上有物品才能更改颜色。"
-rename_no_name_provided: "&c你必须输入一个名称 &3/rename <item name>&c。"
-nick_too_large: "&c昵称必须最多16个字符。"
-ic_too_large: "&c物品名称必须最多50个字符。"
-hotspot_no_perms_create: "&c你没有创建热点的权限。"
-hotspot_no_playername: "&c请包括一个玩家以便传送 /hotspot teleport <player>。"
-hotspot_already_created: "&c你已经有一个活动的热点，必须等待才能创建另一个。"
+rename_no_item: "&c你必须手里拿着物品才能更改其颜色。"
+rename_no_name_provided: "&c你必须输入一个名称 &3/rename <物品名称>&c。"
+nick_too_large: "&c昵称最多只能包含 %s 个字符。"
+nick_reset: "&3你的昵称已重置为原始用户名。"
+nick_usage: "&c用法: %s"
+gradient_usage: "&c用法: %s"
+gradient_invalid: "&c无效的渐变: &e%s&c. 请使用十六进制格式，如 #FF0000:#00FF00"
+gradient_animation_invalid: "&c无效的动画类型: &e%s&c. 有效类型: wave, pulse, rainbow, shift, none"
+gradient_invalid_color: "&c无效颜色: %s。请使用十六进制格式，如 #FF0000"
+gradient_set: "&3渐变色设置为: &r%s"
+gradient_success: "&3渐变色已成功应用！"
+ic_too_large: "&c物品名称最多只能包含 50 个字符。"
+title_no_ranks: "&c你没有任何可切换的头衔(Rank)。"
+title_cleared: "&3你的头衔已清除。"
+title_success: "&3头衔设置为: &a%s"
+title_no_permission_for_rank: "&c你没有该等级的权限。"
+leaderboard_vanilla: "&3已切换到原版排行榜。使用 /toggleleaderboard 切换回去。"
+leaderboard_custom: "&3已切换到带头衔的自定义排行榜。"
+hotspot_no_perms_create: "&c你没有创建热点(Hotspot)的权限。"
+hotspot_no_playername: "&c请包含要传送的玩家 /hotspot teleport <玩家>。"
+hotspot_already_created: "&c你已经有一个活动热点了，必须等待才能创建另一个。"
 hotspot_created: "&3你的热点已成功创建。"
-hotspot_deleted: "&3您的热点已成功删除。"
-hotspot_creation_cooldown: "&c您必须等待 &a%s&c 秒才能创建另一个热点。"
-hotspot_not_active: "&c您当前没有激活的热点。"
-hotspot_not_found_for_player: "&r&a%s&c 没有活动的热点。"
+hotspot_deleted: "&3你的热点已成功删除。"
+hotspot_creation_cooldown: "&c你必须等待 &a%s&c 秒才能创建另一个热点。"
+hotspot_not_active: "&c你当前没有活动热点。"
+dps_enabled: "&3幻翼生成已&a开启&3。"
+dps_disabled: "&3幻翼生成已&c关闭&3。"
+hotspot_not_found_for_player: "&r&a%s&c 没有活动热点。"
 hotspot_teleported_to_player: "&3正在传送到 &r&a%s&3 的热点。"
-hotspot_not_found: "&c没有可传送的活动热点。"
+hotspot_not_found: "&c没有可以传送的活动热点。"
 hotspot_teleported_to: "&3正在传送到最近的热点..."
-hotspot_created_to_everyone: "&r&a%s&3 创建了一个新的热点，使用 <blue><underlined><hover:show_text:'<gray>点击传送'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></blue> 传送到那里"
-repair_fail_while_pvp: "&c你不能在PvP期间或之后不久使用此命令！"
-sign_success: "&3完成！你已成功签署物品。"
-sign_fail_already_signed: "&c该物品已被签署。"
-sign_fail_no_item: "&c你必须手持一个物品才能签署它。"
-show_join_leave_messages_false: "&8加入/离开消息现在已被 &c隐藏&8。要重新显示它们，请使用此命令。"
-show_join_leave_messages_true: "&8加入/离开消息现在已被 &a显示&8。"
-mapart_deleted_inventory: "&c一个被禁止的地图艺术已从您的库存中移除。如果再次发现您持有此类物品，您将被服务器封禁。"
-mapart_deleted_frame: "&c一个被禁止的地图艺术已从您的基地中移除。如果再次发现您持有此类物品，您将被服务器封禁。"
-spam_alert: "&c请不要发送垃圾消息。"
-vanish_true: "&8您现在处于 &3隐身模式&8。要退出，请再次使用 /vanish 命令。"
-vanish_false: "&8您现在 &3可见 &8给其他玩家。"
-table_usage: "&c您必须指定一个表格类型 &3/table <type>&c。"
-table_invalid_type: "&c无效的表格类型。请使用 tab 补全查看有效选项 &3/table <type>&c。"
+hotspot_created_to_everyone: "&r&a%s&3 创建了一个新热点，使用 <blue><underlined><hover:show_text:'<gray>点击传送'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></blue> 传送到那里"
+repair_fail_while_pvp: "&c你不能在 PvP 期间或结束后不久使用此命令！"
+sign_success: "&3完成！你成功签名了该物品。"
+sign_fail_already_signed: "&c此物品已被签名。"
+sign_fail_no_item: "&c你必须手里拿着物品才能签名。"
+show_join_leave_messages_false: "&8加入/离开消息现在已&c隐藏&8。要再次显示，请使用此命令。"
+show_join_leave_messages_true: "&8加入/离开消息现在已&a显示&8。"
+mapart_deleted_inventory: "&c已从你的物品栏中移除违禁地图画。如果再次被发现持有此类物品，你将被封禁。"
+mapart_deleted_frame: "&c已从你的基地中移除违禁地图画。如果再次被发现持有此类物品，你将被封禁。"
+spam_alert: "&c请不要刷屏。"
+vanish_true: "&8你现在处于 &3隐身模式&8。要退出，请再次使用 /vanish 命令。"
+vanish_false: "&8你现在对其他玩家 &3可见&8。"
+table_usage: "&c你必须指定工作台类型 &3/table <类型>&c。"
+table_invalid_type: "&c无效的工作台类型。使用 Tab 补全查看有效选项 &3/table <类型>&c。"
 
-# 复杂信息
+#Complex messages
 HelpMessage:
   - '&3---------------------------------------'
-  - '&8访问 &chttps://www.8b8t.me/terms &8阅读规则'
+  - '&8请访问 &chttps://www.8b8t.me/terms &8阅读规则'
   - '&3---------------------------------------'
-  - '&6命令:'
-  - '&c/tpa &8将你传送到另一个玩家那里'
-  - '&c/tpahere &8将玩家传送到你的当前位置'
+  - '&6常用命令:'
+  - '&c/tpa &8传送到另一名玩家'
+  - '&c/tpahere &8将另一名玩家传送到你这里'
   - '&c/tpayes &8接受传送请求'
   - '&c/tpano &8拒绝传送请求'
-  - '&c/tpacancel &8取消你发送的tpa请求'
-  - '&c/back &8返回到你上一个位置'
-  - '&c/hotspot &8传送到热点或创建一个新的'
+  - '&c/tpacancel &8取消已发送的 TPA 请求'
+  - '&c/back &8返回到上一个位置'
+  - '&c/hotspot &8传送到热点或创建一个新热点'
   - '&c/sethome &8在当前位置设置家'
-  - '&c/delhome &8删除你设置的家'
-  - '&c/home &8传送到你设置的家'
+  - '&c/delhome &8删除已设置的家'
+  - '&c/home &8传送到已设置的家'
   - '&c/skin set &8设置你的皮肤'
-  - '&c/vote &8为8b8t投票'
-  - '&c/discord &8获取8b8t的Discord邀请'
-  - '&c/matrix &8获取 8b8t Matrix 房间的链接'
+  - '&c/vote &8为 8b8t 投票'
+  - '&c/discord &8获取 8b8t Discord 邀请链接'
+  - '&c/matrix &8获取 8b8t Matrix 聊天室链接'
   - '&c/kill &8自杀'
-  - '&c/ignore &8忽略其他玩家'
-  - '&c/unignore &8取消忽略其他玩家'
-  - '&c/ignorelist &8显示你正在忽略的玩家'
-  - '&c/msg &8向其他玩家发送消息'
+  - '&c/ignore &8屏蔽其他玩家'
+  - '&c/unignore &8取消屏蔽其他玩家'
+  - '&c/ignorelist &8显示你屏蔽的玩家'
+  - '&c/msg &8给其他玩家发送私聊'
   - '&c/changepass &8更改你的密码'
   - '&c/worldstats &8查看世界大小'
-  - '&c/pvp &8连接到8b8t的PVP服务器'
+  - '&c/pvp &8连接到 8b8t PVP 服务器'
   - '&c/lobby &8连接到大厅'
-  - '&c/tpsinfo &8检查服务器的每秒tick数'
+  - '&c/tpsinfo &8检查服务器 TPS'
   - '&3---------------------------------------'
-  - '&6仅限投票者:'
+  - '&6投票者专用:'
   - '&c/nc &8设置名字颜色'
   - '&8访问 &chttps://votefor.8b8t.me &8进行投票'
   - '&3---------------------------------------'
-  - '&6仅限有等级的用户:'
+  - '&6赞助者专用:'
   - '&c/ic &8设置物品颜色'
   - '&c/rename &8重命名物品'
   - '&c/echest &8打开你的末影箱'
   - '&c/nick &8设置昵称'
-  - '&8访问 &chttps://shop.8b8t.me &8进行捐赠'
+  - '&8请访问 &chttps://shop.8b8t.me'
   - '&3---------------------------------------'
+  -
 TabList:
   Header:
     - ''
     - '&9&l8builders&7&l8tools'
     - ''
-    - '&r&c&o喜欢 8b8t.me 吗？考虑在 https://shop.8b8t.me 捐款'
+    - '&r&c&o喜欢 8b8t.me 吗？考虑在 https://shop.8b8t.me 购买一个等级'
     - ''
 
   Footer:
     - ''
-    - '&7tps:&r %tps% &7ping: &r%ping% &7玩家: &f%players% &7在线时间: &r%uptime%'
+    - '&7tps:&r %tps% &7mspt:&r %mspt% &7延迟: &r%ping%ms &7人数: &f%players% &7运行时间: &r%uptime%'
     - ''
-    - '&7联系: contact@8b8t.me'
-    - '&7讨论: https://discord.8b8t.me'
-    - '&7网站: https://www.8b8t.me'
-    - '&7这些是 8b8t 的唯一官方网站和联系方式'
+    - '&7联系方式: contact@8b8t.me'
+    - '&7讨论区: https://discord.8b8t.me'
+    - '&7官方网站: https://www.8b8t.me'
+    - '&7这些是 8b8t 唯一的官方网站和联系方式'
     - ''
 TpsMessage:
-  - '&3---------------------------------------'
-  - '&6TPS信息:'
-  - '&8TPS: &a%s &8MSTP: &a%s'
-  - '&8最低区域TPS: &c%s'
-  - '&8在线玩家: &a%s'
-  - '&3---------------------------------------'
-tps_failed: '&c您没有被允许查询TPS'
+  - '&3--------------------------------------'
+  - '&6TPS 信息:'
+  - '&8TPS: %s &8MSPT: %s'
+  - '&8最低区域 TPS: %s'
+  - '&8在线人数 &a%s'
+  - '&3--------------------------------------'
+tps_failed: '&c你没有权限检查 TPS'
 
 announcements:
-  - "%prefix% &7>>&r&8 访问 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>并投票以免费获得2个额外的渲染距离和5个额外的家以及驴子复制的访问权限</dark_gray>"
-  - "%prefix% &7>>&r&8 捐赠支持 8b8t 在 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
-
+  - "%prefix% &7>>&r&8 访问 <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>并投票，即可免费获得 2 格渲染距离、5 个额外家位以及驴子Dupe权限</dark_gray>"
+  - "%prefix% &7>>&r&8 捐赠以支持 8b8t： <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
+  - "%prefix% &7>> &8加入官方 Discord 服务器： <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://discord.8b8t.me'>https://discord.8b8t.me</click></hover></red>"
+  - "%prefix% &7>> &8加入官方 Matrix 聊天室： <red><hover:show_text:'<gray>点击打开链接'><click:open_url:'https://matrix.8b8t.me'>https://matrix.8b8t.me</click></hover></red>"
 # Death messages
 global-pvp-death-messages:
-  - "&3%victim%&r&4 被 &3%killer%&r&4 杀死了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%&6] 杀死了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 打败了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%&6] 击败了"
-  - "&3%killer%&r&4 用 &6[%kill-weapon%] 击溃了 &3%victim%&r&4"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 摧毁了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 和他们强大的 &6[%kill-weapon%&6] 击败了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%&6] 轻松击败了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 杀害了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%&6]&r&4 杀死了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 干掉了"
+  - "&3%victim%&r&4 被手持 &6[%kill-weapon%&6]&r&4 的 &3%killer%&r&4 虐了"
+  - "&3%killer%&r&4 用 &6[%kill-weapon%&6]&r&4 把 &3%victim%&r&4 碾成了碎片"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 毁灭了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 和他们的 &6[%kill-weapon%&6]&r&4 给安排了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 用 &6[%kill-weapon%&6]&r&4 轻松拿捏"
 
 melee-death-messages:
-  - "&3%victim%&r&4 被 &3%killer%&r&4 拍打了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 击倒了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 击打了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 扇了一巴掌"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 KO了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 锤爆了"
 
 fall-damage-messages:
-  - "&3%victim%&r&4 想要测试重力结果失败了"
-  - "&3%victim%&r&4 忘记带降落伞了"
-  - "&3%victim%&r&4 以为自己能飞... 可惜飞不了"
+  - "&3%victim%&r&4 决定测试重力，结果输了"
+  - "&3%victim%&r&4 忘了带降落伞"
+  - "&3%victim%&r&4 以为自己能飞... 显然他不能"
 
 drowning-messages:
-  - "&3%victim%&r&4 决定与鱼儿共眠"
-  - "&3%victim%&r&4 以为自己能及时获取氧气"
-  - "&3%victim%&r&4 试图在水中游泳"
+  - "&3%victim%&r&4 决定去水里喂鱼"
+  - "&3%victim%&r&4 以为自己能在淹死前游上去"
+  - "&3%victim%&r&4 没能游过水流"
 
 suffocation-messages:
-  - "&3%victim%&r&4 在方块内无法呼吸"
-  - "&3%victim%&r&4 被方块内的空气窒息"
-  - "&3%victim%&r&4 被方块智取"
+  - "&3%victim%&r&4 在方块里喘不过气来"
+  - "&3%victim%&r&4 在方块里憋死了"
+  - "&3%victim%&r&4 输给了方块"
 
 cramming-messages:
-  - "&3%victim%&r&4 被挤成了碎片"
-  - "&3%victim%&r&4 可怜兮兮，以为可以在一个1x1的空间里活下去"
+  - "&3%victim%&r&4 被挤成肉酱了"
+  - "&4可怜的 &3%victim%&r&4，他以为自己能住在 1x1 的空间里"
 
 thorns-messages:
-  - "&3%victim%&r&4 被 &3%killer%&r&4 的荆棘护甲反击了"
-  - "&3%victim%&r&4 被 &3%killer%&r&4 的荆棘反咬了一口"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 的荆棘装甲反弹死了"
+  - "&3%victim%&r&4 被 &3%killer%&r&4 的荆棘给刺穿了"
 
 lava-messages:
-  - "&3%victim%&r&4 在熔岩坑中燃烧殆尽"
-  - "&3%victim%&r&4 跳进熔岩中游泳，结果被灼伤"
+  - "&3%victim%&r&4 在岩浆池里烧成了灰"
+  - "&3%victim%&r&4 去岩浆里洗澡，然后真香了"
 
 magma-block-messages:
-  - "&3%victim%&r&4 被炙热的 &6岩浆方块 移除了"
-  - "&3%victim%&r&4 的脚被 &6岩浆方块 烤成了培根"
+  - "&3%victim%&r&4 被炽热的&6岩浆块&r&4 蒸发了"
+  - "&3%victim%&r&4 的脚被&6岩浆块&r&4 烤成了培根"
 
 elytra-messages:
-  - "&3%victim%&r&4 飞向墙壁并死亡...?"
-  - "&3%victim%&r&4 被自己的鹰翼撞上墙壁"
+  - "&3%victim%&r&4 撞墙死了...？"
+  - "&3%victim%&r&4 被他的鞘翅狠狠地拍在了墙上"
 
 wither-messages:
-  - "&3%victim%&r&4 被 &9凋零者 折磨致死"
-  - "&3%victim%&r&4 被 &9凋零者 凋零消失在第四维度中"
+  - "&3%victim%&r&4 染上了&9凋灵&4病"
+  - "&3%victim%&r&4 慢慢地在&9凋灵&4中消失了"
 
 suicide-messages:
-  - "&3%victim%&r&4 自杀了"
-  - "&3%victim%&r&4 由于精神崩溃而死亡"
+  - "&3%victim%&r&4 自尽了"
+  - "&3%victim%&r&4 精神崩溃并去世了"
 
 fire-messages:
-  - "&3%victim%&r&4 站在火堆里"
+  - "&3%victim%&r&4 站在壁炉里不肯出来"
   - "&3%victim%&r&4 玩火自焚"
 
 fire-tick-messages:
-  - "&3%victim%&r&4 忘记停下来、蹲下和滚动"
+  - "&3%victim%&r&4 忘了“停、倒、滚”灭火法"
 
 starvation-messages:
-  - "&3%victim%&r&4 忘记吃饭"
-  - "&3%victim%&r&4 的妈妈说家里有吃的"
+  - "&3%victim%&r&4 饿坏了"
+  - "&3%victim%&r&4 的妈妈说家里有饭吃，但他没回去"
 
 cactus-messages:
-  - "&3%victim%&r&4 被仙人掌刺死"
-  - "&3%victim%&r&4 尝试针灸，但结果不幸去世"
-  - "&3%victim%&r&4 用拥抱仙人掌方式离开了人世"
+  - "&3%victim%&r&4 被扎死了"
+  - "&3%victim%&r&4 尝试针灸，但没挺过来"
+  - "&3%victim%&r&4 拥抱仙人掌直到死亡"
 
 potion-messages:
-  - "&3%victim%&r&4 成为了糟糕药水的受害者"
-  - "&3%victim%&r&4 死于冠状病毒"
+  - "&3%victim%&r&4 喝到了过期药水"
+  - "&3%victim%&r&4 没能挺过这种病毒"
 
 void-messages:
-  - "&3%victim%&r&4 以为去虚空旅行会很有趣"
-  - "&3%victim%&r&4 踏上了通往虚空的单程旅程"
-  - "&3%victim%&r&4 在宇宙冒险中失去了航天飞机"
+  - "&3%victim%&r&4 觉得去虚空旅行很有趣"
+  - "&3%victim%&r&4 买了去虚空的单程票"
+  - "&3%victim%&r&4 没带宇宙飞船就去太空探险了"
 
 lightning-messages:
-  - "&3%victim%&r&4 被神的闪电击中"
-  - "&3%victim%&r&4 被上帝击倒了"
-  - "&3%victim%&r&4 从上方得到了一记震撼提醒"
+  - "&3%victim%&r&4 被神之怒雷击中了"
+  - "&3%victim%&r&4 被神明给制裁了"
+  - "&3%victim%&r&4 收到了来自上天的震惊提醒"
 
 falling-block-messages:
-  - "&3%victim%&r&4 被掉落的方块压扁了"
-  - "&3%victim%&r&4 成为掉落的方块的一部分"
-  - "&3%victim%&r&4 在掉落的方块中遇到了自己的终结"
+  - "&3%victim%&r&4 被落下的方块砸扁了"
+  - "&3%victim%&r&4 与落下的方块合二为一"
+  - "&3%victim%&r&4 在与方块的重量级对决中输了"
 
 freeze-messages:
-  - "&3%victim%&r&4 没有在极地漩涡中生存下来"
-  - "&3%victim%&r&4 忘记穿上冬季外套"
+  - "&3%victim%&r&4 没能活过极地涡旋"
+  - "&3%victim%&r&4 忘了穿羽绒服"
   - "&3%victim%&r&4 冻得比冰块还快"
 
 firework-messages:
-  - "&3%victim%&r&4 太早引爆了烟花"
-  - "&3%victim%&r&4 尝试风格飞行... 结果坠毁了"
-  - "&3%victim%&r&4 发现了业余烟花技术的危险"
+  - "&3%victim%&r&4 烟花引信点早了"
+  - "&3%victim%&r&4 想要飞得有格调... 结果坠机了"
+  - "&3%victim%&r&4 领悟了业余烟火表演的危险性"
 
 slime-messages:
-  - "&3%victim%&r&4 被一个巨大的&2史莱姆&4压死了"
-  - "&3%victim%&r&4 在收集史莱姆球时被&2史莱姆&4杀死了"
+  - "&3%victim%&r&4 被&2巨型史莱姆&4 压扁了"
+  - "&3%victim%&r&4 在收集史莱姆球时被&2史莱姆&4 黏死了"
 
 zombie-messages:
-  - "&3%victim%&r&4 被一只&2僵尸&4活活吃掉了"
-  - "&3%victim%&r&4 以为一只&2僵尸&4是友好的"
+  - "&3%victim%&r&4 被&2僵尸&4 活生生地吃掉了"
+  - "&3%victim%&r&4 以为&2僵尸&4 比较友好"
 
 pigman-messages:
-  - "&3%victim%&r&4 激怒了&e猪灵&4并被活生生吃掉了"
-  - "&3%victim%&r&4 激怒了&e猪灵&4并成为了他们的培根"
+  - "&3%victim%&r&4 激怒了&e猪灵&4 并被吃掉了"
+  - "&3%victim%&r&4 让&e猪灵&4 感到愤怒，于是他成了培根"
 
 skeleton-messages:
-  - "&3%victim%&r&4 被一只骨骼射手&f骷髅&4狙击了"
-  - "&3%victim%&r&4 被&f骷髅&4射击了"
+  - "&3%victim%&r&4 被浑身是骨头的&f骷髅&4 狙击了"
+  - "&3%victim%&r&4 被&f骷髅&4 射穿了"
 
 magmacube-messages:
-  - "&3%victim%&r&4 被一个&6巨大岩浆方块&4压扁了"
+  - "&3%victim%&r&4 被&6巨型岩浆怪&4 压扁了"
 
 husk-messages:
-  - "&3%victim%&r&4 被沙漠居民&3枯萎尸&4吃掉了"
+  - "&3%victim%&r&4 被沙漠居民 &3尸壳&4 吃掉了"
 
 spider-messages:
-  - "&3%victim%&r&4 被一个狡猾的&1蜘蛛&4打败了"
-  - "&3%victim%&r&4 被&1蜘蛛&4一口吃掉了"
+  - "&3%victim%&r&4 被狡猾的&1蜘蛛&4 耍了"
+  - "&3%victim%&r&4 成了&1蜘蛛&4 的点心"
 
 cavespider-messages:
-  - "&3%victim%&r&4 被一个&1洞穴蜘蛛&4咬死了"
-  - "&3%victim%&r&4 被一个&1洞穴蜘蛛&4的毒性拥抱致命伤"
+  - "&3%victim%&r&4 被&1洞穴蜘蛛&4 咬死了"
+  - "&3%victim%&r&4 得到了来自&1洞穴蜘蛛&4 的带毒拥抱"
 
 witherskeleton-messages:
-  - "&3%victim%&r&4 被一个带石剑的&0凋零骷髅&4摧毁了"
-  - "&3%victim%&r&4 被一个带石剑的&0凋零骷髅&4教训了一顿"
+  - "&3%victim%&r&4 被手拿石剑的&0凋灵骷髅&4 毁灭了"
+  - "&3%victim%&r&4 被&0凋灵骷髅&4 好好上了一课"
 
 witherboss-messages:
-  - "&3%victim%&r&4 被&0凋零之王&4的头炸掉了"
-  - "&3%victim%&r&4 挑战&0凋零之王&4时失去了头颅"
-  - "&3%victim%&r&4 从&0凋零之王&4那里得到了致命的一课"
+  - "&3%victim%&r&4 的头被&0凋灵&4 轰飞了"
+  - "&3%victim%&r&4 挑战&0凋灵&4 结果丢了脑袋"
+  - "&3%victim%&r&4 从&0凋灵&4 那里得到了一个致命的教训"
 
 dragon-messages:
-  - "&3%victim%&r&4 被&5末影龙&4撕开了肚子"
-  - "&3%victim%&r&4 被&5末影龙&4的头部炸掉了"
-  - "&3%victim%&r&4 发现了重生画面，而不是末地传送门"
+  - "&3%victim%&r&4 被&5末影龙&4 开膛破肚了"
+  - "&3%victim%&r&4 的头被&5末影龙&4 拍飞了"
+  - "&3%victim%&r&4 没找到终末之门，倒是找到了复活界面"
 
 dragon-breath-messages:
-  - "&3%victim%&r&4 沐浴在&5末影龙&4的龙息中"
-  - "&3%victim%&r&4 吸入了过多的&5末影龙&4的龙息"
-  - "&3%victim%&r&4 被&5末影龙&4的龙息焚化了"
+  - "&3%victim%&r&4 在&5末影龙的龙息&4 里洗了个澡"
+  - "&3%victim%&r&4 吸入了太多的&5末影龙龙息"
+  - "&3%victim%&r&4 被&5末影龙的龙息&4 攻击烧成了灰"
 
 elderguardian-messages:
-  - "&3%victim%&r&4 试图清理海府，但&b远古守卫者&4不答应"
-  - "&3%victim%&r&4 以为能征服海府，但&b远古守卫者&4有其他打算"
+  - "&3%victim%&r&4 想清理海底遗迹，但&b远古守卫者&4 说不行"
+  - "&3%victim%&r&4 以为能征服海底遗迹，但&b远古守卫者&4 有别的想法"
 
 tnt-messages:
-  - "&3%victim%&r&4 被&4TNT&4炸飞了脑袋"
-  - "&3%victim%&r&4 被&4TNT&4炸了个正着"
-  - "&3%victim%&r&4 以最艰难的方式了解了爆炸物"
+  - "&3%victim%&r&4 的头被&4TNT&4 炸飞了"
+  - "&3%victim%&r&4 被&4TNT&4 炸上了天"
+  - "&3%victim%&r&4 以最惨痛的方式了解了爆炸物"
 
 end-crystal-messages:
-  - "&3%victim%&r&4 被一个&5末影水晶&4炸飞了"
-  - "&3%victim%&r&4 被一个&5末影水晶&4炸成了碎片"
+  - "&3%victim%&r&4 被&5末地水晶&4 炸碎了"
+  - "&3%victim%&r&4 被&5末地水晶&4 炸飞了"
 
 creeper-messages:
-  - "&3%victim%&r&4 遇到了一个&a爬行者&4的爆炸个性"
-  - "&3%victim%&r&4 遇到了一个&a爬行者&4并被炸得满天飞"
-  - "&3%victim%&r&4 低估了&a爬行者&4的爆炸半径"
-  - "&3%victim%&r&4 尝试拆除&a爬行者&4... 但没有成功"
+  - "&3%victim%&r&4 领教了&a苦力怕&4 爆炸性的脾气"
+  - "&3%victim%&r&4 遇到了&a苦力怕&4 并被送上了天"
+  - "&3%victim%&r&4 低估了&a苦力怕&4 的爆炸半径"
+  - "&3%victim%&r&4 尝试拆除&a苦力怕&4... 结果失败了"
 
 ghast-messages:
-  - "&3%victim%&r&4 被一个&b恶魂&4火球击中了"
+  - "&3%victim%&r&4 被&b恶魂&4 的火球击中了"
 
 enderman-messages:
-  - "&3%victim%&r&4 盯上了一个&5末影人&4的眼睛"
-  - "&3%victim%&r&4 试图跟一个&5末影人&4玩躲猫猫"
+  - "&3%victim%&r&4 在人群中多看了&5末影人&4 一眼"
+  - "&3%victim%&r&4 想和&5末影人&4 玩捉迷藏"
 
 silverfish-messages:
-  - "&3%victim%&r&4 被一个&7蠹虫&4吃掉了"
+  - "&3%victim%&r&4 被&7蠹鱼&4 吃掉了"
 
 witch-messages:
-  - "&3%victim%&r&4 被一个狡猾的&9女巫&4施法迷住了"
-  - "&3%victim%&r&4 被一个复仇心切的&9女巫&4变成了青蛙"
+  - "&3%victim%&r&4 被卑鄙的&9女巫&4 施了法"
+  - "&3%victim%&r&4 被报复心强的&9女巫&4 变成了青蛙"
 
 shulker-messages:
-  - "&3%victim%&r&4 为了得到&d虚空贝壳&4而丧命"
-  - "&3%victim%&r&4 被一个&d希尔克&4射中了"
-  - "&3%victim%&r&4 被一个&d希尔克&4击溃了"
+  - "&3%victim%&r&4 为了拿&d潜影壳&4 结果命丧黄泉"
+  - "&3%victim%&r&4 被&d潜影贝&4 击中了"
+  - "&3%victim%&r&4 被&d潜影贝&4 玩坏了"
 
 guardian-messages:
-  - "&3%victim%&r&4 被一个&7守卫者&4击杀了"
-  - "&3%victim%&r&4 被一个带电的&7守卫者&4电到了"
-  - "&3%victim%&r&4 被一个狡猾的&7守卫者&4游泳击败了"
+  - "&3%victim%&r&4 被&7守卫者&4 杀死了"
+  - "&3%victim%&r&4 被&7守卫者&4 的激光烤焦了"
+  - "&3%victim%&r&4 没能游过卑鄙的&7守卫者"
 
 golem-messages:
-  - "&3%victim%&r&4 激怒了一个&7铁傀儡&4"
-  - "&3%victim%&r&4 激怒了一个&7铁傀儡&4的愤怒"
-  - "&3%victim%&r&4 在&7铁傀儡&4面前得到了一堂&4铁傀儡&4的外交课"
+  - "&3%victim%&r&4 激怒了&7铁傀儡"
+  - "&3%victim%&r&4 感受到了&7铁傀儡&4 的愤怒"
+  - "&3%victim%&r&4 在&7铁傀儡&4 那里接受了“外交”教育"
 
 zombievillager-messages:
-  - "&3%victim%&r&4 被一个&2僵尸村民&4吃掉了"
+  - "&3%victim%&r&4 被&2僵尸村民&4 当成晚餐了"
 
 endermite-messages:
-  - "&3%victim%&r&4 遭遇了一个&5末影螨&4并被啃咬致死"
-  - "&3%victim%&r&4 被一个&5末影螨&4智取了"
+  - "&3%victim%&r&4 遇到了&5末影螨&4 并被啃死了"
+  - "&3%victim%&r&4 没玩过&5末影螨"
 
 phantom-messages:
-  - "&3%victim%&r&4 被一只&1幻翼&4绑架了"
+  - "&3%victim%&r&4 被&1幻翼&4 抓走了"
 
 drowned-messages:
-  - "&3%victim%&r&4 晚间游泳时被&2溺尸&4吞噬了"
-  - "&3%victim%&r&4 发现&2溺尸&4不仅仅是普通的游泳者"
+  - "&3%victim%&r&4 深夜游泳被&2溺尸&4 吃掉了"
+  - "&3%victim%&r&4 发现&2溺尸&4 不只是普通的游泳者"
 
 pillager-messages:
-  - "&3%victim%&r&4 被一名&3掠夺者&4射中了"
+  - "&3%victim%&r&4 被&3掠夺者&4 射杀了"
 
 ravager-messages:
-  - "&3%victim%&r&4 被一只&3劫掠兽&4撞击了"
+  - "&3%victim%&r&4 被&3劫掠兽&4 撞飞了"
 
 illusioner-messages:
-  - "&3%victim%&r&4 被一名&6幻术师&4送入了幻象世界"
-  - "&3%victim%&r&4 被一名&6幻术师&4欺骗了"
-  - "&3%victim%&r&4 被一名&6幻术师&4击杀了"
+  - "&3%victim%&r&4 被&6幻术师&4 送到了幻觉世界"
+  - "&3%victim%&r&4 被&6幻术师&4 耍了"
+  - "&3%victim%&r&4 被&6幻术师&4 杀害了"
 
 bee-messages:
-  - "&3%victim%&r&4 被一只&6蜜蜂&4蜇了"
-  - "&3%victim%&r&4 遇到了一只&6蜜蜂&4并发现它们不只是蜜制品制造者"
-  - "&3%victim%&r&4 被一只顽固的&6蜜蜂&4蜇了"
+  - "&3%victim%&r&4 被&6蜜蜂&4 蜇死了"
+  - "&3%victim%&r&4 发现&6蜜蜂&4 不只会采蜜，还会杀人"
+  - "&3%victim%&r&4 被一只执着的&6蜜蜂&4 蜇了"
 
 wolf-messages:
-  - "&3%victim%&r&4 被一只&7狼&4撕裂了"
-  - "&3%victim%&r&4 激怒了一只&7狼"
+  - "&3%victim%&r&4 被&7狼&4 撕碎了"
+  - "&3%victim%&r&4 挑衅了&7狼"
 
 llama-messages:
-  - "&3%victim%&r&4 被一只&e羊驼&4吐死了"
-  - "&3%victim%&r&4 被一只&e羊驼&4的唾沫火焰困住了"
-  - "&3%victim%&r&4 被一只&e羊驼&4的唾沫吐到了嘴里"
+  - "&3%victim%&r&4 被&e羊驼&4 的口水吐死了"
+  - "&3%victim%&r&4 陷入了&e羊驼&4 的口水战中"
+  - "&3%victim%&r&4 满嘴都是&e羊驼&4 的唾沫"
 
 blaze-messages:
-  - "&3%victim%&r&4 被一只&6烈焰人&4烤焦了"
-  - "&3%victim%&r&4 被一只炽热的&6烈焰人&4烤了"
-  - "&3%victim%&r&4 以最艰难的方式学会了不要与&6烈焰人&4玩火"
+  - "&3%victim%&r&4 被&6烈焰人&4 烧焦了"
+  - "&3%victim%&r&4 被炽热的&6烈焰人&4 烤熟了"
+  - "&3%victim%&r&4 以最惨痛的方式学会了不要和&6烈焰人&4 玩火"
 
 stray-messages:
-  - "&3%victim%&r&4 被一只&7流亡者&4击中了"
+  - "&3%victim%&r&4 被&7流浪者&4 射穿了脑袋"
 
 vex-messages:
-  - "&3%victim%&r&4 被一只小飞行&b恶魂&4吃掉了"
-  - "&3%victim%&r&4 被一只&b恶魂&4激怒了"
+  - "&3%victim%&r&4 被一只飞天小&b恼鬼&4 吃掉了"
+  - "&3%victim%&r&4 被&b恼鬼&4 给烦死了"
 
 vindicator-messages:
-  - "&3%victim%&r&4 被一名&4征服者&4追捕到了"
-  - "&3%victim%&r&4 低估了一名&4征服者&4的力量"
-  - "&3%victim%&r&4 被一名&4征服者&4的破坏路径所困扰"
+  - "&3%victim%&r&4 被&4卫道士&4 猎杀了"
+  - "&3%victim%&r&4 低估了&4卫道士&4 的力量"
+  - "&3%victim%&r&4 被卷入了&4卫道士&4 的毁灭之路"
 
 evoker-messages:
-  - "&3%victim%&r&4 被一名&4召唤师&4召唤至死亡之地"
-  - "&3%victim%&r&4 挑战了一名&4召唤师&4的愤怒"
-  - "&3%victim%&r&4 被一名&4召唤师&4召唤了"
+  - "&3%victim%&r&4 被&4唤魔者&4 召唤到了死者之地"
+  - "&3%victim%&r&4 见识到了&4唤魔者&4 的愤怒"
+  - "&3%victim%&r&4 被&4唤魔者&4 给唤走了命"
 
 pufferfish-messages:
-  - "&3%victim%&r&4 低估了&e河豚&4的毒性"
-  - "&3%victim%&r&4 遇到了一只&e河豚&4并且学会了不能轻易触碰"
+  - "&3%victim%&r&4 低估了&e河豚&4 的毒性"
+  - "&3%victim%&r&4 遇到了&e河豚&4，并学会了不要乱摸"
 
 polar-bear-messages:
-  - "&3%victim%&r&4 被一只冰冷的&f北极熊&4撕咬了"
-  - "&3%victim%&r&4 被一只&f北极熊&4转化为雪"
+  - "&3%victim%&r&4 被冰冷的&f北极熊&4 撕碎了"
+  - "&3%victim%&r&4 被&f北极熊&4 变成了雪人"
 
 dolphin-messages:
-  - "&3%victim%&r&4 激怒了一只&b海豚&4... 结果很惨?"
-  - "&3%victim%&r&4 打了一只&b海豚&4，它们报复了"
+  - "&3%victim%&r&4 激怒了&b海豚&4... 然后输了？"
+  - "&3%victim%&r&4 打了&b海豚&4，海豚反击了"
 
 panda-messages:
-  - "&3%victim%&r&4 被&e熊猫&4当做晚餐"
-  - "&3%victim%&r&4 试图偷&e熊猫&4的竹子"
+  - "&3%victim%&r&4 成了&8熊猫&4 的晚餐"
+  - "&3%victim%&r&4 尝试偷&8熊猫&4 的竹子"
 
 piglin-messages:
-  - "&3%victim%&r&4 在面对新的&6猪灵&4时见证了自己的命运"
-  - "&3%victim%&r&4 与&6猪灵&4搏斗并学到了生存的教训"
-  - "&3%victim%&r&4 遇到了&6猪灵&4并且发现他们不会让步"
+  - "&3%victim%&r&4 没能打过新来的&6猪灵"
+  - "&3%victim%&r&4 和&6猪灵&4 纠缠，并上了一堂生存课"
+  - "&3%victim%&r&4 遇见了&6猪灵&4，发现它们不讲道理"
 
 hoglin-messages:
-  - "&3%victim%&r&4 被一只&6猪兽&4冲撞了，有点粗鲁?"
-  - "&3%victim%&r&4 没有阅读关于&6猪兽&4的补丁说明"
+  - "&3%victim%&r&4 被&6猪灵兽&4 撞了，真没礼貌？"
+  - "&3%victim%&r&4 没看关于&6猪灵兽&4 的更新公告"
 
 zoglin-messages:
-  - "&3%victim%&r&4 把&6僵化猪兽&4的角当晚餐吃了"
-  - "&3%victim%&r&4 被一只&6僵化猪兽&4冲撞了"
+  - "&3%victim%&r&4 被&6僵尸猪灵兽&4 撞死了"
+  - "&3%victim%&r&4 被&6僵尸猪灵兽&4 的角顶穿了"
 
 goat-messages:
-  - "&3%victim%&r&4 被一只&4山羊&4的角撞到了头部"
-  - "&3%victim%&r&4 被一只&4山羊&4的角刺穿了"
+  - "&3%victim%&r&4 被&4山羊&4 顶了"
+  - "&3%victim%&r&4 被&4山羊角&4 刺穿了"
 
 zombified-piglin-messages:
-  - "&3%victim%&r&4 带着一只&6僵化猪灵&4进入了主世界并被它们的新宠物杀害了"
-  - "&3%victim%&r&4 死于一只&6僵化猪灵&4... 我是说，猪人... 不，僵化猪灵"
+  - "&3%victim%&r&4 把一只&6猪灵&4 带到了主世界，结果被他不那么友好的新宠物杀死了"
+  - "&3%victim%&r&4 死在了&6猪灵&4...我是说猪人...我是说僵尸猪灵手里"
 
 fox-messages:
-  - "&3%victim%&r&4 围绕&6狐狸&4转圈并发现了真相"
-  - "&3%victim%&r&4 被一只&6狐狸&4咬伤了"
+  - "&3%victim%&r&4 和&6狐狸&4 玩火，结果熄火了"
+  - "&3%victim%&r&4 被&6狐狸&4 嚼碎了"
 
 warden-messages:
-  - "&3%victim%&r&4 被一只&1守望者&4杀害了... 我是说，你指望什么？"
-  - "&3%victim%&r&4 低估了&1守望者&4的力量"
-  - "&3%victim%&r&4 过于接近一只&1守望者&4的领地"
+  - "&3%victim%&r&4 被&1监守者&4 杀了... 我的意思是，你还期待什么呢？"
+  - "&3%victim%&r&4 低估了&1监守者&4 的力量"
+  - "&3%victim%&r&4 离&1监守者&4 的领地太近了"
 
 warden-sonic-boom-messages:
-  - "&3%victim%&r&4 被一只&1守望者&4的音爆击败了"
-  - "&3%victim%&r&4 被一只&1守望者&4的音爆震得耳朵发痛"
+  - "&3%victim%&r&4 被&1监守者&4 的超声波震碎了"
+  - "&3%victim%&r&4 的耳朵被&1监守者&4 的超声波震聋了"
 
 unknown-messages:
-  - "&3%victim%&r&4 死于未知原因"
-  - "&3%victim%&r&4 死亡"
-  - "&3%victim%&r&4 被杀害"
+  - "&3%victim%&r&4 死因不明"
+  - "&3%victim%&r&4 去世了"
+  - "&3%victim%&r&4 被杀害了"
 
 fireball-messages:
-  - "&3%victim%&r&4 被意外的&4火球&4攻击烤焦了"
-  - "&3%victim%&r&4 被一连串的&4火球&4困扰"
-  - "&3%victim%&r&4 被一连串的&4火球&4焚化了"
+  - "&3%victim%&r&4 被突如其来的&4火球&4 烤熟了"
+  - "&3%victim%&r&4 陷入了&4火球&4 风暴中"
+  - "&3%victim%&r&4 被一阵&4火球&4 轰成了灰"
 
 arrow-messages:
-  - "&3%victim%&r&4 被&5箭雨&4击中了"
-  - "&3%victim%&r&4 试图躲避&5箭雨&4... 但没有成功"
+  - "&3%victim%&r&4 陷入了&5箭雨&4 之中"
+  - "&3%victim%&r&4 尝试跑过&5箭&4... 显然他没跑过"

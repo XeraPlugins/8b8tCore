@@ -27,7 +27,7 @@ public class EntityEffectListener implements Listener {
      * Default constructor with 5-second check interval
      */
     public EntityEffectListener(Plugin plugin) {
-        this(plugin, 100); // 100 ticks = 5 seconds
+        this(plugin, 600); // 600 ticks = 30 seconds
     }
 
     /**
@@ -57,11 +57,13 @@ public class EntityEffectListener implements Listener {
     private void checkAllEntities() {
         for (org.bukkit.World world : Bukkit.getWorlds()) {
             for (LivingEntity entity : world.getLivingEntities()) {
-                if (!(entity instanceof org.bukkit.entity.Player) && entity.isValid() && !entity.isDead()) {
-                    entity.getScheduler().run(plugin, (task) -> {
-                        checkAndFixEntityEffects(entity);
-                    }, null);
-                }
+                entity.getScheduler().run(plugin, (task) -> {
+                    if (entity.isValid() && !entity.isDead() && !(entity instanceof org.bukkit.entity.Player)) {
+                        if (!entity.getActivePotionEffects().isEmpty()) {
+                            checkAndFixEntityEffects(entity);
+                        }
+                    }
+                }, null);
             }
         }
     }
@@ -105,13 +107,14 @@ public class EntityEffectListener implements Listener {
     public void onChunkLoad(ChunkLoadEvent event) {
         if (event.isNewChunk()) return;        
         for (org.bukkit.entity.Entity entity : event.getChunk().getEntities()) {
-            if (entity instanceof LivingEntity && !(entity instanceof org.bukkit.entity.Player)) {
-                LivingEntity livingEntity = (LivingEntity) entity;
-                if (livingEntity.isValid() && !livingEntity.isDead()) {
-                    livingEntity.getScheduler().run(plugin, (task) -> {
-                        checkAndFixEntityEffects(livingEntity);
-                    }, null);
-                }
+            if (entity instanceof LivingEntity livingEntity) {
+                livingEntity.getScheduler().run(plugin, (task) -> {
+                    if (livingEntity.isValid() && !livingEntity.isDead() && !(livingEntity instanceof org.bukkit.entity.Player)) {
+                        if (!livingEntity.getActivePotionEffects().isEmpty()) {
+                            checkAndFixEntityEffects(livingEntity);
+                        }
+                    }
+                }, null);
             }
         }
     }

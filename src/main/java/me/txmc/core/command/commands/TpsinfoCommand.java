@@ -56,21 +56,24 @@ public class TpsinfoCommand extends BaseCommand {
         }
 
 
-        double tps = GlobalUtils.getCurrentRegionTps();
-        double mspt = getServerMSPT();
-        int onlinePlayers = plugin.getServer().getOnlinePlayers().size();
+        player.getScheduler().run(plugin, (st) -> {
+            double tps = GlobalUtils.getCurrentRegionTps();
+            double mspt = GlobalUtils.getCurrentRegionMspt();
+            int onlinePlayers = plugin.getServer().getOnlinePlayers().size();
 
-        Localization loc = Localization.getLocalization(player.locale().getLanguage());
-        String tpsMsg = String.join("\n", loc.getStringList("TpsMessage"));
-        String strTps = String.format("%.2f", tps);
-        String strMspt = String.format("%.2f", mspt);
-        getLowestRegionTPS().thenAccept(lowestTPS -> player.sendMessage( translateChars(String.format(tpsMsg, strTps, strMspt, String.format("%.2f", lowestTPS), onlinePlayers))));
+            Localization loc = Localization.getLocalization(player.locale().getLanguage());
+            String tpsMsg = String.join("\n", loc.getStringList("TpsMessage"));
+            String strTps = (tps >= 20.0) ? String.format("%s20.00", GlobalUtils.getTPSColor(tps)) : String.format("%s%.2f", GlobalUtils.getTPSColor(tps), tps);
+            String strMspt = String.format("%s%.2f", GlobalUtils.getMSPTColor(mspt), mspt);
+            
+            getLowestRegionTPS().thenAccept(lowestTPS -> {
+                String strLowest = (lowestTPS >= 20.0) ? String.format("%s20.00", GlobalUtils.getTPSColor(lowestTPS)) : String.format("%s%.2f", GlobalUtils.getTPSColor(lowestTPS), lowestTPS);
+                player.sendMessage(translateChars(String.format(tpsMsg, strTps, strMspt, strLowest, onlinePlayers)));
+            });
+        }, null);
 
     }
 
-    private double getServerMSPT() {
-        return 1000.0 / GlobalUtils.getCurrentRegionTps();
-    }
 
     private CompletableFuture<Double> getLowestRegionTPS() {
         List<CompletableFuture<Double>> futures = new ArrayList<>();

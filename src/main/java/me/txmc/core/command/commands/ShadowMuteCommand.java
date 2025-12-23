@@ -24,7 +24,7 @@ public class ShadowMuteCommand extends BaseTabCommand {
                 "8b8tcore.command.shadowmute",
                 "Mute a player without their knowledge"
         );
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
         shadowmuteOptions = List.of("add", "remove");
     }
 
@@ -76,7 +76,7 @@ public class ShadowMuteCommand extends BaseTabCommand {
     }
 
     @Override
-    public List<String> onTab(String[] args) {
+    public List<String> onTab(org.bukkit.command.CommandSender sender, String[] args) {
         if (args.length == 1) {
             return shadowmuteOptions.stream()
                     .filter(option -> option.startsWith(args[0].toLowerCase()))

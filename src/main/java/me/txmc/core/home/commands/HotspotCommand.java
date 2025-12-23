@@ -44,6 +44,34 @@ public class HotspotCommand implements TabExecutor, Listener {
     public HotspotCommand(HomeManager main) {
         this.main = main.plugin;
         Bukkit.getPluginManager().registerEvents(this, main.plugin);
+        startBossBarTask();
+    }
+
+    private void startBossBarTask() {
+        Bukkit.getGlobalRegionScheduler().runAtFixedRate(main, (task) -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                updateBossBarsForPlayer(player);
+            }
+        }, 20L, 20L); // Every 1 second
+    }
+
+    private void updateBossBarsForPlayer(Player player) {
+        Location playerLocation = player.getLocation();
+        double thresholdSq = 256 * 256;
+
+        for (Map.Entry<Player, Location> entry : hotspotLocations.entrySet()) {
+            Player hotspotOwner = entry.getKey();
+            Location hotspotLocation = entry.getValue();
+            BossBar bossBar = playerBossBars.get(hotspotOwner);
+            if (bossBar == null) continue;
+
+            if (playerLocation.getWorld().equals(hotspotLocation.getWorld()) &&
+                    playerLocation.distanceSquared(hotspotLocation) <= thresholdSq) {
+                bossBar.addViewer(player);
+            } else {
+                bossBar.removeViewer(player);
+            }
+        }
     }
 
     @Override
@@ -277,29 +305,6 @@ public class HotspotCommand implements TabExecutor, Listener {
         }
     }
 
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        Location playerLocation = player.getLocation();
-
-        for (Map.Entry<Player, Location> entry : hotspotLocations.entrySet()) {
-            Player hotspotOwner = entry.getKey();
-            Location hotspotLocation = entry.getValue();
-
-            if (playerLocation.getWorld().equals(hotspotLocation.getWorld()) &&
-                    playerLocation.distance(hotspotLocation) <= 256) {
-                BossBar bossBar = playerBossBars.get(hotspotOwner);
-                if (bossBar != null) {
-                    bossBar.addViewer(player);
-                }
-            } else {
-                BossBar bossBar = playerBossBars.get(hotspotOwner);
-                if (bossBar != null) {
-                    bossBar.removeViewer(player);
-                }
-            }
-        }
-    }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {

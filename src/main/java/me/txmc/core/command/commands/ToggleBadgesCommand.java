@@ -13,7 +13,7 @@ public class ToggleBadgesCommand extends BaseCommand {
 
     public ToggleBadgesCommand(Main plugin) {
         super("badges", "/badges | /achievements", "8b8tcore.command.badges");
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     @Override

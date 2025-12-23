@@ -27,20 +27,31 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import java.util.Random;
 
 /**
- * @author 254n_m
- * @since 2023/12/17 9:55 PM
+ * @author 254n_m + MindComplexity (aka Libalpm)
+ * @since 2025/12/21
  * This file was created as a part of 8b8tCore
  */
 public class GlobalUtils {
     @Getter private static final String PREFIX = Main.prefix;
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
     private static GeneralDatabase database;
+    
+    private static java.lang.reflect.Method getCurrentRegionMethod;
+    private static java.lang.reflect.Method getDataMethod;
+    private static java.lang.reflect.Method getRegionSchedulingHandleMethod;
+    private static java.lang.reflect.Method getTickReport15sMethod;
+    private static java.lang.reflect.Method tpsDataMethod;
+    private static java.lang.reflect.Method msptDataMethod;
+    private static java.lang.reflect.Method segmentAllMethod;
+    private static java.lang.reflect.Method averageMethod;
 
     public static void info(String format) {
         log(Level.INFO, format);
@@ -84,6 +95,23 @@ public class GlobalUtils {
         input = input.replace("&f", "<white>");
 
         return input;
+    }
+    public static String getTPSColor(double tps) {
+        if (tps >= 18.0D) {
+            return "<green>";
+        } else {
+            return tps >= 13.0D ? "<yellow>" : "<red>";
+        }
+    }
+
+    public static String getMSPTColor(double mspt) {
+        if (mspt < 60.0D) {
+            return "<green>";
+        } else if (mspt <= 100.0D) {
+            return "<yellow>";
+        } else {
+            return "<red>";
+        }
     }
 
     public static void sendMessage(CommandSender obj, String message, Object... args) {
@@ -133,7 +161,7 @@ public class GlobalUtils {
                 try {
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         if (database == null && Main.getInstance() != null) {
-                            database = new GeneralDatabase(Main.getInstance().getDataFolder().getAbsolutePath());
+                            database = GeneralDatabase.getInstance();
                         }
                         if (database != null && database.getPlayerHideDeathMessages(p.getName())) {
                             continue;
@@ -201,12 +229,12 @@ public class GlobalUtils {
     }
     public static CompletableFuture<Double> getTpsNearEntity(Entity entity) {
         CompletableFuture<Double> future = new CompletableFuture<>();
-        double tps = getCurrentRegionTps();
-        if (tps != -1) {
-            future.complete(tps);
+        double[] regionTpsArr = Bukkit.getRegionTPS(entity.getLocation());
+        if (regionTpsArr != null && regionTpsArr.length > 0) {
+            future.complete(regionTpsArr[0]);
             return future;
         }
-        
+
         entity.getScheduler().run(Main.getInstance(), (st) -> {
             double regionTps = getCurrentRegionTps();
             future.complete(regionTps);
@@ -215,9 +243,9 @@ public class GlobalUtils {
     }
     public static CompletableFuture<Double> getRegionTps(Location location) {
         CompletableFuture<Double> future = new CompletableFuture<>();
-        double tps = getCurrentRegionTps();
-        if (tps != -1) {
-            future.complete(tps);
+        double[] regionTpsArr = Bukkit.getRegionTPS(location);
+        if (regionTpsArr != null && regionTpsArr.length > 0) {
+            future.complete(regionTpsArr[0]);
             return future;
         }
         
@@ -230,19 +258,121 @@ public class GlobalUtils {
 
     public static double getCurrentRegionTps() {
         try {
-            Object region = Class.forName("io.papermc.paper.threadedregions.TickRegionScheduler").getDeclaredMethod("getCurrentRegion").invoke(null);
-            if (region != null) {
-                Object tickData = region.getClass().getDeclaredMethod("getData").invoke(region);
-                Object regionShceduleHandle = tickData.getClass().getDeclaredMethod("getRegionSchedulingHandle").invoke(tickData);
-                Object tickReport = regionShceduleHandle.getClass().getMethod("getTickReport15s", long.class).invoke(regionShceduleHandle, System.nanoTime());
-                Object segmentedAvg = tickReport.getClass().getDeclaredMethod("tpsData").invoke(tickReport);
-                Object segAll = segmentedAvg.getClass().getDeclaredMethod("segmentAll").invoke(segmentedAvg);
-                return (double) segAll.getClass().getDeclaredMethod("average").invoke(segAll);
+            if (getCurrentRegionMethod == null) {
+                Class<?> trs = Class.forName("io.papermc.paper.threadedregions.TickRegionScheduler");
+                getCurrentRegionMethod = trs.getMethod("getCurrentRegion");
             }
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+            Object region = getCurrentRegionMethod.invoke(null);
+            if (region != null) {
+                return getTpsFromRegionObject(region);
+            }
+        } catch (Throwable ignored) {}
         return -1;
+    }
+
+    public static double getCurrentRegionMspt() {
+        try {
+            if (getCurrentRegionMethod == null) {
+                Class<?> trs = Class.forName("io.papermc.paper.threadedregions.TickRegionScheduler");
+                getCurrentRegionMethod = trs.getMethod("getCurrentRegion");
+            }
+            Object region = getCurrentRegionMethod.invoke(null);
+            if (region != null) {
+                return getMsptFromRegionObject(region);
+            }
+        } catch (Throwable ignored) {}
+        return -1;
+    }
+
+    private static double getTpsFromRegionObject(Object region) {
+        try {
+            Method mGetData = region.getClass().getMethod("getData");
+            Object tickData = mGetData.invoke(region);
+            
+            Method mGetHandle = tickData.getClass().getMethod("getRegionSchedulingHandle");
+            Object handle = mGetHandle.invoke(tickData);
+            
+            Object report = null;
+            String[] reportMethods = {"getTickReport1s", "getTickReport5s", "getTickReport15s"};
+            for (String mName : reportMethods) {
+                try {
+                    Method m = handle.getClass().getMethod(mName, long.class);
+                    report = m.invoke(handle, System.nanoTime());
+                    if (report != null) break;
+                } catch (Exception ignored) {}
+            }
+            
+            if (report != null) {
+                Method mTpsData = report.getClass().getMethod("tpsData");
+                Object segmentedAvg = mTpsData.invoke(report);
+                return getAverageFromSegmented(segmentedAvg);
+            }
+        } catch (Exception ignored) {}
+        return -1;
+    }
+
+    private static double getMsptFromRegionObject(Object region) {
+        try {
+            Method mGetData = region.getClass().getMethod("getData");
+            Object tickData = mGetData.invoke(region);
+            
+            Method mGetHandle = tickData.getClass().getMethod("getRegionSchedulingHandle");
+            Object handle = mGetHandle.invoke(tickData);
+            
+            Object report = null;
+            String[] reportMethods = {"getTickReport1s", "getTickReport5s", "getTickReport15s"};
+            for (String mName : reportMethods) {
+                try {
+                    Method m = handle.getClass().getMethod(mName, long.class);
+                    report = m.invoke(handle, System.nanoTime());
+                    if (report != null) break;
+                } catch (Exception ignored) {}
+            }
+            
+            if (report != null) {
+                Object segmentedAvg = null;
+                String[] msptMethodNames = {"msptData", "tickTimeData", "mspt", "tickTimes"};
+                for (String mName : msptMethodNames) {
+                    try {
+                        Method m = report.getClass().getMethod(mName);
+                        segmentedAvg = m.invoke(report);
+                        if (segmentedAvg != null) break;
+                    } catch (Exception ignored) {}
+                }
+
+                if (segmentedAvg != null) {
+                    return getAverageFromSegmented(segmentedAvg);
+                }
+            }
+        } catch (Exception ignored) {}
+        
+        double tps = getCurrentRegionTps();
+        if (tps > 0) return 1000.0 / Math.min(tps, 20.0);
+        return -1;
+    }
+
+    private static double getAverageFromSegmented(Object segmentedAvg) throws Exception {
+        try {
+            return (double) segmentedAvg.getClass().getMethod("average").invoke(segmentedAvg);
+        } catch (Exception e) {
+            Object segAll = segmentedAvg.getClass().getMethod("segmentAll").invoke(segmentedAvg);
+            return (double) segAll.getClass().getMethod("average").invoke(segAll);
+        }
+    }
+
+    public static double getTotalTps() {
+        Set<Integer> seenRegions = new HashSet<>();
+        double total = 0;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            double[] regionTPS = Bukkit.getRegionTPS(player.getLocation());
+            if (regionTPS != null) {
+                int regionId = System.identityHashCode(regionTPS);
+                if (seenRegions.add(regionId)) {
+                    total += regionTPS[0];
+                }
+            }
+        }
+        return total;
     }
     public static String formatLocation(Location location) {
         return location.getWorld().getName() + " " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
@@ -260,5 +390,42 @@ public class GlobalUtils {
                 .filter(entity -> entity instanceof Item)
                 .map(entity -> (Item) entity)
                 .count();
+    }
+
+    public static void updateDisplayName(Player player) {
+        if (database == null) database = GeneralDatabase.getInstance();
+        String nick = database.getNickname(player.getName());
+        if (nick == null || nick.isEmpty()) nick = player.getName();
+
+        String customGradient = database.getCustomGradient(player.getName());
+        if (customGradient != null && !customGradient.isEmpty()) {
+            String anim = database.getGradientAnimation(player.getName());
+            int speed = database.getGradientSpeed(player.getName());
+            String finalGradient = GradientAnimator.applyAnimation(customGradient, anim, speed, GradientAnimator.getAnimationTick());
+            
+            String decorationsStr = database.getPlayerData(player.getName(), "nameDecorations");
+            StringBuilder decoratedNick = new StringBuilder();
+            
+            if (decorationsStr != null && !decorationsStr.isEmpty()) {
+                String[] decorations = decorationsStr.split(",");
+                for (String decoration : decorations) {
+                    decoratedNick.append("<").append(decoration.trim()).append(">");
+                }
+            }
+            
+            decoratedNick.append("<gradient:").append(finalGradient).append(">").append(nick).append("</gradient>");
+            
+            if (decorationsStr != null && !decorationsStr.isEmpty()) {
+                String[] decorations = decorationsStr.split(",");
+                for (int i = decorations.length - 1; i >= 0; i--) {
+                    decoratedNick.append("</").append(decorations[i].trim()).append(">");
+                }
+            }
+            
+            nick = decoratedNick.toString();
+        }
+
+        Component displayName = miniMessage.deserialize(convertToMiniMessageFormat(nick));
+        player.displayName(displayName);
     }
 }

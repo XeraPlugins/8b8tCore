@@ -17,7 +17,7 @@ public class TogglePrefixCommand extends BaseCommand {
 
     public TogglePrefixCommand(Main plugin) {
         super("toggleprefix", "/toggleprefix", "8b8tcore.command.toggleprefix");
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     @Override

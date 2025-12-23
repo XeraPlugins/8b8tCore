@@ -92,7 +92,7 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
                         cachedData.x, cachedData.y, cachedData.z));
                 }
             } else {
-                long lastPlayed = offlinePlayer.getLastPlayed();
+                long lastPlayed = offlinePlayer.getLastSeen();
                 if (lastPlayed > 0) {
                     SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
                     String formattedDate = sdf.format(new Date(lastPlayed));
@@ -106,7 +106,7 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
     }
     
     @Override
-    public List<String> onTab(String[] args) {
+    public List<String> onTab(org.bukkit.command.CommandSender sender, String[] args) {
         if (args.length == 1) {
             List<String> suggestions = new ArrayList<>();
             suggestions.addAll(Bukkit.getOnlinePlayers().stream()

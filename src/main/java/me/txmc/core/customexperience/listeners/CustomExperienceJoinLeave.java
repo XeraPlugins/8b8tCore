@@ -31,7 +31,7 @@ public class CustomExperienceJoinLeave implements Listener {
         this.playerPrefix = new PlayerPrefix(plugin);
         this.playerSimulationDistance = new PlayerSimulationDistance(plugin);
         this.playerViewDistance = new PlayerViewDistance(plugin);
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     @EventHandler

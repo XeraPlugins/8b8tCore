@@ -1,6 +1,7 @@
 package me.txmc.core.command.commands;
 
 import me.txmc.core.command.BaseCommand;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,7 +40,8 @@ public class OpenInv extends BaseCommand {
                         break;
                     case "inv":
                     case "inventory":
-                        Inventory inv = Bukkit.createInventory(null, 36, target.getName() + "'s Inventory");
+                        Component title = Component.text(target.getName() + "'s Inventory");
+                        Inventory inv = Bukkit.createInventory(null, 36, title);
                         inv.setContents(Arrays.copyOfRange(target.getInventory().getContents(), 0, 36));
                         player.openInventory(inv);
                         break;

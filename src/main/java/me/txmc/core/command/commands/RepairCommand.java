@@ -5,6 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +84,11 @@ public class RepairCommand extends BaseTabCommand implements Listener {
                 return;
             }
 
-            itemInHand.setDurability((short) 0);
+            ItemMeta meta = itemInHand.getItemMeta();
+            if (meta instanceof Damageable damageable) {
+                damageable.setDamage(0);
+                itemInHand.setItemMeta(meta);
+            }
             sendPrefixedLocalizedMessage(player, "repair_success");
         }
     }
@@ -102,14 +108,18 @@ public class RepairCommand extends BaseTabCommand implements Listener {
     private void repairAllItems(Player player) {
         for (ItemStack item : player.getInventory().getContents()) {
             if (item != null && item.getType() != Material.AIR && item.getType().getMaxDurability() > 0) {
-                item.setDurability((short) 0);
+                ItemMeta meta = item.getItemMeta();
+                if (meta instanceof Damageable damageable) {
+                    damageable.setDamage(0);
+                    item.setItemMeta(meta);
+                }
             }
         }
         sendPrefixedLocalizedMessage(player, "repair_all_success");
     }
 
     @Override
-    public List<String> onTab(String[] args) {
+    public List<String> onTab(org.bukkit.command.CommandSender sender, String[] args) {
         if (args.length == 1) {
             return repairOptions.stream()
                     .filter(option -> option.startsWith(args[0].toLowerCase()))

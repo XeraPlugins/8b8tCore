@@ -2,7 +2,9 @@ package me.txmc.core.command.commands;
 
 import me.txmc.core.Main;
 import me.txmc.core.command.BaseCommand;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -62,11 +64,11 @@ public class JihadCommand extends BaseCommand {
         
         ItemStack tnt = new ItemStack(Material.TNT, 64);
         ItemMeta tntMeta = tnt.getItemMeta();
-        tntMeta.setDisplayName(ChatColor.RED + "WINST0N");
+        tntMeta.displayName(Component.text("WINST0N").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         tnt.setItemMeta(tntMeta);
         ItemStack lighter = new ItemStack(Material.FLINT_AND_STEEL, 1);
         ItemMeta lighterMeta = lighter.getItemMeta();
-        lighterMeta.setDisplayName(ChatColor.GOLD + "John's ALLAHU AKBAR");
+        lighterMeta.displayName(Component.text("John's ALLAHU AKBAR").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
         lighterMeta.addEnchant(Enchantment.UNBREAKING, 3, false);
         lighter.setItemMeta(lighterMeta);        
         player.getInventory().addItem(tnt, lighter);

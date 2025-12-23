@@ -21,7 +21,7 @@ public abstract class ChatCommand implements CommandExecutor {
                 msg = sanitizeMessage(msg);
 
                 sendLocalizedAmpersandMessage(player, "whisper_to", false, target.getName(), msg);
-                GeneralDatabase database = new GeneralDatabase(manager.getPlugin().getDataFolder().getAbsolutePath());
+                GeneralDatabase database = GeneralDatabase.getInstance();
 
                 if(database.isMuted(player.getName())) return;
                 sendLocalizedAmpersandMessage(target, "whisper_from", false, player.getName(), msg);

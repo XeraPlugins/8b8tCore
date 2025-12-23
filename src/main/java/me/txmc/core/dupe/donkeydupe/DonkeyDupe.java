@@ -1,6 +1,7 @@
 package me.txmc.core.dupe.donkeydupe;
 
 import me.txmc.core.Main;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.Player;
@@ -96,7 +97,8 @@ public class DonkeyDupe implements Listener {
         if (holder != animal) return;
 
         if (animal.getLocation().distance(player.getLocation()) >= MIN_DISTANCE && player.getVehicle() != null ) {
-            Inventory fakeInventory = Bukkit.createInventory(player, 18, animal.getName() != null ? animal.getName() : "Entity");
+            Component title = (animal.customName() != null) ? animal.customName() : Component.text("Entity");
+            Inventory fakeInventory = Bukkit.createInventory(player, 18, title);
             fakeInventory.setContents(animal.getInventory().getContents());
 
             Bukkit.getRegionScheduler().runDelayed(plugin, player.getLocation(), (task) -> {

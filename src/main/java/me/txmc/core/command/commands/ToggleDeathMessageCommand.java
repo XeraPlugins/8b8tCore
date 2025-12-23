@@ -13,7 +13,7 @@ public class ToggleDeathMessageCommand extends BaseCommand {
 
     public ToggleDeathMessageCommand(Main plugin) {
         super("deathmessage", "/deathmessage", "8b8tcore.command.deathmessage");
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     @Override

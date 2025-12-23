@@ -1,7 +1,6 @@
 package me.txmc.core.command.commands;
 
 import me.txmc.core.command.BaseCommand;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,8 +9,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.block.Container;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
@@ -102,7 +107,8 @@ public class SignCommand extends BaseCommand {
     private boolean isItemSigned(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         if (meta != null && meta.hasLore()) {
-            for (String lore : meta.getLore()) {
+            for (Component loreComp : meta.lore()) {
+                String lore = PlainTextComponentSerializer.plainText().serialize(loreComp);
                 if (lore.contains("by @")) {
                     return true;
                 }
@@ -113,14 +119,14 @@ public class SignCommand extends BaseCommand {
 
     private void signItem(ItemStack item, String playerName) {
         ItemMeta meta = item.getItemMeta();
-        String signature = ChatColor.BLUE + "by " + ChatColor.YELLOW + "@" + playerName;
+        Component signature = Component.text("by ", NamedTextColor.BLUE)
+                .append(Component.text("@" + playerName, NamedTextColor.YELLOW))
+                .decoration(TextDecoration.ITALIC, false);
 
         if (meta != null) {
-            if (meta.hasLore()) {
-                meta.getLore().add(signature);
-            } else {
-                meta.setLore(Collections.singletonList(signature));
-            }
+            List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();
+            lore.add(signature);
+            meta.lore(lore);
             item.setItemMeta(meta);
         }
     }

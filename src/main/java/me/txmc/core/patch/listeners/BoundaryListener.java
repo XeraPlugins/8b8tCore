@@ -13,25 +13,47 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import me.txmc.core.Reloadable;
 
 /**
  * BoundaryListener - Prevents players from falling below world boundaries and going above nether roof.
  * @author MindComplexity (aka Libalpm)
  * @since 10/2/2025
  */
-@RequiredArgsConstructor
-public class BoundaryListener implements Listener {
+public class BoundaryListener implements Listener, Reloadable {
     private final Main plugin;
     private final Map<UUID, Long> lastNetherRoofDamage = new HashMap<>();
     private final Map<UUID, Long> lastBottomTeleport = new HashMap<>();
     private static final long NETHER_ROOF_DAMAGE_COOLDOWN = 1000;
     private static final long BOTTOM_TELEPORT_COOLDOWN = 3000;
 
-    @EventHandler
+    private boolean enabled;
+    private boolean netherRoofEnabled;
+    private int netherYLevel;
+    private boolean damagePlayers;
+    private boolean blockPlayers;
+    private boolean ensureSafeTeleport;
+    private boolean createNetherPlatform;
+
+    public BoundaryListener(Main plugin) {
+        this.plugin = plugin;
+        reloadConfig();
+    }
+
+    @Override
+    public void reloadConfig() {
+        this.enabled = plugin.getConfig().getBoolean("Patch.BoundaryProtection.Enabled", true);
+        this.netherRoofEnabled = plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.Enabled", true);
+        this.netherYLevel = plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128);
+        this.damagePlayers = plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.DamagePlayers", true);
+        this.blockPlayers = plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.BlockPlayers", true);
+        this.ensureSafeTeleport = plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.EnsureSafeTeleport", true);
+        this.createNetherPlatform = plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.CreateNetherPlatform", true);
+    }
+
+    @EventHandler(priority = org.bukkit.event.EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
-        if (!plugin.getConfig().getBoolean("Patch.BoundaryProtection.Enabled", true)) {
-            return;
-        }
+        if (!enabled) return;
 
         if (event.getFrom().getBlockX() == event.getTo().getBlockX() && 
             event.getFrom().getBlockY() == event.getTo().getBlockY() && 
@@ -41,27 +63,22 @@ public class BoundaryListener implements Listener {
 
         org.bukkit.entity.Player player = event.getPlayer();
         Location to = event.getTo();
-        
         if (to == null) return;
         
         World world = to.getWorld();
         if (world == null) return;
         
         double y = to.getY();
+        World.Environment env = world.getEnvironment();
         
-        if (world.getEnvironment() == World.Environment.NORMAL && (y < -64 || event.getFrom().getY() < -64)) {
+        if (env == World.Environment.NORMAL && (y < -64 || event.getFrom().getY() < -64)) {
             handleBottomBoundary(player, event, world, -59);
-        } else if (world.getEnvironment() == World.Environment.NETHER && (y < 0 || event.getFrom().getY() < 0)) {
+        } else if (env == World.Environment.NETHER && (y < 0 || event.getFrom().getY() < 0)) {
             handleBottomBoundary(player, event, world, 5);
         }
         
-        if (world.getEnvironment() == World.Environment.NETHER && 
-            plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.Enabled", true) &&
-            world.getName().toLowerCase().contains("nether")) {
-            
-            int netherYLevel = plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128);
-            
-            if (event.getFrom().getY() < netherYLevel && event.getTo().getY() >= netherYLevel) {
+        if (env == World.Environment.NETHER && netherRoofEnabled) {
+            if (event.getFrom().getY() < netherYLevel && y >= netherYLevel) {
                 handleNetherRoofAttempt(player, event);
             } else if (y >= netherYLevel) {
                 handleNetherRoof(player, event);
@@ -126,7 +143,7 @@ public class BoundaryListener implements Listener {
         player.setVelocity(player.getVelocity().setY(0));
         
         Location safeLocation = null;
-        if (plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.EnsureSafeTeleport", true)) {
+        if (ensureSafeTeleport) {
             safeLocation = findSafeLocationBelowBedrock(event.getFrom());
         }
         
@@ -147,10 +164,8 @@ public class BoundaryListener implements Listener {
         if (player.isOp()) return;
         
         Location from = event.getFrom();
-        int netherYLevel = plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128);
-        
         if (from.getBlockY() >= netherYLevel) {
-            if (plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.DamagePlayers", true)) {
+            if (damagePlayers) {
                 long currentTime = System.currentTimeMillis();
                 long lastDamage = lastNetherRoofDamage.getOrDefault(player.getUniqueId(), 0L);
                 
@@ -186,8 +201,7 @@ public class BoundaryListener implements Listener {
             return;
         }
         
-        if (!plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.BlockPlayers", true)) return;
-        
+        if (!blockPlayers) return;
         teleportPlayerDownFromNetherRoof(player, event, from);
     }
     
@@ -196,7 +210,7 @@ public class BoundaryListener implements Listener {
         player.setVelocity(player.getVelocity().setY(0));
         
         Location safeLocation = null;
-        if (plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.EnsureSafeTeleport", true)) {
+        if (ensureSafeTeleport) {
             safeLocation = findSafeLocationBelowBedrock(from);
         }
         
@@ -256,7 +270,7 @@ public class BoundaryListener implements Listener {
          
          final Location finalLocation = location;
          player.getScheduler().runDelayed(plugin, (task) -> {
-             if (player.isOnline() && player.getLocation().getY() >= plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128)) {
+             if (player.isOnline() && player.getLocation().getY() >= netherYLevel) {
                  player.teleportAsync(finalLocation);
                  player.setVelocity(player.getVelocity().setY(0));
              }
@@ -334,8 +348,6 @@ public class BoundaryListener implements Listener {
      */
     private Location findSafeLocationBelowBedrock(Location from) {
         World world = from.getWorld();
-        int netherYLevel = plugin.getConfig().getInt("Patch.BoundaryProtection.NetherRoofProtection.NetherYLevel", 128);
-        
         int bedrockCeiling = netherYLevel;
         for (int y = netherYLevel; y < world.getMaxHeight() && y < netherYLevel + 20; y++) {
             Block block = world.getBlockAt(from.getBlockX(), y, from.getBlockZ());
@@ -363,7 +375,7 @@ public class BoundaryListener implements Listener {
                     }
                 }
                 
-                if (plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.CreateNetherPlatform", true)) {
+                if (createNetherPlatform) {
                     createNetherPlatform(world, from.getBlockX(), y - 1, from.getBlockZ());
                 }
                 
@@ -390,7 +402,7 @@ public class BoundaryListener implements Listener {
             }
         }
         
-        if (plugin.getConfig().getBoolean("Patch.BoundaryProtection.NetherRoofProtection.CreateNetherPlatform", true)) {
+        if (createNetherPlatform) {
             createNetherPlatform(world, from.getBlockX(), forceY - 1, from.getBlockZ());
         }
         

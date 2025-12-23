@@ -8,6 +8,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.NamespacedKey;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,42 +39,94 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
  * @since 2024/08/09 01:28 AM
  */
 public class ChestLimiter implements Listener {
-    final int MAX_CHEST_PER_CHUNK;
+    private final int MAX_CHEST_PER_CHUNK;
+    private final NamespacedKey chestCountKey;
 
     public ChestLimiter(JavaPlugin plugin) {
         this.MAX_CHEST_PER_CHUNK = plugin.getConfig().getInt("Patch.ChestLimitPerChunk", 192);
+        this.chestCountKey = new NamespacedKey(plugin, "chest_count");
     }
 
     @EventHandler
-    public void onEntitySpawn(BlockPlaceEvent event) {
+    public void onChunkLoad(ChunkLoadEvent event) {
+        if (event.isNewChunk()) return;
+        Chunk chunk = event.getChunk();
+        recalculateChests(chunk);
+    }
 
-        Block bloque = event.getBlockPlaced();
-        if(bloque.getType() == Material.CHEST || bloque.getType() == Material.TRAPPED_CHEST || bloque.getType() == Material.BARREL){
-            Chunk chunk = bloque.getChunk();
-
-            int yUpperLimit = chunk.getWorld().getMaxHeight();
-            int yLowerLimit = chunk.getWorld().getMinHeight() + 5;
-            if(chunk.getWorld().getEnvironment() == World.Environment.NETHER){
-                yUpperLimit = 125;
+    private int recalculateChests(Chunk chunk) {
+        int count = 0;
+        for (org.bukkit.block.BlockState state : chunk.getTileEntities()) {
+            if (isChest(state.getType())) {
+                count++;
             }
+        }
+        chunk.getPersistentDataContainer().set(chestCountKey, PersistentDataType.INTEGER, count);
+        return count;
+    }
 
-            int chestCount = 0;
+    private boolean isChest(Material type) {
+        return type == Material.CHEST || type == Material.TRAPPED_CHEST || type == Material.BARREL;
+    }
 
-            for (int x = 0; x < 16; x++) {
-                for (int z = 0; z < 16; z++) {
-                    for (int y = yLowerLimit; y < yUpperLimit; y++) {
-                        Block block = chunk.getBlock(x, y, z);
-                        if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST || block.getType() == Material.BARREL) {
-                            chestCount++;
-                        }
-                    }
-                }
-            }
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockPlace(BlockPlaceEvent event) {
+        Block block = event.getBlockPlaced();
+        if (!isChest(block.getType())) return;
 
-            if(chestCount >= MAX_CHEST_PER_CHUNK){
-                event.setCancelled(true);
+        Chunk chunk = block.getChunk();
+        PersistentDataContainer pdc = chunk.getPersistentDataContainer();
+        int currentCount = pdc.getOrDefault(chestCountKey, PersistentDataType.INTEGER, 0);
+
+        if (currentCount >= MAX_CHEST_PER_CHUNK) {
+            event.setCancelled(true);
+            return;
+        }
+
+        pdc.set(chestCountKey, PersistentDataType.INTEGER, currentCount + 1);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockBreak(BlockBreakEvent event) {
+        Block block = event.getBlock();
+        if (isChest(block.getType())) {
+            updateCount(block.getChunk(), -1);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockBurn(BlockBurnEvent event) {
+        Block block = event.getBlock();
+        if (isChest(block.getType())) {
+            updateCount(block.getChunk(), -1);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockExplode(BlockExplodeEvent event) {
+        handleExplosion(event.blockList());
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onEntityExplode(EntityExplodeEvent event) {
+        handleExplosion(event.blockList());
+    }
+
+    private void handleExplosion(List<Block> blocks) {
+        for (Block block : blocks) {
+            if (isChest(block.getType())) {
+                updateCount(block.getChunk(), -1);
             }
         }
     }
 
+    private void updateCount(Chunk chunk, int delta) {
+        PersistentDataContainer pdc = chunk.getPersistentDataContainer();
+        int current = pdc.getOrDefault(chestCountKey, PersistentDataType.INTEGER, -1);
+        if (current == -1) {
+            recalculateChests(chunk);
+        } else {
+            pdc.set(chestCountKey, PersistentDataType.INTEGER, Math.max(0, current + delta));
+        }
+    }
 }

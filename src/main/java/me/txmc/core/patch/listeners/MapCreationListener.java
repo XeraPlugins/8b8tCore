@@ -4,8 +4,11 @@ import io.papermc.paper.threadedregions.scheduler.RegionScheduler;
 import lombok.extern.slf4j.Slf4j;
 import me.txmc.core.Main;
 import me.txmc.core.util.MapCreationLogger;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -134,16 +137,22 @@ public class MapCreationListener implements Listener {
 
     private void signMap(ItemStack item, String players, int mapId) {
         ItemMeta meta = item.getItemMeta();
-        String signature = ChatColor.GRAY + "by @" + players;
+        Component signature = Component.text("by @" + players, NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false);
 
         if (meta != null) {
-            List<String> lore = meta.hasLore() && meta.getLore() != null ? new java.util.ArrayList<>(meta.getLore()) : new java.util.ArrayList<>();
+            List<Component> lore = meta.hasLore() ? new java.util.ArrayList<>(meta.lore()) : new java.util.ArrayList<>();
             boolean hasAuthor = false;
-            for (String line : lore) { if (line != null && line.contains("by @")) { hasAuthor = true; break; } }
+            for (Component lineComp : lore) {
+                String line = PlainTextComponentSerializer.plainText().serialize(lineComp);
+                if (line.contains("by @")) {
+                    hasAuthor = true;
+                    break;
+                }
+            }
             if (!hasAuthor) {
                 lore.add(0, signature);
             }
-            meta.setLore(lore);
+            meta.lore(lore);
 
             NamespacedKey key = new NamespacedKey(plugin, "map_author");
             meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, players);

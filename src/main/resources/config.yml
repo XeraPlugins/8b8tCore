@@ -1,4 +1,4 @@
-#8b8tCore Version 1.7.6
+#8b8tCore Version 1.8.0
 AntiIllegal:
   Enabled: true
   EnableIllegalBlocksCleaner: true
@@ -156,6 +156,16 @@ ChatControl:
     - '/badges'
     - '/achievements'
     - '/deathmessage'
+    - '/dps'
+    - '/disablephantomspawn'
+    - '/phantoms'
+    - '/title'
+    - '/customgradient'
+    - '/cg'
+    - '/setgradient'
+    - '/toggleleaderboard'
+    - '/togglelb'
+    - '/tlb'
 TPA:
   RequestTimeoutInMinutes: 5
 TPS:
@@ -204,6 +214,16 @@ Patch:
       - 'dropped_item::100'
       - 'item_frame::256'
       - 'glow_item_frame::256'
+    PhantomFixes:
+      Enabled: true
+      BlockAll: false
+      OnlyInEnd: true
+      SpawnAboveBlocks:
+        - END_STONE
+        - CHORUS_FLOWER
+        - CHORUS_PLANT
+      DisableScreechUntilAttacked: true
+      OnlyHostileIfAttacked: true
 Redstone:
     StrictTPS: 14 #The tps to start strictly monitoring redstone at
     StrictMaxVLS: 70 #How many redstone operations per second can happen in strict mode
@@ -216,6 +236,7 @@ OpUsersWhiteList:
   - 'YoThisIsAnAltLOL'
   - 'cubebuilder_'
   - 'SrGokuto'
+  - 'MindComplexity'
 prefix: '&8[&98b&78t&8]'
 viewdistance:
   default: 6

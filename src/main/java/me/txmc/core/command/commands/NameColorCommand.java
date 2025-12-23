@@ -6,39 +6,32 @@ import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import static me.txmc.core.util.GlobalUtils.log;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 /**
- * Allows players to change their nickname with color and style codes.
- *
- * <p>This class is part of the 8b8tCore plugin, which adds custom functionalities
- * to Minecraft Servers.</p>
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/09/11 08:10 PM
- */
+ * @author MindComplexity (aka Libalpm)
+ * @since 2025/12/21
+ * This file was created as a part of 8b8tCore
+*/
+
 public class NameColorCommand extends BaseTabCommand {
-    private final List<String> colorOptions;
-    private final List<String> styleOptions;
-    private final MiniMessage miniMessage;
+    private final List<String> decorationOptions;
+    private final List<String> animationOptions;
     private final GeneralDatabase database;
 
     public NameColorCommand(Main plugin) {
-        super("nc", "/nc <color> <styles...>", "8b8tcore.command.nc");
-        colorOptions = getColorOptions();
-        styleOptions = getStyleOptions();
-        miniMessage = MiniMessage.miniMessage();
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        super("nc", "/nc <#hex:#hex...> [bold] [italic] [underlined] [strikethrough] [animation] [speed]", "8b8tcore.command.nc");
+        decorationOptions = List.of("bold", "italic", "underlined", "strikethrough");
+        animationOptions = List.of("wave", "pulse", "rainbow", "shift", "none");
+        this.database = GeneralDatabase.getInstance();
     }
 
     @Override
@@ -53,92 +46,62 @@ public class NameColorCommand extends BaseTabCommand {
             return;
         }
 
-        String colorName = args[0].toLowerCase();
-        if (!colorOptions.contains(colorName)) {
-            sendPrefixedLocalizedMessage(player, "nc_invalid_color");
+        String colors = args[0];
+        if (!colors.matches("^#[0-9A-Fa-f]{6}(:#[0-9A-Fa-f]{6})*$")) {
+            sendPrefixedLocalizedMessage(player, "gradient_invalid", colors);
             return;
         }
 
-        String colorCode = getColorCode(colorName);
-        StringBuilder nameBuilder = new StringBuilder(colorCode);
+        List<String> decorations = new ArrayList<>();
+        String animation = "none";
+        int speed = 5;
 
         for (int i = 1; i < args.length; i++) {
-            String styleCode = getStyleCode(args[i]);
-            if (styleCode != null) {
-                nameBuilder.append(styleCode);
+            String arg = args[i].toLowerCase();
+            if (arg.equals("underline")) arg = "underlined";
+            if (arg.equals("st")) arg = "strikethrough";
+            
+            if (decorationOptions.contains(arg)) {
+                decorations.add(arg);
+            } else if (animationOptions.contains(arg)) {
+                animation = arg;
+            } else {
+                try {
+                    speed = Math.max(1, Math.min(10, Integer.parseInt(arg)));
+                } catch (NumberFormatException ignored) {}
             }
         }
 
-        nameBuilder.append(player.getName());
-
-        String displayNameString = nameBuilder.toString();
-        Component displayName = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(displayNameString));
-
-        player.displayName(displayName);
-        String playerName = miniMessage.serialize(player.displayName());
-        sendPrefixedLocalizedMessage(player, "nc_success", playerName);
-
-        database.insertNickname(player.getName(), GlobalUtils.convertToMiniMessageFormat(displayNameString));
-
+        CompletableFuture<Void> update1 = database.updateCustomGradient(player.getName(), colors);
+        CompletableFuture<Void> update2 = database.updateGradientAnimation(player.getName(), animation);
+        CompletableFuture<Void> update3 = database.updateGradientSpeed(player.getName(), speed);
+        
+        String decorationsStr = decorations.isEmpty() ? null : String.join(",", decorations);
+        CompletableFuture<Void> update4 = database.upsertPlayer(player.getName(), "nameDecorations", decorationsStr);
+        
+        CompletableFuture.allOf(update1, update2, update3, update4).thenRun(() -> refreshPlayer(player));
+        
+        sendPrefixedLocalizedMessage(player, "gradient_success");
     }
 
-    private String getColorCode(String colorName) {
-        return switch (colorName) {
-            case "black" -> "&0";
-            case "dark_blue" -> "&1";
-            case "dark_green" -> "&2";
-            case "dark_aqua" -> "&3";
-            case "dark_red" -> "&4";
-            case "dark_purple" -> "&5";
-            case "gold" -> "&6";
-            case "gray" -> "&7";
-            case "dark_gray" -> "&8";
-            case "blue" -> "&9";
-            case "green" -> "&a";
-            case "aqua" -> "&b";
-            case "red" -> "&c";
-            case "light_purple" -> "&d";
-            case "yellow" -> "&e";
-            case "white" -> "&f";
-            case "gradient_fire" -> "<gradient:#F3904F:#E7654A>";
-            case "gradient_sky" -> "<gradient:#1488CC:#0B14C3>";
-            case "gradient_pink" -> "<gradient:#F4C4F3:#EC00E9>";
-            case "gradient_green" -> "<gradient:#59ED33:#165818>";
-            case "gradient_silver" -> "<gradient:#C9C9C9:#2F2F2F>";
-            case "gradient_red" -> "<gradient:#BF0C1F:#DE4E4E>";
-            case "gradient_aqua" -> "<gradient:#4FF3EA:#00828D>";
-            case "gradient_retro" -> "<gradient:#F34F4F:#65008D>";
-            case "rainbow" -> "<rainbow>";
-            default -> "&f";
-        };
-    }
-
-    private String getStyleCode(String styleName) {
-        return switch (styleName.toLowerCase()) {
-            case "bold" -> "&l";
-            case "italic" -> "&o";
-            case "underline" -> "&n";
-            case "strikethrough" -> "&m";
-            default -> null;
-        };
-    }
-
-    public List<String> getColorOptions() {
-        return List.of("black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white", "gradient_fire", "gradient_sky", "gradient_green", "gradient_pink", "gradient_silver", "gradient_red", "gradient_aqua", "gradient_retro", "rainbow");
-    }
-
-    public List<String> getStyleOptions() {
-        return List.of("bold", "italic", "underline", "strikethrough");
+    private void refreshPlayer(Player player) {
+        Main plugin = (Main) Main.getInstance();
+        player.getScheduler().run(plugin, (task) -> { 
+           me.txmc.core.Section section = plugin.getSectionByName("TabList");
+           if (section instanceof me.txmc.core.tablist.TabSection tabSection) {
+               tabSection.setTab(player, true);
+           }
+        }, null);
     }
 
     @Override
-    public List<String> onTab(String[] args) {
+    public List<String> onTab(org.bukkit.command.CommandSender sender, String[] args) {
         if (args.length == 1) {
-            return colorOptions.stream()
-                    .filter(option -> option.startsWith(args[0].toLowerCase()))
-                    .collect(Collectors.toList());
+            return List.of("#FFFFFF:#FF0000", "#00FF00:#0000FF");
         } else if (args.length > 1) {
-            return styleOptions.stream()
+            List<String> suggestions = new ArrayList<>(decorationOptions);
+            suggestions.addAll(animationOptions);
+            return suggestions.stream()
                     .filter(option -> option.startsWith(args[args.length - 1].toLowerCase()))
                     .collect(Collectors.toList());
         }

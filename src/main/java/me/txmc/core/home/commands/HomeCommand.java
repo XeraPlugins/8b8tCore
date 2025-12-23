@@ -58,6 +58,14 @@ public class HomeCommand implements TabExecutor {
                 main.plugin.lastLocations.put(player, player.getLocation());
                 
                 Location targetLoc = home.getLocation();
+                if (targetLoc.getWorld() == null) {
+                    World world = Bukkit.getWorld(home.getWorldName());
+                    if (world == null) {
+                        sendPrefixedLocalizedMessage(player, "home_world_not_loaded", home.getWorldName());
+                        return true;
+                    }
+                    targetLoc.setWorld(world);
+                }
                 final String homeName = home.getName();
                 targetLoc.getWorld().getChunkAtAsyncUrgently(targetLoc.getBlock()).thenAccept(chunk -> {
                     if (player.isOnline()) {

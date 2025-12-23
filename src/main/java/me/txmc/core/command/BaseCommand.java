@@ -9,6 +9,12 @@ import java.util.Optional;
 
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 
+/**
+ * @author MindComplexity (aka Libalpm)
+ * @since 2025/12/21
+ * This file was created as a part of 8b8tCore
+*/
+
 @Getter
 public abstract class BaseCommand {
     protected final String CONSOLE_ONLY = "This command is console only";
@@ -47,7 +53,7 @@ public abstract class BaseCommand {
         this.subCommands = subCommands;
     }
     public void sendNoPermission(CommandSender sender) {
-        sendMessage(sender, "&cYou are lacking the permission&r&a %s", getPermissions());
+        sendMessage(sender, "&cYou are lacking the permission&r&a %s", String.join(", ", getPermissions()));
     }
 
     public void sendErrorMessage(CommandSender sender, String message) {

@@ -72,7 +72,6 @@ public class JoinDateCommand extends BaseTabCommand {
             return;
         }
         
-        // Get offline player asynchronously
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
             if (offlinePlayer.getFirstPlayed() == 0L) {
@@ -115,12 +114,11 @@ public class JoinDateCommand extends BaseTabCommand {
     }
     
     @Override
-    public List<String> onTab(String[] args) {
+    public List<String> onTab(org.bukkit.command.CommandSender sender, String[] args) {
         if (args.length == 1) {
             List<String> suggestions = new ArrayList<>();
             suggestions.add("reload");
             
-            // Add online player names
             List<String> playerNames = Bukkit.getOnlinePlayers().stream()
                     .map(Player::getName)
                     .collect(Collectors.toList());

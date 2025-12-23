@@ -24,7 +24,7 @@ public class ToggleJoinMessagesCommand extends BaseCommand {
 
     public ToggleJoinMessagesCommand(Main plugin) {
         super("togglejoinmessages", "/togglejoinmessages", "8b8tcore.command.togglejoinmessages");
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     @Override

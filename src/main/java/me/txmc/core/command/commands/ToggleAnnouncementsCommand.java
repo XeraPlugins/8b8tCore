@@ -18,7 +18,7 @@ public class ToggleAnnouncementsCommand extends BaseCommand {
     public ToggleAnnouncementsCommand(Main plugin) {
         super("announcements", "/announcements", "8b8tcore.command.announcements");
         this.plugin = plugin;
-        this.database = new GeneralDatabase(plugin.getDataFolder().getAbsolutePath());
+        this.database = GeneralDatabase.getInstance();
     }
 
     @Override
