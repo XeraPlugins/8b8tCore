@@ -76,6 +76,9 @@ public class GeneralDatabase {
             addColumnIfNotExists(conn, stmt, "gradient_speed", "INTEGER DEFAULT 5");
             addColumnIfNotExists(conn, stmt, "nameDecorations", "TEXT");
             addColumnIfNotExists(conn, stmt, "preventPhantomSpawn", "BOOLEAN DEFAULT TRUE");
+            addColumnIfNotExists(conn, stmt, "prefixGradient", "TEXT");
+            addColumnIfNotExists(conn, stmt, "prefix_animation", "TEXT DEFAULT 'none'");
+            addColumnIfNotExists(conn, stmt, "prefix_speed", "INTEGER DEFAULT 5");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -371,6 +374,45 @@ public class GeneralDatabase {
                 "SELECT preventPhantomSpawn FROM playerdata WHERE username = ?",
                 rs -> rs.getBoolean("preventPhantomSpawn"),
                 true,
+                username
+        );
+    }
+
+    public CompletableFuture<Void> updatePrefixGradient(String username, String gradient) {
+        return upsertPlayer(username, "prefixGradient", gradient);
+    }
+
+    public String getPrefixGradient(String username) {
+        return executeQuery(
+                "SELECT prefixGradient FROM playerdata WHERE username = ?",
+                rs -> rs.getString("prefixGradient"),
+                null,
+                username
+        );
+    }
+
+    public CompletableFuture<Void> updatePrefixAnimation(String username, String animation) {
+        return upsertPlayer(username, "prefix_animation", animation);
+    }
+
+    public String getPrefixAnimation(String username) {
+        return executeQuery(
+                "SELECT prefix_animation FROM playerdata WHERE username = ?",
+                rs -> rs.getString("prefix_animation"),
+                "none",
+                username
+        );
+    }
+
+    public CompletableFuture<Void> updatePrefixSpeed(String username, int speed) {
+        return upsertPlayer(username, "prefix_speed", speed);
+    }
+
+    public int getPrefixSpeed(String username) {
+        return executeQuery(
+                "SELECT prefix_speed FROM playerdata WHERE username = ?",
+                rs -> rs.getInt("prefix_speed"),
+                5,
                 username
         );
     }
