@@ -53,10 +53,9 @@ public class CustomGradientCommand extends BaseCommand {
             return;
         }
 
-        database.updateCustomGradient(player.getName(), colors);
-        CompletableFuture<Void> update1 = database.updateCustomGradient(player.getName(), colors);
-        CompletableFuture<Void> update2 = database.updateGradientAnimation(player.getName(), animation);
-        CompletableFuture<Void> update3 = database.updateGradientSpeed(player.getName(), speed);
+        CompletableFuture<Void> update1 = database.updatePrefixGradient(player.getName(), colors);
+        CompletableFuture<Void> update2 = database.updatePrefixAnimation(player.getName(), animation);
+        CompletableFuture<Void> update3 = database.updatePrefixSpeed(player.getName(), speed);
         
         CompletableFuture.allOf(update1, update2, update3).thenRun(() -> refreshPlayer(player));
         

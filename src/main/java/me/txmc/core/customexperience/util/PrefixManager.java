@@ -111,13 +111,11 @@ public class PrefixManager {
         long tick = GradientAnimator.getAnimationTick();
         String animatedPrefix;
 
-        if (highestPermission.equals("8b8tcore.prefix.custom")) {
-            String customGradient = database.getCustomGradient(player.getName());
-            if (customGradient == null || customGradient.isEmpty()) {
-                customGradient = "#FFFFFF:#AAAAAA:#FFFFFF";
-            }
-            String animationType = database.getGradientAnimation(player.getName());
-            int speed = database.getGradientSpeed(player.getName());
+        String customGradient = database.getPrefixGradient(player.getName());
+        
+        if (customGradient != null && !customGradient.isEmpty()) {
+            String animationType = database.getPrefixAnimation(player.getName());
+            int speed = database.getPrefixSpeed(player.getName());
             
             String finalGradient = GradientAnimator.applyAnimation(customGradient, animationType, speed, tick);
 
