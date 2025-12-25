@@ -7,9 +7,8 @@ import org.bukkit.Bukkit;
  * @since 2025/12/21
  * This file was created as a part of 8b8tCore
 */
+
 public class GradientAnimator {
-
-
     public static String applyAnimation(String baseGradient, String animationType, int speed, long tick) {
         if (animationType == null || animationType.equalsIgnoreCase("none") || animationType.isEmpty()) {
             return baseGradient;
@@ -35,13 +34,15 @@ public class GradientAnimator {
                 return baseGradient;
         }
 
-        if (phase < -1.0) phase = -1.0;
-        if (phase > 1.0) phase = 1.0;
+        if (phase < -1.0)
+            phase = -1.0;
+        if (phase > 1.0)
+            phase = 1.0;
 
         return String.format("%s:%.2f", baseGradient, phase);
     }
-    
+
     public static long getAnimationTick() {
-        return Bukkit.getCurrentTick();
+        return System.currentTimeMillis() / 50;
     }
 }
