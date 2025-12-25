@@ -1,4 +1,4 @@
-![Banner](https://www.8b8t.me/content/images/size/w1000/2025/12/8b8tCorebg.png)
+![Banner](https://www.8b8t.me/content/images/2025/12/8b8tCoreBanner.png)
 
 # 8b8tCore
 *Folia Core Plugin for 8b8t and Anarchy Servers*
