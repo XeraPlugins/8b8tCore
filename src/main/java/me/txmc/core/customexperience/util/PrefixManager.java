@@ -34,6 +34,7 @@ public class PrefixManager {
             "8b8tcore.prefix.qtdonkey",
             "8b8tcore.prefix.orasan080",
             "8b8tcore.prefix.lucky2007",
+            "8b8tcore.prefix.xmas2025",
             "8b8tcore.prefix.donator6",
             "8b8tcore.prefix.donator5",
             "8b8tcore.prefix.donator4",
@@ -56,6 +57,7 @@ public class PrefixManager {
         PREFIXES.put("8b8tcore.prefix.qtdonkey", "<gradient:#39FF14:#88FF0C:#B0FF08:#D7FF04:#FFFF00:%s>[Television]</gradient>");
         PREFIXES.put("8b8tcore.prefix.orasan080", "<gradient:#9bc4e2:#9bc4e2:%s>[lurker]</gradient>");
         PREFIXES.put("8b8tcore.prefix.lucky2007", "<gradient:#C82D19:#FC1F02:#090808:%s>[Addict]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.xmas2025", "<gradient:#8B0000:#FFD700:#006400:%s>[XMAS2025]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator6", "<gradient:#9145b0:#ceafcf:#9145b0:%s>[Ultra]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator5", "<gradient:#a18800:#ecc700:#a18800:%s>[Pro+]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator4", "<gradient:#ef9a98:#f7cac9:#ef9a98:%s>[Pro]</gradient>");
