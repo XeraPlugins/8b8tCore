@@ -18,13 +18,15 @@ public abstract class ChatCommand implements CommandExecutor {
             if (!targetInfo.isIgnoring(player.getUniqueId())) {
                 targetInfo.setReplyTarget(player);
                 senderInfo.setReplyTarget(target);
-                msg = sanitizeMessage(msg);
+                String finalMsg = sanitizeMessage(msg);
 
-                sendLocalizedAmpersandMessage(player, "whisper_to", false, target.getName(), msg);
+                sendLocalizedAmpersandMessage(player, "whisper_to", false, target.getName(), finalMsg);
                 GeneralDatabase database = GeneralDatabase.getInstance();
 
-                if(database.isMuted(player.getName())) return;
-                sendLocalizedAmpersandMessage(target, "whisper_from", false, player.getName(), msg);
+                database.isMutedAsync(player.getName()).thenAccept(isMuted -> {
+                    if (isMuted) return;
+                    sendLocalizedAmpersandMessage(target, "whisper_from", false, player.getName(), finalMsg);
+                });
 
             } else sendLocalizedMessage(player, "whisper_ignoring", false, target.getName());
         } else sendLocalizedMessage(player, "whisper_you_are_ignoring", false);
