@@ -17,7 +17,9 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
@@ -33,7 +35,7 @@ import java.util.logging.Level;
 public class VoteSection implements Section {
     private final Main plugin;
     @Getter private VoteSQLiteStorage sqliteStorage;
-    @Getter private HashMap<String, VoteEntry> toReward;
+    @Getter private Map<String, VoteEntry> toReward;
     @Getter private ConfigurationSection config;
 
     @Override
@@ -53,7 +55,7 @@ public class VoteSection implements Section {
             plugin.getLogger().log(Level.SEVERE, "Failed to initialize SQLite storage. See stacktrace:", t);
         }
         
-        toReward = sqliteStorage.load();
+        toReward = new ConcurrentHashMap<>(sqliteStorage.load());
         // plugin.getLogger().info("VoteSection: Loaded " + toReward.size() + " pending votes");
         
         cleanupExpiredVotes();
@@ -238,39 +240,37 @@ public class VoteSection implements Section {
             plugin.getLogger().warning("Failed to execute expiration command for " + username + ": " + e.getMessage());
         }
     }
-    
+
     /**
-     * Check if player has voter role by checking bukkit permissions.
+     * Async check for voter role using CompletableFuture.
      */
-    public boolean hasVoterRole(String username) {
+    public CompletableFuture<Boolean> hasVoterRoleAsync(String username) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
         try {
             Player player = Bukkit.getPlayerExact(username);
             if (player != null && player.isOnline()) {
-                CompletableFuture<Boolean> permissionFuture = new CompletableFuture<>();
                 Bukkit.getRegionScheduler().run(plugin, player.getLocation(), (task) -> {
                     boolean hasRole = player.hasPermission("group.voter") || player.hasPermission("voter");
-                    permissionFuture.complete(hasRole);
+                    future.complete(hasRole);
                 });
-                
-                try {
-                    return permissionFuture.get(1, java.util.concurrent.TimeUnit.SECONDS);
-                } catch (Exception e) {
-                    plugin.getLogger().warning("Failed to check voter role for " + username + ": " + e.getMessage());
-                    return false;
-                }
+            } else {
+                future.complete(false);
             }
-            // plugin.getLogger().info("Cannot check voter role for offline player " + username + " - will check on join");
-            return false;
-            
+        } catch (Exception e) {
+            future.completeExceptionally(e);
+        }
+        return future;
+    }
+    
+    public boolean hasVoterRole(String username) {
+        try {
+            return hasVoterRoleAsync(username).get(1, java.util.concurrent.TimeUnit.SECONDS);
         } catch (Exception e) {
             plugin.getLogger().warning("Failed to check voter role for " + username + ": " + e.getMessage());
             return false;
         }
     }
     
-    /**
-     * Auto-migrate legacy player if they have voter role but aren't tracked.
-     */
     public void checkAndMigrateLegacyPlayer(String username) {
         if (!config.getBoolean("EnableLegacyPlayerMigration", true)) {
             return;
@@ -280,52 +280,62 @@ public class VoteSection implements Section {
             return;
         }
         
-        Player player = Bukkit.getPlayerExact(username);
-        if (player != null && player.isOnline()) {
-            if (hasVoterRole(username)) {
+        hasVoterRoleAsync(username).thenAccept(hasRole -> {
+            if (hasRole) {
                 int defaultDaysRemaining = config.getInt("LegacyPlayerDefaultDaysRemaining", 20);
                 migrateLegacyPlayer(username, defaultDaysRemaining);
                 // plugin.getLogger().info("Auto-migrated legacy player " + username + " with " + defaultDaysRemaining + " days remaining");
             }
-        }
+        }).exceptionally(ex -> {
+            plugin.getLogger().warning("Error migrating legacy player " + username + ": " + ex.getMessage());
+            return null;
+        });
     }
     
-    /**
-     * Register a vote for online or offline players.
-     */
     public boolean registerVote(String username) {
         plugin.getLogger().info("VoteSection: Attempting to register vote for " + username);
         
         Player player = Bukkit.getPlayerExact(username);
-        if (player != null && player.isOnline()) {
-            checkAndMigrateLegacyPlayer(username);
-        }
         
-        VoteEntry existingEntry = toReward.get(username.toLowerCase());
-        if (existingEntry != null) {
-            extendVoterRole(username, existingEntry);
-            long remainingDays = getRemainingVoterDays(username);
-            // plugin.getLogger().info("VoteSection: Extended voter role for " + username + ". Now has " + remainingDays + " days remaining");
+        Runnable applyVote = () -> {
+            VoteEntry existingEntry = toReward.get(username.toLowerCase());
+            if (existingEntry != null) {
+                extendVoterRole(username, existingEntry);
+            } else {
+                toReward.put(username.toLowerCase(), new VoteEntry(1));
+            }
+            
+            plugin.getLogger().info("VoteSection: Vote registered for " + username + ". Total tracked votes: " + toReward.size());
+            
+            if (sqliteStorage != null) {
+                sqliteStorage.save(toReward);
+            }
+        };
+
+        if (player != null && player.isOnline() && 
+            config.getBoolean("EnableLegacyPlayerMigration", true) && 
+            !toReward.containsKey(username.toLowerCase())) {
+            
+            hasVoterRoleAsync(username).thenAccept(hasRole -> {
+                if (hasRole) {
+                    if (!toReward.containsKey(username.toLowerCase())) {
+                        int defaultDays = config.getInt("LegacyPlayerDefaultDaysRemaining", 20);
+                        migrateLegacyPlayer(username, defaultDays);
+                    }
+                }
+                applyVote.run();
+            }).exceptionally(ex -> {
+                plugin.getLogger().warning("Error registering vote for " + username + ": " + ex.getMessage());
+                return null;
+            });
+            
         } else {
-            toReward.put(username.toLowerCase(), new VoteEntry(1));
-            // plugin.getLogger().info("Created new voter role for " + username + " for " + config.getInt("VoterRoleExpirationDays", 30) + " days");
-        }
-        
-        plugin.getLogger().info("VoteSection: Vote registered for " + username + ". Total tracked votes: " + toReward.size());
-        
-        if (sqliteStorage != null) {
-            // plugin.getLogger().info("VoteSection: Saving votes to SQLite...");
-            sqliteStorage.save(toReward);
-        } else {
-            // plugin.getLogger().warning("VoteSection: SQLiteStorage is null! Cannot save votes!");
+            applyVote.run();
         }
         
         return true;
     }
     
-    /**
-     * Extend voter role expiration by adding more time instead of resetting
-     */
     public void extendVoterRole(String username, VoteEntry existingEntry) {
         int expirationDays = config.getInt("VoterRoleExpirationDays", 30);
         

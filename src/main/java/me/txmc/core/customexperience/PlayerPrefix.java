@@ -46,14 +46,23 @@ public class PlayerPrefix {
             attachment.setPermission("nocheatplus.shortcut.bypass", true);
         }
 
-        String tag = prefixManager.getPrefix(player);
-        setupTag(player, tag);
+        java.util.concurrent.CompletableFuture<String> prefixFuture = prefixManager.getPrefixAsync(player);
+        java.util.concurrent.CompletableFuture<String> nicknameFuture = database.getNicknameAsync(player.getName());
 
-        String displayName = database.getNickname(player.getName());
-        if (displayName != null && !displayName.isEmpty()) {
-            Component component = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(displayName));
-            player.displayName(component);
-        }
+        prefixFuture.thenAcceptBoth(nicknameFuture, (tag, displayName) -> {
+            if (!player.isOnline()) return;
+            player.getScheduler().run(plugin, (task) -> {
+                setupTag(player, tag);
+
+                if (displayName != null && !displayName.isEmpty()) {
+                    Component component = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(displayName));
+                    player.displayName(component);
+                }
+            }, null);
+        }).exceptionally(ex -> {
+            plugin.getLogger().warning("Error setting up player prefix/nickname for " + player.getName() + ": " + ex.getMessage());
+            return null;
+        });
     }
 
     public void setupTag(Player player, String tag) {

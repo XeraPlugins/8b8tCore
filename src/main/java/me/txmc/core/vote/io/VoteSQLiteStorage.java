@@ -49,36 +49,44 @@ public class VoteSQLiteStorage {
         }
     }
 
-    public void save(HashMap<String, VoteEntry> voteMap) {
+    public void save(java.util.Map<String, VoteEntry> voteMap) {
         if (connection == null) {
             GlobalUtils.log(Level.WARNING, "SQLite connection is null, cannot save votes");
             return;
         }
-
-        try (Statement clearStmt = connection.createStatement()) {
-            clearStmt.execute("DELETE FROM votes");
-        } catch (SQLException e) {
-            GlobalUtils.log(Level.SEVERE, "Failed to clear votes table");
-            e.printStackTrace();
-            return;
-        }
-
-        String insertSQL = "INSERT INTO votes (username, times_voted, timestamp) VALUES (?, ?, ?)";
-
-        try (PreparedStatement stmt = connection.prepareStatement(insertSQL)) {
-            for (var entry : voteMap.entrySet()) {
-                stmt.setString(1, entry.getKey());
-                stmt.setInt(2, entry.getValue().getCount());
-                stmt.setLong(3, entry.getValue().getTimestamp());
-                stmt.addBatch();
+        try {
+            connection.setAutoCommit(false);
+            try (Statement clearStmt = connection.createStatement()) {
+                clearStmt.execute("DELETE FROM votes");
             }
-            
-            stmt.executeBatch();
-            // GlobalUtils.log(Level.INFO, "Successfully saved " + voteMap.size() + " vote entries to SQLite");
-            
+
+            String insertSQL = "INSERT INTO votes (username, times_voted, timestamp) VALUES (?, ?, ?)";
+
+            try (PreparedStatement stmt = connection.prepareStatement(insertSQL)) {
+                for (var entry : voteMap.entrySet()) {
+                    stmt.setString(1, entry.getKey());
+                    stmt.setInt(2, entry.getValue().getCount());
+                    stmt.setLong(3, entry.getValue().getTimestamp());
+                    stmt.addBatch();
+                }
+                
+                stmt.executeBatch();
+            }
+            connection.commit();
         } catch (SQLException e) {
             GlobalUtils.log(Level.SEVERE, "Failed to save votes to SQLite");
             e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
