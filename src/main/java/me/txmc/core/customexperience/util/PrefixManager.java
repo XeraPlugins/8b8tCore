@@ -8,6 +8,7 @@ import me.txmc.core.util.GradientAnimator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author MindComplexity (aka Libalpm)
@@ -81,70 +82,95 @@ public class PrefixManager {
     }
 
     public String getPrefix(Player player) {
-        if (database != null && database.getPlayerHidePrefix(player.getName())) return "";
+        // Sync method - kept for backwards compatibility but should not be called from region threads
+        try {
+            return getPrefixAsync(player).join();
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
-        String highestPermission = "";
-        String selectedRank = database.getSelectedRank(player.getName());
-
-        if (selectedRank != null && (player.hasPermission(selectedRank) || player.isOp())) {
-            highestPermission = selectedRank;
-        } else {
-            for (String permission : PREFIX_HIERARCHY) {
-                if (player.hasPermission(permission) || (player.isOp() && !permission.equals("8b8tcore.prefix.custom"))) {
-                    highestPermission = permission;
-                    break;
+    public CompletableFuture<String> getPrefixAsync(Player player) {
+        String username = player.getName();
+        
+        // Fetch all needed data in parallel
+        CompletableFuture<Boolean> hidePrefixFuture = database.getPlayerHidePrefixAsync(username);
+        CompletableFuture<String> selectedRankFuture = database.getSelectedRankAsync(username);
+        CompletableFuture<String> prefixGradientFuture = database.getPrefixGradientAsync(username);
+        CompletableFuture<String> prefixAnimationFuture = database.getPrefixAnimationAsync(username);
+        CompletableFuture<Integer> prefixSpeedFuture = database.getPrefixSpeedAsync(username);
+        CompletableFuture<String> prefixDecorationsFuture = database.getPrefixDecorationsAsync(username);
+        
+        return CompletableFuture.allOf(
+            hidePrefixFuture, selectedRankFuture, prefixGradientFuture, 
+            prefixAnimationFuture, prefixSpeedFuture, prefixDecorationsFuture
+        ).thenApply(v -> {
+            boolean hidePrefix = hidePrefixFuture.join();
+            if (hidePrefix) return "";
+            
+            String selectedRank = selectedRankFuture.join();
+            String customGradient = prefixGradientFuture.join();
+            String animationType = prefixAnimationFuture.join();
+            int speed = prefixSpeedFuture.join();
+            String decorationsStr = prefixDecorationsFuture.join();
+            
+            String highestPermission = "";
+            if (selectedRank != null && (player.hasPermission(selectedRank) || player.isOp())) {
+                highestPermission = selectedRank;
+            } else {
+                for (String permission : PREFIX_HIERARCHY) {
+                    if (player.hasPermission(permission) || (player.isOp() && !permission.equals("8b8tcore.prefix.custom"))) {
+                        highestPermission = permission;
+                        break;
+                    }
                 }
             }
-        }
 
-        if (highestPermission.isEmpty()) return "";
+            if (highestPermission.isEmpty()) return "";
 
-        String basePrefix = PREFIXES.get(highestPermission);
-        if (basePrefix == null) return "";
-        long tick = GradientAnimator.getAnimationTick();
-        String customGradient = database.getPrefixGradient(player.getName());
+            String basePrefix = PREFIXES.get(highestPermission);
+            if (basePrefix == null) return "";
+            long tick = GradientAnimator.getAnimationTick();
 
-        if (customGradient != null && !customGradient.isEmpty()) {
-            String animationType = database.getPrefixAnimation(player.getName());
-            int speed = database.getPrefixSpeed(player.getName());
-            String finalGradient = GradientAnimator.applyAnimation(customGradient, animationType, speed, tick);
+            if (customGradient != null && !customGradient.isEmpty()) {
+                String finalGradient = GradientAnimator.applyAnimation(customGradient, animationType, speed, tick);
 
-            String body = basePrefix;
-            if (basePrefix.contains("<gradient:")) {
-                int firstClose = basePrefix.indexOf('>');
-                if (firstClose != -1) body = basePrefix.substring(firstClose + 1).replace("</gradient>", "");
+                String body = basePrefix;
+                if (basePrefix.contains("<gradient:")) {
+                    int firstClose = basePrefix.indexOf('>');
+                    if (firstClose != -1) body = basePrefix.substring(firstClose + 1).replace("</gradient>", "");
+                }
+
+                StringBuilder result = new StringBuilder();
+                if (decorationsStr != null && !decorationsStr.isEmpty()) {
+                    for (String decoration : decorationsStr.split(",")) result.append("<").append(decoration.trim()).append(">");
+                }
+
+                boolean isGradient = finalGradient.contains(":") && finalGradient.indexOf('#') != finalGradient.lastIndexOf('#');
+                if (isGradient && finalGradient.indexOf('#') == finalGradient.lastIndexOf('#')) isGradient = false;
+
+                if (isGradient) {
+                    result.append("<gradient:").append(finalGradient).append(">").append(body).append("</gradient>");
+                } else {
+                    result.append("<color:").append(finalGradient.split(":")[0]).append(">").append(body).append("</color>");
+                }
+
+                if (decorationsStr != null && !decorationsStr.isEmpty()) {
+                    String[] decorations = decorationsStr.split(",");
+                    for (int i = decorations.length - 1; i >= 0; i--) result.append("</").append(decorations[i].trim()).append(">");
+                }
+
+                return result.toString().replace("%s", "0.0").replace("%g", "") + " ";
             }
 
-            String decorationsStr = database.getPrefixDecorations(player.getName());
-            StringBuilder result = new StringBuilder();
-            if (decorationsStr != null && !decorationsStr.isEmpty()) {
-                for (String decoration : decorationsStr.split(",")) result.append("<").append(decoration.trim()).append(">");
-            }
-
-            boolean isGradient = finalGradient.contains(":") && finalGradient.indexOf('#') != finalGradient.lastIndexOf('#');
-            if (isGradient && finalGradient.indexOf('#') == finalGradient.lastIndexOf('#')) isGradient = false;
-
-            if (isGradient) {
-                result.append("<gradient:").append(finalGradient).append(">").append(body).append("</gradient>");
-            } else {
-                result.append("<color:").append(finalGradient.split(":")[0]).append(">").append(body).append("</color>");
-            }
-
-            if (decorationsStr != null && !decorationsStr.isEmpty()) {
-                String[] decorations = decorationsStr.split(",");
-                for (int i = decorations.length - 1; i >= 0; i--) result.append("</").append(decorations[i].trim()).append(">");
-            }
-
-            return result.toString().replace("%s", "0.0").replace("%g", "") + " ";
-        }
-
-        // improved SDR color blending
-        double t = (tick * 0.05) % 2.0;
-        if (t > 1.0) t = 2.0 - t;
-        double phase = t * t * (3 - 2 * t);
-        String phaseStr = String.format("%.2f", phase);
-        
-        return basePrefix.replace("%s", phaseStr).replace("%g", "#FFFFFF:#AAAAAA:#FFFFFF") + " ";
+            // improved SDR color blending
+            double t = (tick * 0.05) % 2.0;
+            if (t > 1.0) t = 2.0 - t;
+            double phase = t * t * (3 - 2 * t);
+            String phaseStr = String.format("%.2f", phase);
+            
+            return basePrefix.replace("%s", phaseStr).replace("%g", "#FFFFFF:#AAAAAA:#FFFFFF") + " ";
+        });
     }
 
     public List<String> getAvailableRanks(Player player) {

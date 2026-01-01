@@ -167,23 +167,28 @@ public class GlobalUtils {
 
             Bukkit.getGlobalRegionScheduler().runDelayed(Main.getInstance(), (task) -> {
                 try {
+                    if (database == null && Main.getInstance() != null) {
+                        database = GeneralDatabase.getInstance();
+                    }
                     for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (database == null && Main.getInstance() != null) {
-                            database = GeneralDatabase.getInstance();
-                        }
-                        if (database != null && database.getPlayerHideDeathMessages(p.getName())) {
-                            continue;
-                        }
-                        Localization loc = Localization.getLocalization(p.locale().getLanguage());
-                        List<TextComponent> deathMessages = loc.getStringList(key)
-                                .stream()
-                                .map(s -> s.replace("%victim%", victim))
-                                .map(s -> s.replace("%killer%", killer))
-                                .map(s -> s.replace("%kill-weapon%", weapon))
-                                .map(GlobalUtils::translateChars).toList();
+                        database.getPlayerHideDeathMessagesAsync(p.getName()).thenAccept(hideDeathMessages -> {
+                            if (hideDeathMessages || !p.isOnline()) {
+                                return;
+                            }
+                            p.getScheduler().run(Main.getInstance(), (playerTask) -> {
+                                if (!p.isOnline()) return;
+                                Localization loc = Localization.getLocalization(p.locale().getLanguage());
+                                List<TextComponent> deathMessages = loc.getStringList(key)
+                                        .stream()
+                                        .map(s -> s.replace("%victim%", victim))
+                                        .map(s -> s.replace("%killer%", killer))
+                                        .map(s -> s.replace("%kill-weapon%", weapon))
+                                        .map(GlobalUtils::translateChars).toList();
 
-                        Component msg = deathMessages.get(finalMsgIndex);
-                        p.sendMessage(msg);
+                                Component msg = deathMessages.get(finalMsgIndex);
+                                p.sendMessage(msg);
+                            }, null);
+                        });
                     }
                 } catch (Throwable t) {
                     Main.getInstance().getLogger().warning("Failed to send death message: " + t.getMessage());
@@ -428,79 +433,103 @@ public class GlobalUtils {
                 .count();
     }
 
+    /** Sync wrapper for commands - calls async version. For tick-based updates use updateDisplayNameAsync instead. */
     public static void updateDisplayName(Player player) {
+        updateDisplayNameAsync(player).join();
+    }
+
+    public static CompletableFuture<Void> updateDisplayNameAsync(Player player) {
         if (database == null)
             database = GeneralDatabase.getInstance();
         
-        String nick = database.getNickname(player.getName());
-        String customGradient = database.getCustomGradient(player.getName());
+        String username = player.getName();
         
-        if ((customGradient == null || customGradient.isEmpty()) && 
-            (nick == null || nick.isEmpty() || nick.equals(player.getName()))) {
-            Component displayName = miniMessage.deserialize(player.getName());
-            player.displayName(displayName);
-            return;
-        }
+        // Fetch all needed data in parallel
+        CompletableFuture<String> nickFuture = database.getNicknameAsync(username);
+        CompletableFuture<String> gradientFuture = database.getCustomGradientAsync(username);
+        CompletableFuture<String> animFuture = database.getGradientAnimationAsync(username);
+        CompletableFuture<Integer> speedFuture = database.getGradientSpeedAsync(username);
+        CompletableFuture<String> decorationsFuture = database.getPlayerDataAsync(username, "nameDecorations");
         
-        String baseName;
-        if (nick == null || nick.isEmpty() || nick.equals(player.getName())) {
-            baseName = player.getName();
-        } else {
-            baseName = PlainTextComponentSerializer.plainText()
-                    .serialize(miniMessage.deserialize(convertToMiniMessageFormat(nick))).trim();
-        }
-        
-        if (customGradient == null || customGradient.isEmpty()) {
-            Component displayName = miniMessage.deserialize(convertToMiniMessageFormat(baseName));
-            player.displayName(displayName);
-            return;
-        }
-        
-        boolean isGradient = customGradient.contains(":") && 
-                            customGradient.indexOf('#') != customGradient.lastIndexOf('#');
-        
-        String finalGradient;
-        if (isGradient) {
-            String anim = database.getGradientAnimation(player.getName());
-            int speed = database.getGradientSpeed(player.getName());
-            finalGradient = GradientAnimator.applyAnimation(customGradient, anim, speed,
-                    GradientAnimator.getAnimationTick());
-        } else {
-            finalGradient = customGradient;
-            isGradient = false;
-        }
+        return CompletableFuture.allOf(nickFuture, gradientFuture, animFuture, speedFuture, decorationsFuture)
+            .thenAcceptAsync(v -> {
+                if (!player.isOnline()) return;
+                
+                String nick = nickFuture.join();
+                String customGradient = gradientFuture.join();
+                String anim = animFuture.join();
+                int speed = speedFuture.join();
+                String decorationsStr = decorationsFuture.join();
+                
+                // Apply result on player's scheduler
+                player.getScheduler().run(Main.getInstance(), (task) -> {
+                    if (!player.isOnline()) return;
+                    
+                    if ((customGradient == null || customGradient.isEmpty()) && 
+                        (nick == null || nick.isEmpty() || nick.equals(player.getName()))) {
+                        Component displayName = miniMessage.deserialize(player.getName());
+                        player.displayName(displayName);
+                        return;
+                    }
+                    
+                    String baseName;
+                    if (nick == null || nick.isEmpty() || nick.equals(player.getName())) {
+                        baseName = player.getName();
+                    } else {
+                        baseName = PlainTextComponentSerializer.plainText()
+                                .serialize(miniMessage.deserialize(convertToMiniMessageFormat(nick))).trim();
+                    }
+                    
+                    if (customGradient == null || customGradient.isEmpty()) {
+                        Component displayName = miniMessage.deserialize(convertToMiniMessageFormat(baseName));
+                        player.displayName(displayName);
+                        return;
+                    }
+                    
+                    boolean isGradient = customGradient.contains(":") && 
+                                        customGradient.indexOf('#') != customGradient.lastIndexOf('#');
+                    
+                    String finalGradient;
+                    if (isGradient) {
+                        finalGradient = GradientAnimator.applyAnimation(customGradient, anim, speed,
+                                GradientAnimator.getAnimationTick());
+                    } else {
+                        finalGradient = customGradient;
+                        isGradient = false;
+                    }
 
-        if (isGradient && finalGradient.indexOf('#') == finalGradient.lastIndexOf('#')) {
-             isGradient = false;
-        }
+                    if (isGradient && finalGradient.indexOf('#') == finalGradient.lastIndexOf('#')) {
+                         isGradient = false;
+                    }
 
-        String decorationsStr = database.getPlayerData(player.getName(), "nameDecorations");
-        StringBuilder result = new StringBuilder();
+                    StringBuilder result = new StringBuilder();
 
-        if (decorationsStr != null && !decorationsStr.isEmpty()) {
-            for (String decoration : decorationsStr.split(",")) {
-                result.append("<").append(decoration.trim()).append(">");
-            }
-        }
+                    if (decorationsStr != null && !decorationsStr.isEmpty()) {
+                        for (String decoration : decorationsStr.split(",")) {
+                            result.append("<").append(decoration.trim()).append(">");
+                        }
+                    }
 
-        if (isGradient) {
-            result.append("<gradient:").append(finalGradient).append(">")
-                .append(baseName)
-                .append("</gradient>");
-        } else {
-            result.append("<color:").append(finalGradient).append(">")
-                .append(baseName)
-                .append("</color>");
-        }
+                    if (isGradient) {
+                        result.append("<gradient:").append(finalGradient).append(">")
+                            .append(baseName)
+                            .append("</gradient>");
+                    } else {
+                        result.append("<color:").append(finalGradient).append(">")
+                            .append(baseName)
+                            .append("</color>");
+                    }
 
-        if (decorationsStr != null && !decorationsStr.isEmpty()) {
-            String[] decorations = decorationsStr.split(",");
-            for (int i = decorations.length - 1; i >= 0; i--) {
-                result.append("</").append(decorations[i].trim()).append(">");
-            }
-        }
+                    if (decorationsStr != null && !decorationsStr.isEmpty()) {
+                        String[] decorations = decorationsStr.split(",");
+                        for (int i = decorations.length - 1; i >= 0; i--) {
+                            result.append("</").append(decorations[i].trim()).append(">");
+                        }
+                    }
 
-        Component displayName = miniMessage.deserialize(result.toString());
-        player.displayName(displayName);
+                    Component displayName = miniMessage.deserialize(result.toString());
+                    player.displayName(displayName);
+                }, null);
+            });
     }
 }
