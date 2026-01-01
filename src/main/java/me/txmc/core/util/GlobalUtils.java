@@ -35,15 +35,16 @@ import java.util.logging.Level;
 import java.util.Random;
 
 /**
- * @author 254n_m + MindComplexity (aka Libalpm)
+ * @author MindComplexity (aka Libalpm)
  * @since 2025/12/21
  * This file was created as a part of 8b8tCore
  */
 public class GlobalUtils {
-    @Getter private static final String PREFIX = Main.prefix;
+    @Getter
+    private static final String PREFIX = Main.prefix;
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
     private static GeneralDatabase database;
-    
+
     private static java.lang.reflect.Method getCurrentRegionMethod;
     private static java.lang.reflect.Method getDataMethod;
     private static java.lang.reflect.Method getRegionSchedulingHandleMethod;
@@ -61,7 +62,8 @@ public class GlobalUtils {
         StackTraceElement element = Thread.currentThread().getStackTrace()[2];
         String message = String.format(format, args);
         message = getStringContent(translateChars(message));
-        Main.getInstance().getLogger().log(level, String.format("%s%c%s", message, Character.MIN_VALUE, element.getClassName()));
+        Main.getInstance().getLogger().log(level,
+                String.format("%s%c%s", message, Character.MIN_VALUE, element.getClassName()));
     }
 
     public static TextComponent translateChars(String input) {
@@ -96,6 +98,7 @@ public class GlobalUtils {
 
         return input;
     }
+
     public static String getTPSColor(double tps) {
         if (tps >= 18.0D) {
             return "<green>";
@@ -119,10 +122,12 @@ public class GlobalUtils {
     }
 
     public static void sendOptionalPrefixMessage(CommandSender obj, String msg, boolean prefix, Object... args) {
-        if (prefix) msg = String.format("%s &7>>&r %s", PREFIX, msg);
+        if (prefix)
+            msg = String.format("%s &7>>&r %s", PREFIX, msg);
         msg = String.format(msg, args);
         obj.sendMessage(translateChars(msg));
     }
+
     public static void sendPrefixedLocalizedMessage(Player player, String key, Object... args) {
         sendLocalizedMessage(player, key, true, args);
     }
@@ -130,16 +135,19 @@ public class GlobalUtils {
     public static void sendLocalizedMessage(Player player, String key, boolean prefix, Object... args) {
         Localization loc = Localization.getLocalization(player.locale().getLanguage());
         String msg = String.format(loc.get(key), args);
-        if (prefix) msg = PREFIX.concat(" &r&7>>&r ").concat(msg);
+        if (prefix)
+            msg = PREFIX.concat(" &r&7>>&r ").concat(msg);
         player.sendMessage(translateChars(msg));
     }
 
     public static void sendLocalizedAmpersandMessage(Player player, String key, boolean prefix, Object... args) {
         Localization loc = Localization.getLocalization(player.locale().getLanguage());
         String msg = String.format(loc.get(key), args);
-        if (prefix) msg = PREFIX.concat(" &r&7>>&r ").concat(msg);
+        if (prefix)
+            msg = PREFIX.concat(" &r&7>>&r ").concat(msg);
         player.sendMessage(translateChars(msg));
     }
+
     @SuppressWarnings("ConstantConditions")
     public static void sendDeathMessage(String key, String victim, String killer, String weapon) {
         try {
@@ -151,7 +159,7 @@ public class GlobalUtils {
                 return;
             }
             int msgIndex = 0;
-            if(deathListMessages.size() > 1){
+            if (deathListMessages.size() > 1) {
                 Random random = new Random();
                 msgIndex = random.nextInt(deathListMessages.size());
             }
@@ -181,52 +189,66 @@ public class GlobalUtils {
                     Main.getInstance().getLogger().warning("Failed to send death message: " + t.getMessage());
                 }
             }, 1L);
-        } catch (Throwable ignored){};
+        } catch (Throwable ignored) {
+        }
 
     }
 
     public static void sendPrefixedComponent(CommandSender target, Component component) {
         target.sendMessage(translateChars(String.format("%s &7>>&r ", PREFIX)).append(component));
     }
+
     public static void unpackResource(String resourceName, File file) {
-        if (file.exists()) return;
+        if (file.exists())
+            return;
         try {
-            @Cleanup InputStream is = Main.class.getClassLoader().getResourceAsStream(resourceName);
+            @Cleanup
+            InputStream is = Main.class.getClassLoader().getResourceAsStream(resourceName);
             if (is == null)
                 throw new NullPointerException(String.format("Resource %s is not present in the jar", resourceName));
             Files.copy(is, file.toPath());
         } catch (Throwable t) {
-            log(Level.SEVERE, "&cFailed to extract resource from jar due to &r&3 %s&r&c! Please see the stacktrace below for more info", t.getMessage());
+            log(Level.SEVERE,
+                    "&cFailed to extract resource from jar due to &r&3 %s&r&c! Please see the stacktrace below for more info",
+                    t.getMessage());
             t.printStackTrace();
         }
     }
+
     public static void executeCommand(String command, Object... args) {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format(command, args));
     }
+
     public static void removeElytra(Player player) {
         Bukkit.getRegionScheduler().run(Main.getInstance(), player.getLocation(), (task) -> {
             try {
                 ItemStack chestPlate = player.getInventory().getChestplate();
-                if (chestPlate == null) return;
-                if (chestPlate.getType() == Material.AIR) return;
+                if (chestPlate == null)
+                    return;
+                if (chestPlate.getType() == Material.AIR)
+                    return;
                 if (chestPlate.getType() == Material.ELYTRA) {
                     PlayerInventory inventory = player.getInventory();
                     if (inventory.firstEmpty() == -1) {
                         player.getWorld().dropItemNaturally(player.getLocation(), chestPlate);
-                    } else inventory.setItem(inventory.firstEmpty(), chestPlate);
+                    } else
+                        inventory.setItem(inventory.firstEmpty(), chestPlate);
                     ItemStack[] buffer = inventory.getArmorContents();
                     buffer[2] = null;
                     inventory.setArmorContents(buffer);
                 }
             } catch (Exception e) {
-                Main.getInstance().getLogger().warning("Failed to remove elytra from " + player.getName() + ": " + e.getMessage());
+                Main.getInstance().getLogger()
+                        .warning("Failed to remove elytra from " + player.getName() + ": " + e.getMessage());
             }
         });
     }
+
     public static String getStringContent(Component component) {
         PlainTextComponentSerializer serializer = PlainTextComponentSerializer.plainText();
         return serializer.serialize(component);
     }
+
     public static CompletableFuture<Double> getTpsNearEntity(Entity entity) {
         CompletableFuture<Double> future = new CompletableFuture<>();
         double[] regionTpsArr = Bukkit.getRegionTPS(entity.getLocation());
@@ -241,6 +263,7 @@ public class GlobalUtils {
         }, () -> future.complete(-1.0));
         return future;
     }
+
     public static CompletableFuture<Double> getRegionTps(Location location) {
         CompletableFuture<Double> future = new CompletableFuture<>();
         double[] regionTpsArr = Bukkit.getRegionTPS(location);
@@ -248,7 +271,7 @@ public class GlobalUtils {
             future.complete(regionTpsArr[0]);
             return future;
         }
-        
+
         Bukkit.getRegionScheduler().run(Main.getInstance(), location, (st) -> {
             double regionTps = getCurrentRegionTps();
             future.complete(regionTps);
@@ -266,7 +289,8 @@ public class GlobalUtils {
             if (region != null) {
                 return getTpsFromRegionObject(region);
             }
-        } catch (Throwable ignored) {}
+        } catch (Throwable ignored) {
+        }
         return -1;
     }
 
@@ -280,7 +304,8 @@ public class GlobalUtils {
             if (region != null) {
                 return getMsptFromRegionObject(region);
             }
-        } catch (Throwable ignored) {}
+        } catch (Throwable ignored) {
+        }
         return -1;
     }
 
@@ -288,26 +313,29 @@ public class GlobalUtils {
         try {
             Method mGetData = region.getClass().getMethod("getData");
             Object tickData = mGetData.invoke(region);
-            
+
             Method mGetHandle = tickData.getClass().getMethod("getRegionSchedulingHandle");
             Object handle = mGetHandle.invoke(tickData);
-            
+
             Object report = null;
-            String[] reportMethods = {"getTickReport1s", "getTickReport5s", "getTickReport15s"};
+            String[] reportMethods = { "getTickReport1s", "getTickReport5s", "getTickReport15s" };
             for (String mName : reportMethods) {
                 try {
                     Method m = handle.getClass().getMethod(mName, long.class);
                     report = m.invoke(handle, System.nanoTime());
-                    if (report != null) break;
-                } catch (Exception ignored) {}
+                    if (report != null)
+                        break;
+                } catch (Exception ignored) {
+                }
             }
-            
+
             if (report != null) {
                 Method mTpsData = report.getClass().getMethod("tpsData");
                 Object segmentedAvg = mTpsData.invoke(report);
                 return getAverageFromSegmented(segmentedAvg);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return -1;
     }
 
@@ -315,39 +343,45 @@ public class GlobalUtils {
         try {
             Method mGetData = region.getClass().getMethod("getData");
             Object tickData = mGetData.invoke(region);
-            
+
             Method mGetHandle = tickData.getClass().getMethod("getRegionSchedulingHandle");
             Object handle = mGetHandle.invoke(tickData);
-            
+
             Object report = null;
-            String[] reportMethods = {"getTickReport1s", "getTickReport5s", "getTickReport15s"};
+            String[] reportMethods = { "getTickReport1s", "getTickReport5s", "getTickReport15s" };
             for (String mName : reportMethods) {
                 try {
                     Method m = handle.getClass().getMethod(mName, long.class);
                     report = m.invoke(handle, System.nanoTime());
-                    if (report != null) break;
-                } catch (Exception ignored) {}
+                    if (report != null)
+                        break;
+                } catch (Exception ignored) {
+                }
             }
-            
+
             if (report != null) {
                 Object segmentedAvg = null;
-                String[] msptMethodNames = {"msptData", "tickTimeData", "mspt", "tickTimes"};
+                String[] msptMethodNames = { "msptData", "tickTimeData", "mspt", "tickTimes" };
                 for (String mName : msptMethodNames) {
                     try {
                         Method m = report.getClass().getMethod(mName);
                         segmentedAvg = m.invoke(report);
-                        if (segmentedAvg != null) break;
-                    } catch (Exception ignored) {}
+                        if (segmentedAvg != null)
+                            break;
+                    } catch (Exception ignored) {
+                    }
                 }
 
                 if (segmentedAvg != null) {
                     return getAverageFromSegmented(segmentedAvg);
                 }
             }
-        } catch (Exception ignored) {}
-        
+        } catch (Exception ignored) {
+        }
+
         double tps = getCurrentRegionTps();
-        if (tps > 0) return 1000.0 / Math.min(tps, 20.0);
+        if (tps > 0)
+            return 1000.0 / Math.min(tps, 20.0);
         return -1;
     }
 
@@ -374,8 +408,10 @@ public class GlobalUtils {
         }
         return total;
     }
+
     public static String formatLocation(Location location) {
-        return location.getWorld().getName() + " " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
+        return location.getWorld().getName() + " " + location.getBlockX() + ", " + location.getBlockY() + ", "
+                + location.getBlockZ();
     }
 
     public static UUID getChunkId(Block block) {
@@ -393,39 +429,78 @@ public class GlobalUtils {
     }
 
     public static void updateDisplayName(Player player) {
-        if (database == null) database = GeneralDatabase.getInstance();
+        if (database == null)
+            database = GeneralDatabase.getInstance();
+        
         String nick = database.getNickname(player.getName());
-        if (nick == null || nick.isEmpty()) nick = player.getName();
-
         String customGradient = database.getCustomGradient(player.getName());
-        if (customGradient != null && !customGradient.isEmpty()) {
+        
+        if ((customGradient == null || customGradient.isEmpty()) && 
+            (nick == null || nick.isEmpty() || nick.equals(player.getName()))) {
+            Component displayName = miniMessage.deserialize(player.getName());
+            player.displayName(displayName);
+            return;
+        }
+        
+        String baseName;
+        if (nick == null || nick.isEmpty() || nick.equals(player.getName())) {
+            baseName = player.getName();
+        } else {
+            baseName = PlainTextComponentSerializer.plainText()
+                    .serialize(miniMessage.deserialize(convertToMiniMessageFormat(nick))).trim();
+        }
+        
+        if (customGradient == null || customGradient.isEmpty()) {
+            Component displayName = miniMessage.deserialize(convertToMiniMessageFormat(baseName));
+            player.displayName(displayName);
+            return;
+        }
+        
+        boolean isGradient = customGradient.contains(":") && 
+                            customGradient.indexOf('#') != customGradient.lastIndexOf('#');
+        
+        String finalGradient;
+        if (isGradient) {
             String anim = database.getGradientAnimation(player.getName());
             int speed = database.getGradientSpeed(player.getName());
-            String finalGradient = GradientAnimator.applyAnimation(customGradient, anim, speed, GradientAnimator.getAnimationTick());
-            
-            String decorationsStr = database.getPlayerData(player.getName(), "nameDecorations");
-            StringBuilder decoratedNick = new StringBuilder();
-            
-            if (decorationsStr != null && !decorationsStr.isEmpty()) {
-                String[] decorations = decorationsStr.split(",");
-                for (String decoration : decorations) {
-                    decoratedNick.append("<").append(decoration.trim()).append(">");
-                }
-            }
-            
-            decoratedNick.append("<gradient:").append(finalGradient).append(">").append(nick).append("</gradient>");
-            
-            if (decorationsStr != null && !decorationsStr.isEmpty()) {
-                String[] decorations = decorationsStr.split(",");
-                for (int i = decorations.length - 1; i >= 0; i--) {
-                    decoratedNick.append("</").append(decorations[i].trim()).append(">");
-                }
-            }
-            
-            nick = decoratedNick.toString();
+            finalGradient = GradientAnimator.applyAnimation(customGradient, anim, speed,
+                    GradientAnimator.getAnimationTick());
+        } else {
+            finalGradient = customGradient;
+            isGradient = false;
         }
 
-        Component displayName = miniMessage.deserialize(convertToMiniMessageFormat(nick));
+        if (isGradient && finalGradient.indexOf('#') == finalGradient.lastIndexOf('#')) {
+             isGradient = false;
+        }
+
+        String decorationsStr = database.getPlayerData(player.getName(), "nameDecorations");
+        StringBuilder result = new StringBuilder();
+
+        if (decorationsStr != null && !decorationsStr.isEmpty()) {
+            for (String decoration : decorationsStr.split(",")) {
+                result.append("<").append(decoration.trim()).append(">");
+            }
+        }
+
+        if (isGradient) {
+            result.append("<gradient:").append(finalGradient).append(">")
+                .append(baseName)
+                .append("</gradient>");
+        } else {
+            result.append("<color:").append(finalGradient).append(">")
+                .append(baseName)
+                .append("</color>");
+        }
+
+        if (decorationsStr != null && !decorationsStr.isEmpty()) {
+            String[] decorations = decorationsStr.split(",");
+            for (int i = decorations.length - 1; i >= 0; i--) {
+                result.append("</").append(decorations[i].trim()).append(">");
+            }
+        }
+
+        Component displayName = miniMessage.deserialize(result.toString());
         player.displayName(displayName);
     }
 }

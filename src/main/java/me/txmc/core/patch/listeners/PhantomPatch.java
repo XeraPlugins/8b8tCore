@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 /**
  * @author MindComplexity (aka Libalpm)
  * @since 2025/12/21
- * This file was created as a part of 8b8tCore
-*/
+ *        This file was created as a part of 8b8tCore
+ */
 
 @RequiredArgsConstructor
 public class PhantomPatch implements Listener {
@@ -45,31 +45,39 @@ public class PhantomPatch implements Listener {
         Bukkit.getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
             boolean enabled = plugin.getConfig().getBoolean("Patch.PhantomFixes.Enabled", true);
             boolean blockAll = plugin.getConfig().getBoolean("Patch.PhantomFixes.BlockAll", false);
-            if (!enabled || blockAll) return;
+            if (!enabled || blockAll)
+                return;
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (GeneralDatabase.getInstance().getPreventPhantomSpawn(player.getName())) continue;
+                if (GeneralDatabase.getInstance().getPreventPhantomSpawn(player.getName()))
+                    continue;
                 World world = player.getWorld();
-                if (world.getEnvironment() != World.Environment.THE_END) continue;
+                if (world.getEnvironment() != World.Environment.THE_END)
+                    continue;
 
-                if (Math.random() > 0.10) continue;
+                if (Math.random() > 0.10)
+                    continue;
 
                 Location playerLoc = player.getLocation();
-                
+
                 Bukkit.getRegionScheduler().run(plugin, playerLoc, (regionTask) -> {
-                    if (!player.isOnline()) return;
-                    
+                    if (!player.isOnline())
+                        return;
+
                     List<org.bukkit.entity.Entity> existing = player.getNearbyEntities(64, 64, 64);
                     long phantomCount = existing.stream().filter(e -> e.getType() == EntityType.PHANTOM).count();
-                    if (phantomCount >= 8) return;
+                    if (phantomCount >= 8)
+                        return;
 
                     List<String> validNamed = plugin.getConfig().getStringList("Patch.PhantomFixes.SpawnAboveBlocks");
-                    boolean disableScreech = plugin.getConfig().getBoolean("Patch.PhantomFixes.DisableScreechUntilAttacked", true);
-                    
+                    boolean disableScreech = plugin.getConfig()
+                            .getBoolean("Patch.PhantomFixes.DisableScreechUntilAttacked", true);
+
                     Block ground = null;
                     for (int y = 0; y < 64; y++) {
                         int checkY = playerLoc.getBlockY() - y;
-                        if (checkY < world.getMinHeight()) break;
+                        if (checkY < world.getMinHeight())
+                            break;
                         Block b = world.getBlockAt(playerLoc.getBlockX(), checkY, playerLoc.getBlockZ());
                         if (!b.getType().isAir()) {
                             ground = b;
@@ -77,7 +85,8 @@ public class PhantomPatch implements Listener {
                         }
                     }
 
-                    if (ground == null) return;
+                    if (ground == null)
+                        return;
 
                     if (!validNamed.isEmpty()) {
                         boolean valid = false;
@@ -88,13 +97,16 @@ public class PhantomPatch implements Listener {
                                 break;
                             }
                         }
-                        if (!valid) return;
+                        if (!valid)
+                            return;
                     }
 
-                    Location spawnLoc = playerLoc.clone().add((Math.random() - 0.5) * 20, 20, (Math.random() - 0.5) * 20);
+                    Location spawnLoc = playerLoc.clone().add((Math.random() - 0.5) * 20, 20,
+                            (Math.random() - 0.5) * 20);
                     int count = 2 + (int) (Math.random() * 3);
                     for (int i = 0; i < count; i++) {
-                        Phantom phantom = (Phantom) world.spawnEntity(spawnLoc, EntityType.PHANTOM, CreatureSpawnEvent.SpawnReason.CUSTOM);
+                        Phantom phantom = (Phantom) world.spawnEntity(spawnLoc, EntityType.PHANTOM,
+                                CreatureSpawnEvent.SpawnReason.CUSTOM);
                         if (disableScreech) {
                             phantom.setSilent(true);
                         }
@@ -113,8 +125,9 @@ public class PhantomPatch implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPhantomSpawn(CreatureSpawnEvent event) {
-        if (event.getEntityType() != EntityType.PHANTOM) return;
-        
+        if (event.getEntityType() != EntityType.PHANTOM)
+            return;
+
         if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL) {
             Player closest = null;
             double distSq = Double.MAX_VALUE;
@@ -131,13 +144,15 @@ public class PhantomPatch implements Listener {
             }
         }
 
-        if (!plugin.getConfig().getBoolean("Patch.PhantomFixes.Enabled", true)) return;
+        if (!plugin.getConfig().getBoolean("Patch.PhantomFixes.Enabled", true))
+            return;
         if (plugin.getConfig().getBoolean("Patch.PhantomFixes.BlockAll", false)) {
             event.setCancelled(true);
             return;
         }
 
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM) return;
+        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM)
+            return;
 
         World world = event.getLocation().getWorld();
         if (plugin.getConfig().getBoolean("Patch.PhantomFixes.OnlyInEnd", true)) {
@@ -151,8 +166,11 @@ public class PhantomPatch implements Listener {
         if (!blockNames.isEmpty()) {
             Set<Material> validBlocks = blockNames.stream()
                     .map(name -> {
-                        try { return Material.valueOf(name.toUpperCase()); }
-                        catch (Exception e) { return null; }
+                        try {
+                            return Material.valueOf(name.toUpperCase());
+                        } catch (Exception e) {
+                            return null;
+                        }
                     })
                     .filter(m -> m != null)
                     .collect(Collectors.toSet());
@@ -163,7 +181,8 @@ public class PhantomPatch implements Listener {
 
                 for (int i = 1; i <= 64; i++) {
                     Block below = base.getRelative(0, -i, 0);
-                    if (below.getType().isAir()) continue;
+                    if (below.getType().isAir())
+                        continue;
                     if (validBlocks.contains(below.getType())) {
                         found = true;
                     }
@@ -184,9 +203,12 @@ public class PhantomPatch implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityTarget(EntityTargetEvent event) {
-        if (event.getEntityType() != EntityType.PHANTOM) return;
-        if (!plugin.getConfig().getBoolean("Patch.PhantomFixes.Enabled", true)) return;
-        if (!plugin.getConfig().getBoolean("Patch.PhantomFixes.OnlyHostileIfAttacked", true)) return;
+        if (event.getEntityType() != EntityType.PHANTOM)
+            return;
+        if (!plugin.getConfig().getBoolean("Patch.PhantomFixes.Enabled", true))
+            return;
+        if (!plugin.getConfig().getBoolean("Patch.PhantomFixes.OnlyHostileIfAttacked", true))
+            return;
 
         Phantom phantom = (Phantom) event.getEntity();
         if (!phantom.getPersistentDataContainer().has(aggroKey, PersistentDataType.BYTE)) {
@@ -196,25 +218,29 @@ public class PhantomPatch implements Listener {
 
     @EventHandler(priority = org.bukkit.event.EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPhantomDamage(EntityDamageByEntityEvent event) {
-        if (event.getEntityType() != EntityType.PHANTOM) return;
-        if (!plugin.getConfig().getBoolean("Patch.PhantomFixes.Enabled", true)) return;
+        if (event.getEntityType() != EntityType.PHANTOM)
+            return;
+        if (!plugin.getConfig().getBoolean("Patch.PhantomFixes.Enabled", true))
+            return;
 
         Player player = null;
         if (event.getDamager() instanceof Player p) {
             player = p;
-        } else if (event.getDamager() instanceof org.bukkit.entity.Projectile proj && proj.getShooter() instanceof Player p) {
+        } else if (event.getDamager() instanceof org.bukkit.entity.Projectile proj
+                && proj.getShooter() instanceof Player p) {
             player = p;
         }
 
         if (player != null) {
             final Player target = player;
             Phantom damagedPhantom = (Phantom) event.getEntity();
-            
+
             Bukkit.getRegionScheduler().run(plugin, damagedPhantom.getLocation(), (task) -> {
                 List<org.bukkit.entity.Entity> nearby = damagedPhantom.getNearbyEntities(32, 32, 32);
                 nearby.add(damagedPhantom);
 
-                boolean disableScreech = plugin.getConfig().getBoolean("Patch.PhantomFixes.DisableScreechUntilAttacked", true);
+                boolean disableScreech = plugin.getConfig().getBoolean("Patch.PhantomFixes.DisableScreechUntilAttacked",
+                        true);
 
                 for (org.bukkit.entity.Entity entity : nearby) {
                     if (entity instanceof Phantom phantom) {
@@ -245,11 +271,16 @@ public class PhantomPatch implements Listener {
     }
 
     private void resetPhantomAggro(Player player) {
-        Bukkit.getRegionScheduler().run(plugin, player.getLocation(), (task) -> {
-            List<org.bukkit.entity.Entity> nearby = player.getNearbyEntities(128, 128, 128);
-            boolean disableScreech = plugin.getConfig().getBoolean("Patch.PhantomFixes.DisableScreechUntilAttacked", true);
+        Location loc = player.getLocation().clone();
+        Bukkit.getRegionScheduler().run(plugin, loc, (task) -> {
+            if (!player.isOnline())
+                return;
 
-            for (org.bukkit.entity.Entity entity : nearby) {
+            boolean disableScreech = plugin.getConfig().getBoolean("Patch.PhantomFixes.DisableScreechUntilAttacked",
+                    true);
+
+
+            for (org.bukkit.entity.Entity entity : loc.getWorld().getNearbyEntities(loc, 128, 128, 128)) {
                 if (entity instanceof Phantom phantom) {
                     if (player.equals(phantom.getTarget())) {
                         phantom.getPersistentDataContainer().remove(aggroKey);

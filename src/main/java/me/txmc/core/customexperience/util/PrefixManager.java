@@ -10,19 +10,13 @@ import java.util.Map;
 import java.util.*;
 
 /**
- * Manages and retrieves the appropriate prefix for players based on their permissions,
- * including the ability to animate prefixes.
- *
- * <p>This class is part of the 8b8tCore plugin, which provides custom functionalities
- * including permission-based prefixes for players, with animated tags.</p>
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/08/11 03:42 PM
+ * @author MindComplexity (aka Libalpm)
+ * @since 2025/12/21
+ * This file was created as a part of 8b8tCore
  */
 public class PrefixManager {
 
     private static final Map<String, String> PREFIXES = new HashMap<>();
-    private static double globalAnimationIndex = 0.0;
     private final GeneralDatabase database;
 
     private static final List<String> PREFIX_HIERARCHY = Arrays.asList(
@@ -49,21 +43,21 @@ public class PrefixManager {
     public PrefixManager() {
         this.database = GeneralDatabase.getInstance();
         
-        PREFIXES.put("8b8tcore.prefix.owner", "<gradient:#BA3FFC:#D9ADFD:#BA3FFC:%s>[OWNER<green>✔</green>]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.dev", "<gradient:#5555FF:#9492F5:#5555FF:%s>[DEV<green>✔</green>]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.bot", "<gradient:#00AA00:#6ef385:#00AA00:%s>[BOT]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.youtuber", "<gradient:#8B0000:#FF0000:#8B0000:%s>[Youtuber]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.thetroll2001", "<gradient:#FF0000:#FF7F00:#FFFF00:#00FF00:#0000FF:#4B0082:#8F00FF:#4B0082:#0000FF:#00FF00:#FFFF00:#FF7F00:#FF0000:%s>[Troll]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.qtdonkey", "<gradient:#39FF14:#88FF0C:#B0FF08:#D7FF04:#FFFF00:%s>[Television]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.orasan080", "<gradient:#9bc4e2:#9bc4e2:%s>[lurker]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.lucky2007", "<gradient:#C82D19:#FC1F02:#090808:%s>[Addict]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.owner", "<gradient:#a860ff:#743ad5:#d0a2ff:%s>[OWNER<green>✔</green>]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.dev", "<gradient:#00d2ff:#3a7bd5:#00d2ff:%s>[DEV<green>✔</green>]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.bot", "<gradient:#11998e:#38ef7d:#11998e:%s>[BOT]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.youtuber", "<gradient:#cb2d3e:#ef473a:#cb2d3e:%s>[Youtuber]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.thetroll2001", "<gradient:#FF0000:#FF7F00:#FFFF00:#00FF00:#0000FF:#4B0082:#8F00FF:%s>[Troll]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.qtdonkey", "<gradient:#f8ff00:#3ad59f:%s>[Television]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.orasan080", "<gradient:#9bc4e2:#e9eff5:#9bc4e2:%s>[lurker]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.lucky2007", "<gradient:#1f4037:#99f2c8:%s>[Addict]</gradient>");
         PREFIXES.put("8b8tcore.prefix.xmas2025", "<gradient:#8B0000:#FFD700:#006400:%s>[XMAS2025]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator6", "<gradient:#9145b0:#ceafcf:#9145b0:%s>[Ultra]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator5", "<gradient:#a18800:#ecc700:#a18800:%s>[Pro+]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator4", "<gradient:#ef9a98:#f7cac9:#ef9a98:%s>[Pro]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator3", "<gradient:#999B9B:#ced5d5:#999B9B:%s>[Mini]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator2", "<gradient:#CD7F32:#fc9937:#CD7F32:%s>[SE]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator1", "<gradient:#20252c:#62666c:#20252c:%s>[Basic]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator6", "<gradient:#8e2de2:#4a00e0:#8e2de2:%s>[Ultra]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator5", "<gradient:#f2994a:#f2c94c:#f2994a:%s>[Pro+]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator4", "<gradient:#ee9ca7:#ffdde1:#ee9ca7:%s>[Pro]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator3", "<gradient:#bdc3c7:#2c3e50:#bdc3c7:%s>[Mini]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator2", "<gradient:#833ab4:#fd1d1d:#fcb045:%s>[SE]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator1", "<gradient:#434343:#000000:#434343:%s>[Basic]</gradient>");
         PREFIXES.put("8b8tcore.prefix.custom", "<gradient:%g:%s>[Custom]</gradient>");
 
         RANK_NAMES.put("8b8tcore.prefix.owner", "Owner");
@@ -87,10 +81,7 @@ public class PrefixManager {
     }
 
     public String getPrefix(Player player) {
-
-        if (database != null && database.getPlayerHidePrefix(player.getName())) {
-            return "";
-        }
+        if (database != null && database.getPlayerHidePrefix(player.getName())) return "";
 
         String highestPermission = "";
         String selectedRank = database.getSelectedRank(player.getName());
@@ -106,50 +97,61 @@ public class PrefixManager {
             }
         }
 
-        if (highestPermission.isEmpty()) {
-            return "";
-        }
+        if (highestPermission.isEmpty()) return "";
 
         String basePrefix = PREFIXES.get(highestPermission);
         if (basePrefix == null) return "";
         long tick = GradientAnimator.getAnimationTick();
-        String animatedPrefix;
-
         String customGradient = database.getPrefixGradient(player.getName());
-        
+
         if (customGradient != null && !customGradient.isEmpty()) {
             String animationType = database.getPrefixAnimation(player.getName());
             int speed = database.getPrefixSpeed(player.getName());
-            
             String finalGradient = GradientAnimator.applyAnimation(customGradient, animationType, speed, tick);
 
+            String body = basePrefix;
             if (basePrefix.contains("<gradient:")) {
                 int firstClose = basePrefix.indexOf('>');
-                if (firstClose != -1) {
-                    String body = basePrefix.substring(firstClose + 1);
-                    animatedPrefix = "<gradient:" + finalGradient + ">" + body;
-                    animatedPrefix = animatedPrefix.replace("%s", "0.0").replace("%g", "");
-                } else {
-                    animatedPrefix = basePrefix;
-                }
-            } else {
-                animatedPrefix = "<gradient:" + finalGradient + ">" + basePrefix + "</gradient>";
+                if (firstClose != -1) body = basePrefix.substring(firstClose + 1).replace("</gradient>", "");
             }
-            return animatedPrefix + " ";
+
+            String decorationsStr = database.getPrefixDecorations(player.getName());
+            StringBuilder result = new StringBuilder();
+            if (decorationsStr != null && !decorationsStr.isEmpty()) {
+                for (String decoration : decorationsStr.split(",")) result.append("<").append(decoration.trim()).append(">");
+            }
+
+            boolean isGradient = finalGradient.contains(":") && finalGradient.indexOf('#') != finalGradient.lastIndexOf('#');
+            if (isGradient && finalGradient.indexOf('#') == finalGradient.lastIndexOf('#')) isGradient = false;
+
+            if (isGradient) {
+                result.append("<gradient:").append(finalGradient).append(">").append(body).append("</gradient>");
+            } else {
+                result.append("<color:").append(finalGradient.split(":")[0]).append(">").append(body).append("</color>");
+            }
+
+            if (decorationsStr != null && !decorationsStr.isEmpty()) {
+                String[] decorations = decorationsStr.split(",");
+                for (int i = decorations.length - 1; i >= 0; i--) result.append("</").append(decorations[i].trim()).append(">");
+            }
+
+            return result.toString().replace("%s", "0.0").replace("%g", "") + " ";
         }
 
-        double phase = Math.sin(tick * 0.1);
-        animatedPrefix = basePrefix.replace("%s", String.format("%.1f", phase)).replace("%g", "#FFFFFF:#AAAAAA:#FFFFFF");
-        return animatedPrefix + " ";
+        // improved SDR color blending
+        double t = (tick * 0.05) % 2.0;
+        if (t > 1.0) t = 2.0 - t;
+        double phase = t * t * (3 - 2 * t);
+        String phaseStr = String.format("%.2f", phase);
+        
+        return basePrefix.replace("%s", phaseStr).replace("%g", "#FFFFFF:#AAAAAA:#FFFFFF") + " ";
     }
 
     public List<String> getAvailableRanks(Player player) {
         List<String> available = new ArrayList<>();
         boolean isOp = player.isOp();
         for (String permission : PREFIX_HIERARCHY) {
-            if (isOp || player.hasPermission(permission)) {
-                available.add(permission);
-            }
+            if (isOp || player.hasPermission(permission)) available.add(permission);
         }
         return available;
     }
@@ -157,9 +159,7 @@ public class PrefixManager {
     public boolean hasRank(Player player) {
         if (player.isOp()) return true;
         for (String permission : PREFIX_HIERARCHY) {
-            if (player.hasPermission(permission)) {
-                return true;
-            }
+            if (player.hasPermission(permission)) return true;
         }
         return false;
     }

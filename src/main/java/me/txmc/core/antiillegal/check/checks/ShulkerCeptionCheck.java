@@ -28,7 +28,6 @@ public class ShulkerCeptionCheck implements Check {
         if (!(state instanceof ShulkerBox shulkerBox)) return false;
 
         Inventory inv = shulkerBox.getInventory();
-        // Check for any nested shulker box inside
         return Arrays.stream(inv.getContents())
                 .anyMatch(i -> i != null && Tag.SHULKER_BOXES.isTagged(i.getType()));
     }

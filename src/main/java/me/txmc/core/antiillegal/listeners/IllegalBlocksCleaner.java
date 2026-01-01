@@ -10,17 +10,18 @@ import org.bukkit.ChunkSnapshot;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.NamespacedKey;
-import java.util.concurrent.CompletableFuture;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 /**
@@ -33,11 +34,12 @@ public class IllegalBlocksCleaner implements Listener {
     private final long delayTicks;
     private final NamespacedKey scanKey;
     private final int configHash;
+    private final Set<Long> sessionCache = ConcurrentHashMap.newKeySet();
+    private final PriorityBlockingQueue<ChunkScanTask> scanQueue = new PriorityBlockingQueue<>();
+    private final int immediateScanRadius;
+    private final boolean enableSessionCache;
+    private final long queueProcessInterval;
 
-    /**
-     * @param plugin         main plugin instance
-     * @param blockPatterns  wildcard patterns from config
-     */
     public IllegalBlocksCleaner(Main plugin, List<String> blockPatterns) {
         this.plugin = plugin;
         this.illegalMaterials = buildMaterialSet(blockPatterns);
@@ -45,24 +47,84 @@ public class IllegalBlocksCleaner implements Listener {
         this.delayTicks = Math.max(1L, plugin.getConfig().getLong("IllegalBlocksCleaner.DelayTicks", 5L));
         this.scanKey = new NamespacedKey(plugin, "clean_scan_hash");
         this.configHash = illegalMaterials.hashCode();
+
+        this.immediateScanRadius = plugin.getConfig().getInt("IllegalBlocksCleaner.ImmediateScanRadius", 128);
+        this.enableSessionCache = plugin.getConfig().getBoolean("IllegalBlocksCleaner.EnableSessionCache", true);
+        this.queueProcessInterval = plugin.getConfig().getLong("IllegalBlocksCleaner.QueueProcessInterval", 4L);
+
+        startQueueProcessor();
     }
 
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
-        if (event.isNewChunk()) return;
+        if (event.isNewChunk())
+            return;
+
         Chunk chunk = event.getChunk();
-        
-        // Aggressive Optimization: Skip if already scanned and clean
+        int cx = chunk.getX(), cz = chunk.getZ();
+
+        if (Math.abs(cx) >= 29999984 || Math.abs(cz) >= 29999984)
+            return;
+
+        long chunkKey = getChunkKey(cx, cz);
+
+        if (enableSessionCache && sessionCache.contains(chunkKey)) {
+            return;
+        }
+
         PersistentDataContainer pdc = chunk.getPersistentDataContainer();
         if (pdc.has(scanKey, PersistentDataType.INTEGER)) {
             Integer storedHash = pdc.get(scanKey, PersistentDataType.INTEGER);
-            if (storedHash != null && storedHash == configHash) return;
+            if (storedHash != null && storedHash == configHash) {
+                sessionCache.add(chunkKey);
+                return;
+            }
         }
 
-        int cx = chunk.getX(), cz = chunk.getZ();
-        if (Math.abs(cx) >= 29999984 || Math.abs(cz) >= 29999984) return;
-
         World world = event.getWorld();
+
+        double nearestPlayerDist = getNearestPlayerDistance(world, cx, cz);
+
+        if (nearestPlayerDist <= immediateScanRadius) {
+            scanChunk(chunk, world, cx, cz, chunkKey);
+        } else {
+            int priority = (int) Math.min(nearestPlayerDist, Integer.MAX_VALUE);
+            scanQueue.offer(new ChunkScanTask(world, cx, cz, chunkKey, priority));
+        }
+    }
+
+    /**
+     * Starts the background queue processor
+     */
+    private void startQueueProcessor() {
+        plugin.getExecutorService().scheduleAtFixedRate(() -> {
+            try {
+                ChunkScanTask task = scanQueue.poll();
+                if (task == null)
+                    return;
+                org.bukkit.Location regionLoc = new org.bukkit.Location(
+                        task.world,
+                        (task.cx << 4) + 8,
+                        64,
+                        (task.cz << 4) + 8);
+
+                Bukkit.getRegionScheduler().run(plugin, regionLoc, (scheduledTask) -> {
+                    if (!task.world.isChunkLoaded(task.cx, task.cz))
+                        return;
+
+                    Chunk chunk = task.world.getChunkAt(task.cx, task.cz);
+                    scanChunk(chunk, task.world, task.cx, task.cz, task.chunkKey);
+                });
+            } catch (Exception e) {
+                plugin.getLogger().warning("Error processing chunk scan queue: " + e.getMessage());
+            }
+        }, queueProcessInterval, queueProcessInterval, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * Performs the actual chunk scan
+     */
+    private void scanChunk(Chunk chunk, World world, int cx, int cz, long chunkKey) {
         World.Environment env = world.getEnvironment();
         int minY = world.getMinHeight();
         int maxY = (env == World.Environment.NETHER ? 127 : world.getMaxHeight());
@@ -77,8 +139,8 @@ public class IllegalBlocksCleaner implements Listener {
             int maxSection = (maxY - 1) >> 4;
 
             for (int sectionY = minSection; sectionY <= maxSection; sectionY++) {
-                // sectionY - minSection is the index for isSectionEmpty (0 handled as bottom)
-                if (snap.isSectionEmpty(sectionY - minSection)) continue;
+                if (snap.isSectionEmpty(sectionY - minSection))
+                    continue;
 
                 int startY = Math.max(minY, sectionY << 4);
                 int endY = Math.min(maxY - 1, (sectionY << 4) + 15);
@@ -87,32 +149,35 @@ public class IllegalBlocksCleaner implements Listener {
                     for (int lx = 0; lx < 16; lx++) {
                         for (int lz = 0; lz < 16; lz++) {
                             Material type = snap.getBlockType(lx, y, lz);
-                            if (!illegalMaterials.contains(type)) continue;
+                            if (!illegalMaterials.contains(type))
+                                continue;
 
                             if (type == Material.BEDROCK) {
                                 if (env == World.Environment.NETHER) {
-                                    if (y < minY + 5 || y > maxY - 5) continue;
+                                    if (y < minY + 5 || y > maxY - 5)
+                                        continue;
                                 } else if (env == World.Environment.NORMAL) {
-                                    if (y < minY + 5) continue;
+                                    if (y < minY + 5)
+                                        continue;
                                 }
                             }
 
                             int wx = baseX + lx;
                             int wz = baseZ + lz;
-                            toRemove.add(new int[]{wx, y, wz});
+                            toRemove.add(new int[] { wx, y, wz });
                         }
                     }
                 }
             }
 
-            // Always run on region thread to mark as clean, even if toRemove is empty
-            int[] anchorFallback = new int[]{cx << 4, minY, cz << 4};
+            int[] anchorFallback = new int[] { cx << 4, minY, cz << 4 };
             int[] anchor = toRemove.isEmpty() ? anchorFallback : toRemove.get(0);
             org.bukkit.Location anchorLoc = new org.bukkit.Location(world, anchor[0], anchor[1], anchor[2]);
 
             Bukkit.getRegionScheduler().run(plugin, anchorLoc, (t) -> {
                 if (toRemove.isEmpty()) {
                     chunk.getPersistentDataContainer().set(scanKey, PersistentDataType.INTEGER, configHash);
+                    sessionCache.add(chunkKey);
                     return;
                 }
 
@@ -135,12 +200,39 @@ public class IllegalBlocksCleaner implements Listener {
                             Bukkit.getRegionScheduler().runDelayed(plugin, anchorLoc, (t2) -> accept(null), delayTicks);
                         } else {
                             chunk.getPersistentDataContainer().set(scanKey, PersistentDataType.INTEGER, configHash);
+                            sessionCache.add(chunkKey);
                         }
                     }
                 };
                 worker.accept(null);
             });
         });
+    }
+
+    /**
+     * Gets the distance to the nearest player from chunk center
+     */
+    private double getNearestPlayerDistance(World world, int cx, int cz) {
+        double chunkCenterX = (cx << 4) + 8;
+        double chunkCenterZ = (cz << 4) + 8;
+
+        double minDist = Double.MAX_VALUE;
+        for (Player player : world.getPlayers()) {
+            double dx = player.getLocation().getX() - chunkCenterX;
+            double dz = player.getLocation().getZ() - chunkCenterZ;
+            double dist = Math.sqrt(dx * dx + dz * dz);
+            if (dist < minDist) {
+                minDist = dist;
+            }
+        }
+        return minDist;
+    }
+
+    /**
+     * Generates a unique key for chunk coordinates
+     */
+    private long getChunkKey(int cx, int cz) {
+        return ((long) cx << 32) | (cz & 0xFFFFFFFFL);
     }
 
     /**
@@ -158,5 +250,28 @@ public class IllegalBlocksCleaner implements Listener {
             }
         }
         return set;
+    }
+
+    /**
+     * Task representing a pending chunk scan
+     */
+    private static class ChunkScanTask implements Comparable<ChunkScanTask> {
+        final World world;
+        final int cx, cz;
+        final long chunkKey;
+        final int priority;
+
+        ChunkScanTask(World world, int cx, int cz, long chunkKey, int priority) {
+            this.world = world;
+            this.cx = cx;
+            this.cz = cz;
+            this.chunkKey = chunkKey;
+            this.priority = priority;
+        }
+
+        @Override
+        public int compareTo(ChunkScanTask other) {
+            return Integer.compare(this.priority, other.priority);
+        }
     }
 }

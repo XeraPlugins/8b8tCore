@@ -39,7 +39,6 @@ public class MapRemovalPatch implements Listener {
         RESTRICTED_MAP_IDS.addAll(restrictedIds);
     }
 
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -71,7 +70,8 @@ public class MapRemovalPatch implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerPickupItem(EntityPickupItemEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
+        if (!(event.getEntity() instanceof Player player))
+            return;
         ItemStack item = event.getItem().getItemStack();
 
         if (isRestrictedMap(item)) {
@@ -83,7 +83,8 @@ public class MapRemovalPatch implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChunkLoad(ChunkLoadEvent event) {
-        if (event.isNewChunk()) return;
+        if (event.isNewChunk())
+            return;
         Chunk chunk = event.getChunk();
 
         for (Entity entity : chunk.getEntities()) {
@@ -91,8 +92,13 @@ public class MapRemovalPatch implements Listener {
                 ItemStack item = itemFrame.getItem();
                 if (isRestrictedMap(item)) {
                     itemFrame.setItem(null);
+                    org.bukkit.Location chunkCenter = new org.bukkit.Location(
+                            chunk.getWorld(),
+                            (chunk.getX() << 4) + 8,
+                            64,
+                            (chunk.getZ() << 4) + 8);
 
-                    for (Player player : chunk.getWorld().getPlayers()) {
+                    for (Player player : chunk.getWorld().getNearbyPlayers(chunkCenter, 256)) {
                         if (player.getLocation().getChunk().equals(chunk)) {
                             sendPrefixedLocalizedMessage(player, "mapart_deleted_frame");
                         }
@@ -116,7 +122,8 @@ public class MapRemovalPatch implements Listener {
     }
 
     private boolean isRestrictedMap(ItemStack item) {
-        if (item == null || item.getType() != Material.FILLED_MAP) return false;
+        if (item == null || item.getType() != Material.FILLED_MAP)
+            return false;
         if (item.hasItemMeta() && item.getItemMeta() instanceof MapMeta meta) {
             return RESTRICTED_MAP_IDS.contains(meta.getMapId());
         }

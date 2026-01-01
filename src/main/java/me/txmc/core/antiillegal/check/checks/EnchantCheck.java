@@ -154,6 +154,7 @@ public class EnchantCheck implements Check {
     private boolean isShears(ItemStack item) { return item.getType() == Material.SHEARS; }
     private boolean isMiningTool(ItemStack item) { String n = item.getType().name(); return n.endsWith("PICKAXE") || n.endsWith("SHOVEL") || n.endsWith("HOE"); }
     private boolean isMace(ItemStack item) { try { return item.getType().name().equals("MACE"); } catch (Exception ignored) { return false; } }
+    private boolean isSpear(ItemStack item) { try { return item.getType().name().endsWith("_SPEAR"); } catch (Exception ignored) { return false; } }
     private String keyOf(Enchantment e) { return e.getKey().getKey().toLowerCase(); }
 
     private int countPresentByKeys(Map<Enchantment, Integer> enchants, String... keys) {
@@ -228,6 +229,8 @@ public class EnchantCheck implements Check {
         if (isMace(item)) return baseKeys(
                 "mending","unbreaking","fire_aspect","wind_burst","vanishing_curse",
                 "smite","bane_of_arthropods","density","breach");
+        if (isSpear(item)) return baseKeys(
+                "mending","unbreaking","vanishing_curse","sharpness","lunge");
         return new java.util.HashSet<>();
     }
 }
