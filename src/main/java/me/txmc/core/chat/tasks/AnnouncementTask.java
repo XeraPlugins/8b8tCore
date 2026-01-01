@@ -23,16 +23,21 @@ public class AnnouncementTask implements Runnable {
                 this.database = GeneralDatabase.getInstance();
             }
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (database != null && database.getPlayerHideAnnouncements(p.getName())) {
-                    continue;
-                }
-                Localization loc = Localization.getLocalization(p.locale().getLanguage());
-                List<TextComponent> announcements = loc.getStringList("announcements")
-                        .stream()
-                        .map(s -> s.replace("%prefix%", loc.getPrefix()))
-                        .map(GlobalUtils::translateChars).toList();
-                Component announcement = announcements.get(random.nextInt(announcements.size()));
-                p.sendMessage(announcement);
+                database.getPlayerHideAnnouncementsAsync(p.getName()).thenAccept(hideAnnouncements -> {
+                    if (hideAnnouncements || !p.isOnline()) {
+                        return;
+                    }
+                    p.getScheduler().run(Main.getInstance(), (playerTask) -> {
+                        if (!p.isOnline()) return;
+                        Localization loc = Localization.getLocalization(p.locale().getLanguage());
+                        List<TextComponent> announcements = loc.getStringList("announcements")
+                                .stream()
+                                .map(s -> s.replace("%prefix%", loc.getPrefix()))
+                                .map(GlobalUtils::translateChars).toList();
+                        Component announcement = announcements.get(random.nextInt(announcements.size()));
+                        p.sendMessage(announcement);
+                    }, null);
+                });
             }
         }, 1L);
     }

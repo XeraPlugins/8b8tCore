@@ -53,10 +53,15 @@ public class CustomExperienceJoinLeave implements Listener {
                 }
             }
         } else {
+            // Send join message asynchronously
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (database.getPlayerShowJoinMsg(p.getName())) {
-                    sendPrefixedLocalizedMessage(p, "join_message", MiniMessage.miniMessage().serialize(player.displayName()));
-                }
+                database.getPlayerShowJoinMsgAsync(p.getName()).thenAccept(showMsg -> {
+                    if (showMsg && p.isOnline()) {
+                        p.getScheduler().run(main, (task) -> {
+                            sendPrefixedLocalizedMessage(p, "join_message", MiniMessage.miniMessage().serialize(player.displayName()));
+                        }, null);
+                    }
+                });
             }
         }
 
@@ -74,9 +79,13 @@ public class CustomExperienceJoinLeave implements Listener {
 
         if (!main.getVanishedPlayers().contains(player.getUniqueId())) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (database.getPlayerShowJoinMsg(p.getName())) {
-                    sendPrefixedLocalizedMessage(p, "leave_message", MiniMessage.miniMessage().serialize(player.displayName()));
-                }
+                database.getPlayerShowJoinMsgAsync(p.getName()).thenAccept(showMsg -> {
+                    if (showMsg && p.isOnline()) {
+                        p.getScheduler().run(main, (task) -> {
+                            sendPrefixedLocalizedMessage(p, "leave_message", MiniMessage.miniMessage().serialize(player.displayName()));
+                        }, null);
+                    }
+                });
             }
         }
     }

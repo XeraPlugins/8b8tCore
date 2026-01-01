@@ -49,68 +49,69 @@ public class PhantomPatch implements Listener {
                 return;
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (GeneralDatabase.getInstance().getPreventPhantomSpawn(player.getName()))
-                    continue;
-                World world = player.getWorld();
-                if (world.getEnvironment() != World.Environment.THE_END)
-                    continue;
-
-                if (Math.random() > 0.10)
-                    continue;
-
-                Location playerLoc = player.getLocation();
-
-                Bukkit.getRegionScheduler().run(plugin, playerLoc, (regionTask) -> {
-                    if (!player.isOnline())
+                GeneralDatabase.getInstance().getPreventPhantomSpawnAsync(player.getName()).thenAccept(preventSpawn -> {
+                    if (preventSpawn || !player.isOnline()) return;
+                    World world = player.getWorld();
+                    if (world.getEnvironment() != World.Environment.THE_END)
                         return;
 
-                    List<org.bukkit.entity.Entity> existing = player.getNearbyEntities(64, 64, 64);
-                    long phantomCount = existing.stream().filter(e -> e.getType() == EntityType.PHANTOM).count();
-                    if (phantomCount >= 8)
+                    if (Math.random() > 0.10)
                         return;
 
-                    List<String> validNamed = plugin.getConfig().getStringList("Patch.PhantomFixes.SpawnAboveBlocks");
-                    boolean disableScreech = plugin.getConfig()
-                            .getBoolean("Patch.PhantomFixes.DisableScreechUntilAttacked", true);
+                    Location playerLoc = player.getLocation();
 
-                    Block ground = null;
-                    for (int y = 0; y < 64; y++) {
-                        int checkY = playerLoc.getBlockY() - y;
-                        if (checkY < world.getMinHeight())
-                            break;
-                        Block b = world.getBlockAt(playerLoc.getBlockX(), checkY, playerLoc.getBlockZ());
-                        if (!b.getType().isAir()) {
-                            ground = b;
-                            break;
-                        }
-                    }
+                    Bukkit.getRegionScheduler().run(plugin, playerLoc, (regionTask) -> {
+                        if (!player.isOnline())
+                            return;
 
-                    if (ground == null)
-                        return;
+                        List<org.bukkit.entity.Entity> existing = player.getNearbyEntities(64, 64, 64);
+                        long phantomCount = existing.stream().filter(e -> e.getType() == EntityType.PHANTOM).count();
+                        if (phantomCount >= 8)
+                            return;
 
-                    if (!validNamed.isEmpty()) {
-                        boolean valid = false;
-                        String typeName = ground.getType().name();
-                        for (String name : validNamed) {
-                            if (typeName.equalsIgnoreCase(name)) {
-                                valid = true;
+                        List<String> validNamed = plugin.getConfig().getStringList("Patch.PhantomFixes.SpawnAboveBlocks");
+                        boolean disableScreech = plugin.getConfig()
+                                .getBoolean("Patch.PhantomFixes.DisableScreechUntilAttacked", true);
+
+                        Block ground = null;
+                        for (int y = 0; y < 64; y++) {
+                            int checkY = playerLoc.getBlockY() - y;
+                            if (checkY < world.getMinHeight())
+                                break;
+                            Block b = world.getBlockAt(playerLoc.getBlockX(), checkY, playerLoc.getBlockZ());
+                            if (!b.getType().isAir()) {
+                                ground = b;
                                 break;
                             }
                         }
-                        if (!valid)
-                            return;
-                    }
 
-                    Location spawnLoc = playerLoc.clone().add((Math.random() - 0.5) * 20, 20,
-                            (Math.random() - 0.5) * 20);
-                    int count = 2 + (int) (Math.random() * 3);
-                    for (int i = 0; i < count; i++) {
-                        Phantom phantom = (Phantom) world.spawnEntity(spawnLoc, EntityType.PHANTOM,
-                                CreatureSpawnEvent.SpawnReason.CUSTOM);
-                        if (disableScreech) {
-                            phantom.setSilent(true);
+                        if (ground == null)
+                            return;
+
+                        if (!validNamed.isEmpty()) {
+                            boolean valid = false;
+                            String typeName = ground.getType().name();
+                            for (String name : validNamed) {
+                                if (typeName.equalsIgnoreCase(name)) {
+                                    valid = true;
+                                    break;
+                                }
+                            }
+                            if (!valid)
+                                return;
                         }
-                    }
+
+                        Location spawnLoc = playerLoc.clone().add((Math.random() - 0.5) * 20, 20,
+                                (Math.random() - 0.5) * 20);
+                        int count = 2 + (int) (Math.random() * 3);
+                        for (int i = 0; i < count; i++) {
+                            Phantom phantom = (Phantom) world.spawnEntity(spawnLoc, EntityType.PHANTOM,
+                                    CreatureSpawnEvent.SpawnReason.CUSTOM);
+                            if (disableScreech) {
+                                phantom.setSilent(true);
+                            }
+                        }
+                    });
                 });
             }
         }, 600L, 600L);
@@ -118,9 +119,20 @@ public class PhantomPatch implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPhantomPreSpawn(PhantomPreSpawnEvent event) {
-        if (GeneralDatabase.getInstance().getPreventPhantomSpawn(event.getSpawningEntity().getName())) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(true);
+        GeneralDatabase.getInstance().getPreventPhantomSpawnAsync(event.getSpawningEntity().getName()).thenAccept(preventSpawn -> {
+            if (!preventSpawn) {
+                Player spawning = (Player) event.getSpawningEntity();
+                if (!spawning.isOnline()) return;
+                spawning.getScheduler().run(plugin, (task) -> {
+                    if (!spawning.isOnline()) return;
+                    Location loc = spawning.getLocation().clone().add(0, 20, 0);
+                    Bukkit.getRegionScheduler().run(plugin, loc, (regionTask) -> {
+                        loc.getWorld().spawnEntity(loc, EntityType.PHANTOM, CreatureSpawnEvent.SpawnReason.NATURAL);
+                    });
+                }, null);
+            }
+        });
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -138,8 +150,20 @@ public class PhantomPatch implements Listener {
                     closest = p;
                 }
             }
-            if (closest != null && GeneralDatabase.getInstance().getPreventPhantomSpawn(closest.getName())) {
+            if (closest != null) {
+                final Player target = closest;
                 event.setCancelled(true);
+                GeneralDatabase.getInstance().getPreventPhantomSpawnAsync(target.getName()).thenAccept(preventSpawn -> {
+                    if (!preventSpawn) {
+                        Location loc = event.getLocation();
+                        Bukkit.getRegionScheduler().run(plugin, loc, (regionTask) -> {
+                            Phantom phantom = (Phantom) loc.getWorld().spawnEntity(loc, EntityType.PHANTOM, CreatureSpawnEvent.SpawnReason.CUSTOM);
+                            if (plugin.getConfig().getBoolean("Patch.PhantomFixes.DisableScreechUntilAttacked", true)) {
+                                phantom.setSilent(true);
+                            }
+                        });
+                    }
+                });
                 return;
             }
         }

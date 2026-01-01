@@ -25,8 +25,12 @@ public class AchievementsListener implements Listener {
 
         Bukkit.getGlobalRegionScheduler().runDelayed(Main.getInstance(), (task) -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (database.getPlayerHideBadges(p.getName())) continue;
-                p.sendMessage(msg);
+                database.getPlayerHideBadgesAsync(p.getName()).thenAccept(hideBadges -> {
+                    if (hideBadges || !p.isOnline()) return;
+                    p.getScheduler().run(Main.getInstance(), (playerTask) -> {
+                        if (p.isOnline()) p.sendMessage(msg);
+                    }, null);
+                });
             }
         }, 1L);
     }

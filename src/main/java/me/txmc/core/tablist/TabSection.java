@@ -65,36 +65,54 @@ public class TabSection implements Section {
     }
 
     public void setTab(Player player, boolean updatePlaceholders) {
-        player.getScheduler().run(plugin, (task) -> {
-            GeneralDatabase database = GeneralDatabase.getInstance();
-            boolean useVanilla = database.isVanillaLeaderboard(player.getName());
-
-            if (useVanilla) {
-                player.sendPlayerListHeader(Component.empty());
-                player.sendPlayerListFooter(Component.empty());
-                player.playerListName(null);
-                return;
-            }
-
-            GlobalUtils.updateDisplayName(player);
-
-            String tag = prefixManager.getPrefix(player);
-            tag = GlobalUtils.convertToMiniMessageFormat(tag);
+        GeneralDatabase database = GeneralDatabase.getInstance();
+        String username = player.getName();
+        
+        database.isVanillaLeaderboardAsync(username).thenAcceptAsync(useVanilla -> {
+            if (!player.isOnline()) return;
             
-            Component displayNameComponent = player.displayName();
-            Component tagComponent = MiniMessage.miniMessage().deserialize(tag);
-            Component fullName = tagComponent.append(displayNameComponent);
+            player.getScheduler().run(plugin, (task) -> {
+                if (!player.isOnline()) return;
+                
+                if (useVanilla) {
+                    player.sendPlayerListHeader(Component.empty());
+                    player.sendPlayerListFooter(Component.empty());
+                    player.playerListName(null);
+                    return;
+                }
 
-            player.playerListName(fullName);
+                GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> {
+                    if (!player.isOnline()) return;
+                    
+                    player.getScheduler().run(plugin, (innerTask) -> {
+                        if (!player.isOnline()) return;
+                        
+                        prefixManager.getPrefixAsync(player).thenAccept(tag -> {
+                            if (!player.isOnline()) return;
+                            
+                            player.getScheduler().run(plugin, (prefixTask) -> {
+                                if (!player.isOnline()) return;
+                                
+                                String convertedTag = GlobalUtils.convertToMiniMessageFormat(tag);
+                                Component displayNameComponent = player.displayName();
+                                Component tagComponent = MiniMessage.miniMessage().deserialize(convertedTag);
+                                Component fullName = tagComponent.append(displayNameComponent);
 
-            if (updatePlaceholders) {
-                Localization loc = Localization.getLocalization(player.locale().getLanguage());
-                Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, plugin.getStartTime())
-                        .thenAccept(player::sendPlayerListHeader);
-                Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Footer")), player, plugin.getStartTime())
-                        .thenAccept(player::sendPlayerListFooter);
-            }
-        }, null);
+                                player.playerListName(fullName);
+
+                                if (updatePlaceholders) {
+                                    Localization loc = Localization.getLocalization(player.locale().getLanguage());
+                                    Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, plugin.getStartTime())
+                                            .thenAccept(player::sendPlayerListHeader);
+                                    Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Footer")), player, plugin.getStartTime())
+                                            .thenAccept(player::sendPlayerListFooter);
+                                }
+                            }, null);
+                        });
+                    }, null);
+                });
+            }, null);
+        });
     }
 
     public void setTab(Player player) {
