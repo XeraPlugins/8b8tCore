@@ -1,6 +1,8 @@
 package me.txmc.core.patch.epc;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -18,31 +20,19 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
-/**
- * Limits the number of chests, trapped chests, and barrels that can be placed in a chunk.
- *
- * <p>This class is part of the 8b8tCore plugin, which adds custom functionalities
- * to Minecraft, including chest and barrel placement restrictions.</p>
- *
- * <p>Functionality includes:</p>
- * <ul>
- *     <li>Preventing the placement of chests, trapped chests, and barrels if the maximum count per chunk is exceeded</li>
- *     <li>Removing excess chests, trapped chests, and barrels from a chunk when it is loaded</li>
- * </ul>
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/08/09 01:28 AM
- */
 public class ChestLimiter implements Listener {
     private final int MAX_CHEST_PER_CHUNK;
     private final NamespacedKey chestCountKey;
+    private final JavaPlugin plugin;
 
     public ChestLimiter(JavaPlugin plugin) {
+        this.plugin = plugin;
         this.MAX_CHEST_PER_CHUNK = plugin.getConfig().getInt("Patch.ChestLimitPerChunk", 192);
         this.chestCountKey = new NamespacedKey(plugin, "chest_count");
     }
@@ -51,14 +41,28 @@ public class ChestLimiter implements Listener {
     public void onChunkLoad(ChunkLoadEvent event) {
         if (event.isNewChunk()) return;
         Chunk chunk = event.getChunk();
-        recalculateChests(chunk);
+        if (!chunk.getPersistentDataContainer().has(chestCountKey, PersistentDataType.INTEGER)) {
+            recalculateChests(chunk);
+        }
     }
 
     private int recalculateChests(Chunk chunk) {
         int count = 0;
-        for (org.bukkit.block.BlockState state : chunk.getTileEntities()) {
-            if (isChest(state.getType())) {
-                count++;
+        World world = chunk.getWorld();
+        int minY = world.getMinHeight();
+        int maxY = world.getMaxHeight();
+        int baseX = chunk.getX() << 4;
+        int baseZ = chunk.getZ() << 4;
+
+        // Scan all blocks without loading tile entities
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                for (int y = minY; y < maxY; y++) {
+                    Material type = world.getBlockAt(baseX + x, y, baseZ + z).getType();
+                    if (isChest(type)) {
+                        count++;
+                    }
+                }
             }
         }
         chunk.getPersistentDataContainer().set(chestCountKey, PersistentDataType.INTEGER, count);
@@ -113,10 +117,19 @@ public class ChestLimiter implements Listener {
     }
 
     private void handleExplosion(List<Block> blocks) {
+        Map<Chunk, Integer> chunkDeltas = new HashMap<>();
+        
         for (Block block : blocks) {
             if (isChest(block.getType())) {
-                updateCount(block.getChunk(), -1);
+                Chunk chunk = block.getChunk();
+                chunkDeltas.put(chunk, chunkDeltas.getOrDefault(chunk, 0) - 1);
             }
+        }
+
+        for (Map.Entry<Chunk, Integer> entry : chunkDeltas.entrySet()) {
+            Chunk chunk = entry.getKey();
+            int delta = entry.getValue();
+            updateCountScheduled(chunk, delta);
         }
     }
 
@@ -127,6 +140,18 @@ public class ChestLimiter implements Listener {
             recalculateChests(chunk);
         } else {
             pdc.set(chestCountKey, PersistentDataType.INTEGER, Math.max(0, current + delta));
+        }
+    }
+
+    private void updateCountScheduled(Chunk chunk, int delta) {
+        Location chunkLoc = chunk.getBlock(0, 64, 0).getLocation();
+        
+        try {
+            Bukkit.getRegionScheduler().run(plugin, chunkLoc, task -> {
+                updateCount(chunk, delta);
+            });
+        } catch (NoSuchMethodError | NoClassDefFoundError e) {
+            updateCount(chunk, delta);
         }
     }
 }

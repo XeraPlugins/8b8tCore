@@ -44,8 +44,7 @@ public class AntiIllegalMain implements Section {
             new ShulkerCeptionCheck(),
             new IllegalItemCheck(),
             new IllegalDataCheck(),
-            new antiprefilledchests()
-    ));
+            new antiprefilledchests()));
 
     private ConfigurationSection config;
 
@@ -58,11 +57,10 @@ public class AntiIllegalMain implements Section {
                 new PlayerListeners(this),
                 new MiscListeners(this),
                 new InventoryListeners(this),
-                new AttackListener(),
+                new AttackListener(plugin),
                 new StackedTotemsListener(),
                 new PlayerEffectListener(plugin),
-                new EntityEffectListener(plugin)
-        );
+                new EntityEffectListener(plugin));
 
         if (config.getBoolean("EnableIllegalBlocksCleaner", true)) {
             List<String> illegalBlocks = config.getStringList("IllegalBlocks");
@@ -71,7 +69,8 @@ public class AntiIllegalMain implements Section {
     }
 
     @Override
-    public void disable() {}
+    public void disable() {
+    }
 
     @Override
     public void reloadConfig() {
@@ -84,27 +83,47 @@ public class AntiIllegalMain implements Section {
     }
 
     public void checkFixItem(ItemStack item, Cancellable cancellable) {
-        if (item == null || item.getType() == Material.AIR) return;
-        String enchants = (item.hasItemMeta() && item.getItemMeta().hasEnchants()) ? item.getItemMeta().getEnchants().toString() : "{}";
+        if (item == null || item.getType() == Material.AIR)
+            return;
+        String enchants = (item.hasItemMeta() && item.getItemMeta().hasEnchants())
+                ? item.getItemMeta().getEnchants().toString()
+                : "{}";
         String evt = cancellable != null ? cancellable.getClass().getSimpleName() : "none";
-        // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] Checking type=" + item.getType() + " amount=" + item.getAmount() + " enchants=" + enchants + " event=" + evt);
+        // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] Checking type=" +
+        // item.getType() + " amount=" + item.getAmount() + " enchants=" + enchants + "
+        // event=" + evt);
 
         for (Check check : checks) {
+            // Context-aware skipping for deep checks (Shulkers, prefilled containers)
+            if (check instanceof ShulkerCeptionCheck || check instanceof antiprefilledchests) {
+                if (!(cancellable instanceof org.bukkit.event.inventory.InventoryOpenEvent openEvent)) continue;
+                String invTypeName = openEvent.getInventory().getType().name();
+                if (check instanceof ShulkerCeptionCheck && !invTypeName.contains("SHULKER_BOX")) continue;
+                if (check instanceof antiprefilledchests && invTypeName.contains("SHULKER_BOX")) continue;
+            }
+
             boolean should = check.shouldCheck(item);
             boolean fail = should && check.check(item);
             if (fail) {
-                // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] FAILED check=" + check.getClass().getSimpleName() + " type=" + item.getType() + " event=" + evt);
+                // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] FAILED check=" +
+                // check.getClass().getSimpleName() + " type=" + item.getType() + " event=" +
+                // evt);
 
                 check.fix(item);
                 item.setItemMeta(item.getItemMeta());
-                // Fix a crash by cancelling air blocks which are not handled by BlockPreDispenseEvent, triggering a server panic.
+                // Fix a crash by cancelling air blocks which are not handled by
+                // BlockPreDispenseEvent, triggering a server panic.
                 if (item.getType() == Material.AIR || item.getAmount() <= 0) {
                     if (cancellable instanceof io.papermc.paper.event.block.BlockPreDispenseEvent) {
                         cancellable.setCancelled(true);
                     }
                 }
-                String after = (item.hasItemMeta() && item.getItemMeta().hasEnchants()) ? item.getItemMeta().getEnchants().toString() : "{}";
-                // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] Fixed by=" + check.getClass().getSimpleName() + " newAmount=" + item.getAmount() + " enchants=" + after);
+                String after = (item.hasItemMeta() && item.getItemMeta().hasEnchants())
+                        ? item.getItemMeta().getEnchants().toString()
+                        : "{}";
+                // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] Fixed by=" +
+                // check.getClass().getSimpleName() + " newAmount=" + item.getAmount() + "
+                // enchants=" + after);
             }
         }
     }

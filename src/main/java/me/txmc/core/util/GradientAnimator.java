@@ -1,44 +1,56 @@
 package me.txmc.core.util;
 
-import org.bukkit.Bukkit;
-
 /**
  * @author MindComplexity (aka Libalpm)
  * @since 2025/12/21
  * This file was created as a part of 8b8tCore
-*/
-
+ */
 public class GradientAnimator {
     public static String applyAnimation(String baseGradient, String animationType, int speed, long tick) {
-        if (animationType == null || animationType.equalsIgnoreCase("none") || animationType.isEmpty()) {
+        if (animationType == null || animationType.equalsIgnoreCase("none") || animationType.isEmpty() || !baseGradient.contains(":")) {
             return baseGradient;
         }
 
         double phase = 0.0;
-        double normalizedSpeed = speed / 5.0;
+        double effectiveSpeed = Math.min(5, speed);
+        double normalizedSpeed = effectiveSpeed / 5.0;
+        double t = tick * normalizedSpeed;
 
         switch (animationType.toLowerCase()) {
             case "wave":
-                phase = Math.sin(tick * 0.1 * normalizedSpeed);
+                phase = (Math.sin(t * 0.15) + 1.0) / 2.0;
                 break;
             case "pulse":
-                phase = Math.sin(tick * 0.05 * normalizedSpeed);
+                phase = (Math.sin(t * 0.05) + 1.0) / 2.0;
                 break;
-            case "rainbow":
-                phase = (tick * 0.05 * normalizedSpeed) % 2.0 - 1.0;
+            case "smooth":
+                double st = (t * 0.06) % 2.0;
+                if (st > 1.0) st = 2.0 - st;
+                phase = st < 0.5 ? 2 * st * st : 1 - Math.pow(-2 * st + 2, 2) / 2;
                 break;
-            case "shift":
-                phase = Math.cos(tick * 0.08 * normalizedSpeed);
+            case "saturate": // Renamed from glance
+                phase = (Math.sin(t * 0.12) + Math.sin(t * 0.24)) / 4.0 + 0.5;
+                break;
+            case "bounce":
+                phase = Math.abs(Math.sin(t * 0.2));
+                break;
+            case "billboard":
+                phase = Math.floor(((t * 0.05) % 1.0) * 5) / 4.0;
+                break;
+            case "sweep":
+                double sw = (t * 0.07) % 2.0;
+                if (sw > 1.0) sw = 2.0 - sw;
+                phase = sw * sw * (3 - 2 * sw);
+                break;
+            case "shimmer":
+                double sh = (t * 0.15) % 3.0;
+                phase = Math.min(1.0, Math.max(0.0, sh - 1.0));
                 break;
             default:
                 return baseGradient;
         }
 
-        if (phase < -1.0)
-            phase = -1.0;
-        if (phase > 1.0)
-            phase = 1.0;
-
+        phase = Math.max(0.0, Math.min(1.0, phase));
         return String.format("%s:%.2f", baseGradient, phase);
     }
 

@@ -1,6 +1,6 @@
 name: 8b8tCore
 main: me.txmc.core.Main
-version: 1.8.1
+version: 1.8.3
 author: 254n_m, agarciacort, Leeewith3Es, MindComplexity
 description: A core plugin for 8b8t
 api-version: 1.21
@@ -37,7 +37,6 @@ commands:
   hotspot:
   lef:
   discord:
-  matrix:
   help:
     aliases: []
   open:
@@ -51,12 +50,6 @@ commands:
   tpsinfo:
   repair:
     aliases: []
-  nick:
-    aliases: [nickname, setnick]
-  ic:
-    aliases: [itemcolor, setcolor]
-  nc:
-    aliases: [namecolor, nickcolor]
   rename:
   sign:
     aliases: []
@@ -76,17 +69,14 @@ commands:
   gmc:
   gmsp:
   gms:
-  suicide:
-    aliases: [illegal, illegalevent, kit, kits, dupe]
   table:
     aliases: []
   jihad:
   joindate:
   kill:
   lastseen:
-  title:
-  customgradient:
-    aliases: [cg, setgradient]
+  cosmetics:
+    aliases: [cosmetic, c]
   toggleleaderboard:
     aliases: [togglelb, tlb]
   dps:
@@ -225,4 +215,10 @@ permissions:
     default: false
   8b8tcore.prefix.custom:
     description: Permission for custom rank with customizable gradient
+    default: false
+  8b8tcore.command.cosmetics:
+    description: Permission to access the main cosmetics menu
+    default: true
+  8b8tcore.command.nick:
+    description: Permission to set a nickname
     default: false

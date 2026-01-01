@@ -23,6 +23,16 @@ public class InventoryListeners implements Listener {
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
+        // Nested Shulker Check (only revert when opened)
+        // If we open a shulker box, check its contents for other shulker boxes
+        if (event.getInventory().getType() == InventoryType.SHULKER_BOX) {
+            for (int i = 0; i < event.getInventory().getSize(); i++) {
+                ItemStack item = event.getInventory().getItem(i);
+                if (item != null && item.getType().name().contains("SHULKER_BOX")) {
+                    event.getInventory().setItem(i, null);
+                }
+            }
+        }
         inventoryEvent(event);
     }
 
@@ -48,36 +58,22 @@ public class InventoryListeners implements Listener {
     @EventHandler
     private void inventoryEvent(InventoryEvent event) {
         for (ItemStack itemStack : event.getInventory()) {
-            main.checkFixItem(itemStack, null);
-            checkBundleContents(itemStack);
-        }
-    }
-
-    @EventHandler
-    private void inventoryClickEvent(InventoryClickEvent event) {
-        for (ItemStack itemStack : event.getInventory()) {
-            main.checkFixItem(itemStack, null);
-            checkBundleContents(itemStack);
-        }
-    }
-
-    @EventHandler
-    private void playerItemConsumeEvent(PlayerItemConsumeEvent event) {
-        for (ItemStack itemStack : event.getPlayer().getInventory()) {
-            main.checkFixItem(itemStack, null);
-            checkBundleContents(itemStack);
+            main.checkFixItem(itemStack, (event instanceof org.bukkit.event.Cancellable) ? (org.bukkit.event.Cancellable) event : null);
         }
     }
 
     private void checkBundleContents(ItemStack item) {
-        if (item == null || item.getType() != Material.BUNDLE) return;
-        
+        if (item == null || item.getType() != Material.BUNDLE)
+            return;
+
         BundleContents bundleContents = item.getData(DataComponentTypes.BUNDLE_CONTENTS);
-        if (bundleContents == null) return;
-        
+        if (bundleContents == null)
+            return;
+
         for (ItemStack bundleItem : bundleContents.contents()) {
-            if (bundleItem == null) continue;
-            
+            if (bundleItem == null)
+                continue;
+
             for (Check check : main.checks()) {
                 if (check.shouldCheck(bundleItem) && check.check(bundleItem)) {
                     item.setAmount(0);

@@ -79,6 +79,7 @@ public class GeneralDatabase {
             addColumnIfNotExists(conn, stmt, "prefixGradient", "TEXT");
             addColumnIfNotExists(conn, stmt, "prefix_animation", "TEXT DEFAULT 'none'");
             addColumnIfNotExists(conn, stmt, "prefix_speed", "INTEGER DEFAULT 5");
+            addColumnIfNotExists(conn, stmt, "prefixDecorations", "TEXT");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,7 +161,10 @@ public class GeneralDatabase {
     public String getNickname(String username) {
         return executeQuery(
                 "SELECT displayname FROM playerdata WHERE username = ?",
-                rs -> rs.getString("displayname"),
+                rs -> {
+                    String val = rs.getString("displayname");
+                    return rs.wasNull() ? null : val;
+                },
                 null,
                 username
         );
@@ -169,7 +173,10 @@ public class GeneralDatabase {
     public String getPlayerData(String username, String column) {
         return executeQuery(
                 "SELECT " + column + " FROM playerdata WHERE username = ?",
-                rs -> rs.getString(column),
+                rs -> {
+                    String val = rs.getString(column);
+                    return rs.wasNull() ? null : val;
+                },
                 null,
                 username
         );
@@ -286,7 +293,10 @@ public class GeneralDatabase {
     public String getSelectedRank(String username) {
         return executeQuery(
                 "SELECT selectedRank FROM playerdata WHERE username = ?",
-                rs -> rs.getString("selectedRank"),
+                rs -> {
+                    String val = rs.getString("selectedRank");
+                    return rs.wasNull() ? null : val;
+                },
                 null,
                 username
         );
@@ -303,7 +313,10 @@ public class GeneralDatabase {
     public String getCustomGradient(String username) {
         return executeQuery(
                 "SELECT customGradient FROM playerdata WHERE username = ?",
-                rs -> rs.getString("customGradient"),
+                rs -> {
+                    String val = rs.getString("customGradient");
+                    return rs.wasNull() ? null : val;
+                },
                 null,
                 username
         );
@@ -385,7 +398,10 @@ public class GeneralDatabase {
     public String getPrefixGradient(String username) {
         return executeQuery(
                 "SELECT prefixGradient FROM playerdata WHERE username = ?",
-                rs -> rs.getString("prefixGradient"),
+                rs -> {
+                    String val = rs.getString("prefixGradient");
+                    return rs.wasNull() ? null : val;
+                },
                 null,
                 username
         );
@@ -415,6 +431,23 @@ public class GeneralDatabase {
                 5,
                 username
         );
+    }
+
+    public CompletableFuture<Void> updatePrefixDecorations(String username, String decorations) {
+        return upsertPlayer(username, "prefixDecorations", decorations);
+    }
+
+    public String getPrefixDecorations(String username) {
+        return executeQuery(
+                "SELECT prefixDecorations FROM playerdata WHERE username = ?",
+                rs -> rs.getString("prefixDecorations"),
+                null,
+                username
+        );
+    }
+
+    public CompletableFuture<Void> updateNameDecorations(String username, String decorations) {
+        return upsertPlayer(username, "nameDecorations", decorations);
     }
 
     public void close() {

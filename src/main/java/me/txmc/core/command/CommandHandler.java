@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class CommandHandler implements TabExecutor {
-    @Getter private final ArrayList<BaseCommand> commands = new ArrayList<>();
+    @Getter
+    private final ArrayList<BaseCommand> commands = new ArrayList<>();
     private final CommandSection main;
 
     public void registerCommands() {
         addCommand(new BaseCmd(main));
         addCommand(new DiscordCommand(main));
-        addCommand(new MatrixCommand(main));
         addCommand(new HelpCommand());
         addCommand(new OpenInv());
         addCommand(new SayCommand());
@@ -35,14 +35,11 @@ public class CommandHandler implements TabExecutor {
         addCommand(new WorldSwitcher());
         addCommand(new TpsinfoCommand(main.getPlugin()));
         addCommand(new RepairCommand(main.getPlugin()));
-        addCommand(new NickCommand(main.getPlugin()));
         addCommand(new ToggleJoinMessagesCommand(main.getPlugin()));
         addCommand(new TogglePrefixCommand(main.getPlugin()));
         addCommand(new ToggleDeathMessageCommand(main.getPlugin()));
         addCommand(new ToggleAnnouncementsCommand(main.getPlugin()));
         addCommand(new ToggleBadgesCommand(main.getPlugin()));
-        addCommand(new ItemColorCommand());
-        addCommand(new NameColorCommand(main.getPlugin()));
         addCommand(new RenameCommand());
         addCommand(new SignCommand());
         addCommand(new ShadowMuteCommand(main.getPlugin()));
@@ -51,16 +48,14 @@ public class CommandHandler implements TabExecutor {
         addCommand(new GmCreativeCommand());
         addCommand(new GmSpectatorCommand());
         addCommand(new GmSurvivalCommand());
-        addCommand(new SuicideCommand());
         addCommand(new TableCommand());
         // addCommand(new JihadCommand(main.getPlugin()));
         addCommand(new JoinDateCommand(main.getPlugin()));
         addCommand(new KillCommand(main.getPlugin()));
         addCommand(new LastSeenCommand(main.getPlugin()));
-        addCommand(new TitleCommand(main.getPlugin()));
-        addCommand(new CustomGradientCommand(main.getPlugin()));
         addCommand(new ToggleLeaderboardCommand(main.getPlugin()));
         addCommand(new DpsCommand());
+        addCommand(new CosmeticsCommand(main.getPlugin()));
     }
 
     private void addCommand(BaseCommand command) {
@@ -71,9 +66,11 @@ public class CommandHandler implements TabExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label,
+            String[] args) {
         for (BaseCommand command : commands) {
-            if (!command.getName().equalsIgnoreCase(cmd.getName())) continue;
+            if (!command.getName().equalsIgnoreCase(cmd.getName()))
+                continue;
 
             boolean hasPermission = false;
             for (String permission : command.getPermissions()) {
@@ -95,15 +92,22 @@ public class CommandHandler implements TabExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String alias,
+            String[] args) {
         for (BaseCommand command : commands) {
-            if (!command.getName().equalsIgnoreCase(cmd.getName())) continue;
-            if (command instanceof BaseTabCommand tabCommand) return tabCommand.onTab(sender, args);
+            if (!command.getName().equalsIgnoreCase(cmd.getName()))
+                continue;
+            if (command instanceof BaseTabCommand tabCommand)
+                return tabCommand.onTab(sender, args);
             if (command.getSubCommands() != null && args.length == 1) {
-                return Arrays.stream(command.getSubCommands()).map(s -> s.split("::")[0]).filter(s -> s.startsWith(args[0].toLowerCase())).collect(Collectors.toList());
+                return Arrays.stream(command.getSubCommands()).map(s -> s.split("::")[0])
+                        .filter(s -> s.startsWith(args[0].toLowerCase())).collect(Collectors.toList());
             } else if (args.length > 1) {
-                return Bukkit.getOnlinePlayers().stream().map(Player::getName).filter(s -> s.toLowerCase().startsWith(args[args.length - 1].toLowerCase())).collect(Collectors.toList());
-            } else return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+                return Bukkit.getOnlinePlayers().stream().map(Player::getName)
+                        .filter(s -> s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+                        .collect(Collectors.toList());
+            } else
+                return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
         }
         return Collections.singletonList("");
     }

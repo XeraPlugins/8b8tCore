@@ -1,4 +1,4 @@
-#8b8tCore Version 1.8.1
+#8b8tCore Version 1.8.3
 AntiIllegal:
   Enabled: true
   EnableIllegalBlocksCleaner: true
@@ -107,7 +107,6 @@ ChatControl:
     - '/back'
     - '/help'
     - '/nick'
-    - '/plugins'
     - '/pl'
     - '/kill'
     - '/jihad'
@@ -122,7 +121,6 @@ ChatControl:
     - '/worldstats'
     - '/stats'
     - '/discord'
-    - '/matrix'
     - '/joindate'
     - '/jd'
     - '/seen'
@@ -131,12 +129,6 @@ ChatControl:
     - '/voicechat'
     - '/vote'
     - '/tpsinfo'
-    - '/ic'
-    - '/itemcolor'
-    - '/setcolor'
-    - '/nc'
-    - '/nickcolor'
-    - '/namecolor'
     - '/nick'
     - '/setnick'
     - '/nickname'
@@ -159,13 +151,10 @@ ChatControl:
     - '/dps'
     - '/disablephantomspawn'
     - '/phantoms'
-    - '/title'
-    - '/customgradient'
-    - '/cg'
-    - '/setgradient'
     - '/toggleleaderboard'
     - '/togglelb'
     - '/tlb'
+    - '/cosmetics'
 TPA:
   RequestTimeoutInMinutes: 5
 TPS:
