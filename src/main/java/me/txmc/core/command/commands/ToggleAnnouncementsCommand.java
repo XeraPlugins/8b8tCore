@@ -40,14 +40,17 @@ public class ToggleAnnouncementsCommand extends BaseCommand {
             return;
         }
 
-        boolean current = database.getPlayerHideAnnouncements(player.getName());
-        boolean newValue = !current;
-        database.updateHideAnnouncements(player.getName(), newValue);
+        database.getPlayerHideAnnouncementsAsync(player.getName()).thenAcceptAsync(current -> {
+            boolean newValue = !current;
+            database.updateHideAnnouncements(player.getName(), newValue);
 
-        if (newValue) {
-            sendMessage(player, "&aYou will no longer see server announcements.");
-        } else {
-            sendMessage(player, "&aYou will now see server announcements.");
-        }
+            player.getScheduler().run(plugin, (task) -> {
+                if (newValue) {
+                    sendMessage(player, "&aYou will no longer see server announcements.");
+                } else {
+                    sendMessage(player, "&aYou will now see server announcements.");
+                }
+            }, null);
+        });
     }
 }

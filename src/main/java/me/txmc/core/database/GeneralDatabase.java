@@ -285,6 +285,18 @@ public class GeneralDatabase {
         }, databaseExecutor);
     }
 
+    public CompletableFuture<Long> getMutedUntilAsync(String username) {
+        return executeQueryAsync(
+                "SELECT muted FROM playerdata WHERE username = ?",
+                rs -> {
+                    long val = rs.getLong("muted");
+                    return rs.wasNull() ? 0L : val;
+                },
+                0L,
+                username
+        );
+    }
+
     // more sync blocks
     public boolean isMuted(String username) {
         return isMutedAsync(username).join();

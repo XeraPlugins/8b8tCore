@@ -59,6 +59,15 @@ public class ShadowMuteCommand extends BaseTabCommand {
             long muteUntil = currentTime + (hours * 3600);
 
             database.mute(playerName, muteUntil);
+            Player target = org.bukkit.Bukkit.getPlayer(playerName);
+            if (target != null) {
+                Main plugin = (Main) Main.getInstance();
+                me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
+                if (chatSection != null) {
+                    me.txmc.core.chat.ChatInfo info = chatSection.getInfo(target);
+                    if (info != null) info.setMutedUntil(muteUntil);
+                }
+            }
             sendMessage(sender, "&8" + playerName + " has been shadowmuted for " + hours + " hours.");
         }
         else if (action.equals("remove")) {
@@ -68,6 +77,15 @@ public class ShadowMuteCommand extends BaseTabCommand {
             }
 
             database.unmute(playerName);
+            Player target = org.bukkit.Bukkit.getPlayer(playerName);
+            if (target != null) {
+                Main plugin = (Main) Main.getInstance();
+                me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
+                if (chatSection != null) {
+                    me.txmc.core.chat.ChatInfo info = chatSection.getInfo(target);
+                    if (info != null) info.setMutedUntil(0);
+                }
+            }
             sendMessage(sender, "&8" + playerName + " has been unmuted.");
         }
         else {

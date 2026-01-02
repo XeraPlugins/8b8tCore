@@ -191,8 +191,7 @@ public class CosmeticsCommand extends BaseTabCommand {
             ).thenAccept(v -> {
                 player.getScheduler().run(Main.getInstance(), (task) -> {
                     player.displayName(miniMessage.deserialize(player.getName()));
-                    GlobalUtils.updateDisplayName(player);
-                    refreshPlayer(player);
+                    GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
                 }, null);
             });
             sendPrefixedLocalizedMessage(player, "nick_reset");
@@ -238,8 +237,7 @@ public class CosmeticsCommand extends BaseTabCommand {
             String decorations = String.join(",", styles);
             database.updateCustomGradient(player.getName(), colors);
             database.updateNameDecorations(player.getName(), decorations).thenRun(() -> {
-                GlobalUtils.updateDisplayName(player);
-                refreshPlayer(player);
+                GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
             });
             
             String preview = colors;
@@ -262,8 +260,7 @@ public class CosmeticsCommand extends BaseTabCommand {
                 return;
             }
             database.updateGradientAnimation(player.getName(), anim).thenRun(() -> {
-                GlobalUtils.updateDisplayName(player);
-                refreshPlayer(player);
+                GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
             });
             sendMessage(player, "&aNickname animation set to: &e" + anim);
         } else if (action.equals("speed")) {
@@ -282,8 +279,7 @@ public class CosmeticsCommand extends BaseTabCommand {
                     return;
                 }
                 database.updateGradientSpeed(player.getName(), speed).thenRun(() -> {
-                    GlobalUtils.updateDisplayName(player);
-                    refreshPlayer(player);
+                    GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
                 });
                 sendMessage(player, "&aNickname animation speed set to: &e" + speed);
             } catch (NumberFormatException e) {
@@ -322,8 +318,7 @@ public class CosmeticsCommand extends BaseTabCommand {
         }
 
         database.insertNickname(player.getName(), plain).thenRun(() -> {
-            GlobalUtils.updateDisplayName(player);
-            refreshPlayer(player);
+            GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
             sendPrefixedLocalizedMessage(player, "nick_success", plain);
         });
     }
@@ -416,6 +411,11 @@ public class CosmeticsCommand extends BaseTabCommand {
             me.txmc.core.Section section = plugin.getSectionByName("TabList");
             if (section instanceof me.txmc.core.tablist.TabSection tabSection) {
                 tabSection.setTab(player, true);
+            }
+            me.txmc.core.Section chatSection = plugin.getSectionByName("ChatControl");
+            if (chatSection instanceof me.txmc.core.chat.ChatSection chatSec) {
+                me.txmc.core.chat.ChatInfo info = chatSec.getInfo(player);
+                if (info != null) chatSec.loadAllDataAsync(info);
             }
         }, null);
     }
