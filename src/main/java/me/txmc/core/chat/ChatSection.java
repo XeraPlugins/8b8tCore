@@ -13,6 +13,7 @@ import me.txmc.core.chat.listeners.CommandWhitelist;
 import me.txmc.core.chat.listeners.JoinLeaveListener;
 import me.txmc.core.chat.listeners.VanishTabListener;
 import me.txmc.core.util.GlobalUtils;
+import me.txmc.core.database.GeneralDatabase;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -86,7 +87,30 @@ public class ChatSection implements Section {
     }
 
     public void registerPlayer(Player player) {
-        map.put(player.getUniqueId(), chatInfoStore.load(player));
+        ChatInfo info = chatInfoStore.load(player);
+        map.put(player.getUniqueId(), info);
+        loadAllDataAsync(info);
+    }
+
+    public void loadAllDataAsync(ChatInfo info) {
+        String username = info.getPlayer().getName();
+        GeneralDatabase db = GeneralDatabase.getInstance();
+        me.txmc.core.customexperience.util.PrefixManager pm = new me.txmc.core.customexperience.util.PrefixManager();
+
+        db.getMutedUntilAsync(username).thenAccept(info::setMutedUntil);
+        pm.refreshPrefixDataAsync(info);
+
+        java.util.concurrent.CompletableFuture.allOf(
+            db.getNicknameAsync(username).thenAccept(info::setNickname),
+            db.isVanillaLeaderboardAsync(username).thenAccept(info::setUseVanillaLeaderboard),
+            db.getCustomGradientAsync(username).thenAccept(info::setNameGradient),
+            db.getGradientAnimationAsync(username).thenAccept(info::setNameAnimation),
+            db.getGradientSpeedAsync(username).thenAccept(info::setNameSpeed),
+            db.getPlayerDataAsync(username, "nameDecorations").thenAccept(info::setNameDecorations)
+        ).exceptionally(e -> {
+            e.printStackTrace();
+            return null;
+        });
     }
 
     public void removePlayer(Player player) {

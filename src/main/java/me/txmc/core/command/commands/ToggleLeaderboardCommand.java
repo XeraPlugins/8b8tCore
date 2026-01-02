@@ -30,19 +30,44 @@ public class ToggleLeaderboardCommand extends BaseCommand {
             return;
         }
 
+        Main plugin = (Main) Main.getInstance();
+        me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
+        if (chatSection == null) return;
+        me.txmc.core.chat.ChatInfo info = chatSection.getInfo(player);
+        if (info == null) return;
+
         if (args.length > 0) {
             String arg = args[0].toLowerCase();
             if (arg.equals("vanilla") || arg.equals("custom")) {
                 boolean useVanilla = arg.equals("vanilla");
+                if (info.isUseVanillaLeaderboard() == useVanilla) {
+                    sendPrefixedLocalizedMessage(player, useVanilla ? "leaderboard_vanilla" : "leaderboard_custom");
+                    return;
+                }
+                
+                info.setUseVanillaLeaderboard(useVanilla);
                 database.setVanillaLeaderboard(player.getName(), useVanilla);
+                refreshPlayer(player);
                 sendPrefixedLocalizedMessage(player, useVanilla ? "leaderboard_vanilla" : "leaderboard_custom");
                 return;
             }
         }
 
-        // Toggle current state if no valid argument provided
-        boolean current = database.isVanillaLeaderboard(player.getName());
-        database.setVanillaLeaderboard(player.getName(), !current);
-        sendPrefixedLocalizedMessage(player, !current ? "leaderboard_vanilla" : "leaderboard_custom");
+        boolean current = info.isUseVanillaLeaderboard();
+        boolean newValue = !current;
+        info.setUseVanillaLeaderboard(newValue);
+        database.setVanillaLeaderboard(player.getName(), newValue);
+        refreshPlayer(player);
+        sendPrefixedLocalizedMessage(player, newValue ? "leaderboard_vanilla" : "leaderboard_custom");
+    }
+
+    private void refreshPlayer(Player player) {
+        Main plugin = (Main) Main.getInstance();
+        player.getScheduler().run(plugin, (task) -> {
+            me.txmc.core.Section section = plugin.getSectionByName("TabList");
+            if (section instanceof me.txmc.core.tablist.TabSection tabSection) {
+                tabSection.setTab(player, true);
+            }
+        }, null);
     }
 }

@@ -22,6 +22,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.text.DecimalFormat;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -90,7 +91,7 @@ public class ChatListener implements Listener {
         messages.addLast(ogMessage);
 
         Component displayName = sender.displayName();
-        Component message = formatMessage(ogMessage, displayName, sender, null);
+        Component message = formatMessage(ogMessage, displayName, sender, null, ci);
         if(message == null) return;
 
         if (blockedCheck(ogMessage)) {
@@ -99,7 +100,7 @@ public class ChatListener implements Listener {
             return;
         }
 
-        if (database.isMuted(sender.getName())) {
+        if (ci.getMutedUntil() > Instant.now().getEpochSecond()) {
             sender.sendMessage(message);
             return;
         }
@@ -120,7 +121,7 @@ public class ChatListener implements Listener {
                 String lowerMessage = ogMessage.toLowerCase();
 
                 if (lowerMessage.contains(recipient.getName().toLowerCase())) {
-                    TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, recipient.getName());
+                    TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, recipient.getName(), ci);
                     if(highlightedMessage == null) return;
                     recipient.sendMessage(highlightedMessage);
                 } else {
@@ -197,7 +198,7 @@ public class ChatListener implements Listener {
         return dp[len1][len2];
     }
 
-    public TextComponent formatMessage(String message, Component displayName, Player player, String mentionedPlayerName) {
+    public TextComponent formatMessage(String message, Component displayName, Player player, String mentionedPlayerName, ChatInfo ci) {
 
         int exp = player.getLevel();
         String lang = player.locale().getLanguage();
@@ -231,7 +232,7 @@ public class ChatListener implements Listener {
                 .append(Component.text("\n(Click to send a direct message)").color(NamedTextColor.GRAY))
                 .build();
 
-        String prefix = prefixManager.getPrefix(player);
+        String prefix = prefixManager.getPrefix(ci);
         Component prefixComponent = miniMessage.deserialize(prefix);
 
         Component nameComponent = prefixComponent

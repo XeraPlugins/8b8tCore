@@ -20,6 +20,7 @@ public class Utils {
             String strTps = (tps >= 20.0) ? String.format("%s20.00", "<green>") : String.format("%s%.2f", GlobalUtils.getTPSColor(tps), tps);
             
             double mspt = GlobalUtils.getCurrentRegionMspt();
+            if (mspt <= 0 && tps > 0) mspt = (1000.0 / Math.min(tps, 20.0));
             String strMspt = String.format("%s%.1f", GlobalUtils.getMSPTColor(mspt), mspt);
             
             String uptime = Utils.getFormattedInterval(System.currentTimeMillis() - startTime);

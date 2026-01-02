@@ -256,10 +256,13 @@ public class GlobalUtils {
 
     public static CompletableFuture<Double> getTpsNearEntity(Entity entity) {
         CompletableFuture<Double> future = new CompletableFuture<>();
-        double[] regionTpsArr = Bukkit.getRegionTPS(entity.getLocation());
-        if (regionTpsArr != null && regionTpsArr.length > 0) {
-            future.complete(regionTpsArr[0]);
-            return future;
+        try {
+            double[] regionTpsArr = Bukkit.getRegionTPS(entity.getLocation());
+            if (regionTpsArr != null && regionTpsArr.length > 0) {
+                future.complete(regionTpsArr[0]);
+                return future;
+            }
+        } catch (Throwable ignored) {
         }
 
         entity.getScheduler().run(Main.getInstance(), (st) -> {
@@ -271,10 +274,13 @@ public class GlobalUtils {
 
     public static CompletableFuture<Double> getRegionTps(Location location) {
         CompletableFuture<Double> future = new CompletableFuture<>();
-        double[] regionTpsArr = Bukkit.getRegionTPS(location);
-        if (regionTpsArr != null && regionTpsArr.length > 0) {
-            future.complete(regionTpsArr[0]);
-            return future;
+        try {
+            double[] regionTpsArr = Bukkit.getRegionTPS(location);
+            if (regionTpsArr != null && regionTpsArr.length > 0) {
+                future.complete(regionTpsArr[0]);
+                return future;
+            }
+        } catch (Throwable ignored) {
         }
 
         Bukkit.getRegionScheduler().run(Main.getInstance(), location, (st) -> {
@@ -283,6 +289,8 @@ public class GlobalUtils {
         });
         return future;
     }
+
+    private static boolean loggedMsptError = false;
 
     public static double getCurrentRegionTps() {
         try {
@@ -294,7 +302,11 @@ public class GlobalUtils {
             if (region != null) {
                 return getTpsFromRegionObject(region);
             }
-        } catch (Throwable ignored) {
+        } catch (Throwable t) {
+            if (!loggedMsptError) {
+                Main.getInstance().getLogger().log(Level.WARNING, "Failed to get current region TPS", t);
+                loggedMsptError = true;
+            }
         }
         return -1;
     }

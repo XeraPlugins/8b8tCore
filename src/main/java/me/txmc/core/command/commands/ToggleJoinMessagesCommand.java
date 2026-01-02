@@ -34,10 +34,16 @@ public class ToggleJoinMessagesCommand extends BaseCommand {
             return;
         }
 
-        boolean currentValue = database.getPlayerShowJoinMsg(player.getName());
+        Main plugin = (Main) Main.getInstance();
+        me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
+        if (chatSection == null) return;
+        me.txmc.core.chat.ChatInfo info = chatSection.getInfo(player);
+        if (info == null) return;
 
+        boolean currentValue = info.isJoinMessages();
         boolean newValue = !currentValue;
 
+        info.setJoinMessages(newValue);
         database.updateShowJoinMsg(player.getName(), newValue);
 
         String messageKey = newValue ? "show_join_leave_messages_true" : "show_join_leave_messages_false";

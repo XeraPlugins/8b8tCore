@@ -23,14 +23,17 @@ public class ToggleBadgesCommand extends BaseCommand {
             return;
         }
 
-        boolean current = database.getPlayerHideBadges(player.getName());
-        boolean newValue = !current;
-        database.updateHideBadges(player.getName(), newValue);
+        database.getPlayerHideBadgesAsync(player.getName()).thenAcceptAsync(current -> {
+            boolean newValue = !current;
+            database.updateHideBadges(player.getName(), newValue);
 
-        if (newValue) {
-            sendMessage(player, "&aYou will no longer see other players achievements.");
-        } else {
-            sendMessage(player, "&aYou will now see other players achievements.");
-        }
+            player.getScheduler().run(me.txmc.core.Main.getInstance(), (task) -> {
+                if (newValue) {
+                    sendMessage(player, "&aYou will no longer see other players achievements.");
+                } else {
+                    sendMessage(player, "&aYou will now see other players achievements.");
+                }
+            }, null);
+        });
     }
 }

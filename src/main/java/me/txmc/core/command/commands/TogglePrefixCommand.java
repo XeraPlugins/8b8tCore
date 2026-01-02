@@ -36,11 +36,19 @@ public class TogglePrefixCommand extends BaseCommand {
         boolean newValue = !current;
         database.updateHidePrefix(player.getName(), newValue);
 
-        String tag = newValue ? "" : prefixManager.getPrefix(player);
-        if (tag.isEmpty()) {
-            player.playerListName(player.displayName());
-        } else {
-            player.playerListName(miniMessage.deserialize(tag).append(player.displayName()));
+        Main plugin = (Main) Main.getInstance();
+        me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
+        if (chatSection != null) {
+            me.txmc.core.chat.ChatInfo info = chatSection.getInfo(player);
+            if (info != null) {
+                info.setHidePrefix(newValue);
+                String tag = newValue ? "" : prefixManager.getPrefix(info);
+                if (tag.isEmpty()) {
+                    player.playerListName(player.displayName());
+                } else {
+                    player.playerListName(miniMessage.deserialize(tag).append(player.displayName()));
+                }
+            }
         }
 
         if (newValue) {
