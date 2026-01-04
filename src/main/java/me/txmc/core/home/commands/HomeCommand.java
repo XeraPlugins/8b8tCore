@@ -30,8 +30,8 @@ public class HomeCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (sender instanceof Player player) {
-            HomeData homes = main.homes().get(player);
-            if (!homes.hasHomes()) {
+            HomeData homes = main.homes().get(player.getUniqueId());
+            if (homes == null || !homes.hasHomes()) {
                 sendPrefixedLocalizedMessage(player, "home_no_homes");
                 return true;
             }
@@ -55,7 +55,7 @@ public class HomeCommand implements TabExecutor {
             for (Home home : homes.getHomes()) {
                 if (!home.getName().equals(args[0])) continue;
                 vanish(player);
-                main.plugin.lastLocations.put(player, player.getLocation());
+                main.plugin.lastLocations.put(player.getUniqueId(), player.getLocation());
                 
                 Location targetLoc = home.getLocation();
                 if (targetLoc.getWorld() == null) {
@@ -84,15 +84,12 @@ public class HomeCommand implements TabExecutor {
         return true;
     }
 
-// In HomeCommand.java
 
     private int getMaxDistanceFromSpawn(Player player) {
         FileConfiguration cfg = main.plugin.getConfig();
         ConfigurationSection sec = cfg.getConfigurationSection("TPAHOMERADIUS");
-        // read the configured default (no hard-coded fallback)
         int maxDistance = sec.getInt("default");
 
-        // scan for any home.spawn.<n> permission on the player
         for (PermissionAttachmentInfo info : player.getEffectivePermissions()) {
             if (!info.getValue()) continue;
             String perm = info.getPermission();

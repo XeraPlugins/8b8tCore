@@ -40,6 +40,9 @@ public class PlayerPrefix {
         this.database = GeneralDatabase.getInstance();
     }
 
+    public void reloadConfig() {
+    }
+
     public void handlePlayerJoin(Player player) {
         if (player.getName().startsWith(".")) {
             PermissionAttachment attachment = player.addAttachment(plugin);

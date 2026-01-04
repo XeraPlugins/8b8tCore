@@ -23,37 +23,23 @@ public class EntityEffectListener implements Listener {
     private final PlayerEffectCheck effectCheck;
     private final int checkInterval;
 
-    /**
-     * Default constructor with 5-second check interval
-     */
     public EntityEffectListener(Plugin plugin) {
-        this(plugin, 600); // 600 ticks = 30 seconds
+        this(plugin, 600);
     }
 
-    /**
-     * Constructor with custom check interval
-     * @param plugin The plugin instance
-     * @param checkInterval Interval in ticks (20 ticks = 1 second)
-     */
     public EntityEffectListener(Plugin plugin, int checkInterval) {
         this.plugin = plugin;
         this.effectCheck = new PlayerEffectCheck();
         this.checkInterval = checkInterval;
         startEntityEffectChecker();
     }
-    
-    /**
-     * Start the periodic task to check all loaded entities for illegal effects
-     */
+
     private void startEntityEffectChecker() {
         Bukkit.getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
             checkAllEntities();
         }, 20L, checkInterval);
     }
 
-    /**
-     * Check all loaded entities for illegal potion effects
-     */
     private void checkAllEntities() {
         for (org.bukkit.World world : Bukkit.getWorlds()) {
             for (LivingEntity entity : world.getLivingEntities()) {
@@ -68,10 +54,6 @@ public class EntityEffectListener implements Listener {
         }
     }
     
-    /**
-     * Check and fix a specific entity's potion effects
-     * @param entity The entity to check
-     */
     private void checkAndFixEntityEffects(LivingEntity entity) {
         if (!entity.isValid() || entity.isDead()) return;
         
@@ -80,10 +62,6 @@ public class EntityEffectListener implements Listener {
         }
     }
     
-    /**
-     * Handle potion effect events on entities to catch effects as they're applied
-     * @param event The potion effect event
-     */
     @EventHandler
     public void onEntityPotionEffect(EntityPotionEffectEvent event) {
         if (event.getEntity() instanceof org.bukkit.entity.Player) {
@@ -99,10 +77,6 @@ public class EntityEffectListener implements Listener {
         }
     }
     
-    /**
-     * Check entities when chunks load to catch any that might have been missed
-     * @param event The chunk load event
-     */
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
         if (event.isNewChunk()) return;        
@@ -119,10 +93,6 @@ public class EntityEffectListener implements Listener {
         }
     }
     
-    /**
-     * Get the effect check instance for external use
-     * @return The PlayerEffectCheck instance
-     */
     public PlayerEffectCheck getEffectCheck() {
         return effectCheck;
     }

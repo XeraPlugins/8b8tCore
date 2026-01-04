@@ -1,6 +1,7 @@
 package me.txmc.core.patch.listeners;
 
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -9,12 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +34,6 @@ public class MapRemovalPatch implements Listener {
 
     public MapRemovalPatch(JavaPlugin plugin) {
         FileConfiguration config = plugin.getConfig();
-
         List<Integer> restrictedIds = config.getIntegerList("RestrictedMapIDs");
         RESTRICTED_MAP_IDS.addAll(restrictedIds);
     }
@@ -46,32 +45,36 @@ public class MapRemovalPatch implements Listener {
         removeRestrictedMaps(player.getEnderChest(), player);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryOpen(InventoryOpenEvent event) {
-        Player player = (Player) event.getPlayer();
-        removeRestrictedMaps(event.getInventory(), player);
+        if (event.getPlayer() instanceof Player player) {
+            removeRestrictedMaps(event.getInventory(), player);
+        }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
-        removeRestrictedMaps(event.getInventory(), player);
+        if (event.getWhoClicked() instanceof Player player) {
+            removeRestrictedMaps(event.getInventory(), player);
+            if (isRestrictedMap(event.getCursor())) {
+                event.setCursor(null);
+                sendPrefixedLocalizedMessage(player, "mapart_deleted_inventory");
+            }
+        }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryMove(InventoryMoveItemEvent event) {
-        removeRestrictedMaps(event.getInitiator(), null);
+        removeRestrictedMaps(event.getSource(), null);
+        removeRestrictedMaps(event.getDestination(), null);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onInventoryEvent(InventoryEvent event) {
-        removeRestrictedMaps(event.getInventory(), null);
-    }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerPickupItem(EntityPickupItemEvent event) {
         if (!(event.getEntity() instanceof Player player))
             return;
+        
         ItemStack item = event.getItem().getItemStack();
 
         if (isRestrictedMap(item)) {
@@ -83,8 +86,8 @@ public class MapRemovalPatch implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChunkLoad(ChunkLoadEvent event) {
-        if (event.isNewChunk())
-            return;
+        if (event.isNewChunk()) return;
+        
         Chunk chunk = event.getChunk();
 
         for (Entity entity : chunk.getEntities()) {
@@ -92,7 +95,8 @@ public class MapRemovalPatch implements Listener {
                 ItemStack item = itemFrame.getItem();
                 if (isRestrictedMap(item)) {
                     itemFrame.setItem(null);
-                    org.bukkit.Location chunkCenter = new org.bukkit.Location(
+                    
+                    Location chunkCenter = new Location(
                             chunk.getWorld(),
                             (chunk.getX() << 4) + 8,
                             64,
@@ -109,6 +113,8 @@ public class MapRemovalPatch implements Listener {
     }
 
     private void removeRestrictedMaps(Inventory inventory, @Nullable Player player) {
+        if (inventory == null) return;
+        
         for (int i = 0; i < inventory.getSize(); i++) {
             ItemStack item = inventory.getItem(i);
             if (isRestrictedMap(item)) {
@@ -124,7 +130,11 @@ public class MapRemovalPatch implements Listener {
     private boolean isRestrictedMap(ItemStack item) {
         if (item == null || item.getType() != Material.FILLED_MAP)
             return false;
+            
         if (item.hasItemMeta() && item.getItemMeta() instanceof MapMeta meta) {
+            if (!meta.hasMapId()) {
+                return false;
+            }
             return RESTRICTED_MAP_IDS.contains(meta.getMapId());
         }
         return false;

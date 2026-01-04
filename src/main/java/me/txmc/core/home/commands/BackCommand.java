@@ -64,10 +64,10 @@ public class BackCommand implements CommandExecutor {
                 if (player.isOnline()) {
                     player.teleportAsync(lastLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
                     sendPrefixedLocalizedMessage(player, "back_teleported");
-                    main.plugin().lastLocations.remove(player);
+                    main.plugin().lastLocations.remove(player.getUniqueId());
                 }
             });
-            main.plugin().lastLocations.remove(player);
+            main.plugin().lastLocations.remove(player.getUniqueId());
         } else {
             sender.sendMessage("Only players can use this command.");
         }

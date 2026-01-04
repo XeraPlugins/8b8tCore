@@ -24,6 +24,7 @@ import org.bukkit.event.Listener;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -40,7 +41,7 @@ public class ChatListener implements Listener {
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
     private final GeneralDatabase database;
 
-    private final Map<UUID, LinkedList<String>> playerMessages = new HashMap<>();
+    private final Map<UUID, LinkedList<String>> playerMessages = new ConcurrentHashMap<>();
     private static final double SIMILARITY_THRESHOLD = 0.8;
     private static final int MESSAGE_HISTORY = 3;
 
@@ -52,83 +53,149 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onChat(AsyncChatEvent event) {
-
         if (service == null) service = manager.getPlugin().getExecutorService();
         event.setCancelled(true);
+        
         Player sender = event.getPlayer();
+        UUID senderUUID = sender.getUniqueId();
+        String senderName = sender.getName();
+        
         int cooldown = manager.getConfig().getInt("Cooldown");
         ChatInfo ci = manager.getInfo(sender);
+        
         if (ci == null) {
-            log(Level.WARNING, "ChatInfo is null for player %s", sender.getName());
+            log(Level.WARNING, "ChatInfo is null for player %s", senderName);
             return;
         }
+        
         if (ci.isChatLock() && !sender.isOp() && !sender.hasPermission("*")) {
             sendPrefixedLocalizedMessage(sender, "chat_cooldown", cooldown);
             return;
         }
+        
         ci.setChatLock(true);
         service.schedule(() -> ci.setChatLock(false), cooldown, TimeUnit.SECONDS);
 
         String ogMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
 
-        LinkedList<String> messages = playerMessages.computeIfAbsent(sender.getUniqueId(), k -> new LinkedList<>());
+        LinkedList<String> messages = playerMessages.computeIfAbsent(senderUUID, k -> new LinkedList<>());
 
-        if(!sender.isOp() && !sender.hasPermission("*")){
-            for (String oldMessage : messages) {
-
-                if(ogMessage.length() < 20) continue;
-
-                if (similarityPercentage(filterLongWords(oldMessage), filterLongWords(ogMessage)) >= SIMILARITY_THRESHOLD) {
-                    sendPrefixedLocalizedMessage(sender, "spam_alert");
-                    return;
+        synchronized (messages) {
+            if (!sender.isOp() && !sender.hasPermission("*")) {
+                for (String oldMessage : messages) {
+                    if (ogMessage.length() < 20) continue;
+                    if (similarityPercentage(filterLongWords(oldMessage), filterLongWords(ogMessage)) >= SIMILARITY_THRESHOLD) {
+                        sendPrefixedLocalizedMessage(sender, "spam_alert");
+                        return;
+                    }
                 }
             }
-        }
 
-        if (messages.size() >= MESSAGE_HISTORY) {
-            messages.removeFirst();
+            if (messages.size() >= MESSAGE_HISTORY) {
+                messages.removeFirst();
+            }
+            messages.addLast(ogMessage);
         }
-        messages.addLast(ogMessage);
-
-        Component displayName = sender.displayName();
-        Component message = formatMessage(ogMessage, displayName, sender, null, ci);
-        if(message == null) return;
 
         if (blockedCheck(ogMessage)) {
-            sender.sendMessage(message);
-            log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message that has banned words", sender.getName());
+            sender.getScheduler().run(manager.getPlugin(), task -> {
+                if (!sender.isOnline()) return;
+                Component message = formatMessage(ogMessage, sender.displayName(), sender, null, ci);
+                if (message != null) sender.sendMessage(message);
+            }, null);
+            log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message that has banned words", senderName);
             return;
         }
 
         if (ci.getMutedUntil() > Instant.now().getEpochSecond()) {
-            sender.sendMessage(message);
+            sender.getScheduler().run(manager.getPlugin(), task -> {
+                if (!sender.isOnline()) return;
+                Component message = formatMessage(ogMessage, sender.displayName(), sender, null, ci);
+                if (message != null) sender.sendMessage(message);
+            }, null);
             return;
         }
 
         if (domainCheck(ogMessage)) {
-            sender.sendMessage(message);
-            log(Level.INFO, "&3Prevented player&r&a %s&r&3 from sending a link / server ip", sender.getName());
+            sender.getScheduler().run(manager.getPlugin(), task -> {
+                if (!sender.isOnline()) return;
+                Component message = formatMessage(ogMessage, sender.displayName(), sender, null, ci);
+                if (message != null) sender.sendMessage(message);
+            }, null);
+            log(Level.INFO, "&3Prevented player&r&a %s&r&3 from sending a link / server ip", senderName);
             return;
         }
 
-        Bukkit.getLogger().info(GlobalUtils.getStringContent(message));
+        sender.getScheduler().run(manager.getPlugin(), task -> {
+            if (!sender.isOnline()) return;
+            
+            Component displayName = sender.displayName();
+            Component message = formatMessage(ogMessage, displayName, sender, null, ci);
+            if (message == null) return;
 
-        Bukkit.getGlobalRegionScheduler().runDelayed(manager.getPlugin(), (task) -> {
-            for (Player recipient : Bukkit.getOnlinePlayers()) {
-                ChatInfo info = manager.getInfo(recipient);
-                if (info == null || info.isIgnoring(sender.getUniqueId()) || info.isToggledChat()) continue;
+            Bukkit.getLogger().info(GlobalUtils.getStringContent(message));
 
-                String lowerMessage = ogMessage.toLowerCase();
-
-                if (lowerMessage.contains(recipient.getName().toLowerCase())) {
-                    TextComponent highlightedMessage = formatMessage(ogMessage, displayName, sender, recipient.getName(), ci);
-                    if(highlightedMessage == null) return;
-                    recipient.sendMessage(highlightedMessage);
-                } else {
-                    recipient.sendMessage(message);
-                }
+            List<UUID> recipientUUIDs = new ArrayList<>();
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                recipientUUIDs.add(p.getUniqueId());
             }
-        }, 1L);
+
+            for (UUID recipientUUID : recipientUUIDs) {
+                Player recipient = Bukkit.getPlayer(recipientUUID);
+                if (recipient == null || !recipient.isOnline()) continue;
+
+                recipient.getScheduler().run(manager.getPlugin(), recipientTask -> {
+                    Player r = Bukkit.getPlayer(recipientUUID);
+                    if (r == null || !r.isOnline()) return;
+
+                    ChatInfo info = manager.getInfo(r);
+                    if (info == null || info.isIgnoring(senderUUID) || info.isToggledChat()) return;
+
+                    String lowerMessage = ogMessage.toLowerCase();
+                    if (lowerMessage.contains(r.getName().toLowerCase())) {
+                        TextComponent highlightedMessage = formatMessageSimple(ogMessage, displayName, senderName, r.getName(), ci);
+                        if (highlightedMessage != null) r.sendMessage(highlightedMessage);
+                    } else {
+                        r.sendMessage(message);
+                    }
+                }, null);
+            }
+        }, null);
+    }
+
+    private TextComponent formatMessageSimple(String message, Component displayName, String senderName, String mentionedPlayerName, ChatInfo ci) {
+        String prefix = prefixManager.getPrefix(ci);
+        Component prefixComponent = miniMessage.deserialize(prefix);
+
+        Component nameComponent = prefixComponent
+                .append(Component.text("<").color(TextColor.color(170, 170, 170)))
+                .append(displayName.clickEvent(ClickEvent.suggestCommand("/msg " + senderName + " ")))
+                .append(Component.text("> ").color(TextColor.color(170, 170, 170)));
+
+        NamedTextColor colorMessage = NamedTextColor.WHITE;
+        if (message.startsWith(">")) {
+            message = message.substring(1).trim();
+            colorMessage = NamedTextColor.GREEN;
+        }
+
+        if (message.trim().isEmpty()) return null;
+
+        Component msgComponent = Component.text("");
+        String[] words = message.split(" ");
+
+        for (String word : words) {
+            Component wordComp;
+            if (mentionedPlayerName != null && word.equalsIgnoreCase(mentionedPlayerName)) {
+                wordComp = Component.text(word + " ").color(NamedTextColor.YELLOW);
+            } else if (word.matches("(?i)@?here|@?everyone")) {
+                wordComp = Component.text(word + " ").color(NamedTextColor.YELLOW);
+            } else {
+                wordComp = Component.text(word + " ").color(colorMessage);
+            }
+            msgComponent = msgComponent.append(wordComp);
+        }
+
+        return (TextComponent) nameComponent.append(msgComponent);
     }
 
     private boolean domainCheck(String message) {

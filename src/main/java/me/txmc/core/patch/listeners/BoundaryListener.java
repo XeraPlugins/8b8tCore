@@ -1,6 +1,5 @@
 package me.txmc.core.patch.listeners;
 
-import io.papermc.paper.entity.TeleportFlag;
 import me.txmc.core.Main;
 import me.txmc.core.Reloadable;
 import org.bukkit.Location;
@@ -22,9 +21,10 @@ import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.bukkit.Bukkit;
 
 /**
  * BoundaryListener - Prevents players from falling below world boundaries and
@@ -35,22 +35,22 @@ import java.util.UUID;
  */
 public class BoundaryListener implements Listener, Reloadable {
     private final Main plugin;
-    private final Map<UUID, Long> lastNetherRoofDamage = new HashMap<>();
-    private final Map<UUID, Long> lastBottomTeleport = new HashMap<>();
-    private final Map<UUID, Long> lastBorderMessage = new HashMap<>();
+    private final Map<UUID, Long> lastNetherRoofDamage = new ConcurrentHashMap<>();
+    private final Map<UUID, Long> lastBottomTeleport = new ConcurrentHashMap<>();
+    private final Map<UUID, Long> lastBorderMessage = new ConcurrentHashMap<>();
     private static final long NETHER_ROOF_DAMAGE_COOLDOWN = 1000;
     private static final long BOTTOM_TELEPORT_COOLDOWN = 3000;
     private static final long BORDER_MESSAGE_COOLDOWN = 3000;
 
-    private boolean enabled;
-    private boolean netherRoofEnabled;
-    private int netherYLevel;
-    private boolean damagePlayers;
-    private boolean blockPlayers;
-    private boolean ensureSafeTeleport;
-    private boolean createNetherPlatform;
-    private boolean worldBorderEnabled;
-    private double worldBorderBuffer;
+    private volatile boolean enabled;
+    private volatile boolean netherRoofEnabled;
+    private volatile int netherYLevel;
+    private volatile boolean damagePlayers;
+    private volatile boolean blockPlayers;
+    private volatile boolean ensureSafeTeleport;
+    private volatile boolean createNetherPlatform;
+    private volatile boolean worldBorderEnabled;
+    private volatile double worldBorderBuffer;
 
     public BoundaryListener(Main plugin) {
         this.plugin = plugin;
@@ -320,14 +320,9 @@ public class BoundaryListener implements Listener, Reloadable {
                     return;
 
                 player.getScheduler().run(plugin, (playerTask) -> {
-                    player.teleportAsync(finalSafe,
-                            PlayerTeleportEvent.TeleportCause.PLUGIN,
-                            TeleportFlag.EntityState.RETAIN_PASSENGERS,
-                            TeleportFlag.EntityState.RETAIN_VEHICLE).thenAccept(success -> {
-                                // Verify teleport worked
+                    player.teleportAsync(finalSafe, PlayerTeleportEvent.TeleportCause.PLUGIN).thenAccept(success -> {
                                 player.getScheduler().runDelayed(plugin, (verifyTask) -> {
                                     if (player.isOnline() && player.getLocation().getY() >= netherYLevel) {
-                                        // Force again if still above
                                         player.teleportAsync(finalSafe);
                                         player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
                                     }
@@ -575,7 +570,7 @@ public class BoundaryListener implements Listener, Reloadable {
         player.setVelocity(new Vector(0, 0, 0));
         player.setFallDistance(0);
 
-        player.getWorld().getChunkAt(safeLocation).load();
+
         player.teleportAsync(safeLocation.clone().add(0, 0.1, 0));
 
         player.getScheduler().runDelayed(plugin, (task) -> {
@@ -607,9 +602,9 @@ public class BoundaryListener implements Listener, Reloadable {
             if (isSolidBlock(ground) && isAirSpace(body) && isAirSpace(head)) {
                 Location location = new Location(world, x, y, z);
                 if (!isAirSpace(body))
-                    body.setType(Material.AIR);
+                    Bukkit.getRegionScheduler().execute(plugin, body.getLocation(), () -> body.setType(Material.AIR));
                 if (!isAirSpace(head))
-                    head.setType(Material.AIR);
+                    Bukkit.getRegionScheduler().execute(plugin, head.getLocation(), () -> head.setType(Material.AIR));
 
                 return location;
             }
@@ -623,11 +618,11 @@ public class BoundaryListener implements Listener, Reloadable {
             Block head = world.getBlockAt((int) x, y + 1, (int) z);
 
             if (!isSolidBlock(ground)) {
-                ground.setType(Material.STONE);
+                Bukkit.getRegionScheduler().execute(plugin, ground.getLocation(), () -> ground.setType(Material.STONE));
             }
 
-            body.setType(Material.AIR);
-            head.setType(Material.AIR);
+            Bukkit.getRegionScheduler().execute(plugin, body.getLocation(), () -> body.setType(Material.AIR));
+            Bukkit.getRegionScheduler().execute(plugin, head.getLocation(), () -> head.setType(Material.AIR));
 
             return new Location(world, x, y, z);
         }
@@ -658,14 +653,14 @@ public class BoundaryListener implements Listener, Reloadable {
                 Location location = new Location(world, from.getX(), y, from.getZ());
 
                 if (!isAirSpace(body))
-                    body.setType(Material.AIR);
+                    Bukkit.getRegionScheduler().execute(plugin, body.getLocation(), () -> body.setType(Material.AIR));
                 if (!isAirSpace(head))
-                    head.setType(Material.AIR);
+                    Bukkit.getRegionScheduler().execute(plugin, head.getLocation(), () -> head.setType(Material.AIR));
 
                 for (int clearY = y + 2; clearY <= y + 4 && clearY < bedrockCeiling; clearY++) {
                     Block aboveBlock = world.getBlockAt(from.getBlockX(), clearY, from.getBlockZ());
                     if (!isAirSpace(aboveBlock) && aboveBlock.getType() != Material.BEDROCK) {
-                        aboveBlock.setType(Material.AIR);
+                        Bukkit.getRegionScheduler().execute(plugin, aboveBlock.getLocation(), () -> aboveBlock.setType(Material.AIR));
                     }
                 }
 
@@ -684,15 +679,15 @@ public class BoundaryListener implements Listener, Reloadable {
         Block head = world.getBlockAt(from.getBlockX(), forceY + 1, from.getBlockZ());
 
         if (!isSolidBlock(ground) && ground.getType() != Material.BEDROCK) {
-            ground.setType(Material.NETHERRACK);
+            Bukkit.getRegionScheduler().execute(plugin, ground.getLocation(), () -> ground.setType(Material.NETHERRACK));
         }
-        body.setType(Material.AIR);
-        head.setType(Material.AIR);
+        Bukkit.getRegionScheduler().execute(plugin, body.getLocation(), () -> body.setType(Material.AIR));
+        Bukkit.getRegionScheduler().execute(plugin, head.getLocation(), () -> head.setType(Material.AIR));
 
         for (int clearY = forceY + 2; clearY <= forceY + 5 && clearY < bedrockCeiling; clearY++) {
             Block aboveBlock = world.getBlockAt(from.getBlockX(), clearY, from.getBlockZ());
             if (aboveBlock.getType() != Material.BEDROCK) {
-                aboveBlock.setType(Material.AIR);
+                Bukkit.getRegionScheduler().execute(plugin, aboveBlock.getLocation(), () -> aboveBlock.setType(Material.AIR));
             }
         }
 
@@ -703,36 +698,7 @@ public class BoundaryListener implements Listener, Reloadable {
         return new Location(world, from.getX(), forceY, from.getZ());
     }
 
-    /**
-     * Creates a safe platform at the specified location
-     */
-    private void createBottomPlatform(World world, int x, int y, int z) {
-        if (y < world.getMinHeight() || y >= world.getMaxHeight())
-            return;
 
-        // Create a 3x3 platform
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dz = -1; dz <= 1; dz++) {
-                Block block = world.getBlockAt(x + dx, y, z + dz);
-                if (block.getType() == Material.AIR || block.getType() == Material.VOID_AIR
-                        || block.getType() == Material.CAVE_AIR) {
-                    block.setType(Material.STONE);
-                }
-            }
-        }
-
-        // Ensure air space above the platform (2 blocks high)
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dz = -1; dz <= 1; dz++) {
-                for (int dy = 1; dy <= 2; dy++) {
-                    Block block = world.getBlockAt(x + dx, y + dy, z + dz);
-                    if (block.getType().isSolid() && block.getType() != Material.BEDROCK) {
-                        block.setType(Material.AIR);
-                    }
-                }
-            }
-        }
-    }
 
     /**
      * Creates a safe platform below the nether roof
@@ -748,7 +714,7 @@ public class BoundaryListener implements Listener, Reloadable {
                 if ((block.getType() == Material.AIR || block.getType() == Material.VOID_AIR
                         || block.getType() == Material.CAVE_AIR || block.getType() == Material.LAVA) &&
                         block.getType() != Material.END_PORTAL && block.getType() != Material.END_PORTAL_FRAME) {
-                    block.setType(Material.NETHERRACK);
+                    Bukkit.getRegionScheduler().execute(plugin, block.getLocation(), () -> block.setType(Material.NETHERRACK));
                 }
             }
         }
@@ -759,7 +725,7 @@ public class BoundaryListener implements Listener, Reloadable {
                 for (int dy = 1; dy <= 4; dy++) {
                     Block block = world.getBlockAt(x + dx, y + dy, z + dz);
                     if (block.getType().isSolid() && block.getType() != Material.BEDROCK) {
-                        block.setType(Material.AIR);
+                        Bukkit.getRegionScheduler().execute(plugin, block.getLocation(), () -> block.setType(Material.AIR));
                     }
                 }
             }
@@ -802,7 +768,7 @@ public class BoundaryListener implements Listener, Reloadable {
             Entity vehicle = player.getVehicle();
             dismountPlayer(player);
             if (vehicle != null) {
-                vehicle.remove();
+                vehicle.getScheduler().run(plugin, (t) -> vehicle.remove(), null);
             }
         }
 
@@ -908,7 +874,7 @@ public class BoundaryListener implements Listener, Reloadable {
                             Entity vehicle = player.getVehicle();
                             player.leaveVehicle();
                             if (vehicle != null)
-                                vehicle.remove();
+                                vehicle.getScheduler().run(plugin, (t) -> vehicle.remove(), null);
                         }
 
                         Location safe = findSafeLocationInsideBorder(player.getLocation());

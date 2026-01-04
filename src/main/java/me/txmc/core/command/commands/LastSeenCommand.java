@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 
-/**
+/*
  * LastSeen command that shows when a player was last online
  * Code ported from the last seen plugin.
  * @author Libalpm (MindComplexity)
  * @since 10/2/2025
- */
+*/
 
 public class LastSeenCommand extends BaseTabCommand implements Listener {
     
@@ -76,7 +76,6 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
                 sendMessage(sender, String.format("&cPlayer '&e%s&c' has never joined the server!", targetName));
                 return;
             }
-            
             // Check if player is in cache
             String playerId = offlinePlayer.getUniqueId().toString();
             PlayerLastSeenData cachedData = lastSeenCache.get(playerId);
@@ -124,17 +123,12 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
         return new ArrayList<>();
     }
     
-    /**
-     * Update last seen data for a player when they quit
-     */
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         updateLastSeen(event.getPlayer());
     }
     
-    /**
-     * Update last seen data for a player
-     */
+
     public static void updateLastSeen(Player player) {
         PlayerLastSeenData data = new PlayerLastSeenData(
             player.getUniqueId().toString(),
@@ -147,10 +141,7 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
         );
         lastSeenCache.put(player.getUniqueId().toString(), data);
     }
-    
-    /**
-     * Data class for storing player last seen information
-     */
+
     public static class PlayerLastSeenData {
         public final String uuid;
         public final String name;

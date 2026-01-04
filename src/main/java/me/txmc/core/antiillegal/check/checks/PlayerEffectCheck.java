@@ -103,11 +103,6 @@ public class PlayerEffectCheck implements Check {
         // This function does nothing.
     }
 
-    /**
-     * Check if a player has any illegal potion effects
-     * @param player The player to check
-     * @return true if player has illegal effects, false otherwise
-     */
     public boolean checkPlayerEffects(Player player) {
         if (player == null) return false;
         
@@ -120,10 +115,7 @@ public class PlayerEffectCheck implements Check {
         return false;
     }
 
-    /**
-     * Remove all illegal potion effects from a player
-     * @param player The player to fix
-     */
+
     public void fixPlayerEffects(Player player) {
         if (player == null) return;
         
@@ -134,20 +126,12 @@ public class PlayerEffectCheck implements Check {
         }
     }
 
-    /**
-     * Check if a specific effect is illegal
-     * @param effect The potion effect to check
-     * @return true if the effect is illegal, false otherwise
-     */
     public boolean isIllegalEffect(PotionEffect effect) {
         if (effect == null) return false;
         
         PotionEffectType type = effect.getType();
-         // Amplifier starts at 0, so +1 for the actual level
         int level = effect.getAmplifier() + 1;
         
-        // If the effect type is not in the map, it is illegal or unknown
-        // You can add more effects to the map if you want to allow them. 
         if (!VANILLA_LEVEL_LIMITS.containsKey(type)) {
             return true;
         }
@@ -181,11 +165,6 @@ public class PlayerEffectCheck implements Check {
         return duration > MAX_LEGAL_DURATION;
     }
 
-    /**
-     * Check if a living entity has any illegal potion effects.
-     * @param entity The entity to check
-     * @return true if entity has illegal effects, false otherwise
-     */
     public boolean checkEntityEffects(LivingEntity entity) {
         if (entity == null) return false;
         
@@ -198,10 +177,6 @@ public class PlayerEffectCheck implements Check {
         return false;
     }
 
-    /**
-     * Remove all illegal potion effects from entities.
-     * @param entity The entity to fix
-     */
     public void fixEntityEffects(LivingEntity entity) {
         if (entity == null) return;
         

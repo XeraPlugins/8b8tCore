@@ -1,6 +1,5 @@
 package me.txmc.core.patch.listeners;
 
-import io.papermc.paper.threadedregions.scheduler.RegionScheduler;
 import lombok.extern.slf4j.Slf4j;
 import me.txmc.core.Main;
 import me.txmc.core.util.MapCreationLogger;
@@ -11,6 +10,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,28 +19,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapView;
-import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 /**
- * Handles the initialization of new maps in the game.
- *
- * <p>This class is part of the 8b8tCore plugin, which adds custom functionalities
- * to Minecraft, including map-related features.</p>
- *
- * <p>Functionality includes:</p>
- * <ul>
- *     <li>Logging information when a new map is created</li>
- *     <li>Identifying players within a specific radius around the map's center</li>
- * </ul>
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/08/27 10:30 AM
+ * This file is apart of 8b8tcore.
+ * @author MindComplexity (aka Libalpm)
+ * @since 2025/01/02 10:30 AM
  */
 
 @Slf4j
@@ -57,69 +45,74 @@ public class MapCreationListener implements Listener {
         int x = mapView.getCenterX();
         int z = mapView.getCenterZ();
         int id = mapView.getId();
+        
+        if (mapView.getWorld() == null) return;
 
         int radius = 65;
-        int minX = x - radius;
-        int maxX = x + radius;
-        int minZ = z - radius;
-        int maxZ = z + radius;
 
+        List<UUID> playerUUIDs = new java.util.ArrayList<>();
+        List<String> playerNames = new java.util.ArrayList<>();
+        
         Location mapLocation = new Location(mapView.getWorld(), x, 64, z);
-
-        // Process players immediately instead of having to schedulue it out.
-        // You don't really want to stress out the scheduler by spamming requests.
-        List<Player> playersInZone = Bukkit.getOnlinePlayers().stream()
-                .filter(player -> {
-                    int playerX = player.getLocation().getBlockX();
-                    int playerZ = player.getLocation().getBlockZ();
-                    return playerX >= minX && playerX <= maxX && playerZ >= minZ && playerZ <= maxZ;
-                })
-                .collect(Collectors.toList());
-
-        if (playersInZone.isEmpty()) {
-            return;
-        }
-
-        String playersSign = playersInZone.stream()
-                .map(Player::getName)
-                .collect(Collectors.joining(", @"));
-
-        Bukkit.getRegionScheduler().runDelayed(plugin, mapLocation, task -> {
-            for (Player player : playersInZone) {
-                Bukkit.getRegionScheduler().runDelayed(plugin, player.getLocation(), t -> {
-                    findMapInInventoryAndSign(player, id, playersSign);
-                }, 1L);
+        
+        Bukkit.getRegionScheduler().run(plugin, mapLocation, task -> {
+            for (org.bukkit.entity.Entity entity : mapLocation.getWorld()
+                    .getNearbyEntities(mapLocation, radius, 256, radius)) {
+                if (entity instanceof Player player) {
+                    playerUUIDs.add(player.getUniqueId());
+                    playerNames.add(player.getName());
+                }
             }
-        }, 1L);
-
-        String message = String.format(
+            
+            if (playerUUIDs.isEmpty()) return;
+            
+            String playersSign = String.join(", @", playerNames);
+            
+            for (UUID uuid : playerUUIDs) {
+                Player player = Bukkit.getPlayer(uuid);
+                if (player == null || !player.isOnline()) continue;
+                
+                player.getScheduler().runDelayed(plugin, playerTask -> {
+                    Player p = Bukkit.getPlayer(uuid);
+                    if (p == null || !p.isOnline()) return;
+                    
+                    findMapInInventoryAndSign(p, id, playersSign);
+                }, null, 5L);
+            }
+            
+            String message = String.format(
                 "Map created with ID: %d at coordinates X: %d, Z: %d. Players in range: %s",
-                id, x, z, playersSign.isEmpty() ? "anonymous" : playersSign
-        );
-        MapCreationLogger.getLogger().log(Level.WARNING, message);
+                id, x, z, playersSign
+            );
+            MapCreationLogger.getLogger().log(Level.WARNING, message);
+        });
     }
     
     private void findMapInInventoryAndSign(Player player, int mapId, String playersSign) {
         ItemStack main = player.getInventory().getItemInMainHand();
-        if (main != null && main.getType() == Material.FILLED_MAP) {
+        if (main.getType() == Material.FILLED_MAP) {
             MapMeta meta = (MapMeta) main.getItemMeta();
             if (meta != null && meta.hasMapId() && meta.getMapId() == mapId) {
                 signMap(main, playersSign, mapId);
                 player.getInventory().setItemInMainHand(main);
-                MapCreationLogger.getLogger().log(java.util.logging.Level.WARNING, "signed main-hand map id " + mapId + " for " + player.getName());
+                MapCreationLogger.getLogger().log(Level.WARNING, 
+                    "signed main-hand map id " + mapId + " for " + player.getName());
                 return;
             }
         }
+        
         ItemStack off = player.getInventory().getItemInOffHand();
-        if (off != null && off.getType() == Material.FILLED_MAP) {
+        if (off.getType() == Material.FILLED_MAP) {
             MapMeta meta = (MapMeta) off.getItemMeta();
             if (meta != null && meta.hasMapId() && meta.getMapId() == mapId) {
                 signMap(off, playersSign, mapId);
                 player.getInventory().setItemInOffHand(off);
-                MapCreationLogger.getLogger().log(java.util.logging.Level.WARNING, "signed off-hand map id " + mapId + " for " + player.getName());
+                MapCreationLogger.getLogger().log(Level.WARNING, 
+                    "signed off-hand map id " + mapId + " for " + player.getName());
                 return;
             }
         }
+        
         ItemStack[] contents = player.getInventory().getContents();
         for (int i = 0; i < contents.length; i++) {
             ItemStack item = contents[i];
@@ -128,8 +121,9 @@ public class MapCreationListener implements Listener {
                 if (meta != null && meta.hasMapId() && meta.getMapId() == mapId) {
                     signMap(item, playersSign, mapId);
                     player.getInventory().setItem(i, item);
-                    MapCreationLogger.getLogger().log(java.util.logging.Level.WARNING, "signed inventory map id " + mapId + " for " + player.getName());
-                    break;
+                    MapCreationLogger.getLogger().log(Level.WARNING, 
+                        "signed inventory map id " + mapId + " for " + player.getName());
+                    return;
                 }
             }
         }
@@ -137,28 +131,29 @@ public class MapCreationListener implements Listener {
 
     private void signMap(ItemStack item, String players, int mapId) {
         ItemMeta meta = item.getItemMeta();
-        Component signature = Component.text("by @" + players, NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false);
+        if (meta == null) return;
+        
+        Component signature = Component.text("by @" + players, NamedTextColor.GRAY)
+            .decoration(TextDecoration.ITALIC, false);
 
-        if (meta != null) {
-            List<Component> lore = meta.hasLore() ? new java.util.ArrayList<>(meta.lore()) : new java.util.ArrayList<>();
-            boolean hasAuthor = false;
-            for (Component lineComp : lore) {
-                String line = PlainTextComponentSerializer.plainText().serialize(lineComp);
-                if (line.contains("by @")) {
-                    hasAuthor = true;
-                    break;
-                }
-            }
-            if (!hasAuthor) {
-                lore.add(0, signature);
-            }
-            meta.lore(lore);
-
-            NamespacedKey key = new NamespacedKey(plugin, "map_author");
-            meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, players);
-            NamespacedKey keyId = new NamespacedKey(plugin, "map_id");
-            meta.getPersistentDataContainer().set(keyId, PersistentDataType.INTEGER, mapId);
-            item.setItemMeta(meta);
+        List<Component> lore = meta.hasLore() 
+            ? new java.util.ArrayList<>(meta.lore()) 
+            : new java.util.ArrayList<>();
+            
+        boolean hasAuthor = lore.stream()
+            .map(c -> PlainTextComponentSerializer.plainText().serialize(c))
+            .anyMatch(line -> line.contains("by @"));
+            
+        if (!hasAuthor) {
+            lore.add(0, signature);
         }
+        meta.lore(lore);
+
+        NamespacedKey key = new NamespacedKey(plugin, "map_author");
+        meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, players);
+        NamespacedKey keyId = new NamespacedKey(plugin, "map_id");
+        meta.getPersistentDataContainer().set(keyId, PersistentDataType.INTEGER, mapId);
+        
+        item.setItemMeta(meta);
     }
 }

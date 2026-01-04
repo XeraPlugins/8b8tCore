@@ -26,7 +26,7 @@ import static me.txmc.core.util.GlobalUtils.sendMessage;
  * @author MindComplexity (aka Libalpm)
  * @since 2025/12/21
  * This file was created as a part of 8b8tCore
- */
+*/
 public class CosmeticsCommand extends BaseTabCommand {
     private final PrefixManager prefixManager;
     private final GeneralDatabase database;
@@ -360,20 +360,24 @@ public class CosmeticsCommand extends BaseTabCommand {
 
             ItemMeta meta = item.getItemMeta();
             String name = getCleanItemName(item);
-
+            String escapedName = name.replace("<", "\\<").replace(">", "\\>");
+            
             StringBuilder mm = new StringBuilder();
+
             for (String style : styles)
                 mm.append("<").append(style).append(">");
 
             boolean isGradient = colors.contains(":") && colors.indexOf('#') != colors.lastIndexOf('#');
 
             if (isGradient) {
-                mm.append("<gradient:").append(colors).append(">").append(name).append("</gradient>");
+                mm.append("<gradient:").append(colors).append(">").append(escapedName).append("</gradient>");
             } else {
-                mm.append("<color:").append(colors.split(":")[0]).append(">").append(name).append("</color>");
+                mm.append("<color:").append(colors.split(":")[0]).append(">").append(escapedName).append("</color>");
             }
-            for (String style : styles)
-                mm.append("</").append(style).append(">");
+            
+            for (int i = styles.size() - 1; i >= 0; i--) {
+                mm.append("</").append(styles.get(i)).append(">");
+            }
 
             meta.displayName(miniMessage.deserialize(mm.toString()).decoration(TextDecoration.ITALIC, false));
             item.setItemMeta(meta);

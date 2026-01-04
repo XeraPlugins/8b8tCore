@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Prevents stacked Totems of Undying anywhere by enforcing max stack size 1.
  * Can be used on any ItemStack regardless of where it is found.
- *
  * @since 2025-06-22
  */
 public class StackedTotemCheck implements Check {
@@ -15,14 +14,12 @@ public class StackedTotemCheck implements Check {
     @Override
     public boolean check(ItemStack item) {
         if (item == null) return false;
-
-        // Check if item is Totem of Undying stacked (>1)
         return item.getType() == Material.TOTEM_OF_UNDYING && item.getAmount() > 1;
     }
 
     @Override
     public boolean shouldCheck(ItemStack item) {
-        return true; // Check all items
+        return true;
     }
 
     @Override

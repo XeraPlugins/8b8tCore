@@ -1,8 +1,12 @@
 package me.txmc.core.database;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.io.File;
 import java.sql.*;
 import java.time.Instant;
+import java.util.Set;
 import java.util.concurrent.*;
 
 /**
@@ -13,33 +17,53 @@ import java.util.concurrent.*;
 
 public class GeneralDatabase {
     private static GeneralDatabase instance;
-    private final String url;
+    private final HikariDataSource dataSource;
     private final ExecutorService databaseExecutor;
 
+    private static final Set<String> VALID_COLUMNS = Set.of(
+        "displayname", "muted", "showJoinMsg", "hidePrefix", "hideDeathMessages",
+        "hideAnnouncements", "hideBadges", "selectedRank", "customGradient",
+        "hideCustomTab", "useVanillaLeaderboard", "gradient_animation", 
+        "gradient_speed", "nameDecorations", "preventPhantomSpawn", 
+        "prefixGradient", "prefix_animation", "prefix_speed", "prefixDecorations"
+    );
+
     private GeneralDatabase(String pluginFolderPath) {
-        String databasePath = pluginFolderPath + "/Database/8b8tCorePlayerDB.db";
-        this.url = "jdbc:sqlite:" + databasePath;
-        this.databaseExecutor = Executors.newFixedThreadPool(2);
         File databaseDir = new File(pluginFolderPath + "/Database");
         if (!databaseDir.exists()) {
             databaseDir.mkdirs();
         }
 
+        String databasePath = pluginFolderPath + "/Database/8b8tCorePlayerDB.db";
+        
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:sqlite:" + databasePath);
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(2);
+        config.setIdleTimeout(300000);
+        config.setMaxLifetime(600000);
+        config.setConnectionTimeout(30000);
+        config.setPoolName("8b8tCore-SQLite-Pool");        
+        config.addDataSourceProperty("journal_mode", "WAL");
+        config.addDataSourceProperty("synchronous", "NORMAL");
+        config.addDataSourceProperty("busy_timeout", "5000");
+        
+        this.dataSource = new HikariDataSource(config);
+        this.databaseExecutor = Executors.newFixedThreadPool(4, r -> {
+            Thread t = new Thread(r, "8b8tCore-Database-Thread");
+            t.setDaemon(true);
+            return t;
+        });
+
         createTables();
     }
 
-    /**
-     * Initialize the database singleton.
-     */
     public static synchronized void initialize(String pluginFolderPath) {
         if (instance == null) {
             instance = new GeneralDatabase(pluginFolderPath);
         }
     }
 
-    /**
-     * Get the database instance. (Intialized first)
-     */
     public static GeneralDatabase getInstance() {
         if (instance == null) {
             throw new IllegalStateException("GeneralDatabase not initialized! Call initialize() first.");
@@ -48,19 +72,21 @@ public class GeneralDatabase {
     }
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url);
+        return dataSource.getConnection();
     }
 
     private void createTables() {
-        String createNicknamesTableSQL = "CREATE TABLE IF NOT EXISTS playerdata (" +
-                "username TEXT PRIMARY KEY NOT NULL, " +
-                "displayname TEXT, " +
-                "muted INTEGER" +
-                ");";
+        String createTableSQL = """
+            CREATE TABLE IF NOT EXISTS playerdata (
+                username TEXT PRIMARY KEY NOT NULL,
+                displayname TEXT,
+                muted INTEGER
+            );
+            """;
 
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
-            stmt.execute(createNicknamesTableSQL);
+            stmt.execute(createTableSQL);
 
             addColumnIfNotExists(conn, stmt, "showJoinMsg", "BOOLEAN DEFAULT TRUE");
             addColumnIfNotExists(conn, stmt, "muted", "INTEGER");
@@ -101,6 +127,12 @@ public class GeneralDatabase {
         }
     }
 
+    private void validateColumn(String column) {
+        if (!VALID_COLUMNS.contains(column)) {
+            throw new IllegalArgumentException("Invalid column name: " + column);
+        }
+    }
+
     private CompletableFuture<Void> executeUpdate(String sql, Object... params) {
         return CompletableFuture.runAsync(() -> {
             try (Connection conn = getConnection();
@@ -122,9 +154,10 @@ public class GeneralDatabase {
                 for (int i = 0; i < params.length; i++) {
                     pstmt.setObject(i + 1, params[i]);
                 }
-                ResultSet rs = pstmt.executeQuery();
-                if (rs.next()) {
-                    return mapper.map(rs);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        return mapper.map(rs);
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -139,6 +172,7 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<Void> upsertPlayer(String username, String column, Object value) {
+        validateColumn(column);
         String sql = "INSERT INTO playerdata (username, displayname, " + column + ") VALUES (?, ?, ?) " +
                      "ON CONFLICT(username) DO UPDATE SET " + column + " = excluded." + column + ";";
         return executeUpdate(sql, username, username, value);
@@ -162,11 +196,17 @@ public class GeneralDatabase {
         );
     }
 
+    /**
+     * @deprecated Use {@link #getNicknameAsync(String)} with proper async handling.
+     * This method blocks and should NOT be called from region threads.
+     */
+    @Deprecated
     public String getNickname(String username) {
         return getNicknameAsync(username).join();
     }
 
     public CompletableFuture<String> getPlayerDataAsync(String username, String column) {
+        validateColumn(column);
         return executeQueryAsync(
                 "SELECT " + column + " FROM playerdata WHERE username = ?",
                 rs -> {
@@ -178,8 +218,8 @@ public class GeneralDatabase {
         );
     }
 
-    public void updateShowJoinMsg(String username, boolean showJoinMsg) {
-        upsertPlayer(username, "showJoinMsg", showJoinMsg);
+    public CompletableFuture<Void> updateShowJoinMsg(String username, boolean showJoinMsg) {
+        return upsertPlayer(username, "showJoinMsg", showJoinMsg);
     }
 
     public CompletableFuture<Boolean> getPlayerShowJoinMsgAsync(String username) {
@@ -191,12 +231,16 @@ public class GeneralDatabase {
         );
     }
 
+    /**
+     * @deprecated Use {@link #getPlayerShowJoinMsgAsync(String)} with proper async handling.
+     */
+    @Deprecated
     public boolean getPlayerShowJoinMsg(String username) {
         return getPlayerShowJoinMsgAsync(username).join();
     }
 
-    public void updateHidePrefix(String username, boolean hidePrefix) {
-        upsertPlayer(username, "hidePrefix", hidePrefix);
+    public CompletableFuture<Void> updateHidePrefix(String username, boolean hidePrefix) {
+        return upsertPlayer(username, "hidePrefix", hidePrefix);
     }
 
     public CompletableFuture<Boolean> getPlayerHidePrefixAsync(String username) {
@@ -208,13 +252,16 @@ public class GeneralDatabase {
         );
     }
 
-    /** Sync wrappers (we async tasks to mitigate blocking these need to be handwritten a lot of stuff is still sync which is really bad for Foldenor in ver 1.21.11) */
+    /**
+     * @deprecated Use {@link #getPlayerHidePrefixAsync(String)} with proper async handling.
+     */
+    @Deprecated
     public boolean getPlayerHidePrefix(String username) {
         return getPlayerHidePrefixAsync(username).join();
     }
 
-    public void updateHideDeathMessages(String username, boolean hide) {
-        upsertPlayer(username, "hideDeathMessages", hide);
+    public CompletableFuture<Void> updateHideDeathMessages(String username, boolean hide) {
+        return upsertPlayer(username, "hideDeathMessages", hide);
     }
 
     public CompletableFuture<Boolean> getPlayerHideDeathMessagesAsync(String username) {
@@ -226,12 +273,16 @@ public class GeneralDatabase {
         );
     }
 
+    /**
+     * @deprecated Use {@link #getPlayerHideDeathMessagesAsync(String)} with proper async handling.
+     */
+    @Deprecated
     public boolean getPlayerHideDeathMessages(String username) {
         return getPlayerHideDeathMessagesAsync(username).join();
     }
 
-    public void updateHideAnnouncements(String username, boolean hide) {
-        upsertPlayer(username, "hideAnnouncements", hide);
+    public CompletableFuture<Void> updateHideAnnouncements(String username, boolean hide) {
+        return upsertPlayer(username, "hideAnnouncements", hide);
     }
 
     public CompletableFuture<Boolean> getPlayerHideAnnouncementsAsync(String username) {
@@ -243,12 +294,16 @@ public class GeneralDatabase {
         );
     }
 
+    /**
+     * @deprecated Use {@link #getPlayerHideAnnouncementsAsync(String)} with proper async handling.
+     */
+    @Deprecated
     public boolean getPlayerHideAnnouncements(String username) {
         return getPlayerHideAnnouncementsAsync(username).join();
     }
 
-    public void updateHideBadges(String username, boolean hide) {
-        upsertPlayer(username, "hideBadges", hide);
+    public CompletableFuture<Void> updateHideBadges(String username, boolean hide) {
+        return upsertPlayer(username, "hideBadges", hide);
     }
 
     public CompletableFuture<Boolean> getPlayerHideBadgesAsync(String username) {
@@ -259,6 +314,11 @@ public class GeneralDatabase {
                 username
         );
     }
+
+    /**
+     * @deprecated Use {@link #getPlayerHideBadgesAsync(String)} with proper async handling.
+     */
+    @Deprecated
     public boolean getPlayerHideBadges(String username) {
         return getPlayerHideBadgesAsync(username).join();
     }
@@ -266,16 +326,18 @@ public class GeneralDatabase {
     public CompletableFuture<Boolean> isMutedAsync(String username) {
         return CompletableFuture.supplyAsync(() -> {
             try (Connection conn = getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement("SELECT muted FROM playerdata WHERE username = ?")) {
+                 PreparedStatement pstmt = conn.prepareStatement(
+                     "SELECT muted FROM playerdata WHERE username = ?")) {
                 pstmt.setString(1, username);
-                ResultSet rs = pstmt.executeQuery();
-
-                if (rs.next()) {
-                    long mutedUntil = rs.getLong("muted");
-                    if (mutedUntil > Instant.now().getEpochSecond()) {
-                        return true;
-                    } else {
-                        unmute(username);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        long mutedUntil = rs.getLong("muted");
+                        if (rs.wasNull()) return false;
+                        if (mutedUntil > Instant.now().getEpochSecond()) {
+                            return true;
+                        } else {
+                            unmute(username);
+                        }
                     }
                 }
             } catch (SQLException e) {
@@ -297,18 +359,21 @@ public class GeneralDatabase {
         );
     }
 
-    // more sync blocks
+    /**
+     * @deprecated Use {@link #isMutedAsync(String)} with proper async handling.
+     */
+    @Deprecated
     public boolean isMuted(String username) {
         return isMutedAsync(username).join();
     }
 
-    public void mute(String username, long timestamp) {
-        upsertPlayer(username, "muted", timestamp);
+    public CompletableFuture<Void> mute(String username, long timestamp) {
+        return upsertPlayer(username, "muted", timestamp);
     }
 
-    public void unmute(String username) {
+    public CompletableFuture<Void> unmute(String username) {
         String sql = "UPDATE playerdata SET muted = NULL WHERE username = ?;";
-        executeUpdate(sql, username);
+        return executeUpdate(sql, username);
     }
 
     public CompletableFuture<Void> updateSelectedRank(String username, String rank) {
@@ -330,7 +395,7 @@ public class GeneralDatabase {
     public CompletableFuture<Void> updateCustomGradient(String username, String gradient) {
         return upsertPlayer(username, "customGradient", gradient);
     }
- 
+
     public CompletableFuture<Void> updateGradient(String username, String gradient) {
         return updateCustomGradient(username, gradient);
     }
@@ -351,8 +416,8 @@ public class GeneralDatabase {
         return getCustomGradientAsync(username);
     }
 
-    public void updateHideCustomTab(String username, boolean hide) {
-        upsertPlayer(username, "hideCustomTab", hide);
+    public CompletableFuture<Void> updateHideCustomTab(String username, boolean hide) {
+        return upsertPlayer(username, "hideCustomTab", hide);
     }
 
     public CompletableFuture<Boolean> getHideCustomTabAsync(String username) {
@@ -364,8 +429,8 @@ public class GeneralDatabase {
         );
     }
 
-    public void setVanillaLeaderboard(String username, boolean useVanilla) {
-        upsertPlayer(username, "useVanillaLeaderboard", useVanilla);
+    public CompletableFuture<Void> setVanillaLeaderboard(String username, boolean useVanilla) {
+        return upsertPlayer(username, "useVanillaLeaderboard", useVanilla);
     }
 
     public CompletableFuture<Boolean> isVanillaLeaderboardAsync(String username) {
@@ -377,7 +442,10 @@ public class GeneralDatabase {
         );
     }
 
-    // more sync blocks
+    /**
+     * @deprecated Use {@link #isVanillaLeaderboardAsync(String)} with proper async handling.
+     */
+    @Deprecated
     public boolean isVanillaLeaderboard(String username) {
         return isVanillaLeaderboardAsync(username).join();
     }
@@ -408,8 +476,8 @@ public class GeneralDatabase {
         );
     }
 
-    public void updatePreventPhantomSpawn(String username, boolean prevent) {
-        upsertPlayer(username, "preventPhantomSpawn", prevent);
+    public CompletableFuture<Void> updatePreventPhantomSpawn(String username, boolean prevent) {
+        return upsertPlayer(username, "preventPhantomSpawn", prevent);
     }
 
     public CompletableFuture<Boolean> getPreventPhantomSpawnAsync(String username) {
@@ -421,7 +489,10 @@ public class GeneralDatabase {
         );
     }
 
-    // more sync blocks
+    /**
+     * @deprecated Use {@link #getPreventPhantomSpawnAsync(String)} with proper async handling.
+     */
+    @Deprecated
     public boolean getPreventPhantomSpawn(String username) {
         return getPreventPhantomSpawnAsync(username).join();
     }
@@ -486,14 +557,20 @@ public class GeneralDatabase {
     }
 
     public void close() {
-        databaseExecutor.shutdown();
-        try {
-            if (!databaseExecutor.awaitTermination(10, TimeUnit.SECONDS)) {
+        if (databaseExecutor != null) {
+            databaseExecutor.shutdown();
+            try {
+                if (!databaseExecutor.awaitTermination(10, TimeUnit.SECONDS)) {
+                    databaseExecutor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
                 databaseExecutor.shutdownNow();
+                Thread.currentThread().interrupt();
             }
-        } catch (InterruptedException e) {
-            databaseExecutor.shutdownNow();
-            Thread.currentThread().interrupt();
+        }
+        
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
         }
     }
 }

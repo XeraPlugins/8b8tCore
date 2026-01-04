@@ -9,7 +9,7 @@ softdepend:
   - VotifierPlus
 commands:
   msg:
-    aliases: [message, whisper, tell, w, t]
+    aliases: [message, whisper, tell, w]
   reply:
     aliases: [r]
   ignore:
@@ -20,25 +20,21 @@ commands:
     aliases: []
   tpahere:
   tpayes:
-    aliases: [tpaaccept, tpaccept]
+    aliases: []
   tpano:
-    aliases: [tpadeny, tpdeny]
+    aliases: []
   tpacancel:
   tpatoggle:
-  tpaignore:
   home:
     aliases: []
   sethome:
     aliases: []
   delhome:
-    aliases: []
   back:
-    aliases: []
   hotspot:
   lef:
   discord:
   help:
-    aliases: []
   open:
   say:
   spawn:
@@ -46,39 +42,34 @@ commands:
   uptime:
   world:
   vote:
-    aliases: []
   tpsinfo:
   repair:
-    aliases: []
   rename:
   sign:
-    aliases: []
   togglejoinmessages:
-    aliases: [jm, tjm]
+    aliases: [togglejoinmessage]
   toggleprefix:
   deathmessage:
   announcements:
-  badges:
-    aliases: [achievements]
+  achievements:
   shadowmute:
     aliases: [mute, sm]
   vanish:
-    aliases: [v]
+    aliases: []
   clearentities:
     aliases: [ce]
   gmc:
   gmsp:
   gms:
   table:
-    aliases: []
   jihad:
   joindate:
   kill:
   lastseen:
   cosmetics:
-    aliases: [cosmetic, c]
+    aliases: []
   toggleleaderboard:
-    aliases: [togglelb, tlb]
+    aliases: []
   dps:
     aliases: [disablephantomspawn, phantoms]
     description: Disable phantom spawning for yourself

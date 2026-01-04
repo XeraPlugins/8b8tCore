@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Accessors(fluent = true)
 public class HomeManager implements Section {
-    private final HashMap<Player, HomeData> homes = new HashMap<>();
+    private final HashMap<UUID, HomeData> homes = new HashMap<>(); // Use UUID to prevent memory leaks
     public final Main plugin;
-    private IStorage<HomeData, Player> storage;
+    private IStorage<HomeData, UUID> storage; // Changed key from Player to UUID
     private ConfigurationSection config;
 
     @Override
@@ -35,7 +35,7 @@ public class HomeManager implements Section {
         if (!homesFolder.exists()) homesFolder.mkdir();
         storage = new HomeJsonStorage(homesFolder);
         config = plugin.getSectionConfig(this);
-        if (!Bukkit.getOnlinePlayers().isEmpty()) Bukkit.getOnlinePlayers().forEach(p -> homes.put(p, storage.load(p)));
+        if (!Bukkit.getOnlinePlayers().isEmpty()) Bukkit.getOnlinePlayers().forEach(p -> homes.put(p.getUniqueId(), storage.load(p.getUniqueId())));
         plugin.register(new JoinListener(this));
         plugin.getCommand("home").setExecutor(new HomeCommand(this));
         plugin.getCommand("sethome").setExecutor(new SetHomeCommand(this));
@@ -46,7 +46,7 @@ public class HomeManager implements Section {
 
     @Override
     public void disable() {
-        homes.forEach((p, d) -> storage.save(d, p));
+        homes.forEach((uuid, d) -> storage.save(d, uuid));
         homes.clear();
     }
 
@@ -62,7 +62,7 @@ public class HomeManager implements Section {
 
     public List<String> tabComplete(CommandSender sender, String[] args) {
         if (sender instanceof Player player) {
-            HomeData homes = homes().getOrDefault(player, null);
+            HomeData homes = homes().getOrDefault(player.getUniqueId(), null);
             if (homes == null) return Collections.emptyList();
             if (args.length < 1) {
                 return homes.stream().map(Home::getName).sorted(String::compareToIgnoreCase).collect(Collectors.toList());

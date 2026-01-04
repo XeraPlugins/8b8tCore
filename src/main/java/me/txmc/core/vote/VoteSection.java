@@ -93,9 +93,6 @@ public class VoteSection implements Section {
         return "Vote";
     }
 
-
-
-  
     public void announceVote(String voterName) {
         int votingDays = config.getInt("VoterRoleExpirationDays", 30);
         
