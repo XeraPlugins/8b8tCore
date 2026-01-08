@@ -2,15 +2,13 @@ package me.txmc.core.antiillegal.check.checks;
 
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.PotionContents;
+import io.papermc.paper.datacomponent.item.Tool;
 import me.txmc.core.antiillegal.check.Check;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Waterlogged;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -19,7 +17,7 @@ import org.bukkit.potion.PotionEffectType;
  * This file is apart of 8b8tcore.
  * @author MindComplexity
  * @since 01/02/2026
- */
+*/
 
 public class IllegalDataCheck implements Check {
     
@@ -27,6 +25,7 @@ public class IllegalDataCheck implements Check {
     private static final int MAX_LEGAL_DURATION = 9600;
     private static final int MAX_NAME_PLAIN_LENGTH = 128;
     private static final int MAX_NAME_JSON_LENGTH = 4096;
+    private static final float MAX_LEGAL_TOOL_SPEED = 50.0f;
 
     @Override
     public boolean check(ItemStack item) {
@@ -42,8 +41,11 @@ public class IllegalDataCheck implements Check {
                 if (meta != null) {
                     if (hasIllegalName(meta)) return true;
                     if (meta.isGlider() && type != Material.ELYTRA) return true;
-                    if (hasIllegalWaterloggedState(meta, type)) return true;
                 }
+            }
+
+            if (hasIllegalWaterloggedState(item)) {
+                return true;
             }
             
             if (type != Material.TOTEM_OF_UNDYING && item.hasData(DataComponentTypes.DEATH_PROTECTION)) {
@@ -67,6 +69,10 @@ public class IllegalDataCheck implements Check {
                 if (maxStack != null && maxStack != type.getMaxStackSize()) {
                     return true;
                 }
+            }
+
+            if (hasIllegalToolComponent(item)) {
+                return true;
             }
             
         } catch (Exception e) {
@@ -106,13 +112,11 @@ public class IllegalDataCheck implements Check {
                         metaChanged = true;
                     }
                     
-                    if (fixWaterloggedState(meta, type)) {
-                        metaChanged = true;
-                    }
-                    
                     if (metaChanged) item.setItemMeta(meta);
                 }
             }
+
+            fixWaterloggedState(item);
 
             if (type != Material.TOTEM_OF_UNDYING) {
                 item.unsetData(DataComponentTypes.DEATH_PROTECTION);
@@ -133,11 +137,38 @@ public class IllegalDataCheck implements Check {
 
             item.unsetData(DataComponentTypes.MAX_STACK_SIZE);
 
+            if (hasIllegalToolComponent(item)) {
+                item.unsetData(DataComponentTypes.TOOL);
+            }
+
         } catch (Exception ignored) {}
+    }
+
+    private boolean hasIllegalToolComponent(ItemStack item) {
+        if (!item.hasData(DataComponentTypes.TOOL)) return false;
+
+        boolean shouldHaveTool = item.getType().getDefaultData(DataComponentTypes.TOOL) != null;
+
+        if (!shouldHaveTool) return true;
+
+        Tool tool = item.getData(DataComponentTypes.TOOL);
+        if (tool == null) return false;
+
+        for (Tool.Rule rule : tool.rules()) {
+            Float speed = rule.speed();
+            if (speed != null && speed > MAX_LEGAL_TOOL_SPEED) {
+                return true;
+            }
+        }
+        if (tool.defaultMiningSpeed() > MAX_LEGAL_TOOL_SPEED) {
+            return true;
+        }
+
+        return false;
     }
     
     private boolean isContainer(Material type) {
-        return type.name().contains("SHULKER_BOX") || type == Material.BUNDLE;
+        return type.name().contains("SHULKER_BOX") || type.name().endsWith("BUNDLE");
     }
     
     private boolean isPotion(Material type) {
@@ -145,48 +176,28 @@ public class IllegalDataCheck implements Check {
                type == Material.LINGERING_POTION || type == Material.TIPPED_ARROW;
     }
 
+    private boolean hasIllegalWaterloggedState(ItemStack item) {
+        if (!item.getType().isBlock()) return false;
+        if (!item.hasData(DataComponentTypes.BLOCK_DATA)) return false;
 
-    private boolean hasIllegalWaterloggedState(ItemMeta meta, Material type) {
-        if (!type.isBlock()) return false;
-        if (!(meta instanceof BlockStateMeta blockStateMeta)) return false;
-        
         try {
-            BlockData blockData = type.createBlockData();
-            if (!(blockData instanceof Waterlogged)) return false;
-            
-            if (blockStateMeta.hasBlockState()) {
-                BlockData storedData = blockStateMeta.getBlockState().getBlockData();
-                if (storedData instanceof Waterlogged waterlogged) {
-                    return waterlogged.isWaterlogged();
-                }
-            }
+            var properties = item.getData(DataComponentTypes.BLOCK_DATA);
+            if (properties == null) return false;
+            String dataString = properties.toString();
+            return dataString.contains("waterlogged=true") || dataString.contains("waterlogged=\"true\"");
         } catch (Exception e) {
             return false;
         }
-        
-        return false;
     }
     
-    private boolean fixWaterloggedState(ItemMeta meta, Material type) {
-        if (!type.isBlock()) return false;
-        if (!(meta instanceof BlockStateMeta blockStateMeta)) return false;
+    private void fixWaterloggedState(ItemStack item) {
+        if (!item.getType().isBlock()) return;
         
         try {
-            if (blockStateMeta.hasBlockState()) {
-                var blockState = blockStateMeta.getBlockState();
-                BlockData storedData = blockState.getBlockData();
-                if (storedData instanceof Waterlogged waterlogged && waterlogged.isWaterlogged()) {
-                    waterlogged.setWaterlogged(false);
-                    blockState.setBlockData(waterlogged);
-                    blockStateMeta.setBlockState(blockState);
-                    return true;
-                }
+            if (hasIllegalWaterloggedState(item)) {
+                item.unsetData(DataComponentTypes.BLOCK_DATA);
             }
-        } catch (Exception e) {
-            return false;
-        }
-        
-        return false;
+        } catch (Exception ignored) {}
     }
 
     private boolean hasIllegalPotionEffects(ItemStack item) {
@@ -200,6 +211,7 @@ public class IllegalDataCheck implements Check {
                 if (effect.getType().equals(PotionEffectType.LUCK)) return true;
                 if (effect.getAmplifier() > MAX_LEGAL_AMPLIFIER) return true;
                 if (effect.getDuration() > MAX_LEGAL_DURATION) return true;
+                if (effect.isInfinite()) return true;
             }
         } catch (Exception e) {
             return false;

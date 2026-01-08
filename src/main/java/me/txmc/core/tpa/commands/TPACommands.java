@@ -61,12 +61,9 @@ public class TPACommands {
                 return true;
             }
 
-            int maxDistanceFromSpawn = getMaxDistanceFromSpawn(from);
-            if (from.getWorld().getEnvironment() == World.Environment.NETHER) {
-                maxDistanceFromSpawn /= 8;
-            }
-            if (isWithinRestrictedArea(from, maxDistanceFromSpawn)) {
-                sendPrefixedLocalizedMessage(from, "tpa_too_close", maxDistanceFromSpawn);
+            if (me.txmc.core.util.GlobalUtils.isTeleportRestricted(from)) {
+                int range = me.txmc.core.util.GlobalUtils.getTeleportRestrictionRange(from);
+                sendPrefixedLocalizedMessage(from, "tpa_too_close", range);
                 return true;
             }
 
@@ -89,28 +86,7 @@ public class TPACommands {
             return true;
         }
 
-        private int getMaxDistanceFromSpawn(Player player) {
-            FileConfiguration cfg = main.plugin.getConfig();
-            ConfigurationSection sec = cfg.getConfigurationSection("TPAHOMERADIUS");
-            int maxDistance = sec.getInt("default");
-            for (PermissionAttachmentInfo info : player.getEffectivePermissions()) {
-                if (!info.getValue()) continue;
-                String perm = info.getPermission();
-                if (perm.startsWith("tpa.spawn.")) {
-                    try {
-                        int dist = Integer.parseInt(perm.substring("tpa.spawn.".length()));
-                        maxDistance = Math.min(maxDistance, dist);
-                    } catch (NumberFormatException ignored) {}
-                }
-            }
-            return maxDistance;
-        }
 
-        private boolean isWithinRestrictedArea(Player player, int range) {
-            if (player.isOp()) return false;
-            Location loc = player.getLocation();
-            return loc.getBlockX() < range && loc.getBlockX() > -range && loc.getBlockZ() < range && loc.getBlockZ() > -range;
-        }
     }
 
     @RequiredArgsConstructor
@@ -144,8 +120,18 @@ public class TPACommands {
                 }
 
                 if (main.hasHereRequested(requester, requested)) {
+                    if (me.txmc.core.util.GlobalUtils.isTeleportRestricted(requested)) {
+                        int range = me.txmc.core.util.GlobalUtils.getTeleportRestrictionRange(requested);
+                        sendPrefixedLocalizedMessage(requested, "tpa_too_close", range);
+                        return true;
+                    }
                     acceptTPAHere(requested, requester);
                 } else if (main.hasRequested(requester, requested)) {
+                    if (me.txmc.core.util.GlobalUtils.isTeleportRestricted(requester)) {
+                        int range = me.txmc.core.util.GlobalUtils.getTeleportRestrictionRange(requester);
+                        sendPrefixedLocalizedMessage(requested, "tpa_too_close_other", range, requester.getName());
+                        return true;
+                    }
                     acceptTPA(requested, requester);
                 }
             } else {

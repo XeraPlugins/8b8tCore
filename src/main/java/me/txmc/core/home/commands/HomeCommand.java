@@ -42,12 +42,9 @@ public class HomeCommand implements TabExecutor {
                 return true;
             }
 
-            int maxDistanceFromSpawn = getMaxDistanceFromSpawn(player);
-            if(player.getWorld().getEnvironment() == World.Environment.NETHER){
-                maxDistanceFromSpawn = getMaxDistanceFromSpawn(player) / 8;
-            }
-            if (isWithinRestrictedArea(player, maxDistanceFromSpawn)) {
-                sendPrefixedLocalizedMessage(player, "home_too_close", maxDistanceFromSpawn);
+            if (me.txmc.core.util.GlobalUtils.isTeleportRestricted(player)) {
+                int range = me.txmc.core.util.GlobalUtils.getTeleportRestrictionRange(player);
+                sendPrefixedLocalizedMessage(player, "home_too_close", range);
                 return true;
             }
 
@@ -85,30 +82,7 @@ public class HomeCommand implements TabExecutor {
     }
 
 
-    private int getMaxDistanceFromSpawn(Player player) {
-        FileConfiguration cfg = main.plugin.getConfig();
-        ConfigurationSection sec = cfg.getConfigurationSection("TPAHOMERADIUS");
-        int maxDistance = sec.getInt("default");
 
-        for (PermissionAttachmentInfo info : player.getEffectivePermissions()) {
-            if (!info.getValue()) continue;
-            String perm = info.getPermission();
-            if (perm.startsWith("home.spawn.")) {
-                try {
-                    int dist = Integer.parseInt(perm.substring("home.spawn.".length()));
-                    maxDistance = Math.min(maxDistance, dist);
-                } catch (NumberFormatException ignored) {}
-            }
-        }
-        return maxDistance;
-    }
-
-
-    private boolean isWithinRestrictedArea(Player player, int range) {
-        if (player.isOp()) return false;
-        Location loc = player.getLocation();
-        return loc.getBlockX() < range && loc.getBlockX() > -range && loc.getBlockZ() < range && loc.getBlockZ() > -range;
-    }
 
     private void vanish(Player player) {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {

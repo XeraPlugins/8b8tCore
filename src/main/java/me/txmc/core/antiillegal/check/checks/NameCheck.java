@@ -1,31 +1,54 @@
 package me.txmc.core.antiillegal.check.checks;
 
+import io.papermc.paper.datacomponent.DataComponentType;
+import io.papermc.paper.registry.keys.DataComponentTypeKeys;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import org.bukkit.Registry;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.regex.Pattern;
+
 /**
- * @author 254n_m
- * @since 2023/09/20 8:01 PM
+ * @author MindComplexity
+ * @since 2026/01/04
  * This file was created as a part of 8b8tAntiIllegal
  */
+
 @RequiredArgsConstructor
 public class NameCheck implements Check {
+
     private final ConfigurationSection config;
+
+    private static final Pattern ILLEGAL_CHAR_PATTERN =
+            Pattern.compile("[^\\u0020-\\u007E]");
+
+    private static final int STRICT_MAX_LENGTH = 128;
+    private static final int MAX_JSON_LENGTH = 8192;
+
+    private static final DataComponentType ENTITY_DATA =
+            Registry.DATA_COMPONENT_TYPE.getOrThrow(DataComponentTypeKeys.ENTITY_DATA);
+
     @Override
     public boolean check(ItemStack item) {
+        if (item == null) return false;
+
+        if (hasIllegalEntityData(item)) return true;
+
         if (!item.hasItemMeta()) return false;
+
         ItemMeta meta = item.getItemMeta();
-        if (meta.displayName() == null) return false;
-        Component name =  meta.displayName();
-        if (name.hasStyling()) return false;
-        if (hasDecorations(name)) return false;
-        if (GlobalUtils.getStringContent(name).length() > 50) return true;
-        return false;
+        if (meta == null || meta.displayName() == null) return false;
+
+        Component name = meta.displayName();
+
+        return isIllegalNameContent(name);
     }
 
     @Override
@@ -35,17 +58,36 @@ public class NameCheck implements Check {
 
     @Override
     public void fix(ItemStack item) {
+        if (item == null) return;
+
+        if (hasIllegalEntityData(item)) {
+            item.unsetData(ENTITY_DATA);
+        }
+
+        if (!item.hasItemMeta()) return;
+
         ItemMeta meta = item.getItemMeta();
+        if (meta == null || meta.displayName() == null) return;
+
         Component name = meta.displayName();
-        String strName = GlobalUtils.getStringContent(name);
-        meta.displayName(Component.text(strName.substring(0, Math.min(config.getInt("MaxItemNameLength"), strName.length()))));
+
+        if (!isIllegalNameContent(name)) return;
+
+        meta.displayName(null);
         item.setItemMeta(meta);
     }
 
-    private boolean hasDecorations(Component component) {
-        for (TextDecoration decoration : TextDecoration.values()) {
-            if (component.hasDecoration(decoration)) return true;
-        }
-        return false;
+    private boolean isIllegalNameContent(Component component) {
+        String json = GsonComponentSerializer.gson().serialize(component);
+        if (json.length() > MAX_JSON_LENGTH) return true;
+
+        String content = GlobalUtils.getStringContent(component);
+
+        if (content.length() > STRICT_MAX_LENGTH) return true;
+        return ILLEGAL_CHAR_PATTERN.matcher(content).find();
+    }
+
+    private boolean hasIllegalEntityData(ItemStack item) {
+        return item.hasData(ENTITY_DATA);
     }
 }

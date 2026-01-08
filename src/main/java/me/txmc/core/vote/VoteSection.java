@@ -95,9 +95,15 @@ public class VoteSection implements Section {
 
     public void announceVote(String voterName) {
         int votingDays = config.getInt("VoterRoleExpirationDays", 30);
+        me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
         
         Bukkit.getGlobalRegionScheduler().runDelayed(plugin, (task) -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
+                if (chatSection != null) {
+                    me.txmc.core.chat.ChatInfo info = chatSection.getInfo(p);
+                    if (info != null && info.isHideAnnouncements()) continue;
+                }
+                
                 Localization loc = Localization.getLocalization(p.locale().getLanguage());
                 String message = loc.getWithPlaceholders("vote_announcement", "%days%", String.valueOf(votingDays));
                 String finalMessage = String.format(message, voterName);            
@@ -259,14 +265,7 @@ public class VoteSection implements Section {
         return future;
     }
     
-    public boolean hasVoterRole(String username) {
-        try {
-            return hasVoterRoleAsync(username).get(1, java.util.concurrent.TimeUnit.SECONDS);
-        } catch (Exception e) {
-            plugin.getLogger().warning("Failed to check voter role for " + username + ": " + e.getMessage());
-            return false;
-        }
-    }
+
     
     public void checkAndMigrateLegacyPlayer(String username) {
         if (!config.getBoolean("EnableLegacyPlayerMigration", true)) {

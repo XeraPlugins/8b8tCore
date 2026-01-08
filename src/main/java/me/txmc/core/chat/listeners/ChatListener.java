@@ -174,7 +174,6 @@ public class ChatListener implements Listener {
 
         NamedTextColor colorMessage = NamedTextColor.WHITE;
         if (message.startsWith(">")) {
-            message = message.substring(1).trim();
             colorMessage = NamedTextColor.GREEN;
         }
 
@@ -316,7 +315,6 @@ public class ChatListener implements Listener {
         NamedTextColor colorMessage = NamedTextColor.WHITE;
 
         if(message.startsWith(">")){
-            message = message.substring(1).trim();
             colorMessage = NamedTextColor.GREEN;
         }
 

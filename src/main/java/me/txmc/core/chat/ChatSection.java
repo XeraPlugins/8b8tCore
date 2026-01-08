@@ -106,7 +106,8 @@ public class ChatSection implements Section {
             db.getCustomGradientAsync(username).thenAccept(info::setNameGradient),
             db.getGradientAnimationAsync(username).thenAccept(info::setNameAnimation),
             db.getGradientSpeedAsync(username).thenAccept(info::setNameSpeed),
-            db.getPlayerDataAsync(username, "nameDecorations").thenAccept(info::setNameDecorations)
+            db.getPlayerDataAsync(username, "nameDecorations").thenAccept(info::setNameDecorations),
+            db.getPlayerHideAnnouncementsAsync(username).thenAccept(info::setHideAnnouncements)
         ).exceptionally(e -> {
             e.printStackTrace();
             return null;

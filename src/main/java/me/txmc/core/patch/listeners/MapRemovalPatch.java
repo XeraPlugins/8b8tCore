@@ -102,7 +102,7 @@ public class MapRemovalPatch implements Listener {
                             64,
                             (chunk.getZ() << 4) + 8);
 
-                    for (Player player : chunk.getWorld().getNearbyPlayers(chunkCenter, 256)) {
+                    for (Player player : chunk.getWorld().getNearbyPlayers(chunkCenter, 16)) {
                         if (player.getLocation().getChunk().equals(chunk)) {
                             sendPrefixedLocalizedMessage(player, "mapart_deleted_frame");
                         }

@@ -1,27 +1,38 @@
 package me.txmc.core.antiillegal.listeners;
 
+import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
 import me.txmc.core.antiillegal.check.checks.PlayerEffectCheck;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Explosive;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.regex.Pattern;
 
 /**
- * Listener for entities to check and fix illegal potion effects.
- * Some players managed to work around to using mobs to have infinite HP, instant kill, etc.
- * This should fix the problem and revert the effects on entites on chunk load.
+ * Listener for entities to check and fix illegal data.
  * @author MindComplexity (aka Libalpm)
- * @since 2025-10-2
+ * @since 2026-01-08
  */
 public class EntityEffectListener implements Listener {
     
     private final Plugin plugin;
     private final PlayerEffectCheck effectCheck;
     private final int checkInterval;
+
+    private static final Pattern ILLEGAL_CHAR_PATTERN = Pattern.compile("[^\\u0020-\\u007E]");
+    private static final int MAX_ENTITY_NAME_LENGTH = 128;
+    private static final float MAX_EXPLOSION_POWER = 4.0f; 
 
     public EntityEffectListener(Plugin plugin) {
         this(plugin, 600);
@@ -41,24 +52,73 @@ public class EntityEffectListener implements Listener {
     }
 
     private void checkAllEntities() {
-        for (org.bukkit.World world : Bukkit.getWorlds()) {
-            for (LivingEntity entity : world.getLivingEntities()) {
-                entity.getScheduler().run(plugin, (task) -> {
-                    if (entity.isValid() && !entity.isDead() && !(entity instanceof org.bukkit.entity.Player)) {
-                        if (!entity.getActivePotionEffects().isEmpty()) {
-                            checkAndFixEntityEffects(entity);
-                        }
-                    }
-                }, null);
+        for (World world : Bukkit.getWorlds()) {
+            for (Chunk chunk : world.getLoadedChunks()) {
+                for (Entity entity : chunk.getEntities()) {
+                    entity.getScheduler().run(plugin, (stask) -> {
+                        performChecks(entity);
+                    }, null);
+                }
             }
         }
     }
     
+    private void performChecks(Entity entity) {
+        if (!entity.isValid()) return;
+
+        checkAndFixEntityName(entity);
+
+        if (entity instanceof LivingEntity livingEntity && !(entity instanceof org.bukkit.entity.Player)) {
+            if (!livingEntity.getActivePotionEffects().isEmpty()) {
+                checkAndFixEntityEffects(livingEntity);
+            }
+        }
+
+        if (entity instanceof Explosive) {
+            checkAndFixExplosives((Explosive) entity);
+        }
+    }
+
+    private void checkAndFixExplosives(Explosive explosive) {
+        if (explosive.getYield() > MAX_EXPLOSION_POWER) {
+            explosive.setYield(MAX_EXPLOSION_POWER);
+        }
+        
+        if (explosive instanceof Fireball fireball) {
+            if (Double.isNaN(fireball.getAcceleration().getX()) || 
+                Double.isNaN(fireball.getAcceleration().getY()) || 
+                Double.isNaN(fireball.getAcceleration().getZ())) {
+                fireball.remove();
+            }
+        }
+    }
+
     private void checkAndFixEntityEffects(LivingEntity entity) {
         if (!entity.isValid() || entity.isDead()) return;
         
         if (effectCheck.checkEntityEffects(entity)) {
             effectCheck.fixEntityEffects(entity);
+        }
+    }
+
+    private void checkAndFixEntityName(Entity entity) {
+        if (entity == null || entity.customName() == null) return;
+
+        Component name = entity.customName();
+        String plainName = PlainTextComponentSerializer.plainText().serialize(name);
+        
+        boolean illegal = false;
+
+        if (plainName.length() > MAX_ENTITY_NAME_LENGTH) {
+            illegal = true;
+        }
+        else if (ILLEGAL_CHAR_PATTERN.matcher(plainName).find()) {
+            illegal = true;
+        }
+
+        if (illegal) {
+            entity.customName(null);
+            entity.setCustomNameVisible(false);
         }
     }
     
@@ -79,18 +139,18 @@ public class EntityEffectListener implements Listener {
     
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
-        if (event.isNewChunk()) return;        
-        for (org.bukkit.entity.Entity entity : event.getChunk().getEntities()) {
-            if (entity instanceof LivingEntity livingEntity) {
-                livingEntity.getScheduler().run(plugin, (task) -> {
-                    if (livingEntity.isValid() && !livingEntity.isDead() && !(livingEntity instanceof org.bukkit.entity.Player)) {
-                        if (!livingEntity.getActivePotionEffects().isEmpty()) {
-                            checkAndFixEntityEffects(livingEntity);
-                        }
-                    }
-                }, null);
-            }
+        for (Entity entity : event.getChunk().getEntities()) {
+            entity.getScheduler().run(plugin, (task) -> {
+               performChecks(entity);
+            }, null);
         }
+    }
+
+    @EventHandler
+    public void onEntityAddToWorld(EntityAddToWorldEvent event) {
+        Entity entity = event.getEntity();
+        if (entity == null) return;
+        performChecks(entity);
     }
     
     public PlayerEffectCheck getEffectCheck() {

@@ -200,6 +200,11 @@ public class CosmeticsCommand extends BaseTabCommand {
                 sendPrefixedLocalizedMessage(player, "nc_no_permission");
                 return;
             }
+
+            if (args.length > 2 && args[2].equalsIgnoreCase("tobias")) {
+                handleTobiasNick(player, args);
+                return;
+            }
             
             List<String> styles = new ArrayList<>();
             String colors = null;
@@ -223,21 +228,23 @@ public class CosmeticsCommand extends BaseTabCommand {
                 return;
             }
 
-            String currentNick = database.getNickname(player.getName());
-            if (currentNick == null || currentNick.isEmpty() || currentNick.equals(player.getName())) {
-                database.insertNickname(player.getName(), player.getName());
-            } else {
-                String plain = PlainTextComponentSerializer.plainText().serialize(
-                        miniMessage.deserialize(
-                                GlobalUtils.convertToMiniMessageFormat(currentNick)))
-                        .trim();
-                database.insertNickname(player.getName(), plain);
-            }
+            final String finalColors = colors;
+            database.getNicknameAsync(player.getName()).thenAccept(currentNick -> {
+                if (currentNick == null || currentNick.isEmpty() || currentNick.equals(player.getName())) {
+                    database.insertNickname(player.getName(), player.getName());
+                } else {
+                    String plain = PlainTextComponentSerializer.plainText().serialize(
+                            miniMessage.deserialize(
+                                    GlobalUtils.convertToMiniMessageFormat(currentNick)))
+                            .trim();
+                    database.insertNickname(player.getName(), plain);
+                }
 
-            String decorations = String.join(",", styles);
-            database.updateCustomGradient(player.getName(), colors);
-            database.updateNameDecorations(player.getName(), decorations).thenRun(() -> {
-                GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
+                String decorations = String.join(",", styles);
+                database.updateCustomGradient(player.getName(), finalColors);
+                database.updateNameDecorations(player.getName(), decorations).thenRun(() -> {
+                    GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
+                });
             });
             
             String preview = colors;
@@ -296,6 +303,57 @@ public class CosmeticsCommand extends BaseTabCommand {
                 setNickname(player, args, 1);
             }
         }
+    }
+
+    private void handleTobiasNick(Player player, String[] args) {
+        if (!player.hasPermission("8b8tcore.command.nc")) {
+            sendPrefixedLocalizedMessage(player, "nc_no_permission");
+            return;
+        }
+
+        if (args.length < 4) {
+            sendMessage(player, "&cUsage: /cosmetics nick color tobias <length:decorations:#color> ...");
+            sendMessage(player, "&7Example: /cosmetics nick color tobias 6:bold/italic:#FF0000 8:none:#00FF00");
+            return;
+        }
+
+        database.getNicknameAsync(player.getName()).thenAccept(currentNick -> {
+            if (currentNick == null || currentNick.isEmpty()) currentNick = player.getName();
+            
+            String plainNick = PlainTextComponentSerializer.plainText()
+                    .serialize(miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(currentNick))).trim();
+            int nickLength = plainNick.length();
+
+            int totalLength = 0;
+            List<String> parts = new ArrayList<>();
+            for (int i = 3; i < args.length; i++) {
+                String arg = args[i].toLowerCase();
+                if (!arg.matches("^\\d+:[a-z/]+:#[0-9a-f]{6}$")) {
+                    sendMessage(player, "&cInvalid part format: " + arg + ". Expected length:decorations:#color");
+                    return;
+                }
+                String[] split = arg.split(":");
+                try {
+                    int len = Integer.parseInt(split[0]);
+                    totalLength += len;
+                    parts.add(arg);
+                } catch (NumberFormatException e) {
+                    sendMessage(player, "&cInvalid length in part: " + arg);
+                    return;
+                }
+            }
+
+            if (totalLength != nickLength) {
+                sendMessage(player, "&cTotal length of parts (" + totalLength + ") does not match nickname length (" + nickLength + ")");
+                return;
+            }
+
+            String tobiasFormat = "tobias:" + String.join(";", parts);
+            database.updateCustomGradient(player.getName(), tobiasFormat).thenRun(() -> {
+                GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
+            });
+            sendMessage(player, "&aNickname set to special Tobias format!");
+        });
     }
 
     private void setNickname(Player player, String[] args, int startIndex) {
@@ -479,6 +537,9 @@ public class CosmeticsCommand extends BaseTabCommand {
                 List<String> hexes = List.of("#FFFFFF", "#FF0000", "#00FF00", "#0000FF", 
                                               "#FF0000:#00FF00", "#00FFFF:#FF00FF");
                 suggestions.addAll(hexes);
+                if (type.equals("nick") && args[1].equals("color") && args.length == 3) {
+                    suggestions.add("tobias");
+                }
                 
                 if (hasColor) {
                     List<String> allStyles = List.of("bold", "italic", "underlined", "strikethrough");

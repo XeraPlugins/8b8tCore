@@ -29,6 +29,7 @@ public class ChatInfo {
     private String nameAnimation;
     private int nameSpeed;
     private String nameDecorations;
+    private boolean hideAnnouncements;
 
     public ChatInfo(Player player, ChatSection manager, HashSet<UUID> ignoring, boolean toggledChat, boolean joinMessages) {
         this.player = player;
@@ -70,59 +71,6 @@ public class ChatInfo {
     }
 
     public net.kyori.adventure.text.Component getDisplayNameComponent() {
-        String baseName;
-        if (nickname == null || nickname.isEmpty() || nickname.equals(player.getName())) {
-            baseName = player.getName();
-        } else {
-            baseName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                    .serialize(net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(me.txmc.core.util.GlobalUtils.convertToMiniMessageFormat(nickname))).trim();
-        }
-
-        if (nameGradient == null || nameGradient.isEmpty()) {
-            return net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(me.txmc.core.util.GlobalUtils.convertToMiniMessageFormat(baseName));
-        }
-
-        boolean isGradient = nameGradient.contains(":") &&
-                nameGradient.indexOf('#') != nameGradient.lastIndexOf('#');
-
-        String finalGradient;
-        long tick = me.txmc.core.util.GradientAnimator.getAnimationTick();
-        if (isGradient) {
-            finalGradient = me.txmc.core.util.GradientAnimator.applyAnimation(nameGradient, nameAnimation != null ? nameAnimation : "none", nameSpeed, tick);
-        } else {
-            finalGradient = nameGradient;
-            isGradient = false;
-        }
-
-        if (isGradient && finalGradient.indexOf('#') == finalGradient.lastIndexOf('#')) {
-            isGradient = false;
-        }
-
-        StringBuilder result = new StringBuilder();
-
-        if (nameDecorations != null && !nameDecorations.isEmpty()) {
-            for (String decoration : nameDecorations.split(",")) {
-                result.append("<").append(decoration.trim()).append(">");
-            }
-        }
-
-        if (isGradient) {
-            result.append("<gradient:").append(finalGradient).append(">")
-                    .append(baseName)
-                    .append("</gradient>");
-        } else {
-            result.append("<color:").append(finalGradient).append(">")
-                    .append(baseName)
-                    .append("</color>");
-        }
-
-        if (nameDecorations != null && !nameDecorations.isEmpty()) {
-            String[] decorations = nameDecorations.split(",");
-            for (int i = decorations.length - 1; i >= 0; i--) {
-                result.append("</").append(decorations[i].trim()).append(">");
-            }
-        }
-
-        return net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(result.toString());
+        return me.txmc.core.util.GlobalUtils.parseDisplayName(player.getName(), nickname, nameGradient, nameAnimation, nameSpeed, nameDecorations);
     }
 }

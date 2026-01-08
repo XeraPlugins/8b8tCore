@@ -249,6 +249,12 @@ public class HotspotCommand implements TabExecutor, Listener {
             return;
         }
 
+        if (GlobalUtils.isTeleportRestricted(player)) {
+            int range = GlobalUtils.getTeleportRestrictionRange(player);
+            sendPrefixedLocalizedMessage(player, "tpa_too_close", range);
+            return;
+        }
+
         Location hotspotLocation = hotspotLocations.get(targetPlayer.getUniqueId());
 
         Bukkit.getGlobalRegionScheduler().runDelayed(main, (task) -> {
@@ -295,6 +301,11 @@ public class HotspotCommand implements TabExecutor, Listener {
         if (closestHotspot == null) {
             sendPrefixedLocalizedMessage(player, "hotspot_not_found");
         } else {
+            if (GlobalUtils.isTeleportRestricted(player)) {
+                int range = GlobalUtils.getTeleportRestrictionRange(player);
+                sendPrefixedLocalizedMessage(player, "tpa_too_close", range);
+                return;
+            }
             Location finalClosestHotspot = closestHotspot;
             Bukkit.getGlobalRegionScheduler().runDelayed(main, (task) -> {
                 if (player.isOnline()) {

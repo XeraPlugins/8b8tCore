@@ -20,6 +20,8 @@ public class PotionCheck implements Check {
         if (!shouldCheck(item)) return false;
 
         PotionMeta meta = (PotionMeta) item.getItemMeta();
+        if (meta == null) return false;
+
         for (PotionEffect effect : meta.getCustomEffects()) {
             if (isIllegalEffect(effect)) {
                 return true;
@@ -36,10 +38,12 @@ public class PotionCheck implements Check {
     @Override
     public void fix(ItemStack item) {
         if (!shouldCheck(item)) return;
-        try {item.setAmount(0);} catch (Exception ignored) {}
+        item.setAmount(0);
     }
 
     private boolean isIllegalEffect(PotionEffect effect) {
-        return effect.getDuration() > MAX_LEGAL_DURATION || effect.getAmplifier() > MAX_LEGAL_AMPLIFIER;
+        return effect.isInfinite() || 
+               effect.getDuration() > MAX_LEGAL_DURATION || 
+               effect.getAmplifier() > MAX_LEGAL_AMPLIFIER;
     }
 }

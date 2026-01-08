@@ -7,7 +7,7 @@ package me.txmc.core.util;
  */
 public class GradientAnimator {
     public static String applyAnimation(String baseGradient, String animationType, int speed, long tick) {
-        if (animationType == null || animationType.equalsIgnoreCase("none") || animationType.isEmpty() || !baseGradient.contains(":")) {
+        if (animationType == null || animationType.equalsIgnoreCase("none") || animationType.isEmpty() || !baseGradient.contains(":") || baseGradient.toLowerCase().contains("tobias:")) {
             return baseGradient;
         }
 

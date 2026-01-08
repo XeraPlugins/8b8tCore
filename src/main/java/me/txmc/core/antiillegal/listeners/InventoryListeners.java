@@ -2,7 +2,7 @@ package me.txmc.core.antiillegal.listeners;
 
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.BundleContents;
-import io.papermc.paper.datacomponent.item.ItemContainerContents; // Added this
+import io.papermc.paper.datacomponent.item.ItemContainerContents;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.antiillegal.check.Check;
@@ -12,11 +12,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.inventory.Inventory; // Added this
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * @author 254n_m + MindComplexity
+ * @author MindComplexity + 254_m
  * @since 2023/10/15 4:30 AM, Updated 2026/01/03
  * This file was created as a part of 8b8tAntiIllegal
 */
@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 @RequiredArgsConstructor
 public class InventoryListeners implements Listener {
     private final AntiIllegalMain main;
-
+    private static final int MAX_BUNDLE_WEIGHT = 64;
     @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryOpen(InventoryOpenEvent event) {
         Inventory inv = event.getInventory();
@@ -80,13 +80,29 @@ public class InventoryListeners implements Listener {
     }
 
     private void checkBundleContents(ItemStack item) {
-        if (item == null || item.getType() != Material.BUNDLE) return;
+        if (item == null || !isBundle(item.getType())) return;
+        if (!item.hasData(DataComponentTypes.BUNDLE_CONTENTS)) return;
 
         BundleContents contents = item.getData(DataComponentTypes.BUNDLE_CONTENTS);
         if (contents == null) return;
 
+        int totalWeight = 0;
+
         for (ItemStack bundleItem : contents.contents()) {
-            if (bundleItem == null) continue;
+            if (bundleItem == null || bundleItem.getType().isAir()) continue;
+
+            if (isBundle(bundleItem.getType())) {
+                item.setAmount(0);
+                return;
+            }
+
+            if (bundleItem.getAmount() > bundleItem.getType().getMaxStackSize()) {
+                item.setAmount(0);
+                return;
+            }
+
+            int maxStack = bundleItem.getType().getMaxStackSize();
+            totalWeight += bundleItem.getAmount() * (64 / maxStack);
 
             for (Check check : main.checks()) {
                 if (check.shouldCheck(bundleItem) && check.check(bundleItem)) {
@@ -95,6 +111,14 @@ public class InventoryListeners implements Listener {
                 }
             }
         }
+
+        if (totalWeight > MAX_BUNDLE_WEIGHT) {
+            item.setAmount(0);
+        }
+    }
+
+    private boolean isBundle(Material type) {
+        return type.name().endsWith("BUNDLE");
     }
 
     private boolean isShulkerBox(Material type) {

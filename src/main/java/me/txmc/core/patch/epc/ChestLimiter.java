@@ -64,19 +64,10 @@ public class ChestLimiter implements Listener, Reloadable {
 
             Chunk currentChunk = world.getChunkAt(chunkX, chunkZ);
             int count = 0;
-            int minY = world.getMinHeight();
-            int maxY = world.getMaxHeight();
-            int baseX = chunkX << 4;
-            int baseZ = chunkZ << 4;
-
-            for (int x = 0; x < 16; x++) {
-                for (int z = 0; z < 16; z++) {
-                    for (int y = minY; y < maxY; y++) {
-                        Material type = world.getBlockAt(baseX + x, y, baseZ + z).getType();
-                        if (isChest(type)) {
-                            count++;
-                        }
-                    }
+            
+            for (org.bukkit.block.BlockState state : currentChunk.getTileEntities()) {
+                if (isChest(state.getType())) {
+                    count++;
                 }
             }
 
