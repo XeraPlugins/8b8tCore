@@ -56,6 +56,19 @@ public class GlobalUtils {
     private static java.lang.reflect.Method msptDataMethod;
     private static java.lang.reflect.Method segmentAllMethod;
     private static java.lang.reflect.Method averageMethod;
+    
+    @SuppressWarnings("deprecation")
+    public static int calculateItemSize(org.bukkit.inventory.ItemStack item) {
+        if (item == null) return 0;
+        try (java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+             org.bukkit.util.io.BukkitObjectOutputStream boos = new org.bukkit.util.io.BukkitObjectOutputStream(baos)) {
+            boos.writeObject(item);
+            boos.flush();
+            return baos.size();
+        } catch (Throwable e) {
+            return 0;
+        }
+    }
 
     public static void info(String format) {
         log(Level.INFO, format);
@@ -308,8 +321,55 @@ public class GlobalUtils {
     }
 
     public static String getStringContent(Component component) {
-        PlainTextComponentSerializer serializer = PlainTextComponentSerializer.plainText();
-        return serializer.serialize(component);
+        if (component == null) return "";
+        try {
+            if (getComponentDepth(component) > 50) return "Too many extra components";
+            PlainTextComponentSerializer serializer = PlainTextComponentSerializer.plainText();
+            return serializer.serialize(component);
+        } catch (Throwable t) {
+            return "Error serializing component";
+        }
+    }
+
+    public static int getComponentDepth(Component component) {
+        if (component == null) return 0;
+        return getComponentDepth(component, 0, Collections.newSetFromMap(new IdentityHashMap<>()));
+    }
+
+    private static int getComponentDepth(Component component, int currentDepth, Set<Component> visited) {
+        if (component == null) return currentDepth;
+        if (currentDepth > 50) return currentDepth;
+        if (!visited.add(component)) return currentDepth + 100;
+
+        int maxDepth = currentDepth + 1;
+
+        for (Component child : component.children()) {
+            maxDepth = Math.max(maxDepth, getComponentDepth(child, currentDepth + 1, visited));
+            if (maxDepth > 50) return maxDepth;
+        }
+
+        if (component instanceof net.kyori.adventure.text.TranslatableComponent translatable) {
+            for (Component arg : translatable.args()) {
+                maxDepth = Math.max(maxDepth, getComponentDepth(arg, currentDepth + 1, visited));
+                if (maxDepth > 50) return maxDepth;
+            }
+        }
+        
+        if (component.hoverEvent() != null) {
+            net.kyori.adventure.text.event.HoverEvent<?> hover = component.hoverEvent();
+            if (hover.action() == net.kyori.adventure.text.event.HoverEvent.Action.SHOW_TEXT) {
+                Component hoverContent = (Component) hover.value();
+                maxDepth = Math.max(maxDepth, getComponentDepth(hoverContent, currentDepth + 1, visited));
+            } else if (hover.action() == net.kyori.adventure.text.event.HoverEvent.Action.SHOW_ENTITY) {
+                net.kyori.adventure.text.event.HoverEvent.ShowEntity info = (net.kyori.adventure.text.event.HoverEvent.ShowEntity) hover.value();
+                if (info.name() != null) {
+                   maxDepth = Math.max(maxDepth, getComponentDepth(info.name(), currentDepth + 1, visited));
+                }
+            }
+        }
+        
+        visited.remove(component);
+        return maxDepth;
     }
 
     public static CompletableFuture<Double> getTpsNearEntity(Entity entity) {

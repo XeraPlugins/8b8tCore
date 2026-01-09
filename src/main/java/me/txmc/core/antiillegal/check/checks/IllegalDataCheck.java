@@ -4,9 +4,9 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.PotionContents;
 import io.papermc.paper.datacomponent.item.Tool;
 import me.txmc.core.antiillegal.check.Check;
+import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -239,11 +239,13 @@ public class IllegalDataCheck implements Check {
         if (!meta.hasCustomName()) return false;
         Component customName = meta.customName();
         if (customName == null) return false;
+
+        if (GlobalUtils.getComponentDepth(customName) > 8) return true;
         
         String json = GsonComponentSerializer.gson().serialize(customName);
         if (json.length() > MAX_NAME_JSON_LENGTH) return true;
         
-        String plainText = PlainTextComponentSerializer.plainText().serialize(customName);
+        String plainText = GlobalUtils.getStringContent(customName);
         if (plainText.length() > MAX_NAME_PLAIN_LENGTH) return true;
         
         return countNestingDepth(json) > 3;

@@ -12,8 +12,6 @@ import java.util.UUID;
 
 /**
  * Listener to load and save player home data on join/leave.
- * Optimized to use UUIDs for map keys to prevent memory leaks.
- *
  * @author 254n_m
  * @author MindComplexity (aka Libalpm)
  * @since 2023/12/19

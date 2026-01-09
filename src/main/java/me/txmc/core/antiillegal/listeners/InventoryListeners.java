@@ -83,6 +83,11 @@ public class InventoryListeners implements Listener {
         if (item == null || !isBundle(item.getType())) return;
         if (!item.hasData(DataComponentTypes.BUNDLE_CONTENTS)) return;
 
+        if (checkBundleRecursion(item, 0)) {
+            item.setAmount(0);
+            return;
+        }
+
         BundleContents contents = item.getData(DataComponentTypes.BUNDLE_CONTENTS);
         if (contents == null) return;
 
@@ -134,5 +139,24 @@ public class InventoryListeners implements Listener {
                type == Material.DROPPER ||
                type == Material.HOPPER ||
                type == Material.CHISELED_BOOKSHELF;
+    }
+
+    private boolean checkBundleRecursion(ItemStack item, int depth) {
+        if (item == null || !isBundle(item.getType())) return false;
+        if (depth >= 1) return true;
+
+        try {
+            if (item.hasItemMeta() && item.getItemMeta() instanceof org.bukkit.inventory.meta.BundleMeta bundleMeta) {
+                for (ItemStack inner : bundleMeta.getItems()) {
+                    if (inner == null) continue;
+                    if (isBundle(inner.getType())) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
     }
 }

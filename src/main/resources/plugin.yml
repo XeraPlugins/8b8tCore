@@ -47,7 +47,7 @@ commands:
   rename:
   sign:
   togglejoinmessages:
-    aliases: [togglejoinmessage]
+    aliases: []
   toggleprefix:
   deathmessage:
   announcements:
@@ -71,7 +71,7 @@ commands:
   toggleleaderboard:
     aliases: []
   dps:
-    aliases: [disablephantomspawn, phantoms]
+    aliases: []
     description: Disable phantom spawning for yourself
     permission: 8b8tcore.command.dps
 permissions:

@@ -2,6 +2,7 @@ package me.txmc.core.antiillegal.listeners;
 
 import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
 import me.txmc.core.antiillegal.check.checks.PlayerEffectCheck;
+import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
@@ -105,7 +106,7 @@ public class EntityEffectListener implements Listener {
         if (entity == null || entity.customName() == null) return;
 
         Component name = entity.customName();
-        String plainName = PlainTextComponentSerializer.plainText().serialize(name);
+        String plainName = GlobalUtils.getStringContent(name);
         
         boolean illegal = false;
 

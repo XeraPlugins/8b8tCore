@@ -3,10 +3,10 @@ package me.txmc.core.patch.listeners;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.txmc.core.Main;
+import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -115,7 +115,7 @@ public class MapCreationListener implements Listener {
         List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();
         
         boolean alreadySigned = lore.stream()
-                .map(PlainTextComponentSerializer.plainText()::serialize)
+                .map(GlobalUtils::getStringContent)
                 .anyMatch(line -> line.contains("by @"));
 
         if (!alreadySigned) {

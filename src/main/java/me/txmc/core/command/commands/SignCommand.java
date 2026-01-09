@@ -12,7 +12,7 @@ import org.bukkit.block.Container;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import me.txmc.core.util.GlobalUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -108,7 +108,7 @@ public class SignCommand extends BaseCommand {
         ItemMeta meta = item.getItemMeta();
         if (meta != null && meta.hasLore()) {
             for (Component loreComp : meta.lore()) {
-                String lore = PlainTextComponentSerializer.plainText().serialize(loreComp);
+                String lore = GlobalUtils.getStringContent(loreComp);
                 if (lore.contains("by @")) {
                     return true;
                 }

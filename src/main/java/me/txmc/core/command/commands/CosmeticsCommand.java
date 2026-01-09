@@ -453,18 +453,29 @@ public class CosmeticsCommand extends BaseTabCommand {
     }
 
     private void sendHelp(Player player) {
-        sendMessage(player, "&6Cosmetics Help:");
-        sendMessage(player, "&e/cosmetics title clear");
-        sendMessage(player, "&e/cosmetics title color <#hex:#hex...> [bold/italic/underlined/strikethrough]");
-        sendMessage(player, "&e/cosmetics title animation <wave/pulse/smooth/saturate/bounce/billboard/sweep/shimmer/none>");
-        sendMessage(player, "&e/cosmetics title speed <1-5>");
-        sendMessage(player, "&e/cosmetics title set <rank>");
-        sendMessage(player, "&e/cosmetics nick clear");
-        sendMessage(player, "&e/cosmetics nick <name>");
-        sendMessage(player, "&e/cosmetics nick color <#hex:#hex...> [bold/italic/underlined/strikethrough]");
-        sendMessage(player, "&e/cosmetics nick animation <wave/pulse/smooth/saturate/bounce/billboard/sweep/shimmer/none>");
-        sendMessage(player, "&e/cosmetics nick speed <1-5>");
-        sendMessage(player, "&e/cosmetics item color <#hex:#hex...> [bold/italic/underlined/strikethrough]");
+        sendMessage(player, "&6--- Cosmetics Help ---");
+        
+        String colorHelp = "<gold>/cosmetics <yellow><title|nick|item> <gold>color <red><colors> <aqua>[styles]</red>";
+        String colorHover = "<gray>Colors: <white>#RRGGBB <gray>or <white>#RRGGBB:#RRGGBB <gray>(Gradient)\n" +
+                           "<gray>Styles: <white>bold, italic, underlined, strikethrough";
+        GlobalUtils.sendPrefixedComponent(player, miniMessage.deserialize(colorHelp)
+                .hoverEvent(net.kyori.adventure.text.event.HoverEvent.showText(miniMessage.deserialize(colorHover))));
+
+        String tobiasHelp = "<gold>/cosmetics <yellow>nick <gold>color <red>tobias <aqua><parts...>";
+        String tobiasHover = "<gray>Formatting.\n<gray>Format: <white>length:decorations:#color\n<gray>Example: <white>6:bold:#FF0000 8:none:#00FF00";
+        GlobalUtils.sendPrefixedComponent(player, miniMessage.deserialize(tobiasHelp)
+                .hoverEvent(net.kyori.adventure.text.event.HoverEvent.showText(miniMessage.deserialize(tobiasHover))));
+
+        String animHelp = "<gold>/cosmetics <yellow><title|nick> <gold>animation <red><type>";
+        String animHover = "<gray>Types: <white>wave, pulse, smooth, saturate, bounce, billboard, sweep, shimmer, none";
+        GlobalUtils.sendPrefixedComponent(player, miniMessage.deserialize(animHelp)
+                .hoverEvent(net.kyori.adventure.text.event.HoverEvent.showText(miniMessage.deserialize(animHover))));
+
+        sendMessage(player, "&6/cosmetics <nick|title> speed &e<1-5>");
+        sendMessage(player, "&6/cosmetics <nick|title> clear");
+        sendMessage(player, "&6/cosmetics title set &e<rank>");
+        sendMessage(player, "&6/cosmetics nick &e<name>");
+        sendMessage(player, "&3----------------------");
     }
 
     private void refreshPlayer(Player player) {

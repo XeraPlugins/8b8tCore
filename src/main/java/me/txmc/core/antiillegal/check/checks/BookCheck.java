@@ -1,6 +1,7 @@
 package me.txmc.core.antiillegal.check.checks;
 
 import me.txmc.core.antiillegal.check.Check;
+import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -65,11 +66,9 @@ public class BookCheck implements Check {
             return Optional.empty();
         }
 
-        PlainTextComponentSerializer serializer = PlainTextComponentSerializer.plainText();
-
         return Optional.of(
                 meta.pages().stream()
-                        .map(serializer::serialize)
+                        .map(GlobalUtils::getStringContent)
                         .toArray(String[]::new)
         );
     }

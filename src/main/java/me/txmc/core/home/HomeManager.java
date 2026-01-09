@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Accessors(fluent = true)
 public class HomeManager implements Section {
-    private final HashMap<UUID, HomeData> homes = new HashMap<>(); // Use UUID to prevent memory leaks
+    private final HashMap<UUID, HomeData> homes = new HashMap<>();
     public final Main plugin;
-    private IStorage<HomeData, UUID> storage; // Changed key from Player to UUID
+    private IStorage<HomeData, UUID> storage;
     private ConfigurationSection config;
 
     @Override

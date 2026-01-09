@@ -24,29 +24,33 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-@RequiredArgsConstructor
 @Accessors(fluent = true)
 public class AntiIllegalMain implements Section {
     private final Main plugin;
-    private final List<Check> checks = new ArrayList<>(Arrays.asList(
-            new OverStackCheck(),
-            new DurabilityCheck(),
-            new AttributeCheck(),
-            new EnchantCheck(),
-            new PotionCheck(),
-            new BookCheck(),
-            new LegacyTextCheck(),
-            new StackedTotemCheck(),
-            new ShulkerCeptionCheck(),
-            new IllegalItemCheck(),
-            new IllegalDataCheck(),
-            new AntiPrefilledContainers()));
-
+    private final List<Check> checks;
     private ConfigurationSection config;
+
+    public AntiIllegalMain(Main plugin) {
+        this.plugin = plugin;
+        this.config = plugin.getSectionConfig(this);
+        this.checks = new ArrayList<>(Arrays.asList(
+                new OverStackCheck(),
+                new DurabilityCheck(),
+                new AttributeCheck(),
+                new EnchantCheck(),
+                new PotionCheck(),
+                new BookCheck(),
+                new LegacyTextCheck(),
+                new StackedTotemCheck(),
+                new ShulkerCeptionCheck(),
+                new IllegalItemCheck(),
+                new IllegalDataCheck(),
+                new AntiPrefilledContainers()));
+    }
 
     @Override
     public void enable() {
-        config = plugin.getSectionConfig(this);
+        if (config == null) config = plugin.getSectionConfig(this);
         checks.add(new NameCheck(config));
 
         plugin.register(
