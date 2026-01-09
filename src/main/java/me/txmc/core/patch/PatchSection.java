@@ -14,6 +14,11 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.Bukkit;
+import java.util.UUID;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +36,9 @@ import static me.txmc.core.util.GlobalUtils.log;
 @Getter
 @RequiredArgsConstructor
 @Accessors(fluent = true)
-public class PatchSection implements Section {
+public class PatchSection implements Section, Listener {
     public final Main plugin;
-    private Map<Player, Location> positions;
+    private Map<UUID, Location> positions;
     @Getter private HashMap<EntityType, Integer> entityPerChunk;
     private ConfigurationSection config;
 
@@ -43,18 +48,28 @@ public class PatchSection implements Section {
         config = plugin.getSectionConfig(this);
         entityPerChunk = parseEntityConf();
         //plugin.getExecutorService().scheduleAtFixedRate(new ElytraWorker(this), 0, 1, TimeUnit.SECONDS); // UNCOMMENT THIS LINE TO ENABLE ElytraWorker
-        plugin.getExecutorService().scheduleAtFixedRate(new EntityCheckTask(this), 0, config.getInt("EntityPerChunk.CheckInterval"), TimeUnit.MINUTES);
+        long intervalTicks = config.getInt("EntityPerChunk.CheckInterval", 5) * 60 * 20L;
+        Bukkit.getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
+            new EntityCheckTask(this).run();
+        }, 20L, Math.max(200L, intervalTicks));
         plugin.register(new EntitySpawnListener(this));
         plugin.register(new FallFlyListener(plugin));
         plugin.register(new EntitySwitchWorldListener(plugin));
         plugin.register(new NbtBanPatch(plugin));
         plugin.register(new PvpPatchListeners());
         plugin.register(new ChestLimiter(plugin));
+        plugin.register(new AntiLagChest(plugin));
         plugin.register(new MapCreationListener(plugin));
         plugin.register(new MapRemovalPatch(plugin));
         plugin.register(new VanishVerifier(plugin));
         plugin.register(new BoundaryListener(plugin));
         plugin.register(new PhantomPatch(plugin));
+        plugin.register(this);
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent event) {
+        positions.remove(event.getPlayer().getUniqueId());
     }
 
     @Override

@@ -29,12 +29,12 @@ import java.util.stream.Collectors;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 public class HotspotCommand implements TabExecutor, Listener {
-    private final Map<Player, Location> hotspotLocations = new ConcurrentHashMap<>();
-    private final Map<Player, BossBar> playerBossBars = new ConcurrentHashMap<>();
+    private final Map<UUID, Location> hotspotLocations = new ConcurrentHashMap<>();
+    private final Map<UUID, BossBar> playerBossBars = new ConcurrentHashMap<>();
     private final List<String> hotspotOptions = List.of("create", "delete", "teleport");
     private final Map<UUID, Long> lastCreateTimes = new ConcurrentHashMap<>();
     private final Map<UUID, Long> creationCooldowns = new ConcurrentHashMap<>();
-    private final Map<Player, ScheduledTask> cooldownTasks = new ConcurrentHashMap<>();
+    private final Map<UUID, ScheduledTask> cooldownTasks = new ConcurrentHashMap<>();
 
     private static final String PERMISSION = "8b8tcore.command.hotspotcreate";
     private int durationInSeconds = 300;
@@ -52,17 +52,17 @@ public class HotspotCommand implements TabExecutor, Listener {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 updateBossBarsForPlayer(player);
             }
-        }, 20L, 20L); // Every 1 second
+        }, 20L, 20L);
     }
 
     private void updateBossBarsForPlayer(Player player) {
         Location playerLocation = player.getLocation();
         double thresholdSq = 256 * 256;
 
-        for (Map.Entry<Player, Location> entry : hotspotLocations.entrySet()) {
-            Player hotspotOwner = entry.getKey();
+        for (Map.Entry<UUID, Location> entry : hotspotLocations.entrySet()) {
+            UUID hotspotOwnerUUID = entry.getKey();
             Location hotspotLocation = entry.getValue();
-            BossBar bossBar = playerBossBars.get(hotspotOwner);
+            BossBar bossBar = playerBossBars.get(hotspotOwnerUUID);
             if (bossBar == null) continue;
 
             if (playerLocation.getWorld().equals(hotspotLocation.getWorld()) &&
@@ -109,7 +109,7 @@ public class HotspotCommand implements TabExecutor, Listener {
             return;
         }
 
-        if (hotspotLocations.containsKey(player)) {
+        if (hotspotLocations.containsKey(player.getUniqueId())) {
             sendPrefixedLocalizedMessage(player, "hotspot_already_created");
             return;
         }
@@ -126,7 +126,7 @@ public class HotspotCommand implements TabExecutor, Listener {
         }
 
         Location hotspotLocation = player.getLocation();
-        hotspotLocations.put(player, hotspotLocation);
+        hotspotLocations.put(player.getUniqueId(), hotspotLocation);
         lastCreateTimes.put(player.getUniqueId(), System.currentTimeMillis());
         creationCooldowns.put(player.getUniqueId(), System.currentTimeMillis());
 
@@ -155,26 +155,26 @@ public class HotspotCommand implements TabExecutor, Listener {
             }
         }
 
-        playerBossBars.put(player, bossBar);
+        playerBossBars.put(player.getUniqueId(), bossBar);
 
         handleCooldown(bossBar, durationInSeconds, player);
     }
 
     private void deleteHotspot(Player player) {
-        if (!hotspotLocations.containsKey(player)) {
+        if (!hotspotLocations.containsKey(player.getUniqueId())) {
             sendPrefixedLocalizedMessage(player, "hotspot_not_active");
             return;
         }
 
-        hotspotLocations.remove(player);
+        hotspotLocations.remove(player.getUniqueId());
         lastCreateTimes.remove(player.getUniqueId());
 
-        ScheduledTask task = cooldownTasks.remove(player);
+        ScheduledTask task = cooldownTasks.remove(player.getUniqueId());
         if (task != null) {
             task.cancel();
         }
 
-        BossBar bossBar = playerBossBars.remove(player);
+        BossBar bossBar = playerBossBars.remove(player.getUniqueId());
         
         if (bossBar != null) {
             List<Audience> toRemove = new ArrayList<>();
@@ -188,7 +188,7 @@ public class HotspotCommand implements TabExecutor, Listener {
     }
 
     private void handleCooldown(BossBar bossBar, int duration, Player player) {
-        ScheduledTask existingTask = cooldownTasks.remove(player);
+        ScheduledTask existingTask = cooldownTasks.remove(player.getUniqueId());
         if (existingTask != null) {
             existingTask.cancel();
         }
@@ -203,7 +203,7 @@ public class HotspotCommand implements TabExecutor, Listener {
         ScheduledTask task = Bukkit.getGlobalRegionScheduler().runAtFixedRate(main, (scheduledTask) -> {
             if (timeLeft[0] <= 0 || !player.isOnline()) {
                 deleteHotspot(player);
-                cooldownTasks.remove(player);
+                cooldownTasks.remove(player.getUniqueId());
                 return;
             }
 
@@ -235,21 +235,27 @@ public class HotspotCommand implements TabExecutor, Listener {
             }
 
             timeLeft[0]--;
-        }, 1L, 20L); // 20 ticks = 1 second
+        }, 1L, 20L);
 
-        cooldownTasks.put(player, task);
+        cooldownTasks.put(player.getUniqueId(), task);
     }
 
 
     private void teleportToPlayerHotspot(Player player, String targetPlayerName) {
         Player targetPlayer = Bukkit.getPlayerExact(targetPlayerName);
 
-        if (targetPlayer == null || !hotspotLocations.containsKey(targetPlayer)) {
+        if (targetPlayer == null || !hotspotLocations.containsKey(targetPlayer.getUniqueId())) {
             sendPrefixedLocalizedMessage(player, "hotspot_not_found_for_player", targetPlayerName);
             return;
         }
 
-        Location hotspotLocation = hotspotLocations.get(targetPlayer);
+        if (GlobalUtils.isTeleportRestricted(player)) {
+            int range = GlobalUtils.getTeleportRestrictionRange(player);
+            sendPrefixedLocalizedMessage(player, "tpa_too_close", range);
+            return;
+        }
+
+        Location hotspotLocation = hotspotLocations.get(targetPlayer.getUniqueId());
 
         Bukkit.getGlobalRegionScheduler().runDelayed(main, (task) -> {
             if (player.isOnline() && targetPlayer.isOnline()) {
@@ -275,26 +281,31 @@ public class HotspotCommand implements TabExecutor, Listener {
         }
 
         if (closestHotspot == null && !hotspotLocations.isEmpty()) {
-            Player mostRecentPlayer = null;
+            UUID mostRecentPlayerUUID = null;
             long mostRecentTime = 0;
             
-            for (Map.Entry<Player, Location> entry : hotspotLocations.entrySet()) {
-                Player hotspotOwner = entry.getKey();
-                Long creationTime = lastCreateTimes.get(hotspotOwner.getUniqueId());
+            for (Map.Entry<UUID, Location> entry : hotspotLocations.entrySet()) {
+                UUID hotspotOwnerUUID = entry.getKey();
+                Long creationTime = lastCreateTimes.get(hotspotOwnerUUID);
                 if (creationTime != null && creationTime > mostRecentTime) {
                     mostRecentTime = creationTime;
-                    mostRecentPlayer = hotspotOwner;
+                    mostRecentPlayerUUID = hotspotOwnerUUID;
                 }
             }
             
-            if (mostRecentPlayer != null) {
-                closestHotspot = hotspotLocations.get(mostRecentPlayer);
+            if (mostRecentPlayerUUID != null) {
+                closestHotspot = hotspotLocations.get(mostRecentPlayerUUID);
             }
         }
 
         if (closestHotspot == null) {
             sendPrefixedLocalizedMessage(player, "hotspot_not_found");
         } else {
+            if (GlobalUtils.isTeleportRestricted(player)) {
+                int range = GlobalUtils.getTeleportRestrictionRange(player);
+                sendPrefixedLocalizedMessage(player, "tpa_too_close", range);
+                return;
+            }
             Location finalClosestHotspot = closestHotspot;
             Bukkit.getGlobalRegionScheduler().runDelayed(main, (task) -> {
                 if (player.isOnline()) {
@@ -322,6 +333,8 @@ public class HotspotCommand implements TabExecutor, Listener {
                     .collect(Collectors.toList());
         } else if (args.length == 2 && "teleport".startsWith(args[0].toLowerCase())) {
             return playerBossBars.keySet().stream()
+                    .map(Bukkit::getPlayer)
+                    .filter(Objects::nonNull)
                     .map(Player::getName)
                     .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
                     .collect(Collectors.toList());

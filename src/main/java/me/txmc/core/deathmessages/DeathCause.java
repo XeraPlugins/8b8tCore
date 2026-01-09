@@ -86,7 +86,7 @@ public enum DeathCause {
     CREEPER("creeper-messages"),
     SKELETON("skeleton-messages"),
     SPIDER("spider-messages"),
-    GIANT("zombie-messages"), // Maybe change to giant-messages?
+    GIANT("zombie-messages"),
     ZOMBIE("zombie-messages"),
     SLIME("slime-messages"),
     GHAST("ghast-messages"),

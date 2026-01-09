@@ -40,6 +40,9 @@ public class PlayerPrefix {
         this.database = GeneralDatabase.getInstance();
     }
 
+    public void reloadConfig() {
+    }
+
     public void handlePlayerJoin(Player player) {
         if (player.getName().startsWith(".")) {
             PermissionAttachment attachment = player.addAttachment(plugin);
@@ -53,11 +56,7 @@ public class PlayerPrefix {
             if (!player.isOnline()) return;
             player.getScheduler().run(plugin, (task) -> {
                 setupTag(player, tag);
-
-                if (displayName != null && !displayName.isEmpty()) {
-                    Component component = miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(displayName));
-                    player.displayName(component);
-                }
+                GlobalUtils.updateDisplayNameAsync(player);
             }, null);
         }).exceptionally(ex -> {
             plugin.getLogger().warning("Error setting up player prefix/nickname for " + player.getName() + ": " + ex.getMessage());

@@ -9,6 +9,7 @@ import me.txmc.core.home.HomeData;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import java.util.UUID;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -23,16 +24,16 @@ import java.util.logging.Level;
  * This file was created as a part of 8b8tCore
  */
 @RequiredArgsConstructor
-public class HomeJsonStorage implements IStorage<HomeData, Player> {
+public class HomeJsonStorage implements IStorage<HomeData, UUID> {
     private final File dataDir;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Override
-    public void save(HomeData homeData, Player player) {
-        File file = new File(dataDir, player.getUniqueId().toString().concat(".json"));
+    public void save(HomeData homeData, UUID uuid) {
+        File file = new File(dataDir, uuid.toString().concat(".json"));
 
         if (homeData.getHomes().isEmpty()) {
-            if (file.exists()) delete(player);
+            if (file.exists()) delete(uuid);
             return;
         }
 
@@ -55,15 +56,15 @@ public class HomeJsonStorage implements IStorage<HomeData, Player> {
             @Cleanup FileWriter fw = new FileWriter(file, false);
             gson.toJson(obj, fw);
         } catch (Throwable t) {
-            GlobalUtils.log(Level.SEVERE, "Failed to save Homes for&r&a %s&r&c. Please see the stacktrace below for more info", player.getUniqueId());
+            GlobalUtils.log(Level.SEVERE, "Failed to save Homes for&r&a %s&r&c. Please see the stacktrace below for more info", uuid);
             t.printStackTrace();
         }
     }
 
     @Override
-    public HomeData load(Player player) {
+    public HomeData load(UUID uuid) {
         try {
-            File file = new File(dataDir, player.getUniqueId().toString().concat(".json"));
+            File file = new File(dataDir, uuid.toString().concat(".json"));
             ArrayList<Home> buf = new ArrayList<>();
             if (file.exists()) {
                 @Cleanup FileReader reader = new FileReader(file);
@@ -86,16 +87,16 @@ public class HomeJsonStorage implements IStorage<HomeData, Player> {
             }
             return new HomeData(buf);
         } catch (Throwable t) {
-            GlobalUtils.log(Level.SEVERE, "&cFailed to parse&r&a %s&r&c. This is most likely due to malformed json", player.getUniqueId());
+            GlobalUtils.log(Level.SEVERE, "&cFailed to parse&r&a %s&r&c. This is most likely due to malformed json", uuid);
             t.printStackTrace();
             return null;
         }
     }
 
     @Override
-    public void delete(Player player) {
-        File file = new File(dataDir, player.getUniqueId().toString().concat(".json"));
+    public void delete(UUID uuid) {
+        File file = new File(dataDir, uuid.toString().concat(".json"));
         file.delete();
-        GlobalUtils.log(Level.INFO, "&3Deleted homes file for&r&a %s&r", player.getName());
+        GlobalUtils.log(Level.INFO, "&3Deleted homes file for&r&a %s&r", uuid);
     }
 }

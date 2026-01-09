@@ -11,6 +11,7 @@ AntiIllegal:
     - STRUCTURE_BLOCK
     - STRUCTURE_VOID
     - JIGSAW
+    - END_PORTAL
     - END_PORTAL_FRAME
     - LIGHT
     - REINFORCED_DEEPSLATE
@@ -33,7 +34,7 @@ AntiIllegal:
 AnnouncementInterval: 90 # In seconds
 AntiLagChest:
   enabled: true
-  openCooldown: 1000L
+  openCooldown: 2000L
   maxItemSizeAllowed: 50000 #size in bytes
 NbtBanItemChecker:
   maxItemSizeAllowed: 50000 #size in bytes
@@ -87,13 +88,10 @@ ChatControl:
     - '9b9t'
     - 'discord'
   CommandWhitelist:
-    - '/ic'
-    - '/nc'
     - '/ignore'
     - '/unignore'
     - '/ignorelist'
     - '/togglechat'
-    - '/toggledeathmsg'
     - '/msg'
     - '/message'
     - '/whisper'
@@ -106,8 +104,6 @@ ChatControl:
     - '/delhome'
     - '/back'
     - '/help'
-    - '/nick'
-    - '/pl'
     - '/kill'
     - '/jihad'
     - '/dupe'
@@ -122,16 +118,11 @@ ChatControl:
     - '/stats'
     - '/discord'
     - '/joindate'
-    - '/jd'
-    - '/seen'
     - '/lastseen'
     - '/echest'
     - '/voicechat'
     - '/vote'
     - '/tpsinfo'
-    - '/nick'
-    - '/setnick'
-    - '/nickname'
     - '/rename'
     - '/hotspot'
     - '/sign'
@@ -145,15 +136,10 @@ ChatControl:
     - '/tpaignore'
     - '/toggleprefix'
     - '/announcements'
-    - '/badges'
     - '/achievements'
     - '/deathmessage'
     - '/dps'
-    - '/disablephantomspawn'
-    - '/phantoms'
     - '/toggleleaderboard'
-    - '/togglelb'
-    - '/tlb'
     - '/cosmetics'
 TPA:
   RequestTimeoutInMinutes: 5

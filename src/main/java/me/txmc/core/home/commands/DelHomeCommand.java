@@ -22,7 +22,7 @@ public class DelHomeCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (sender instanceof Player player) {
-            HomeData homes = main.homes().get(player);
+            HomeData homes = main.homes().get(player.getUniqueId());
             if (!homes.hasHomes()) {
                 sendPrefixedLocalizedMessage(player, "delhome_no_homes");
                 return true;

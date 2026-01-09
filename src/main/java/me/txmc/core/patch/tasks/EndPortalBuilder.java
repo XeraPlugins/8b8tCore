@@ -8,6 +8,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * This file is apart of 8b8tcore.
+ * @author MindComplexity
+ * @since 01/02/2026
+ */
 public class EndPortalBuilder implements Runnable {
 
     private final JavaPlugin plugin;
@@ -18,15 +23,15 @@ public class EndPortalBuilder implements Runnable {
 
     @Override
     public void run() {
-        World world = Bukkit.getWorlds().get(0);
+        World world = Bukkit.getWorlds().stream()
+                .filter(w -> w.getEnvironment() == World.Environment.NORMAL)
+                .findFirst().orElse(null);
         if (world == null) return;
 
         int x = 0, y = world.getMinHeight() + 5, z = 0;
 
-        // Compute all affected chunk coordinates
         Set<ChunkCoord> chunksToLoad = new HashSet<>();
 
-        // Add portal frame blocks
         int[][] offsets = {
                 {-1, -2}, {0, -2}, {1, -2},
                 {-2, -1}, {2, -1},
@@ -34,29 +39,32 @@ public class EndPortalBuilder implements Runnable {
                 {-2, 1}, {2, 1},
                 {-1, 2}, {0, 2}, {1, 2}
         };
+
         for (int[] offset : offsets) {
-            chunksToLoad.add(new ChunkCoord(x + offset[0], z + offset[1]));
+            int blockX = x + offset[0];
+            int blockZ = z + offset[1];
+            chunksToLoad.add(new ChunkCoord(blockX >> 4, blockZ >> 4));
         }
 
-        // Add portal center blocks
         for (int dx = -1; dx <= 1; dx++) {
             for (int dz = -1; dz <= 1; dz++) {
-                chunksToLoad.add(new ChunkCoord(x + dx, z + dz));
+                chunksToLoad.add(new ChunkCoord((x + dx) >> 4, (z + dz) >> 4));
             }
         }
 
-        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        List<CompletableFuture<Chunk>> futures = new ArrayList<>();
         for (ChunkCoord coord : chunksToLoad) {
-            CompletableFuture<Void> future = world.getChunkAtAsync(coord.chunkX, coord.chunkZ)
-                    .thenAccept(chunk -> {});
-            futures.add(future);
+            futures.add(world.getChunkAtAsync(coord.chunkX, coord.chunkZ));
         }
 
-        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).thenRun(() ->
-                Bukkit.getRegionScheduler().run(plugin, world, x, z, task -> {
-                    buildEndPortal(world, x, y, z);
-                })
-        );
+        final World finalWorld = world;
+        final int finalX = x, finalY = y, finalZ = z;
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+            .thenRun(() -> {
+                Bukkit.getRegionScheduler().run(plugin, finalWorld, finalX >> 4, finalZ >> 4, 
+                    task -> buildEndPortal(finalWorld, finalX, finalY, finalZ));
+            });
     }
 
     private void buildEndPortal(World world, int x, int y, int z) {
@@ -70,7 +78,7 @@ public class EndPortalBuilder implements Runnable {
 
         for (int[] offset : offsets) {
             Block frame = world.getBlockAt(x + offset[0], y, z + offset[1]);
-            frame.setType(Material.END_PORTAL_FRAME, false); // avoid block update issues
+            frame.setType(Material.END_PORTAL_FRAME, false);
             EndPortalFrame data = (EndPortalFrame) frame.getBlockData();
             data.setEye(true);
             frame.setBlockData(data, false);
@@ -84,12 +92,11 @@ public class EndPortalBuilder implements Runnable {
         }
     }
 
-    // Utility class to de-duplicate chunk coordinates
     private static class ChunkCoord {
         final int chunkX, chunkZ;
-        ChunkCoord(int blockX, int blockZ) {
-            this.chunkX = blockX >> 4;
-            this.chunkZ = blockZ >> 4;
+        ChunkCoord(int chunkX, int chunkZ) {
+            this.chunkX = chunkX;
+            this.chunkZ = chunkZ;
         }
 
         @Override public boolean equals(Object o) {

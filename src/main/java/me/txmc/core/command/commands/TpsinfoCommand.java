@@ -10,36 +10,17 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 import static me.txmc.core.util.GlobalUtils.translateChars;
 
-/**
- * <p>This class handles the <code>/tpsinfo</code> command, which provides TPS (Ticks Per Second)
- * and MSPT (Milliseconds per Tick) metrics for the server.</p>
- *
- * <p>When executed by a player with the required permissions, the command retrieves
- * and displays the current server TPS, MSPT, and the lowest TPS.</p>
- *
- * <p><b>Functionality:</b></p>
- * <ul>
- *     <li>Checks if the command sender has the required permissions.</li>
- *     <li>Retrieves the current server TPS and MSPT.</li>
- *     <li>Calculates the lowest TPS among regions with online players.</li>
- * </ul>
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/07/18 3:19 PM
- */
 public class TpsinfoCommand extends BaseCommand {
     private final Main plugin;
+
     public TpsinfoCommand(Main plugin) {
-        super(
-                "tpsinfo",
-                "/tpsinfo",
-                "8b8tcore.tpsinfo",
-                "Show TPS information");
+        super("tpsinfo", "/tpsinfo", "8b8tcore.tpsinfo", "Show TPS information");
         this.plugin = plugin;
     }
 
@@ -50,11 +31,10 @@ public class TpsinfoCommand extends BaseCommand {
             return;
         }
 
-        if(!sender.hasPermission("8b8tcore.tpsinfo") && !sender.isOp()){
-            sendPrefixedLocalizedMessage(player,"tps_failed");
+        if (!sender.hasPermission("8b8tcore.tpsinfo") && !sender.isOp()) {
+            sendPrefixedLocalizedMessage(player, "tps_failed");
             return;
         }
-
 
         player.getScheduler().run(plugin, (st) -> {
             double tps = GlobalUtils.getCurrentRegionTps();
@@ -63,23 +43,41 @@ public class TpsinfoCommand extends BaseCommand {
 
             Localization loc = Localization.getLocalization(player.locale().getLanguage());
             String tpsMsg = String.join("\n", loc.getStringList("TpsMessage"));
-            String strTps = (tps >= 20.0) ? String.format("%s20.00", GlobalUtils.getTPSColor(tps)) : String.format("%s%.2f", GlobalUtils.getTPSColor(tps), tps);
+            String strTps = formatTps(tps);
             String strMspt = String.format("%s%.2f", GlobalUtils.getMSPTColor(mspt), mspt);
-            
+
             getLowestRegionTPS().thenAccept(lowestTPS -> {
-                String strLowest = (lowestTPS >= 20.0) ? String.format("%s20.00", GlobalUtils.getTPSColor(lowestTPS)) : String.format("%s%.2f", GlobalUtils.getTPSColor(lowestTPS), lowestTPS);
-                player.sendMessage(translateChars(String.format(tpsMsg, strTps, strMspt, strLowest, onlinePlayers)));
+                player.getScheduler().run(plugin, (task) -> {
+                    if (!player.isOnline()) return;
+                    String strLowest = formatTps(lowestTPS);
+                    player.sendMessage(translateChars(String.format(tpsMsg, strTps, strMspt, strLowest, onlinePlayers)));
+                }, null);
             });
         }, null);
-
     }
 
+    private String formatTps(double tps) {
+        return (tps >= 20.0) 
+            ? String.format("%s20.00", GlobalUtils.getTPSColor(tps)) 
+            : String.format("%s%.2f", GlobalUtils.getTPSColor(tps), tps);
+    }
 
     private CompletableFuture<Double> getLowestRegionTPS() {
         List<CompletableFuture<Double>> futures = new ArrayList<>();
-
         for (Player player : Bukkit.getOnlinePlayers()) {
-            futures.add(GlobalUtils.getRegionTps(player.getLocation()));
+            UUID uuid = player.getUniqueId();
+            
+            CompletableFuture<Double> future = new CompletableFuture<>();
+            player.getScheduler().run(plugin, (task) -> {
+                Player p = Bukkit.getPlayer(uuid);
+                if (p != null && p.isOnline()) {
+                    GlobalUtils.getRegionTps(p.getLocation()).thenAccept(future::complete);
+                } else {
+                    future.complete(-1.0);
+                }
+            }, () -> future.complete(-1.0));
+            
+            futures.add(future);
         }
 
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
@@ -87,11 +85,11 @@ public class TpsinfoCommand extends BaseCommand {
                     double lowestTPS = Double.MAX_VALUE;
                     for (CompletableFuture<Double> future : futures) {
                         double regionTPS = future.getNow(-1.0);
-                        if (regionTPS != -1.0 && regionTPS < lowestTPS) {
+                        if (regionTPS > 0 && regionTPS < lowestTPS) {
                             lowestTPS = regionTPS;
                         }
                     }
-                    return lowestTPS == Double.MAX_VALUE ? -1.0 : lowestTPS;
+                    return lowestTPS == Double.MAX_VALUE ? 20.0 : lowestTPS;
                 });
     }
 }

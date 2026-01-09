@@ -8,11 +8,16 @@ import org.bukkit.entity.Player;
 
 import static me.txmc.core.util.GlobalUtils.sendMessage;
 
-public class ToggleBadgesCommand extends BaseCommand {
+/**
+ * This file is apart of 8b8tcore.
+ * @author MindComplexity
+ * @since 01/02/2026
+ */
+public class ToggleAchievementsCommand extends BaseCommand {
     private final GeneralDatabase database;
 
-    public ToggleBadgesCommand(Main plugin) {
-        super("badges", "/badges | /achievements", "8b8tcore.command.badges");
+    public ToggleAchievementsCommand(Main plugin) {
+        super("achievements", "/achievements", "8b8tcore.command.badges");
         this.database = GeneralDatabase.getInstance();
     }
 

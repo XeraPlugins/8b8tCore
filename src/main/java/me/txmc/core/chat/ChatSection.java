@@ -19,16 +19,16 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 
 @RequiredArgsConstructor
 public class ChatSection implements Section {
     @Getter private final Main plugin;
-    private final HashMap<UUID, ChatInfo> map = new HashMap<>();
+    private final ConcurrentHashMap<UUID, ChatInfo> map = new ConcurrentHashMap<>();
     @Getter private ConfigurationSection config;
     @Getter private IStorage<ChatInfo, Player> chatInfoStore;
 
@@ -46,12 +46,12 @@ public class ChatSection implements Section {
         plugin.register(new CommandWhitelist(this));
         plugin.register(new ChatListener(this, parseTLDS(tldFile)));
         plugin.register(new VanishTabListener(this.plugin));
-        plugin.getCommand("ignore").setExecutor(new IgnoreCommand(this));
-        plugin.getCommand("msg").setExecutor(new MessageCommand(this));
-        plugin.getCommand("reply").setExecutor(new ReplyCommand(this));
-        plugin.getCommand("togglechat").setExecutor(new ToggleChatCommand(this));
-        plugin.getCommand("unignore").setExecutor(new UnIgnoreCommand(this));
-        plugin.getCommand("ignorelist").setExecutor(new IgnoreListCommand(this));
+        plugin.getCommand("ignore").setExecutor(new ChatCommands.IgnoreCommand(this));
+        plugin.getCommand("msg").setExecutor(new ChatCommands.MessageCommand(this));
+        plugin.getCommand("reply").setExecutor(new ChatCommands.ReplyCommand(this));
+        plugin.getCommand("togglechat").setExecutor(new ChatCommands.ToggleChatCommand(this));
+        plugin.getCommand("unignore").setExecutor(new ChatCommands.UnIgnoreCommand(this));
+        plugin.getCommand("ignorelist").setExecutor(new ChatCommands.IgnoreListCommand(this));
         if (!Bukkit.getOnlinePlayers().isEmpty()) Bukkit.getOnlinePlayers().forEach(this::registerPlayer);
     }
 
@@ -106,7 +106,8 @@ public class ChatSection implements Section {
             db.getCustomGradientAsync(username).thenAccept(info::setNameGradient),
             db.getGradientAnimationAsync(username).thenAccept(info::setNameAnimation),
             db.getGradientSpeedAsync(username).thenAccept(info::setNameSpeed),
-            db.getPlayerDataAsync(username, "nameDecorations").thenAccept(info::setNameDecorations)
+            db.getPlayerDataAsync(username, "nameDecorations").thenAccept(info::setNameDecorations),
+            db.getPlayerHideAnnouncementsAsync(username).thenAccept(info::setHideAnnouncements)
         ).exceptionally(e -> {
             e.printStackTrace();
             return null;

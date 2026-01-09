@@ -1,106 +1,229 @@
 package me.txmc.core.patch.listeners;
 
 import me.txmc.core.util.GlobalUtils;
-import net.kyori.adventure.text.Component;
-import org.bukkit.block.Container;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import org.bukkit.Chunk;
+import org.bukkit.Material;
+import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.SpawnerSpawnEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.io.BukkitObjectOutputStream;
+import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
 
-import java.nio.charset.StandardCharsets;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 import static org.apache.logging.log4j.LogManager.getLogger;
 
 public class NbtBanPatch implements Listener {
     private final int MAX_ITEM_SIZE_BYTES;
+    private final JavaPlugin plugin;
 
     public NbtBanPatch(JavaPlugin plugin) {
-        this.MAX_ITEM_SIZE_BYTES = plugin.getConfig().getInt("NbtBanItemChecker.maxItemSizeAllowed", 50000);
+        this.plugin = plugin;
+        this.MAX_ITEM_SIZE_BYTES = plugin.getConfig().getInt("NbtBanItemChecker.maxItemSizeAllowed", 48000);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        handleInventory(player);
+        sanitizeInventory(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerLeave(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        handleInventory(player);
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        sanitizeInventory(event.getPlayer());
     }
 
-    private void handleInventory(Player player) {
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (item == null) continue;
+    @EventHandler(priority = EventPriority.LOW)
+    public void onEntityAdd(EntityAddToWorldEvent event) {
+        Entity entity = event.getEntity();
+        
+        if (entity instanceof Item item) {
+            ItemStack stack = item.getItemStack();
+            if (isIllegalItem(stack)) {
+                item.setItemStack(new ItemStack(Material.AIR));
+                item.setItemStack(new ItemStack(Material.AIR));
+                entity.getScheduler().run(me.txmc.core.Main.getInstance(), (task) -> entity.remove(), null);
+            }
+            return;
+        } 
+        
+        if (entity instanceof ItemFrame itemFrame) {
+            ItemStack stack = itemFrame.getItem();
+            if (isIllegalItem(stack)) {
+                itemFrame.setItem(new ItemStack(Material.AIR));
+                itemFrame.setItem(new ItemStack(Material.AIR));
+                entity.getScheduler().run(me.txmc.core.Main.getInstance(), (task) -> entity.remove(), null);
+            }
+            return;
+        }
 
-            int itemSize = isContainerItem(item) ? processContainerItem(item) : calculateStringSizeInBytes(item.toString());
-
-            if (itemSize > MAX_ITEM_SIZE_BYTES) {
-                player.getInventory().remove(item);
-                getLogger().warn("Cleared item in " + player.getName() + "'s inventory with size " + itemSize + " bytes named '" + getItemName(item) + "'");
-                sendPrefixedLocalizedMessage(player, "nbtPatch_deleted_item", getItemName(item));
+        if (entity.customName() != null) {
+            net.kyori.adventure.text.Component name = entity.customName();
+            if (GlobalUtils.getComponentDepth(name) > 20 || GlobalUtils.getStringContent(name).length() > 500) {
+                entity.customName(null); 
+                entity.customName(null); 
+                entity.getScheduler().run(me.txmc.core.Main.getInstance(), (task) -> entity.remove(), null);
             }
         }
     }
 
-    public static int processContainerItem(ItemStack containerItem) {
-        int totalSize = 0;
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBlockPlace(org.bukkit.event.block.BlockPlaceEvent event) {
+        ItemStack item = event.getItemInHand();
+        if (isIllegalItem(item)) {
+            event.setCancelled(true);
+            event.getPlayer().getInventory().setItemInMainHand(null);
+            event.getPlayer().getInventory().setItemInMainHand(null); 
+            sendPrefixedLocalizedMessage(event.getPlayer(), "nbtPatch_deleted_item", getItemName(item));
+        }
+    }
 
-        ItemMeta meta = containerItem.getItemMeta();
-        if (meta instanceof BlockStateMeta blockStateMeta) {
-            if (blockStateMeta.getBlockState() instanceof Container container) {
-                Inventory containerInventory = container.getInventory();
-
-                for (ItemStack item : containerInventory.getContents()) {
-                    if (item != null) {
-                        totalSize += isContainerItem(item)
-                                ? processContainerItem(item)
-                                : calculateStringSizeInBytes(item.toString());
-                    }
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onChunkLoad(ChunkLoadEvent event) {
+        Chunk chunk = event.getChunk();
+        for (org.bukkit.block.BlockState state : chunk.getTileEntities()) {
+            if (state instanceof org.bukkit.block.CreatureSpawner spawner) {
+                if (spawner.getSpawnCount() > 100 || spawner.getRequiredPlayerRange() > 100) {
+                     spawner.getBlock().setType(Material.AIR);
+                }
+            } else if (state instanceof org.bukkit.block.Beehive beehive) {
+                if (beehive.getEntityCount() > 5) {
+                    state.getBlock().setType(Material.AIR);
                 }
             }
         }
-        return totalSize;
     }
 
-    public static int calculateStringSizeInBytes(String data) {
-        String plainData = GlobalUtils.getStringContent(Component.text(data));
-        return plainData.getBytes(StandardCharsets.UTF_8).length;
-    }
-
-    public static String getItemName(ItemStack itemStack) {
-        try {
-            if (itemStack == null) return "";
-            ItemMeta meta = itemStack.getItemMeta();
-            if (meta != null && meta.hasDisplayName()) {
-                return GlobalUtils.getStringContent(meta.displayName());
-            } else {
-                return itemStack.getType().toString().replace("_", " ").toLowerCase();
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onSpawnerSpawn(SpawnerSpawnEvent event) {
+        Entity entity = event.getEntity();
+        if (entity instanceof FallingBlock || entity.getType() == org.bukkit.entity.EntityType.FALLING_BLOCK) {
+            event.setCancelled(true);
+            if (event.getSpawner() != null) {
+                event.getSpawner().getBlock().setType(Material.AIR);
             }
-        } catch (Exception ignore) {
-            return "";
+        } else if (entity instanceof Item || entity instanceof ItemFrame) {
+             event.setCancelled(true);
+             if (event.getSpawner() != null) {
+                event.getSpawner().getBlock().setType(Material.AIR); 
+            }
         }
     }
 
-    private static boolean isContainerItem(ItemStack item) {
-        if (item == null) return false;
-        String type = item.getType().toString();
-        return type.endsWith("SHULKER_BOX") ||
-                type.endsWith("CHEST") ||
-                type.endsWith("TRAPPED_CHEST") ||
-                type.endsWith("BARREL") ||
-                type.endsWith("DISPENSER") ||
-                type.endsWith("DROPPER") ||
-                type.endsWith("HOPPER");
+    private boolean isIllegalItem(ItemStack item) {
+        if (item == null || item.getType() == Material.AIR) return false;
+        
+        try {
+            if (isBundle(item.getType())) {
+                if (checkBundleRecursion(item, 0)) {
+                    return true;
+                }
+            }
+            
+            if (item.hasItemMeta()) {
+                 int size = calculateItemSize(item);
+                 if (size > MAX_ITEM_SIZE_BYTES) {
+                     return true;
+                 }
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        
+        return false;
+    }
+
+    private void sanitizeInventory(Player player) {
+        ItemStack[] contents = player.getInventory().getContents();
+        boolean modified = false;
+
+        for (int i = 0; i < contents.length; i++) {
+            ItemStack item = contents[i];
+            
+            if (item == null || item.getType() == Material.AIR) continue;
+
+            if (!item.hasItemMeta()) continue;
+
+            int itemSize = calculateItemSize(item);
+
+            if (itemSize > MAX_ITEM_SIZE_BYTES) {
+                String itemName = getItemName(item);
+                getLogger().warn("NBT Patch: Prevented overloaded NBT item from {} | Size: {} bytes | Type: {}", 
+                    player.getName(), itemSize, itemName);
+
+                player.getInventory().setItem(i, null);
+                
+                sendPrefixedLocalizedMessage(player, "nbtPatch_deleted_item", itemName);
+                modified = true;
+                continue;
+            }
+
+            if (isBundle(item.getType())) {
+                if (checkBundleRecursion(item, 0)) {
+                    String itemName = getItemName(item);
+                    getLogger().warn("NBT Patch: Prevented bundle crash from {} | Type: {}", player.getName(), itemName);
+                    player.getInventory().setItem(i, null);
+                    sendPrefixedLocalizedMessage(player, "nbtPatch_deleted_item", itemName);
+                    modified = true;
+                }
+            }
+        }
+        
+        if (modified) player.updateInventory();
+    }
+
+    // PaperMC decided to deprecate this method apparently is discouraged to use.
+    // This is the only performant way to check recursive NBT size without using NMS/OBC.
+    // If we use YAML serialization, it will be very slow. Very, very slow.
+    private int calculateItemSize(ItemStack item) {
+        return GlobalUtils.calculateItemSize(item);
+    }
+
+    public static String getItemName(ItemStack itemStack) {
+        if (itemStack == null) return "Unknown";
+        try {
+            ItemMeta meta = itemStack.getItemMeta();
+            if (meta != null && meta.hasDisplayName()) {
+                return GlobalUtils.getStringContent(meta.displayName());
+            }
+        } catch (Exception ignored) {}
+        return itemStack.getType().name();
+    }
+    
+    private boolean checkBundleRecursion(ItemStack item, int depth) {
+        if (item == null || !isBundle(item.getType())) return false;
+        if (depth >= 1) return true;
+        try {
+            if (item.hasItemMeta() && item.getItemMeta() instanceof org.bukkit.inventory.meta.BundleMeta bundleMeta) {
+                for (ItemStack inner : bundleMeta.getItems()) {
+                    if (inner == null) continue;
+                    if (isBundle(inner.getType())) {
+                        return true; 
+                    }
+                }
+            }
+        } catch (Exception e) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isBundle(Material type) {
+        return type.name().endsWith("BUNDLE") || type.name().contains("SHULKER");
     }
 }

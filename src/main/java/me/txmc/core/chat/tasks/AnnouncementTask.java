@@ -2,6 +2,8 @@ package me.txmc.core.chat.tasks;
 
 import me.txmc.core.Localization;
 import me.txmc.core.Main;
+import me.txmc.core.chat.ChatInfo;
+import me.txmc.core.chat.ChatSection;
 import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
@@ -18,26 +20,24 @@ public class AnnouncementTask implements Runnable {
     private GeneralDatabase database;
     @Override
     public void run() {
-        Bukkit.getGlobalRegionScheduler().runDelayed(me.txmc.core.Main.getInstance(), (task) -> {
-            if (database == null && Main.getInstance() != null) {
-                this.database = GeneralDatabase.getInstance();
-            }
+        Main plugin = Main.getInstance();
+        if (plugin == null) return;
+        ChatSection chatSection = (ChatSection) plugin.getSectionByName("ChatControl");
+        if (chatSection == null) return;
+
+        Bukkit.getGlobalRegionScheduler().runDelayed(plugin, (task) -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                database.getPlayerHideAnnouncementsAsync(p.getName()).thenAccept(hideAnnouncements -> {
-                    if (hideAnnouncements || !p.isOnline()) {
-                        return;
-                    }
-                    p.getScheduler().run(Main.getInstance(), (playerTask) -> {
-                        if (!p.isOnline()) return;
-                        Localization loc = Localization.getLocalization(p.locale().getLanguage());
-                        List<TextComponent> announcements = loc.getStringList("announcements")
-                                .stream()
-                                .map(s -> s.replace("%prefix%", loc.getPrefix()))
-                                .map(GlobalUtils::translateChars).toList();
-                        Component announcement = announcements.get(random.nextInt(announcements.size()));
-                        p.sendMessage(announcement);
-                    }, null);
-                });
+                me.txmc.core.chat.ChatInfo info = chatSection.getInfo(p);
+                if (info == null || info.isHideAnnouncements()) continue;
+
+                p.getScheduler().run(plugin, (playerTask) -> {
+                    if (!p.isOnline()) return;
+                    Localization loc = Localization.getLocalization(p.locale().getLanguage());
+                    List<net.kyori.adventure.text.TextComponent> announcements = loc.getComponentList("announcements");
+                    if (announcements.isEmpty()) return;
+                    Component announcement = announcements.get(random.nextInt(announcements.size()));
+                    p.sendMessage(announcement);
+                }, null);
             }
         }, 1L);
     }

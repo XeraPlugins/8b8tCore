@@ -5,8 +5,6 @@ import me.txmc.core.util.GlobalUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -40,7 +38,7 @@ public class LegacyTextCheck implements Check {
 
         if (meta.hasLore()) {
             for (Component lineComp : meta.lore()) {
-                String line = PlainTextComponentSerializer.plainText().serialize(lineComp);
+                String line = GlobalUtils.getStringContent(lineComp);
                 if (LEGACY_COLOR_PATTERN.matcher(line).find()) return true;
             }
         }
@@ -58,7 +56,7 @@ public class LegacyTextCheck implements Check {
         }
 
         if (meta.hasDisplayName()) {
-            String legacy = PlainTextComponentSerializer.plainText().serialize(meta.displayName());
+            String legacy = GlobalUtils.getStringContent(meta.displayName());
             String stripped = LEGACY_COLOR_PATTERN.matcher(legacy).replaceAll("");
             meta.displayName(Component.text(stripped));
         }
@@ -67,7 +65,7 @@ public class LegacyTextCheck implements Check {
             List<Component> oldLore = meta.lore();
             List<Component> newLore = oldLore.stream()
                     .<Component>map(lineComp -> {
-                        String line = PlainTextComponentSerializer.plainText().serialize(lineComp);
+                        String line = GlobalUtils.getStringContent(lineComp);
                         return Component.text(LEGACY_COLOR_PATTERN.matcher(line).replaceAll(""));
                     })
                     .toList();
@@ -80,7 +78,7 @@ public class LegacyTextCheck implements Check {
     private boolean isLegitimatelySigned(ItemMeta meta) {
         if (meta == null || !meta.hasLore()) return false;
         for (Component lineComp : meta.lore()) {
-            String line = PlainTextComponentSerializer.plainText().serialize(lineComp);
+            String line = GlobalUtils.getStringContent(lineComp);
             if (SIGNED_ITEM_PATTERN.matcher(line).find() || 
                 BOOK_AUTHOR_PATTERN.matcher(line).find() ||
                 MAP_AUTHOR_PATTERN.matcher(line).find()) {

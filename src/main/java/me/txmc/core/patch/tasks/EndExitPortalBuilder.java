@@ -6,6 +6,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * This file is apart of 8b8tcore.
+ * @author MindComplexity
+ * @since 01/02/2026
+ */
 public class EndExitPortalBuilder implements Runnable {
 
     private final JavaPlugin plugin;
@@ -16,22 +21,26 @@ public class EndExitPortalBuilder implements Runnable {
 
     @Override
     public void run() {
-        World endWorld = Bukkit.getWorlds().get(2);
+        World endWorld = Bukkit.getWorlds().stream()
+                .filter(w -> w.getEnvironment() == World.Environment.THE_END)
+                .findFirst().orElse(null);
         if (endWorld == null) return;
 
         int centerX = 0, centerY = 59, centerZ = 0;
 
         Set<ChunkCoord> neededChunks = getNeededChunks(centerX, centerZ);
 
-        // Load all required chunks asynchronously
         List<CompletableFuture<Chunk>> loadFutures = new ArrayList<>();
         for (ChunkCoord coord : neededChunks) {
             loadFutures.add(endWorld.getChunkAtAsync(coord.chunkX, coord.chunkZ));
         }
 
+        final World finalWorld = endWorld;
+        final int finalX = centerX, finalY = centerY, finalZ = centerZ;
+
         CompletableFuture.allOf(loadFutures.toArray(new CompletableFuture[0])).thenRun(() -> {
-            Bukkit.getRegionScheduler().run(plugin, endWorld, centerX, centerZ, (task) ->
-                    buildEndPortal(endWorld, centerX, centerY, centerZ));
+            Bukkit.getRegionScheduler().run(plugin, finalWorld, finalX >> 4, finalZ >> 4, (task) ->
+                    buildEndPortal(finalWorld, finalX, finalY, finalZ));
         });
     }
 
@@ -82,7 +91,6 @@ public class EndExitPortalBuilder implements Runnable {
     private Set<ChunkCoord> getNeededChunks(int centerX, int centerZ) {
         Set<ChunkCoord> chunks = new HashSet<>();
 
-        // Covers the entire structure bounds, -3 to +3 range
         for (int dx = -3; dx <= 3; dx++) {
             for (int dz = -3; dz <= 3; dz++) {
                 int blockX = centerX + dx;

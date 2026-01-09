@@ -14,6 +14,7 @@ import me.txmc.core.home.HomeManager;
 import me.txmc.core.patch.PatchSection;
 import me.txmc.core.patch.tasks.EndPortalBuilder;
 import me.txmc.core.patch.tasks.EndExitPortalBuilder;
+import me.txmc.core.patch.tasks.EndPortalGateways;
 import me.txmc.core.tablist.TabSection;
 import me.txmc.core.util.MapCreationLogger;
 import me.txmc.core.tpa.TPASection;
@@ -40,12 +41,14 @@ public class Main extends JavaPlugin {
     @Getter private static Main instance;
     @Getter public static String prefix;
     @Getter private ScheduledExecutorService executorService;
-    private List<Section> sections;
-    private List<Reloadable> reloadables;
-    private List<ViolationManager> violationManagers;
+    
+    private final List<Section> sections = new ArrayList<>();
+    private final List<Reloadable> reloadables = new ArrayList<>();
+    private final List<ViolationManager> violationManagers = new ArrayList<>();
+    
     @Getter private long startTime;
-    public final Map<Player, Location> lastLocations = new HashMap<>();
-    @Getter private final Set<UUID> vanishedPlayers = new HashSet<>();
+    public final Map<UUID, Location> lastLocations = new java.util.concurrent.ConcurrentHashMap<>();
+    @Getter private final Set<UUID> vanishedPlayers = java.util.concurrent.ConcurrentHashMap.newKeySet();
 
     @Override
     public void onEnable() {
@@ -61,25 +64,23 @@ public class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("\u00A72 v" + getPluginMeta().getVersion() + "                              \u00A73by 254n_m, agarciacorte, Leeewith3Es, MindComplexity");
         Bukkit.getConsoleSender().sendMessage("");
 
-        sections = new ArrayList<>();
-        reloadables = new ArrayList<>();
-        violationManagers = new ArrayList<>();
         instance = this;
         executorService = Executors.newScheduledThreadPool(4);
         startTime = System.currentTimeMillis();
-        prefix = getConfig().getString("prefix", "&8[&98b&78t&8]");
         saveDefaultConfig();
+        prefix = getConfig().getString("prefix", "&8[&98b&78t&8]");
         getLogger().addHandler(new LoggerHandler());
         Localization.loadLocalizations(getDataFolder());
 
         GeneralDatabase.initialize(getDataFolder().getAbsolutePath());
         log(Level.INFO, "GeneralDatabase initialized successfully");
 
-        executorService.scheduleAtFixedRate(() -> violationManagers.forEach(ViolationManager::decrementAll), 0, 1, TimeUnit.SECONDS);
-        getExecutorService().scheduleAtFixedRate(new AnnouncementTask(), 10L, getConfig().getInt("AnnouncementInterval"), TimeUnit.SECONDS);
+        Bukkit.getAsyncScheduler().runAtFixedRate(this, (task) -> violationManagers.forEach(ViolationManager::decrementAll), 0L, 1L, TimeUnit.SECONDS);
+        Bukkit.getAsyncScheduler().runAtFixedRate(this, (task) -> new AnnouncementTask().run(), 10L, getConfig().getInt("AnnouncementInterval"), TimeUnit.SECONDS);
 
-        getExecutorService().scheduleAtFixedRate(new EndPortalBuilder(this), 200L, 10, TimeUnit.SECONDS);
-        getExecutorService().scheduleAtFixedRate(new EndExitPortalBuilder(this), 200L, 10, TimeUnit.SECONDS);
+        Bukkit.getAsyncScheduler().runAtFixedRate(this, (task) -> new EndPortalBuilder(this).run(), 200L, 10L, TimeUnit.SECONDS);
+        Bukkit.getAsyncScheduler().runAtFixedRate(this, (task) -> new EndExitPortalBuilder(this).run(), 200L, 10L, TimeUnit.SECONDS);
+        Bukkit.getAsyncScheduler().runAtFixedRate(this, (task) -> new EndPortalGateways.EndExitGatewayBuilder(this).run(), 200L, 10L, TimeUnit.SECONDS);
 
         register(new TabSection(this));
         register(new ChatSection(this));
@@ -109,15 +110,19 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         HandlerList.unregisterAll(this);
+        
         violationManagers.clear();
         sections.forEach(Section::disable);
         sections.clear();
+        reloadables.clear();
 
         try {
-            GeneralDatabase.getInstance().close();
-            log(Level.INFO, "GeneralDatabase closed successfully");
+            if (GeneralDatabase.getInstance() != null) {
+                GeneralDatabase.getInstance().close();
+                log(Level.INFO, "GeneralDatabase closed successfully");
+            }
         } catch (IllegalStateException e) {
-            // Kept Empty (never should reach here)
+            // Database was never initialized
         }
 
         if (executorService != null && !executorService.isShutdown()) {
@@ -132,8 +137,12 @@ public class Main extends JavaPlugin {
             }
         }
 
-        for (Handler handler : MapCreationLogger.getLogger().getHandlers()) {
-            handler.close();
+        try {
+            for (Handler handler : MapCreationLogger.getLogger().getHandlers()) {
+                handler.close();
+            }
+        } catch (Exception e) {
+            // Logger not intialized
         }
     }
 
@@ -186,6 +195,6 @@ public class Main extends JavaPlugin {
     }
 
     public Location getLastLocation(Player player) {
-        return lastLocations.get(player);
+        return lastLocations.get(player.getUniqueId());
     }
 }

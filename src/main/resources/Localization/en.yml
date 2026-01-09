@@ -90,7 +90,7 @@ framedupe_items_limit: "&cThere are already too many items dropped in this chunk
 dupe_permission: "&cYou got trolled for trying to duplicate that easily."
 dupe_failed: "&cYou must be holding an item to duplicate it."
 dupe_success: "&3The item was successfully duplicated."
-nbtPatch_deleted_item: "&c&6%s&r&c was removed from your inventory due to excessive data"
+nbtPatch_deleted_item: "&c&6%s&r&c was removed from your inventory to prevent you from getting banned."
 chest_cooldown: "&cYou are opening chests too quickly. Please wait!"
 chestlimiter_deleted_chest: "&c&6%s&r&c chests have been removed because they exceeded the maximum of &c&6%s&r&c chests per chunk"
 repair_success: "&3The item was successfully repaired!"
@@ -179,7 +179,6 @@ HelpMessage:
   - '&c/skin set &8to set your skin'
   - '&c/vote &8to vote for 8b8t'
   - '&c/discord &8to get a 8b8t Discord invite'
-  - '&c/matrix &8to get the link to the 8b8t Matrix room'
   - '&c/kill &8to commit suicide'
   - '&c/ignore &8to ignore other players'
   - '&c/unignore &8to unignore other players'
@@ -190,19 +189,27 @@ HelpMessage:
   - '&c/pvp &8to connect to the 8b8t PVP server'
   - '&c/lobby &8to connect to the lobby'
   - '&c/tpsinfo &8to check the server ticks per second'
-  - '&3---------------------------------------'
-  - '&6Voters Only:'
-  - '&c/nc &8to set the name color'
-  - '&8Visit &chttps://votefor.8b8t.me &8to vote'
+  - '&c/announcements &8to toggle announcements'
+  - '&c/dps &8toggles phantom spawning'
+  - '&c/achievements &8toggles achievements'
+  - '&c/deathmessage &8toggles death messages'
+  - '&c/joindate &8shows a players join date'
+  - '&c/lastseen &8shows a players last seen date'
+  - '&c/toggleprefix &8toggles players prefix on/off'
+  - '&c/toggleleaderboard &8toggles vanilla leaderboard on/off'
+  - '&c/togglejoinmessage &8toggles join/leave messages on/off'
+  - '&c/togglechat &8toggles chat on/off'
   - '&3---------------------------------------'
   - '&6Ranked Users Only:'
-  - '&c/ic &8to set the item color'
   - '&c/rename &8to rename an item'
   - '&c/echest &8to open your ender chest'
-  - '&c/nick &8to set a nickname'
+  - '&c/hotspot &8to create a hotspot (ultra rank only)'
+  - '&c/cosmetics nick &8to change nickname cosmetics'
+  - '&c/cosmetics item &8to change item cosmetics'
+  - '&c/cosmetics title &8to change title cosmetics (custom rank only)'
   - '&8Visit &chttps://shop.8b8t.me'
   - '&3---------------------------------------'
-  -
+
 TabList:
   Header:
     - ''

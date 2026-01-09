@@ -26,7 +26,7 @@ import static me.txmc.core.util.GlobalUtils.sendMessage;
  * @author MindComplexity (aka Libalpm)
  * @since 2025/12/21
  * This file was created as a part of 8b8tCore
- */
+*/
 public class CosmeticsCommand extends BaseTabCommand {
     private final PrefixManager prefixManager;
     private final GeneralDatabase database;
@@ -200,6 +200,11 @@ public class CosmeticsCommand extends BaseTabCommand {
                 sendPrefixedLocalizedMessage(player, "nc_no_permission");
                 return;
             }
+
+            if (args.length > 2 && args[2].equalsIgnoreCase("tobias")) {
+                handleTobiasNick(player, args);
+                return;
+            }
             
             List<String> styles = new ArrayList<>();
             String colors = null;
@@ -223,21 +228,23 @@ public class CosmeticsCommand extends BaseTabCommand {
                 return;
             }
 
-            String currentNick = database.getNickname(player.getName());
-            if (currentNick == null || currentNick.isEmpty() || currentNick.equals(player.getName())) {
-                database.insertNickname(player.getName(), player.getName());
-            } else {
-                String plain = PlainTextComponentSerializer.plainText().serialize(
-                        miniMessage.deserialize(
-                                GlobalUtils.convertToMiniMessageFormat(currentNick)))
-                        .trim();
-                database.insertNickname(player.getName(), plain);
-            }
+            final String finalColors = colors;
+            database.getNicknameAsync(player.getName()).thenAccept(currentNick -> {
+                if (currentNick == null || currentNick.isEmpty() || currentNick.equals(player.getName())) {
+                    database.insertNickname(player.getName(), player.getName());
+                } else {
+                    String plain = PlainTextComponentSerializer.plainText().serialize(
+                            miniMessage.deserialize(
+                                    GlobalUtils.convertToMiniMessageFormat(currentNick)))
+                            .trim();
+                    database.insertNickname(player.getName(), plain);
+                }
 
-            String decorations = String.join(",", styles);
-            database.updateCustomGradient(player.getName(), colors);
-            database.updateNameDecorations(player.getName(), decorations).thenRun(() -> {
-                GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
+                String decorations = String.join(",", styles);
+                database.updateCustomGradient(player.getName(), finalColors);
+                database.updateNameDecorations(player.getName(), decorations).thenRun(() -> {
+                    GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
+                });
             });
             
             String preview = colors;
@@ -296,6 +303,57 @@ public class CosmeticsCommand extends BaseTabCommand {
                 setNickname(player, args, 1);
             }
         }
+    }
+
+    private void handleTobiasNick(Player player, String[] args) {
+        if (!player.hasPermission("8b8tcore.command.nc")) {
+            sendPrefixedLocalizedMessage(player, "nc_no_permission");
+            return;
+        }
+
+        if (args.length < 4) {
+            sendMessage(player, "&cUsage: /cosmetics nick color tobias <length:decorations:#color> ...");
+            sendMessage(player, "&7Example: /cosmetics nick color tobias 6:bold/italic:#FF0000 8:none:#00FF00");
+            return;
+        }
+
+        database.getNicknameAsync(player.getName()).thenAccept(currentNick -> {
+            if (currentNick == null || currentNick.isEmpty()) currentNick = player.getName();
+            
+            String plainNick = PlainTextComponentSerializer.plainText()
+                    .serialize(miniMessage.deserialize(GlobalUtils.convertToMiniMessageFormat(currentNick))).trim();
+            int nickLength = plainNick.length();
+
+            int totalLength = 0;
+            List<String> parts = new ArrayList<>();
+            for (int i = 3; i < args.length; i++) {
+                String arg = args[i].toLowerCase();
+                if (!arg.matches("^\\d+:[a-z/]+:#[0-9a-f]{6}$")) {
+                    sendMessage(player, "&cInvalid part format: " + arg + ". Expected length:decorations:#color");
+                    return;
+                }
+                String[] split = arg.split(":");
+                try {
+                    int len = Integer.parseInt(split[0]);
+                    totalLength += len;
+                    parts.add(arg);
+                } catch (NumberFormatException e) {
+                    sendMessage(player, "&cInvalid length in part: " + arg);
+                    return;
+                }
+            }
+
+            if (totalLength != nickLength) {
+                sendMessage(player, "&cTotal length of parts (" + totalLength + ") does not match nickname length (" + nickLength + ")");
+                return;
+            }
+
+            String tobiasFormat = "tobias:" + String.join(";", parts);
+            database.updateCustomGradient(player.getName(), tobiasFormat).thenRun(() -> {
+                GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
+            });
+            sendMessage(player, "&aNickname set to special Tobias format!");
+        });
     }
 
     private void setNickname(Player player, String[] args, int startIndex) {
@@ -360,20 +418,24 @@ public class CosmeticsCommand extends BaseTabCommand {
 
             ItemMeta meta = item.getItemMeta();
             String name = getCleanItemName(item);
-
+            String escapedName = name.replace("<", "\\<").replace(">", "\\>");
+            
             StringBuilder mm = new StringBuilder();
+
             for (String style : styles)
                 mm.append("<").append(style).append(">");
 
             boolean isGradient = colors.contains(":") && colors.indexOf('#') != colors.lastIndexOf('#');
 
             if (isGradient) {
-                mm.append("<gradient:").append(colors).append(">").append(name).append("</gradient>");
+                mm.append("<gradient:").append(colors).append(">").append(escapedName).append("</gradient>");
             } else {
-                mm.append("<color:").append(colors.split(":")[0]).append(">").append(name).append("</color>");
+                mm.append("<color:").append(colors.split(":")[0]).append(">").append(escapedName).append("</color>");
             }
-            for (String style : styles)
-                mm.append("</").append(style).append(">");
+            
+            for (int i = styles.size() - 1; i >= 0; i--) {
+                mm.append("</").append(styles.get(i)).append(">");
+            }
 
             meta.displayName(miniMessage.deserialize(mm.toString()).decoration(TextDecoration.ITALIC, false));
             item.setItemMeta(meta);
@@ -391,18 +453,29 @@ public class CosmeticsCommand extends BaseTabCommand {
     }
 
     private void sendHelp(Player player) {
-        sendMessage(player, "&6Cosmetics Help:");
-        sendMessage(player, "&e/cosmetics title clear");
-        sendMessage(player, "&e/cosmetics title color <#hex:#hex...> [bold/italic/underlined/strikethrough]");
-        sendMessage(player, "&e/cosmetics title animation <wave/pulse/smooth/saturate/bounce/billboard/sweep/shimmer/none>");
-        sendMessage(player, "&e/cosmetics title speed <1-5>");
-        sendMessage(player, "&e/cosmetics title set <rank>");
-        sendMessage(player, "&e/cosmetics nick clear");
-        sendMessage(player, "&e/cosmetics nick <name>");
-        sendMessage(player, "&e/cosmetics nick color <#hex:#hex...> [bold/italic/underlined/strikethrough]");
-        sendMessage(player, "&e/cosmetics nick animation <wave/pulse/smooth/saturate/bounce/billboard/sweep/shimmer/none>");
-        sendMessage(player, "&e/cosmetics nick speed <1-5>");
-        sendMessage(player, "&e/cosmetics item color <#hex:#hex...> [bold/italic/underlined/strikethrough]");
+        sendMessage(player, "&6--- Cosmetics Help ---");
+        
+        String colorHelp = "<gold>/cosmetics <yellow><title|nick|item> <gold>color <red><colors> <aqua>[styles]</red>";
+        String colorHover = "<gray>Colors: <white>#RRGGBB <gray>or <white>#RRGGBB:#RRGGBB <gray>(Gradient)\n" +
+                           "<gray>Styles: <white>bold, italic, underlined, strikethrough";
+        GlobalUtils.sendPrefixedComponent(player, miniMessage.deserialize(colorHelp)
+                .hoverEvent(net.kyori.adventure.text.event.HoverEvent.showText(miniMessage.deserialize(colorHover))));
+
+        String tobiasHelp = "<gold>/cosmetics <yellow>nick <gold>color <red>tobias <aqua><parts...>";
+        String tobiasHover = "<gray>Formatting.\n<gray>Format: <white>length:decorations:#color\n<gray>Example: <white>6:bold:#FF0000 8:none:#00FF00";
+        GlobalUtils.sendPrefixedComponent(player, miniMessage.deserialize(tobiasHelp)
+                .hoverEvent(net.kyori.adventure.text.event.HoverEvent.showText(miniMessage.deserialize(tobiasHover))));
+
+        String animHelp = "<gold>/cosmetics <yellow><title|nick> <gold>animation <red><type>";
+        String animHover = "<gray>Types: <white>wave, pulse, smooth, saturate, bounce, billboard, sweep, shimmer, none";
+        GlobalUtils.sendPrefixedComponent(player, miniMessage.deserialize(animHelp)
+                .hoverEvent(net.kyori.adventure.text.event.HoverEvent.showText(miniMessage.deserialize(animHover))));
+
+        sendMessage(player, "&6/cosmetics <nick|title> speed &e<1-5>");
+        sendMessage(player, "&6/cosmetics <nick|title> clear");
+        sendMessage(player, "&6/cosmetics title set &e<rank>");
+        sendMessage(player, "&6/cosmetics nick &e<name>");
+        sendMessage(player, "&3----------------------");
     }
 
     private void refreshPlayer(Player player) {
@@ -475,6 +548,9 @@ public class CosmeticsCommand extends BaseTabCommand {
                 List<String> hexes = List.of("#FFFFFF", "#FF0000", "#00FF00", "#0000FF", 
                                               "#FF0000:#00FF00", "#00FFFF:#FF00FF");
                 suggestions.addAll(hexes);
+                if (type.equals("nick") && args[1].equals("color") && args.length == 3) {
+                    suggestions.add("tobias");
+                }
                 
                 if (hasColor) {
                     List<String> allStyles = List.of("bold", "italic", "underlined", "strikethrough");

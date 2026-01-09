@@ -11,9 +11,9 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * @author MindComplexity (aka Libalpm)
- * @since 2025/12/21
- * This file was created as a part of 8b8tCore
+ * This file is apart of 8b8tcore.
+ * @author MindComplexity
+ * @since 01/02/2026
  */
 public class PrefixManager {
 
@@ -52,12 +52,12 @@ public class PrefixManager {
         PREFIXES.put("8b8tcore.prefix.qtdonkey", "<gradient:#f8ff00:#3ad59f:%s>[Television]</gradient>");
         PREFIXES.put("8b8tcore.prefix.orasan080", "<gradient:#9bc4e2:#e9eff5:#9bc4e2:%s>[lurker]</gradient>");
         PREFIXES.put("8b8tcore.prefix.lucky2007", "<gradient:#1f4037:#99f2c8:%s>[Addict]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.xmas2025", "<gradient:#8B0000:#FFD700:#006400:%s>[XMAS2025]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.xmas2025", "<gradient:#FF0000:#FFFFFF:#32CD32:%s>[XMAS2025]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator6", "<gradient:#8e2de2:#4a00e0:#8e2de2:%s>[Ultra]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator5", "<gradient:#f2994a:#f2c94c:#f2994a:%s>[Pro+]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator4", "<gradient:#ee9ca7:#ffdde1:#ee9ca7:%s>[Pro]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator3", "<gradient:#bdc3c7:#2c3e50:#bdc3c7:%s>[Mini]</gradient>");
-        PREFIXES.put("8b8tcore.prefix.donator2", "<gradient:#833ab4:#fd1d1d:#fcb045:%s>[SE]</gradient>");
+        PREFIXES.put("8b8tcore.prefix.donator2", "<gradient:#FFA500:#FFD700:#FFFF00:%s>[SE]</gradient>");
         PREFIXES.put("8b8tcore.prefix.donator1", "<gradient:#434343:#000000:#434343:%s>[Basic]</gradient>");
         PREFIXES.put("8b8tcore.prefix.custom", "<gradient:%g:%s>[Custom]</gradient>");
 
@@ -82,7 +82,6 @@ public class PrefixManager {
     }
 
     public String getPrefix(Player player) {
-        // Sync method - kept for backwards compatibility but should not be called from region threads
         try {
             return getPrefixAsync(player).join();
         } catch (Exception e) {
@@ -110,11 +109,26 @@ public class PrefixManager {
                     break;
                 }
             }
+            if (highestPermission.isEmpty() || highestPermission.equals("8b8tcore.prefix.custom")) {
+                String dynamicPerm = "";
+                for (org.bukkit.permissions.PermissionAttachmentInfo attachment : player.getEffectivePermissions()) {
+                    String perm = attachment.getPermission();
+                    if (perm.startsWith("8b8tcore.prefix.") && attachment.getValue() && !perm.equals("8b8tcore.prefix.custom")) {
+                        dynamicPerm = perm;
+                        break;
+                    }
+                }
+                if (!dynamicPerm.isEmpty()) {
+                    highestPermission = dynamicPerm;
+                } else if (highestPermission.isEmpty() && player.hasPermission("8b8tcore.prefix.custom")) {
+                    highestPermission = "8b8tcore.prefix.custom";
+                }
+            }
         }
 
         if (highestPermission.isEmpty()) return "";
 
-        String basePrefix = PREFIXES.get(highestPermission);
+        String basePrefix = getBasePrefix(highestPermission);
         if (basePrefix == null) return "";
         long tick = GradientAnimator.getAnimationTick();
 
@@ -132,13 +146,18 @@ public class PrefixManager {
                 for (String decoration : decorationsStr.split(",")) result.append("<").append(decoration.trim()).append(">");
             }
 
-            boolean isGradient = finalGradient.contains(":") && finalGradient.indexOf('#') != finalGradient.lastIndexOf('#');
+            boolean isGradient = finalGradient.contains(":") && finalGradient.indexOf('#') != finalGradient.lastIndexOf('#') && !finalGradient.toLowerCase().contains("tobias:");
             if (isGradient && finalGradient.indexOf('#') == finalGradient.lastIndexOf('#')) isGradient = false;
 
             if (isGradient) {
                result.append("<gradient:").append(finalGradient).append(">").append(body).append("</gradient>");
             } else {
-                result.append("<color:").append(finalGradient.split(":")[0]).append(">").append(body).append("</color>");
+                String color = finalGradient.split(":")[0];
+                if (color.toLowerCase().contains("tobias")) {
+                    result.append(body);
+                } else {
+                    result.append("<color:").append(color).append(">").append(body).append("</color>");
+                }
             }
 
             if (decorationsStr != null && !decorationsStr.isEmpty()) {
@@ -149,7 +168,6 @@ public class PrefixManager {
             return result.toString().replace("%s", "0.0").replace("%g", "") + " ";
         }
 
-        // improved SDR color blending
         double t = (tick * 0.05) % 2.0;
         if (t > 1.0) t = 2.0 - t;
         double phase = t * t * (3 - 2 * t);
@@ -184,7 +202,6 @@ public class PrefixManager {
     public CompletableFuture<String> getPrefixAsync(Player player) {
         String username = player.getName();
         
-        // Fetch all needed data in parallel
         CompletableFuture<Boolean> hidePrefixFuture = database.getPlayerHidePrefixAsync(username);
         CompletableFuture<String> selectedRankFuture = database.getSelectedRankAsync(username);
         CompletableFuture<String> prefixGradientFuture = database.getPrefixGradientAsync(username);
@@ -215,11 +232,26 @@ public class PrefixManager {
                         break;
                     }
                 }
+                if (highestPermission.isEmpty() || highestPermission.equals("8b8tcore.prefix.custom")) {
+                    String dynamicPerm = "";
+                    for (org.bukkit.permissions.PermissionAttachmentInfo attachment : player.getEffectivePermissions()) {
+                        String perm = attachment.getPermission();
+                        if (perm.startsWith("8b8tcore.prefix.") && attachment.getValue() && !perm.equals("8b8tcore.prefix.custom")) {
+                            dynamicPerm = perm;
+                            break;
+                        }
+                    }
+                    if (!dynamicPerm.isEmpty()) {
+                        highestPermission = dynamicPerm;
+                    } else if (highestPermission.isEmpty() && player.hasPermission("8b8tcore.prefix.custom")) {
+                        highestPermission = "8b8tcore.prefix.custom";
+                    }
+                }
             }
 
             if (highestPermission.isEmpty()) return "";
 
-            String basePrefix = PREFIXES.get(highestPermission);
+            String basePrefix = getBasePrefix(highestPermission);
             if (basePrefix == null) return "";
             long tick = GradientAnimator.getAnimationTick();
 
@@ -237,13 +269,18 @@ public class PrefixManager {
                     for (String decoration : decorationsStr.split(",")) result.append("<").append(decoration.trim()).append(">");
                 }
 
-                boolean isGradient = finalGradient.contains(":") && finalGradient.indexOf('#') != finalGradient.lastIndexOf('#');
+                boolean isGradient = finalGradient.contains(":") && finalGradient.indexOf('#') != finalGradient.lastIndexOf('#') && !finalGradient.toLowerCase().contains("tobias:");
                 if (isGradient && finalGradient.indexOf('#') == finalGradient.lastIndexOf('#')) isGradient = false;
 
                 if (isGradient) {
                     result.append("<gradient:").append(finalGradient).append(">").append(body).append("</gradient>");
                 } else {
-                    result.append("<color:").append(finalGradient.split(":")[0]).append(">").append(body).append("</color>");
+                    String color = finalGradient.split(":")[0];
+                    if (color.toLowerCase().contains("tobias")) {
+                        result.append(body);
+                    } else {
+                        result.append("<color:").append(color).append(">").append(body).append("</color>");
+                    }
                 }
 
                 if (decorationsStr != null && !decorationsStr.isEmpty()) {
@@ -254,7 +291,6 @@ public class PrefixManager {
                 return result.toString().replace("%s", "0.0").replace("%g", "") + " ";
             }
 
-            // improved SDR color blending
             double t = (tick * 0.05) % 2.0;
             if (t > 1.0) t = 2.0 - t;
             double phase = t * t * (3 - 2 * t);
@@ -279,5 +315,12 @@ public class PrefixManager {
             if (player.hasPermission(permission)) return true;
         }
         return false;
+    }
+    private String getBasePrefix(String permission) {
+        if (PREFIXES.containsKey(permission)) return PREFIXES.get(permission);
+        String name = permission.replace("8b8tcore.prefix.", "");
+        if (name.isEmpty()) return null;
+        String formattedName = name.substring(0, 1).toUpperCase() + name.substring(1);
+        return String.format("<gradient:%%g:%%s>[%s]</gradient>", formattedName);
     }
 }

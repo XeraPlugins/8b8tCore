@@ -39,7 +39,7 @@ public class CommandHandler implements TabExecutor {
         addCommand(new TogglePrefixCommand(main.getPlugin()));
         addCommand(new ToggleDeathMessageCommand(main.getPlugin()));
         addCommand(new ToggleAnnouncementsCommand(main.getPlugin()));
-        addCommand(new ToggleBadgesCommand(main.getPlugin()));
+        addCommand(new ToggleAchievementsCommand(main.getPlugin()));
         addCommand(new RenameCommand());
         addCommand(new SignCommand());
         addCommand(new ShadowMuteCommand(main.getPlugin()));
@@ -61,8 +61,13 @@ public class CommandHandler implements TabExecutor {
     private void addCommand(BaseCommand command) {
         commands.add(command);
         PluginCommand pluginCommand = main.getPlugin().getCommand(command.getName());
-        pluginCommand.setExecutor(this);
-        pluginCommand.setTabCompleter(this);
+        if (pluginCommand != null) {
+            pluginCommand.setExecutor(this);
+            pluginCommand.setTabCompleter(this);
+            if (command.getPermissions().length > 0) {
+                pluginCommand.setPermission(command.getPermissions()[0]);
+            }
+        }
     }
 
     @Override
@@ -97,6 +102,16 @@ public class CommandHandler implements TabExecutor {
         for (BaseCommand command : commands) {
             if (!command.getName().equalsIgnoreCase(cmd.getName()))
                 continue;
+
+            boolean hasPermission = false;
+            for (String permission : command.getPermissions()) {
+                if (sender.hasPermission(permission) || sender.isOp() || sender.hasPermission("*")) {
+                    hasPermission = true;
+                    break;
+                }
+            }
+            if (!hasPermission) return Collections.emptyList();
+
             if (command instanceof BaseTabCommand tabCommand)
                 return tabCommand.onTab(sender, args);
             if (command.getSubCommands() != null && args.length == 1) {

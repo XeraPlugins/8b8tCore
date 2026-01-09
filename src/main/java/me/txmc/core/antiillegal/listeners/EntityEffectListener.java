@@ -1,21 +1,29 @@
 package me.txmc.core.antiillegal.listeners;
 
+import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
 import me.txmc.core.antiillegal.check.checks.PlayerEffectCheck;
+import me.txmc.core.util.GlobalUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Explosive;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.regex.Pattern;
 
 /**
- * Listener for entities to check and fix illegal potion effects.
- * Some players managed to work around to using mobs to have infinite HP, instant kill, etc.
- * This should fix the problem and revert the effects on entites on chunk load.
+ * Listener for entities to check and fix illegal data.
  * @author MindComplexity (aka Libalpm)
- * @since 2025-10-2
+ * @since 2026-01-08
  */
 public class EntityEffectListener implements Listener {
     
@@ -23,55 +31,69 @@ public class EntityEffectListener implements Listener {
     private final PlayerEffectCheck effectCheck;
     private final int checkInterval;
 
-    /**
-     * Default constructor with 5-second check interval
-     */
+    private static final Pattern ILLEGAL_CHAR_PATTERN = Pattern.compile("[^\\u0020-\\u007E]");
+    private static final int MAX_ENTITY_NAME_LENGTH = 128;
+    private static final float MAX_EXPLOSION_POWER = 4.0f; 
+
     public EntityEffectListener(Plugin plugin) {
-        this(plugin, 600); // 600 ticks = 30 seconds
+        this(plugin, 600);
     }
 
-    /**
-     * Constructor with custom check interval
-     * @param plugin The plugin instance
-     * @param checkInterval Interval in ticks (20 ticks = 1 second)
-     */
     public EntityEffectListener(Plugin plugin, int checkInterval) {
         this.plugin = plugin;
         this.effectCheck = new PlayerEffectCheck();
         this.checkInterval = checkInterval;
         startEntityEffectChecker();
     }
-    
-    /**
-     * Start the periodic task to check all loaded entities for illegal effects
-     */
+
     private void startEntityEffectChecker() {
         Bukkit.getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
             checkAllEntities();
         }, 20L, checkInterval);
     }
 
-    /**
-     * Check all loaded entities for illegal potion effects
-     */
     private void checkAllEntities() {
-        for (org.bukkit.World world : Bukkit.getWorlds()) {
-            for (LivingEntity entity : world.getLivingEntities()) {
-                entity.getScheduler().run(plugin, (task) -> {
-                    if (entity.isValid() && !entity.isDead() && !(entity instanceof org.bukkit.entity.Player)) {
-                        if (!entity.getActivePotionEffects().isEmpty()) {
-                            checkAndFixEntityEffects(entity);
-                        }
-                    }
-                }, null);
+        for (World world : Bukkit.getWorlds()) {
+            for (Chunk chunk : world.getLoadedChunks()) {
+                for (Entity entity : chunk.getEntities()) {
+                    entity.getScheduler().run(plugin, (stask) -> {
+                        performChecks(entity);
+                    }, null);
+                }
             }
         }
     }
     
-    /**
-     * Check and fix a specific entity's potion effects
-     * @param entity The entity to check
-     */
+    private void performChecks(Entity entity) {
+        if (!entity.isValid()) return;
+
+        checkAndFixEntityName(entity);
+
+        if (entity instanceof LivingEntity livingEntity && !(entity instanceof org.bukkit.entity.Player)) {
+            if (!livingEntity.getActivePotionEffects().isEmpty()) {
+                checkAndFixEntityEffects(livingEntity);
+            }
+        }
+
+        if (entity instanceof Explosive) {
+            checkAndFixExplosives((Explosive) entity);
+        }
+    }
+
+    private void checkAndFixExplosives(Explosive explosive) {
+        if (explosive.getYield() > MAX_EXPLOSION_POWER) {
+            explosive.setYield(MAX_EXPLOSION_POWER);
+        }
+        
+        if (explosive instanceof Fireball fireball) {
+            if (Double.isNaN(fireball.getAcceleration().getX()) || 
+                Double.isNaN(fireball.getAcceleration().getY()) || 
+                Double.isNaN(fireball.getAcceleration().getZ())) {
+                fireball.remove();
+            }
+        }
+    }
+
     private void checkAndFixEntityEffects(LivingEntity entity) {
         if (!entity.isValid() || entity.isDead()) return;
         
@@ -79,11 +101,28 @@ public class EntityEffectListener implements Listener {
             effectCheck.fixEntityEffects(entity);
         }
     }
+
+    private void checkAndFixEntityName(Entity entity) {
+        if (entity == null || entity.customName() == null) return;
+
+        Component name = entity.customName();
+        String plainName = GlobalUtils.getStringContent(name);
+        
+        boolean illegal = false;
+
+        if (plainName.length() > MAX_ENTITY_NAME_LENGTH) {
+            illegal = true;
+        }
+        else if (ILLEGAL_CHAR_PATTERN.matcher(plainName).find()) {
+            illegal = true;
+        }
+
+        if (illegal) {
+            entity.customName(null);
+            entity.setCustomNameVisible(false);
+        }
+    }
     
-    /**
-     * Handle potion effect events on entities to catch effects as they're applied
-     * @param event The potion effect event
-     */
     @EventHandler
     public void onEntityPotionEffect(EntityPotionEffectEvent event) {
         if (event.getEntity() instanceof org.bukkit.entity.Player) {
@@ -99,30 +138,22 @@ public class EntityEffectListener implements Listener {
         }
     }
     
-    /**
-     * Check entities when chunks load to catch any that might have been missed
-     * @param event The chunk load event
-     */
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
-        if (event.isNewChunk()) return;        
-        for (org.bukkit.entity.Entity entity : event.getChunk().getEntities()) {
-            if (entity instanceof LivingEntity livingEntity) {
-                livingEntity.getScheduler().run(plugin, (task) -> {
-                    if (livingEntity.isValid() && !livingEntity.isDead() && !(livingEntity instanceof org.bukkit.entity.Player)) {
-                        if (!livingEntity.getActivePotionEffects().isEmpty()) {
-                            checkAndFixEntityEffects(livingEntity);
-                        }
-                    }
-                }, null);
-            }
+        for (Entity entity : event.getChunk().getEntities()) {
+            entity.getScheduler().run(plugin, (task) -> {
+               performChecks(entity);
+            }, null);
         }
     }
+
+    @EventHandler
+    public void onEntityAddToWorld(EntityAddToWorldEvent event) {
+        Entity entity = event.getEntity();
+        if (entity == null) return;
+        performChecks(entity);
+    }
     
-    /**
-     * Get the effect check instance for external use
-     * @return The PlayerEffectCheck instance
-     */
     public PlayerEffectCheck getEffectCheck() {
         return effectCheck;
     }

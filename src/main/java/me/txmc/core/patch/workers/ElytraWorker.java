@@ -31,18 +31,18 @@ public class ElytraWorker implements Runnable {
                 Bukkit.getRegionScheduler().run(main.plugin(), player.getLocation(), (task) -> {
                     try {
                         if (!player.isGliding()) {
-                            main.positions().remove(player);
+                            main.positions().remove(player.getUniqueId());
                             return;
                         }
 
-                        Location from = main.positions().getOrDefault(player, null);
+                        Location from = main.positions().getOrDefault(player.getUniqueId(), null);
                         if (from == null) {
-                            main.positions().put(player, player.getLocation());
+                            main.positions().put(player.getUniqueId(), player.getLocation());
                             return;
                         }
 
                         double speed = calcSpeed(from, player.getLocation());
-                        main.positions().replace(player, player.getLocation());
+                        main.positions().replace(player.getUniqueId(), player.getLocation());
 
                         Chunk playerChunk = player.getLocation().getChunk();
                         if (speed > MAX_SPEED_WITH_ENTITIES &&

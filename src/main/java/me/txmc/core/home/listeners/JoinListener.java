@@ -8,6 +8,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.UUID;
+
+/**
+ * Listener to load and save player home data on join/leave.
+ * @author 254n_m
+ * @author MindComplexity (aka Libalpm)
+ * @since 2023/12/19
+ */
 @AllArgsConstructor
 public class JoinListener implements Listener {
     private final HomeManager main;
@@ -15,14 +23,16 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        main.homes().put(player, main.storage().load(player));
+        UUID uuid = player.getUniqueId();
+        main.homes().put(uuid, main.storage().load(uuid));
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        main.storage().save(main.homes().get(player), player);
-        main.homes().remove(player);
-        main.plugin().lastLocations.remove(player);
+        UUID uuid = player.getUniqueId();
+        main.storage().save(main.homes().get(uuid), uuid);
+        main.homes().remove(uuid);
+        main.plugin().lastLocations.remove(uuid);
     }
 }

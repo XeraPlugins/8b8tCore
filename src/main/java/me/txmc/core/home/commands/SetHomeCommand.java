@@ -30,7 +30,7 @@ public class SetHomeCommand implements CommandExecutor {
                 return true;
             }
             int maxHomes = main.getMaxHomes(player);
-            HomeData homes = main.homes().get(player);
+            HomeData homes = main.homes().get(player.getUniqueId());
             if (homes.stream().anyMatch(h -> h.getName().equals(args[0]))) {
                 Home home = homes.stream().filter(h -> h.getName().equals(args[0])).findAny().get();
                 sendPrefixedLocalizedMessage(player, "sethome_home_already_exists", home.getName());

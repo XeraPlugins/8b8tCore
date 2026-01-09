@@ -27,11 +27,6 @@ public class PlayerEffectListener implements Listener {
     private final int checkInterval;
     
     public PlayerEffectListener(Plugin plugin) {
-        /***
-         *  MODIFY THIS TO CHANGE THE CHECK INTERVAL
-         *  This is the interval at which the plugin will check for illegal effects.
-         *  The default is 100 ticks, which is 5 seconds. (20 ticks = 1 second)
-         */
         this(plugin, 100); 
     }
     
@@ -42,57 +37,35 @@ public class PlayerEffectListener implements Listener {
         startEffectChecker();
     }
     
-    /**
-     * Start the periodic task to check all online players.
-     * This is the only repeating timer used in this listener.
-     */
     private void startEffectChecker() {
         Bukkit.getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
             checkAllPlayers();
         }, 20L, checkInterval);
     }
     
-    /**
-     * Check all online players for illegal effects
-     */
     private void checkAllPlayers() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             checkPlayer(player);
         }
     }
     
-    /**
-     * Check and fix a specific player's effects
-     */
     private void checkAndFixPlayerEffects(Player player) {
         if (effectCheck.checkPlayerEffects(player)) {
             effectCheck.fixPlayerEffects(player);
         }
     }
     
-    /**
-     * Check player effects when they join the server.
-     * 
-     * Currently, this just checks the player immediately on join.
-     * If you have some custom plugin that applies after join just modify this with a tick timer. 
-     */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         checkPlayer(event.getPlayer());
     }
     
-    /**
-     * API Call for a specific player (can be called from commands or other parts of the code)
-     */
     public void checkPlayer(Player player) {
         if (player != null && player.isValid() && !player.isDead()) {
             checkAndFixPlayerEffects(player);
         }
     }
     
-    /**
-     * Get the effect check instance for external use
-     */
     public PlayerEffectCheck getEffectCheck() {
         return effectCheck;
     }

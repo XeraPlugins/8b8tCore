@@ -12,7 +12,6 @@ import java.util.Arrays;
 
 /**
  * Checks for shulkers inside shulkers ("shulker ceptions") and removes them.
- *
  * @since 2025-06-22
  */
 public class ShulkerCeptionCheck implements Check {
@@ -59,7 +58,6 @@ public class ShulkerCeptionCheck implements Check {
         }
 
         if (changed) {
-            // Update block state and item meta
             shulkerBox.update();
             meta.setBlockState(shulkerBox);
             item.setItemMeta(meta);

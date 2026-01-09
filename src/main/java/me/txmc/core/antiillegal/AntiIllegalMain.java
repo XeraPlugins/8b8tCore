@@ -1,5 +1,7 @@
-/*
- * AntiIllegalMain.java
+/**
+ * This file is apart of 8b8tcore.
+ * @author MindComplexity
+ * @since 01/02/2026
  */
 package me.txmc.core.antiillegal;
 
@@ -11,46 +13,44 @@ import me.txmc.core.Section;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.antiillegal.check.checks.*;
 import me.txmc.core.antiillegal.listeners.*;
-import me.txmc.core.antiillegal.listeners.EntityEffectListener;
-import org.bukkit.Bukkit;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.Material;
-import org.bukkit.event.Cancellable;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Main section for AntiIllegal features.
- */
 @Getter
-@RequiredArgsConstructor
 @Accessors(fluent = true)
 public class AntiIllegalMain implements Section {
     private final Main plugin;
-    private final List<Check> checks = new ArrayList<>(Arrays.asList(
-            new OverStackCheck(),
-            new DurabilityCheck(),
-            new AttributeCheck(),
-            new EnchantCheck(),
-            new PotionCheck(),
-            new BookCheck(),
-            new LegacyTextCheck(),
-            new StackedTotemCheck(),
-            new ShulkerCeptionCheck(),
-            new IllegalItemCheck(),
-            new IllegalDataCheck(),
-            new antiprefilledchests()));
-
+    private final List<Check> checks;
     private ConfigurationSection config;
+
+    public AntiIllegalMain(Main plugin) {
+        this.plugin = plugin;
+        this.config = plugin.getSectionConfig(this);
+        this.checks = new ArrayList<>(Arrays.asList(
+                new OverStackCheck(),
+                new DurabilityCheck(),
+                new AttributeCheck(),
+                new EnchantCheck(),
+                new PotionCheck(),
+                new BookCheck(),
+                new LegacyTextCheck(),
+                new StackedTotemCheck(),
+                new ShulkerCeptionCheck(),
+                new IllegalItemCheck(),
+                new IllegalDataCheck(),
+                new AntiPrefilledContainers()));
+    }
 
     @Override
     public void enable() {
-        config = plugin.getSectionConfig(this);
+        if (config == null) config = plugin.getSectionConfig(this);
         checks.add(new NameCheck(config));
 
         plugin.register(
@@ -58,19 +58,17 @@ public class AntiIllegalMain implements Section {
                 new MiscListeners(this),
                 new InventoryListeners(this),
                 new AttackListener(plugin),
-                new StackedTotemsListener(),
+                new StackedTotemsListener(plugin),
                 new PlayerEffectListener(plugin),
                 new EntityEffectListener(plugin));
 
         if (config.getBoolean("EnableIllegalBlocksCleaner", true)) {
-            List<String> illegalBlocks = config.getStringList("IllegalBlocks");
-            plugin.register(new IllegalBlocksCleaner(plugin, illegalBlocks));
+            plugin.register(new IllegalBlocksCleaner(plugin, config));
         }
     }
 
     @Override
-    public void disable() {
-    }
+    public void disable() {}
 
     @Override
     public void reloadConfig() {
@@ -83,47 +81,28 @@ public class AntiIllegalMain implements Section {
     }
 
     public void checkFixItem(ItemStack item, Cancellable cancellable) {
-        if (item == null || item.getType() == Material.AIR)
-            return;
-        String enchants = (item.hasItemMeta() && item.getItemMeta().hasEnchants())
-                ? item.getItemMeta().getEnchants().toString()
-                : "{}";
-        String evt = cancellable != null ? cancellable.getClass().getSimpleName() : "none";
-        // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] Checking type=" +
-        // item.getType() + " amount=" + item.getAmount() + " enchants=" + enchants + "
-        // event=" + evt);
+        if (item == null || item.getType() == Material.AIR) return;
+
+        boolean isInventoryOpen = cancellable instanceof InventoryOpenEvent;
 
         for (Check check : checks) {
-            // Context-aware skipping for deep checks (Shulkers, prefilled containers)
-            if (check instanceof ShulkerCeptionCheck || check instanceof antiprefilledchests) {
-                if (!(cancellable instanceof org.bukkit.event.inventory.InventoryOpenEvent openEvent)) continue;
-                String invTypeName = openEvent.getInventory().getType().name();
-                if (check instanceof ShulkerCeptionCheck && !invTypeName.contains("SHULKER_BOX")) continue;
-                if (check instanceof antiprefilledchests && invTypeName.contains("SHULKER_BOX")) continue;
+            if (check instanceof ShulkerCeptionCheck || check instanceof AntiPrefilledContainers) {
+                if (!isInventoryOpen) continue;
             }
 
-            boolean should = check.shouldCheck(item);
-            boolean fail = should && check.check(item);
-            if (fail) {
-                // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] FAILED check=" +
-                // check.getClass().getSimpleName() + " type=" + item.getType() + " event=" +
-                // evt);
+            if (!check.shouldCheck(item)) continue;
+            if (!check.check(item)) continue;
 
-                check.fix(item);
+            check.fix(item);
+            
+            if (item.hasItemMeta()) {
                 item.setItemMeta(item.getItemMeta());
-                // Fix a crash by cancelling air blocks which are not handled by
-                // BlockPreDispenseEvent, triggering a server panic.
-                if (item.getType() == Material.AIR || item.getAmount() <= 0) {
-                    if (cancellable instanceof io.papermc.paper.event.block.BlockPreDispenseEvent) {
-                        cancellable.setCancelled(true);
-                    }
+            }
+
+            if (item.getType() == Material.AIR || item.getAmount() <= 0) {
+                if (cancellable instanceof io.papermc.paper.event.block.BlockPreDispenseEvent) {
+                    cancellable.setCancelled(true);
                 }
-                String after = (item.hasItemMeta() && item.getItemMeta().hasEnchants())
-                        ? item.getItemMeta().getEnchants().toString()
-                        : "{}";
-                // Bukkit.getConsoleSender().sendMessage("[AntiIllegal] Fixed by=" +
-                // check.getClass().getSimpleName() + " newAmount=" + item.getAmount() + "
-                // enchants=" + after);
             }
         }
     }

@@ -44,12 +44,9 @@ public class BackCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
 
-            int maxDistanceFromSpawn = getMaxDistanceFromSpawn(player);
-            if(player.getWorld().getEnvironment() == World.Environment.NETHER){
-                maxDistanceFromSpawn = getMaxDistanceFromSpawn(player) / 8;
-            }
-            if (isWithinRestrictedArea(player, maxDistanceFromSpawn)) {
-                sendPrefixedLocalizedMessage(player, "home_too_close", maxDistanceFromSpawn);
+            if (me.txmc.core.util.GlobalUtils.isTeleportRestricted(player)) {
+                int range = me.txmc.core.util.GlobalUtils.getTeleportRestrictionRange(player);
+                sendPrefixedLocalizedMessage(player, "home_too_close", range);
                 return true;
             }
 
@@ -64,39 +61,13 @@ public class BackCommand implements CommandExecutor {
                 if (player.isOnline()) {
                     player.teleportAsync(lastLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
                     sendPrefixedLocalizedMessage(player, "back_teleported");
-                    main.plugin().lastLocations.remove(player);
+                    main.plugin().lastLocations.remove(player.getUniqueId());
                 }
             });
-            main.plugin().lastLocations.remove(player);
+            main.plugin().lastLocations.remove(player.getUniqueId());
         } else {
             sender.sendMessage("Only players can use this command.");
         }
         return true;
-    }
-
-    private int getMaxDistanceFromSpawn(Player player) {
-        FileConfiguration cfg = main.plugin.getConfig();
-        ConfigurationSection sec = cfg.getConfigurationSection("TPAHOMERADIUS");
-        // read the configured default (no hard-coded fallback)
-        int maxDistance = sec.getInt("default");
-
-        // scan for any home.spawn.<n> permission on the player
-        for (PermissionAttachmentInfo info : player.getEffectivePermissions()) {
-            if (!info.getValue()) continue;
-            String perm = info.getPermission();
-            if (perm.startsWith("tpa.spawn.")) {
-                try {
-                    int dist = Integer.parseInt(perm.substring("tpa.spawn.".length()));
-                    maxDistance = Math.min(maxDistance, dist);
-                } catch (NumberFormatException ignored) {}
-            }
-        }
-        return maxDistance;
-    }
-
-    private boolean isWithinRestrictedArea(Player player, int range) {
-        if (player.isOp()) return false;
-        Location loc = player.getLocation();
-        return loc.getBlockX() < range && loc.getBlockX() > -range && loc.getBlockZ() < range && loc.getBlockZ() > -range;
     }
 }
