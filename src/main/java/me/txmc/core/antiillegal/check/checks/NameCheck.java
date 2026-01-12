@@ -26,10 +26,7 @@ public class NameCheck implements Check {
 
     private final ConfigurationSection config;
 
-    private static final Pattern ILLEGAL_CHAR_PATTERN =
-            Pattern.compile("[^\\u0020-\\u007E]");
-
-    private static final int STRICT_MAX_LENGTH = 128;
+    private static final int STRICT_MAX_LENGTH = 255;
     private static final int MAX_JSON_LENGTH = 8192;
 
     private static final DataComponentType ENTITY_DATA =
@@ -82,9 +79,12 @@ public class NameCheck implements Check {
         if (json.length() > MAX_JSON_LENGTH) return true;
 
         String content = GlobalUtils.getStringContent(component);
-
         if (content.length() > STRICT_MAX_LENGTH) return true;
-        return ILLEGAL_CHAR_PATTERN.matcher(content).find();
+        
+        return content.codePoints().anyMatch(cp -> 
+                Character.isISOControl(cp) || 
+                Character.getType(cp) == Character.PRIVATE_USE
+        );
     }
 
     private boolean hasIllegalEntityData(ItemStack item) {

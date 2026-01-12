@@ -11,7 +11,14 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.meta.MapMeta;
+import org.bukkit.map.MapView;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import java.util.ArrayList;
 
 /**
  * This file is apart of 8b8tcore.
@@ -73,6 +80,13 @@ public class IllegalDataCheck implements Check {
 
             if (hasIllegalToolComponent(item)) {
                 return true;
+            }
+
+            if (item.getType() == Material.FILLED_MAP && item.hasItemMeta() && item.getItemMeta() instanceof MapMeta mm) {
+                 PersistentDataContainer pdc = mm.getPersistentDataContainer();
+                 for (NamespacedKey key : pdc.getKeys()) {
+                     if (key.toString().contains("VV|") || key.toString().contains("Protocol")) return true;
+                 }
             }
             
         } catch (Exception e) {
@@ -141,6 +155,10 @@ public class IllegalDataCheck implements Check {
                 item.unsetData(DataComponentTypes.TOOL);
             }
 
+            if (item.getType() == Material.FILLED_MAP) {
+                 sanitizeCrashMap(item);
+            }
+            
         } catch (Exception ignored) {}
     }
 
@@ -261,5 +279,21 @@ public class IllegalDataCheck implements Check {
             }
         }
         return maxDepth;
+    }
+    private ItemStack sanitizeCrashMap(ItemStack item) {
+        if (item.getType() != Material.FILLED_MAP) return item;
+        if (!(item.getItemMeta() instanceof MapMeta mm)) return item;
+        
+        // Strip ViaVersion corruption from PersistentDataContainer
+        PersistentDataContainer pdc = mm.getPersistentDataContainer();
+        for (NamespacedKey key : new ArrayList<>(pdc.getKeys())) {
+            String k = key.toString();
+            if (k.contains("VV|") || k.contains("Protocol") || k.contains("original_hashes")) {
+                pdc.remove(key);
+            }
+        }
+        
+        item.setItemMeta(mm);
+        return item;
     }
 }

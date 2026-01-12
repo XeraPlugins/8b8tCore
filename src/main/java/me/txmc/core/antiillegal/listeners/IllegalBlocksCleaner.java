@@ -72,7 +72,10 @@ public class IllegalBlocksCleaner implements Listener {
 
     private void scanChunk(Chunk chunk, World world, int cx, int cz, long chunkKey) {
         if (Math.abs(cx) >= 1875000 || Math.abs(cz) >= 1875000) return;
-        
+                
+        /*
+        // Cache Disabled here: This approach is not reliable enough due to players constantly unloading chunks.
+        // Server Check up task completely ignores the constant unloading of chunks.s
         if (enableSessionCache && sessionCache.contains(chunkKey)) return;
 
         PersistentDataContainer pdc = chunk.getPersistentDataContainer();
@@ -83,6 +86,7 @@ public class IllegalBlocksCleaner implements Listener {
                 return;
             }
         }
+        */
 
         World.Environment env = world.getEnvironment();
         int minY = world.getMinHeight();
@@ -127,7 +131,6 @@ public class IllegalBlocksCleaner implements Listener {
                     if (!world.isChunkLoaded(cx, cz)) return;
 
                     if (toRemove.isEmpty()) {
-                        markChunkAsClean(world, cx, cz, chunkKey);
                         return;
                     }
 
@@ -204,8 +207,6 @@ public class IllegalBlocksCleaner implements Listener {
                 if (!world.isChunkLoaded(cx, cz)) return;
                 processBlockRemoval(world, cx, cz, chunkKey, anchorLoc, queue);
             }, delayTicks);
-        } else {
-            markChunkAsClean(world, cx, cz, chunkKey);
         }
     }
 
