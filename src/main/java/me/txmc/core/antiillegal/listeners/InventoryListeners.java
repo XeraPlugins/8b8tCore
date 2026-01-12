@@ -38,6 +38,11 @@ public class InventoryListeners implements Listener {
             
             main.checkFixItem(item, event);
             
+            // Persist changes in the first inventory event fired.
+            // Context: when a first inventory event is fired the inventory is not updated yet.
+            // This confuses the client and causes issues with inventory contents.
+            inv.setItem(i, item);
+            
             if (openedShulker && isContainer(item.getType())) {
                 clearContainerContents(item);
             }

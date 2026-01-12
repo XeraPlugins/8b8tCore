@@ -73,7 +73,15 @@ public class IllegalDataCheck implements Check {
             
             if (item.hasData(DataComponentTypes.MAX_STACK_SIZE)) {
                 Integer maxStack = item.getData(DataComponentTypes.MAX_STACK_SIZE);
-                if (maxStack != null && maxStack != type.getMaxStackSize()) {
+                // Negated component (when max_stack_size component is null)
+                if (maxStack == null || maxStack < 1 || maxStack > 99) {
+                    return true;
+                }
+            } else {
+                // Check for items that should stack but have been limited to 1
+                int vanillaMaxStack = type.getMaxStackSize();
+                int actualMaxStack = item.getMaxStackSize();
+                if (vanillaMaxStack > 1 && actualMaxStack == 1) {
                     return true;
                 }
             }
@@ -149,7 +157,26 @@ public class IllegalDataCheck implements Check {
                 item.setData(DataComponentTypes.MAX_DAMAGE, (int) type.getMaxDurability());
             }
 
-            item.unsetData(DataComponentTypes.MAX_STACK_SIZE);
+            if (item.hasData(DataComponentTypes.MAX_STACK_SIZE)) {
+                Integer maxStack = item.getData(DataComponentTypes.MAX_STACK_SIZE);
+                if (maxStack == null) {
+                    int vanillaMaxStack = type.getMaxStackSize();
+                    if (vanillaMaxStack > 1) {
+                        item.setData(DataComponentTypes.MAX_STACK_SIZE, vanillaMaxStack);
+                    } else {
+                        item.unsetData(DataComponentTypes.MAX_STACK_SIZE);
+                    }
+                } else if (maxStack < 1 || maxStack > 99) {
+                    item.unsetData(DataComponentTypes.MAX_STACK_SIZE);
+                }
+            } else {
+                int vanillaMaxStack = type.getMaxStackSize();
+                int actualMaxStack = item.getMaxStackSize();
+                
+                if (vanillaMaxStack > 1 && actualMaxStack == 1) {
+                    item.setData(DataComponentTypes.MAX_STACK_SIZE, vanillaMaxStack);
+                }
+            }
 
             if (hasIllegalToolComponent(item)) {
                 item.unsetData(DataComponentTypes.TOOL);

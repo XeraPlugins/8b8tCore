@@ -10,7 +10,8 @@ import me.txmc.core.antiillegal.check.Check;import org.bukkit.inventory.ItemStac
 public class OverStackCheck implements Check {
     @Override
     public boolean check(ItemStack item) {
-        return item.getAmount() > item.getType().getMaxStackSize();
+        int vanillaMaxStack = item.getType().getMaxStackSize();
+        return item.getAmount() > vanillaMaxStack;
     }
 
     @Override
@@ -20,6 +21,7 @@ public class OverStackCheck implements Check {
 
     @Override
     public void fix(ItemStack item) {
-        item.setAmount(item.getType().getMaxStackSize());
+        int vanillaMaxStack = item.getType().getMaxStackSize();
+        item.setAmount(vanillaMaxStack);
     }
 }
