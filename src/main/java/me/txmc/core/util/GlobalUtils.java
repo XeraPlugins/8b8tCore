@@ -349,8 +349,10 @@ public class GlobalUtils {
         }
 
         if (component instanceof net.kyori.adventure.text.TranslatableComponent translatable) {
-            for (Component arg : translatable.args()) {
-                maxDepth = Math.max(maxDepth, getComponentDepth(arg, currentDepth + 1, visited));
+            for (net.kyori.adventure.text.TranslationArgument arg : translatable.arguments()) {
+                if (arg instanceof Component) {
+                    maxDepth = Math.max(maxDepth, getComponentDepth((Component) arg, currentDepth + 1, visited));
+                }
                 if (maxDepth > 50) return maxDepth;
             }
         }

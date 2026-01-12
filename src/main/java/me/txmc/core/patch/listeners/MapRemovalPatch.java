@@ -57,7 +57,7 @@ public class MapRemovalPatch implements Listener {
         if (event.getWhoClicked() instanceof Player player) {
             removeRestrictedMaps(event.getInventory(), player);
             if (isRestrictedMap(event.getCursor())) {
-                event.setCursor(null);
+                event.getView().setCursor(null);
                 sendPrefixedLocalizedMessage(player, "mapart_deleted_inventory");
             }
         }
