@@ -34,7 +34,7 @@ public class EntityEffectListener implements Listener {
     private static final int MAX_ENTITY_NAME_DEPTH = 8;
     private static final int MAX_ENTITY_NAME_NESTING = 3;
     private static final float MAX_EXPLOSION_POWER = 4.0f;
-    private static final float MAX_FIREBALL_DAMAGE = 6.0f; 
+    private static final float MAX_FIREBALL_DAMAGE = 3.0f; 
 
     public EntityEffectListener(Plugin plugin) {
         this(plugin, 600);
