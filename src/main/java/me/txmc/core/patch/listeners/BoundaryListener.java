@@ -23,6 +23,8 @@ import org.bukkit.util.Vector;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 
@@ -41,6 +43,15 @@ public class BoundaryListener implements Listener, Reloadable {
     private static final long NETHER_ROOF_DAMAGE_COOLDOWN = 1000;
     private static final long BOTTOM_TELEPORT_COOLDOWN = 3000;
     private static final long BORDER_MESSAGE_COOLDOWN = 3000;
+    private static final double PRECISION_LIMIT = 29999984.0;
+    private static final double EARLY_EXIT_DISTANCE = 29000000.0;
+    private static final Set<Material> LEAVES = new HashSet<>();
+
+    static {
+        for (Material m : Material.values()) {
+            if (m.name().contains("LEAVES")) LEAVES.add(m);
+        }
+    }
 
     private volatile boolean enabled;
     private volatile boolean netherRoofEnabled;
@@ -81,14 +92,16 @@ public class BoundaryListener implements Listener, Reloadable {
 
     @EventHandler(priority = org.bukkit.event.EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
-        if (!enabled)
-            return;
+        if (!enabled) return;
 
-        if (event.getFrom().getBlockX() == event.getTo().getBlockX() &&
-                event.getFrom().getBlockY() == event.getTo().getBlockY() &&
-                event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
-            return;
-        }
+        double fx = event.getFrom().getX();
+        double fy = event.getFrom().getY();
+        double fz = event.getFrom().getZ();
+        double tx = event.getTo().getX();
+        double ty = event.getTo().getY();
+        double tz = event.getTo().getZ();
+
+        if ((int) fx == (int) tx && (int) fy == (int) ty && (int) fz == (int) tz) return;
 
         Player player = event.getPlayer();
         Location to = event.getTo();
@@ -198,7 +211,6 @@ public class BoundaryListener implements Listener, Reloadable {
             if (pearlWorld == null)
                 return;
 
-            // Nether Roof Protection
             if (netherRoofEnabled && pearlWorld.getEnvironment() == World.Environment.NETHER
                     && pearlLoc.getY() >= netherYLevel - 5) {
                 pearl.remove();
@@ -249,7 +261,6 @@ public class BoundaryListener implements Listener, Reloadable {
                 if (bounced) {
                     pearl.teleportAsync(pearlLoc);
                     pearl.setVelocity(velocity);
-                    sendBorderMessage(player, "§cAn Ender pearl collided with the world border!");
                 }
             }
         }, null, 1L, 1L);
@@ -594,10 +605,12 @@ public class BoundaryListener implements Listener, Reloadable {
         int maxY = world.getMaxHeight();
         int minY = world.getMinHeight();
 
+        int maxX = (int) x;
+        int maxZ = (int) z;
         for (int y = (int) startY; y < maxY && y < startY + 50; y++) {
-            Block ground = world.getBlockAt((int) x, y - 1, (int) z);
-            Block body = world.getBlockAt((int) x, y, (int) z);
-            Block head = world.getBlockAt((int) x, y + 1, (int) z);
+            Block ground = world.getBlockAt(maxX, y - 1, maxZ);
+            Block body = world.getBlockAt(maxX, y, maxZ);
+            Block head = world.getBlockAt(maxX, y + 1, maxZ);
 
             if (isSolidBlock(ground) && isAirSpace(body) && isAirSpace(head)) {
                 Location location = new Location(world, x, y, z);
@@ -636,8 +649,10 @@ public class BoundaryListener implements Listener, Reloadable {
     private Location findSafeLocationBelowBedrock(Location from) {
         World world = from.getWorld();
         int bedrockCeiling = netherYLevel;
+        int bx = from.getBlockX();
+        int bz = from.getBlockZ();
         for (int y = netherYLevel + 5; y >= netherYLevel - 10; y--) {
-            Block block = world.getBlockAt(from.getBlockX(), y, from.getBlockZ());
+            Block block = world.getBlockAt(bx, y, bz);
             if (block.getType() == Material.BEDROCK) {
                 bedrockCeiling = y;
                 break;
@@ -645,9 +660,9 @@ public class BoundaryListener implements Listener, Reloadable {
         }
 
         for (int y = bedrockCeiling - 8; y > 0 && y > bedrockCeiling - 40; y--) {
-            Block ground = world.getBlockAt(from.getBlockX(), y - 1, from.getBlockZ());
-            Block body = world.getBlockAt(from.getBlockX(), y, from.getBlockZ());
-            Block head = world.getBlockAt(from.getBlockX(), y + 1, from.getBlockZ());
+            Block ground = world.getBlockAt(bx, y - 1, bz);
+            Block body = world.getBlockAt(bx, y, bz);
+            Block head = world.getBlockAt(bx, y + 1, bz);
 
             if (isSolidBlock(ground) && isAirSpace(body) && isAirSpace(head)) {
                 Location location = new Location(world, from.getX(), y, from.getZ());
@@ -742,7 +757,7 @@ public class BoundaryListener implements Listener, Reloadable {
                 type != Material.WATER &&
                 type != Material.FIRE &&
                 type != Material.MAGMA_BLOCK &&
-                !type.name().contains("LEAVES");
+                !LEAVES.contains(type);
     }
 
     /**
@@ -802,7 +817,8 @@ public class BoundaryListener implements Listener, Reloadable {
 
         double y = from.getY();
         if (world.getEnvironment() == World.Environment.NETHER) {
-            y = Math.min(y, netherYLevel - 2); // Stay at least 2 blocks below roof
+            // Stay at least 2 blocks below roof
+            y = Math.min(y, netherYLevel - 2); 
             Location checkLoc = new Location(world, x, y, z);
             Location safe = findSafeLocationBelowBedrock(checkLoc);
             if (safe != null) {
@@ -824,25 +840,24 @@ public class BoundaryListener implements Listener, Reloadable {
     }
 
     private boolean isOutsideWorldBorder(Location location) {
-        if (location == null || location.getWorld() == null)
-            return false;
+        if (location == null) return false;
+        return isOutsideWorldBorder(location.getX(), location.getZ(), location.getWorld());
+    }
 
-        double x = Math.abs(location.getX());
-        double z = Math.abs(location.getZ());
+    private boolean isOutsideWorldBorder(double x, double z, World world) {
+        if (world == null) return false;
 
-        if (x < 29000000 && z < 29000000)
-            return false;
+        double absX = Math.abs(x);
+        double absZ = Math.abs(z);
 
-        World world = location.getWorld();
+        if (absX < EARLY_EXIT_DISTANCE && absZ < EARLY_EXIT_DISTANCE) return false;
+        if (absX >= PRECISION_LIMIT || absZ >= PRECISION_LIMIT) return true;
+
         WorldBorder border = world.getWorldBorder();
+        double radius = border.getSize() / 2.0;
+        Location center = border.getCenter();
 
-        if (!border.isInside(location)) {
-            return true;
-        }
-
-        double precisionLimit = 29999984.0;
-
-        return x >= precisionLimit || z >= precisionLimit;
+        return Math.abs(x - center.getX()) >= radius || Math.abs(z - center.getZ()) >= radius;
     }
 
     private double getDistanceOutsideBorder(Location location) {
@@ -862,13 +877,12 @@ public class BoundaryListener implements Listener, Reloadable {
     public void startWorldBorderMonitor() {
         plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
             for (Player player : plugin.getServer().getOnlinePlayers()) {
-                if (player.isOp())
-                    continue;
+                if (player.isOp()) continue;
 
-                if (isOutsideWorldBorder(player.getLocation())) {
+                Location loc = player.getLocation();
+                if (isOutsideWorldBorder(loc.getX(), loc.getZ(), loc.getWorld())) {
                     player.getScheduler().run(plugin, (playerTask) -> {
-                        if (!player.isOnline())
-                            return;
+                        if (!player.isOnline()) return;
 
                         if (isPlayerMounted(player)) {
                             Entity vehicle = player.getVehicle();
@@ -889,19 +903,15 @@ public class BoundaryListener implements Listener, Reloadable {
     public void startNetherRoofMonitor() {
         plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
             for (Player player : plugin.getServer().getOnlinePlayers()) {
-                if (player.isOp())
-                    continue;
+                if (player.isOp()) continue;
 
                 Location loc = player.getLocation();
-                if (loc.getWorld() == null)
-                    continue;
+                World world = loc.getWorld();
+                if (world == null) continue;
 
-                if (loc.getWorld().getEnvironment() == World.Environment.NETHER
-                        && loc.getY() >= netherYLevel) {
-
+                if (world.getEnvironment() == World.Environment.NETHER && loc.getY() >= netherYLevel) {
                     player.getScheduler().run(plugin, (playerTask) -> {
-                        if (!player.isOnline())
-                            return;
+                        if (!player.isOnline()) return;
 
                         Location safe = findSafeLocationBelowBedrock(player.getLocation());
                         if (safe != null) {

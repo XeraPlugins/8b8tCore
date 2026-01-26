@@ -55,55 +55,59 @@ public class EntityEffectListener implements Listener {
 
     private void checkAllEntities() {
         for (World world : Bukkit.getWorlds()) {
-            for (Chunk chunk : world.getLoadedChunks()) {
-                for (Entity entity : chunk.getEntities()) {
-                    entity.getScheduler().run(plugin, (stask) -> {
-                        performChecks(entity);
-                    }, null);
-                }
+            for (Entity entity : world.getEntities()) {
+                if (!shouldFullCheck(entity)) continue;
+                entity.getScheduler().run(plugin, (stask) -> {
+                    if (entity.isValid()) performChecks(entity);
+                }, null);
             }
         }
+    }
+
+    private boolean shouldFullCheck(Entity entity) {
+        return entity instanceof LivingEntity || 
+               entity instanceof Explosive || 
+               entity instanceof org.bukkit.entity.Hanging ||
+               entity.getType() == org.bukkit.entity.EntityType.ENDER_DRAGON;
     }
     
     private void performChecks(Entity entity) {
         if (!entity.isValid()) return;
 
+        // ender dragon
+        if (entity.getType() == org.bukkit.entity.EntityType.ENDER_DRAGON) {
+            World world = entity.getWorld();
+            if (world.getEnvironment() != World.Environment.THE_END) {
+                entity.remove();
+                return;
+            }
+            double x = entity.getX();
+            double z = entity.getZ();
+            // 1000 block radius
+            if ((x * x + z * z) > 1000000.0) { 
+                entity.remove();
+                return;
+            }
+        }
+
         checkAndFixEntityName(entity);
 
         if (entity instanceof LivingEntity livingEntity && !(entity instanceof org.bukkit.entity.Player)) {
             if (!livingEntity.getActivePotionEffects().isEmpty()) {
-                checkAndFixEntityEffects(livingEntity);
+                effectCheck.fixEntityEffects(livingEntity);
             }
         }
 
-        if (entity instanceof Explosive) {
-            checkAndFixExplosives((Explosive) entity);
-        }
-    }
-
-    private void checkAndFixExplosives(Explosive explosive) {
-        if (explosive.getYield() > MAX_EXPLOSION_POWER) {
-            explosive.setYield(MAX_EXPLOSION_POWER);
-        }
-        
-        if (explosive instanceof Fireball fireball) {
-            if (fireball instanceof org.bukkit.entity.LargeFireball largeFireball) {
-                explosive.setYield(Math.min(explosive.getYield(), MAX_EXPLOSION_POWER));
+        if (entity instanceof Explosive explosive) {
+            if (explosive.getYield() > MAX_EXPLOSION_POWER) {
+                explosive.setYield(MAX_EXPLOSION_POWER);
             }
-            
-            if (Double.isNaN(fireball.getAcceleration().getX()) || 
-                Double.isNaN(fireball.getAcceleration().getY()) || 
-                Double.isNaN(fireball.getAcceleration().getZ())) {
-                fireball.remove();
+            if (explosive instanceof Fireball fireball) {
+                org.bukkit.util.Vector acc = fireball.getAcceleration();
+                if (Double.isNaN(acc.getX()) || Double.isNaN(acc.getY()) || Double.isNaN(acc.getZ())) {
+                    fireball.remove();
+                }
             }
-        }
-    }
-
-    private void checkAndFixEntityEffects(LivingEntity entity) {
-        if (!entity.isValid() || entity.isDead()) return;
-        
-        if (effectCheck.checkEntityEffects(entity)) {
-            effectCheck.fixEntityEffects(entity);
         }
     }
 
@@ -175,8 +179,10 @@ public class EntityEffectListener implements Listener {
     @EventHandler
     public void onEntityAddToWorld(EntityAddToWorldEvent event) {
         Entity entity = event.getEntity();
-        if (entity == null) return;
-        performChecks(entity);
+        if (entity == null || !shouldFullCheck(entity)) return;
+        entity.getScheduler().run(plugin, task -> {
+            if (entity.isValid()) performChecks(entity);
+        }, null);
     }
     
     public PlayerEffectCheck getEffectCheck() {

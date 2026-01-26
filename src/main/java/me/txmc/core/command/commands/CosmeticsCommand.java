@@ -57,19 +57,36 @@ public class CosmeticsCommand extends BaseTabCommand {
             case "title" -> handleTitle(player, action, args);
             case "nick" -> handleNick(player, action, args);
             case "item" -> handleItem(player, action, args);
+            case "clear" -> {
+                handleTitle(player, "clear", args);
+                handleNick(player, "clear", args);
+            }
             default -> sendHelp(player);
         }
     }
 
     private void handleTitle(Player player, String action, String[] args) {
         if (action.equals("clear")) {
-            CompletableFuture<Void> f1 = database.updateSelectedRank(player.getName(), null);
-            CompletableFuture<Void> f2 = database.updatePrefixGradient(player.getName(), null);
-            CompletableFuture<Void> f3 = database.updatePrefixAnimation(player.getName(), "none");
-            CompletableFuture<Void> f4 = database.updatePrefixSpeed(player.getName(), 5);
-            CompletableFuture<Void> f5 = database.updatePrefixDecorations(player.getName(), null);
+            database.updateSelectedRank(player.getName(), null);
+            database.updatePrefixGradient(player.getName(), null);
+            database.updatePrefixAnimation(player.getName(), "none");
+            database.updatePrefixSpeed(player.getName(), 5);
+            database.updatePrefixDecorations(player.getName(), null);
 
-            CompletableFuture.allOf(f1, f2, f3, f4, f5).thenRun(() -> refreshPlayer(player));
+            me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) Main.getInstance().getSectionByName("ChatControl");
+            if (chatSection != null) {
+                me.txmc.core.chat.ChatInfo info = chatSection.getInfo(player);
+                if (info != null) {
+                    info.setSelectedRank(null);
+                    info.setCustomGradient(null);
+                    info.setPrefixAnimation("none");
+                    info.setPrefixSpeed(5);
+                    info.setPrefixDecorations(null);
+                    info.clearAnimatedNameCache();
+                }
+            }
+
+            refreshPlayer(player);
             sendPrefixedLocalizedMessage(player, "title_cleared");
         } else if (action.equals("color")) {
             if (!player.hasPermission("8b8tcore.prefix.custom")) {
@@ -182,18 +199,29 @@ public class CosmeticsCommand extends BaseTabCommand {
 
     private void handleNick(Player player, String action, String[] args) {
         if (action.equals("clear")) {
-            CompletableFuture.allOf(
-                database.insertNickname(player.getName(), null),
-                database.updateCustomGradient(player.getName(), null),
-                database.updateGradientAnimation(player.getName(), "none"),
-                database.updateGradientSpeed(player.getName(), 5),
-                database.updateNameDecorations(player.getName(), null)
-            ).thenAccept(v -> {
-                player.getScheduler().run(Main.getInstance(), (task) -> {
-                    player.displayName(miniMessage.deserialize(player.getName()));
-                    GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
-                }, null);
-            });
+            database.insertNickname(player.getName(), null);
+            database.updateCustomGradient(player.getName(), null);
+            database.updateGradientAnimation(player.getName(), "none");
+            database.updateGradientSpeed(player.getName(), 5);
+            database.updateNameDecorations(player.getName(), null);
+
+            me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) Main.getInstance().getSectionByName("ChatControl");
+            if (chatSection != null) {
+                me.txmc.core.chat.ChatInfo info = chatSection.getInfo(player);
+                if (info != null) {
+                    info.setNickname(null);
+                    info.setNameGradient(null);
+                    info.setNameAnimation("none");
+                    info.setNameSpeed(5);
+                    info.setNameDecorations(null);
+                    info.clearAnimatedNameCache();
+                }
+            }
+
+            player.getScheduler().run(Main.getInstance(), (task) -> {
+                player.displayName(miniMessage.deserialize(player.getName()));
+                refreshPlayer(player);
+            }, null);
             sendPrefixedLocalizedMessage(player, "nick_reset");
         } else if (action.equals("color")) {
             if (!player.hasPermission("8b8tcore.command.nc")) {
@@ -480,17 +508,22 @@ public class CosmeticsCommand extends BaseTabCommand {
 
     private void refreshPlayer(Player player) {
         Main plugin = (Main) Main.getInstance();
-        player.getScheduler().run(plugin, (task) -> {
+        me.txmc.core.Section chatSection = plugin.getSectionByName("ChatControl");
+        if (chatSection instanceof me.txmc.core.chat.ChatSection chatSec) {
+            me.txmc.core.chat.ChatInfo info = chatSec.getInfo(player);
+            if (info != null) {
+                info.clearAnimatedNameCache();
+                chatSec.loadAllDataAsync(info);
+            }
+        }
+        
+        player.getScheduler().runDelayed(plugin, (task) -> {
+            if (!player.isOnline()) return;
             me.txmc.core.Section section = plugin.getSectionByName("TabList");
             if (section instanceof me.txmc.core.tablist.TabSection tabSection) {
                 tabSection.setTab(player, true);
             }
-            me.txmc.core.Section chatSection = plugin.getSectionByName("ChatControl");
-            if (chatSection instanceof me.txmc.core.chat.ChatSection chatSec) {
-                me.txmc.core.chat.ChatInfo info = chatSec.getInfo(player);
-                if (info != null) chatSec.loadAllDataAsync(info);
-            }
-        }, null);
+        }, null, 5L);
     }
 
     @Override

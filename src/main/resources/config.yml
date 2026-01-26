@@ -15,6 +15,10 @@ AntiIllegal:
     - END_PORTAL_FRAME
     - LIGHT
     - REINFORCED_DEEPSLATE
+  IllegalBlocksCleaner:
+    Batch: 128
+    DelayTicks: 5
+    Version: 1
   MaxItemNameLength: 51
   IllegalItems:
     - 'BEDROCK'

@@ -90,6 +90,10 @@ public class PrefixManager {
     }
 
     public String getPrefix(me.txmc.core.chat.ChatInfo info) {
+        return getPrefix(info, GradientAnimator.getAnimationTick());
+    }
+
+    public String getPrefix(me.txmc.core.chat.ChatInfo info, long tick) {
         if (info.isHidePrefix()) return "";
 
         Player player = info.getPlayer();
@@ -130,7 +134,6 @@ public class PrefixManager {
 
         String basePrefix = getBasePrefix(highestPermission);
         if (basePrefix == null) return "";
-        long tick = GradientAnimator.getAnimationTick();
 
         if (customGradient != null && !customGradient.isEmpty()) {
             String finalGradient = GradientAnimator.applyAnimation(customGradient, animationType, speed, tick);

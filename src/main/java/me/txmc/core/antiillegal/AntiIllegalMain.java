@@ -41,8 +41,6 @@ public class AntiIllegalMain implements Section {
                 new PotionCheck(),
                 new BookCheck(),
                 new LegacyTextCheck(),
-                new StackedTotemCheck(),
-                new ShulkerCeptionCheck(),
                 new IllegalItemCheck(),
                 new IllegalDataCheck(),
                 new AntiPrefilledContainers()));
@@ -58,7 +56,6 @@ public class AntiIllegalMain implements Section {
                 new MiscListeners(this),
                 new InventoryListeners(this),
                 new AttackListener(plugin),
-                new StackedTotemsListener(plugin),
                 new PlayerEffectListener(plugin),
                 new EntityEffectListener(plugin));
 
@@ -86,7 +83,7 @@ public class AntiIllegalMain implements Section {
         boolean isInventoryOpen = cancellable instanceof InventoryOpenEvent;
 
         for (Check check : checks) {
-            if (check instanceof ShulkerCeptionCheck || check instanceof AntiPrefilledContainers) {
+            if (check instanceof AntiPrefilledContainers) {
                 if (!isInventoryOpen) continue;
             }
 

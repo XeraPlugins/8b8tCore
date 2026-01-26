@@ -28,7 +28,7 @@ public class GradientAnimator {
                 if (st > 1.0) st = 2.0 - st;
                 phase = st < 0.5 ? 2 * st * st : 1 - Math.pow(-2 * st + 2, 2) / 2;
                 break;
-            case "saturate": // Renamed from glance
+            case "saturate":
                 phase = (Math.sin(t * 0.12) + Math.sin(t * 0.24)) / 4.0 + 0.5;
                 break;
             case "bounce":
@@ -51,7 +51,8 @@ public class GradientAnimator {
         }
 
         phase = Math.max(0.0, Math.min(1.0, phase));
-        return String.format("%s:%.2f", baseGradient, phase);
+        double rounded = Math.round(phase * 100.0) / 100.0;
+        return baseGradient + ":" + rounded;
     }
 
     public static long getAnimationTick() {

@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class Utils {
 
+    
     public static CompletableFuture<Component> parsePlaceHolders(String input, Player player, long startTime) {
         CompletableFuture<Component> future = new CompletableFuture<>();
         GlobalUtils.getTpsNearEntity(player).thenAccept(tps -> {

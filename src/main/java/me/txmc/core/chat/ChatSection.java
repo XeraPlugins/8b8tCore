@@ -97,18 +97,20 @@ public class ChatSection implements Section {
         GeneralDatabase db = GeneralDatabase.getInstance();
         me.txmc.core.customexperience.util.PrefixManager pm = new me.txmc.core.customexperience.util.PrefixManager();
 
-        db.getMutedUntilAsync(username).thenAccept(info::setMutedUntil);
-        pm.refreshPrefixDataAsync(info);
-
-        java.util.concurrent.CompletableFuture.allOf(
-            db.getNicknameAsync(username).thenAccept(info::setNickname),
-            db.isVanillaLeaderboardAsync(username).thenAccept(info::setUseVanillaLeaderboard),
-            db.getCustomGradientAsync(username).thenAccept(info::setNameGradient),
-            db.getGradientAnimationAsync(username).thenAccept(info::setNameAnimation),
-            db.getGradientSpeedAsync(username).thenAccept(info::setNameSpeed),
-            db.getPlayerDataAsync(username, "nameDecorations").thenAccept(info::setNameDecorations),
-            db.getPlayerHideAnnouncementsAsync(username).thenAccept(info::setHideAnnouncements)
-        ).exceptionally(e -> {
+        db.loadPlayerDataCache(username).thenAccept(pd -> {
+            info.setMutedUntil(pd.getLong("muted", 0L));
+            info.setNickname(pd.getString("displayname"));
+            info.setUseVanillaLeaderboard(pd.getBoolean("useVanillaLeaderboard", false));
+            info.setNameGradient(pd.getString("customGradient"));
+            info.setNameAnimation(pd.getString("gradient_animation"));
+            info.setNameSpeed(pd.getInt("gradient_speed", 5));
+            info.setNameDecorations(pd.getString("nameDecorations"));
+            info.setHideAnnouncements(pd.getBoolean("hideAnnouncements", false));
+            info.setHidePrefix(pd.getBoolean("hidePrefix", false));
+            
+            pm.refreshPrefixDataAsync(info);
+            info.setDataLoaded(true);
+        }).exceptionally(e -> {
             e.printStackTrace();
             return null;
         });

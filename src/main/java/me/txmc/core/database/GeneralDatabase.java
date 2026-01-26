@@ -14,8 +14,7 @@ import java.util.concurrent.*;
  * @since 2025/12/21
  * This file was created as a part of 8b8tCore
 */
-
-public class GeneralDatabase {
+public class GeneralDatabase implements org.bukkit.event.Listener {
     private static GeneralDatabase instance;
     private final HikariDataSource dataSource;
     private final ExecutorService databaseExecutor;
@@ -27,6 +26,34 @@ public class GeneralDatabase {
         "gradient_speed", "nameDecorations", "preventPhantomSpawn", 
         "prefixGradient", "prefix_animation", "prefix_speed", "prefixDecorations"
     );
+
+    private final ConcurrentHashMap<String, PlayerDataCache> cache = new ConcurrentHashMap<>();
+
+    public static class PlayerDataCache {
+        private final ConcurrentHashMap<String, Object> data = new ConcurrentHashMap<>();
+        public Object get(String key) { return data.get(key); }
+        public void set(String key, Object val) {
+            if (val == null) data.remove(key);
+            else data.put(key, val);
+        }
+        public String getString(String key) { return (String) data.get(key); }
+        public boolean getBoolean(String key, boolean def) {
+            Object val = data.get(key);
+            if (val instanceof Integer i) return i == 1;
+            if (val instanceof Boolean b) return b;
+            return def;
+        }
+        public int getInt(String key, int def) {
+            Object val = data.get(key);
+            if (val instanceof Number n) return n.intValue();
+            return def;
+        }
+        public long getLong(String key, long def) {
+            Object val = data.get(key);
+            if (val instanceof Number n) return n.longValue();
+            return def;
+        }
+    }
 
     private GeneralDatabase(String pluginFolderPath) {
         File databaseDir = new File(pluginFolderPath + "/Database");
@@ -173,40 +200,67 @@ public class GeneralDatabase {
 
     public CompletableFuture<Void> upsertPlayer(String username, String column, Object value) {
         validateColumn(column);
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) pd.set(column, value);
+        
         String sql = "INSERT INTO playerdata (username, displayname, " + column + ") VALUES (?, ?, ?) " +
                      "ON CONFLICT(username) DO UPDATE SET " + column + " = excluded." + column + ";";
         return executeUpdate(sql, username, username, value);
     }
 
+    public CompletableFuture<PlayerDataCache> loadPlayerDataCache(String username) {
+        return CompletableFuture.supplyAsync(() -> {
+            try (Connection conn = getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM playerdata WHERE username = ?")) {
+                pstmt.setString(1, username);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    PlayerDataCache pd = new PlayerDataCache();
+                    if (rs.next()) {
+                        ResultSetMetaData meta = rs.getMetaData();
+                        for (int i = 1; i <= meta.getColumnCount(); i++) {
+                            pd.set(meta.getColumnName(i), rs.getObject(i));
+                        }
+                    }
+                    cache.put(username, pd);
+                    return pd;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return new PlayerDataCache();
+            }
+        }, databaseExecutor);
+    }
+
+    public void unloadPlayerDataCache(String username) {
+        cache.remove(username);
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onPlayerQuit(org.bukkit.event.player.PlayerQuitEvent event) {
+        unloadPlayerDataCache(event.getPlayer().getName());
+    }
+
     public CompletableFuture<Void> insertNickname(String username, String displayname) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) pd.set("displayname", displayname);
         String sql = "INSERT INTO playerdata (username, displayname) VALUES (?, ?) " +
                      "ON CONFLICT(username) DO UPDATE SET displayname = excluded.displayname;";
         return executeUpdate(sql, username, displayname);
     }
 
     public CompletableFuture<String> getNicknameAsync(String username) {
-        return executeQueryAsync(
-                "SELECT displayname FROM playerdata WHERE username = ?",
-                rs -> {
-                    String val = rs.getString("displayname");
-                    return rs.wasNull() ? null : val;
-                },
-                null,
-                username
-        );
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getString("displayname"));
+        return getPlayerDataAsync(username, "displayname");
     }
 
-    /**
-     * @deprecated Use {@link #getNicknameAsync(String)} with proper async handling.
-     * This method blocks and should NOT be called from region threads.
-     */
-    @Deprecated
-    public String getNickname(String username) {
-        return getNicknameAsync(username).join();
-    }
+
 
     public CompletableFuture<String> getPlayerDataAsync(String username, String column) {
         validateColumn(column);
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getString(column));
+
         return executeQueryAsync(
                 "SELECT " + column + " FROM playerdata WHERE username = ?",
                 rs -> {
@@ -223,6 +277,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<Boolean> getPlayerShowJoinMsgAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("showJoinMsg", true));
         return executeQueryAsync(
                 "SELECT showJoinMsg FROM playerdata WHERE username = ?",
                 rs -> rs.getInt("showJoinMsg") == 1,
@@ -231,19 +287,15 @@ public class GeneralDatabase {
         );
     }
 
-    /**
-     * @deprecated Use {@link #getPlayerShowJoinMsgAsync(String)} with proper async handling.
-     */
-    @Deprecated
-    public boolean getPlayerShowJoinMsg(String username) {
-        return getPlayerShowJoinMsgAsync(username).join();
-    }
+
 
     public CompletableFuture<Void> updateHidePrefix(String username, boolean hidePrefix) {
         return upsertPlayer(username, "hidePrefix", hidePrefix);
     }
 
     public CompletableFuture<Boolean> getPlayerHidePrefixAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("hidePrefix", false));
         return executeQueryAsync(
                 "SELECT hidePrefix FROM playerdata WHERE username = ?",
                 rs -> rs.getInt("hidePrefix") == 1,
@@ -252,19 +304,15 @@ public class GeneralDatabase {
         );
     }
 
-    /**
-     * @deprecated Use {@link #getPlayerHidePrefixAsync(String)} with proper async handling.
-     */
-    @Deprecated
-    public boolean getPlayerHidePrefix(String username) {
-        return getPlayerHidePrefixAsync(username).join();
-    }
+
 
     public CompletableFuture<Void> updateHideDeathMessages(String username, boolean hide) {
         return upsertPlayer(username, "hideDeathMessages", hide);
     }
 
     public CompletableFuture<Boolean> getPlayerHideDeathMessagesAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("hideDeathMessages", false));
         return executeQueryAsync(
                 "SELECT hideDeathMessages FROM playerdata WHERE username = ?",
                 rs -> rs.getInt("hideDeathMessages") == 1,
@@ -273,19 +321,15 @@ public class GeneralDatabase {
         );
     }
 
-    /**
-     * @deprecated Use {@link #getPlayerHideDeathMessagesAsync(String)} with proper async handling.
-     */
-    @Deprecated
-    public boolean getPlayerHideDeathMessages(String username) {
-        return getPlayerHideDeathMessagesAsync(username).join();
-    }
+
 
     public CompletableFuture<Void> updateHideAnnouncements(String username, boolean hide) {
         return upsertPlayer(username, "hideAnnouncements", hide);
     }
 
     public CompletableFuture<Boolean> getPlayerHideAnnouncementsAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("hideAnnouncements", false));
         return executeQueryAsync(
                 "SELECT hideAnnouncements FROM playerdata WHERE username = ?",
                 rs -> rs.getInt("hideAnnouncements") == 1,
@@ -294,19 +338,15 @@ public class GeneralDatabase {
         );
     }
 
-    /**
-     * @deprecated Use {@link #getPlayerHideAnnouncementsAsync(String)} with proper async handling.
-     */
-    @Deprecated
-    public boolean getPlayerHideAnnouncements(String username) {
-        return getPlayerHideAnnouncementsAsync(username).join();
-    }
+
 
     public CompletableFuture<Void> updateHideBadges(String username, boolean hide) {
         return upsertPlayer(username, "hideBadges", hide);
     }
 
     public CompletableFuture<Boolean> getPlayerHideBadgesAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("hideBadges", false));
         return executeQueryAsync(
                 "SELECT hideBadges FROM playerdata WHERE username = ?",
                 rs -> rs.getInt("hideBadges") == 1,
@@ -315,15 +355,19 @@ public class GeneralDatabase {
         );
     }
 
-    /**
-     * @deprecated Use {@link #getPlayerHideBadgesAsync(String)} with proper async handling.
-     */
-    @Deprecated
-    public boolean getPlayerHideBadges(String username) {
-        return getPlayerHideBadgesAsync(username).join();
-    }
+
 
     public CompletableFuture<Boolean> isMutedAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) {
+            long mutedUntil = pd.getLong("muted", 0L);
+            if (mutedUntil <= Instant.now().getEpochSecond()) {
+                if (mutedUntil != 0) unmute(username);
+                return CompletableFuture.completedFuture(false);
+            }
+            return CompletableFuture.completedFuture(true);
+        }
+
         return CompletableFuture.supplyAsync(() -> {
             try (Connection conn = getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(
@@ -348,6 +392,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<Long> getMutedUntilAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getLong("muted", 0L));
         return executeQueryAsync(
                 "SELECT muted FROM playerdata WHERE username = ?",
                 rs -> {
@@ -359,19 +405,15 @@ public class GeneralDatabase {
         );
     }
 
-    /**
-     * @deprecated Use {@link #isMutedAsync(String)} with proper async handling.
-     */
-    @Deprecated
-    public boolean isMuted(String username) {
-        return isMutedAsync(username).join();
-    }
+
 
     public CompletableFuture<Void> mute(String username, long timestamp) {
         return upsertPlayer(username, "muted", timestamp);
     }
 
     public CompletableFuture<Void> unmute(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) pd.set("muted", null);
         String sql = "UPDATE playerdata SET muted = NULL WHERE username = ?;";
         return executeUpdate(sql, username);
     }
@@ -381,6 +423,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<String> getSelectedRankAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getString("selectedRank"));
         return executeQueryAsync(
                 "SELECT selectedRank FROM playerdata WHERE username = ?",
                 rs -> {
@@ -401,6 +445,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<String> getCustomGradientAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getString("customGradient"));
         return executeQueryAsync(
                 "SELECT customGradient FROM playerdata WHERE username = ?",
                 rs -> {
@@ -421,6 +467,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<Boolean> getHideCustomTabAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("hideCustomTab", false));
         return executeQueryAsync(
                 "SELECT hideCustomTab FROM playerdata WHERE username = ?",
                 rs -> rs.getBoolean("hideCustomTab"),
@@ -434,6 +482,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<Boolean> isVanillaLeaderboardAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("useVanillaLeaderboard", false));
         return executeQueryAsync(
                 "SELECT useVanillaLeaderboard FROM playerdata WHERE username = ?",
                 rs -> rs.getBoolean("useVanillaLeaderboard"),
@@ -442,19 +492,15 @@ public class GeneralDatabase {
         );
     }
 
-    /**
-     * @deprecated Use {@link #isVanillaLeaderboardAsync(String)} with proper async handling.
-     */
-    @Deprecated
-    public boolean isVanillaLeaderboard(String username) {
-        return isVanillaLeaderboardAsync(username).join();
-    }
+
 
     public CompletableFuture<Void> updateGradientAnimation(String username, String animation) {
         return upsertPlayer(username, "gradient_animation", animation);
     }
 
     public CompletableFuture<String> getGradientAnimationAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getString("gradient_animation"));
         return executeQueryAsync(
                 "SELECT gradient_animation FROM playerdata WHERE username = ?",
                 rs -> rs.getString("gradient_animation"),
@@ -468,6 +514,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<Integer> getGradientSpeedAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getInt("gradient_speed", 5));
         return executeQueryAsync(
                 "SELECT gradient_speed FROM playerdata WHERE username = ?",
                 rs -> rs.getInt("gradient_speed"),
@@ -481,6 +529,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<Boolean> getPreventPhantomSpawnAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("preventPhantomSpawn", true));
         return executeQueryAsync(
                 "SELECT preventPhantomSpawn FROM playerdata WHERE username = ?",
                 rs -> rs.getBoolean("preventPhantomSpawn"),
@@ -489,19 +539,15 @@ public class GeneralDatabase {
         );
     }
 
-    /**
-     * @deprecated Use {@link #getPreventPhantomSpawnAsync(String)} with proper async handling.
-     */
-    @Deprecated
-    public boolean getPreventPhantomSpawn(String username) {
-        return getPreventPhantomSpawnAsync(username).join();
-    }
+
 
     public CompletableFuture<Void> updatePrefixGradient(String username, String gradient) {
         return upsertPlayer(username, "prefixGradient", gradient);
     }
 
     public CompletableFuture<String> getPrefixGradientAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getString("prefixGradient"));
         return executeQueryAsync(
                 "SELECT prefixGradient FROM playerdata WHERE username = ?",
                 rs -> {
@@ -518,6 +564,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<String> getPrefixAnimationAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getString("prefix_animation"));
         return executeQueryAsync(
                 "SELECT prefix_animation FROM playerdata WHERE username = ?",
                 rs -> rs.getString("prefix_animation"),
@@ -531,6 +579,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<Integer> getPrefixSpeedAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getInt("prefix_speed", 5));
         return executeQueryAsync(
                 "SELECT prefix_speed FROM playerdata WHERE username = ?",
                 rs -> rs.getInt("prefix_speed"),
@@ -544,6 +594,8 @@ public class GeneralDatabase {
     }
 
     public CompletableFuture<String> getPrefixDecorationsAsync(String username) {
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getString("prefixDecorations"));
         return executeQueryAsync(
                 "SELECT prefixDecorations FROM playerdata WHERE username = ?",
                 rs -> rs.getString("prefixDecorations"),

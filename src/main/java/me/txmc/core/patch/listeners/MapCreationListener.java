@@ -26,9 +26,12 @@ import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapView;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Map Creation Listener.
@@ -48,7 +51,7 @@ public class MapCreationListener implements Listener {
     public void onMapInitialize(MapInitializeEvent event) {
         MapView map = event.getMap();
         if (map != null) {
-            map.setTrackingPosition(false);
+            map.setTrackingPosition(true);
             map.setUnlimitedTracking(false);
         }
     }
@@ -63,28 +66,29 @@ public class MapCreationListener implements Listener {
 
         Player player = event.getPlayer();
         
-        player.getScheduler().run(plugin, task -> {
+        player.getScheduler().runDelayed(plugin, task -> {
             if (!player.isOnline()) return;
-            
-            String playerNames = player.getWorld().getNearbyPlayers(player.getLocation(), SCAN_RADIUS)
-                    .stream()
-                    .map(Player::getName)
-                    .collect(Collectors.joining(", @"));
+            String names = getNearbyPlayerNames(player);
+            signUnsignedMaps(player, names);
+        }, null, 2L);
 
-            ItemStack main = player.getInventory().getItemInMainHand();
-            if (main.getType() == Material.FILLED_MAP) {
-                if (main.getItemMeta() instanceof MapMeta mm && mm.hasMapId()) {
-                    signPlayerMap(player, mm.getMapId(), playerNames);
-                }
-            }
+        player.getScheduler().runDelayed(plugin, task -> {
+            if (!player.isOnline()) return;
+            String names = getNearbyPlayerNames(player);
+            signUnsignedMaps(player, names);
+        }, null, 10L);
+    }
 
-            ItemStack off = player.getInventory().getItemInOffHand();
-            if (off.getType() == Material.FILLED_MAP) {
-                if (off.getItemMeta() instanceof MapMeta mm && mm.hasMapId()) {
-                    signPlayerMap(player, mm.getMapId(), playerNames);
-                }
-            }
-        }, null);
+    private String getNearbyPlayerNames(Player player) {
+        List<String> names = new ArrayList<>();
+        names.add(player.getName());
+        
+        player.getNearbyEntities(SCAN_RADIUS, SCAN_RADIUS, SCAN_RADIUS).stream()
+                .filter(e -> e instanceof Player && !e.getUniqueId().equals(player.getUniqueId()))
+                .map(e -> ((Player) e).getName())
+                .forEach(names::add);
+
+        return String.join(", @", names);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -92,7 +96,7 @@ public class MapCreationListener implements Listener {
         for (Entity entity : event.getChunk().getEntities()) {
             if (entity instanceof ItemFrame frame) {
                 ItemStack frameItem = frame.getItem();
-                if (frameItem.getType() == Material.FILLED_MAP) {
+                if (frameItem != null && frameItem.getType() == Material.FILLED_MAP) {
                     sanitizeFrameMap(frame, frameItem);
                 }
             }
@@ -100,65 +104,75 @@ public class MapCreationListener implements Listener {
     }
 
     private void sanitizeFrameMap(ItemFrame frame, ItemStack item) {
-        if (!(item.getItemMeta() instanceof MapMeta mm)) return;
+        if (item == null || !(item.getItemMeta() instanceof MapMeta mm)) return;
         if (!mm.hasMapId()) return;
         
         MapView view = Bukkit.getMap(mm.getMapId());
         if (view != null) {
-            view.setTrackingPosition(false);
+            view.setTrackingPosition(true);
             view.setUnlimitedTracking(false);
         }
     }
 
-    private void signPlayerMap(Player player, int mapId, String signatureText) {
-        ItemStack mainHand = player.getInventory().getItemInMainHand();
-        if (signIfMatches(mainHand, mapId, signatureText)) return;
-
-        ItemStack offHand = player.getInventory().getItemInOffHand();
-        if (signIfMatches(offHand, mapId, signatureText)) return;
+    private void signUnsignedMaps(Player player, String signatureText) {
+        checkAndSign(player.getInventory().getItemInMainHand(), signatureText);
+        checkAndSign(player.getInventory().getItemInOffHand(), signatureText);
+        checkAndSign(player.getOpenInventory().getCursor(), signatureText);
 
         for (ItemStack item : player.getInventory().getContents()) {
-            if (item != null && signIfMatches(item, mapId, signatureText)) {
-                break;
-            }
+            checkAndSign(item, signatureText);
         }
     }
 
-    private boolean signIfMatches(ItemStack item, int mapId, String signatureText) {
-        if (item == null || item.getType() != Material.FILLED_MAP) return false;
-
+    private void checkAndSign(ItemStack item, String signatureText) {
+        if (item == null || item.getType() != Material.FILLED_MAP) return;
         ItemMeta meta = item.getItemMeta();
-        if (!(meta instanceof MapMeta mapMeta)) return false;
-        if (!mapMeta.hasMapId() || mapMeta.getMapId() != mapId) return false;
+        if (meta == null) return;
 
-        NamespacedKey key = new NamespacedKey(plugin, "map_id");
-        if (meta.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)) {
-            return true;
+        NamespacedKey authorKey = new NamespacedKey(plugin, "map_author");
+        if (!meta.getPersistentDataContainer().has(authorKey, PersistentDataType.STRING)) {
+            int mapId = -1;
+            if (meta instanceof MapMeta mm && mm.hasMapId()) mapId = mm.getMapId();
+            applySignature(item, meta, signatureText, mapId);
         }
-
-        applySignature(item, meta, signatureText, mapId);
-        return true;
     }
 
     private void applySignature(ItemStack item, ItemMeta meta, String players, int mapId) {
-        Component signature = Component.text("by @" + players, NamedTextColor.GRAY)
+        Component authorComp = Component.text("by @" + players, net.kyori.adventure.text.format.NamedTextColor.GRAY)
+                .decoration(TextDecoration.ITALIC, false);
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a, MMMM d, yyyy");
+        String utcTime = ZonedDateTime.now(ZoneId.of("UTC")).format(formatter);
+        Component timeComp = Component.text("Created: " + utcTime + " UTC", net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY)
                 .decoration(TextDecoration.ITALIC, false);
 
         List<Component> lore = meta.hasLore() ? new ArrayList<>(meta.lore()) : new ArrayList<>();
         
-        boolean alreadySigned = lore.stream()
+        boolean alreadySigned = false;
+        if (!lore.isEmpty()) {
+            alreadySigned = lore.stream()
                 .map(GlobalUtils::getStringContent)
                 .anyMatch(line -> line.contains("by @"));
+        }
 
         if (!alreadySigned) {
-            lore.add(0, signature);
+            lore.add(0, authorComp);
+            lore.add(1, timeComp);
         }
         
         meta.lore(lore);
         meta.getPersistentDataContainer().set(
             new NamespacedKey(plugin, "map_author"), PersistentDataType.STRING, players);
         meta.getPersistentDataContainer().set(
-            new NamespacedKey(plugin, "map_id"), PersistentDataType.INTEGER, mapId);
+             new NamespacedKey(plugin, "map_created"), PersistentDataType.STRING, utcTime);
+        
+        if (mapId != -1) {
+            meta.getPersistentDataContainer().set(
+                new NamespacedKey(plugin, "map_id"), PersistentDataType.INTEGER, mapId);
+        }
+        
+        meta.getPersistentDataContainer().set(
+            new NamespacedKey(plugin, "map_metadata"), PersistentDataType.STRING, "Authenticated by 8b8tCore Signature System");
 
         item.setItemMeta(meta);
     }

@@ -37,7 +37,7 @@ import java.util.logging.Level;
 
 import static me.txmc.core.util.GlobalUtils.log;
 
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin implements Listener {
     @Getter private static Main instance;
     @Getter public static String prefix;
     @Getter private ScheduledExecutorService executorService;
@@ -96,6 +96,7 @@ public class Main extends JavaPlugin {
 
         if(getConfig().getBoolean("AntiIllegal.Enabled", true)) register(new AntiIllegalMain(this));
         register(new VoteSection(this));
+        register(GeneralDatabase.getInstance());
 
         for (Section section : sections) {
             try {
@@ -105,11 +106,19 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         }
+        register(this);
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onQuit(org.bukkit.event.player.PlayerQuitEvent event) {
+        UUID uuid = event.getPlayer().getUniqueId();
+        lastLocations.remove(uuid);
+        vanishedPlayers.remove(uuid);
     }
 
     @Override
     public void onDisable() {
-        HandlerList.unregisterAll(this);
+        HandlerList.unregisterAll((org.bukkit.plugin.Plugin) this);
         
         violationManagers.clear();
         sections.forEach(Section::disable);

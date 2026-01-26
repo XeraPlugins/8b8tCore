@@ -73,12 +73,10 @@ public class IllegalDataCheck implements Check {
             
             if (item.hasData(DataComponentTypes.MAX_STACK_SIZE)) {
                 Integer maxStack = item.getData(DataComponentTypes.MAX_STACK_SIZE);
-                // Negated component (when max_stack_size component is null)
                 if (maxStack == null || maxStack < 1 || maxStack > 99) {
                     return true;
                 }
             } else {
-                // Check for items that should stack but have been limited to 1
                 int vanillaMaxStack = type.getMaxStackSize();
                 int actualMaxStack = item.getMaxStackSize();
                 if (vanillaMaxStack > 1 && actualMaxStack == 1) {
@@ -311,7 +309,6 @@ public class IllegalDataCheck implements Check {
         if (item.getType() != Material.FILLED_MAP) return item;
         if (!(item.getItemMeta() instanceof MapMeta mm)) return item;
         
-        // Strip ViaVersion corruption from PersistentDataContainer
         PersistentDataContainer pdc = mm.getPersistentDataContainer();
         for (NamespacedKey key : new ArrayList<>(pdc.getKeys())) {
             String k = key.toString();

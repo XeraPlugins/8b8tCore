@@ -22,11 +22,12 @@ public class DpsCommand extends BaseCommand {
             return;
         }
 
-        boolean current = database.getPreventPhantomSpawn(player.getName());
-        boolean newValue = !current;
-        database.updatePreventPhantomSpawn(player.getName(), newValue);
+        database.getPreventPhantomSpawnAsync(player.getName()).thenAccept(current -> {
+            boolean newValue = !current;
+            database.updatePreventPhantomSpawn(player.getName(), newValue);
 
-        String statusKey = newValue ? "dps_disabled" : "dps_enabled";
-        sendPrefixedLocalizedMessage(player, statusKey);
+            String statusKey = newValue ? "dps_disabled" : "dps_enabled";
+            sendPrefixedLocalizedMessage(player, statusKey);
+        });
     }
 }

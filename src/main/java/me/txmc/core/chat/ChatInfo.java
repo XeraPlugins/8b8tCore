@@ -30,6 +30,7 @@ public class ChatInfo {
     private int nameSpeed;
     private String nameDecorations;
     private boolean hideAnnouncements;
+    private volatile boolean dataLoaded = false;
 
     public ChatInfo(Player player, ChatSection manager, HashSet<UUID> ignoring, boolean toggledChat, boolean joinMessages) {
         this.player = player;
@@ -70,7 +71,41 @@ public class ChatInfo {
         manager.getChatInfoStore().save(this, player);
     }
 
+    private volatile net.kyori.adventure.text.Component cachedDisplayName;
+    private volatile long lastAnimTick = -1;
+    private final java.util.concurrent.ConcurrentHashMap<String, net.kyori.adventure.text.Component> animatedNameCache = new java.util.concurrent.ConcurrentHashMap<>();
+    private volatile String lastCacheKey;
+
     public net.kyori.adventure.text.Component getDisplayNameComponent() {
-        return me.txmc.core.util.GlobalUtils.parseDisplayName(player.getName(), nickname, nameGradient, nameAnimation, nameSpeed, nameDecorations);
+        return getDisplayNameComponent(me.txmc.core.util.GradientAnimator.getAnimationTick());
+    }
+
+    public synchronized net.kyori.adventure.text.Component getDisplayNameComponent(long animTick) {
+        if (animTick == lastAnimTick && cachedDisplayName != null) return cachedDisplayName;
+        
+        String currentGradient = me.txmc.core.util.GradientAnimator.applyAnimation(nameGradient, nameAnimation, nameSpeed, animTick);
+        String cacheKey = String.valueOf(nickname) + "|" + currentGradient + "|" + nameDecorations;
+        
+        if (cacheKey.equals(lastCacheKey) && cachedDisplayName != null) {
+            lastAnimTick = animTick;
+            return cachedDisplayName;
+        }
+
+        cachedDisplayName = animatedNameCache.get(cacheKey);
+        if (cachedDisplayName == null) {
+            cachedDisplayName = me.txmc.core.util.GlobalUtils.parseDisplayName(player.getName(), nickname, nameGradient, nameAnimation, nameSpeed, nameDecorations, animTick);
+            if (animatedNameCache.size() > 120) animatedNameCache.clear();
+            animatedNameCache.put(cacheKey, cachedDisplayName);
+        }
+        
+        lastCacheKey = cacheKey;
+        lastAnimTick = animTick;
+        return cachedDisplayName;
+    }
+
+    public synchronized void clearAnimatedNameCache() {
+        animatedNameCache.clear();
+        cachedDisplayName = null;
+        lastCacheKey = null;
     }
 }
