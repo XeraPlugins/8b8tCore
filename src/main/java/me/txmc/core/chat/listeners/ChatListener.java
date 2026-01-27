@@ -67,7 +67,7 @@ public class ChatListener implements Listener {
 
         int cooldown = manager.getConfig().getInt("Cooldown");
         if (ci.isChatLock() && !sender.isOp() && !sender.hasPermission("*")) {
-            sendPrefixedLocalizedMessage(sender, "chat_cooldown", cooldown);
+            sender.getScheduler().run(manager.getPlugin(), t -> sendPrefixedLocalizedMessage(sender, "chat_cooldown", cooldown), null);
             return;
         }
 
@@ -83,7 +83,7 @@ public class ChatListener implements Listener {
                 for (String oldMessage : messages) {
                     if (ogMessage.length() < 20) continue;
                     if (isSimilar(filterLongWords(oldMessage), filteredMessage)) {
-                        sendPrefixedLocalizedMessage(sender, "spam_alert");
+                        sender.getScheduler().run(manager.getPlugin(), t -> sendPrefixedLocalizedMessage(sender, "spam_alert"), null);
                         return;
                     }
                 }
@@ -92,35 +92,34 @@ public class ChatListener implements Listener {
             messages.add(ogMessage);
         }
 
-        if (blockedCheck(ogMessage) || ci.getMutedUntil() > Instant.now().getEpochSecond() || domainCheck(ogMessage)) {
-            Component message = formatMessage(ogMessage, sender.displayName(), sender, null, ci);
-            if (message != null) sender.sendMessage(message);
-            if (!blockedCheck(ogMessage) && !domainCheck(ogMessage)) return;
-            log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message (banned words/link)", senderName);
-            return;
-        }
+        sender.getScheduler().run(manager.getPlugin(), (task) -> {
+            if (!sender.isOnline()) return;
 
-        Component displayName = sender.displayName();
-        Component preparedMessage = formatMessage(ogMessage, displayName, sender, null, ci);
-        if (preparedMessage == null) return;
-
-        Bukkit.getLogger().info(GlobalUtils.getStringContent(preparedMessage));
-
-        Set<String> onlinePlayerNames = new HashSet<>();
-        for (Player p : Bukkit.getOnlinePlayers()) onlinePlayerNames.add(p.getName().toLowerCase());
-
-        String lowerMessage = ogMessage.toLowerCase();
-        for (Player recipient : Bukkit.getOnlinePlayers()) {
-            ChatInfo info = manager.getInfo(recipient);
-            if (info == null || info.isIgnoring(senderUUID) || info.isToggledChat()) continue;
-
-            if (lowerMessage.contains(recipient.getName().toLowerCase())) {
-                Component highlighted = formatMessageSimple(ogMessage, displayName, senderName, recipient.getName(), ci);
-                if (highlighted != null) recipient.sendMessage(highlighted);
-            } else {
-                recipient.sendMessage(preparedMessage);
+            if (blockedCheck(ogMessage) || ci.getMutedUntil() > Instant.now().getEpochSecond() || domainCheck(ogMessage)) {
+                Component senderComp = getSenderComponent(sender, ci);
+                sender.sendMessage(senderComp.append(Component.text(ogMessage, messageColor(ogMessage))));
+                if (!blockedCheck(ogMessage) && !domainCheck(ogMessage)) return;
+                log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message (banned words/link)", senderName);
+                return;
             }
-        }
+
+            Component senderComponent = getSenderComponent(sender, ci);
+
+            Bukkit.getLogger().info(senderName + ": " + ogMessage);
+
+            Bukkit.getGlobalRegionScheduler().run(manager.getPlugin(), (globalTask) -> {
+                Set<String> onlineNames = new HashSet<>();
+                for (Player p : Bukkit.getOnlinePlayers()) onlineNames.add(p.getName().toLowerCase());
+
+                for (Player recipient : Bukkit.getOnlinePlayers()) {
+                    ChatInfo recipientInfo = manager.getInfo(recipient);
+                    if (recipientInfo == null || recipientInfo.isIgnoring(senderUUID) || recipientInfo.isToggledChat()) continue;
+
+                    Component body = formatBody(ogMessage, recipient.getName(), onlineNames);
+                    recipient.sendMessage(senderComponent.append(body));
+                }
+            });
+        }, null);
     }
 
     private boolean isSimilar(String m1, String m2) {
@@ -130,27 +129,28 @@ public class ChatListener implements Listener {
         return similarityPercentage(m1, m2) >= SIMILARITY_THRESHOLD;
     }
 
-    private TextComponent formatMessageSimple(String message, Component displayName, String senderName, String mentionedPlayerName, ChatInfo ci) {
-        Component prefixComponent = prefixCache.computeIfAbsent(prefixManager.getPrefix(ci), miniMessage::deserialize);
-        Component nameComponent = prefixComponent
-                .append(Component.text("<").color(TextColor.color(170, 170, 170)))
-                .append(displayName.clickEvent(ClickEvent.suggestCommand("/msg " + senderName + " ")))
-                .append(Component.text("> ").color(TextColor.color(170, 170, 170)));
+    private TextColor messageColor(String message) {
+        return message.startsWith(">") ? NamedTextColor.GREEN : NamedTextColor.WHITE;
+    }
 
-        if (message.trim().isEmpty()) return null;
-        TextColor color = message.startsWith(">") ? NamedTextColor.GREEN : NamedTextColor.WHITE;
-
-        Component msgComponent = Component.text("");
+    private Component formatBody(String message, String recipientName, Set<String> onlineNames) {
+        TextColor baseColor = messageColor(message);
+        Component body = Component.empty();
         String[] words = message.split(" ");
-        for (String word : words) {
-            TextColor wordColor = color;
-            if (word.equalsIgnoreCase(mentionedPlayerName) || KEYWORDS.contains(word.toLowerCase())) {
-                wordColor = NamedTextColor.YELLOW;
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            String wordLower = word.toLowerCase();
+            TextColor color = baseColor;
+            
+            if (wordLower.equals(recipientName.toLowerCase()) || KEYWORDS.contains(wordLower)) {
+                color = NamedTextColor.YELLOW;
+            } else if (onlineNames.contains(wordLower)) {
+                color = baseColor; 
             }
-            msgComponent = msgComponent.append(Component.text(word + " ").color(wordColor));
+            
+            body = body.append(Component.text(word + (i == words.length - 1 ? "" : " ")).color(color));
         }
-
-        return (TextComponent) nameComponent.append(msgComponent);
+        return body;
     }
 
     private boolean domainCheck(String message) {
@@ -249,9 +249,7 @@ public class ChatListener implements Listener {
         return dist;
     }
 
-    public TextComponent formatMessage(String message, Component displayName, Player player, String mentionedPlayerName, ChatInfo ci) {
-        if (message.trim().isEmpty()) return null;
-
+    public Component getSenderComponent(Player player, ChatInfo ci) {
         Component hoverText = Component.text()
                 .append(player.displayName())
                 .append(Component.text("\n\n", NamedTextColor.GRAY))
@@ -271,28 +269,9 @@ public class ChatListener implements Listener {
                 .build();
 
         Component prefixComponent = prefixCache.computeIfAbsent(prefixManager.getPrefix(ci), miniMessage::deserialize);
-        Component nameComponent = prefixComponent
+        return prefixComponent
                 .append(Component.text("<").color(TextColor.color(170, 170, 170)))
-                .append(displayName.hoverEvent(HoverEvent.showText(hoverText)).clickEvent(ClickEvent.suggestCommand("/msg " + player.getName() + " ")))
+                .append(player.displayName().hoverEvent(HoverEvent.showText(hoverText)).clickEvent(ClickEvent.suggestCommand("/msg " + player.getName() + " ")))
                 .append(Component.text("> ").color(TextColor.color(170, 170, 170)));
-
-        TextColor color = message.startsWith(">") ? NamedTextColor.GREEN : NamedTextColor.WHITE;
-        Component msgComponent = Component.text("");
-        String[] words = message.split(" ");
-
-        Set<String> onlinePlayerNames = new HashSet<>();
-        for (Player p : Bukkit.getOnlinePlayers()) onlinePlayerNames.add(p.getName().toLowerCase());
-
-        for (String word : words) {
-            String wordLower = word.toLowerCase();
-            if (onlinePlayerNames.contains(wordLower)) {
-                msgComponent = msgComponent.append(Component.text(word + " ").color(wordLower.equals(mentionedPlayerName != null ? mentionedPlayerName.toLowerCase() : null) ? NamedTextColor.YELLOW : color));
-            } else if (KEYWORDS.contains(wordLower)) {
-                msgComponent = msgComponent.append(Component.text(word + " ").color(NamedTextColor.YELLOW));
-            } else {
-                msgComponent = msgComponent.append(Component.text(word + " ").color(color));
-            }
-        }
-        return (TextComponent) nameComponent.append(msgComponent);
     }
 }
