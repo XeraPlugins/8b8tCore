@@ -29,10 +29,12 @@ public class AntiIllegalMain implements Section {
     private final Main plugin;
     private final List<Check> checks;
     private ConfigurationSection config;
+    private final PlayerEffectCheck effectCheck;
 
     public AntiIllegalMain(Main plugin) {
         this.plugin = plugin;
         this.config = plugin.getSectionConfig(this);
+        this.effectCheck = new PlayerEffectCheck();
         this.checks = new ArrayList<>(Arrays.asList(
                 new OverStackCheck(),
                 new DurabilityCheck(),
@@ -43,7 +45,12 @@ public class AntiIllegalMain implements Section {
                 new LegacyTextCheck(),
                 new IllegalItemCheck(),
                 new IllegalDataCheck(),
-                new AntiPrefilledContainers()));
+                new AntiPrefilledContainers(),
+                effectCheck));
+    }
+
+    public PlayerEffectCheck getEffectCheck() {
+        return effectCheck;
     }
 
     @Override

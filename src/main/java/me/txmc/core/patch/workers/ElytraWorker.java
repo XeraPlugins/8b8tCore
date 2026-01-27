@@ -7,67 +7,69 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 import static me.txmc.core.util.GlobalUtils.*;
 
 /**
- * @author 254n_m
- * @since 2023/12/26 12:57 AM
+ * @author MindComplexity
+ * @since 2026/01/26
  * This file was created as a part of 8b8tCore
- */
+*/
 @RequiredArgsConstructor
 public class ElytraWorker implements Runnable {
     private final PatchSection main;
+    private final ConcurrentHashMap<UUID, Location> positions = new ConcurrentHashMap<>();
 
     @Override
     public void run() {
-
         final double MAX_SPEED_DEFAULT = main.config().getDouble("DefaultElytraMaxSpeedBlocksPerSecond", 128.0);
         final double MAX_SPEED_WITH_ENTITIES = main.config().getDouble("TileEntitiesElytraMaxSpeedBlocksPerSecond", 64.0);
 
-        try {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                Bukkit.getRegionScheduler().run(main.plugin(), player.getLocation(), (task) -> {
-                    try {
-                        if (!player.isGliding()) {
-                            main.positions().remove(player.getUniqueId());
-                            return;
-                        }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.getScheduler().run(main.plugin(), (task) -> {
+                if (!player.isOnline()) return;
 
-                        Location from = main.positions().getOrDefault(player.getUniqueId(), null);
-                        if (from == null) {
-                            main.positions().put(player.getUniqueId(), player.getLocation());
-                            return;
-                        }
+                UUID uuid = player.getUniqueId();
+                if (!player.isGliding()) {
+                    positions.remove(uuid);
+                    return;
+                }
 
-                        double speed = calcSpeed(from, player.getLocation());
-                        main.positions().replace(player.getUniqueId(), player.getLocation());
+                Location currentLoc = player.getLocation();
+                Location from = positions.get(uuid);
 
-                        Chunk playerChunk = player.getLocation().getChunk();
-                        if (speed > MAX_SPEED_WITH_ENTITIES &&
-                                playerChunk.getTileEntities().length > 128) {
-                            removeElytra(player);
-                            sendPrefixedLocalizedMessage(player, "elytra_tile_entities_too_fast", MAX_SPEED_WITH_ENTITIES);
-                        } else if (speed > MAX_SPEED_DEFAULT) {
-                            removeElytra(player);
-                            sendPrefixedLocalizedMessage(player, "elytra_too_fast", MAX_SPEED_DEFAULT);
-                        }
-                    } catch (Exception e) {
-                        log(Level.WARNING, "Error processing elytra check for " + player.getName() + ": " + e.getMessage());
+                if (from == null || !from.getWorld().equals(currentLoc.getWorld())) {
+                    positions.put(uuid, currentLoc.clone());
+                    return;
+                }
+
+                double speed = calcSpeed(from, currentLoc);
+                positions.put(uuid, currentLoc.clone());
+
+                if (speed > MAX_SPEED_WITH_ENTITIES) {
+                    if (currentLoc.getChunk().getTileEntities().length > 128) {
+                        handleViolation(player, "elytra_tile_entities_too_fast", MAX_SPEED_WITH_ENTITIES);
+                        return;
                     }
-                });
-            }
-        } catch (Exception ex) {
-            log(Level.SEVERE, "An error occurred in ElytraWorker: %s", ex.getMessage());
-            ex.printStackTrace();
+                }
+
+                if (speed > MAX_SPEED_DEFAULT) {
+                    handleViolation(player, "elytra_too_fast", MAX_SPEED_DEFAULT);
+                }
+            }, null);
         }
     }
 
+    private void handleViolation(Player player, String messageKey, double speed) {
+        removeElytra(player); 
+        sendPrefixedLocalizedMessage(player, messageKey, speed);
+    }
+
     private double calcSpeed(Location from, Location to) {
-        double deltaX = to.getX() - from.getX();
-        double deltaZ = to.getZ() - from.getZ();
-        return Math.hypot(deltaX, deltaZ);
+        // Pythagoras without the square root is faster, but hypot is fine if called rarely
+        return Math.hypot(to.getX() - from.getX(), to.getZ() - from.getZ());
     }
 }
-

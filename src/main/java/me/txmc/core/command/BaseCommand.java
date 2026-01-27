@@ -66,5 +66,9 @@ public abstract class BaseCommand {
         } else return Optional.empty();
     }
 
+    public String getPermission() {
+        return (permissions != null && permissions.length > 1) ? permissions[0] : (permissions != null && permissions.length == 1) ? permissions[0] : null;
+    }
+
     public abstract void execute(CommandSender sender, String[] args);
 }

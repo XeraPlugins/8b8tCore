@@ -88,12 +88,12 @@ public class IllegalDataCheck implements Check {
                 return true;
             }
 
-            if (item.getType() == Material.FILLED_MAP && item.hasItemMeta() && item.getItemMeta() instanceof MapMeta mm) {
-                 PersistentDataContainer pdc = mm.getPersistentDataContainer();
-                 for (NamespacedKey key : pdc.getKeys()) {
-                     if (key.toString().contains("VV|") || key.toString().contains("Protocol")) return true;
-                 }
-            }
+            //if (item.getType() == Material.FILLED_MAP && item.hasItemMeta() && item.getItemMeta() instanceof MapMeta mm) {
+            //     PersistentDataContainer pdc = mm.getPersistentDataContainer();
+            //     for (NamespacedKey key : pdc.getKeys()) {
+            //         if (key.toString().contains("VV|") || key.toString().contains("Protocol")) return true;
+            //     }
+            //}
             
         } catch (Exception e) {
             return false;
@@ -180,9 +180,9 @@ public class IllegalDataCheck implements Check {
                 item.unsetData(DataComponentTypes.TOOL);
             }
 
-            if (item.getType() == Material.FILLED_MAP) {
-                 sanitizeCrashMap(item);
-            }
+            //if (item.getType() == Material.FILLED_MAP) {
+            //     sanitizeCrashMap(item);
+            // }
             
         } catch (Exception ignored) {}
     }
@@ -235,7 +235,6 @@ public class IllegalDataCheck implements Check {
     
     private void fixWaterloggedState(ItemStack item) {
         if (!item.getType().isBlock()) return;
-        
         try {
             if (hasIllegalWaterloggedState(item)) {
                 item.unsetData(DataComponentTypes.BLOCK_DATA);
@@ -305,19 +304,21 @@ public class IllegalDataCheck implements Check {
         }
         return maxDepth;
     }
-    private ItemStack sanitizeCrashMap(ItemStack item) {
-        if (item.getType() != Material.FILLED_MAP) return item;
-        if (!(item.getItemMeta() instanceof MapMeta mm)) return item;
-        
-        PersistentDataContainer pdc = mm.getPersistentDataContainer();
-        for (NamespacedKey key : new ArrayList<>(pdc.getKeys())) {
-            String k = key.toString();
-            if (k.contains("VV|") || k.contains("Protocol") || k.contains("original_hashes")) {
-                pdc.remove(key);
-            }
-        }
-        
-        item.setItemMeta(mm);
-        return item;
-    }
+    // this doesn't solve the problem the map crashs are stuck in the map renderer.
+    // Todo: check map renderer for malformed data.
+    // private ItemStack sanitizeCrashMap(ItemStack item) {
+    //    if (item.getType() != Material.FILLED_MAP) return item;
+    //     if (!(item.getItemMeta() instanceof MapMeta mm)) return item;
+    //    
+    //     PersistentDataContainer pdc = mm.getPersistentDataContainer();
+    //     for (NamespacedKey key : new ArrayList<>(pdc.getKeys())) {
+    //         String k = key.toString();
+    //         if (k.contains("VV|") || k.contains("Protocol") || k.contains("original_hashes")) {
+    //            pdc.remove(key);
+    //        }
+    //    }
+    //    
+    //    item.setItemMeta(mm);
+    //    return item;
+    // }
 }
