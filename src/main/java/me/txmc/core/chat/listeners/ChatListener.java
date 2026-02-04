@@ -40,9 +40,12 @@ public class ChatListener implements Listener {
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
     private final GeneralDatabase database;
 
-    private final Map<UUID, LinkedList<String>> playerMessages = new ConcurrentHashMap<>();
+    private final Map<UUID, List<String>> playerMessages = new ConcurrentHashMap<>();
+    private final Map<String, Component> prefixCache = new ConcurrentHashMap<>();
     private static final double SIMILARITY_THRESHOLD = 0.8;
     private static final int MESSAGE_HISTORY = 3;
+
+    private static final Set<String> KEYWORDS = Set.of("@here", "@everyone", "here", "everyone");
 
     public ChatListener(ChatSection manager, HashSet<String> tlds) {
         this.manager = manager;
@@ -54,146 +57,100 @@ public class ChatListener implements Listener {
     public void onChat(AsyncChatEvent event) {
         if (service == null) service = manager.getPlugin().getExecutorService();
         event.setCancelled(true);
-        
+
         Player sender = event.getPlayer();
         UUID senderUUID = sender.getUniqueId();
         String senderName = sender.getName();
-        
-        int cooldown = manager.getConfig().getInt("Cooldown");
         ChatInfo ci = manager.getInfo(sender);
-        
-        if (ci == null) {
-            log(Level.WARNING, "ChatInfo is null for player %s", senderName);
-            return;
-        }
-        
+
+        if (ci == null) return;
+
+        int cooldown = manager.getConfig().getInt("Cooldown");
         if (ci.isChatLock() && !sender.isOp() && !sender.hasPermission("*")) {
-            sendPrefixedLocalizedMessage(sender, "chat_cooldown", cooldown);
+            sender.getScheduler().run(manager.getPlugin(), t -> sendPrefixedLocalizedMessage(sender, "chat_cooldown", cooldown), null);
             return;
         }
-        
+
         ci.setChatLock(true);
         service.schedule(() -> ci.setChatLock(false), cooldown, TimeUnit.SECONDS);
 
         String ogMessage = GlobalUtils.getStringContent(event.message());
+        String filteredMessage = filterLongWords(ogMessage);
 
-        LinkedList<String> messages = playerMessages.computeIfAbsent(senderUUID, k -> new LinkedList<>());
-
+        List<String> messages = playerMessages.computeIfAbsent(senderUUID, k -> new ArrayList<>());
         synchronized (messages) {
             if (!sender.isOp() && !sender.hasPermission("*")) {
                 for (String oldMessage : messages) {
                     if (ogMessage.length() < 20) continue;
-                    if (similarityPercentage(filterLongWords(oldMessage), filterLongWords(ogMessage)) >= SIMILARITY_THRESHOLD) {
-                        sendPrefixedLocalizedMessage(sender, "spam_alert");
+                    if (isSimilar(filterLongWords(oldMessage), filteredMessage)) {
+                        sender.getScheduler().run(manager.getPlugin(), t -> sendPrefixedLocalizedMessage(sender, "spam_alert"), null);
                         return;
                     }
                 }
             }
-
-            if (messages.size() >= MESSAGE_HISTORY) {
-                messages.removeFirst();
-            }
-            messages.addLast(ogMessage);
+            if (messages.size() >= MESSAGE_HISTORY) messages.remove(0);
+            messages.add(ogMessage);
         }
 
-        if (blockedCheck(ogMessage)) {
-            sender.getScheduler().run(manager.getPlugin(), task -> {
-                if (!sender.isOnline()) return;
-                Component message = formatMessage(ogMessage, sender.displayName(), sender, null, ci);
-                if (message != null) sender.sendMessage(message);
-            }, null);
-            log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message that has banned words", senderName);
-            return;
-        }
-
-        if (ci.getMutedUntil() > Instant.now().getEpochSecond()) {
-            sender.getScheduler().run(manager.getPlugin(), task -> {
-                if (!sender.isOnline()) return;
-                Component message = formatMessage(ogMessage, sender.displayName(), sender, null, ci);
-                if (message != null) sender.sendMessage(message);
-            }, null);
-            return;
-        }
-
-        if (domainCheck(ogMessage)) {
-            sender.getScheduler().run(manager.getPlugin(), task -> {
-                if (!sender.isOnline()) return;
-                Component message = formatMessage(ogMessage, sender.displayName(), sender, null, ci);
-                if (message != null) sender.sendMessage(message);
-            }, null);
-            log(Level.INFO, "&3Prevented player&r&a %s&r&3 from sending a link / server ip", senderName);
-            return;
-        }
-
-        sender.getScheduler().run(manager.getPlugin(), task -> {
+        sender.getScheduler().run(manager.getPlugin(), (task) -> {
             if (!sender.isOnline()) return;
-            
-            Component displayName = sender.displayName();
-            Component message = formatMessage(ogMessage, displayName, sender, null, ci);
-            if (message == null) return;
 
-            Bukkit.getLogger().info(GlobalUtils.getStringContent(message));
-
-            List<UUID> recipientUUIDs = new ArrayList<>();
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                recipientUUIDs.add(p.getUniqueId());
+            if (blockedCheck(ogMessage) || ci.getMutedUntil() > Instant.now().getEpochSecond() || domainCheck(ogMessage)) {
+                Component senderComp = getSenderComponent(sender, ci);
+                sender.sendMessage(senderComp.append(Component.text(ogMessage, messageColor(ogMessage))));
+                if (!blockedCheck(ogMessage) && !domainCheck(ogMessage)) return;
+                log(Level.INFO, "&3Prevented&r&a %s&r&3 from sending a message (banned words/link)", senderName);
+                return;
             }
 
-            for (UUID recipientUUID : recipientUUIDs) {
-                Player recipient = Bukkit.getPlayer(recipientUUID);
-                if (recipient == null || !recipient.isOnline()) continue;
+            Component senderComponent = getSenderComponent(sender, ci);
 
-                recipient.getScheduler().run(manager.getPlugin(), recipientTask -> {
-                    Player r = Bukkit.getPlayer(recipientUUID);
-                    if (r == null || !r.isOnline()) return;
+            Bukkit.getLogger().info(senderName + ": " + ogMessage);
 
-                    ChatInfo info = manager.getInfo(r);
-                    if (info == null || info.isIgnoring(senderUUID) || info.isToggledChat()) return;
+            Bukkit.getGlobalRegionScheduler().run(manager.getPlugin(), (globalTask) -> {
+                Set<String> onlineNames = new HashSet<>();
+                for (Player p : Bukkit.getOnlinePlayers()) onlineNames.add(p.getName().toLowerCase());
 
-                    String lowerMessage = ogMessage.toLowerCase();
-                    if (lowerMessage.contains(r.getName().toLowerCase())) {
-                        TextComponent highlightedMessage = formatMessageSimple(ogMessage, displayName, senderName, r.getName(), ci);
-                        if (highlightedMessage != null) r.sendMessage(highlightedMessage);
-                    } else {
-                        r.sendMessage(message);
-                    }
-                }, null);
-            }
+                for (Player recipient : Bukkit.getOnlinePlayers()) {
+                    ChatInfo recipientInfo = manager.getInfo(recipient);
+                    if (recipientInfo == null || recipientInfo.isIgnoring(senderUUID) || recipientInfo.isToggledChat()) continue;
+
+                    Component body = formatBody(ogMessage, recipient.getName(), onlineNames);
+                    recipient.sendMessage(senderComponent.append(body));
+                }
+            });
         }, null);
     }
 
-    private TextComponent formatMessageSimple(String message, Component displayName, String senderName, String mentionedPlayerName, ChatInfo ci) {
-        String prefix = prefixManager.getPrefix(ci);
-        Component prefixComponent = miniMessage.deserialize(prefix);
+    private boolean isSimilar(String m1, String m2) {
+        int l1 = m1.length();
+        int l2 = m2.length();
+        if (Math.abs(l1 - l2) > Math.max(l1, l2) * (1.0 - SIMILARITY_THRESHOLD)) return false;
+        return similarityPercentage(m1, m2) >= SIMILARITY_THRESHOLD;
+    }
 
-        Component nameComponent = prefixComponent
-                .append(Component.text("<").color(TextColor.color(170, 170, 170)))
-                .append(displayName.clickEvent(ClickEvent.suggestCommand("/msg " + senderName + " ")))
-                .append(Component.text("> ").color(TextColor.color(170, 170, 170)));
+    private TextColor messageColor(String message) {
+        return message.startsWith(">") ? NamedTextColor.GREEN : NamedTextColor.WHITE;
+    }
 
-        NamedTextColor colorMessage = NamedTextColor.WHITE;
-        if (message.startsWith(">")) {
-            colorMessage = NamedTextColor.GREEN;
-        }
-
-        if (message.trim().isEmpty()) return null;
-
-        Component msgComponent = Component.text("");
+    private Component formatBody(String message, String recipientName, Set<String> onlineNames) {
+        TextColor baseColor = messageColor(message);
+        Component body = Component.empty();
         String[] words = message.split(" ");
-
-        for (String word : words) {
-            Component wordComp;
-            if (mentionedPlayerName != null && word.equalsIgnoreCase(mentionedPlayerName)) {
-                wordComp = Component.text(word + " ").color(NamedTextColor.YELLOW);
-            } else if (word.matches("(?i)@?here|@?everyone")) {
-                wordComp = Component.text(word + " ").color(NamedTextColor.YELLOW);
-            } else {
-                wordComp = Component.text(word + " ").color(colorMessage);
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            String wordLower = word.toLowerCase();
+            TextColor color = baseColor;
+            
+            if (wordLower.equals(recipientName.toLowerCase()) || KEYWORDS.contains(wordLower)) {
+                color = NamedTextColor.YELLOW;
+            } else if (onlineNames.contains(wordLower)) {
+                color = baseColor; 
             }
-            msgComponent = msgComponent.append(wordComp);
+            
+            body = body.append(Component.text(word + (i == words.length - 1 ? "" : " ")).color(color));
         }
-
-        return (TextComponent) nameComponent.append(msgComponent);
+        return body;
     }
 
     private boolean domainCheck(String message) {
@@ -244,115 +201,77 @@ public class ChatListener implements Listener {
     }
 
     private int levenshteinDistance(String str1, String str2) {
-        int len1 = str1.length();
-        int len2 = str2.length();
-        int[][] dp = new int[len1 + 1][len2 + 1];
+        int n = str1.length();
+        int m = str2.length();
+        if (n < m) return levenshteinDistance(str2, str1);
+        if (m == 0) return n;
+        if (m <= 64) return myersDistance(str1, str2);
 
-        for (int i = 0; i <= len1; i++) {
-            for (int j = 0; j <= len2; j++) {
-                if (i == 0) {
-                    dp[i][j] = j;
-                } else if (j == 0) {
-                    dp[i][j] = i;
+        int[] curr = new int[m + 1];
+        for (int j = 0; j <= m; j++) curr[j] = j;
+
+        for (int i = 1; i <= n; i++) {
+            int prev = curr[0];
+            curr[0] = i;
+            for (int j = 1; j <= m; j++) {
+                int temp = curr[j];
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    curr[j] = prev;
                 } else {
-                    int cost = (str1.charAt(i - 1) == str2.charAt(j - 1)) ? 0 : 1;
-                    dp[i][j] = Math.min(Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1), dp[i - 1][j - 1] + cost);
+                    curr[j] = Math.min(Math.min(curr[j - 1], curr[j]), prev) + 1;
                 }
+                prev = temp;
             }
         }
-        return dp[len1][len2];
+        return curr[m];
     }
 
-    public TextComponent formatMessage(String message, Component displayName, Player player, String mentionedPlayerName, ChatInfo ci) {
+    private int myersDistance(String str1, String str2) {
+        int n = str1.length();
+        int m = str2.length();
+        long peq[] = new long[256];
+        for (int i = 0; i < m; i++) peq[str2.charAt(i) & 0xFF] |= (1L << i);
+        long pv = -1L, mv = 0;
+        int dist = m;
+        for (int i = 0; i < n; i++) {
+            long eq = peq[str1.charAt(i) & 0xFF];
+            long xv = eq | mv;
+            long xh = (((eq & pv) + pv) ^ pv) | eq;
+            long ph = mv | ~(xh | pv);
+            long mh = pv & xh;
+            if ((ph & (1L << (m - 1))) != 0) dist++;
+            if ((mh & (1L << (m - 1))) != 0) dist--;
+            ph = (ph << 1) | 1L;
+            mh = (mh << 1);
+            pv = mh | ~(ph | xv);
+            mv = ph & xv;
+        }
+        return dist;
+    }
 
-        int exp = player.getLevel();
-        String lang = player.locale().getLanguage();
-        int distanceWalked = player.getStatistic(Statistic.WALK_ONE_CM) + player.getStatistic(Statistic.SPRINT_ONE_CM);
-        int playerKills = player.getStatistic(Statistic.PLAYER_KILLS);
-        int playerDeaths = player.getStatistic(Statistic.DEATHS);
-        int timePlayedTicks = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
-
-        double distanceWalkedKm = distanceWalked / 100000.0;
-        double timePlayedHours = timePlayedTicks / 20.0 / 3600.0;
-
-        DecimalFormat df = new DecimalFormat("#.##");
-        String distanceWalkedFormatted = df.format(distanceWalkedKm);
-        String timePlayedFormatted = df.format(timePlayedHours);
-
+    public Component getSenderComponent(Player player, ChatInfo ci) {
         Component hoverText = Component.text()
                 .append(player.displayName())
                 .append(Component.text("\n\n", NamedTextColor.GRAY))
                 .append(Component.text("Lang: ").color(TextColor.fromHexString("#FFD700")))
-                .append(Component.text(lang + "\n", NamedTextColor.LIGHT_PURPLE))
+                .append(Component.text(player.locale().getLanguage() + "\n", NamedTextColor.LIGHT_PURPLE))
                 .append(Component.text("Experience: ").color(TextColor.fromHexString("#FFD700")))
-                .append(Component.text(exp + "\n", NamedTextColor.GREEN))
+                .append(Component.text(player.getLevel() + "\n", NamedTextColor.GREEN))
                 .append(Component.text("Distance Walked: ").color(TextColor.fromHexString("#FFD700")))
-                .append(Component.text(distanceWalkedFormatted + " km\n", NamedTextColor.BLUE))
+                .append(Component.text(String.format("%.2f", (player.getStatistic(Statistic.WALK_ONE_CM) + player.getStatistic(Statistic.SPRINT_ONE_CM)) / 100000.0) + " km\n", NamedTextColor.BLUE))
                 .append(Component.text("Player Kills: ").color(TextColor.fromHexString("#FFD700")))
-                .append(Component.text(playerKills + "\n", NamedTextColor.RED))
+                .append(Component.text(player.getStatistic(Statistic.PLAYER_KILLS) + "\n", NamedTextColor.RED))
                 .append(Component.text("Player Deaths: ").color(TextColor.fromHexString("#FFD700")))
-                .append(Component.text(playerDeaths + "\n", NamedTextColor.RED))
+                .append(Component.text(player.getStatistic(Statistic.DEATHS) + "\n", NamedTextColor.RED))
                 .append(Component.text("Time Played: ").color(TextColor.fromHexString("#FFD700")))
-                .append(Component.text(timePlayedFormatted + " hours\n", NamedTextColor.YELLOW))
+                .append(Component.text(String.format("%.2f", player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20.0 / 3600.0) + " hours\n", NamedTextColor.YELLOW))
                 .append(Component.text("\n(Click to send a direct message)").color(NamedTextColor.GRAY))
                 .build();
 
-        String prefix = prefixManager.getPrefix(ci);
-        Component prefixComponent = miniMessage.deserialize(prefix);
-
-        Component nameComponent = prefixComponent
+        Component prefixComponent = prefixCache.computeIfAbsent(prefixManager.getPrefix(ci), miniMessage::deserialize);
+        return prefixComponent
                 .append(Component.text("<").color(TextColor.color(170, 170, 170)))
-                .append(displayName
-                        .hoverEvent(HoverEvent.showText(hoverText))
-                        .clickEvent(ClickEvent.suggestCommand("/msg " + player.getName() + " ")))
+                .append(player.displayName().hoverEvent(HoverEvent.showText(hoverText)).clickEvent(ClickEvent.suggestCommand("/msg " + player.getName() + " ")))
                 .append(Component.text("> ").color(TextColor.color(170, 170, 170)));
-
-        boolean isGreentext = message.startsWith(">");
-        NamedTextColor keywordColor = NamedTextColor.YELLOW;
-        NamedTextColor normalColor = isGreentext ? NamedTextColor.GREEN : NamedTextColor.WHITE;
-
-        NamedTextColor colorMessage = NamedTextColor.WHITE;
-
-        if(message.startsWith(">")){
-            colorMessage = NamedTextColor.GREEN;
-        }
-
-        if (message.trim().isEmpty()) return null;
-
-        Component msgComponent = Component.text("");
-        String[] words = message.split(" ");
-
-        for (String word : words) {
-            boolean isPlayerName = false;
-
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                if (word.equalsIgnoreCase(onlinePlayer.getName())) {
-                    Component mentionedNameComponent = onlinePlayer.name();
-
-                    mentionedNameComponent = mentionedNameComponent.color(colorMessage);
-                    if(mentionedPlayerName != null){
-                        if(onlinePlayer.getName().equals(mentionedPlayerName)){
-                            mentionedNameComponent = mentionedNameComponent.color(NamedTextColor.YELLOW);
-                        }
-                    }
-
-                    msgComponent = msgComponent.append(mentionedNameComponent).append(Component.text(" "));
-                    isPlayerName = true;
-                    break;
-                }
-            }
-
-            if (!isPlayerName) {
-                Component wordComp = Component.text(word + " ");
-                if (word.matches("(?i)@?here|@?everyone")) {
-                    wordComp = wordComp.color(NamedTextColor.YELLOW);
-                } else if (normalColor != NamedTextColor.WHITE) {
-                    wordComp = wordComp.color(normalColor);
-                }
-                msgComponent = msgComponent.append(wordComp);
-            }
-        }
-
-        return (TextComponent) nameComponent.append(msgComponent);
     }
 }

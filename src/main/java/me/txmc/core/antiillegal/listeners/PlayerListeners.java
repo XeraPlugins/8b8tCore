@@ -2,12 +2,15 @@ package me.txmc.core.antiillegal.listeners;
 
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.antiillegal.AntiIllegalMain;
-import me.txmc.core.antiillegal.check.Check;
+import me.txmc.core.antiillegal.check.checks.PlayerEffectCheck;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -19,66 +22,68 @@ import static me.txmc.core.antiillegal.util.Utils.checkStand;
 import static me.txmc.core.util.GlobalUtils.executeCommand;
 
 /**
- * @author 254n_m
- * @since 2023/10/15 4:32 AM
+ * @author MindComplexity
+ * @since 2026/01/26
  * This file was created as a part of 8b8tAntiIllegal
- */
+*/
 @RequiredArgsConstructor
 public class PlayerListeners implements Listener {
     private final AntiIllegalMain main;
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onJoin(PlayerJoinEvent event) {
-        PlayerInventory inventory = event.getPlayer().getInventory();
-        for (ItemStack item : inventory.getContents()) {
-            main.checkFixItem(item, null);
+        Player player = event.getPlayer();
+
+        PlayerEffectCheck effectCheck = main.getEffectCheck();
+        if (effectCheck != null) {
+            effectCheck.fixPlayerEffects(player);
         }
-        for (ItemStack item : inventory.getArmorContents()) {
-            main.checkFixItem(item, null);
+
+        PlayerInventory inv = player.getInventory();
+        main.checkFixItem(inv.getItemInMainHand(), null);
+        main.checkFixItem(inv.getItemInOffHand(), null);
+        
+        for (ItemStack armor : inv.getArmorContents()) {
+            if (armor != null) main.checkFixItem(armor, null);
         }
-        for (ItemStack item : inventory.getExtraContents()) {
-            main.checkFixItem(item, null);
-        }
-        for (ItemStack item : event.getPlayer().getEnderChest()) {
-            main.checkFixItem(item, null);
-        }
-        for (PotionEffect effect : event.getPlayer().getActivePotionEffects()) {
-            event.getPlayer().removePotionEffect(effect.getType());
-        }
-        main.checkFixItem(inventory.getItemInOffHand(), null);
+        
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onEnderChestOpen(InventoryOpenEvent event) {
+        if (event.getInventory().getType() == InventoryType.ENDER_CHEST) {
+            for (ItemStack item : event.getInventory().getContents()) {
+                if (item != null) main.checkFixItem(item, null);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onDropItem(PlayerDropItemEvent event) {
-        ItemStack itemStack = event.getItemDrop().getItemStack();
-        for (Check check : main.checks()) {
-            if (!check.check(itemStack)) continue;
-            //GlobalUtils.log(Level.INFO, "Item %s failed the %s check and has been fixed.", itemStack, check.getClass().getSimpleName());
-            check.fix(itemStack);
-            event.getItemDrop().setItemStack(itemStack);
-        }
+        main.checkFixItem(event.getItemDrop().getItemStack(), null);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onOffhand(PlayerSwapHandItemsEvent event) {
         main.checkFixItem(event.getMainHandItem(), event);
         main.checkFixItem(event.getOffHandItem(), event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPickup(PlayerAttemptPickupItemEvent event) {
         main.checkFixItem(event.getItem().getItemStack(), null);
     }
 
-    @EventHandler
-    public void onEntityInteract(PlayerInteractEntityEvent event) {
-        if (!(event.getRightClicked() instanceof ArmorStand)) return;
-        checkStand((ArmorStand) event.getRightClicked(), main);
-    }
-
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent event) {
         if (event.getItem() == null) return;
         main.checkFixItem(event.getItem(), event);
+    }
+
+    @EventHandler
+    public void onEntityInteract(PlayerInteractEntityEvent event) {
+        if (event.getRightClicked() instanceof ArmorStand stand) {
+            checkStand(stand, main);
+        }
     }
 }

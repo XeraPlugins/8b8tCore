@@ -49,20 +49,18 @@ public class PlayerEffectListener implements Listener {
         }
     }
     
-    private void checkAndFixPlayerEffects(Player player) {
-        if (effectCheck.checkPlayerEffects(player)) {
-            effectCheck.fixPlayerEffects(player);
-        }
-    }
-    
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         checkPlayer(event.getPlayer());
     }
-    
+
     public void checkPlayer(Player player) {
         if (player != null && player.isValid() && !player.isDead()) {
-            checkAndFixPlayerEffects(player);
+            player.getScheduler().run(plugin, task -> {
+                if (player.isOnline()) {
+                    effectCheck.fixPlayerEffects(player);
+                }
+            }, null);
         }
     }
     

@@ -3,6 +3,7 @@ package me.txmc.core.patch.tasks;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.plugin.java.JavaPlugin;
+import me.txmc.core.antiillegal.IllegalConstants;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -26,7 +27,9 @@ public class EndExitPortalBuilder implements Runnable {
                 .findFirst().orElse(null);
         if (endWorld == null) return;
 
-        int centerX = 0, centerY = 59, centerZ = 0;
+        int centerX = IllegalConstants.EXIT_PORTAL_X;
+        int centerY = IllegalConstants.EXIT_PORTAL_Y_MIN + 1;
+        int centerZ = IllegalConstants.EXIT_PORTAL_Z;
 
         Set<ChunkCoord> neededChunks = getNeededChunks(centerX, centerZ);
 
@@ -90,15 +93,14 @@ public class EndExitPortalBuilder implements Runnable {
 
     private Set<ChunkCoord> getNeededChunks(int centerX, int centerZ) {
         Set<ChunkCoord> chunks = new HashSet<>();
-
-        for (int dx = -3; dx <= 3; dx++) {
-            for (int dz = -3; dz <= 3; dz++) {
+        int r = IllegalConstants.EXIT_PORTAL_RADIUS; 
+        for (int dx = -r; dx <= r; dx++) {
+            for (int dz = -r; dz <= r; dz++) {
                 int blockX = centerX + dx;
                 int blockZ = centerZ + dz;
                 chunks.add(new ChunkCoord(blockX >> 4, blockZ >> 4));
             }
         }
-
         return chunks;
     }
 

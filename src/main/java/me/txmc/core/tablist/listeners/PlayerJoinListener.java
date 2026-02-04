@@ -16,6 +16,8 @@ public class PlayerJoinListener implements Listener {
     private final TabSection main;
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        main.setTab(event.getPlayer());
+        event.getPlayer().getScheduler().runDelayed(main.getPlugin(), task -> {
+            if (event.getPlayer().isOnline()) main.setTab(event.getPlayer());
+        }, null, 5L);
     }
 }

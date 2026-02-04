@@ -6,26 +6,22 @@ import lombok.RequiredArgsConstructor;
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.regex.Pattern;
-
 /**
  * @author MindComplexity
  * @since 2026/01/04
- * This file was created as a part of 8b8tAntiIllegal
+ * Strict Name & EntityData check to prevent client-side crashes and overflows.
  */
-
 @RequiredArgsConstructor
 public class NameCheck implements Check {
 
     private final ConfigurationSection config;
-
     private static final int STRICT_MAX_LENGTH = 255;
     private static final int MAX_JSON_LENGTH = 8192;
 
@@ -34,60 +30,58 @@ public class NameCheck implements Check {
 
     @Override
     public boolean check(ItemStack item) {
-        if (item == null) return false;
+        if (item == null || item.getType() == Material.AIR) return false;
 
-        if (hasIllegalEntityData(item)) return true;
+        if (item.hasData(ENTITY_DATA)) return true;
 
         if (!item.hasItemMeta()) return false;
 
         ItemMeta meta = item.getItemMeta();
-        if (meta == null || meta.displayName() == null) return false;
+        if (meta == null || !meta.hasDisplayName()) return false;
 
-        Component name = meta.displayName();
-
-        return isIllegalNameContent(name);
+        return isIllegalNameContent(meta.displayName());
     }
 
     @Override
     public boolean shouldCheck(ItemStack item) {
-        return true;
+        return item != null && (item.hasItemMeta() || item.hasData(ENTITY_DATA));
     }
 
     @Override
     public void fix(ItemStack item) {
         if (item == null) return;
 
-        if (hasIllegalEntityData(item)) {
+        if (item.hasData(ENTITY_DATA)) {
             item.unsetData(ENTITY_DATA);
         }
 
         if (!item.hasItemMeta()) return;
 
         ItemMeta meta = item.getItemMeta();
-        if (meta == null || meta.displayName() == null) return;
-
-        Component name = meta.displayName();
-
-        if (!isIllegalNameContent(name)) return;
-
-        meta.displayName(null);
-        item.setItemMeta(meta);
+        if (meta != null && meta.hasDisplayName()) {
+            if (isIllegalNameContent(meta.displayName())) {
+                meta.displayName(null);
+                item.setItemMeta(meta);
+            }
+        }
     }
 
     private boolean isIllegalNameContent(Component component) {
-        String json = GsonComponentSerializer.gson().serialize(component);
-        if (json.length() > MAX_JSON_LENGTH) return true;
+        if (component == null) return false;
 
+        // Check Length First before running the expensive serialization call.
         String content = GlobalUtils.getStringContent(component);
         if (content.length() > STRICT_MAX_LENGTH) return true;
-        
-        return content.codePoints().anyMatch(cp -> 
-                Character.isISOControl(cp) || 
-                Character.getType(cp) == Character.PRIVATE_USE
-        );
-    }
 
-    private boolean hasIllegalEntityData(ItemStack item) {
-        return item.hasData(ENTITY_DATA);
+        for (int i = 0; i < content.length(); ) {
+            int cp = content.codePointAt(i);
+            if (Character.isISOControl(cp) || Character.getType(cp) == Character.PRIVATE_USE) {
+                return true;
+            }
+            i += Character.charCount(cp);
+        }
+
+        String json = GsonComponentSerializer.gson().serialize(component);
+        return json.length() > MAX_JSON_LENGTH;
     }
 }

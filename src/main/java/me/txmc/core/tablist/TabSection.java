@@ -15,6 +15,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * @author MindComplexity (aka Libalpm)
@@ -22,24 +25,40 @@ import org.bukkit.entity.Player;
  * This file was created as a part of 8b8tCore
 */
 
+@RequiredArgsConstructor
 public class TabSection implements Section {
     private final Main plugin;
     private ConfigurationSection config;
     private final PrefixManager prefixManager = new PrefixManager();
     private long tickCount = 0;
 
-    public TabSection(Main plugin) {
-        this.plugin = plugin;
-    }
+    private me.txmc.core.chat.ChatSection cachedChatSection;
 
     @Override
     public void enable() {
         config = plugin.getSectionConfig(this);
+        int interval = (config != null) ? config.getInt("UpdateInterval", 1) : 1;
+        if (interval < 1) interval = 1;
+
         Bukkit.getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
-            tickCount++;
-            boolean updatePlaceholders = (tickCount % 10 == 0);
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                setTab(p, updatePlaceholders);
+            try {
+                tickCount++;
+                if (tickCount % 4 == 0) return;
+
+                if (cachedChatSection == null) {
+                    cachedChatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
+                    if (cachedChatSection == null) return;
+                }
+
+                boolean updatePlaceholders = (tickCount % 10 == 0); 
+                long animTick = me.txmc.core.util.GradientAnimator.getAnimationTick();
+                
+                java.util.Map<String, Component> prefixCache = new java.util.HashMap<>();
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    setTab(p, updatePlaceholders, animTick, prefixCache);
+                }
+            } catch (Throwable t) {
+                plugin.getLogger().warning("Error in TabList update task: " + t.getMessage());
             }
         }, 1L, 1L);
         plugin.register(new PlayerJoinListener(this));
@@ -64,11 +83,13 @@ public class TabSection implements Section {
         return plugin;
     }
 
-    public void setTab(Player player, boolean updatePlaceholders) {
-        me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
-        if (chatSection == null) return;
-        me.txmc.core.chat.ChatInfo info = chatSection.getInfo(player);
-        if (info == null) return;
+    public void setTab(Player player, boolean updatePlaceholders, long animTick, java.util.Map<String, Component> prefixCache) {
+        if (cachedChatSection == null) {
+            cachedChatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
+        }
+        if (cachedChatSection == null) return;
+        me.txmc.core.chat.ChatInfo info = cachedChatSection.getInfo(player);
+        if (info == null || !info.isDataLoaded()) return;
 
         if (info.isUseVanillaLeaderboard()) {
             player.sendPlayerListHeader(Component.empty());
@@ -77,14 +98,15 @@ public class TabSection implements Section {
             return;
         }
 
-        Component displayNameComponent = info.getDisplayNameComponent();
-        player.displayName(displayNameComponent);
+        Component displayNameComponent = info.getDisplayNameComponent(animTick);
+        
+        String tag = prefixManager.getPrefix(info, animTick);
+        Component tagComponent = prefixCache.computeIfAbsent(tag, t -> {
+            String converted = GlobalUtils.convertToMiniMessageFormat(t);
+            return MiniMessage.miniMessage().deserialize(converted);
+        });
 
-        String tag = prefixManager.getPrefix(info);
-        String convertedTag = GlobalUtils.convertToMiniMessageFormat(tag);
-        Component tagComponent = MiniMessage.miniMessage().deserialize(convertedTag);
         Component fullName = tagComponent.append(displayNameComponent);
-
         player.playerListName(fullName);
 
         if (updatePlaceholders) {
@@ -96,7 +118,11 @@ public class TabSection implements Section {
         }
     }
 
+    public void setTab(Player player, boolean updatePlaceholders) {
+        setTab(player, updatePlaceholders, me.txmc.core.util.GradientAnimator.getAnimationTick(), new java.util.HashMap<>());
+    }
+
     public void setTab(Player player) {
-        setTab(player, true);
+        setTab(player, true, me.txmc.core.util.GradientAnimator.getAnimationTick(), new java.util.HashMap<>());
     }
 }

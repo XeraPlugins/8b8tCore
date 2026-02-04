@@ -2,6 +2,7 @@ package me.txmc.core.antiillegal.check.checks;
 
 import me.txmc.core.antiillegal.check.Check;
 import me.txmc.core.util.GlobalUtils;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 
@@ -9,32 +10,31 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 /**
- * @author 254n_m
- * @since 2024/03/25 4:02 PM
+ * @author MindComplexity
+ * @since 2026/01/26
  * This file was created as a part of 8b8tCore
- */
+*/
 
 public class ItemSizeCheck implements Check {
-    private int maxSize = 1597152 / 15; //Protocol max divided by 15 IDK if this will break vanilla items but leeeee needs a patch
-
-    public ItemSizeCheck() {
-        try {
-            Object streamCodec = Class.forName("net.minecraft.world.item.ItemStack").getDeclaredField("OPTIONAL_STREAM_CODEC");
-            System.out.println();
-        } catch (Throwable t) {
-            GlobalUtils.log(Level.SEVERE, "Failed to setup reflection for item size checking. Please see stacktrace below for more details");
-            t.printStackTrace();
-        }
-    }
+    // masons made up number
+    private final int MAX_SIZE = 106476;
 
     @Override
     public boolean check(ItemStack item) {
-        return getSize(item) > maxSize;
+        int size = getSize(item);
+        return size > MAX_SIZE;
     }
 
     @Override
     public boolean shouldCheck(ItemStack item) {
-        return item.hasItemMeta() && item.getItemMeta() instanceof BlockStateMeta;
+        if (item == null || item.getType() == Material.AIR || !item.hasItemMeta()) return false;
+        
+        // Our name check will handle the rest, this is mainly to solve crash maps / book bans.
+        Material type = item.getType();
+        return item.getItemMeta() instanceof BlockStateMeta 
+                || type == Material.WRITTEN_BOOK 
+                || type == Material.WRITABLE_BOOK 
+                || type == Material.FILLED_MAP;
     }
 
     @Override
@@ -43,15 +43,6 @@ public class ItemSizeCheck implements Check {
     }
 
     private int getSize(ItemStack itemStack) {
-        try {
-            Object nmsStack = itemStack.getClass().getField("handle").get(itemStack);
-
-            return -1;
-        } catch (Throwable t) {
-            if (t instanceof NoSuchFieldException) return -1;
-            GlobalUtils.log(Level.WARNING, "Failed to determine size of ItemStack. Please see stacktrace below for more info");
-            t.printStackTrace();
-            return -1;
-        }
+        return GlobalUtils.calculateItemSize(itemStack);
     }
 }

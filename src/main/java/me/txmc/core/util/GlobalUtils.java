@@ -10,6 +10,9 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.ComponentBuilder;
+import net.kyori.adventure.text.TextComponent;
+import java.util.regex.Pattern;
 
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
@@ -46,7 +49,9 @@ public class GlobalUtils {
     private static final String PREFIX = Main.prefix;
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
     private static final Map<String, TextComponent> componentCache = new java.util.concurrent.ConcurrentHashMap<>();
+    private static final Map<String, String> miniMessageFormatCache = new java.util.concurrent.ConcurrentHashMap<>();
     private static GeneralDatabase database;
+    private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
 
     private static java.lang.reflect.Method getCurrentRegionMethod;
     private static java.lang.reflect.Method getDataMethod;
@@ -84,7 +89,16 @@ public class GlobalUtils {
 
     public static TextComponent translateChars(String input) {
         if (input == null) return Component.empty();
-        return componentCache.computeIfAbsent(input, i -> (TextComponent) miniMessage.deserialize(convertToMiniMessageFormat(i)));
+        TextComponent cached = componentCache.get(input);
+        if (cached != null) return cached;
+
+        String formatted = convertToMiniMessageFormat(input);
+        TextComponent component = (TextComponent) miniMessage.deserialize(formatted);
+        
+        if (input.length() < 512 && !input.contains("<gradient")) {
+            componentCache.put(input, component);
+        }
+        return component;
     }
 
     public static boolean isTeleportRestricted(Player player) {
@@ -142,32 +156,56 @@ public class GlobalUtils {
     }
 
     public static String convertToMiniMessageFormat(String input) {
-        input = input.replaceAll("&#([A-Fa-f0-9]{6})", "<#$1>");
+        if (input == null) return null;
+        if (input.indexOf('&') == -1) return input;
+        
+        String cached = miniMessageFormatCache.get(input);
+        if (cached != null) return cached;
 
-        input = input.replace("&l", "<bold>");
-        input = input.replace("&o", "<italic>");
-        input = input.replace("&n", "<underlined>");
-        input = input.replace("&m", "<strikethrough>");
-        input = input.replace("&k", "<obfuscated>");
-        input = input.replace("&r", "<reset>");
-        input = input.replace("&0", "<black>");
-        input = input.replace("&1", "<dark_blue>");
-        input = input.replace("&2", "<dark_green>");
-        input = input.replace("&3", "<dark_aqua>");
-        input = input.replace("&4", "<dark_red>");
-        input = input.replace("&5", "<dark_purple>");
-        input = input.replace("&6", "<gold>");
-        input = input.replace("&7", "<gray>");
-        input = input.replace("&8", "<dark_gray>");
-        input = input.replace("&9", "<blue>");
-        input = input.replace("&a", "<green>");
-        input = input.replace("&b", "<aqua>");
-        input = input.replace("&c", "<red>");
-        input = input.replace("&d", "<light_purple>");
-        input = input.replace("&e", "<yellow>");
-        input = input.replace("&f", "<white>");
-
-        return input;
+        StringBuilder sb = new StringBuilder(input.length() + 32);
+        char[] chars = input.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+            if (c == '&' && i + 1 < chars.length) {
+                char next = chars[++i];
+                switch (next) {
+                    case '0' -> sb.append("<black>");
+                    case '1' -> sb.append("<dark_blue>");
+                    case '2' -> sb.append("<dark_green>");
+                    case '3' -> sb.append("<dark_aqua>");
+                    case '4' -> sb.append("<dark_red>");
+                    case '5' -> sb.append("<dark_purple>");
+                    case '6' -> sb.append("<gold>");
+                    case '7' -> sb.append("<gray>");
+                    case '8' -> sb.append("<dark_gray>");
+                    case '9' -> sb.append("<blue>");
+                    case 'a' -> sb.append("<green>");
+                    case 'b' -> sb.append("<aqua>");
+                    case 'c' -> sb.append("<red>");
+                    case 'd' -> sb.append("<light_purple>");
+                    case 'e' -> sb.append("<yellow>");
+                    case 'f' -> sb.append("<white>");
+                    case 'l' -> sb.append("<bold>");
+                    case 'm' -> sb.append("<strikethrough>");
+                    case 'n' -> sb.append("<underlined>");
+                    case 'o' -> sb.append("<italic>");
+                    case 'k' -> sb.append("<obfuscated>");
+                    case 'r' -> sb.append("<reset>");
+                    case '#' -> {
+                        if (i + 6 < chars.length) {
+                            sb.append("<#");
+                            sb.append(chars, i + 1, 6);
+                            sb.append(">");
+                            i += 6;
+                        } else sb.append("&#");
+                    }
+                    default -> sb.append('&').append(next);
+                }
+            } else sb.append(c);
+        }
+        String result = sb.toString();
+        if (input.length() < 256) miniMessageFormatCache.put(input, result);
+        return result;
     }
 
     public static String getTPSColor(double tps) {
@@ -333,25 +371,22 @@ public class GlobalUtils {
 
     public static int getComponentDepth(Component component) {
         if (component == null) return 0;
-        return getComponentDepth(component, 0, Collections.newSetFromMap(new IdentityHashMap<>()));
+        return getComponentDepth(component, 0);
     }
 
-    private static int getComponentDepth(Component component, int currentDepth, Set<Component> visited) {
-        if (component == null) return currentDepth;
-        if (currentDepth > 50) return currentDepth;
-        if (!visited.add(component)) return currentDepth + 100;
-
+    private static int getComponentDepth(Component component, int currentDepth) {
+        if (component == null || currentDepth > 50) return currentDepth;
         int maxDepth = currentDepth + 1;
 
         for (Component child : component.children()) {
-            maxDepth = Math.max(maxDepth, getComponentDepth(child, currentDepth + 1, visited));
+            maxDepth = Math.max(maxDepth, getComponentDepth(child, currentDepth + 1));
             if (maxDepth > 50) return maxDepth;
         }
 
         if (component instanceof net.kyori.adventure.text.TranslatableComponent translatable) {
             for (net.kyori.adventure.text.TranslationArgument arg : translatable.arguments()) {
-                if (arg instanceof Component) {
-                    maxDepth = Math.max(maxDepth, getComponentDepth((Component) arg, currentDepth + 1, visited));
+                if (arg instanceof Component comp) {
+                    maxDepth = Math.max(maxDepth, getComponentDepth(comp, currentDepth + 1));
                 }
                 if (maxDepth > 50) return maxDepth;
             }
@@ -360,17 +395,10 @@ public class GlobalUtils {
         if (component.hoverEvent() != null) {
             net.kyori.adventure.text.event.HoverEvent<?> hover = component.hoverEvent();
             if (hover.action() == net.kyori.adventure.text.event.HoverEvent.Action.SHOW_TEXT) {
-                Component hoverContent = (Component) hover.value();
-                maxDepth = Math.max(maxDepth, getComponentDepth(hoverContent, currentDepth + 1, visited));
-            } else if (hover.action() == net.kyori.adventure.text.event.HoverEvent.Action.SHOW_ENTITY) {
-                net.kyori.adventure.text.event.HoverEvent.ShowEntity info = (net.kyori.adventure.text.event.HoverEvent.ShowEntity) hover.value();
-                if (info.name() != null) {
-                   maxDepth = Math.max(maxDepth, getComponentDepth(info.name(), currentDepth + 1, visited));
-                }
+                maxDepth = Math.max(maxDepth, getComponentDepth((Component) hover.value(), currentDepth + 1));
             }
         }
         
-        visited.remove(component);
         return maxDepth;
     }
 
@@ -575,36 +603,43 @@ public class GlobalUtils {
         
         String username = player.getName();
         
-        CompletableFuture<String> nickFuture = database.getNicknameAsync(username);
-        CompletableFuture<String> gradientFuture = database.getCustomGradientAsync(username);
-        CompletableFuture<String> animFuture = database.getGradientAnimationAsync(username);
-        CompletableFuture<Integer> speedFuture = database.getGradientSpeedAsync(username);
-        CompletableFuture<String> decorationsFuture = database.getPlayerDataAsync(username, "nameDecorations");
-        
-        return CompletableFuture.allOf(nickFuture, gradientFuture, animFuture, speedFuture, decorationsFuture)
-            .thenAcceptAsync(v -> {
+        return CompletableFuture.allOf(
+            database.getNicknameAsync(username),
+            database.getCustomGradientAsync(username),
+            database.getGradientAnimationAsync(username),
+            database.getGradientSpeedAsync(username),
+            database.getPlayerDataAsync(username, "nameDecorations")
+        ).thenAcceptAsync(v -> {
+            if (!player.isOnline()) return;
+            
+            String nick = database.getNicknameAsync(username).join();
+            String customGradient = database.getCustomGradientAsync(username).join();
+            String anim = database.getGradientAnimationAsync(username).join();
+            int speed = database.getGradientSpeedAsync(username).join();
+            String decorationsStr = database.getPlayerDataAsync(username, "nameDecorations").join();
+            
+            player.getScheduler().run(Main.getInstance(), (task) -> {
                 if (!player.isOnline()) return;
-                
-                String nick = nickFuture.join();
-                String customGradient = gradientFuture.join();
-                String anim = animFuture.join();
-                int speed = speedFuture.join();
-                String decorationsStr = decorationsFuture.join();
-                
-                player.getScheduler().run(Main.getInstance(), (task) -> {
-                    if (!player.isOnline()) return;
-                    player.displayName(parseDisplayName(player.getName(), nick, customGradient, anim, speed, decorationsStr));
-                }, null);
-            });
+                player.displayName(parseDisplayName(player.getName(), nick, customGradient, anim, speed, decorationsStr));
+            }, null);
+        });
     }
 
     public static Component parseDisplayName(String playerName, String nick, String customGradient, String anim, int speed, String decorationsStr) {
+        return parseDisplayName(playerName, nick, customGradient, anim, speed, decorationsStr, GradientAnimator.getAnimationTick());
+    }
+
+    public static Component parseDisplayName(String playerName, String nick, String customGradient, String anim, int speed, String decorationsStr, long tick) {
         String baseName;
         if (nick == null || nick.isEmpty() || nick.equals(playerName)) {
             baseName = playerName;
         } else {
-            baseName = PlainTextComponentSerializer.plainText()
-                    .serialize(miniMessage.deserialize(convertToMiniMessageFormat(nick))).trim();
+            if (nick.indexOf('&') == -1 && nick.indexOf('§') == -1 && nick.indexOf('<') == -1) {
+                baseName = nick.trim();
+            } else {
+                baseName = PlainTextComponentSerializer.plainText()
+                        .serialize(miniMessage.deserialize(convertToMiniMessageFormat(nick))).trim();
+            }
         }
 
         if (customGradient == null || customGradient.trim().isEmpty()) {
@@ -664,8 +699,7 @@ public class GlobalUtils {
 
         String finalGradient;
         if (isGradient) {
-            finalGradient = GradientAnimator.applyAnimation(workingGradient, anim, speed,
-                    GradientAnimator.getAnimationTick());
+            finalGradient = GradientAnimator.applyAnimation(workingGradient, anim, speed, tick);
         } else {
             finalGradient = workingGradient;
         }
@@ -699,15 +733,12 @@ public class GlobalUtils {
     }
 
     private static Component renderSimpleName(String name, String decorationsStr) {
+        if (decorationsStr == null || decorationsStr.isEmpty()) return Component.text(name);
         StringBuilder sb = new StringBuilder();
-        if (decorationsStr != null && !decorationsStr.isEmpty()) {
-            for (String dec : decorationsStr.split(",")) sb.append("<").append(dec.trim()).append(">");
-        }
+        for (String dec : decorationsStr.split(",")) sb.append("<").append(dec.trim()).append(">");
         sb.append(name);
-        if (decorationsStr != null && !decorationsStr.isEmpty()) {
-            String[] decs = decorationsStr.split(",");
-            for (int i = decs.length - 1; i >= 0; i--) sb.append("</").append(decs[i].trim()).append(">");
-        }
+        String[] decs = decorationsStr.split(",");
+        for (int i = decs.length - 1; i >= 0; i--) sb.append("</").append(decs[i].trim()).append(">");
         return miniMessage.deserialize(convertToMiniMessageFormat(sb.toString()));
     }
 }

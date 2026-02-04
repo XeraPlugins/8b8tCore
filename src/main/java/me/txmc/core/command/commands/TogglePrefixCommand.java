@@ -32,29 +32,30 @@ public class TogglePrefixCommand extends BaseCommand {
             return;
         }
 
-        boolean current = database.getPlayerHidePrefix(player.getName());
-        boolean newValue = !current;
-        database.updateHidePrefix(player.getName(), newValue);
+        database.getPlayerHidePrefixAsync(player.getName()).thenAccept(current -> {
+            boolean newValue = !current;
+            database.updateHidePrefix(player.getName(), newValue);
 
-        Main plugin = (Main) Main.getInstance();
-        me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
-        if (chatSection != null) {
-            me.txmc.core.chat.ChatInfo info = chatSection.getInfo(player);
-            if (info != null) {
-                info.setHidePrefix(newValue);
-                String tag = newValue ? "" : prefixManager.getPrefix(info);
-                if (tag.isEmpty()) {
-                    player.playerListName(player.displayName());
-                } else {
-                    player.playerListName(miniMessage.deserialize(tag).append(player.displayName()));
+            Main plugin = (Main) Main.getInstance();
+            me.txmc.core.chat.ChatSection chatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
+            if (chatSection != null) {
+                me.txmc.core.chat.ChatInfo info = chatSection.getInfo(player);
+                if (info != null) {
+                    info.setHidePrefix(newValue);
+                    String tag = newValue ? "" : prefixManager.getPrefix(info);
+                    if (tag.isEmpty()) {
+                        player.playerListName(player.displayName());
+                    } else {
+                        player.playerListName(miniMessage.deserialize(tag).append(player.displayName()));
+                    }
                 }
             }
-        }
 
-        if (newValue) {
-            sendMessage(player, "&aYour prefix is now hidden.");
-        } else {
-            sendMessage(player, "&aYour prefix is now visible.");
-        }
+            if (newValue) {
+                sendMessage(player, "&aYour prefix is now hidden.");
+            } else {
+                sendMessage(player, "&aYour prefix is now visible.");
+            }
+        });
     }
 }

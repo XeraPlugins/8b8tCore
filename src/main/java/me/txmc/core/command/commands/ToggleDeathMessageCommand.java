@@ -23,14 +23,15 @@ public class ToggleDeathMessageCommand extends BaseCommand {
             return;
         }
 
-        boolean current = database.getPlayerHideDeathMessages(player.getName());
-        boolean newValue = !current;
-        database.updateHideDeathMessages(player.getName(), newValue);
+        database.getPlayerHideDeathMessagesAsync(player.getName()).thenAccept(current -> {
+            boolean newValue = !current;
+            database.updateHideDeathMessages(player.getName(), newValue);
 
-        if (newValue) {
-            sendMessage(player, "&aYou will no longer see death messages.");
-        } else {
-            sendMessage(player, "&aYou will now see death messages.");
-        }
+            if (newValue) {
+                sendMessage(player, "&aYou will no longer see death messages.");
+            } else {
+                sendMessage(player, "&aYou will now see death messages.");
+            }
+        });
     }
 }

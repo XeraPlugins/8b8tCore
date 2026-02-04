@@ -22,11 +22,11 @@ public class FallFlyListener extends ViolationManager implements Listener {
     @EventHandler
     public void onGlide(EntityToggleGlideEvent event) {
         if (event.getEntity() instanceof Player player) {
-            int vls = getVLS(player);
-            increment(player);
+            int vls = getVLS(player.getUniqueId());
+            increment(player.getUniqueId());
             if (vls > 10) {
                 removeElytra(player);
-                remove(player);
+                remove(player.getUniqueId());
             }
         }
     }

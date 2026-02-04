@@ -25,8 +25,11 @@ import org.jetbrains.annotations.Nullable;
 import static me.txmc.core.util.GlobalUtils.*;
 
 /**
- * Combined TPA commands for better maintainability.
- */
+ * @author MindComplexity (aka Libalpm)
+ * @since 2025/12/21
+ * This file was created as a part of 8b8tCore
+*/
+
 public class TPACommands {
 
     @RequiredArgsConstructor

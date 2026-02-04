@@ -29,10 +29,12 @@ public class AntiIllegalMain implements Section {
     private final Main plugin;
     private final List<Check> checks;
     private ConfigurationSection config;
+    private final PlayerEffectCheck effectCheck;
 
     public AntiIllegalMain(Main plugin) {
         this.plugin = plugin;
         this.config = plugin.getSectionConfig(this);
+        this.effectCheck = new PlayerEffectCheck();
         this.checks = new ArrayList<>(Arrays.asList(
                 new OverStackCheck(),
                 new DurabilityCheck(),
@@ -41,11 +43,14 @@ public class AntiIllegalMain implements Section {
                 new PotionCheck(),
                 new BookCheck(),
                 new LegacyTextCheck(),
-                new StackedTotemCheck(),
-                new ShulkerCeptionCheck(),
                 new IllegalItemCheck(),
                 new IllegalDataCheck(),
-                new AntiPrefilledContainers()));
+                new AntiPrefilledContainers(),
+                effectCheck));
+    }
+
+    public PlayerEffectCheck getEffectCheck() {
+        return effectCheck;
     }
 
     @Override
@@ -58,7 +63,6 @@ public class AntiIllegalMain implements Section {
                 new MiscListeners(this),
                 new InventoryListeners(this),
                 new AttackListener(plugin),
-                new StackedTotemsListener(plugin),
                 new PlayerEffectListener(plugin),
                 new EntityEffectListener(plugin));
 
@@ -86,7 +90,7 @@ public class AntiIllegalMain implements Section {
         boolean isInventoryOpen = cancellable instanceof InventoryOpenEvent;
 
         for (Check check : checks) {
-            if (check instanceof ShulkerCeptionCheck || check instanceof AntiPrefilledContainers) {
+            if (check instanceof AntiPrefilledContainers) {
                 if (!isInventoryOpen) continue;
             }
 

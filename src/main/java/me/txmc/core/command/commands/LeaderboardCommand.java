@@ -32,10 +32,12 @@ public class LeaderboardCommand extends BaseCommand {
         }
 
         if (args.length == 0) {
-            boolean current = database.isVanillaLeaderboard(player.getName());
-            database.setVanillaLeaderboard(player.getName(), !current);
-            String mode = !current ? "vanilla" : "custom";
-            sendPrefixedLocalizedMessage(player, "leaderboard_toggled", mode);
+            database.isVanillaLeaderboardAsync(player.getName()).thenAccept(current -> {
+                boolean newValue = !current;
+                database.setVanillaLeaderboard(player.getName(), newValue);
+                String mode = newValue ? "vanilla" : "custom";
+                sendPrefixedLocalizedMessage(player, "leaderboard_toggled", mode);
+            });
         } else {
             String mode = args[0].toLowerCase();
             if (mode.equals("vanilla") || mode.equals("custom")) {
