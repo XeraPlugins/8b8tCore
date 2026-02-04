@@ -1,18 +1,18 @@
 package me.txmc.core.dupe.command;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import me.txmc.core.dupe.DupeSection;
+import org.bukkit.Chunk;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -21,117 +21,100 @@ import static me.txmc.core.util.GlobalUtils.sendMessage;
 import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 
 /**
- * Handles the /dupe command which allows players to duplicate items in their hand.
- *
- * <p>This command is part of the 8b8tCore plugin and can be used by players with the appropriate permissions to duplicate
- * items in their inventory or kill himself.</p>
- *
- * <p>Functionality includes:</p>
- * <ul>
- *     <li>Checking if the player has the required permission or is an operator</li>
- *     <li>Duplicating the item in hand and dropping it in the world</li>
- *     <li>Enforcing a limit on the number of items that can be present in a chunk</li>
- * </ul>
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/08/01 11:28 AM
+ * This file is apart of 8b8tcore.
+ * @author MindComplexity (Libalpm)
+ * @since 2026/02/04
  */
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DupeCommand implements CommandExecutor {
+
     private final DupeSection main;
-    private final Map<UUID, Long> lastDupeTimes = new HashMap<>();
-    private static final String PERMISSION = "8b8tcore.command.dupe";
-    private static final String FULLPERMISSION = "8b8tcore.command.fulldupe";
-    private static final long DUPE_COOLDOWN = 30000;
-    private static final long FULLDUPE_COOLDOWN = 5000;
+    private final Map<UUID, Long> cooldowns = new HashMap<>();
+
+    private static final String PERM_NORMAL = "8b8tcore.command.dupe";
+    private static final String PERM_FULL = "8b8tcore.command.fulldupe";
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-
-        if (sender instanceof Player player) {
-
-            final boolean ENABLED = main.plugin().getConfig().getBoolean("DupeCommand.enabled", false);
-            if (!ENABLED) return true;
-            
-            final boolean VOTERS_ONLY = main.plugin().getConfig().getBoolean("DupeCommand.votersOnly", false);
-            if (VOTERS_ONLY && !player.hasPermission("8b8tcore.dupe.command")) return true;
-
-            UUID playerId = player.getUniqueId();
-
-            long currentTime = System.currentTimeMillis();
-            long lastDupeTime = lastDupeTimes.getOrDefault(playerId, 0L);
-
-            if (player.hasPermission(FULLPERMISSION) || player.isOp()) {
-
-                if (currentTime - lastDupeTime < FULLDUPE_COOLDOWN) {
-                    sendPrefixedLocalizedMessage(player, "framedupe_cooldown");
-                    return true;
-                }
-
-                int copies = 1;
-                if (args.length > 0) {
-                    try {
-                            copies = Integer.parseInt(args[0]);
-
-                            if (copies < 1 || copies > 9) {
-                                copies = 1;
-                            }
-                    } catch (NumberFormatException ignore) {}
-                }
-                ItemStack itemInHand = player.getInventory().getItemInMainHand();
-                Block block = player.getLocation().getBlock();
-
-                if (itemInHand != null && !itemInHand.getType().isAir()) {
-                    for (int i = 0; i < copies; i++) {
-                        if (getItemCountInChunk(block) >= 60) {
-                            sendPrefixedLocalizedMessage(player, "framedupe_items_limit");
-                            return true;
-                        }
-                        ItemStack duplicatedItem = itemInHand.clone();
-                        player.getWorld().dropItemNaturally(player.getLocation(), duplicatedItem);
-                    }
-                    sendPrefixedLocalizedMessage(player, "dupe_success");
-                    lastDupeTimes.put(playerId, currentTime);
-                } else {
-                    sendPrefixedLocalizedMessage(player, "dupe_failed");
-                }
-            } else if (player.hasPermission(PERMISSION)) {
-
-                if (currentTime - lastDupeTime < DUPE_COOLDOWN) {
-                    sendPrefixedLocalizedMessage(player, "framedupe_cooldown");
-                    return true;
-                }
-
-                ItemStack itemInHand = player.getInventory().getItemInMainHand();
-                Block block = player.getLocation().getBlock();
-
-                if (itemInHand != null && !itemInHand.getType().isAir()) {
-                    if (getItemCountInChunk(block) >= 9) {
-                        sendPrefixedLocalizedMessage(player, "framedupe_items_limit");
-                        return true;
-                    }
-                    ItemStack duplicatedItem = itemInHand.clone();
-                    player.getWorld().dropItemNaturally(player.getLocation(), duplicatedItem);
-                    sendPrefixedLocalizedMessage(player, "dupe_success");
-                    lastDupeTimes.put(playerId, currentTime);
-                } else {
-                    sendPrefixedLocalizedMessage(player, "dupe_failed");
-                }
-            } else {
-                sendPrefixedLocalizedMessage(player, "dupe_permission");
-                player.setHealth(0);
-            }
-        } else {
-            sendMessage(sender, "&3You must be a player to use this command.");
+        if (!(sender instanceof Player player)) {
+            sendMessage(sender, "&cYou must be a player to use this command.");
+            return true;
         }
+
+        if (!main.plugin().getConfig().getBoolean("DupeCommand.enabled", false)) return true;
+        
+        boolean votersOnly = main.plugin().getConfig().getBoolean("DupeCommand.votersOnly", false);
+        if (votersOnly && !player.hasPermission("8b8tcore.dupe.command")) return true;
+
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (item.getType() == Material.AIR) {
+            sendPrefixedLocalizedMessage(player, "dupe_failed");
+            return true;
+        }
+
+        if (player.hasPermission(PERM_FULL) || player.isOp()) {
+            handleFullDupe(player, item, args);
+        } else if (player.hasPermission(PERM_NORMAL)) {
+            handleNormalDupe(player, item);
+        } else {
+            sendPrefixedLocalizedMessage(player, "dupe_permission");
+            player.setHealth(0);
+        }
+
         return true;
     }
 
-    private int getItemCountInChunk(Block block) {
-        return (int) Arrays.stream(block.getChunk().getEntities())
-                .filter(entity -> entity instanceof Item)
-                .map(entity -> (Item) entity)
-                .count();
+    private void handleFullDupe(Player player, ItemStack item, String[] args) {
+        if (checkCooldown(player, 5000L)) return;
+
+        int copies = 1;
+        if (args.length > 0) {
+            try {
+                copies = Integer.parseInt(args[0]);
+                if (copies < 1 || copies > 9) copies = 1;
+            } catch (NumberFormatException ignored) {}
+        }
+        processDuplication(player, item, copies, 60);
+    }
+
+    private void handleNormalDupe(Player player, ItemStack item) {
+        if (checkCooldown(player, 30000L)) return;
+        processDuplication(player, item, 1, 9);
+    }
+
+    private boolean checkCooldown(Player player, long cooldownTime) {
+        long lastUsed = cooldowns.getOrDefault(player.getUniqueId(), 0L);
+        if (System.currentTimeMillis() - lastUsed < cooldownTime) {
+            sendPrefixedLocalizedMessage(player, "framedupe_cooldown");
+            return true;
+        }
+        return false;
+    }
+
+    private void processDuplication(Player player, ItemStack item, int copies, int chunkLimit) {
+        int currentItems = countItemsInChunk(player.getLocation().getChunk());
+
+        if (currentItems + copies > chunkLimit) {
+            sendPrefixedLocalizedMessage(player, "framedupe_items_limit");
+            return;
+        }
+
+        for (int i = 0; i < copies; i++) {
+            player.getWorld().dropItemNaturally(player.getLocation(), item.clone());
+        }
+
+        sendPrefixedLocalizedMessage(player, "dupe_success");
+        cooldowns.put(player.getUniqueId(), System.currentTimeMillis());
+    }
+
+    private int countItemsInChunk(Chunk chunk) {
+        int count = 0;
+        for (Entity entity : chunk.getEntities()) {
+            if (entity instanceof Item) {
+                count++;
+            }
+        }
+        return count;
     }
 }

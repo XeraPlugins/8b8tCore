@@ -1,67 +1,52 @@
 package me.txmc.core.dupe.donkeydupe;
 
+import lombok.RequiredArgsConstructor;
 import me.txmc.core.Main;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Handles the duplication of items stored in chested animals (e.g., donkeys) when interacting
- * with their inventory, ensuring specific conditions are met.
- *
- * <p>This class is part of the 8b8tCore plugin, which introduces custom mechanics
- * for Minecraft Folia Server.</p>
- *
- * <p>Configuration:</p>
- * <ul>
- *     <li><b>DonkeyDupe.enabled</b>: Enable or disable the donkey dupe functionality.</li>
- * </ul>
- *
- * <p>Functionality:</p>
- * <ul>
- *     <li>Creates a fake inventory if the player moves too far from the tracked animal.</li>
- * </ul>
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/12/06 12:14 AM
- */
+ * Donkey Dupe Logic
+ * This file is apart of the 8b8tCore plugin.
+ * @author MindComplexity (aka Libalpm)
+ * @since 2026/02/04
+*/
 
+@RequiredArgsConstructor
 public class DonkeyDupe implements Listener {
 
     private final Main plugin;
-    private final Map<UUID, ChestedHorse> trackedAnimals = new HashMap<>();
+    
+    private final Map<UUID, ChestedHorse> trackedAnimals = new ConcurrentHashMap<>();
 
-    final double MIN_DISTANCE = 6.0;
-
-    public DonkeyDupe(Main plugin) {
-        this.plugin = plugin;
-    }
+    private final double MIN_DISTANCE = 6.0;
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
         InventoryHolder holder = event.getInventory().getHolder();
-        if (!(holder instanceof ChestedHorse)) return;
+        if (!(holder instanceof ChestedHorse animal)) return;
 
         Player player = (Player) event.getPlayer();
-        ChestedHorse animal = (ChestedHorse) holder;
 
-        final boolean ENABLED = plugin.getConfig().getBoolean("DonkeyDupe.enabled", true);
-        if (!ENABLED) return;
-
-        final boolean VOTERS_ONLY = plugin.getConfig().getBoolean("DonkeyDupe.votersOnly", false);
-        if (VOTERS_ONLY && !player.hasPermission("8b8tcore.dupe.donkey")) return;
+        if (!plugin.getConfig().getBoolean("DonkeyDupe.enabled", true)) return;
+        
+        boolean votersOnly = plugin.getConfig().getBoolean("DonkeyDupe.votersOnly", false);
+        if (votersOnly && !player.hasPermission("8b8tcore.dupe.donkey")) return;
 
         if (trackedAnimals.containsKey(player.getUniqueId())) return;
 
@@ -70,18 +55,22 @@ public class DonkeyDupe implements Listener {
 
         Inventory inv = event.getInventory();
 
-        Bukkit.getRegionScheduler().runDelayed(plugin, player.getLocation(), (task) -> {
+        player.getScheduler().runDelayed(plugin, (task) -> {
             if (player.isOnline() && trackedAnimals.containsKey(player.getUniqueId())) {
-                player.openInventory(inv);
+                if (animal.isValid()) {
+                    player.openInventory(inv);
+                } else {
+                    trackedAnimals.remove(player.getUniqueId());
+                }
             }
-        }, 40L);
+        }, null, 40L);
     }
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
+        if (!(event.getPlayer() instanceof Player player)) return;
 
-        if(event.getInventory().getSize() == 18 && event.getInventory().getHolder() instanceof Player){
-            Player player = (Player) event.getPlayer();
+        if (event.getInventory().getSize() == 18 && event.getInventory().getHolder() instanceof Player) {
             trackedAnimals.remove(player.getUniqueId());
             return;
         }
@@ -89,21 +78,26 @@ public class DonkeyDupe implements Listener {
         InventoryHolder holder = event.getInventory().getHolder();
         if (!(holder instanceof ChestedHorse)) return;
 
-        Player player = (Player) event.getPlayer();
         ChestedHorse animal = trackedAnimals.get(player.getUniqueId());
-
 
         if (animal == null) return;
         if (holder != animal) return;
 
-        if (animal.getLocation().distance(player.getLocation()) >= MIN_DISTANCE && player.getVehicle() != null ) {
+        Location pLoc = player.getLocation();
+        Location aLoc = animal.getLocation();
+        
+        double distance = (pLoc.getWorld() == aLoc.getWorld()) ? pLoc.distance(aLoc) : Double.MAX_VALUE;
+
+        if (distance >= MIN_DISTANCE && player.getVehicle() != null) {
             Component title = (animal.customName() != null) ? animal.customName() : Component.text("Entity");
             Inventory fakeInventory = Bukkit.createInventory(player, 18, title);
             fakeInventory.setContents(animal.getInventory().getContents());
 
-            Bukkit.getRegionScheduler().runDelayed(plugin, player.getLocation(), (task) -> {
-                player.openInventory(fakeInventory);
-            }, 2L);
+            player.getScheduler().runDelayed(plugin, (task) -> {
+                if (player.isOnline()) {
+                    player.openInventory(fakeInventory);
+                }
+            }, null, 2L);
 
         } else {
             trackedAnimals.remove(player.getUniqueId());
@@ -112,21 +106,31 @@ public class DonkeyDupe implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player)) return;
+        if (!(event.getWhoClicked() instanceof Player player)) return;
 
-        Player player = (Player) event.getWhoClicked();
         Inventory clickedInventory = event.getClickedInventory();
 
         if (clickedInventory != null && clickedInventory.getSize() == 18 && clickedInventory.getHolder() instanceof Player) {
             ChestedHorse animal = trackedAnimals.get(player.getUniqueId());
             if (animal == null) return;
 
-            final double MIN_DISTANCE = 128.0;
-            if (animal.getLocation().distance(player.getLocation()) < MIN_DISTANCE) {
+            final double MAX_DISTANCE = 128.0;
+            
+            Location pLoc = player.getLocation();
+            Location aLoc = animal.getLocation();
+            
+            double distance = (pLoc.getWorld() == aLoc.getWorld()) ? pLoc.distance(aLoc) : Double.MAX_VALUE;
+
+            if (distance < MAX_DISTANCE) {
                 event.setCancelled(true);
-                clickedInventory.close();
+                player.closeInventory();
                 trackedAnimals.remove(player.getUniqueId());
             }
         }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        trackedAnimals.remove(event.getPlayer().getUniqueId());
     }
 }
