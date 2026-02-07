@@ -63,7 +63,7 @@ public class AntiIllegalMain implements Section {
                 new MiscListeners(this),
                 new InventoryListeners(this),
                 new AttackListener(plugin),
-                new PlayerEffectListener(plugin),
+                new PlayerEffectListener(plugin, this),
                 new EntityEffectListener(plugin));
 
         if (config.getBoolean("EnableIllegalBlocksCleaner", true)) {
