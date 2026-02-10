@@ -150,6 +150,7 @@ repair_fail_while_pvp: "&cPvP中、またはその直後はこのコマンドを
 sign_success: "&3完了！アイテムに署名しました。"
 sign_fail_already_signed: "&cこのアイテムは既に署名されています。"
 sign_fail_no_item: "&c署名するアイテムを手に持ってください。"
+antiillegal_flagged_placement: "&cアイテムに不正なコンポーネントが含まれているため、設置がキャンセルされました: &6%s"
 show_join_leave_messages_false: "&8参加/退出メッセージを&c非表示&8にしました。元に戻すにはもう一度コマンドを入力してください。"
 show_join_leave_messages_true: "&8参加/退出メッセージを&a表示&8にしました。"
 mapart_deleted_inventory: "&c禁止されたマップアートがインベントリから削除されました。繰り返す場合はサーバーからBANされる可能性があります。"

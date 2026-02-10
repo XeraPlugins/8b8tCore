@@ -32,14 +32,21 @@ public class NameCheck implements Check {
     public boolean check(ItemStack item) {
         if (item == null || item.getType() == Material.AIR) return false;
 
-        if (item.hasData(ENTITY_DATA)) return true;
+        if (item.hasData(ENTITY_DATA) && !item.getType().name().contains("SHULKER_BOX")) {
+            if (me.txmc.core.antiillegal.AntiIllegalMain.debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.INFO, "&cNameCheck flagged item %s for having ENTITY_DATA", item.getType());
+            return true;
+        }
 
         if (!item.hasItemMeta()) return false;
 
         ItemMeta meta = item.getItemMeta();
         if (meta == null || !meta.hasDisplayName()) return false;
 
-        return isIllegalNameContent(meta.displayName());
+        boolean illegal = isIllegalNameContent(meta.displayName());
+        if (illegal) {
+            if (me.txmc.core.antiillegal.AntiIllegalMain.debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.INFO, "&cNameCheck flagged item %s for illegal name content: %s", item.getType(), me.txmc.core.util.GlobalUtils.getStringContent(meta.displayName()));
+        }
+        return illegal;
     }
 
     @Override
