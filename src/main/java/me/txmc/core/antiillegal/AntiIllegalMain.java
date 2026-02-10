@@ -30,6 +30,8 @@ public class AntiIllegalMain implements Section {
     private final List<Check> checks;
     private ConfigurationSection config;
     private final PlayerEffectCheck effectCheck;
+    public static boolean debug = false;
+    public static boolean informPlayer = true;
 
     public AntiIllegalMain(Main plugin) {
         this.plugin = plugin;
@@ -46,6 +48,7 @@ public class AntiIllegalMain implements Section {
                 new IllegalItemCheck(),
                 new IllegalDataCheck(),
                 new AntiPrefilledContainers(),
+                new ContainerContentCheck(this),
                 effectCheck));
     }
 
@@ -84,10 +87,11 @@ public class AntiIllegalMain implements Section {
         return "AntiIllegal";
     }
 
-    public void checkFixItem(ItemStack item, Cancellable cancellable) {
-        if (item == null || item.getType() == Material.AIR) return;
+    public boolean checkFixItem(ItemStack item, Cancellable cancellable) {
+        if (item == null || item.getType() == Material.AIR) return false;
 
         boolean isInventoryOpen = cancellable instanceof InventoryOpenEvent;
+        boolean wasIllegal = false;
 
         for (Check check : checks) {
             if (check instanceof AntiPrefilledContainers) {
@@ -97,6 +101,29 @@ public class AntiIllegalMain implements Section {
             if (!check.shouldCheck(item)) continue;
             if (!check.check(item)) continue;
 
+            wasIllegal = true;
+            if (debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.INFO, "&cItem %s flagged by %s", item.getType(), check.getClass().getSimpleName());
+            if (informPlayer && (cancellable instanceof org.bukkit.event.block.BlockPlaceEvent || cancellable instanceof org.bukkit.event.player.PlayerInteractEvent)) {
+                org.bukkit.entity.Player player = (cancellable instanceof org.bukkit.event.block.BlockPlaceEvent bpe) ? bpe.getPlayer() : ((org.bukkit.event.player.PlayerInteractEvent) cancellable).getPlayer();
+                if (player != null) {
+                    try {
+                        String checkName = check.getClass().getSimpleName();
+                        if (check instanceof me.txmc.core.antiillegal.check.checks.ContainerContentCheck) {
+                            io.papermc.paper.persistence.PersistentDataContainerView pdc = item.getPersistentDataContainer();
+                            org.bukkit.NamespacedKey key = new org.bukkit.NamespacedKey(plugin, "last_failed_check");
+                            if (pdc.has(key, org.bukkit.persistence.PersistentDataType.STRING)) {
+                                checkName = pdc.get(key, org.bukkit.persistence.PersistentDataType.STRING);
+                            }
+                        }
+                        me.txmc.core.Localization loc = me.txmc.core.Localization.getLocalization(player.locale().getLanguage());
+                        String msg = String.format(loc.get("antiillegal_flagged_placement"), checkName);
+                        player.sendMessage(me.txmc.core.util.GlobalUtils.translateChars(me.txmc.core.util.GlobalUtils.getPREFIX().concat(" &r&7>>&r ").concat(msg)));
+                        if (debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.INFO, "Sent message to %s: %s", player.getName(), msg);
+                    } catch (Throwable t) {
+                        if (debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.WARNING, "Failed to send localized message: %s", t.getMessage());
+                    }
+                }
+            }
             check.fix(item);
             
             if (item.hasItemMeta()) {
@@ -109,5 +136,6 @@ public class AntiIllegalMain implements Section {
                 }
             }
         }
+        return wasIllegal;
     }
 }

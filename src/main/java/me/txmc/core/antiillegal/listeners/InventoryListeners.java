@@ -14,6 +14,7 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.inventory.TradeSelectEvent;
 
 /**
  * @author MindComplexity + 254_m
@@ -27,22 +28,18 @@ public class InventoryListeners implements Listener {
     private static final int MAX_BUNDLE_WEIGHT = 64;
     @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryOpen(InventoryOpenEvent event) {
-        Inventory inv = event.getInventory();
+        checkInventory(event.getInventory(), event);
+        checkInventory(event.getView().getBottomInventory(), event);
+    }
+
+    private void checkInventory(Inventory inv, InventoryOpenEvent event) {
         String invType = inv.getType().name();
-        
         boolean openedShulker = invType.contains("SHULKER");
-        
         for (int i = 0; i < inv.getSize(); i++) {
             ItemStack item = inv.getItem(i);
             if (item == null || item.getType().isAir()) continue;
-            
             main.checkFixItem(item, event);
-            
-            // Persist changes in the first inventory event fired.
-            // Context: when a first inventory event is fired the inventory is not updated yet.
-            // This confuses the client and causes issues with inventory contents.
             inv.setItem(i, item);
-            
             if (openedShulker && isContainer(item.getType())) {
                 clearContainerContents(item);
             }
@@ -60,14 +57,52 @@ public class InventoryListeners implements Listener {
     public void onClick(InventoryClickEvent event) {
         main.checkFixItem(event.getCursor(), event);
         main.checkFixItem(event.getCurrentItem(), event);
+        if (event.getClick() == ClickType.NUMBER_KEY) {
+            ItemStack hotbarItem = event.getView().getBottomInventory().getItem(event.getHotbarButton());
+            main.checkFixItem(hotbarItem, event);
+        }
         checkBundleContents(event.getCursor());
         checkBundleContents(event.getCurrentItem());
+    }
+
+    @EventHandler
+    public void onDrag(InventoryDragEvent event) {
+        main.checkFixItem(event.getOldCursor(), event);
+        main.checkFixItem(event.getCursor(), event);
+        for (ItemStack item : event.getNewItems().values()) {
+            main.checkFixItem(item, event);
+        }
+    }
+
+    @EventHandler
+    public void onCreative(InventoryCreativeEvent event) {
+        main.checkFixItem(event.getCursor(), event);
+        main.checkFixItem(event.getCurrentItem(), event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onCraft(CraftItemEvent event) {
+        main.checkFixItem(event.getCurrentItem(), event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onTrade(TradeSelectEvent event) {
+        for (ItemStack item : event.getInventory().getContents()) {
+            if (item != null) main.checkFixItem(item, event);
+        }
     }
 
     @EventHandler
     public void onHopper(InventoryMoveItemEvent event) {
         main.checkFixItem(event.getItem(), event);
         checkBundleContents(event.getItem());
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onConsume(PlayerItemConsumeEvent event) {
+        if (main.checkFixItem(event.getItem(), event)) {
+            event.setCancelled(true);
+        }
     }
 
     private void clearContainerContents(ItemStack container) {

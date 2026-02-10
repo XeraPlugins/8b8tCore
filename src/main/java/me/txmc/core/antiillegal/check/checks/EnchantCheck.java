@@ -14,6 +14,7 @@ import java.util.Map;
  */
 
 // https://minecraft.wiki/w/Enchanting
+
 public class EnchantCheck implements Check {
     @Override
     public boolean check(ItemStack item) {
@@ -31,19 +32,28 @@ public class EnchantCheck implements Check {
                 }
                 return false;
             }
-            return true;
+            return meta.hasEnchants();
         }
         Map<Enchantment, Integer> enchants = meta.getEnchants();
         for (Map.Entry<Enchantment, Integer> e : enchants.entrySet()) {
             Enchantment ench = e.getKey();
             int lvl = e.getValue();
-            if (lvl > ench.getMaxLevel()) return true;
-            if (!ench.canEnchantItem(item)) return true;
+            if (lvl > ench.getMaxLevel()) {
+                if (me.txmc.core.antiillegal.AntiIllegalMain.debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.INFO, "&cEnchantCheck flagged item %s for over-level enchantment %s: %d > %d", item.getType(), ench.getKey().getKey(), lvl, ench.getMaxLevel());
+                return true;
+            }
+            if (!ench.canEnchantItem(item)) {
+                if (me.txmc.core.antiillegal.AntiIllegalMain.debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.INFO, "&cEnchantCheck flagged item %s for incompatible enchantment %s", item.getType(), ench.getKey().getKey());
+                return true;
+            }
         }
         Enchantment[] keys = enchants.keySet().toArray(new Enchantment[0]);
         for (int i = 0; i < keys.length; i++) {
             for (int j = i + 1; j < keys.length; j++) {
-                if (keys[i].conflictsWith(keys[j])) return true;
+                if (keys[i].conflictsWith(keys[j])) {
+                    if (me.txmc.core.antiillegal.AntiIllegalMain.debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.INFO, "&cEnchantCheck flagged item %s for conflicting enchantments %s and %s", item.getType(), keys[i].getKey().getKey(), keys[j].getKey().getKey());
+                    return true;
+                }
             }
         }
         return false;

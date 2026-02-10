@@ -13,7 +13,11 @@ public class AttributeCheck implements Check {
     @Override
     public boolean check(ItemStack item) {
         if (!item.hasItemMeta()) return false;
-        return item.getItemMeta().hasAttributeModifiers() || !item.getItemMeta().getItemFlags().isEmpty();
+        boolean illegal = item.getItemMeta().hasAttributeModifiers();
+        if (illegal) {
+            if (me.txmc.core.antiillegal.AntiIllegalMain.debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.INFO, "&cAttributeCheck flagged item %s. HasModifiers: %b", item.getType(), item.getItemMeta().hasAttributeModifiers());
+        }
+        return illegal;
     }
 
     @Override

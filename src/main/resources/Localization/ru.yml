@@ -150,6 +150,7 @@ repair_fail_while_pvp: "&cВы не можете использовать это
 sign_success: "&3Готово! Вы подписали предмет."
 sign_fail_already_signed: "&cЭтот предмет уже подписан."
 sign_fail_no_item: "&cДержите предмет в руке."
+antiillegal_flagged_placement: "&cУстановка отменена, так как предмет содержит запрещенные компоненты: &6%s"
 show_join_leave_messages_false: "&8Сообщения о входе/выходе теперь &cскрыты&8."
 show_join_leave_messages_true: "&8Сообщения о входе/выходе теперь &aвидны&8."
 mapart_deleted_inventory: "&cЗапрещенный мапарт был удален из вашего инвентаря. Повторное нарушение приведет к бану."

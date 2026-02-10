@@ -150,6 +150,7 @@ repair_fail_while_pvp: "&cPvP sırasında veya hemen sonrasında bu komutu kulla
 sign_success: "&3Tamamdır! Eşyayı başarıyla imzaladın."
 sign_fail_already_signed: "&cBu eşya zaten imzalanmış."
 sign_fail_no_item: "&cİmzalamak için elinde bir eşya tutmalısın."
+antiillegal_flagged_placement: "&cEşya yasa dışı bileşenler içerdiği için yerleştirme işleminiz iptal edildi: &6%s"
 show_join_leave_messages_false: "&8Giriş/Çıkış mesajları artık &cgizli&8. Tekrar açmak için bu komutu kullanın."
 show_join_leave_messages_true: "&8Giriş/Çıkış mesajları artık &agörünür&8."
 mapart_deleted_inventory: "&cEnvanterinden yasaklı bir mapart silindi. Bu tür materyallerle tekrar yakalanırsan sunucudan yasaklanabilirsin."

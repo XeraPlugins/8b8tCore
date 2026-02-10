@@ -150,6 +150,7 @@ repair_fail_while_pvp: "&cNon puoi usare questo comando durante o subito dopo un
 sign_success: "&3Fatto! Hai firmato correttamente l'oggetto."
 sign_fail_already_signed: "&cQuesto oggetto è già firmato."
 sign_fail_no_item: "&cDevi tenere un oggetto in mano per firmarlo."
+antiillegal_flagged_placement: "&cIl tuo posizionamento è stato annullato perché l'oggetto contiene componenti illegali: &6%s"
 show_join_leave_messages_false: "&8I messaggi di ingresso/uscita sono ora &cnascosti&8. Usa di nuovo il comando per mostrarli."
 show_join_leave_messages_true: "&8I messaggi di ingresso/uscita sono ora &avisibili&8."
 mapart_deleted_inventory: "&cUna mapart proibita è stata rimossa dal tuo inventario. Se verrai sorpreso di nuovo con questo materiale, sarai bannato dal server."

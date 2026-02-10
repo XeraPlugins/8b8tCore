@@ -282,15 +282,24 @@ public class IllegalDataCheck implements Check {
         Component customName = meta.customName();
         if (customName == null) return false;
 
-        if (GlobalUtils.getComponentDepth(customName) > 8) return true;
+        if (GlobalUtils.getComponentDepth(customName) > 8) {
+            if (me.txmc.core.antiillegal.AntiIllegalMain.debug) GlobalUtils.log(java.util.logging.Level.INFO, "&cIllegalDataCheck flagged name for depth > 8");
+            return true;
+        }
         
         String json = GsonComponentSerializer.gson().serialize(customName);
-        if (json.length() > MAX_NAME_JSON_LENGTH) return true;
+        if (json.length() > MAX_NAME_JSON_LENGTH) {
+            if (me.txmc.core.antiillegal.AntiIllegalMain.debug) GlobalUtils.log(java.util.logging.Level.INFO, "&cIllegalDataCheck flagged name for JSON length > %d", MAX_NAME_JSON_LENGTH);
+            return true;
+        }
         
         String plainText = GlobalUtils.getStringContent(customName);
-        if (plainText.length() > MAX_NAME_PLAIN_LENGTH) return true;
+        if (plainText.length() > MAX_NAME_PLAIN_LENGTH) {
+            if (me.txmc.core.antiillegal.AntiIllegalMain.debug) GlobalUtils.log(java.util.logging.Level.INFO, "&cIllegalDataCheck flagged name for plain length > %d", MAX_NAME_PLAIN_LENGTH);
+            return true;
+        }
         
-        return countNestingDepth(json) > 3;
+        return false;
     }
 
     private int countNestingDepth(String json) {

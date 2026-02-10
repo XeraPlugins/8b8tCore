@@ -150,6 +150,7 @@ repair_fail_while_pvp: "&cNão podes usar este comando durante ou logo após o P
 sign_success: "&3Feito! Assinaste o item com sucesso."
 sign_fail_already_signed: "&cEste item já está assinado."
 sign_fail_no_item: "&cDeves segurar um item na mão para o assinar."
+antiillegal_flagged_placement: "&cA tua colocação foi cancelada porque o item contém componentes ilegais: &6%s"
 show_join_leave_messages_false: "&8Mensagens de Entrada/Saída estão agora &cescondidas&8. Para mostrar novamente, usa este comando."
 show_join_leave_messages_true: "&8Mensagens de Entrada/Saída estão agora &avisíveis&8."
 mapart_deleted_inventory: "&cUma mapart proibida foi removida do teu inventário. Se fores apanhado novamente com este material, serás banido do servidor."
