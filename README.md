@@ -56,8 +56,8 @@ This plugin supports the following languages, which are displayed to each player
 ## Discussion / Support
 
 <p align="center">
-  <a href="https://matrix.to/#/#xera:matrix.xera.ca">
-    <img src="https://img.shields.io/badge/Join_Matrix-7F8C8D?style=for-the-badge&logo=matrix&logoColor=white" alt="Join Matrix">
+  <a href="https://discord.gg/ush5AEVvAR">
+    Discord
   </a>
 </p>
 
