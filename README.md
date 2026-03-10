@@ -47,6 +47,7 @@ This plugin supports the following languages, which are displayed to each player
   <img src="https://flagcdn.com/w40/ru.png" alt="Russian" style="margin-right: 10px;">
   <img src="https://flagcdn.com/w40/sa.png" alt="Arabic" style="margin-right: 10px;">
   <img src="https://flagcdn.com/w40/in.png" alt="Hindi">
+  <img src="https://flagcdn.com/w40/nl.png" alt="Dutch">
 </p>
 
 ## To Do
