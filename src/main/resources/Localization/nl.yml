@@ -1,0 +1,572 @@
+#Basic messages
+ignore_successful: "&3Speler&r&a %s&r&3 succesvol genegeerd"
+already_ignoring: "&cJe negeert die speler al"
+ignore_command_syntax: "&cGeef een speler op /ignore <spelerNaam>"
+unignore_successful: "&3Speler&r&a %s&r&3 wordt niet langer genegeerd"
+unignore_not_ignoring: "&cJe negeert %s niet"
+unignore_command_syntax: "&cGeef een speler op /unignore <spelerNaam>"
+ignorelist_successful: "&3Genegeerde spelers: &c%s"
+ignorelist_not_ignoring: "&cJe negeert niemand"
+ignorelist_failed: "&cKon informatie van de ignorelijst niet ophalen."
+whisper_from: "&d%s fluistert: %s"
+whisper_to: "&dNaar %s: %s"
+whisper_ignoring: "&c%s negeert je"
+whisper_you_are_ignoring: "&cJe kunt geen bericht sturen naar een speler die je negeert"
+msg_could_not_find_player: "&cKon speler %s niet vinden"
+msg_command_syntax: "&cGeef een doelwit en een bericht op /msg <doelwit> <bericht>"
+reply_player_offline: "&cDe speler %s is offline"
+reply_no_target: "&cJe hebt nog niemand een bericht gestuurd"
+reply_command_syntax: "&cGeef een bericht op /r <bericht>"
+togglechat_chat_enabled: "&aChat ingeschakeld"
+togglechat_chat_disabled: "&cChat uitgeschakeld"
+cmdwhitelist_cmd_not_allowed: "&cHet commando&r&a %s&r&c is niet toegestaan"
+chat_cooldown: "&3Wacht ten minste&r&a %d&r&3 seconden tussen chatberichten"
+delhome_no_homes: "&3Je hebt geen homes"
+delhome_specify_home: "&3Geef de naam op van een home om te verwijderen. Huidige homes: (&r&a%s&r&3)&r"
+delhome_home_not_found: "&3Home&r&a %s&r&3 niet gevonden"
+delhome_success: "&3Home&r&a %s&r&3 is verwijderd"
+delhome_fail: "&3Kon&r&a %s&r&3 niet verwijderen"
+home_no_homes: "&3Geen homes gevonden"
+home_specify_home: "&3Geef de naam van je home op. Huidige homes (&r&a%s&r&3): &r&a%s&r&3"
+home_too_close: "&3Je moet&r&a %d&r&3 blokken van spawn verwijderd zijn om /home te gebruiken"
+home_success: "&3Teleporteren naar home&r&a %s&r&3..."
+home_not_found: "&3Home&r&a %s&r&3 niet gevonden"
+home_world_not_loaded: "&3De wereld&r&a %s&r&3 is niet geladen. Kan niet naar home teleporteren."
+sethome_include_name: "&3Geef een naam op voor je nieuwe home"
+sethome_home_already_exists: "&cEr bestaat al een home met de naam&r&a %s&r&c."
+sethome_max_reached: "&3Maximumaantal homes bereikt!"
+sethome_success: "&3Home&r&a %s &r&3ingesteld"
+back_teleported: "&3Teleporteren naar je laatste locatie..."
+back_no_last_location: "&cJe hebt geen vorige locaties geregistreerd."
+kick_restarting: "&3De server wordt opnieuw opgestart"
+elytra_tile_entities_too_fast: "&cEr zijn te veel entities in deze chunk. Je snelheid mag niet hoger zijn dan %s blokken per seconde."
+elytra_too_fast: "&cDe maximaal toegestane snelheid is %s blokken per seconde."
+elytras_disabled: "&3Elytra's zijn momenteel uitgeschakeld vanwege serverlag. Ze zouden binnenkort weer beschikbaar moeten zijn"
+bookban_inventory_clear: "&cJe inventaris is leeggemaakt om te voorkomen dat je book banned wordt"
+bookban_removed_item: "&cAlle&r&3 %s(s) &r&czijn uit je inventaris verwijderd om te voorkomen dat je bookbanned wordt"
+kick_lever_ratelimit: "&cJe interacteert te snel"
+kick_pps_limit: "&cJe verstuurt te snel pakketten!"
+kick_failed_to_inject: "&cInjecteren mislukt"
+join_message: "&a▲&8 Speler &7%s&r&8 is gejoined."
+first_join_message: "&a▲&8 Speler &7%s&r&8 is voor het eerst gejoined."
+leave_message: "&c▼&8 Speler &7%s&r&8 heeft de server verlaten."
+kick_message: "&7%s werd gekickt voor \"%s\""
+could_not_translate_message: "Kon bericht niet vertalen door %s"
+message_auto_translated: "Dit bericht is automatisch vertaald.\n\nOriginele tekst: %s"
+welcome_message: "&3Welkom op 8b8t"
+vote_announcement: "&c%s &8heeft op %prefix% gestemd &8en gratis /nc, 2 extra render distance, 5 extra homes en toegang tot de donkey dupe voor %days% dagen ontvangen"
+vote_thanks: "&8Bedankt voor het stemmen op %prefix%! &8Je hebt gratis /nc, 2 extra render distance, 5 extra homes en toegang tot de donkey dupe voor %days% dagen ontvangen"
+vote_info: "&8Je kunt op %prefix% stemmen via &chttps://votefor.8b8t.me"
+tpa_syntax: "&cGeef een speler op om naartoe te tpa'en. /tpa <player>"
+tpa_player_not_online: "&cSpeler %s is niet online"
+tpa_no_request_found: "&cGeen TPA-verzoek gevonden"
+tpa_self_tpa: "&cJe kunt niet naar jezelf TPA'en"
+tpa_request_received: "&a%s&r&3 wil naar je toe teleporteren&r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
+tpa_request_sent: "&3Verzoek verzonden naar&r&a %s"
+tpa_requests_disabled: "&3Verzoeken uitgeschakeld. Alle inkomende verzoeken verwijderd."
+tpa_requests_enabled: "&3Verzoeken ingeschakeld."
+tpa_requests_blocked: "&3Verzoeken van &a%s&r&3 zijn geblokkeerd/verwijderd."
+tpa_requests_unblocked: "&3Verzoeken van &a%s&r&3 zijn gedeblokkeerd."
+tpa_block_syntax: "&cGeef een speler op om te blokkeren/deblokkeren"
+tpa_already_sent: "&cJe hebt al een openstaand verzoek"
+tpahere_syntax: "&cGeef een speler op om naar jou te teleporteren /tpahere <player>"
+tpatoggle_syntax: "&cGeef geen argumenten op."
+tpahere_request_received: "&a%s&r&3 wil je naar zich toe teleporteren&r &a/tpayes &3USERNAME &c/tpano &3USERNAME"
+tpa_too_close: "&3Je moet&r&a %d&r&3 blokken van spawn verwijderd zijn om /tpa te gebruiken"
+tpa_requested_too_close: "&cDe speler %s kan niet zo dicht bij spawn komen"
+tpa_teleporting: "&3Teleporteren&r&a..."
+tpa_request_timeout_from: "&cHet TPA-verzoek dat je naar &a%s&r&c hebt gestuurd, is verlopen."
+tpa_request_timeout_to: "&cHet TPA-verzoek dat je van &a%s&r&c hebt ontvangen, is verlopen."
+tpa_request_cancelled_from: "&3Het TPA-verzoek dat je naar &a%s&r&3 hebt gestuurd, is succesvol geannuleerd."
+tpa_request_cancelled_to: "&cHet TPA-verzoek dat je van &a%s&r&c hebt ontvangen, is geannuleerd."
+tpa_request_denied_from: "&a%s&r&c heeft je verzoek geweigerd"
+tpa_request_denied_to: "&3Verzoek succesvol geweigerd"
+tpa_request_blocked: "&cDeze speler heeft TPA-verzoeken uitgeschakeld."
+tpa_pending_request: "&a%s&r &cheeft een openstaand verzoek"
+tpa_to_left: "&cTPA geannuleerd omdat&r&a %s&r&c is vertrokken"
+op_not_allowed: "&cHet is je niet toegestaan om op te zijn"
+framedupe_cooldown: "&cJe dupliceert te snel"
+framedupe_items_limit: "&cEr liggen al te veel items in deze chunk"
+dupe_permission: "&cJe bent getrolld omdat je dat zo makkelijk probeerde te dupliceren."
+dupe_failed: "&cJe moet een item vasthouden om het te dupliceren."
+dupe_success: "&3Het item is succesvol gedupliceerd."
+nbtPatch_deleted_item: "&c&6%s&r&c is uit je inventaris verwijderd om te voorkomen dat je geband wordt."
+chest_cooldown: "&cJe opent kisten te snel. Even wachten!"
+chestlimiter_deleted_chest: "&c&6%s&r&c kisten zijn verwijderd omdat ze het maximum van &c&6%s&r&c kisten per chunk overschreden"
+repair_success: "&3Het item is succesvol gerepareerd!"
+repair_no_item: "&cJe moet een item in je hand hebben om het te repareren."
+repair_not_repairable: "&cDit item kan niet gerepareerd worden."
+repair_all_success: "&3Alle items in je inventaris zijn succesvol gerepareerd!"
+nick_success: "&3Klaar! Je bijnaam is nu &3%s&r&3."
+nick_no_permission: "&cDit commando is exclusief voor DONOR5 &3https://shop.8b8t.me/&c."
+nick_no_name_provided: "&cJe moet een bijnaam invoeren &3/nick <nickname>&c."
+nick_user_protection: "&cDe bijnaam moet hetzelfde zijn als je gebruikersnaam &3/nick <nickname>&c."
+nc_success: "&3Klaar! Je bijnaam is nu &3%s&r&3."
+nc_no_permission: "&cJe moet gestemd hebben om dit commando te gebruiken."
+nc_invalid_color: "&cJe kunt alleen stijlen uit de lijst gebruiken &3/nc <color> <styles...>&c."
+nc_usage: "&cJe moet ten minste de kleur invoeren &3/nc <color> <styles...>&c."
+ic_success: "&3Klaar! Je item heet nu &3%s&r&3."
+ic_no_permission: "&cDit commando is exclusief voor DONOR4 &3https://shop.8b8t.me/&c."
+ic_invalid_color: "&cJe kunt alleen stijlen uit de lijst gebruiken &3/ic <color> <styles...>&c."
+ic_invalid_item: "&cDit item is ongeldig."
+ic_no_item: "&cJe moet een item in je hand hebben om de kleur ervan te veranderen."
+ic_usage: "&cJe moet ten minste de kleur invoeren &3/ic <color> <styles...>&c."
+rename_success: "&3Klaar! Je item heet nu &3%s&r&3."
+rename_no_permission: "&cDit commando is exclusief voor DONOR5 &3https://shop.8b8t.me/&c."
+rename_invalid_item: "&cDit item is ongeldig."
+rename_no_item: "&cJe moet een item in je hand hebben om de kleur ervan te veranderen."
+rename_no_name_provided: "&cJe moet een naam invoeren &3/rename <item name>&c."
+nick_too_large: "&cDe bijnaam mag maximaal %s tekens lang zijn."
+nick_reset: "&3Je bijnaam is teruggezet naar je originele gebruikersnaam."
+nick_usage: "&cGebruik: %s"
+gradient_usage: "&cGebruik: %s"
+gradient_invalid: "&cOngeldige gradient: &e%s&c. Gebruik hex-formaat zoals #FF0000:#00FF00"
+gradient_animation_invalid: "&cOngeldig animatietype: &e%s&c. Geldige types: wave, pulse, rainbow, shift, none"
+gradient_invalid_color: "&cOngeldige kleur: %s. Gebruik hex-formaat zoals #FF0000"
+gradient_set: "&3Gradient ingesteld op: &r%s"
+gradient_success: "&3Gradient succesvol toegepast!"
+ic_too_large: "&cDe itemnaam mag maximaal 50 tekens lang zijn."
+title_no_ranks: "&cJe hebt geen ranks beschikbaar om tussen te wisselen."
+title_cleared: "&3Je titel is gewist."
+title_success: "&3Titel ingesteld op: &a%s"
+title_no_permission_for_rank: "&cJe hebt geen toestemming voor die rank."
+leaderboard_vanilla: "&3Overgeschakeld naar vanilla leaderboard. Gebruik /toggleleaderboard om terug te schakelen."
+leaderboard_custom: "&3Overgeschakeld naar aangepast leaderboard met ranks."
+hotspot_no_perms_create: "&cJe hebt geen toestemming om een hotspot aan te maken."
+hotspot_no_playername: "&cGeef een speler op om naartoe te teleporteren /hotspot teleport <player>."
+hotspot_already_created: "&cJe hebt al een actieve hotspot, je moet wachten voordat je er nog een kunt maken."
+hotspot_created: "&3Je hotspot is succesvol aangemaakt."
+hotspot_deleted: "&3Je hotspot is succesvol verwijderd."
+hotspot_creation_cooldown: "&cJe moet &a%s&c seconden wachten voordat je nog een hotspot kunt maken."
+dps_enabled: "&3Phantom spawning &aingeschakeld&3 voor jou."
+dps_disabled: "&3Phantom spawning &cuitgeschakeld&3 voor jou."
+hotspot_not_active: "&cJe hebt momenteel geen actieve hotspot."
+hotspot_not_found_for_player: "&r&a%s&c heeft geen actieve hotspot."
+hotspot_teleported_to_player: "&3Teleporteren naar de hotspot van &r&a%s&3."
+hotspot_not_found: "&cEr zijn geen actieve hotspots om naartoe te teleporteren."
+hotspot_teleported_to: "&3Teleporteren naar de dichtstbijzijnde hotspot..."
+hotspot_created_to_everyone: "&r&a%s&3 heeft een nieuwe hotspot gemaakt, gebruik <blue><underlined><hover:show_text:'<gray>Klik om te teleporteren'><click:run_command:'/hotspot teleport %s'>/hotspot</click></hover></underlined></blue> om ernaartoe te teleporteren"
+repair_fail_while_pvp: "&cJe kunt dit commando niet gebruiken tijdens of kort na PvP!"
+sign_success: "&3Klaar! Je hebt het item succesvol ondertekend."
+sign_fail_already_signed: "&cDit item is al ondertekend."
+sign_fail_no_item: "&cJe moet een item in je hand houden om het te ondertekenen."
+antiillegal_flagged_placement: "&cJe plaatsing is geannuleerd omdat het item illegale onderdelen bevat: &6%s"
+show_join_leave_messages_false: "&8Join/Leave-berichten zijn nu &cverborgen&8. Gebruik dit commando opnieuw om ze weer te tonen."
+show_join_leave_messages_true: "&8Join/Leave-berichten worden nu &agetoond&8."
+mapart_deleted_inventory: "&cVerboden mapart is uit je inventaris verwijderd. Als je opnieuw met dit soort materiaal wordt betrapt, word je van de server verbannen."
+mapart_deleted_frame: "&cVerboden mapart is uit je basis verwijderd. Als je opnieuw met dit soort materiaal wordt betrapt, word je van de server verbannen."
+spam_alert: "&cGelieve niet te spammen."
+vanish_true: "&8Je bent nu in &3vanish-modus&8. Gebruik opnieuw het commando /vanish om dit te verlaten."
+vanish_false: "&8Je bent nu &3zichtbaar &8voor andere spelers."
+table_usage: "&cJe moet een tabeltype opgeven &3/table <type>&c."
+table_invalid_type: "&cOngeldig tabeltype. Gebruik tab-complete om geldige opties te zien &3/table <type>&c."
+
+#Complex messages
+HelpMessage:
+  - '&3---------------------------------------'
+  - '&8Bezoek &chttps://www.8b8t.me/terms &8om de regels te lezen'
+  - '&3---------------------------------------'
+  - '&6Commando''s:'
+  - '&c/tpa &8om naar een andere speler te teleporteren'
+  - '&c/tpahere &8om een speler naar jouw locatie te teleporteren'
+  - '&c/tpayes &8om een teleportverzoek te accepteren'
+  - '&c/tpano &8om een teleportverzoek te weigeren'
+  - '&c/tpacancel &8om verzonden tpa-verzoeken te annuleren'
+  - '&c/back &8om terug te keren naar je laatste locatie'
+  - '&c/hotspot &8teleporteer naar een hotspot of maak een nieuwe aan'
+  - '&c/sethome &8om een home op je locatie in te stellen'
+  - '&c/delhome &8om een home die je hebt ingesteld te verwijderen'
+  - '&c/home &8om naar een ingestelde home te teleporteren'
+  - '&c/skin set &8om je skin in te stellen'
+  - '&c/vote &8om op 8b8t te stemmen'
+  - '&c/discord &8om een 8b8t Discord-uitnodiging te krijgen'
+  - '&c/kill &8om zelfmoord te plegen'
+  - '&c/ignore &8om andere spelers te negeren'
+  - '&c/unignore &8om andere spelers niet langer te negeren'
+  - '&c/ignorelist &8om de spelers te tonen die je negeert'
+  - '&c/msg &8om berichten naar andere spelers te sturen'
+  - '&c/changepass &8om je wachtwoord te wijzigen'
+  - '&c/worldstats &8om de wereldgrootte te bekijken'
+  - '&c/pvp &8om verbinding te maken met de 8b8t PVP-server'
+  - '&c/lobby &8om verbinding te maken met de lobby'
+  - '&c/tpsinfo &8om de server ticks per second te controleren'
+  - '&c/announcements &8om aankondigingen aan/uit te zetten'
+  - '&c/dps &8schakelt phantom spawning aan/uit'
+  - '&c/achievements &8schakelt achievements aan/uit'
+  - '&c/deathmessage &8schakelt death messages aan/uit'
+  - '&c/joindate &8toont de joinedatum van een speler'
+  - '&c/lastseen &8toont wanneer een speler voor het laatst gezien is'
+  - '&c/toggleprefix &8schakelt de prefix van spelers aan/uit'
+  - '&c/toggleleaderboard &8schakelt vanilla leaderboard aan/uit'
+  - '&c/togglejoinmessage &8schakelt join/leave-berichten aan/uit'
+  - '&c/togglechat &8schakelt chat aan/uit'
+  - '&3---------------------------------------'
+  - '&6Alleen voor gerankte gebruikers:'
+  - '&c/rename &8om een item te hernoemen'
+  - '&c/echest &8om je ender chest te openen'
+  - '&c/hotspot &8om een hotspot te maken (alleen ultra rank)'
+  - '&c/cosmetics nick &8om nickname-cosmetics te wijzigen'
+  - '&c/cosmetics item &8om item-cosmetics te wijzigen'
+  - '&c/cosmetics title &8om title-cosmetics te wijzigen (alleen custom rank)'
+  - '&8Bezoek &chttps://shop.8b8t.me'
+  - '&3---------------------------------------'
+
+TabList:
+  Header:
+    - ''
+    - '&9&l8builders&7&l8tools'
+    - ''
+    - '&r&c&oGeniet je van 8b8t.me? Overweeg dan een rank te kopen op https://shop.8b8t.me'
+    - ''
+
+  Footer:
+    - ''
+    - '&7tps:&r %tps% &7mspt:&r %mspt% &7ping: &r%ping% &7spelers: &f%players% &7uptime: &r%uptime%'
+    - ''
+    - '&7Contact: contact@8b8t.me'
+    - '&7Discussie: https://discord.8b8t.me'
+    - '&7Website: https://www.8b8t.me'
+    - '&7Dit zijn de enige officiële 8b8t-websites en contactpunten'
+    - ''
+
+TpsMessage:
+  - '&3--------------------------------------'
+  - '&6TPS-informatie:'
+  - '&8TPS: %s &8MSPT: %s'
+  - '&8Laagste regio-TPS: %s'
+  - '&8Online spelers &a%s'
+  - '&3--------------------------------------'
+
+tps_failed: '&cJe mag TPS niet controleren'
+
+announcements:
+  - "%prefix% &7>>&r&8 Bezoek <red><hover:show_text:'<gray>Klik om de link te openen'><click:open_url:'https://votefor.8b8t.me'>https://votefor.8b8t.me</click></hover></red> <dark_gray>en stem om gratis 2 extra render distance, 5 extra homes en toegang tot de donkey dupe te ontvangen</dark_gray>"
+  - "%prefix% &7>>&r&8 Doneer om 8b8t te steunen via <red><hover:show_text:'<gray>Klik om de link te openen'><click:open_url:'https://shop.8b8t.me'>https://shop.8b8t.me</click></hover></red>"
+  - "%prefix% &7>> &8Word lid van de officiële announcement discordserver via <red><hover:show_text:'<gray>Klik om de link te openen'><click:open_url:'https://discord.8b8t.me'>https://discord.8b8t.me</click></hover></red>"
+  - "%prefix% &7>> &8Word lid van de officiële matrix-chat via <red><hover:show_text:'<gray>Klik om de link te openen'><click:open_url:'https://matrix.8b8t.me'>https://matrix.8b8t.me</click></hover></red>"
+
+# Death messages
+global-pvp-death-messages:
+  - "&3%victim%&r&4 is gedood door &3%killer%&r&4"
+  - "&3%victim%&r&4 is verslagen door &3%killer%&r&4 met &6[%kill-weapon%&6]"
+  - "&3%victim%&r&4 is afgemaakt door &3%killer%&r&4"
+  - "&3%victim%&r&4 werd compleet gesloopt door &3%killer%&r&4 met &6[%kill-weapon%&6]"
+  - "&3%killer%&r&4 heeft &3%victim%&r&4 verpulverd met &6[%kill-weapon%&6]"
+  - "&3%victim%&r&4 is vernietigd door &3%killer%&r&4"
+  - "&3%victim%&r&4 werd volledig gerekt door &3%killer%&r&4 en hun machtige &6[%kill-weapon%&6]"
+  - "&3%victim%&r&4 werd EZ geclapped door &3%killer%&r&4 met &6[%kill-weapon%&6]"
+
+melee-death-messages:
+  - "&3%victim%&r&4 werd geslagen door &3%killer%&r&4"
+  - "&3%victim%&r&4 werd KO geslagen door &3%killer%&r&4"
+  - "&3%victim%&r&4 werd hard geraakt door &3%killer%&r&4"
+
+fall-damage-messages:
+  - "&3%victim%&r&4 besloot zwaartekracht te testen en verloor"
+  - "&3%victim%&r&4 vergat een parachute mee te nemen"
+  - "&3%victim%&r&4 dacht dat die kon vliegen... dat kon niet"
+
+drowning-messages:
+  - "&3%victim%&r&4 besloot bij de vissen te gaan slapen"
+  - "&3%victim%&r&4 dacht op tijd zuurstof te kunnen halen"
+  - "&3%victim%&r&4 probeerde sneller te zwemmen dan het water"
+
+suffocation-messages:
+  - "&3%victim%&r&4 kon geen adem krijgen in een blok"
+  - "&3%victim%&r&4 kon niet ademen binnenin een blok"
+  - "&3%victim%&r&4 werd te slim af door een blok"
+
+cramming-messages:
+  - "&3%victim%&r&4 werd tot vergetelheid geplet"
+  - "&4Arme &3%victim%&r&4, dacht dat die in een 1x1 ruimte kon leven"
+
+thorns-messages:
+  - "&3%victim%&r&4 werd afgestoten door de stekelige armor van &3%killer%&r&4"
+  - "&3%victim%&r&4 kreeg het deksel op de neus door de thorns van &3%killer%&r&4"
+
+lava-messages:
+  - "&3%victim%&r&4 verbrandde in een kuil met lava"
+  - "&3%victim%&r&4 ging zwemmen in lava en verbrandde"
+
+magma-block-messages:
+  - "&3%victim%&r&4 werd uitgeschakeld door een hete &6magma block"
+  - "&3%victim%&r&4's voeten werden spek door een &6magma block"
+
+elytra-messages:
+  - "&3%victim%&r&4 vloog tegen een muur en stierf...?"
+  - "&3%victim%&r&4 werd door diens elytra tegen een muur gesmeten"
+
+wither-messages:
+  - "&3%victim%&r&4 kreeg de &9wither-&4ziekte"
+  - "&3%victim%&r&4 &9witherde &4weg naar de 4e dimensie"
+
+suicide-messages:
+  - "&3%victim%&r&4 pleegde zelfmoord"
+  - "&3%victim%&r&4 kreeg een mentale inzinking en stierf"
+
+fire-messages:
+  - "&3%victim%&r&4 stond in de open haard"
+  - "&3%victim%&r&4 speelde met vuur"
+
+fire-tick-messages:
+  - "&3%victim%&r&4 vergat te stoppen, te laten vallen en te rollen"
+
+starvation-messages:
+  - "&3%victim%&r&4 vergat te eten"
+  - "&3%victim%&r&4's moeder zei dat er thuis eten was"
+
+cactus-messages:
+  - "&3%victim%&r&4 werd dood geprikt"
+  - "&3%victim%&r&4 probeerde acupunctuur, maar stierf"
+  - "&3%victim%&r&4 knuffelde een cactus dood"
+
+potion-messages:
+  - "&3%victim%&r&4 werd slachtoffer van een slechte potion"
+  - "&3%victim%&r&4 stierf aan coronavirus"
+
+void-messages:
+  - "&3%victim%&r&4 dacht dat een trip in de void leuk zou zijn"
+  - "&3%victim%&r&4 maakte een enkeltje naar de void"
+  - "&3%victim%&r&4 ging op een kosmisch avontuur... zonder ruimteschip"
+
+lightning-messages:
+  - "&3%victim%&r&4 werd geraakt door goddelijke tussenkomst"
+  - "&3%victim%&r&4 werd neergeslagen door de goden"
+  - "&3%victim%&r&4 kreeg van boven een schokkende herinnering"
+
+falling-block-messages:
+  - "&3%victim%&r&4 werd verpletterd door een vallend blok"
+  - "&3%victim%&r&4 werd één met het vallende blok"
+  - "&3%victim%&r&4 vond diens meerdere in een vallend blok"
+
+freeze-messages:
+  - "&3%victim%&r&4 overleefde de poolwervel niet"
+  - "&3%victim%&r&4 vergat diens winterjas"
+  - "&3%victim%&r&4 bevroor sneller dan een ijsblokje"
+
+firework-messages:
+  - "&3%victim%&r&4 stak de lont van een vuurwerk te vroeg aan"
+  - "&3%victim%&r&4 probeerde met stijl te vliegen... en crashte"
+  - "&3%victim%&r&4 ontdekte de gevaren van amateurpyrotechniek"
+
+slime-messages:
+  - "&3%victim%&r&4 werd verpletterd door een &2REUSACHTIGE SLIME"
+  - "&3%victim%&r&4 werd doodgeslimed terwijl die slime balls verzamelde"
+
+zombie-messages:
+  - "&3%victim%&r&4 werd levend opgegeten door een &2Zombie"
+  - "&3%victim%&r&4 dacht dat een &2Zombie &4vriendelijk was"
+
+pigman-messages:
+  - "&3%victim%&r&4 maakte de &ePigmen &4agressief en werd levend opgegeten"
+  - "&3%victim%&r&4 maakte de &ePigmen &4boos en werd hun spek"
+
+skeleton-messages:
+  - "&3%victim%&r&4 werd gesniped door een benige &fSkeleton"
+  - "&3%victim%&r&4 werd neergeschoten door een &fskeleton"
+
+magmacube-messages:
+  - "&3%victim%&r&4 werd verpletterd door een &6REUSACHTIGE MAGMA CUBE"
+
+husk-messages:
+  - "&3%victim%&r&4 werd opgegeten door een woestijnbewoner AKA een &3Husk"
+
+spider-messages:
+  - "&3%victim%&r&4 werd te slim af door een sluwe &1spider"
+  - "&3%victim%&r&4 werd &1spider-snack"
+
+cavespider-messages:
+  - "&3%victim%&r&4 werd doodgebeten door een &1Cave Spider"
+  - "&3%victim%&r&4 kreeg een giftige knuffel van een &1Cave Spider"
+
+witherskeleton-messages:
+  - "&3%victim%&r&4 werd vernietigd door een &0Wither Skeleton &4met een stenen zwaard"
+  - "&3%victim%&r&4 kreeg les van een &0Wither Skeleton &4met een stenen zwaard"
+
+witherboss-messages:
+  - "&3%victim%&r&4 kreeg het hoofd eraf geblazen door de &0Wither"
+  - "&3%victim%&r&4 daagde de &0Wither &4uit en verloor diens hoofd"
+  - "&3%victim%&r&4 kreeg een dodelijke les van de &0Wither"
+
+dragon-messages:
+  - "&3%victim%&r&4 kreeg de ingewanden eruit gerukt door de &5Ender Dragon"
+  - "&3%victim%&r&4 kreeg het hoofd eraf geblazen door de &5Ender Dragon"
+  - "&3%victim%&r&4 vond een respawnscherm, niet het end portal"
+
+dragon-breath-messages:
+  - "&3%victim%&r&4 nam een bad in de adem van de &5Ender Dragon"
+  - "&3%victim%&r&4 ademde iets te veel van de adem van de &5Ender Dragon in"
+  - "&3%victim%&r&4 werd verbrand door de ademaanval van de &5Ender Dragon"
+
+elderguardian-messages:
+  - "&3%victim%&r&4 probeerde een ocean monument leeg te maken maar de &bElder Guardian &4zei nee"
+  - "&3%victim%&r&4 dacht een ocean monument te kunnen veroveren, maar de &bElder Guardian &4dacht daar anders over"
+
+tnt-messages:
+  - "&3%victim%&r&4 kreeg het hoofd eraf geblazen door &4TNT"
+  - "&3%victim%&r&4 werd opgeblazen door &4TNT"
+  - "&3%victim%&r&4 leerde explosieven op de harde manier kennen"
+
+end-crystal-messages:
+  - "&3%victim%&r&4 werd doorboord door een &5End Crystal"
+  - "&3%victim%&r&4 werd opgeblazen door een &5End Crystal"
+
+creeper-messages:
+  - "&3%victim%&r&4 maakte op een ruwe manier kennis met de explosieve persoonlijkheid van een &aCreeper"
+  - "&3%victim%&r&4 kwam een &aCreeper &4tegen en werd de lucht in geblazen"
+  - "&3%victim%&r&4 onderschatte de explosieradius van een &aCreeper"
+  - "&3%victim%&r&4 probeerde een &aCreeper&4 te ontmantelen... dat werkte niet"
+
+ghast-messages:
+  - "&3%victim%&r&4 werd met een fireball geraakt door een &bGhast"
+
+enderman-messages:
+  - "&3%victim%&r&4 keek een &5Enderman &4in de ogen"
+  - "&3%victim%&r&4 probeerde kiekeboe te spelen met een &5Enderman"
+
+silverfish-messages:
+  - "&3%victim%&r&4 werd opgegeten door een &7Silverfish"
+
+witch-messages:
+  - "&3%victim%&r&4 werd betoverd door een sluwe &9Witch"
+  - "&3%victim%&r&4 werd in een kikker veranderd door een wraakzuchtige &9Witch"
+
+shulker-messages:
+  - "&3%victim%&r&4 stierf terwijl die &dshulker &4shells probeerde te krijgen"
+  - "&3%victim%&r&4 werd neergeschoten door een &dShulker"
+  - "&3%victim%&r&4 werd kapotgemaakt door een &dShulker"
+
+guardian-messages:
+  - "&3%victim%&r&4 werd gedood door een &7Guardian"
+  - "&3%victim%&r&4 werd gezapt door een elektriserende &7Guardian"
+  - "&3%victim%&r&4 werd uitgezwommen door een sluwe &7Guardian"
+
+golem-messages:
+  - "&3%victim%&r&4 maakte een &7Iron Golem &4boos"
+  - "&3%victim%&r&4 provoceerde de woede van een &7Iron Golem"
+  - "&3%victim%&r&4 kreeg een les in &7Iron Golem-&4diplomatie"
+
+zombievillager-messages:
+  - "&3%victim%&r&4 werd als avondeten gebruikt door een &2Zombie Villager"
+
+endermite-messages:
+  - "&3%victim%&r&4 kwam een &5Endermite &4tegen en werd doodgeknaagd"
+  - "&3%victim%&r&4 werd te slim af door een &5Endermite"
+
+phantom-messages:
+  - "&3%victim%&r&4 werd ontvoerd door een &1Phantom"
+
+drowned-messages:
+  - "&3%victim%&r&4 ging laat op de avond zwemmen en werd opgegeten door een &2Drowned Zombie"
+  - "&3%victim%&r&4 ontdekte dat &2Drowned &4niet zomaar gewone zwemmers zijn"
+
+pillager-messages:
+  - "&3%victim%&r&4 werd neergeschoten door een &3Pillager"
+
+ravager-messages:
+  - "&3%victim%&r&4 werd geramd door een &3Ravager"
+
+illusioner-messages:
+  - "&3%victim%&r&4 werd door een &6Illusioner &4naar de illusiewereld gestuurd"
+  - "&3%victim%&r&4 werd misleid door een &6Illusioner"
+  - "&3%victim%&r&4 werd gedood door een &6Illusioner"
+
+bee-messages:
+  - "&3%victim%&r&4 werd gestoken door een &6BIJ"
+  - "&3%victim%&r&4 kwam een &6bij &4tegen en ontdekte dat ze niet alleen honing maken"
+  - "&3%victim%&r&4 werd gestoken door een hardnekkige &6bij"
+
+wolf-messages:
+  - "&3%victim%&r&4 werd verscheurd door een &7Wolf"
+  - "&3%victim%&r&4 provoceerde een &7Wolf"
+
+llama-messages:
+  - "&3%victim%&r&4 werd doodgespuugd door een &eLlama"
+  - "&3%victim%&r&4 kwam terecht in het spuugvuur van een &ellama"
+  - "&3%victim%&r&4 kreeg een mond vol &llama &4spuug"
+
+blaze-messages:
+  - "&3%victim%&r&4 werd verschroeid door een &6Blaze"
+  - "&3%victim%&r&4 werd geroosterd door een vurige &6Blaze"
+  - "&3%victim%&r&4 leerde op de harde manier om niet met vuur te spelen &6Blazes"
+
+stray-messages:
+  - "&3%victim%&r&4 werd in het hoofd geraakt door een &7Stray"
+
+vex-messages:
+  - "&3%victim%&r&4 werd opgegeten door een kleine vliegende &bVex"
+  - "&3%victim%&r&4 werd gevexed door een &bVex"
+
+vindicator-messages:
+  - "&3%victim%&r&4 werd opgejaagd door een &4Vindicator"
+  - "&3%victim%&r&4 onderschatte de kracht van een &4Vindicator"
+  - "&3%victim%&r&4 kwam terecht op het pad van vernietiging van een &4Vindicator"
+
+evoker-messages:
+  - "&3%victim%&r&4 werd door een &4Evoker &4naar de dood opgeroepen"
+  - "&3%victim%&r&4 proefde de woede van een &4Evoker"
+  - "&3%victim%&r&4 werd geëvoked door een &4Evoker"
+
+pufferfish-messages:
+  - "&3%victim%&r&4 onderschatte de giftigheid van een &ePufferfish"
+  - "&3%victim%&r&4 kwam een &ePufferfish &4tegen en leerde op de harde manier dat je die niet moet aanraken"
+
+polar-bear-messages:
+  - "&3%victim%&r&4 werd toegetakeld door een ijskoude &fPolar Bear"
+  - "&3%victim%&r&4 werd door een &fPolar Bear &4in sneeuw veranderd"
+
+dolphin-messages:
+  - "&3%victim%&r&4 provoceerde een &bDolphin&4... en verloor?"
+  - "&3%victim%&r&4 sloeg een &bDolphin &4en die sloeg terug"
+
+panda-messages:
+  - "&3%victim%&r&4 werd het avondeten van een &8Panda"
+  - "&3%victim%&r&4 probeerde de bamboe van een &8Panda &4te stelen"
+
+piglin-messages:
+  - "&3%victim%&r&4 ontmoette diens maker tegen de nieuwe &6Piglins"
+  - "&3%victim%&r&4 raakte verstrikt met &6Piglins &4en kreeg een les in overleven"
+  - "&3%victim%&r&4 kwam &6Piglins &4tegen en ontdekte dat die niet onderhandelen"
+
+hoglin-messages:
+  - "&3%victim%&r&4 werd aangevallen door een &6Hoglin&4, best onbeleefd?"
+  - "&3%victim%&r&4 had de patch notes over &6Hoglins &4niet gelezen"
+
+zoglin-messages:
+  - "&3%victim%&r&4 at een &6Zoglin-&4hoorn als avondeten"
+  - "&3%victim%&r&4 werd geramd door een &6Zoglin"
+
+goat-messages:
+  - "&3%victim%&r&4 werd gekopt door een &4Goat"
+  - "&3%victim%&r&4 werd gespietst door een &4Goat-&4hoorn"
+
+zombified-piglin-messages:
+  - "&3%victim%&r&4 nam een &6Piglin &4mee naar de overworld en werd vermoord door hun nieuwe, niet zo vriendelijke huisdier"
+  - "&3%victim%&r&4 stierf door een &6Piglin&4... ik bedoel, Pigman... ik bedoel, Zombified Piglin"
+
+fox-messages:
+  - "&3%victim%&r&4 heeft zitten &6foxen &4en kwam erachter"
+  - "&3%victim%&r&4 werd opgegeten door een &6Fox"
+
+warden-messages:
+  - "&3%victim%&r&4 werd gedood door een &1Warden&4... tja, wat had je verwacht?"
+  - "&3%victim%&r&4 onderschatte de kracht van de &1Warden"
+  - "&3%victim%&r&4 kwam te dicht bij het territorium van een &1Warden"
+
+warden-sonic-boom-messages:
+  - "&3%victim%&r&4 werd weggeblazen door een sonic boom van een &1Warden"
+  - "&3%victim%&r&4 kreeg de oren eraf geblazen door de sonic boom van een &1Warden"
+
+unknown-messages:
+  - "&3%victim%&r&4 stierf door onbekende oorzaken"
+  - "&3%victim%&r&4 stierf"
+  - "&3%victim%&r&4 werd gedood"
+
+fireball-messages:
+  - "&3%victim%&r&4 werd geroosterd door een onverwachte &4vuurbol-&4aanval"
+  - "&3%victim%&r&4 kwam terecht in een vurige storm van &4vuurballen"
+  - "&3%victim%&r&4 werd verbrand door een spervuur van &4vuurballen"
+
+arrow-messages:
+  - "&3%victim%&r&4 kwam terecht in een regen van &5pijlen"
+  - "&3%victim%&r&4 probeerde &5pijlen &4te ontlopen... dat werkte niet"
