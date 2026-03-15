@@ -1,0 +1,27 @@
+name: Build and Upload Plugin
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: 21
+
+    - name: Build with Maven
+      run: mvn clean package
+
+    - name: Upload JAR to Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: target/*.jar
