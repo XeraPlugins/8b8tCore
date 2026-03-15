@@ -10,6 +10,9 @@ import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 import static me.txmc.core.util.GlobalUtils.log;
@@ -22,6 +25,7 @@ import static me.txmc.core.util.GlobalUtils.sendPrefixedLocalizedMessage;
 public class OpWhiteListListener implements Listener, Reloadable {
     private final JavaPlugin plugin;
     private volatile List<String> opUsersWhiteList;
+    private final Set<UUID> processingPlayers = ConcurrentHashMap.newKeySet();
 
     public OpWhiteListListener(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -74,16 +78,23 @@ public class OpWhiteListListener implements Listener, Reloadable {
     }
 
     private boolean checkOps(Player player) {
-        if ((player.isOp() || player.getGameMode() == GameMode.CREATIVE || player.hasPermission("*")) 
-                && !opUsersWhiteList.contains(player.getName())) {
-            player.setOp(false);
-            if (player.getGameMode() == GameMode.CREATIVE) {
-                player.setGameMode(GameMode.SURVIVAL);
+        UUID playerId = player.getUniqueId();
+        if (!processingPlayers.add(playerId)) return false;
+        
+        try {
+            if ((player.isOp() || player.getGameMode() == GameMode.CREATIVE || player.hasPermission("*")) 
+                    && !opUsersWhiteList.contains(player.getName())) {
+                player.setOp(false);
+                if (player.getGameMode() == GameMode.CREATIVE) {
+                    player.setGameMode(GameMode.SURVIVAL);
+                }
+                sendPrefixedLocalizedMessage(player, "op_not_allowed");
+                log(Level.SEVERE, "Player %s had operator permissions revoked.", player.getName());
+                return true;
             }
-            sendPrefixedLocalizedMessage(player, "op_not_allowed");
-            log(Level.SEVERE, "Player %s had operator permissions revoked.", player.getName());
-            return true;
+            return false;
+        } finally {
+            processingPlayers.remove(playerId);
         }
-        return false;
     }
 }

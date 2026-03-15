@@ -42,7 +42,7 @@ public class EnchantCheck implements Check {
                 if (me.txmc.core.antiillegal.AntiIllegalMain.debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.INFO, "&cEnchantCheck flagged item %s for over-level enchantment %s: %d > %d", item.getType(), ench.getKey().getKey(), lvl, ench.getMaxLevel());
                 return true;
             }
-            if (!ench.canEnchantItem(item)) {
+            if (!ench.canEnchantItem(item) || !allowedKeysFor(item).contains(keyOf(ench))) {
                 if (me.txmc.core.antiillegal.AntiIllegalMain.debug) me.txmc.core.util.GlobalUtils.log(java.util.logging.Level.INFO, "&cEnchantCheck flagged item %s for incompatible enchantment %s", item.getType(), ench.getKey().getKey());
                 return true;
             }
