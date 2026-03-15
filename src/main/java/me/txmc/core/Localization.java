@@ -34,7 +34,7 @@ public class Localization {
             return;
         }
 
-        String[] locales = {"ar", "en", "es", "fr", "hi", "it", "jp", "pt", "ru", "tr", "zh"};
+        String[] locales = {"ar", "en", "es", "fr", "hi", "it", "ja", "nl", "pt", "ru", "tr", "zh"};
         for (String locale : locales) {
             File file = new File(localeDir, locale + ".yml");
             GlobalUtils.unpackResource("Localization/" + locale + ".yml", file);

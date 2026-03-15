@@ -69,7 +69,7 @@ public class LastSeenCommand extends BaseTabCommand implements Listener {
         }
         
         // Get offline player data
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        Bukkit.getScheduler().runTask(plugin, () -> {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
             
             if (offlinePlayer.getFirstPlayed() == 0L) {
