@@ -153,7 +153,7 @@ public class TPACommands {
             Location targetLoc = requested.getLocation();
             targetLoc.getWorld().getChunkAtAsyncUrgently(targetLoc.getBlock()).thenAccept(chunk -> {
                 if (requester.isOnline()) {
-                    requester.teleport(targetLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    requester.teleportAsync(targetLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
                 }
             });
             sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
@@ -171,7 +171,7 @@ public class TPACommands {
             Location targetLoc = requester.getLocation();
             targetLoc.getWorld().getChunkAtAsyncUrgently(targetLoc.getBlock()).thenAccept(chunk -> {
                 if (requested.isOnline()) {
-                    requested.teleport(targetLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    requested.teleportAsync(targetLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
                 }
             });
             sendPrefixedLocalizedMessage(requester, "tpa_teleporting");
