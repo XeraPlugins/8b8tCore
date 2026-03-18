@@ -22,6 +22,7 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
 
@@ -92,28 +93,34 @@ public class ChatSection implements Section {
         loadAllDataAsync(info);
     }
 
-    public void loadAllDataAsync(ChatInfo info) {
+    /**
+     * Loads all chat/cosmetics data asynchronously. Returns a CompletableFuture that completes
+     * when all data (including prefix/title from refreshPrefixDataAsync) is loaded.
+     * Required for Folia: callers can chain tab updates to run after this completes.
+     */
+    public CompletableFuture<Void> loadAllDataAsync(ChatInfo info) {
         String username = info.getPlayer().getName();
         GeneralDatabase db = GeneralDatabase.getInstance();
         me.txmc.core.customexperience.util.PrefixManager pm = new me.txmc.core.customexperience.util.PrefixManager();
 
-        db.loadPlayerDataCache(username).thenAccept(pd -> {
-            info.setMutedUntil(pd.getLong("muted", 0L));
-            info.setNickname(pd.getString("displayname"));
-            info.setUseVanillaLeaderboard(pd.getBoolean("useVanillaLeaderboard", false));
-            info.setNameGradient(pd.getString("customGradient"));
-            info.setNameAnimation(pd.getString("gradient_animation"));
-            info.setNameSpeed(pd.getInt("gradient_speed", 5));
-            info.setNameDecorations(pd.getString("nameDecorations"));
-            info.setHideAnnouncements(pd.getBoolean("hideAnnouncements", false));
-            info.setHidePrefix(pd.getBoolean("hidePrefix", false));
-            
-            pm.refreshPrefixDataAsync(info);
-            info.setDataLoaded(true);
-        }).exceptionally(e -> {
-            e.printStackTrace();
-            return null;
-        });
+        return db.loadPlayerDataCache(username)
+                .thenAccept(pd -> {
+                    info.setMutedUntil(pd.getLong("muted", 0L));
+                    info.setNickname(pd.getString("displayname"));
+                    info.setUseVanillaLeaderboard(pd.getBoolean("useVanillaLeaderboard", false));
+                    info.setNameGradient(pd.getString("customGradient"));
+                    info.setNameAnimation(pd.getString("gradient_animation"));
+                    info.setNameSpeed(pd.getInt("gradient_speed", 5));
+                    info.setNameDecorations(pd.getString("nameDecorations"));
+                    info.setHideAnnouncements(pd.getBoolean("hideAnnouncements", false));
+                    info.setHidePrefix(pd.getBoolean("hidePrefix", false));
+                })
+                .thenCompose(v -> pm.refreshPrefixDataAsync(info))
+                .thenRun(() -> info.setDataLoaded(true))
+                .exceptionally(e -> {
+                    e.printStackTrace();
+                    return null;
+                });
     }
 
     public void removePlayer(Player player) {

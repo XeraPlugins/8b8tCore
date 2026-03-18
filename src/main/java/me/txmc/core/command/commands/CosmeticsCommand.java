@@ -357,7 +357,7 @@ public class CosmeticsCommand extends BaseTabCommand {
             for (int i = 3; i < args.length; i++) {
                 String arg = args[i].toLowerCase();
                 if (!arg.matches("^\\d+:[a-z/]+:#[0-9a-f]{6}$")) {
-                    sendMessage(player, "&cInvalid part format: " + arg + ". Expected length:decorations:#color");
+                    player.getScheduler().run(Main.getInstance(), (t) -> sendMessage(player, "&cInvalid part format: " + arg + ". Expected length:decorations:#color"), null);
                     return;
                 }
                 String[] split = arg.split(":");
@@ -366,13 +366,13 @@ public class CosmeticsCommand extends BaseTabCommand {
                     totalLength += len;
                     parts.add(arg);
                 } catch (NumberFormatException e) {
-                    sendMessage(player, "&cInvalid length in part: " + arg);
+                    player.getScheduler().run(Main.getInstance(), (t) -> sendMessage(player, "&cInvalid length in part: " + arg), null);
                     return;
                 }
             }
 
             if (totalLength != nickLength) {
-                sendMessage(player, "&cTotal length of parts (" + totalLength + ") does not match nickname length (" + nickLength + ")");
+                player.getScheduler().run(Main.getInstance(), (t) -> sendMessage(player, "&cTotal length of parts (" + totalLength + ") does not match nickname length (" + nickLength + ")"), null);
                 return;
             }
 
@@ -380,7 +380,7 @@ public class CosmeticsCommand extends BaseTabCommand {
             database.updateCustomGradient(player.getName(), tobiasFormat).thenRun(() -> {
                 GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
             });
-            sendMessage(player, "&aNickname set to special Tobias format!");
+            player.getScheduler().run(Main.getInstance(), (t) -> sendMessage(player, "&aNickname set to special Tobias format!"), null);
         });
     }
 
@@ -405,7 +405,7 @@ public class CosmeticsCommand extends BaseTabCommand {
 
         database.insertNickname(player.getName(), plain).thenRun(() -> {
             GlobalUtils.updateDisplayNameAsync(player).thenRun(() -> refreshPlayer(player));
-            sendPrefixedLocalizedMessage(player, "nick_success", plain);
+            player.getScheduler().run(Main.getInstance(), (t) -> sendPrefixedLocalizedMessage(player, "nick_success", plain), null);
         });
     }
 
@@ -513,10 +513,20 @@ public class CosmeticsCommand extends BaseTabCommand {
             me.txmc.core.chat.ChatInfo info = chatSec.getInfo(player);
             if (info != null) {
                 info.clearAnimatedNameCache();
-                chatSec.loadAllDataAsync(info);
+                // Wait for async data load to complete before updating tab - fixes Folia race where
+                // tab update could run before Cosmetics data was loaded
+                chatSec.loadAllDataAsync(info).thenRun(() -> {
+                    player.getScheduler().runDelayed(plugin, (task) -> {
+                        if (!player.isOnline()) return;
+                        me.txmc.core.Section section = plugin.getSectionByName("TabList");
+                        if (section instanceof me.txmc.core.tablist.TabSection tabSection) {
+                            tabSection.setTab(player, true);
+                        }
+                    }, null, 1L);
+                });
+                return;
             }
         }
-        
         player.getScheduler().runDelayed(plugin, (task) -> {
             if (!player.isOnline()) return;
             me.txmc.core.Section section = plugin.getSectionByName("TabList");

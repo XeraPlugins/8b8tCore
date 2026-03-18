@@ -53,9 +53,13 @@ public class TabSection implements Section {
                 boolean updatePlaceholders = (tickCount % 10 == 0); 
                 long animTick = me.txmc.core.util.GradientAnimator.getAnimationTick();
                 
-                java.util.Map<String, Component> prefixCache = new java.util.HashMap<>();
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    setTab(p, updatePlaceholders, animTick, prefixCache);
+                    final Player player = p;
+                    // Run setTab on each player's entity scheduler - required for Folia
+                    player.getScheduler().run(plugin, (t) -> {
+                        java.util.Map<String, Component> prefixCache = new java.util.HashMap<>();
+                        setTab(player, updatePlaceholders, animTick, prefixCache);
+                    }, null);
                 }
             } catch (Throwable t) {
                 plugin.getLogger().warning("Error in TabList update task: " + t.getMessage());
@@ -111,10 +115,15 @@ public class TabSection implements Section {
 
         if (updatePlaceholders) {
             Localization loc = Localization.getLocalization(player.locale().getLanguage());
+            // Schedule header/footer on player's entity scheduler - CompletableFuture callbacks run on async threads
             Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, plugin.getStartTime())
-                    .thenAccept(player::sendPlayerListHeader);
+                    .thenAccept(component -> player.getScheduler().run(plugin, t -> {
+                        if (player.isOnline()) player.sendPlayerListHeader(component);
+                    }, null));
             Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Footer")), player, plugin.getStartTime())
-                    .thenAccept(player::sendPlayerListFooter);
+                    .thenAccept(component -> player.getScheduler().run(plugin, t -> {
+                        if (player.isOnline()) player.sendPlayerListFooter(component);
+                    }, null));
         }
     }
 
