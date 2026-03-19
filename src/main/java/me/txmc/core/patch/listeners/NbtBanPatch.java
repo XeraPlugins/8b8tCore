@@ -1,5 +1,6 @@
 package me.txmc.core.patch.listeners;
 
+import me.txmc.core.util.FoliaCompat;
 import me.txmc.core.util.GlobalUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Chunk;
@@ -57,7 +58,7 @@ public class NbtBanPatch implements Listener {
             if (isIllegalItem(stack)) {
                 item.setItemStack(new ItemStack(Material.AIR));
                 item.setItemStack(new ItemStack(Material.AIR));
-                entity.getScheduler().run(me.txmc.core.Main.getInstance(), (task) -> entity.remove(), null);
+                FoliaCompat.schedule(entity, me.txmc.core.Main.getInstance(), () -> entity.remove());
             }
             return;
         } 
@@ -67,7 +68,7 @@ public class NbtBanPatch implements Listener {
             if (isIllegalItem(stack)) {
                 itemFrame.setItem(new ItemStack(Material.AIR));
                 itemFrame.setItem(new ItemStack(Material.AIR));
-                entity.getScheduler().run(me.txmc.core.Main.getInstance(), (task) -> entity.remove(), null);
+                FoliaCompat.schedule(entity, me.txmc.core.Main.getInstance(), () -> entity.remove());
             }
             return;
         }
@@ -77,7 +78,7 @@ public class NbtBanPatch implements Listener {
             if (GlobalUtils.getComponentDepth(name) > 20 || GlobalUtils.getStringContent(name).length() > 500) {
                 entity.customName(null); 
                 entity.customName(null); 
-                entity.getScheduler().run(me.txmc.core.Main.getInstance(), (task) -> entity.remove(), null);
+                FoliaCompat.schedule(entity, me.txmc.core.Main.getInstance(), () -> entity.remove());
             }
         }
     }

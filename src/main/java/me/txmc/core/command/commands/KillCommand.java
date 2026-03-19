@@ -2,6 +2,7 @@ package me.txmc.core.command.commands;
 
 import me.txmc.core.Main;
 import me.txmc.core.command.BaseCommand;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -57,7 +58,7 @@ public class KillCommand extends BaseCommand {
     }
     
     private void killPlayer(CommandSender sender, Player target) {
-        target.getScheduler().run(plugin, (task) -> {
+        FoliaCompat.schedule(target, plugin, () -> {
             target.setHealth(0);
             
             if (sender.equals(target)) {
@@ -66,7 +67,7 @@ public class KillCommand extends BaseCommand {
                 sendMessage(sender, "&6You have killed &e" + target.getName() + "&6!");
                 sendMessage(target, "&cYou have been killed by &e" + sender.getName() + "&c!");
             }
-        }, null);
+        });
     }
     
     private boolean hasPermission(CommandSender sender, String permission) {

@@ -1,6 +1,7 @@
 package me.txmc.core.patch.epc;
 
 import me.txmc.core.patch.PatchSection;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -53,11 +54,11 @@ public class EntityCheckTask implements Runnable {
                             if (excessCount > 0) {
                                 for (int i = 0; i < excessCount; i++) {
                                     Entity entityToRemove = filteredEntities[i];
-                                    entityToRemove.getScheduler().run(main.plugin(), (entityTask) -> {
+                                    FoliaCompat.schedule(entityToRemove, main.plugin(), () -> {
                                         if (entityToRemove.isValid()) {
                                             entityToRemove.remove();
                                         }
-                                    }, null);
+                                    });
                                 }
                             }
                         });

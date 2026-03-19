@@ -2,6 +2,7 @@ package me.txmc.core.customexperience;
 
 import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.database.GeneralDatabase;
+import me.txmc.core.util.FoliaCompat;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -54,10 +55,10 @@ public class PlayerPrefix {
 
         prefixFuture.thenAcceptBoth(nicknameFuture, (tag, displayName) -> {
             if (!player.isOnline()) return;
-            player.getScheduler().run(plugin, (task) -> {
+            FoliaCompat.schedule(player, plugin, () -> {
                 setupTag(player, tag);
                 GlobalUtils.updateDisplayNameAsync(player);
-            }, null);
+            });
         }).exceptionally(ex -> {
             plugin.getLogger().warning("Error setting up player prefix/nickname for " + player.getName() + ": " + ex.getMessage());
             return null;

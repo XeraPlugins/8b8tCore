@@ -3,6 +3,7 @@ package me.txmc.core.tpa;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
 import me.txmc.core.tpa.commands.*;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -120,21 +121,21 @@ public class TPASection implements Section {
         Player requested = Bukkit.getPlayer(requestedUUID);
         
         if (requested != null && requested.isOnline()) {
-            requested.getScheduler().run(plugin, t -> {
+            FoliaCompat.schedule(requested, plugin, () -> {
                 Player req = Bukkit.getPlayer(requesterUUID);
                 if (req != null) {
                     sendPrefixedLocalizedMessage(requested, "tpa_request_timeout_to", req.getName());
                 }
-            }, null);
+            });
         }
         
         if (requester != null && requester.isOnline()) {
-            requester.getScheduler().run(plugin, t -> {
+            FoliaCompat.schedule(requester, plugin, () -> {
                 Player reqd = Bukkit.getPlayer(requestedUUID);
                 if (reqd != null) {
                     sendPrefixedLocalizedMessage(requester, "tpa_request_timeout_from", reqd.getName());
                 }
-            }, null);
+            });
         }
     }
 
@@ -193,8 +194,8 @@ public class TPASection implements Section {
         for (UUID requesterUUID : requesters) {
             Player requester = Bukkit.getPlayer(requesterUUID);
             if (requester != null && requester.isOnline()) {
-                requester.getScheduler().run(plugin, t -> 
-                    sendPrefixedLocalizedMessage(requester, messageKey, playerName), null);
+                FoliaCompat.schedule(requester, plugin, () -> 
+                    sendPrefixedLocalizedMessage(requester, messageKey, playerName));
             }
         }
     }

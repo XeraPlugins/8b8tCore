@@ -3,6 +3,7 @@ package me.txmc.core.command.commands;
 import me.txmc.core.Main;
 import me.txmc.core.command.BaseCommand;
 import me.txmc.core.database.GeneralDatabase;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -63,11 +64,11 @@ public class ToggleLeaderboardCommand extends BaseCommand {
 
     private void refreshPlayer(Player player) {
         Main plugin = (Main) Main.getInstance();
-        player.getScheduler().run(plugin, (task) -> {
+        FoliaCompat.schedule(player, plugin, () -> {
             me.txmc.core.Section section = plugin.getSectionByName("TabList");
             if (section instanceof me.txmc.core.tablist.TabSection tabSection) {
                 tabSection.setTab(player, true);
             }
-        }, null);
+        });
     }
 }

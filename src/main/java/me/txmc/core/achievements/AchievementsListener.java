@@ -2,6 +2,7 @@ package me.txmc.core.achievements;
 
 import me.txmc.core.Main;
 import me.txmc.core.database.GeneralDatabase;
+import me.txmc.core.util.FoliaCompat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,9 +28,9 @@ public class AchievementsListener implements Listener {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 database.getPlayerHideBadgesAsync(p.getName()).thenAccept(hideBadges -> {
                     if (hideBadges || !p.isOnline()) return;
-                    p.getScheduler().run(Main.getInstance(), (playerTask) -> {
+                    FoliaCompat.schedule(p, Main.getInstance(), () -> {
                         if (p.isOnline()) p.sendMessage(msg);
-                    }, null);
+                    });
                 });
             }
         }, 1L);

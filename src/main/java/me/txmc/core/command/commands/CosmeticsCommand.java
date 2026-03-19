@@ -4,7 +4,9 @@ import me.txmc.core.Main;
 import me.txmc.core.command.BaseTabCommand;
 import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.database.GeneralDatabase;
+import me.txmc.core.util.FoliaCompat;
 import me.txmc.core.util.GlobalUtils;
+import me.txmc.core.vote.VoteSection;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -218,15 +220,23 @@ public class CosmeticsCommand extends BaseTabCommand {
                 }
             }
 
-            player.getScheduler().run(Main.getInstance(), (task) -> {
+            FoliaCompat.schedule(player, Main.getInstance(), () -> {
                 player.displayName(miniMessage.deserialize(player.getName()));
                 refreshPlayer(player);
-            }, null);
+            });
             sendPrefixedLocalizedMessage(player, "nick_reset");
         } else if (action.equals("color")) {
             if (!player.hasPermission("8b8tcore.command.nc")) {
-                sendPrefixedLocalizedMessage(player, "nc_no_permission");
-                return;
+                boolean hasRank = prefixManager.hasRank(player);
+                boolean hasVoterRole = false;
+                var voteSection = (me.txmc.core.vote.VoteSection) Main.getInstance().getSectionByName("Vote");
+                if (voteSection != null) {
+                    hasVoterRole = !voteSection.hasVoterRoleExpired(player.getName());
+                }
+                if (!hasRank && !hasVoterRole) {
+                    sendPrefixedLocalizedMessage(player, "nc_no_permission");
+                    return;
+                }
             }
 
             if (args.length > 2 && args[2].equalsIgnoreCase("tobias")) {
@@ -282,8 +292,16 @@ public class CosmeticsCommand extends BaseTabCommand {
             sendMessage(player, "&aNickname gradient set: &r" + preview);
         } else if (action.equals("animation")) {
             if (!player.hasPermission("8b8tcore.command.nc")) {
-                sendPrefixedLocalizedMessage(player, "nc_no_permission");
-                return;
+                boolean hasRank = prefixManager.hasRank(player);
+                boolean hasVoterRole = false;
+                var voteSection = (me.txmc.core.vote.VoteSection) Main.getInstance().getSectionByName("Vote");
+                if (voteSection != null) {
+                    hasVoterRole = !voteSection.hasVoterRoleExpired(player.getName());
+                }
+                if (!hasRank && !hasVoterRole) {
+                    sendPrefixedLocalizedMessage(player, "nc_no_permission");
+                    return;
+                }
             }
             if (args.length < 3) {
                 sendMessage(player, "&cUsage: /cosmetics nick animation <wave/pulse/smooth/saturate/bounce/billboard/sweep/shimmer/none>");
@@ -300,8 +318,16 @@ public class CosmeticsCommand extends BaseTabCommand {
             sendMessage(player, "&aNickname animation set to: &e" + anim);
         } else if (action.equals("speed")) {
             if (!player.hasPermission("8b8tcore.command.nc")) {
-                sendPrefixedLocalizedMessage(player, "nc_no_permission");
-                return;
+                boolean hasRank = prefixManager.hasRank(player);
+                boolean hasVoterRole = false;
+                var voteSection = (me.txmc.core.vote.VoteSection) Main.getInstance().getSectionByName("Vote");
+                if (voteSection != null) {
+                    hasVoterRole = !voteSection.hasVoterRoleExpired(player.getName());
+                }
+                if (!hasRank && !hasVoterRole) {
+                    sendPrefixedLocalizedMessage(player, "nc_no_permission");
+                    return;
+                }
             }
             if (args.length < 3) {
                 sendMessage(player, "&cUsage: /cosmetics nick speed <1-5>");
@@ -517,13 +543,13 @@ public class CosmeticsCommand extends BaseTabCommand {
             }
         }
         
-        player.getScheduler().runDelayed(plugin, (task) -> {
+        FoliaCompat.scheduleDelayed(player, plugin, () -> {
             if (!player.isOnline()) return;
             me.txmc.core.Section section = plugin.getSectionByName("TabList");
             if (section instanceof me.txmc.core.tablist.TabSection tabSection) {
                 tabSection.setTab(player, true);
             }
-        }, null, 5L);
+        }, 5L);
     }
 
     @Override

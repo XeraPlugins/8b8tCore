@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.patch.PatchSection;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -41,9 +42,9 @@ public class EntitySpawnListener implements Listener {
             // Decrement immediately when removed to prevent issues.
             chunkMap.put(type, currentCount - 1);
             
-            entity.getScheduler().run(main.plugin(), (t) -> {
+            FoliaCompat.schedule(entity, main.plugin(), () -> {
                 if (entity.isValid()) entity.remove();
-            }, null);
+            });
         }
     }
 

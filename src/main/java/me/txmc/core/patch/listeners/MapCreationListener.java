@@ -4,6 +4,7 @@ import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.txmc.core.Main;
+import me.txmc.core.util.FoliaCompat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -92,9 +93,9 @@ public class MapCreationListener implements Listener {
         long initialDelay = (attempt == 0) ? 1L : 0L; 
         
         if (initialDelay > 0) {
-            player.getScheduler().runDelayed(plugin, scanTask, null, initialDelay);
+            FoliaCompat.scheduleDelayed(player, plugin, () -> scanTask.accept(null), initialDelay);
         } else {
-             player.getScheduler().runDelayed(plugin, scanTask, null, 10L);
+             FoliaCompat.scheduleDelayed(player, plugin, () -> scanTask.accept(null), 10L);
         }
     }
 

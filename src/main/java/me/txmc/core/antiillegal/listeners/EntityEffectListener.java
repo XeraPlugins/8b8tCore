@@ -2,6 +2,7 @@ package me.txmc.core.antiillegal.listeners;
 
 import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
 import me.txmc.core.antiillegal.check.checks.PlayerEffectCheck;
+import me.txmc.core.util.FoliaCompat;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -57,9 +58,9 @@ public class EntityEffectListener implements Listener {
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
                 if (!shouldFullCheck(entity)) continue;
-                entity.getScheduler().run(plugin, (stask) -> {
+                FoliaCompat.schedule(entity, (org.bukkit.plugin.java.JavaPlugin) plugin, () -> {
                     if (entity.isValid()) performChecks(entity);
-                }, null);
+                });
             }
         }
     }
@@ -170,9 +171,9 @@ public class EntityEffectListener implements Listener {
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
         for (Entity entity : event.getChunk().getEntities()) {
-            entity.getScheduler().run(plugin, (task) -> {
+            FoliaCompat.schedule(entity, (org.bukkit.plugin.java.JavaPlugin) plugin, () -> {
                performChecks(entity);
-            }, null);
+            });
         }
     }
 
@@ -180,9 +181,9 @@ public class EntityEffectListener implements Listener {
     public void onEntityAddToWorld(EntityAddToWorldEvent event) {
         Entity entity = event.getEntity();
         if (entity == null || !shouldFullCheck(entity)) return;
-        entity.getScheduler().run(plugin, task -> {
+        FoliaCompat.schedule(entity, (org.bukkit.plugin.java.JavaPlugin) plugin, () -> {
             if (entity.isValid()) performChecks(entity);
-        }, null);
+        });
     }
     
     public PlayerEffectCheck getEffectCheck() {

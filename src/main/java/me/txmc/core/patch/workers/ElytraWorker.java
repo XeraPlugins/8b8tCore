@@ -2,6 +2,7 @@ package me.txmc.core.patch.workers;
 
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.patch.PatchSection;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -29,7 +30,7 @@ public class ElytraWorker implements Runnable {
         final double MAX_SPEED_WITH_ENTITIES = main.config().getDouble("TileEntitiesElytraMaxSpeedBlocksPerSecond", 64.0);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.getScheduler().run(main.plugin(), (task) -> {
+            FoliaCompat.schedule(player, main.plugin(), () -> {
                 if (!player.isOnline()) return;
 
                 UUID uuid = player.getUniqueId();
@@ -59,7 +60,7 @@ public class ElytraWorker implements Runnable {
                 if (speed > MAX_SPEED_DEFAULT) {
                     handleViolation(player, "elytra_too_fast", MAX_SPEED_DEFAULT);
                 }
-            }, null);
+            });
         }
     }
 

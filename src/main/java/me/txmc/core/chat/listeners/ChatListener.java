@@ -6,6 +6,7 @@ import me.txmc.core.chat.ChatInfo;
 import me.txmc.core.chat.ChatSection;
 import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.database.GeneralDatabase;
+import me.txmc.core.util.FoliaCompat;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -67,7 +68,7 @@ public class ChatListener implements Listener {
 
         int cooldown = manager.getConfig().getInt("Cooldown");
         if (ci.isChatLock() && !sender.isOp() && !sender.hasPermission("*")) {
-            sender.getScheduler().run(manager.getPlugin(), t -> sendPrefixedLocalizedMessage(sender, "chat_cooldown", cooldown), null);
+            FoliaCompat.schedule(sender, manager.getPlugin(), () -> sendPrefixedLocalizedMessage(sender, "chat_cooldown", cooldown));
             return;
         }
 
@@ -83,7 +84,7 @@ public class ChatListener implements Listener {
                 for (String oldMessage : messages) {
                     if (ogMessage.length() < 20) continue;
                     if (isSimilar(filterLongWords(oldMessage), filteredMessage)) {
-                        sender.getScheduler().run(manager.getPlugin(), t -> sendPrefixedLocalizedMessage(sender, "spam_alert"), null);
+                        FoliaCompat.schedule(sender, manager.getPlugin(), () -> sendPrefixedLocalizedMessage(sender, "spam_alert"));
                         return;
                     }
                 }
@@ -92,7 +93,7 @@ public class ChatListener implements Listener {
             messages.add(ogMessage);
         }
 
-        sender.getScheduler().run(manager.getPlugin(), (task) -> {
+        FoliaCompat.schedule(sender, manager.getPlugin(), () -> {
             if (!sender.isOnline()) return;
 
             if (blockedCheck(ogMessage) || ci.getMutedUntil() > Instant.now().getEpochSecond() || domainCheck(ogMessage)) {
@@ -119,7 +120,7 @@ public class ChatListener implements Listener {
                     recipient.sendMessage(senderComponent.append(body));
                 }
             });
-        }, null);
+        });
     }
 
     private boolean isSimilar(String m1, String m2) {

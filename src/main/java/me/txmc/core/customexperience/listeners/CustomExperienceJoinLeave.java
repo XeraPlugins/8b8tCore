@@ -6,6 +6,7 @@ import me.txmc.core.customexperience.PlayerPrefix;
 import me.txmc.core.customexperience.PlayerSimulationDistance;
 import me.txmc.core.customexperience.PlayerViewDistance;
 import me.txmc.core.database.GeneralDatabase;
+import me.txmc.core.util.FoliaCompat;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -60,7 +61,7 @@ public class CustomExperienceJoinLeave implements Listener, Reloadable {
         if (main.getVanishedPlayers().contains(playerUUID)) {
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
                 UUID onlineUUID = onlinePlayer.getUniqueId();
-                onlinePlayer.getScheduler().run(main, (task) -> {
+                FoliaCompat.schedule(onlinePlayer, main, () -> {
                     Player p = Bukkit.getPlayer(onlineUUID);
                     Player vanished = Bukkit.getPlayer(playerUUID);
                     if (p != null && p.isOnline() && vanished != null && vanished.isOnline()) {
@@ -68,7 +69,7 @@ public class CustomExperienceJoinLeave implements Listener, Reloadable {
                             p.hidePlayer(main, vanished);
                         }
                     }
-                }, null);
+                });
             }
         } else {
             String displayName = MiniMessage.miniMessage().serialize(player.displayName());
@@ -78,11 +79,11 @@ public class CustomExperienceJoinLeave implements Listener, Reloadable {
                     if (showMsg) {
                         Player recipient = Bukkit.getPlayer(onlineUUID);
                         if (recipient != null && recipient.isOnline()) {
-                            recipient.getScheduler().run(main, (task) -> {
+                            FoliaCompat.schedule(recipient, main, () -> {
                                 if (recipient.isOnline()) {
                                     sendPrefixedLocalizedMessage(recipient, "join_message", displayName);
                                 }
-                            }, null);
+                            });
                         }
                     }
                 });
@@ -90,11 +91,11 @@ public class CustomExperienceJoinLeave implements Listener, Reloadable {
         }
 
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 2.0f, 0.7f);
-        player.getScheduler().runDelayed(main, (task) -> {
+        FoliaCompat.scheduleDelayed(player, main, () -> {
             if (player.isOnline()) {
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 2.0f, 1.0f);
             }
-        }, null, 6L);
+        }, 6L);
     }
 
     @EventHandler
@@ -112,11 +113,11 @@ public class CustomExperienceJoinLeave implements Listener, Reloadable {
                     if (showMsg) {
                         Player recipient = Bukkit.getPlayer(onlineUUID);
                         if (recipient != null && recipient.isOnline()) {
-                            recipient.getScheduler().run(main, (task) -> {
+                            FoliaCompat.schedule(recipient, main, () -> {
                                 if (recipient.isOnline()) {
                                     sendPrefixedLocalizedMessage(recipient, "leave_message", displayName);
                                 }
-                            }, null);
+                            });
                         }
                     }
                 });
