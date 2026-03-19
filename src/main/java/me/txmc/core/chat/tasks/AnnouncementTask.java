@@ -5,7 +5,7 @@ import me.txmc.core.Main;
 import me.txmc.core.chat.ChatInfo;
 import me.txmc.core.chat.ChatSection;
 import me.txmc.core.database.GeneralDatabase;
-import me.txmc.core.util.GlobalUtils;
+import me.txmc.core.util.FoliaCompat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
@@ -30,14 +30,14 @@ public class AnnouncementTask implements Runnable {
                 me.txmc.core.chat.ChatInfo info = chatSection.getInfo(p);
                 if (info == null || info.isHideAnnouncements()) continue;
 
-                p.getScheduler().run(plugin, (playerTask) -> {
+                FoliaCompat.schedule(p, plugin, () -> {
                     if (!p.isOnline()) return;
                     Localization loc = Localization.getLocalization(p.locale().getLanguage());
                     List<net.kyori.adventure.text.TextComponent> announcements = loc.getComponentList("announcements");
                     if (announcements.isEmpty()) return;
                     Component announcement = announcements.get(random.nextInt(announcements.size()));
                     p.sendMessage(announcement);
-                }, null);
+                });
             }
         }, 1L);
     }

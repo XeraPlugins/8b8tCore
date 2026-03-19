@@ -3,6 +3,7 @@ package me.txmc.core.patch.listeners;
 import me.txmc.core.Reloadable;
 import me.txmc.core.Main;
 import me.txmc.core.database.GeneralDatabase;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -68,7 +69,7 @@ public class PhantomPatch implements Listener, Reloadable {
                 GeneralDatabase.getInstance().getPreventPhantomSpawnAsync(player.getName()).thenAccept(preventSpawn -> {
                     if (preventSpawn) return;
                     
-                    player.getScheduler().run(plugin, (playerTask) -> {
+                    FoliaCompat.schedule(player, plugin, () -> {
                         if (!player.isOnline()) return;
                         
                         World world = player.getWorld();
@@ -128,7 +129,7 @@ public class PhantomPatch implements Listener, Reloadable {
                                 }
                             }
                         });
-                    }, null);
+                    });
                 });
             }
         }, 600L, 600L);
@@ -140,13 +141,13 @@ public class PhantomPatch implements Listener, Reloadable {
         event.setCancelled(true);
         GeneralDatabase.getInstance().getPreventPhantomSpawnAsync(spawning.getName()).thenAccept(preventSpawn -> {
             if (!preventSpawn) {
-                spawning.getScheduler().run(plugin, (task) -> {
+                FoliaCompat.schedule(spawning, plugin, () -> {
                     if (!spawning.isOnline()) return;
                     Location loc = spawning.getLocation().clone().add(0, 20, 0);
                     Bukkit.getRegionScheduler().run(plugin, loc, (regionTask) -> {
                         loc.getWorld().spawnEntity(loc, EntityType.PHANTOM, CreatureSpawnEvent.SpawnReason.NATURAL);
                     });
-                }, null);
+                });
             }
         });
     }
@@ -174,7 +175,7 @@ public class PhantomPatch implements Listener, Reloadable {
                 event.setCancelled(true);
                 GeneralDatabase.getInstance().getPreventPhantomSpawnAsync(target.getName()).thenAccept(preventSpawn -> {
                     if (!preventSpawn) {
-                        target.getScheduler().run(plugin, (task) -> {
+                        FoliaCompat.schedule(target, plugin, () -> {
                             if (!target.isOnline()) return;
                             Bukkit.getRegionScheduler().run(plugin, eventLoc, (regionTask) -> {
                                 Phantom phantom = (Phantom) eventLoc.getWorld().spawnEntity(eventLoc, EntityType.PHANTOM, CreatureSpawnEvent.SpawnReason.CUSTOM);
@@ -182,7 +183,7 @@ public class PhantomPatch implements Listener, Reloadable {
                                     phantom.setSilent(true);
                                 }
                             });
-                        }, null);
+                        });
                     }
                 });
                 return;

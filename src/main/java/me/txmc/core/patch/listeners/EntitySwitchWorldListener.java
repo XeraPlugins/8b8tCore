@@ -3,6 +3,7 @@ package me.txmc.core.patch.listeners;
 import lombok.RequiredArgsConstructor;
 import me.txmc.core.Main;
 import me.txmc.core.tablist.util.Utils;
+import me.txmc.core.util.FoliaCompat;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -36,7 +37,7 @@ public class EntitySwitchWorldListener implements Listener {
         if (blacklist.contains(entity.getType())) {
             // prevent spam
             // GlobalUtils.log(Level.INFO, "Prevented a %s from going through a portal at %s", event.getEntityType(), GlobalUtils.formatLocation(event.getEntity().getLocation()));
-            entity.getScheduler().run(main, (tsk) -> entity.remove(), () ->{});
+            FoliaCompat.schedule(entity, main, () -> entity.remove());
         }
     }
 }

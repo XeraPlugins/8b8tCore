@@ -61,6 +61,80 @@ public class GlobalUtils {
     private static java.lang.reflect.Method msptDataMethod;
     private static java.lang.reflect.Method segmentAllMethod;
     private static java.lang.reflect.Method averageMethod;
+
+    private static final boolean LUMINOL;
+    private static final java.lang.reflect.Method LUMINOL_GET_GLOBAL_TPS;
+    private static final java.lang.reflect.Method LUMINOL_GET_GLOBAL_MSPT;
+
+    static {
+        boolean luminol = false;
+        java.lang.reflect.Method getGlobalTps = null;
+        java.lang.reflect.Method getGlobalMspt = null;
+        try {
+            Class<?> regionizedServer = Class.forName("me.earthme.luminol.server.RegionizedServer");
+            Class<?> tickDataClass = Class.forName("ca.spottedleaf.moonrise.common.time.TickData$TickReportData");
+
+            getGlobalTps = regionizedServer.getMethod("getGlobalTickData");
+            getGlobalMspt = tickDataClass.getMethod("getTickReport15s", long.class);
+            luminol = true;
+        } catch (Exception ignored) {
+        }
+        LUMINOL = luminol;
+        LUMINOL_GET_GLOBAL_TPS = getGlobalTps;
+        LUMINOL_GET_GLOBAL_MSPT = getGlobalMspt;
+    }
+
+    public static double getCurrentRegionTps() {
+        if (LUMINOL && LUMINOL_GET_GLOBAL_TPS != null) {
+            try {
+                Object tickData = LUMINOL_GET_GLOBAL_TPS.invoke(null);
+                Object report = tickData.getClass().getMethod("getTickReport15s", long.class).invoke(tickData, System.nanoTime());
+                Object tpsSeg = report.getClass().getMethod("tpsData").invoke(report);
+                Object segAll = tpsSeg.getClass().getMethod("segmentAll").invoke(tpsSeg);
+                return (double) segAll.getClass().getMethod("average").invoke(segAll);
+            } catch (Exception ignored) {}
+        }
+        try {
+            if (getCurrentRegionMethod == null) {
+                Class<?> trs = Class.forName("io.papermc.paper.threadedregions.TickRegionScheduler");
+                getCurrentRegionMethod = trs.getMethod("getCurrentRegion");
+            }
+            Object region = getCurrentRegionMethod.invoke(null);
+            if (region != null) {
+                return getTpsFromRegionObject(region);
+            }
+        } catch (Throwable t) {
+            if (!loggedMsptError) {
+                Main.getInstance().getLogger().log(Level.WARNING, "Failed to get current region TPS", t);
+                loggedMsptError = true;
+            }
+        }
+        return -1;
+    }
+
+    public static double getCurrentRegionMspt() {
+        if (LUMINOL && LUMINOL_GET_GLOBAL_TPS != null) {
+            try {
+                Object tickData = LUMINOL_GET_GLOBAL_TPS.invoke(null);
+                Object report = LUMINOL_GET_GLOBAL_MSPT.invoke(tickData, System.nanoTime());
+                Object timeData = report.getClass().getMethod("timePerTickData").invoke(report);
+                Object segAll = timeData.getClass().getMethod("segmentAll").invoke(timeData);
+                double nsPerTick = (double) segAll.getClass().getMethod("average").invoke(segAll);
+                return nsPerTick / 1.0E6;
+            } catch (Exception ignored) {}
+        }
+        try {
+            if (getCurrentRegionMethod == null) {
+                Class<?> trs = Class.forName("io.papermc.paper.threadedregions.TickRegionScheduler");
+                getCurrentRegionMethod = trs.getMethod("getCurrentRegion");
+            }
+            Object region = getCurrentRegionMethod.invoke(null);
+            if (region != null) {
+                return getMsptFromRegionObject(region);
+            }
+        } catch (Throwable ignored) {}
+        return -1;
+    }
     
     @SuppressWarnings("deprecation")
     public static int calculateItemSize(org.bukkit.inventory.ItemStack item) {
@@ -284,7 +358,7 @@ public class GlobalUtils {
                             if (hideDeathMessages || !p.isOnline()) {
                                 return;
                             }
-                            p.getScheduler().run(Main.getInstance(), (playerTask) -> {
+                            FoliaCompat.schedule(p, Main.getInstance(), () -> {
                                 if (!p.isOnline()) return;
                                 Localization loc = Localization.getLocalization(p.locale().getLanguage());
                                 List<String> rawMessages = loc.getStringList(key);
@@ -296,7 +370,7 @@ public class GlobalUtils {
                                         .replace("%kill-weapon%", weapon);
                                 
                                 p.sendMessage(translateChars(formatted));
-                            }, null);
+                            });
                         });
                     }
                 } catch (Throwable t) {
@@ -413,11 +487,29 @@ public class GlobalUtils {
         } catch (Throwable ignored) {
         }
 
-        entity.getScheduler().run(Main.getInstance(), (st) -> {
+        FoliaCompat.schedule(entity, Main.getInstance(), () -> {
             double regionTps = getCurrentRegionTps();
             future.complete(regionTps);
-        }, () -> future.complete(-1.0));
+        });
         return future;
+    }
+
+    public static double[] getTpsNearEntitySync(Entity entity) {
+        try {
+            double[] tps = Bukkit.getRegionTPS(entity.getLocation());
+            if (tps != null && tps.length > 0) {
+                return tps;
+            }
+        } catch (Throwable ignored) {
+        }
+        try {
+            double[] globalTps = Bukkit.getTPS();
+            if (globalTps != null && globalTps.length > 0) {
+                return new double[]{globalTps[0], globalTps[0], globalTps[0], globalTps[0], globalTps[0]};
+            }
+        } catch (Throwable ignored) {
+        }
+        return new double[]{20.0, 20.0, 20.0, 20.0, 20.0};
     }
 
     public static CompletableFuture<Double> getRegionTps(Location location) {
@@ -439,40 +531,6 @@ public class GlobalUtils {
     }
 
     private static boolean loggedMsptError = false;
-
-    public static double getCurrentRegionTps() {
-        try {
-            if (getCurrentRegionMethod == null) {
-                Class<?> trs = Class.forName("io.papermc.paper.threadedregions.TickRegionScheduler");
-                getCurrentRegionMethod = trs.getMethod("getCurrentRegion");
-            }
-            Object region = getCurrentRegionMethod.invoke(null);
-            if (region != null) {
-                return getTpsFromRegionObject(region);
-            }
-        } catch (Throwable t) {
-            if (!loggedMsptError) {
-                Main.getInstance().getLogger().log(Level.WARNING, "Failed to get current region TPS", t);
-                loggedMsptError = true;
-            }
-        }
-        return -1;
-    }
-
-    public static double getCurrentRegionMspt() {
-        try {
-            if (getCurrentRegionMethod == null) {
-                Class<?> trs = Class.forName("io.papermc.paper.threadedregions.TickRegionScheduler");
-                getCurrentRegionMethod = trs.getMethod("getCurrentRegion");
-            }
-            Object region = getCurrentRegionMethod.invoke(null);
-            if (region != null) {
-                return getMsptFromRegionObject(region);
-            }
-        } catch (Throwable ignored) {
-        }
-        return -1;
-    }
 
     private static double getTpsFromRegionObject(Object region) {
         try {
@@ -618,10 +676,10 @@ public class GlobalUtils {
             int speed = database.getGradientSpeedAsync(username).join();
             String decorationsStr = database.getPlayerDataAsync(username, "nameDecorations").join();
             
-            player.getScheduler().run(Main.getInstance(), (task) -> {
+            FoliaCompat.schedule(player, Main.getInstance(), () -> {
                 if (!player.isOnline()) return;
                 player.displayName(parseDisplayName(player.getName(), nick, customGradient, anim, speed, decorationsStr));
-            }, null);
+            });
         });
     }
 

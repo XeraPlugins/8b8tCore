@@ -11,6 +11,7 @@ import me.txmc.core.tablist.util.Utils;
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.Component;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -111,10 +112,13 @@ public class TabSection implements Section {
 
         if (updatePlaceholders) {
             Localization loc = Localization.getLocalization(player.locale().getLanguage());
-            Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, plugin.getStartTime())
-                    .thenAccept(player::sendPlayerListHeader);
-            Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Footer")), player, plugin.getStartTime())
-                    .thenAccept(player::sendPlayerListFooter);
+            Component header = Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, plugin.getStartTime());
+            Component footer = Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Footer")), player, plugin.getStartTime());
+            FoliaCompat.schedule(player, plugin, () -> {
+                if (!player.isOnline()) return;
+                player.sendPlayerListHeader(header);
+                player.sendPlayerListFooter(footer);
+            });
         }
     }
 

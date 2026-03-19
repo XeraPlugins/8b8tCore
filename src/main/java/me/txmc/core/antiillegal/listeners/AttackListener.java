@@ -1,6 +1,7 @@
 package me.txmc.core.antiillegal.listeners;
 
 import me.txmc.core.Main;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -39,9 +40,9 @@ public class AttackListener implements Listener {
     }
 
     private void startTracking(Player player) {
-        player.getScheduler().runAtFixedRate(plugin, (task) -> {
+        FoliaCompat.scheduleAtFixedRate(player, plugin, () -> {
             tickStartLocations.put(player.getUniqueId(), player.getLocation());
-        }, null, 1L, 1L);
+        }, 1L, 1L);
     }
 
     @EventHandler
@@ -102,7 +103,7 @@ public class AttackListener implements Listener {
         if (hasMace) {
             double fallDist = player.getFallDistance();
             long now = System.currentTimeMillis();
-            long timeInAir = now - lastGroundTime.getOrDefault(player.getUniqueId(), now);            
+            long timeInAir = now - lastGroundTime.getOrDefault(player.getUniqueId(), now);
             double t = timeInAir / 1000.0;
             double maxPhysFall = (25.0 * (t * t)) + (t * 2.0) + 1.5; 
 

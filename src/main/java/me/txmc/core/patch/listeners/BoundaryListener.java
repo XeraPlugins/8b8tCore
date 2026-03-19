@@ -2,6 +2,7 @@ package me.txmc.core.patch.listeners;
 
 import me.txmc.core.Main;
 import me.txmc.core.Reloadable;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -200,9 +201,8 @@ public class BoundaryListener implements Listener, Reloadable {
         if (player.isOp())
             return;
 
-        pearl.getScheduler().runAtFixedRate(plugin, (task) -> {
+        FoliaCompat.scheduleAtFixedRate(pearl, plugin, () -> {
             if (pearl.isDead() || !pearl.isValid()) {
-                task.cancel();
                 return;
             }
 
@@ -215,7 +215,6 @@ public class BoundaryListener implements Listener, Reloadable {
                     && pearlLoc.getY() >= netherYLevel - 5) {
                 pearl.remove();
                 player.sendMessage("§cEnder pearls cannot take you above the nether roof!");
-                task.cancel();
                 return;
             }
 
@@ -263,7 +262,7 @@ public class BoundaryListener implements Listener, Reloadable {
                     pearl.setVelocity(velocity);
                 }
             }
-        }, null, 1L, 1L);
+        }, 1L, 1L);
     }
 
     @EventHandler(priority = org.bukkit.event.EventPriority.LOWEST)
@@ -330,16 +329,16 @@ public class BoundaryListener implements Listener, Reloadable {
                 if (!player.isOnline())
                     return;
 
-                player.getScheduler().run(plugin, (playerTask) -> {
+                FoliaCompat.schedule(player, plugin, () -> {
                     player.teleportAsync(finalSafe, PlayerTeleportEvent.TeleportCause.PLUGIN).thenAccept(success -> {
-                                player.getScheduler().runDelayed(plugin, (verifyTask) -> {
+                                FoliaCompat.scheduleDelayed(player, plugin, () -> {
                                     if (player.isOnline() && player.getLocation().getY() >= netherYLevel) {
                                         player.teleportAsync(finalSafe);
                                         player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
                                     }
-                                }, null, 3L);
+                                }, 3L);
                             });
-                }, null);
+                });
             }, 1L);
 
             player.sendMessage("§cYou cannot teleport above the nether roof!");
@@ -359,14 +358,14 @@ public class BoundaryListener implements Listener, Reloadable {
 
         if (to.getWorld().getEnvironment() == World.Environment.NETHER
                 && to.getY() >= netherYLevel && !player.isOp()) {
-            player.getScheduler().runDelayed(plugin, (task) -> {
+            FoliaCompat.scheduleDelayed(player, plugin, () -> {
                 if (player.isOnline() && player.getLocation().getY() >= netherYLevel) {
                     Location safe = findSafeLocationBelowBedrock(player.getLocation());
                     if (safe != null) {
                         player.teleportAsync(safe);
                     }
                 }
-            }, null, 2L);
+            }, 2L);
         }
     }
 
@@ -400,28 +399,28 @@ public class BoundaryListener implements Listener, Reloadable {
 
         if (isPlayerMounted(player)) {
             dismountPlayer(player);
-            player.getScheduler().runDelayed(plugin, (task) -> {
+            FoliaCompat.scheduleDelayed(player, plugin, () -> {
                 if (player.isOnline()) {
                     performBottomBoundaryTeleport(player, safeLocation);
                 }
-            }, null, 3L);
+            }, 3L);
         } else {
             performBottomBoundaryTeleport(player, safeLocation);
         }
 
         player.setInvulnerable(true);
-        player.getScheduler().runDelayed(plugin, (task) -> {
+        FoliaCompat.scheduleDelayed(player, plugin, () -> {
             if (player.isOnline())
                 player.setInvulnerable(false);
-        }, null, 20L);
+        }, 20L);
 
         lastBottomTeleport.put(player.getUniqueId(), System.currentTimeMillis() + 1000);
 
         player.sendMessage("§eYou were teleported to safety above the bottom boundary!");
 
-        player.getScheduler().runDelayed(plugin, (task) -> {
+        FoliaCompat.scheduleDelayed(player, plugin, () -> {
             lastBottomTeleport.remove(player.getUniqueId());
-        }, null, 100L);
+        }, 100L);
     }
 
     private void handleNetherRoofAttempt(Player player, PlayerMoveEvent event) {
@@ -483,12 +482,12 @@ public class BoundaryListener implements Listener, Reloadable {
 
                 player.sendMessage("§cYou cannot be above the Nether roof!");
 
-                player.getScheduler().runDelayed(plugin, (task) -> {
+                FoliaCompat.scheduleDelayed(player, plugin, () -> {
                     try {
                         lastNetherRoofDamage.remove(player.getUniqueId());
                     } catch (Exception ignored) {
                     }
-                }, null, 200L);
+                }, 200L);
             } else {
                 teleportPlayerDownFromNetherRoof(player, event, from);
             }
@@ -535,11 +534,11 @@ public class BoundaryListener implements Listener, Reloadable {
             Entity vehicle = player.getVehicle();
             if (vehicle != null) {
                 vehicle.eject();
-                player.getScheduler().runDelayed(plugin, (task) -> {
+                FoliaCompat.scheduleDelayed(player, plugin, () -> {
                     if (player.isOnline() && isPlayerMounted(player)) {
                         player.leaveVehicle();
                     }
-                }, null, 1L);
+                }, 1L);
             }
         }
     }
@@ -548,11 +547,11 @@ public class BoundaryListener implements Listener, Reloadable {
         if (isPlayerMounted(player)) {
             dismountPlayer(player);
 
-            player.getScheduler().runDelayed(plugin, (task) -> {
+            FoliaCompat.scheduleDelayed(player, plugin, () -> {
                 if (player.isOnline()) {
                     performTeleport(player, location);
                 }
-            }, null, 3L);
+            }, 3L);
         } else {
             performTeleport(player, location);
         }
@@ -565,12 +564,12 @@ public class BoundaryListener implements Listener, Reloadable {
         player.teleportAsync(location);
 
         final Location finalLocation = location;
-        player.getScheduler().runDelayed(plugin, (task) -> {
+        FoliaCompat.scheduleDelayed(player, plugin, () -> {
             if (player.isOnline() && player.getLocation().getY() >= netherYLevel) {
                 player.teleportAsync(finalLocation);
                 player.setVelocity(player.getVelocity().setY(0));
             }
-        }, null, 5L);
+        }, 5L);
     }
 
     /**
@@ -584,7 +583,7 @@ public class BoundaryListener implements Listener, Reloadable {
 
         player.teleportAsync(safeLocation.clone().add(0, 0.1, 0));
 
-        player.getScheduler().runDelayed(plugin, (task) -> {
+        FoliaCompat.scheduleDelayed(player, plugin, () -> {
             if (player.isOnline()) {
                 player.teleportAsync(safeLocation);
                 player.setVelocity(new org.bukkit.util.Vector(0, 0, 0));
@@ -595,7 +594,7 @@ public class BoundaryListener implements Listener, Reloadable {
                     player.setVelocity(new Vector(0, 0, 0));
                 }
             }
-        }, null, 1L);
+        }, 1L);
     }
 
     /**
@@ -783,7 +782,7 @@ public class BoundaryListener implements Listener, Reloadable {
             Entity vehicle = player.getVehicle();
             dismountPlayer(player);
             if (vehicle != null) {
-                vehicle.getScheduler().run(plugin, (t) -> vehicle.remove(), null);
+                FoliaCompat.schedule(vehicle, plugin, () -> vehicle.remove());
             }
         }
 
@@ -881,20 +880,20 @@ public class BoundaryListener implements Listener, Reloadable {
 
                 Location loc = player.getLocation();
                 if (isOutsideWorldBorder(loc.getX(), loc.getZ(), loc.getWorld())) {
-                    player.getScheduler().run(plugin, (playerTask) -> {
+                    FoliaCompat.schedule(player, plugin, () -> {
                         if (!player.isOnline()) return;
 
                         if (isPlayerMounted(player)) {
                             Entity vehicle = player.getVehicle();
                             player.leaveVehicle();
                             if (vehicle != null)
-                                vehicle.getScheduler().run(plugin, (t) -> vehicle.remove(), null);
+                                FoliaCompat.schedule(vehicle, plugin, () -> vehicle.remove());
                         }
 
                         Location safe = findSafeLocationInsideBorder(player.getLocation());
                         player.teleportAsync(safe);
                         player.sendMessage("§cYou were teleported inside the world border!");
-                    }, null);
+                    });
                 }
             }
         }, 20L, 10L);
@@ -910,7 +909,7 @@ public class BoundaryListener implements Listener, Reloadable {
                 if (world == null) continue;
 
                 if (world.getEnvironment() == World.Environment.NETHER && loc.getY() >= netherYLevel) {
-                    player.getScheduler().run(plugin, (playerTask) -> {
+                    FoliaCompat.schedule(player, plugin, () -> {
                         if (!player.isOnline()) return;
 
                         Location safe = findSafeLocationBelowBedrock(player.getLocation());
@@ -918,7 +917,7 @@ public class BoundaryListener implements Listener, Reloadable {
                             player.teleportAsync(safe);
                             player.sendMessage("§cYou cannot be above the nether roof!");
                         }
-                    }, null);
+                    });
                 }
             }
         }, 10L, 5L);

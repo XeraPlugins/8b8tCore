@@ -6,6 +6,7 @@ import me.txmc.core.chat.ChatSection;
 import me.txmc.core.command.BaseCommand;
 import me.txmc.core.customexperience.util.PrefixManager;
 import me.txmc.core.database.GeneralDatabase;
+import me.txmc.core.util.FoliaCompat;
 import me.txmc.core.vote.VoteSection;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -49,13 +50,13 @@ public class ToggleAnnouncementsCommand extends BaseCommand {
                         if (info != null) info.setHideAnnouncements(newValue);
                     }
 
-                    player.getScheduler().run(plugin, (task) -> {
+                    FoliaCompat.schedule(player, plugin, () -> {
                         if (newValue) {
                             sendMessage(player, "&aYou will no longer see server announcements.");
                         } else {
                             sendMessage(player, "&aYou will now see server announcements.");
                         }
-                    }, null);
+                    });
                 });
             });
         } else {
@@ -63,7 +64,6 @@ public class ToggleAnnouncementsCommand extends BaseCommand {
                 sendMessage(player, "&cYou must have any rank to toggle announcements.");
                 return;
             }
-            // Handler for when VoteSection is not available (Removes the annoying console warning)
             database.getPlayerHideAnnouncementsAsync(player.getName()).thenAcceptAsync(current -> {
                 boolean newValue = !current;
                 database.updateHideAnnouncements(player.getName(), newValue);
@@ -74,13 +74,13 @@ public class ToggleAnnouncementsCommand extends BaseCommand {
                     if (info != null) info.setHideAnnouncements(newValue);
                 }
 
-                player.getScheduler().run(plugin, (task) -> {
+                FoliaCompat.schedule(player, plugin, () -> {
                     if (newValue) {
                         sendMessage(player, "&aYou will no longer see server announcements.");
                     } else {
                         sendMessage(player, "&aYou will now see server announcements.");
                     }
-                }, null);
+                });
             });
         }
     }

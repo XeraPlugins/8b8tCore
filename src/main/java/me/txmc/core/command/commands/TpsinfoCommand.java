@@ -3,6 +3,7 @@ package me.txmc.core.command.commands;
 import me.txmc.core.Localization;
 import me.txmc.core.Main;
 import me.txmc.core.command.BaseCommand;
+import me.txmc.core.util.FoliaCompat;
 import me.txmc.core.util.GlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -36,7 +37,7 @@ public class TpsinfoCommand extends BaseCommand {
             return;
         }
 
-        player.getScheduler().run(plugin, (st) -> {
+        FoliaCompat.schedule(player, plugin, () -> {
             double tps = GlobalUtils.getCurrentRegionTps();
             double mspt = GlobalUtils.getCurrentRegionMspt();
             int onlinePlayers = plugin.getServer().getOnlinePlayers().size();
@@ -47,13 +48,13 @@ public class TpsinfoCommand extends BaseCommand {
             String strMspt = String.format("%s%.2f", GlobalUtils.getMSPTColor(mspt), mspt);
 
             getLowestRegionTPS().thenAccept(lowestTPS -> {
-                player.getScheduler().run(plugin, (task) -> {
+                FoliaCompat.schedule(player, plugin, () -> {
                     if (!player.isOnline()) return;
                     String strLowest = formatTps(lowestTPS);
                     player.sendMessage(translateChars(String.format(tpsMsg, strTps, strMspt, strLowest, onlinePlayers)));
-                }, null);
+                });
             });
-        }, null);
+        });
     }
 
     private String formatTps(double tps) {
@@ -68,14 +69,14 @@ public class TpsinfoCommand extends BaseCommand {
             UUID uuid = player.getUniqueId();
             
             CompletableFuture<Double> future = new CompletableFuture<>();
-            player.getScheduler().run(plugin, (task) -> {
+            FoliaCompat.schedule(player, plugin, () -> {
                 Player p = Bukkit.getPlayer(uuid);
                 if (p != null && p.isOnline()) {
                     GlobalUtils.getRegionTps(p.getLocation()).thenAccept(future::complete);
                 } else {
                     future.complete(-1.0);
                 }
-            }, () -> future.complete(-1.0));
+            });
             
             futures.add(future);
         }

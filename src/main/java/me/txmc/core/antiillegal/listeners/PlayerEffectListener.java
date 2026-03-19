@@ -2,6 +2,7 @@ package me.txmc.core.antiillegal.listeners;
 
 import me.txmc.core.antiillegal.AntiIllegalMain;
 import me.txmc.core.antiillegal.check.checks.PlayerEffectCheck;
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -74,17 +75,17 @@ public class PlayerEffectListener implements Listener {
 
     public void checkPlayerEffects(Player player) {
         if (player != null && player.isValid() && !player.isDead()) {
-            player.getScheduler().run(plugin, task -> {
+            FoliaCompat.schedule(player, (org.bukkit.plugin.java.JavaPlugin) plugin, () -> {
                 if (player.isOnline()) {
                     effectCheck.fixPlayerEffects(player);
                 }
-            }, null);
+            });
         }
     }
 
     public void checkPlayerInventory(Player player) {
         if (player != null && player.isValid() && !player.isDead()) {
-            player.getScheduler().run(plugin, task -> {
+            FoliaCompat.schedule(player, (org.bukkit.plugin.java.JavaPlugin) plugin, () -> {
                 if (player.isOnline()) {
                     PlayerInventory inv = player.getInventory();
                     
@@ -102,7 +103,7 @@ public class PlayerEffectListener implements Listener {
                         if (item != null) main.checkFixItem(item, null);
                     }
                 }
-            }, null);
+            });
         }
     }
     

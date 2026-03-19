@@ -1,5 +1,6 @@
 package me.txmc.core.customexperience;
 
+import me.txmc.core.util.FoliaCompat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,11 +31,11 @@ public class PlayerSimulationDistance implements Listener {
     }
 
     public void handlePlayerJoin(Player player) {
-        player.getScheduler().runDelayed(plugin, task -> {
+        FoliaCompat.scheduleDelayed(player, plugin, () -> {
             if (player.isOnline()) {
                 setSimulationDistance(player);
             }
-        }, null, 10L);
+        }, 10L);
     }
 
     @EventHandler
