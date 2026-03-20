@@ -72,7 +72,7 @@ public class JoinDateCommand extends BaseTabCommand {
             return;
         }
         
-        Bukkit.getScheduler().runTask(plugin, () -> {
+        Bukkit.getGlobalRegionScheduler().run(plugin, task -> {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
             if (offlinePlayer.getFirstPlayed() == 0L) {
                 sendMessage(sender, "&cPlayer '&e" + targetName + "&c' has never joined the server!");
