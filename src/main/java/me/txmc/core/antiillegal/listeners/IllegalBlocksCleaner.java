@@ -38,8 +38,8 @@ public class IllegalBlocksCleaner implements Listener {
         this.delayTicks = Math.max(1L, config.getLong("IllegalBlocksCleaner.DelayTicks", 5L));
         this.scanKey = new NamespacedKey(plugin, "clean_scan_hash");
 
-        // Salt the hash with a config version. Incrementing this value triggers a 
-        // global invalidation of all existing "Certified Clean" stickers, 
+        // Salt the hash with a config version. Incrementing this value triggers a
+        // global invalidation of all existing "Certified Clean" stickers,
         int version = config.getInt("IllegalBlocksCleaner.Version", 1);
         this.configHash = illegalMaterials.hashCode() ^ (version * 31);
 
@@ -220,27 +220,33 @@ public class IllegalBlocksCleaner implements Listener {
         if (type == Material.BEDROCK || type == Material.END_GATEWAY) {
             if (type == Material.BEDROCK) {
                 // Vanilla floor
-                if (y < minY + 5) return true; 
+                if (y < minY + 5) return true;
                 // Nether ceiling
                 if (env == World.Environment.NETHER && y >= 123 && y <= 127) return true;
             }
 
             if (env == World.Environment.THE_END) {
+                // Main island bedrock platform (y=0-4 near center)
+                if (type == Material.BEDROCK && y >= 0 && y <= 4) {
+                    long distSq = (long) x * x + (long) z * z;
+                    if (distSq <= 2500) return true; // 50 block radius
+                }
+
                 // Central Exit Portal
-                if (Math.abs(x) <= IllegalConstants.EXIT_PORTAL_RADIUS && 
-                    Math.abs(z) <= IllegalConstants.EXIT_PORTAL_RADIUS && 
-                    y >= IllegalConstants.EXIT_PORTAL_Y_MIN && 
+                if (Math.abs(x) <= IllegalConstants.EXIT_PORTAL_RADIUS &&
+                    Math.abs(z) <= IllegalConstants.EXIT_PORTAL_RADIUS &&
+                    y >= IllegalConstants.EXIT_PORTAL_Y_MIN &&
                     y <= IllegalConstants.EXIT_PORTAL_Y_MAX) return true;
 
                 // Gateway Rings
                 if (y >= IllegalConstants.GATEWAY_RING_Y_MIN && y <= IllegalConstants.GATEWAY_RING_Y_MAX) {
                     long distSq = (long) x * x + (long) z * z;
-                    return distSq >= IllegalConstants.GATEWAY_RING_INNER_RADIUS_SQ && 
+                    return distSq >= IllegalConstants.GATEWAY_RING_INNER_RADIUS_SQ &&
                            distSq <= IllegalConstants.GATEWAY_RING_OUTER_RADIUS_SQ;
                 }
 
                 // Outer Islands
-                if (y >= 0 && y <= IllegalConstants.OUTER_ISLAND_Y_MAX) { 
+                if (y >= 0 && y <= IllegalConstants.OUTER_ISLAND_Y_MAX) {
                     long distSq = (long) x * x + (long) z * z;
                     // central void gap where no bedrock/gateways allowed
                     if (Math.abs(x) < 700 && Math.abs(z) < 700) return false;
@@ -260,7 +266,8 @@ public class IllegalBlocksCleaner implements Listener {
                 return distanceSq >= IllegalConstants.STRONGHOLD_SAFE_ZONE_SQ;
             }
             if (env == World.Environment.THE_END) {
-                return Math.abs(x) <= 2 && Math.abs(z) <= 2 && (y == 60 || y == 61);
+                // Exit portal spans y=58 to y=64, not just 60-61
+                return Math.abs(x) <= 3 && Math.abs(z) <= 3 && y >= 58 && y <= 64;
             }
         }
         return false;

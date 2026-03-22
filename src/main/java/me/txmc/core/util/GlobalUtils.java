@@ -343,8 +343,7 @@ public class GlobalUtils {
             }
             int msgIndex = 0;
             if (deathListMessages.size() > 1) {
-                Random random = new Random();
-                msgIndex = random.nextInt(deathListMessages.size());
+                msgIndex = java.util.concurrent.ThreadLocalRandom.current().nextInt(deathListMessages.size());
             }
             final int finalMsgIndex = msgIndex;
 
@@ -532,13 +531,33 @@ public class GlobalUtils {
 
     private static boolean loggedMsptError = false;
 
+    private static Method cachedGetData;
+    private static Class<?> cachedRegionClass;
+    private static Method cachedGetHandle;
+    private static Class<?> cachedTickDataClass;
+
+    private static Method getCachedGetData(Object region) throws Exception {
+        Class<?> cls = region.getClass();
+        if (cls != cachedRegionClass) {
+            cachedRegionClass = cls;
+            cachedGetData = cls.getMethod("getData");
+        }
+        return cachedGetData;
+    }
+
+    private static Method getCachedGetHandle(Object tickData) throws Exception {
+        Class<?> cls = tickData.getClass();
+        if (cls != cachedTickDataClass) {
+            cachedTickDataClass = cls;
+            cachedGetHandle = cls.getMethod("getRegionSchedulingHandle");
+        }
+        return cachedGetHandle;
+    }
+
     private static double getTpsFromRegionObject(Object region) {
         try {
-            Method mGetData = region.getClass().getMethod("getData");
-            Object tickData = mGetData.invoke(region);
-
-            Method mGetHandle = tickData.getClass().getMethod("getRegionSchedulingHandle");
-            Object handle = mGetHandle.invoke(tickData);
+            Object tickData = getCachedGetData(region).invoke(region);
+            Object handle = getCachedGetHandle(tickData).invoke(tickData);
 
             Object report = null;
             String[] reportMethods = { "getTickReport1s", "getTickReport5s", "getTickReport15s" };
@@ -564,11 +583,8 @@ public class GlobalUtils {
 
     private static double getMsptFromRegionObject(Object region) {
         try {
-            Method mGetData = region.getClass().getMethod("getData");
-            Object tickData = mGetData.invoke(region);
-
-            Method mGetHandle = tickData.getClass().getMethod("getRegionSchedulingHandle");
-            Object handle = mGetHandle.invoke(tickData);
+            Object tickData = getCachedGetData(region).invoke(region);
+            Object handle = getCachedGetHandle(tickData).invoke(tickData);
 
             Object report = null;
             String[] reportMethods = { "getTickReport1s", "getTickReport5s", "getTickReport15s" };

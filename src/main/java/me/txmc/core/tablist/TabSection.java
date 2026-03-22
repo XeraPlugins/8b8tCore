@@ -5,7 +5,6 @@ import me.txmc.core.Localization;
 import me.txmc.core.Main;
 import me.txmc.core.Section;
 import me.txmc.core.customexperience.util.PrefixManager;
-import me.txmc.core.database.GeneralDatabase;
 import me.txmc.core.tablist.listeners.PlayerJoinListener;
 import me.txmc.core.tablist.util.Utils;
 import me.txmc.core.util.GlobalUtils;
@@ -16,13 +15,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
  * @author MindComplexity (aka Libalpm)
- * @since 2025/12/21
+ * @since 2026/03/22
  * This file was created as a part of 8b8tCore
 */
 
@@ -34,6 +32,8 @@ public class TabSection implements Section {
     private long tickCount = 0;
 
     private me.txmc.core.chat.ChatSection cachedChatSection;
+    private final java.util.Map<String, Component> tagCache = new ConcurrentHashMap<>();
+    private final java.util.Map<String, Localization> localeCache = new ConcurrentHashMap<>();
 
     @Override
     public void enable() {
@@ -51,15 +51,14 @@ public class TabSection implements Section {
                     if (cachedChatSection == null) return;
                 }
 
-                boolean updatePlaceholders = (tickCount % 10 == 0); 
+                boolean updatePlaceholders = (tickCount % 10 == 0);
                 long animTick = me.txmc.core.util.GradientAnimator.getAnimationTick();
-                
-                java.util.Map<String, Component> prefixCache = new java.util.HashMap<>();
+
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    setTab(p, updatePlaceholders, animTick, prefixCache);
+                    setTab(p, updatePlaceholders, animTick);
                 }
             } catch (Throwable t) {
-                plugin.getLogger().warning("Error in TabList update task: " + t.getMessage());
+                plugin.getLogger().log(java.util.logging.Level.WARNING, "Error in TabList update task", t);
             }
         }, 1L, 1L);
         plugin.register(new PlayerJoinListener(this));
@@ -73,6 +72,8 @@ public class TabSection implements Section {
     @Override
     public void reloadConfig() {
         config = plugin.getSectionConfig(this);
+        tagCache.clear();
+        localeCache.clear();
     }
 
     @Override
@@ -84,7 +85,7 @@ public class TabSection implements Section {
         return plugin;
     }
 
-    public void setTab(Player player, boolean updatePlaceholders, long animTick, java.util.Map<String, Component> prefixCache) {
+    public void setTab(Player player, boolean updatePlaceholders, long animTick) {
         if (cachedChatSection == null) {
             cachedChatSection = (me.txmc.core.chat.ChatSection) plugin.getSectionByName("ChatControl");
         }
@@ -100,18 +101,23 @@ public class TabSection implements Section {
         }
 
         Component displayNameComponent = info.getDisplayNameComponent(animTick);
-        
-        String tag = prefixManager.getPrefix(info, animTick);
-        Component tagComponent = prefixCache.computeIfAbsent(tag, t -> {
-            String converted = GlobalUtils.convertToMiniMessageFormat(t);
-            return MiniMessage.miniMessage().deserialize(converted);
-        });
+        if (displayNameComponent == null) displayNameComponent = Component.empty();
 
-        Component fullName = tagComponent.append(displayNameComponent);
-        player.playerListName(fullName);
+        String tag = prefixManager.getPrefix(info, animTick);
+        if (tag != null && !tag.isEmpty()) {
+            Component tagComponent = tagCache.computeIfAbsent(tag, t -> {
+                String converted = GlobalUtils.convertToMiniMessageFormat(t);
+                return MiniMessage.miniMessage().deserialize(converted);
+            });
+            displayNameComponent = tagComponent.append(displayNameComponent);
+        }
+
+        player.playerListName(displayNameComponent);
 
         if (updatePlaceholders) {
-            Localization loc = Localization.getLocalization(player.locale().getLanguage());
+            java.util.Locale locale = player.locale();
+            String lang = (locale != null) ? locale.getLanguage() : "en";
+            Localization loc = localeCache.computeIfAbsent(lang, Localization::getLocalization);
             Component header = Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Header")), player, plugin.getStartTime());
             Component footer = Utils.parsePlaceHolders(String.join("\n", loc.getStringList("TabList.Footer")), player, plugin.getStartTime());
             FoliaCompat.schedule(player, plugin, () -> {
@@ -123,10 +129,10 @@ public class TabSection implements Section {
     }
 
     public void setTab(Player player, boolean updatePlaceholders) {
-        setTab(player, updatePlaceholders, me.txmc.core.util.GradientAnimator.getAnimationTick(), new java.util.HashMap<>());
+        setTab(player, updatePlaceholders, me.txmc.core.util.GradientAnimator.getAnimationTick());
     }
 
     public void setTab(Player player) {
-        setTab(player, true, me.txmc.core.util.GradientAnimator.getAnimationTick(), new java.util.HashMap<>());
+        setTab(player, true, me.txmc.core.util.GradientAnimator.getAnimationTick());
     }
 }

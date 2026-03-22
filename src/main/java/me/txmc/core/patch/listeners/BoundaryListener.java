@@ -30,12 +30,11 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 
 /**
- * BoundaryListener - Prevents players from falling below world boundaries and
- * going above nether roof.
- * 
+ * Prevents players from falling below world boundaries and going above nether roof.
  * @author MindComplexity (aka Libalpm)
  * @since 10/2/2025
- */
+*/
+
 public class BoundaryListener implements Listener, Reloadable {
     private final Main plugin;
     private final Map<UUID, Long> lastNetherRoofDamage = new ConcurrentHashMap<>();
@@ -519,16 +518,12 @@ public class BoundaryListener implements Listener, Reloadable {
         player.sendMessage("§cYou cannot go above the nether roof!");
     }
 
-    /**
-     * Checks if a player is currently mounted on any entity (boat, horse, etc.)
-     */
+    // Checks if a player is currently mounted on any entity (boat, horse, etc.)
     private boolean isPlayerMounted(Player player) {
         return player.getVehicle() != null;
     }
 
-    /**
-     * Safely dismounts a player from any vehicle they might be riding
-     */
+    // Safely dismounts a player from any vehicle they might be riding
     private void dismountPlayer(Player player) {
         if (isPlayerMounted(player)) {
             Entity vehicle = player.getVehicle();
@@ -557,9 +552,7 @@ public class BoundaryListener implements Listener, Reloadable {
         }
     }
 
-    /**
-     * Performs the actual teleportation after ensuring player is dismounted
-     */
+    // Performs the actual teleportation after ensuring player is dismounted
     private void performTeleport(Player player, Location location) {
         player.teleportAsync(location);
 
@@ -572,9 +565,7 @@ public class BoundaryListener implements Listener, Reloadable {
         }, 5L);
     }
 
-    /**
-     * Performs the specific teleportation logic for bottom boundary violations
-     */
+    // Performs the specific teleportation logic for bottom boundary violations
     private void performBottomBoundaryTeleport(Player player, Location safeLocation) {
         player.teleportAsync(safeLocation);
         player.setVelocity(new Vector(0, 0, 0));
@@ -642,9 +633,7 @@ public class BoundaryListener implements Listener, Reloadable {
         return new Location(world, x, startY, z);
     }
 
-    /**
-     * Finds a safe location below the bedrock in the nether
-     */
+    // Finds a safe location below the bedrock in the nether
     private Location findSafeLocationBelowBedrock(Location from) {
         World world = from.getWorld();
         int bedrockCeiling = netherYLevel;
@@ -712,11 +701,7 @@ public class BoundaryListener implements Listener, Reloadable {
         return new Location(world, from.getX(), forceY, from.getZ());
     }
 
-
-
-    /**
-     * Creates a safe platform below the nether roof
-     */
+    // Creates a safe platform below the nether roof
     private void createNetherPlatform(World world, int x, int y, int z) {
         if (y < 0 || y >= world.getMaxHeight())
             return;
@@ -746,9 +731,7 @@ public class BoundaryListener implements Listener, Reloadable {
         }
     }
 
-    /**
-     * Checks if a block is safe for player placement (solid ground)
-     */
+    // Checks if a block is safe for player placement (solid ground)
     private boolean isSolidBlock(Block block) {
         Material type = block.getType();
         return type.isSolid() &&
@@ -759,9 +742,7 @@ public class BoundaryListener implements Listener, Reloadable {
                 !LEAVES.contains(type);
     }
 
-    /**
-     * Checks if a block is air or safe for player to occupy
-     */
+    // Checks if a block is air or safe for player to occupy
     private boolean isAirSpace(Block block) {
         Material type = block.getType();
         return type == Material.AIR ||

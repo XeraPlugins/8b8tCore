@@ -18,10 +18,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import static me.txmc.core.util.GlobalUtils.sendDeathMessage;
 
 /**
- * This class was created as a part of 8b8tDeathMessages.
  * @author MindComplexity (aka Libalpm)
- * @since 2026/01/02 8:12 PM
- */
+ * @since 2026/03/22
+ * This file was created as a part of 8b8tCore
+*/
+
 public class DeathMessageListener implements Listener {
 
     private final Map<UUID, Long> lastDeathTimes = new ConcurrentHashMap<>();
@@ -109,17 +110,15 @@ public class DeathMessageListener implements Listener {
         }
 
         if (killer instanceof Player killerPlayer) {
-            ItemStack weapon = getKillWeapon(killerPlayer);
-            String weaponName = (weapon.getType() == Material.AIR) ? "their hand" : getWeaponName(weapon);
-            
-            deathCause = DeathCause.PLAYER;
-            
             if (deathCause == DeathCause.END_CRYSTAL || deathCause == DeathCause.UNKNOWN) {
                 return;
             }
-            
+
+            ItemStack weapon = getKillWeapon(killerPlayer);
+            String weaponName = (weapon.getType() == Material.AIR) ? "their hand" : getWeaponName(weapon);
+
             lastDeathTimes.put(victimId, currentTime);
-            sendDeathMessage(deathCause.getPath(), victim.getName(), killerPlayer.getName(), weaponName);
+            sendDeathMessage(DeathCause.PLAYER.getPath(), victim.getName(), killerPlayer.getName(), weaponName);
         } else {
             if (deathCause == DeathCause.END_CRYSTAL || deathCause == DeathCause.UNKNOWN) {
                 return;
