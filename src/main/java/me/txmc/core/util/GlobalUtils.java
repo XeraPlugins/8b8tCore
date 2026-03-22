@@ -531,16 +531,18 @@ public class GlobalUtils {
 
     private static boolean loggedMsptError = false;
 
-    private static Method cachedGetData;
-    private static Class<?> cachedRegionClass;
-    private static Method cachedGetHandle;
-    private static Class<?> cachedTickDataClass;
+    private static volatile Method cachedGetData;
+    private static volatile Class<?> cachedRegionClass;
+    private static volatile Method cachedGetHandle;
+    private static volatile Class<?> cachedTickDataClass;
 
     private static Method getCachedGetData(Object region) throws Exception {
         Class<?> cls = region.getClass();
         if (cls != cachedRegionClass) {
+            Method m = cls.getMethod("getData");
+            cachedGetData = m;
             cachedRegionClass = cls;
-            cachedGetData = cls.getMethod("getData");
+            return m;
         }
         return cachedGetData;
     }
@@ -548,8 +550,10 @@ public class GlobalUtils {
     private static Method getCachedGetHandle(Object tickData) throws Exception {
         Class<?> cls = tickData.getClass();
         if (cls != cachedTickDataClass) {
+            Method m = cls.getMethod("getRegionSchedulingHandle");
+            cachedGetHandle = m;
             cachedTickDataClass = cls;
-            cachedGetHandle = cls.getMethod("getRegionSchedulingHandle");
+            return m;
         }
         return cachedGetHandle;
     }
