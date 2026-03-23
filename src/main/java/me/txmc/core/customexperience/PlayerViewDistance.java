@@ -44,12 +44,10 @@ public class PlayerViewDistance implements Listener {
     }
 
     private void setRenderDistance(Player player) {
-        int renderDistance = calculateRenderDistance(player);
-        
         try {
+            int renderDistance = Math.max(2, Math.min(32, calculateRenderDistance(player)));
             player.setSendViewDistance(renderDistance);
             player.setViewDistance(renderDistance);
-            log(Level.INFO, "View distance set to " + renderDistance + " chunks for player: " + player.getName());
         } catch (Exception e) {
             log(Level.WARNING, "Failed to set view distance for " + player.getName() + ": " + e.getMessage());
         }

@@ -27,7 +27,7 @@ import java.util.logging.Level;
 /**
  * Handles the Voter system's primary logic + cleanup. 
  * @author MindComplexity (Revamped System) Old System by 254_m.
- * @since 2025/08/30
+ * @since 2026/03/22
  * This file was created as a part of 8b8tCore
  */
 
@@ -53,9 +53,10 @@ public class VoteSection implements Section {
             // plugin.getLogger().info("VoteSection: SQLite storage initialized");
         } catch (Throwable t) {
             plugin.getLogger().log(Level.SEVERE, "Failed to initialize SQLite storage. See stacktrace:", t);
+            sqliteStorage = null;
         }
-        
-        toReward = new ConcurrentHashMap<>(sqliteStorage.load());
+
+        toReward = new ConcurrentHashMap<>(sqliteStorage != null ? sqliteStorage.load() : java.util.Map.of());
         // plugin.getLogger().info("VoteSection: Loaded " + toReward.size() + " pending votes");
         
         cleanupExpiredVotes();
@@ -113,9 +114,7 @@ public class VoteSection implements Section {
         }, 1L);
     }
 
-    /**
-     * Execute reward commands - only for online players
-     */
+    // Execute reward commands for online players
     private void executeRewards(Player player) {
         // Only execute reward commands if  the player is online (required for cracked servers)
         if (player == null || !player.isOnline()) {
@@ -127,7 +126,7 @@ public class VoteSection implements Section {
         for (String cmd : rewards) {
             String toRun = String.format(cmd, player.getName());
             
-            // Use Luminols's GlobalRegionScheduler to execute command on correct thread with delay
+            // Use GlobalRegionScheduler to execute command on correct thread with delay
             org.bukkit.Bukkit.getGlobalRegionScheduler().runDelayed(plugin, (task) -> {
                 try {
                     plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), toRun);
@@ -137,10 +136,8 @@ public class VoteSection implements Section {
             }, 100L);
         }
     }
-
-    /**
-     * Reward a player for voting
-     */
+	
+	// rewardPlayer
     public void rewardPlayer(Player player) {
         int votingDays = config.getInt("VoterRoleExpirationDays", 30);
         
@@ -163,18 +160,15 @@ public class VoteSection implements Section {
         }
     }
 
-    /**
-     * Grant voter role to a player when they join
-     */
+    // Grant voter role to a player when they join
     public void grantVoterRole(Player player) {
         if (player != null && player.isOnline()) {
             executeRewards(player);
         }
     }
 
-    /**
-     * Reward offline votes without announcements. But thank them later for supporting the server.
-     */
+    
+    // Reward offline votes without announcements. But thank them later for supporting the server.
     public void rewardOfflineVotes(Player player, int voteCount) {
         int votingDays = config.getInt("VoterRoleExpirationDays", 30);
         
@@ -198,9 +192,8 @@ public class VoteSection implements Section {
         }
     }
 
-    /**
-     * Check if a player's voter role has expired
-     */
+    
+    //Check if a player's voter role has expired
     public boolean hasVoterRoleExpired(String username) {
         VoteEntry entry = toReward.get(username.toLowerCase());
         if (entry == null) return true;
@@ -212,9 +205,8 @@ public class VoteSection implements Section {
         return System.currentTimeMillis() > expirationTime;
     }
     
-    /**
-     * Get remaining voter role time in days
-     */
+
+    // Get remaining voter role time in days
     public long getRemainingVoterDays(String username) {
         VoteEntry entry = toReward.get(username.toLowerCase());
         if (entry == null) return 0;
@@ -227,9 +219,7 @@ public class VoteSection implements Section {
         return Math.max(0, remaining / (24L * 60L * 60L * 1000L)); 
     }
     
-    /**
-     * Remove voter role from player using configurable expiration command
-     */
+    // Remove voter role from player using configurable expiration command
     public void removeVoterRole(String username) {
         try {
             String expirationCommand = config.getString("ExpirationCommand", "lp user %s group remove voter");
@@ -244,9 +234,7 @@ public class VoteSection implements Section {
         }
     }
 
-    /**
-     * Async check for voter role using CompletableFuture.
-     */
+    // Async check for voter role using CompletableFuture.
     public CompletableFuture<Boolean> hasVoterRoleAsync(String username) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         try {
@@ -264,8 +252,6 @@ public class VoteSection implements Section {
         }
         return future;
     }
-    
-
     
     public void checkAndMigrateLegacyPlayer(String username) {
         if (!config.getBoolean("EnableLegacyPlayerMigration", true)) {
@@ -348,9 +334,7 @@ public class VoteSection implements Section {
         plugin.getLogger().info("Extended voter role for " + username + " by " + expirationDays + " days. Total remaining: " + totalDaysRemaining + " days");
     }
     
-    /**
-     * Migrate a legacy player who already has voter role to our tracking system
-     */
+    // Migrate a legacy player who already has voter role to our tracking system
     public void migrateLegacyPlayer(String username, long daysRemaining) {
         long currentTime = System.currentTimeMillis();
         int totalExpirationDays = config.getInt("VoterRoleExpirationDays", 30);
@@ -371,26 +355,18 @@ public class VoteSection implements Section {
         plugin.getLogger().info("Migrated legacy player " + username + " to tracking system (" + daysRemaining + " days remaining)");
     }
 
-
-
-    /**
-     * Returns pending offline vote count for a player.
-     */
+    // Returns pending offline vote count for a player.
     public Optional<Integer> getToRewardEntry(Player player) {
         VoteEntry entry = toReward.get(player.getName().toLowerCase());
         return entry != null ? Optional.of(entry.getCount()) : Optional.empty();
     }
 
-    /**
-     * Remove a player from offline reward map.
-     */
+    // Remove a player from offline reward map.
     public void markAsRewarded(String username) {
         toReward.remove(username.toLowerCase());
     }
 
-    /**
-     * Cleaner for expired votes enteries and voter roles if they expire.
-     */
+    // Cleaner for expired votes enteries and voter roles if they expire.
     public void cleanupExpiredVotes() {
         int offlineExpirationDays = config.getInt("OfflineVoteExpirationDays", 7);
         int voterRoleExpirationDays = config.getInt("VoterRoleExpirationDays", 30);

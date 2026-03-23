@@ -37,6 +37,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class RepairCommand extends BaseTabCommand implements Listener {
@@ -47,7 +48,7 @@ public class RepairCommand extends BaseTabCommand implements Listener {
     public RepairCommand(JavaPlugin plugin) {
         super("repair", "/repair [all]", "8b8tcore.command.repair");
         repairOptions = List.of("all");
-        lastPvPCombatTime = new HashMap<>();
+        lastPvPCombatTime = new ConcurrentHashMap<>();
         combatCooldown = TimeUnit.SECONDS.toMillis(30);
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);

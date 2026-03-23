@@ -8,6 +8,8 @@ import java.sql.*;
 import java.time.Instant;
 import java.util.Set;
 import java.util.concurrent.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author MindComplexity (aka Libalpm)
@@ -16,6 +18,7 @@ import java.util.concurrent.*;
 */
 public class GeneralDatabase implements org.bukkit.event.Listener {
     private static GeneralDatabase instance;
+    private static final Logger LOGGER = Logger.getLogger("8b8tCore-Database");
     private final HikariDataSource dataSource;
     private final ExecutorService databaseExecutor;
 
@@ -135,7 +138,7 @@ public class GeneralDatabase implements org.bukkit.event.Listener {
             addColumnIfNotExists(conn, stmt, "prefixDecorations", "TEXT");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Database operation failed", e);
         }
     }
 
@@ -149,7 +152,7 @@ public class GeneralDatabase implements org.bukkit.event.Listener {
         try (ResultSet rs = conn.getMetaData().getColumns(null, null, tableName, columnName)) {
             return rs.next();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Database operation failed", e);
             return false;
         }
     }
@@ -169,7 +172,7 @@ public class GeneralDatabase implements org.bukkit.event.Listener {
                 }
                 pstmt.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Database operation failed", e);
             }
         }, databaseExecutor);
     }
@@ -187,7 +190,7 @@ public class GeneralDatabase implements org.bukkit.event.Listener {
                     }
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Database operation failed", e);
             }
             return defaultValue;
         }, databaseExecutor);
@@ -225,7 +228,7 @@ public class GeneralDatabase implements org.bukkit.event.Listener {
                     return pd;
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Database operation failed", e);
                 return new PlayerDataCache();
             }
         }, databaseExecutor);
@@ -272,90 +275,57 @@ public class GeneralDatabase implements org.bukkit.event.Listener {
         );
     }
 
+    public CompletableFuture<Boolean> getBooleanAsync(String username, String column, boolean defaultValue) {
+        validateColumn(column);
+        PlayerDataCache pd = cache.get(username);
+        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean(column, defaultValue));
+        return executeQueryAsync(
+                "SELECT " + column + " FROM playerdata WHERE username = ?",
+                rs -> rs.getInt(column) == 1,
+                defaultValue,
+                username
+        );
+    }
+
     public CompletableFuture<Void> updateShowJoinMsg(String username, boolean showJoinMsg) {
         return upsertPlayer(username, "showJoinMsg", showJoinMsg);
     }
 
     public CompletableFuture<Boolean> getPlayerShowJoinMsgAsync(String username) {
-        PlayerDataCache pd = cache.get(username);
-        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("showJoinMsg", true));
-        return executeQueryAsync(
-                "SELECT showJoinMsg FROM playerdata WHERE username = ?",
-                rs -> rs.getInt("showJoinMsg") == 1,
-                true,
-                username
-        );
+        return getBooleanAsync(username, "showJoinMsg", true);
     }
-
-
 
     public CompletableFuture<Void> updateHidePrefix(String username, boolean hidePrefix) {
         return upsertPlayer(username, "hidePrefix", hidePrefix);
     }
 
     public CompletableFuture<Boolean> getPlayerHidePrefixAsync(String username) {
-        PlayerDataCache pd = cache.get(username);
-        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("hidePrefix", false));
-        return executeQueryAsync(
-                "SELECT hidePrefix FROM playerdata WHERE username = ?",
-                rs -> rs.getInt("hidePrefix") == 1,
-                false,
-                username
-        );
+        return getBooleanAsync(username, "hidePrefix", false);
     }
-
-
 
     public CompletableFuture<Void> updateHideDeathMessages(String username, boolean hide) {
         return upsertPlayer(username, "hideDeathMessages", hide);
     }
 
     public CompletableFuture<Boolean> getPlayerHideDeathMessagesAsync(String username) {
-        PlayerDataCache pd = cache.get(username);
-        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("hideDeathMessages", false));
-        return executeQueryAsync(
-                "SELECT hideDeathMessages FROM playerdata WHERE username = ?",
-                rs -> rs.getInt("hideDeathMessages") == 1,
-                false,
-                username
-        );
+        return getBooleanAsync(username, "hideDeathMessages", false);
     }
-
-
 
     public CompletableFuture<Void> updateHideAnnouncements(String username, boolean hide) {
         return upsertPlayer(username, "hideAnnouncements", hide);
     }
 
     public CompletableFuture<Boolean> getPlayerHideAnnouncementsAsync(String username) {
-        PlayerDataCache pd = cache.get(username);
-        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("hideAnnouncements", false));
-        return executeQueryAsync(
-                "SELECT hideAnnouncements FROM playerdata WHERE username = ?",
-                rs -> rs.getInt("hideAnnouncements") == 1,
-                false,
-                username
-        );
+        return getBooleanAsync(username, "hideAnnouncements", false);
     }
-
-
 
     public CompletableFuture<Void> updateHideBadges(String username, boolean hide) {
         return upsertPlayer(username, "hideBadges", hide);
     }
 
     public CompletableFuture<Boolean> getPlayerHideBadgesAsync(String username) {
-        PlayerDataCache pd = cache.get(username);
-        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("hideBadges", false));
-        return executeQueryAsync(
-                "SELECT hideBadges FROM playerdata WHERE username = ?",
-                rs -> rs.getInt("hideBadges") == 1,
-                false,
-                username
-        );
+        return getBooleanAsync(username, "hideBadges", false);
     }
-
-
 
     public CompletableFuture<Boolean> isMutedAsync(String username) {
         PlayerDataCache pd = cache.get(username);
@@ -385,7 +355,7 @@ public class GeneralDatabase implements org.bukkit.event.Listener {
                     }
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Database operation failed", e);
             }
             return false;
         }, databaseExecutor);
@@ -467,14 +437,7 @@ public class GeneralDatabase implements org.bukkit.event.Listener {
     }
 
     public CompletableFuture<Boolean> getHideCustomTabAsync(String username) {
-        PlayerDataCache pd = cache.get(username);
-        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("hideCustomTab", false));
-        return executeQueryAsync(
-                "SELECT hideCustomTab FROM playerdata WHERE username = ?",
-                rs -> rs.getBoolean("hideCustomTab"),
-                false,
-                username
-        );
+        return getBooleanAsync(username, "hideCustomTab", false);
     }
 
     public CompletableFuture<Void> setVanillaLeaderboard(String username, boolean useVanilla) {
@@ -482,17 +445,8 @@ public class GeneralDatabase implements org.bukkit.event.Listener {
     }
 
     public CompletableFuture<Boolean> isVanillaLeaderboardAsync(String username) {
-        PlayerDataCache pd = cache.get(username);
-        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("useVanillaLeaderboard", false));
-        return executeQueryAsync(
-                "SELECT useVanillaLeaderboard FROM playerdata WHERE username = ?",
-                rs -> rs.getBoolean("useVanillaLeaderboard"),
-                false,
-                username
-        );
+        return getBooleanAsync(username, "useVanillaLeaderboard", false);
     }
-
-
 
     public CompletableFuture<Void> updateGradientAnimation(String username, String animation) {
         return upsertPlayer(username, "gradient_animation", animation);
@@ -529,17 +483,8 @@ public class GeneralDatabase implements org.bukkit.event.Listener {
     }
 
     public CompletableFuture<Boolean> getPreventPhantomSpawnAsync(String username) {
-        PlayerDataCache pd = cache.get(username);
-        if (pd != null) return CompletableFuture.completedFuture(pd.getBoolean("preventPhantomSpawn", true));
-        return executeQueryAsync(
-                "SELECT preventPhantomSpawn FROM playerdata WHERE username = ?",
-                rs -> rs.getBoolean("preventPhantomSpawn"),
-                true,
-                username
-        );
+        return getBooleanAsync(username, "preventPhantomSpawn", true);
     }
-
-
 
     public CompletableFuture<Void> updatePrefixGradient(String username, String gradient) {
         return upsertPlayer(username, "prefixGradient", gradient);

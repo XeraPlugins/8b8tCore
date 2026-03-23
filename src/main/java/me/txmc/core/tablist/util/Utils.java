@@ -2,19 +2,20 @@ package me.txmc.core.tablist.util;
 
 import me.txmc.core.util.GlobalUtils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
  * @author MindComplexity (aka Libalpm)
- * @since 2025/12/21
+ * @since 2026/03/22
  * This file was created as a part of 8b8tCore
- */
+*/
+
 public class Utils {
 
     public static Component parsePlaceHolders(String input, Player player, long startTime) {
+        if (input == null || input.isEmpty()) return Component.empty();
+
         double tps;
         try {
             double[] regionTpsArr = GlobalUtils.getTpsNearEntitySync(player);
@@ -23,50 +24,24 @@ public class Utils {
             tps = 20.0;
         }
 
-        String tpsColorCode = getTPSColorCode(tps);
+        String tpsColor = tps >= 18.0 ? "<green>" : tps >= 13.0 ? "<yellow>" : "<red>";
         String tpsStr = tps >= 20.0 ? "20.00" : String.format("%.2f", tps);
 
         double mspt = GlobalUtils.getCurrentRegionMspt();
         if (mspt <= 0 && tps > 0) mspt = (1000.0 / Math.min(tps, 20.0));
-        String msptColorCode = getMSPTColorCode(mspt);
+        String msptColor = mspt < 60 ? "<green>" : mspt <= 100 ? "<yellow>" : "<red>";
         String msptStr = String.format("%.1f", mspt);
 
-        String uptime = Utils.getFormattedInterval(System.currentTimeMillis() - startTime);
-        String online = String.valueOf(Bukkit.getOnlinePlayers().size());
-        String ping = String.valueOf(player.getPing());
+        String uptime = getFormattedInterval(System.currentTimeMillis() - startTime);
 
         String result = input
-            .replace("%tps%", tpsColorCode + tpsStr)
-            .replace("%mspt%", msptColorCode + msptStr)
-            .replace("%players%", online)
-            .replace("%ping%", ping)
+            .replace("%tps%", tpsColor + tpsStr)
+            .replace("%mspt%", msptColor + msptStr)
+            .replace("%players%", String.valueOf(Bukkit.getOnlinePlayers().size()))
+            .replace("%ping%", String.valueOf(player.getPing()))
             .replace("%uptime%", uptime);
 
         return GlobalUtils.translateChars(result);
-    }
-
-    private static String getTPSColorCode(double tps) {
-        if (tps >= 18.0) return "<green>";
-        if (tps >= 13.0) return "<yellow>";
-        return "<red>";
-    }
-
-    private static NamedTextColor getTPSColor(double tps) {
-        if (tps >= 18.0) return NamedTextColor.GREEN;
-        if (tps >= 13.0) return NamedTextColor.YELLOW;
-        return NamedTextColor.RED;
-    }
-
-    private static String getMSPTColorCode(double mspt) {
-        if (mspt < 60) return "<green>";
-        if (mspt <= 100) return "<yellow>";
-        return "<red>";
-    }
-
-    private static NamedTextColor getMSPTColor(double mspt) {
-        if (mspt < 60) return NamedTextColor.GREEN;
-        if (mspt <= 100) return NamedTextColor.YELLOW;
-        return NamedTextColor.RED;
     }
 
     public static String getFormattedInterval(long ms) {

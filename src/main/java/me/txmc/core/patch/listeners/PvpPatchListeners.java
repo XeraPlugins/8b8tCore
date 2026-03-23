@@ -10,9 +10,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerMoveEvent;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -26,7 +26,7 @@ public class PvpPatchListeners implements Listener {
             Material.BARRIER, Material.END_PORTAL_FRAME, Material.ANVIL,
             Material.CHIPPED_ANVIL, Material.DAMAGED_ANVIL, Material.REINFORCED_DEEPSLATE
     );
-    private final Map<UUID, Long> lastDamage = new HashMap<>();
+    private final Map<UUID, Long> lastDamage = new ConcurrentHashMap<>();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerSuffocation(EntityDamageEvent event) {

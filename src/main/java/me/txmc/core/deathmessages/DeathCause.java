@@ -1,34 +1,18 @@
 package me.txmc.core.deathmessages;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import static org.apache.logging.log4j.LogManager.getLogger;
 import java.util.stream.Collectors;
 
+import static org.apache.logging.log4j.LogManager.getLogger;
+
 /**
- * Enum representing different causes of death in Minecraft, each associated with a specific
- * message path for customized death messages.
- *
- * <p>This enum is part of the 8b8tDeathMessages plugin, which provides unique and detailed
- * messages when a player dies in various scenarios.</p>
- *
- * <p>Functionality includes:</p>
- * <ul>
- *     <li>Mapping death causes to specific message paths</li>
- *     <li>Retrieving the message path for a given death cause</li>
- *     <li>Finding death causes by enum name or message path</li>
- * </ul>
- *
- * <p>Example usage:</p>
- * <pre>
- *     DeathCause cause = DeathCause.from(EntityType.ZOMBIE);
- *     String messagePath = cause.getPath();
- * </pre>
- *
- *
- * @author Minelord9000 (agarciacorte)
- * @since 2024/07/15 8:26 PM
- */
+ * @author MindComplexity (aka Libalpm)
+ * @since 2026/03/22
+ * This file was created as a part of 8b8tCore
+*/
 
 public enum DeathCause {
     UNKNOWN("unknown-messages"),
@@ -127,7 +111,16 @@ public enum DeathCause {
     MELEE_DEATH("melee-death-messages");
 
     private final String path;
-    public static final Set<String> PATH_SET = Arrays.stream(DeathCause.values()).map(DeathCause::getPath).collect(Collectors.toSet());
+
+    private static final Map<String, DeathCause> NAME_MAP = new HashMap<>();
+    private static final Set<String> PATH_SET;
+
+    static {
+        for (DeathCause cause : values()) {
+            NAME_MAP.put(cause.name(), cause);
+        }
+        PATH_SET = Arrays.stream(values()).map(DeathCause::getPath).collect(Collectors.toSet());
+    }
 
     DeathCause(String path) {
         this.path = path;
@@ -138,28 +131,15 @@ public enum DeathCause {
     }
 
     public static <E extends Enum<E>> DeathCause from(Enum<E> namedEnum) {
-        for (DeathCause deathCause : values()) {
-            if (deathCause.name().equalsIgnoreCase(namedEnum.name())) {
-                return deathCause;
-            }
+        DeathCause result = NAME_MAP.get(namedEnum.name());
+        if (result == null) {
+            getLogger().info("Unknown entity or damage cause '" + namedEnum.name() + "'");
+            return UNKNOWN;
         }
-
-        getLogger().info("Unknown entity or damage cause '" + namedEnum.name());
-        return DeathCause.UNKNOWN;
+        return result;
     }
 
-    public static Set<DeathCause> deathCauseWithPath(DeathCause cause) {
-        return Arrays.stream(DeathCause.values()).filter(deathCause ->
-                deathCause.getPath().equalsIgnoreCase(cause.getPath())).collect(Collectors.toSet());
-    }
-
-    public static DeathCause fromPathSingle(String path) {
-        for (DeathCause deathCause : values()) {
-            if (deathCause.getPath().equalsIgnoreCase(path)) {
-                return deathCause;
-            }
-        }
-
-        return null;
+    public static boolean hasPath(String path) {
+        return PATH_SET.contains(path);
     }
 }

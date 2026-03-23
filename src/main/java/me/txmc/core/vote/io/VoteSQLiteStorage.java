@@ -121,9 +121,8 @@ public class VoteSQLiteStorage {
         return voteMap;
     }
 
-    /**
-     * Close database connection
-     */
+
+    // Close database connection
     public void close() {
         if (connection != null) {
             try {

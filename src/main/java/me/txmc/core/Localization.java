@@ -16,7 +16,7 @@ import java.util.logging.Level;
 @RequiredArgsConstructor
 public class Localization {
     private static HashMap<String, Localization> localizationMap;
-    private static final HashMap<String, Localization> localeCache = new HashMap<>();
+    private static final ConcurrentHashMap<String, Localization> localeCache = new ConcurrentHashMap<>();
     private final Configuration config;
     private final ConcurrentHashMap<String, String> stringCache = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, List<String>> listCache = new ConcurrentHashMap<>();
@@ -57,9 +57,11 @@ public class Localization {
 
     public static Localization getLocalization(String locale) {
         if (localeCache.containsKey(locale)) return localeCache.get(locale);
-        
+
         Localization loc;
-        if (localizationMap.containsKey(locale)) {
+        if (localizationMap == null || localizationMap.isEmpty()) {
+            loc = new Localization(YamlConfiguration.loadConfiguration(new File("")));
+        } else if (localizationMap.containsKey(locale)) {
             loc = localizationMap.get(locale);
         } else {
             String base = locale.split("[_-]")[0];
@@ -69,7 +71,7 @@ public class Localization {
                 loc = localizationMap.getOrDefault("en", new Localization(YamlConfiguration.loadConfiguration(new File(""))));
             }
         }
-        
+
         localeCache.put(locale, loc);
         return loc;
     }

@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 /**
  * @author MindComplexity (aka Libalpm)
  * @since 2025/12/21
- *        This file was created as a part of 8b8tCore
+ * This file was created as a part of 8b8tCore
  */
 
 public class PhantomPatch implements Listener, Reloadable {

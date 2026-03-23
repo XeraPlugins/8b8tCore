@@ -16,9 +16,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author MindComplexity
@@ -28,9 +28,9 @@ import java.util.UUID;
 public class AttackListener implements Listener {
 
     private final Main plugin;
-    private final Map<UUID, Long> lastGroundTime = new HashMap<>();
-    private final Map<UUID, Long> lastSmashTime = new HashMap<>();
-    private final Map<UUID, Location> tickStartLocations = new HashMap<>();
+    private final Map<UUID, Long> lastGroundTime = new ConcurrentHashMap<>();
+    private final Map<UUID, Long> lastSmashTime = new ConcurrentHashMap<>();
+    private final Map<UUID, Location> tickStartLocations = new ConcurrentHashMap<>();
 
     public AttackListener(Main plugin) {
         this.plugin = plugin;
