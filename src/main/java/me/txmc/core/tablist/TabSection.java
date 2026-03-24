@@ -58,6 +58,7 @@ public class TabSection implements Section {
                     setTab(p, updatePlaceholders, animTick);
                 }
             } catch (Throwable t) {
+                t.printStackTrace();
                 plugin.getLogger().log(java.util.logging.Level.WARNING, "Error in TabList update task", t);
             }
         }, 1L, 1L);
