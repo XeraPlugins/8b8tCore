@@ -1,5 +1,3 @@
-![Banner](https://www.8b8t.me/content/images/2025/12/8b8tCoreBanner.png)
-
 > [!WARNING]
 > **Development has moved!** This repository is no longer maintained. Please find the latest version and updates at:
 > https://github.com/XeraPlugins/8b8tCoreKT
